@@ -6,6 +6,8 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from openerp import api, fields, models
+
 
 class StorageImageOwner(models.AbstractModel):
     _name = "storage.image.owner"
@@ -16,15 +18,15 @@ class StorageImageOwner(models.AbstractModel):
         string='Images',
         domain=lambda self: [("owner_model", "=", self._name)],
         copy=True)
-    image_main = fields.Binary(
+    image_main_url = fields.Binary(
         string="Main image",
         compute="_get_multi_image",
         store=False)
-    image_main_medium = fields.Binary(
+    image_main_medium_url = fields.Binary(
         string="Medium image",
         compute="_get_multi_image",
         store=False)
-    image_main_small = fields.Binary(
+    image_main_small_url = fields.Binary(
         string="Small image",
         compute="_get_multi_image",
         store=False)
@@ -40,9 +42,9 @@ class StorageImageOwner(models.AbstractModel):
         for s in self:
             # TODO use URL
             first = s.image_ids[:1]
-            s.image_main = first.image_main
-            s.image_main_medium = first.image_medium
-            s.image_main_small = first.image_small
+            s.image_main_url = first.image_url
+            s.image_main_medium_url = first.image_medium_url
+            s.image_main_small_url = first.image_small_url
 
     @api.multi
     def unlink(self):
