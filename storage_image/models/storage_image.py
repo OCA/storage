@@ -25,7 +25,21 @@ class StorageImage(models.Model):
     alt_name = fields.Char(string="Alt Image name")
     filename = fields.Char(help='Full image name with the extension')
     data = fields.Binary(compute='_compute_image', inverse='_inverse_image')
-    url_medium = fields.Char(compute='_compute_url')
+    image_url = fields.Char(compute='_compute_url')
+    image_medium_url = fields.Char(compute='_compute_url')
+    image_small_url = fields.Char(compute='_compute_url')
+    sequence = fields.Integer(
+        default=10)
+    show_technical = fields.Boolean(
+        compute="_show_technical")
+
+    @api.multi
+    @api.depends("owner_id", "owner_model")
+    def _show_technical(self):
+        """Know if you need to show the technical fields."""
+        self.show_technical = all(
+            "default_owner_%s" % f not in self.env.context
+            for f in ("id", "model"))
 
     @api.model
     def _get_storage(self):
@@ -40,12 +54,18 @@ class StorageImage(models.Model):
         pass
 
     def _compute_url(self):
-        for field in self._fields:
-            if isinstance(field, fields.Url) and hasattr(field, 'size'):
-                image_fields.append((field_name, field.size))
+        aktest = ('http://www.akretion.com/sites/'
+             '50443990c3c67e1bf3000004/theme/images/logo.png')
         for record in self:
-            for field, size in image_fields:
-                record[field] = record.resize(size).url
+            record.image_url = aktest
+            record.image_medium_url = aktest
+            record.image_small_url = aktest
+        #for field in self._fields:
+        #    if isinstance(field, fields.Char) and hasattr(field, 'size'):
+        #        image_fields.append((field_name, field.size))
+        #for record in self:
+        #    for field, size in image_fields:
+        #        record[field] = record.resize(size).url
 
     def resize(self, size):
         self.ensure_one()
