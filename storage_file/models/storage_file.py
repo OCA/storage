@@ -10,27 +10,28 @@ class StorageFile(models.Model):
     _name = 'storage.file'
     _description = 'Storage File'
 
-    owner_id = fields.Integer(
-        "Owner",
-        required=True)
-    owner_model = fields.Char(
-        required=True)
-    name = fields.Char(required=True)
-    url = fields.Char(compute='_compute_url')
-    storage_id = fields.Many2one(
+    #owner_id = fields.Integer(
+    #    "Owner",
+    #    required=True)
+    #owner_model = fields.Char(
+    #    required=True)
+
+    path = fields.Char(help="Where the original is")
+    public_url = fields.Char(compute='_compute_url')  # ou path
+
+    name = fields.Char(required=True, help='file name')
+    # mime_type = fields.Char(required=True, help='Mime type')  # ? convertion on the fly?
+
+    size = fields.Integer(required=True, help='Size of the file in bytes')  # Optionnal ?
+    sha1 = fields.Char("hash of the file")
+
+    backend_id = fields.Many2one(
         'storage.backend',
         'Storage',
         required=True)
+
     meta = fields.Char()
-    file_type = fields.Selection([
-        ('binary', 'Binary'),
-        ], required=True)
-    data = fields.Binary(compute='_compute_data')
 
     def _compute_url(self):
-        pass
-        # TODO
+        return self.backend_id.get_public_url(self)
 
-    def _compute_data(self):
-        pass
-        # TODO
