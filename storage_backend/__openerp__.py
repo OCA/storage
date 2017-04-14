@@ -15,7 +15,6 @@
     "installable": True,
     "external_dependencies": {
         "python": ["fs"],
-        "bin": [],
     },
     "depends": [
         "base",
@@ -24,8 +23,4 @@
     "data": [
         "views/backend_storage_view.xml",
     ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
 }
