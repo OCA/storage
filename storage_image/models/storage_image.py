@@ -21,25 +21,10 @@ class StorageImage(models.Model):
         'owner_id',
         'File',
         domain=lambda self: [("owner_model", "=", self._name)])
-    name = fields.Char()
     alt_name = fields.Char(string="Alt Image name")
-    filename = fields.Char(help='Full image name with the extension')
-    data = fields.Binary(compute='_compute_image', inverse='_inverse_image')
-    image_url = fields.Char(compute='_compute_url')
-    image_medium_url = fields.Char(compute='_compute_url')
-    image_small_url = fields.Char(compute='_compute_url')
-    sequence = fields.Integer(
-        default=10)
-    show_technical = fields.Boolean(
-        compute="_show_technical")
-
-    @api.multi
-    @api.depends("owner_id", "owner_model")
-    def _show_technical(self):
-        """Know if you need to show the technical fields."""
-        self.show_technical = all(
-            "default_owner_%s" % f not in self.env.context
-            for f in ("id", "model"))
+    # display_name = ?
+    # exifs ? auteur, date de crétation, upload, gps, mots clefs, features ?
+    # 
 
     @api.model
     def _get_storage(self):
