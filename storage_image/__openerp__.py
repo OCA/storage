@@ -21,7 +21,7 @@
         "storage_file",
     ],
     "data": [
-        'views/storage_image_view.xml',
+    #    'views/storage_image_view.xml',
     ],
     "demo": [
     ],
