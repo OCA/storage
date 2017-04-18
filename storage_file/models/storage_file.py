@@ -4,7 +4,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class StorageFile(models.Model):
     _name = 'storage.file'
@@ -17,7 +19,7 @@ class StorageFile(models.Model):
     #    required=True)
 
     path = fields.Char(help="Where the original is")
-    public_url = fields.Char(compute='_compute_url')  # ou path
+    public_url = fields.Char(compute='_compute_url')  # ou path utile ?
 
     name = fields.Char(required=True, help='file name')
     # mime_type = fields.Char(required=True, help='Mime type')  # ? convertion on the fly?
@@ -33,5 +35,8 @@ class StorageFile(models.Model):
     meta = fields.Char()
 
     def _compute_url(self):
+        _logger.info('compute_url du parent')
+        import pdb
+        pdb.set_trace()
         return self.backend_id.get_public_url(self)
 
