@@ -36,4 +36,5 @@ class LocalStorageBackend(models.Model):
         return obj
 
     def get_public_url(self, obj):
+        logger.info('get_public_url')
         return self.public_base_url + '/' + obj.path
