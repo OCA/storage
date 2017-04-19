@@ -8,35 +8,26 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class StorageFile(models.Model):
     _name = 'storage.file'
     _description = 'Storage File'
+    _inherit = 'ir.attachment'
 
-    #owner_id = fields.Integer(
-    #    "Owner",
-    #    required=True)
-    #owner_model = fields.Char(
-    #    required=True)
-
-    path = fields.Char(help="Where the original is")
     public_url = fields.Char(compute='_compute_url')  # ou path utile ?
-
-    name = fields.Char(required=True, help='file name')
-    # mime_type = fields.Char(required=True, help='Mime type')  # ? convertion on the fly?
-
-    size = fields.Integer(required=True, help='Size of the file in bytes')  # Optionnal ?
-    sha1 = fields.Char("hash of the file")
 
     backend_id = fields.Many2one(
         'storage.backend',
         'Storage',
         required=True)
 
-    meta = fields.Char()
+    # forward compliency to v9 and v10
+    checksum = fields.Char("Checksum/SHA1", size=40, select=True, readonly=True)
+    mimetype = fields.Char('Mime Type', readonly=True)
+    index_content = fields.Char('Indexed Content', readonly=True)
+    public = fields.Boolean('Is public document')
 
     def _compute_url(self):
         _logger.info('compute_url du parent')
-        import pdb
-        pdb.set_trace()
         return self.backend_id.get_public_url(self)
 
