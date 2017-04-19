@@ -15,26 +15,35 @@ class LocalStorageBackend(models.Model):
     public_base_url = fields.Char()
     base_path = u'~/images'
 
+
     def store(self, binary, vals, object_type):
+        # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
-        file_hash = u'' + hashlib.sha1(binary).hexdigest()
-        path = file_hash
+        checksum = u'' + hashlib.sha1(binary).hexdigest()
+        path = checksum
 
-        with OSFS(self.base_path) as the_file:
-            the_file.settext(path, binary)
-            size = the_file.getsize(path)
+        with OSFS(self.base_path) as the_dir:
+            the_dir.settext(path, binary)
+            size = the_dir.getsize(path)
 
         basic_vals = {
             'name': '',
-            'path': path,
-            'size': size,
-            'sha1': file_hash,
+            'url': path,
+            'file_size': size,
+            'checksum': checksum,
             'backend_id': self.id,
         }
-        obj = object_type.create(basic_vals)
+        basic_vals
+        vals.update(basic_vals)
+        obj = object_type.create(vals)
         return obj
 
     def get_public_url(self, obj):
         logger.info('get_public_url')
         return self.public_base_url + '/' + obj.path
+
+    def get_data(self, path):
+        with OSFS(self.base_path) as the_dir:
+            return the_dir.getbytes(path)
+
