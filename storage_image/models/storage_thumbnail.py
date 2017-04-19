@@ -15,9 +15,14 @@ class StorageThumbnail(models.Model):
     _inherit = 'storage.file'
 
     original = fields.Many2one(
-        'storage.file',
-        'Original file',
+        comodel_name='storage.file',
+        string='Original file',
+        inverse_name='thumbnail_ids',
         required=True)
 
     size_x = fields.Integer()
     size_y = fields.Integer()
+    ratio = fields.Float()  # a quel point on a divisé
+    # crop ?
+    # watermarked ?
+    # key_frame ?
