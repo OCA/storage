@@ -40,8 +40,9 @@ class LocalStorageBackend(models.Model):
         return obj
 
     def get_public_url(self, obj):
+        # TODO faire mieux
         logger.info('get_public_url')
-        return self.public_base_url + '/' + obj.path
+        return self.public_base_url + '/' + obj.name
 
     def get_data(self, path):
         with OSFS(self.base_path) as the_dir:
