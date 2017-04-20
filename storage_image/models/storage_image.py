@@ -24,7 +24,7 @@ class StorageImage(models.Model):
     thumbnail_ids = fields.One2many(
         comodel_name='storage.thumbnail',
         string='Thumbnails',
-        inverse_name='original',
+        inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
     )
 
@@ -40,17 +40,11 @@ class StorageImage(models.Model):
 
     @api.multi
     def ask_for_thumbnail_creation(self, size_x, size_y):
+        factory = self.env['storage.thumbnail.factory']
+        kwargs = {'size_x': size_x, 'size_y': size_y}
         for img in self:
-            vals = {
-                'size_x': size_x,
-                'size_y': size_y,
-                'res_model': img._name,
-                'res_id': img.id,
-                'to_do': True
-            }
-            self.env['storage.thumbnail'].create(vals)
+            factory.build(img, **kwargs)
 
     def _compute_url(self):
         _logger.info('compute_url de l\'enfant')
         return self.file_id.backend_id.get_public_url(self)
-
