@@ -19,9 +19,11 @@
     },
     "depends": [
         "storage_file",
+        "base",
     ],
     "data": [
     #    'views/storage_image_view.xml',
+        'views/partner.xml',
     ],
     "demo": [
     ],
