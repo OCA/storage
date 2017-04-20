@@ -26,3 +26,4 @@ class StorageThumbnail(models.Model):
     # crop ?
     # watermarked ?
     # key_frame ?
+    to_do = fields.Boolean(help='Mark as to generate from original')
