@@ -9,41 +9,42 @@ from fs.osfs import OSFS
 import logging
 logger = logging.getLogger(__name__)
 
+
 class LocalStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
     public_base_url = fields.Char()
     base_path = u'~/images'
 
-
-    def store(self, binary, vals, object_type):
+    def store(self, blob, vals={}, object_type=None):
         # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
-        checksum = u'' + hashlib.sha1(binary).hexdigest()
+        checksum = u'' + hashlib.sha1(blob).hexdigest()
         path = checksum
 
         with OSFS(self.base_path) as the_dir:
-            the_dir.settext(path, binary)
+            the_dir.settext(path, blob)
             size = the_dir.getsize(path)
 
         basic_vals = {
-            'name': '',
+            # 'name': '',
             'url': path,
             'file_size': size,
             'checksum': checksum,
             'backend_id': self.id,
         }
-        basic_vals
-        vals.update(basic_vals)
-        obj = object_type.create(vals)
-        return obj
+        return basic_vals
+        # vals.update(basic_vals)
+        # obj = object_type.create(vals)  # ou déléguer?
+        # return obj
 
     def get_public_url(self, obj):
+        # TODO faire mieux
         logger.info('get_public_url')
-        return self.public_base_url + '/' + obj.path
+        return self.public_base_url + '/' + obj.name
 
-    def get_data(self, path):
+    def get_base64(self, file_id):
+        logger.info('return base64 of a file')
         with OSFS(self.base_path) as the_dir:
-            return the_dir.getbytes(path)
-
+            return the_dir.getbytes(file_id.url)
