@@ -7,12 +7,13 @@
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
             	 <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
-					<field name="image_ids" mode="kanban">
-						<kanban>
+					<field name="image_ids" mode="tree">
+						<tree>
 							<field name="name" />
-						</kanban>
+							<field name="thumbnail_ids" />
+						</tree>
 					</field>
-					<p>Bah</p>
+					<p>Bih</p>
             	 </xpath>
 			</field>
 		</record>
