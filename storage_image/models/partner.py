@@ -13,10 +13,7 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     image_ids = fields.One2many(
-        ##compute="_compute_image_ids", 
         comodel_name="storage.image",
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
-        #inverse="_inverse_image_ids")
-	)
-#
+    )
