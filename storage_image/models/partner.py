@@ -17,3 +17,10 @@ class Partner(models.Model):
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
     )
+
+
+class ImageWizard(models.TransientModel):
+    _name = 'storage.uploader'
+
+    name = fields.Char()
+    image = fields.Binary()
