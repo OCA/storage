@@ -6,44 +6,31 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
-            	 <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
-					<field name="image_ids" mode="tree">
-						<tree>
-							<field name="name" />
-							<field name="thumbnail_ids" />
-						</tree>
-					</field>
-					<p>Bih</p>
-					<button name="btn_image_wizard" action="add_image_wizard"
-                        string="Add image" />
+                 <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
+                    <field name="image_ids" mode="tree">
+                        <tree>
+                            <field name="name" />
+                            <field name="thumbnail_ids" />
+                        </tree>
+                    </field>
 
-            	 </xpath>
-			</field>
-		</record>
+                    <p>Bih</p>
+                 </xpath>
+            </field>
+        </record>
 
-		<act_window id="add_image_wizard"
-            name="Add image"
-            src_model="res.partner"
-            res_model="storage.uploader.wizard"
-            view_mode="form"
-            view_type="form"
-            target="new"
-        />
-
-	     <record model="ir.ui.view" id="wizard_form_view">
-	            <field name="name">wizard.form</field>
-	            <field name="model">storage.uploader.wizard</field>
-	            <field name="arch" type="xml">
-	                <form string="Add Image">
-	                    <group>
-	                        <field name="name"/>
-	                        <field name="image"/>
-	                    </group>
-	                </form>
-	            </field>
-	        </record>
-
-
-
-	</data>
+        <record id="view_image_form" model="ir.ui.view">
+            <field name="model">storage.image</field>
+            <field name="arch" type="xml">
+                <form string="Image">
+                    <group string="Name">
+                        <field name="name" />
+                        <field name="alt_name" />
+                    </group>
+                    <field name="url"/>
+                    <field name="backend_id" />
+                </form>
+            </field>
+        </record>
+    </data>
 </openerp>
