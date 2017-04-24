@@ -6,6 +6,16 @@ import logging
 from openerp import api, fields, models
 _logger = logging.getLogger(__name__)
 
+def implemented_by_factory(func):
+    """Call a prefixed function based on 'namespace'."""
+    @wraps(func)
+    def wrapper(cls, *args, **kwargs):
+        fun_name = func.__name__
+        fun = '_%s%s' % (cls.type, fun_name)
+        if not hasattr(cls, fun):
+            fun = '_default%s' % (fun_name)
+        return getattr(cls, fun)(*args, **kwargs)
+    return wrapper
 
 class StorageBackend(models.Model):
     _name = 'storage.backend'
