@@ -9,12 +9,12 @@ from fs.osfs import OSFS
 import logging
 logger = logging.getLogger(__name__)
 
+
 class LocalStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
     public_base_url = fields.Char()
     base_path = u'~/images'
-
 
     def store(self, binary, vals, object_type):
         # TODO: refactorer, ça marche plus vraiment
@@ -28,23 +28,24 @@ class LocalStorageBackend(models.Model):
             size = the_dir.getsize(path)
 
         basic_vals = {
-            'name': '',
+            # 'name': '',
             'url': path,
             'file_size': size,
             'checksum': checksum,
             'backend_id': self.id,
         }
-        basic_vals
-        vals.update(basic_vals)
-        obj = object_type.create(vals)
-        return obj
+        return basic_vals
+        # vals.update(basic_vals)
+        # obj = object_type.create(vals)  # ou déléguer?
+        # return obj
 
     def get_public_url(self, obj):
         # TODO faire mieux
         logger.info('get_public_url')
         return self.public_base_url + '/' + obj.name
 
-    def get_data(self, path):
+    def get_base64(self, file_id):
+        logger.info('return base64 of a file')
         with OSFS(self.base_path) as the_dir:
-            return the_dir.getbytes(path)
+            return the_dir.getbytes(file_id.url)
 

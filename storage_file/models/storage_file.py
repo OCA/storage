@@ -31,3 +31,5 @@ class StorageFile(models.Model):
         _logger.info('compute_url du parent')
         return self.backend_id.get_public_url(self)
 
+    def get_base64(self):
+        self.backend_id.get_base64(self)
