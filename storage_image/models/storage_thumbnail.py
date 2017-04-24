@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, fields, models
+from openerp import api, fields, models, tools
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -29,23 +29,129 @@ class StorageThumbnail(models.Model):
     to_do = fields.Boolean(help='Mark as to generate from original')
 
 
-class ThumbnailFactory(models.AbstractModel):
-    _name = 'storage.thumbnail.factory'
+class ImageFactory(models.AbstractModel):
+    _name = 'storage.image.factory'
 
-    def build(self, original, **kwargs):
-        _logger.info('on bulid !')
-        x, y = self.deduce_size(original, **kwargs)
-        backend = self.deduce_backend(original, **kwargs)
+    def persist(self, name, alt_name, blob, target):
+        backend = self._deduce_backend()
+        basic_data = backend.store(
+            binary=blob,
+            vals={},
+            object_type=self.env['storage.image']
+        )
+        vals = self._prepare_dict(
+            name=name,
+            alt_name=alt_name,
+            basic_data=basic_data,
+            blob=blob,
+            target=target)
+        self.env['storage.image'].create(vals)
+
+    def _prepare_dict(
+            self,
+            name,
+            basic_data,
+            target,
+            alt_name,
+            blob,
+    ):
+        exifs = self._extract_exifs(blob)
+        url = basic_data['url']
+        # file_size = basic_data['file_size']
+        checksum = basic_data['checksum']
+        backend_id = basic_data['backend_id']
         vals = {
-            'size_x': x,
-            'size_y': y,
-            'to_do': True,
-            'backend_id': backend.id,
-            'name': original.name,
-            'original': original.file_id.id,
-            'res_model': original._name,
-            'res_id': original.id,
+            'exifs': exifs,
+            'name': name,
+            'alt_name': alt_name,
+            # TODO: refactor this
+            'type': 'url',
+            'url': url,
+            'checksum': checksum,
+            # 'file_size': file_size,
+            'backend_id': backend_id,
+            'url': url,
+            'res_model': target._name,
+            'res_id': target.id,
         }
+        return vals
+
+    def _extract_exifs(self, kwargs):
+        return ""
+
+    def _deduce_backend(self):
+        backends = self.env['storage.backend'].search([])
+        return backends[0]  # par defaut on prends le premier
+ 
+
+
+class ThumbnailFactory(models.AbstractModel):
+    _name = 'storage.factory'
+
+    def _prepare_dict(
+            self,
+            basic_data,
+            target,
+            size_x,
+            size_y,
+    ):
+        url = basic_data['url']
+        size = basic_data['size']
+        checksum = basic_data['checksum']
+        backend_id = basic_data['backend_id']
+        vals = {
+            'original_id': target.file_id.id,
+            'size_x': size_x,
+            'size_y': size_y,
+            'to_do': True,
+            # TODO: refactor this:
+            'type': 'url',
+            'backend_id': backend_id,
+            'url': url,
+            'checksum': checksum,
+            'size': size,
+            'res_model': target._name,
+            'res_id': target.id,
+        }
+        return vals
+
+    def build(self, original_id, size_x, size_y):
+        # entry point !
+        # a partir d'un original et d'une taille
+        """
+        Original_id : storage_image
+        """
+        blob = self.transform(
+            original_id=original_id,
+            size_x=size_x,
+            size_y=size_y,
+        )
+        self.presist(
+            blob=blob,
+            target=original_id,
+            size_x=size_x,
+            size_y=size_y)
+
+    def transform(self, original_id, size_x, size_y):
+        _logger.info('on resize !!')
+        base64_source = original_id.get_base64()
+        blob = tools.image_resize_image(base64_source, (size_x, size_y))
+        return blob
+
+    def presist(self, blob, target, **kwargs):
+        _logger.info('on build !')
+        size_x = kwargs['size_x']
+        size_y = kwargs['size_y']
+        backend = self.deduce_backend(target, **kwargs)
+        basic_data = backend.store(blob, "file name")
+
+        vals = self._prepare_dict(
+            target=target,
+            backend=backend,
+            basic_data=basic_data,
+            size_x=size_x,
+            size_y=size_y,
+        )
         _logger.info(vals)
         self.env['storage.thumbnail'].create(vals)
 
@@ -56,6 +162,8 @@ class ThumbnailFactory(models.AbstractModel):
         return backends[0]  # par defaut on prends le premier
 
         # autres idées
+        # en fonction du type (ex : un pour les thumbnail, un autre pour image)
+        # ou un pour les partner, un pour les produits ?
         # on a une config
         backend_name = self.env['ir.config_parameter'].get_param(
             'storage.thumbnail.backend')
