@@ -10,13 +10,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class LocalStorageBackend(models.Model):
+class FileStoreStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
     public_base_url = fields.Char()
     base_path = u'~/images'
 
-    def store(self, blob, vals={}, object_type=None):
+    def _filestorestore(self, blob, vals={}, object_type=None):
         # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
@@ -24,7 +24,7 @@ class LocalStorageBackend(models.Model):
         path = checksum
 
         with OSFS(self.base_path) as the_dir:
-            the_dir.settext(path, blob)
+            the_dir.setcontents(path, blob)
             size = the_dir.getsize(path)
 
         basic_vals = {
@@ -33,18 +33,19 @@ class LocalStorageBackend(models.Model):
             'file_size': size,
             'checksum': checksum,
             'backend_id': self.id,
+            'private_path': path,
         }
         return basic_vals
         # vals.update(basic_vals)
         # obj = object_type.create(vals)  # ou déléguer?
         # return obj
 
-    def get_public_url(self, obj):
+    def _filestoreget_public_url(self, obj):
         # TODO faire mieux
         logger.info('get_public_url')
         return self.public_base_url + '/' + obj.name
 
-    def get_base64(self, file_id):
+    def _filestoreget_base64(self, file_id):
         logger.info('return base64 of a file')
         with OSFS(self.base_path) as the_dir:
-            return the_dir.getbytes(file_id.url)
+            return the_dir.open(file_id.url).read()
