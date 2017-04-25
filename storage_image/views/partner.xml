@@ -28,7 +28,26 @@
                         <field name="alt_name" />
                     </group>
                     <field name="url"/>
+                    <field name="res_model" />
+                    <field name="res_id" />
+                    <field name="the_file" />
                     <field name="backend_id" />
+                    <field name="thumbnail_ids" />
+                </form>
+            </field>
+        </record>
+
+        <record id="view_thumbnail_form" model="ir.ui.view">
+            <field name="model">storage.thumbnail</field>
+            <field name="arch" type="xml">
+                <form string="Thumgnail">
+                    <group string="Name">
+                        <field name="name" />
+                    </group>
+                    <field name="url"/>
+                    <field name="res_model" />
+                    <field name="res_id" />
+                    <field name="original_id" />
                 </form>
             </field>
         </record>
