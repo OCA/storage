@@ -16,15 +16,15 @@ class LocalStorageBackend(models.Model):
     public_base_url = fields.Char()
     base_path = u'~/images'
 
-    def store(self, binary, vals, object_type):
+    def store(self, blob, vals={}, object_type=None):
         # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
-        checksum = u'' + hashlib.sha1(binary).hexdigest()
+        checksum = u'' + hashlib.sha1(blob).hexdigest()
         path = checksum
 
         with OSFS(self.base_path) as the_dir:
-            the_dir.settext(path, binary)
+            the_dir.settext(path, blob)
             size = the_dir.getsize(path)
 
         basic_vals = {
@@ -48,4 +48,3 @@ class LocalStorageBackend(models.Model):
         logger.info('return base64 of a file')
         with OSFS(self.base_path) as the_dir:
             return the_dir.getbytes(file_id.url)
-
