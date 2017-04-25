@@ -15,7 +15,7 @@ class StorageThumbnail(models.Model):
     _description = 'Storage Thumbnail'
     _inherit = 'storage.file'
 
-    original = fields.Many2one(
+    original_id = fields.Many2one(
         comodel_name='storage.file',
         string='Original file',
         required=True)
@@ -35,7 +35,7 @@ class ImageFactory(models.AbstractModel):
     def persist(self, name, alt_name, blob, target):
         backend = self._deduce_backend()
         basic_data = backend.store(
-            binary=blob,
+            blob=blob,
             vals={},
             object_type=self.env['storage.image']
         )
@@ -57,7 +57,7 @@ class ImageFactory(models.AbstractModel):
     ):
         exifs = self._extract_exifs(blob)
         url = basic_data['url']
-        # file_size = basic_data['file_size']
+        file_size = basic_data['file_size']
         checksum = basic_data['checksum']
         backend_id = basic_data['backend_id']
         vals = {
@@ -68,7 +68,7 @@ class ImageFactory(models.AbstractModel):
             'type': 'url',
             'url': url,
             'checksum': checksum,
-            # 'file_size': file_size,
+            'file_size': file_size,
             'backend_id': backend_id,
             'url': url,
             'res_model': target._name,
@@ -82,11 +82,10 @@ class ImageFactory(models.AbstractModel):
     def _deduce_backend(self):
         backends = self.env['storage.backend'].search([])
         return backends[0]  # par defaut on prends le premier
- 
 
 
 class ThumbnailFactory(models.AbstractModel):
-    _name = 'storage.factory'
+    _name = 'storage.thumbnail.factory'
 
     def _prepare_dict(
             self,
@@ -96,7 +95,7 @@ class ThumbnailFactory(models.AbstractModel):
             size_y,
     ):
         url = basic_data['url']
-        size = basic_data['size']
+        file_size = basic_data['file_size']
         checksum = basic_data['checksum']
         backend_id = basic_data['backend_id']
         vals = {
@@ -106,10 +105,11 @@ class ThumbnailFactory(models.AbstractModel):
             'to_do': True,
             # TODO: refactor this:
             'type': 'url',
+            'name': target.name,
             'backend_id': backend_id,
             'url': url,
             'checksum': checksum,
-            'size': size,
+            'file_size': file_size,
             'res_model': target._name,
             'res_id': target.id,
         }
@@ -135,7 +135,7 @@ class ThumbnailFactory(models.AbstractModel):
     def transform(self, original_id, size_x, size_y):
         _logger.info('on resize !!')
         base64_source = original_id.get_base64()
-        blob = tools.image_resize_image(base64_source, (size_x, size_y))
+        blob = tools.image_resize_image(base64_source, (size_x, size_y)) + u''
         return blob
 
     def presist(self, blob, target, **kwargs):
@@ -147,7 +147,6 @@ class ThumbnailFactory(models.AbstractModel):
 
         vals = self._prepare_dict(
             target=target,
-            backend=backend,
             basic_data=basic_data,
             size_x=size_x,
             size_y=size_y,
