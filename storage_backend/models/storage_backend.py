@@ -3,6 +3,7 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import logging
+from functools import wraps
 from openerp import api, fields, models
 _logger = logging.getLogger(__name__)
 
@@ -11,7 +12,8 @@ def implemented_by_factory(func):
     @wraps(func)
     def wrapper(cls, *args, **kwargs):
         fun_name = func.__name__
-        fun = '_%s%s' % (cls.type, fun_name)
+        fun = '_%s%s' % (cls.backend_type, fun_name)
+        _logger.info('try %s' % fun)
         if not hasattr(cls, fun):
             fun = '_default%s' % (fun_name)
         return getattr(cls, fun)(*args, **kwargs)
@@ -26,9 +28,22 @@ class StorageBackend(models.Model):
         ('amazon-s3', 'Amazon-S3'),
         ('filestore', 'Filestore'),
         ('sftp', 'Sftp'),
-        ], required=True)
+    ], required=True)
     public_base_url = fields.Char()
 
+    @implemented_by_factory
+    def store(self, blob, vals={}, object_type=None):
+        pass
+
+    @implemented_by_factory
+    def get_public_url(self, obj):
+        pass
+
+    @implemented_by_factory
+    def get_base64(self, file_id):
+        pass
+
+    @implemented_by_factory
     def _get_account(self):
         """Appelé par celui qui dépose le fichiers."""
         keychain = self.env['keychain.account']
