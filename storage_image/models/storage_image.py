@@ -38,7 +38,7 @@ class StorageImage(models.Model):
         _logger.warning('comupte set file [enfant]')
         blob = self.the_file + u''
         basic_data = self.backend_id.store(
-            binary=blob,
+            blob=blob,
             vals={},
             object_type=self.env['storage.image']
         )
