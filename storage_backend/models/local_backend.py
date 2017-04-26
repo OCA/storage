@@ -24,7 +24,7 @@ class FileStoreStorageBackend(models.Model):
         path = checksum
 
         with OSFS(self.base_path) as the_dir:
-            the_dir.settext(path, blob)
+            the_dir.setcontents(path, blob)
             size = the_dir.getsize(path)
 
         basic_vals = {
@@ -47,4 +47,4 @@ class FileStoreStorageBackend(models.Model):
     def _filestoreget_base64(self, file_id):
         logger.info('return base64 of a file')
         with OSFS(self.base_path) as the_dir:
-            return the_dir.getbytes(file_id.url)
+            return the_dir.open(file_id.url).read()
