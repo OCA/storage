@@ -45,7 +45,7 @@ class ImageFactory(models.AbstractModel):
             basic_data=basic_data,
             blob=blob,
             target=target)
-        self.env['storage.image'].create(vals)
+        return self.env['storage.image'].create(vals)
 
     def _prepare_dict(
             self,
@@ -126,7 +126,7 @@ class ThumbnailFactory(models.AbstractModel):
             size_x=size_x,
             size_y=size_y,
         )
-        self.presist(
+        return self.presist(
             blob=blob,
             target=original_id,
             size_x=size_x,
@@ -152,7 +152,7 @@ class ThumbnailFactory(models.AbstractModel):
             size_y=size_y,
         )
         _logger.info(vals)
-        self.env['storage.thumbnail'].create(vals)
+        return self.env['storage.thumbnail'].create(vals)
 
     def deduce_backend(self, original, **kwargs):
         # on met kwargs ici car on peut avoir des règles metiers
