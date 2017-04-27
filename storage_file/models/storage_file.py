@@ -39,16 +39,17 @@ class StorageFile(models.Model):
 
     def _inverse_set_file(self):
         _logger.warning('comupte set file [parent]')
-        import pdb
-        pdb.set_trace()
 
     def _compute_get_file(self):
         _logger.warning('comupte get file [parent]')
         return True
 
+    @api.depends('backend_id')
     def _compute_url(self):
+        # attention peut être appelé n'importe quand
         _logger.info('compute_url du parent')
-        return self.backend_id.get_public_url(self)
+        for rec in self:
+            rec.public_url = rec.backend_id.get_public_url(rec)
 
     def get_base64(self):
         _logger.info('file.get_base64')

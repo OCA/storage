@@ -28,59 +28,59 @@ class StorageImage(models.Model):
         domain=lambda self: [("res_model", "=", self._name)],
     )
 
-    the_file = fields.Binary(
-        help="The file",
-        inverse='_inverse_set_file',
-        compute='_compute_get_file',
-        store=False)
-
-    def _inverse_set_file(self):
-        _logger.warning('comupte set file [enfant]')
-        blob = self.the_file + u''
-        basic_data = self.backend_id.store(
-            blob=blob,
-            vals={},
-            object_type=self.env['storage.image']
-        )
-        self.url = basic_data['url']
-        self.checksum = basic_data['checksum']
-        checksum = basic_data['checksum']
-
-        #factory = self.env['storage.image.factory']
-        #factory.persist(
-        #    alt_name=self.alt_name,
-        #    name=self.name,
-        #    blob=self.the_file + u'',
-        #    target=self  # a fixer et mettre le res_model qui va bien
-        #)
-        ## generate at least one thumbnail for odoo
-        #self.ask_for_thumbnail_creation(90, 90)
-        #self.ask_for_thumbnail_creation(150, 150)
+    image_medium = fields.Binary(
+        _compute="_get_image_size",
+        help='For backend only',
+    )
+    image_small = fields.Binary(
+        _compute="_get_image_size",
+        help='For backend only',
+    )
 
     def _compute_get_file(self):
         _logger.warning('comupte get file [enfant]')
         return True
 
+    @api.depends('backend_id')
+    def _get_image_size(self):
+        """ pour le lookup"""
+        _logger.info('dans _get_image_size')
+        for rec in self:
+            rec.image_medium = self._get_or_create(128, 128).get_base64()
+            rec.image_small = self._get_or_create(64, 64).get_base64()
+
     def get_thumbnail(self, size_x, size_y):
         # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
         domain = [
             ('res_model', '=', self._name),
-            ('id', '=', self.id),
+            ('res_id', '=', self.id),
             ('size_x', '=', size_x),
             ('size_y', '=', size_y)
         ]
+        _logger.info('on va chercher du thumbnail')
         return self.env['storage.thumbnail'].search(domain)
 
     @api.multi
     def ask_for_thumbnail_creation(self, size_x, size_y):
-        factory = self.env['storage.thumbnail.factory']
-        kwargs = {'size_x': size_x, 'size_y': size_y}
         for img in self:
-            factory.build(img, **kwargs)
+            img._ask_for_thumbnail_creation(size_x, size_y)
+
+    def _ask_for_thumbnail_creation(self, size_x, size_y):
+        kwargs = {'size_x': size_x, 'size_y': size_y}
+        return self.env['storage.thumbnail.factory'].build(
+            self, **kwargs)
+
+    def _get_or_create(self, size_x, size_y):
+        return (
+            self.get_thumbnail(size_x, size_y) or
+            self._ask_for_thumbnail_creation(size_x, size_y)
+        )
+
 
     def _compute_url(self):
         _logger.info('compute_url de l\'enfant')
-        return self.file_id.backend_id.get_public_url(self)
+        for rec in self:
+            rec.file_id.public_url
 
     def get_base64(self):
         return self.file_id.get_base64()

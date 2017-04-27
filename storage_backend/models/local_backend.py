@@ -33,6 +33,7 @@ class FileStoreStorageBackend(models.Model):
             'file_size': size,
             'checksum': checksum,
             'backend_id': self.id,
+            'private_path': path,
         }
         return basic_vals
         # vals.update(basic_vals)
