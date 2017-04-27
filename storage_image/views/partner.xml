@@ -27,12 +27,9 @@
                         <field name="name" />
                         <field name="alt_name" />
                     </group>
-                    <field name="url"/>
-                    <field name="res_model" />
-                    <field name="res_id" />
-                    <field name="the_file" />
                     <field name="backend_id" />
                     <field name="thumbnail_ids" />
+                    <p>Public url : <field name="public_url" /></p>
                 </form>
             </field>
         </record>
@@ -45,9 +42,8 @@
                         <field name="name" />
                     </group>
                     <field name="url"/>
-                    <field name="res_model" />
-                    <field name="res_id" />
                     <field name="original_id" />
+                    <field name="public_url"/>
                 </form>
             </field>
         </record>
