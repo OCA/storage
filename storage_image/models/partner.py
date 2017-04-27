@@ -46,5 +46,3 @@ class AssociatePartnerWizard(models.TransientModel):
         img.ask_for_thumbnail_creation(150, 150)
 
 
-        import pdb
-        pdb.set_trace()

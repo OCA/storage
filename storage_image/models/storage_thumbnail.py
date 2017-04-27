@@ -60,6 +60,7 @@ class ImageFactory(models.AbstractModel):
         file_size = basic_data['file_size']
         checksum = basic_data['checksum']
         backend_id = basic_data['backend_id']
+        private_path = basic_data['private_path']
         vals = {
             'exifs': exifs,
             'name': name,
@@ -73,6 +74,7 @@ class ImageFactory(models.AbstractModel):
             'url': url,
             'res_model': target._name,
             'res_id': target.id,
+            'private_path': private_path,
         }
         return vals
 
@@ -98,6 +100,8 @@ class ThumbnailFactory(models.AbstractModel):
         file_size = basic_data['file_size']
         checksum = basic_data['checksum']
         backend_id = basic_data['backend_id']
+        private_path = basic_data['private_path']
+
         vals = {
             'original_id': target.file_id.id,
             'size_x': size_x,
@@ -112,6 +116,7 @@ class ThumbnailFactory(models.AbstractModel):
             'file_size': file_size,
             'res_model': target._name,
             'res_id': target.id,
+            'private_path': private_path,
         }
         return vals
 
@@ -156,8 +161,14 @@ class ThumbnailFactory(models.AbstractModel):
 
     def deduce_backend(self, original, **kwargs):
         # on met kwargs ici car on peut avoir des règles metiers
+        domain = []
+        import pdb
+        pdb.set_trace()
+        if kwargs['size_x'] == 90:
+            _logger.info('on est une miniature')
+            domain = [('backend_type', '=', 'odoo')]
 
-        backends = self.env['storage.backend'].search([])
+        backends = self.env['storage.backend'].search(domain)
         return backends[0]  # par defaut on prends le premier
 
         # autres idées
