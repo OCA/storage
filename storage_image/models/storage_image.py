@@ -28,13 +28,18 @@ class StorageImage(models.Model):
         domain=lambda self: [("res_model", "=", self._name)],
     )
 
+    # a persister en base pour odoo, c'est plus simple?
+    # a garder ici ou mettre dans un autre module qui étand ?
     image_medium = fields.Binary(
-        _compute="_get_image_size",
+        compute="_get_image_size",
         help='For backend only',
+        store=True,
+        # attachment=True # > 9 ?
     )
     image_small = fields.Binary(
-        _compute="_get_image_size",
+        compute="_get_image_size",
         help='For backend only',
+        store=True
     )
 
     def _compute_get_file(self):
@@ -46,8 +51,12 @@ class StorageImage(models.Model):
         """ pour le lookup"""
         _logger.info('dans _get_image_size')
         for rec in self:
-            rec.image_medium = self._get_or_create(128, 128).get_base64()
-            rec.image_small = self._get_or_create(64, 64).get_base64()
+            try:
+                rec.image_medium = self._get_or_create(128, 128).get_base64()
+                rec.image_small = self._get_or_create(64, 64).get_base64()
+            except:  # a virer c'est juste pour le dev
+                rec.image_medium = ''
+                rec.image_small = ''
 
     def get_thumbnail(self, size_x, size_y):
         # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
@@ -75,7 +84,6 @@ class StorageImage(models.Model):
             self.get_thumbnail(size_x, size_y) or
             self._ask_for_thumbnail_creation(size_x, size_y)
         )
-
 
     def _compute_url(self):
         _logger.info('compute_url de l\'enfant')
