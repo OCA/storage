@@ -1,135 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
+<data>
 
-<record id="storage_image_view_tree" model="ir.ui.view">
-    <field name="model">storage.image</field>
-    <field name="arch" type="xml">
-        <tree string="Image">
-            <field name="name"/>
-            <field name="owner_model"/>
-            <field name="owner_id"/>
-        </tree>
-    </field>
-</record>
+    <record id="storage_image_view_tree" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <tree string="Image">
+                <field name="name"/>
+                <field name="res_model"/>
+                <field name="res_id"/>
+            </tree>
+        </field>
+    </record>
 
-<record id="storage_image_view_form" model="ir.ui.view">
-    <field name="model">storage.image</field>
-    <field name="arch" type="xml">
-        <form string="Image">
-            <group>
-                <group
-                    string="Owner"
-                    attrs="{
-                        'invisible': [
-                            ('show_technical', '=', False),
-                        ],
-                    }">
-                    <field name="show_technical" invisible="True"/>
-                    <field name="owner_model"/>
-                    <field name="owner_id"/>
-                    <field name="sequence"/>
-                </group>
+    <record id="storage_image_view_form" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <form string="Image">
                 <group string="Name">
-                    <field name="name"/>
-                    <field name="filename"/>
-                    <field name="alt_name"/>
+                    <field name="name" />
+                    <field name="alt_name" />
                 </group>
-            </group>
-            <group>
-                <group string="Preview">
-                    <field name="image_medium_url"
-                           widget="image"
-                           readonly="True"
-                           nolabel="1" />
-                </group>
-            </group>
-        </form>
-    </field>
-</record>
+                <field name="backend_id" />
+                <field name="thumbnail_ids" />
+                <p>Img small : <field name="image_small" widget="image" /></p>
 
-<record id="storage_image_view_kanban" model="ir.ui.view">
-    <field name="model">storage.image</field>
-    <field name="arch" type="xml">
-        <kanban string="Images">
-            <field name="name"/>
-            <field name="sequence"/>
-            <field name="image_small_url"/>
-            <templates>
-                <t t-name="kanban-box">
-                    <div style="position: relative">
-                        <a t-if="! read_only_mode"
-                           type="delete"
-                           style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
-                        <div class="oe_module_vignette">
-                            <a type="open">
-                                <img
-                                    t-att-src="record.image_small_url.value"
-                                    class="oe_kanban_image"/>
-                            </a>
-                            <div class="oe_module_desc">
-                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
-                                    <table class="oe_kanban_table">
-                                        <tr>
-                                            <td class="oe_kanban_title1"
-                                                align="left"
-                                                valign="middle">
-                                                <h4>
-                                                    <a type="open">
-                                                        <field name="name"/>
-                                                    </a>
-                                                </h4>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                <field name="image_medium" string="image" />
+                <p>Public url : <field name="public_url" /></p>
+                <field name="product_variant_ids"
+                   widget="many2many_tags"
+                   domain="[('product_tmpl_id', '=', res_id)]"
+                   placeholder="(keep empty for being visible for all variants)"/>
+               </form>
+        </field>
+    </record>
+
+    <record id="storage_image_view_kanban" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <kanban create="false">
+                <field name="name" />
+                <field name="alt_name" />
+                <field name="image_small" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <a type="open"><img t-att-src="kanban_image('storage.image', 'image_small', record.id.value)" class="oe_kanban_image"/></a>
+                            <div class="oe_kanban_details">
+                                <h4>
+                                    <a type="open">
+                                         <field name="name"/>
+                                         (<field name="alt_name"/>)
+                                    </a>
+                                </h4>
                             </div>
                         </div>
-                    </div>
-                </t>
-            </templates>
-        </kanban>
-    </field>
-</record>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 
-<record id="storage_image_view_search" model="ir.ui.view">
-    <field name="model">storage.image</field>
-    <field name="arch" type="xml">
-        <search string="Image">
-            <field name="name"/>
-        </search>
-    </field>
-</record>
+    <record id="storage_image_view_search" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <search string="Image">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
 
-<record model="ir.actions.act_window" id="act_open_storage_image_view">
-    <field name="name">Image</field>
-    <field name="type">ir.actions.act_window</field>
-    <field name="res_model">storage.image</field>
-    <field name="view_type">form</field>
-    <field name="view_mode">tree,form</field>
-    <field name="search_view_id" ref="storage_image_view_search"/>
-    <field name="domain">[]</field>
-    <field name="context">{}</field>
-</record>
+    <record model="ir.actions.act_window" id="act_open_storage_image_view">
+        <field name="name">Image</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">storage.image</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="storage_image_view_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
 
-<record model="ir.actions.act_window.view" id="act_open_storage_image_view_form">
-    <field name="act_window_id" ref="act_open_storage_image_view"/>
-    <field name="sequence" eval="20"/>
-    <field name="view_mode">form</field>
-    <field name="view_id" ref="storage_image_view_form"/>
-</record>
+    <record model="ir.actions.act_window.view" id="act_open_storage_image_view_form">
+        <field name="act_window_id" ref="act_open_storage_image_view"/>
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="storage_image_view_form"/>
+    </record>
 
-<record model="ir.actions.act_window.view" id="act_open_storage_image_view_tree">
-    <field name="act_window_id" ref="act_open_storage_image_view"/>
-    <field name="sequence" eval="10"/>
-    <field name="view_mode">tree</field>
-    <field name="view_id" ref="storage_image_view_tree"/>
-</record>
+    <record model="ir.actions.act_window.view" id="act_open_storage_image_view_tree">
+        <field name="act_window_id" ref="act_open_storage_image_view"/>
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="storage_image_view_tree"/>
+    </record>
 
-<menuitem id="menu_storage_image"
-    parent="storage_backend.menu_storage"
-    sequence="30"
-    action="act_open_storage_image_view"/>
+    <menuitem id="menu_storage_image"
+        parent="storage_backend.menu_storage"
+        sequence="30"
+        action="act_open_storage_image_view"/>
 
     </data>
 </openerp>

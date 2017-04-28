@@ -15,6 +15,7 @@ class StorageImage(models.Model):
     _description = 'Storage Image'
     _inherits = {'storage.file': 'file_id'}
 
+    sequence = fields.Integer(default=10)
     alt_name = fields.Char(string="Alt Image name")
     # display_name = ?
     # exifs ? auteur, date de crétation, upload, gps, mots clefs, features ?
