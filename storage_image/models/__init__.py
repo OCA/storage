@@ -3,4 +3,5 @@
 from . import storage_image
 from . import storage_thumbnail
 from . import partner
-#from . import storage_image_owner
+from . import product
+from . import storage_image_wizard
