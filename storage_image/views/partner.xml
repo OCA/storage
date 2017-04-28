@@ -7,11 +7,32 @@
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
                  <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
-                    <field name="image_ids" mode="tree">
+                    <field name="image_ids" mode="kanban">
                         <tree>
                             <field name="name" />
+                            <field name="alt_name" />
                             <field name="thumbnail_ids" />
                         </tree>
+                        <kanban>
+                            <field name="name" />
+                            <field name="alt_name" />
+                            <field name="image_small" />
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe_kanban_vignette oe_semantic_html_override">
+                                        <a type="open"><img t-att-src="kanban_image('storage.image', 'image_small', record.id.value)" class="oe_kanban_image"/></a>
+                                        <div class="oe_kanban_details">
+                                            <h4>
+                                                <a type="open">
+                                                     <field name="name"/>
+                                                     (<field name="alt_name"/>)
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
                     </field>
                         <button string="associate" type="action" name="%(action_wiz_associate)d" />
                     <p>Bih</p>
@@ -29,6 +50,11 @@
                     </group>
                     <field name="backend_id" />
                     <field name="thumbnail_ids" />
+                    <field name="id" />
+
+                    <p>Img small : <field name="image_small" widget="image" /></p>
+
+                    <field name="image_medium" string="image" />
                     <p>Public url : <field name="public_url" /></p>
                 </form>
             </field>
@@ -47,6 +73,8 @@
                 </form>
             </field>
         </record>
+
+
 
     <record id="view_view_view" model="ir.ui.view">
         <field name="name">wizard add image to a partner</field>
