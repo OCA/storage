@@ -161,9 +161,11 @@ class ThumbnailFactory(models.AbstractModel):
 
     def deduce_backend(self, original, **kwargs):
         # on met kwargs ici car on peut avoir des règles metiers
-        domain = []
-        import pdb
-        pdb.set_trace()
+
+        domain = [('backend_type', '=', 'sftp')]
+        backends = self.env['storage.backend'].search(domain)
+        return backends[0]  # par defaut on prends le premier
+
         if kwargs['size_x'] == 90:
             _logger.info('on est une miniature')
             domain = [('backend_type', '=', 'odoo')]
