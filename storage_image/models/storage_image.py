@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, fields, models
+from openerp import api, fields, models, tools
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -14,6 +14,7 @@ class StorageImage(models.Model):
     _name = 'storage.image'
     _description = 'Storage Image'
     _inherits = {'storage.file': 'file_id'}
+    _order = 'sequence, res_model, res_id, id'
 
     sequence = fields.Integer(default=10)
     alt_name = fields.Char(string="Alt Image name")
@@ -27,37 +28,41 @@ class StorageImage(models.Model):
         string='Thumbnails',
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
+        readonly=True
     )
 
     # a persister en base pour odoo, c'est plus simple?
     # a garder ici ou mettre dans un autre module qui étand ?
     image_medium = fields.Binary(
-        compute="_get_image_size",
+        compute="_get_image_sizes",
         help='For backend only',
         store=True,
+        readonly=True,
         # attachment=True # > 9 ?
     )
     image_small = fields.Binary(
-        compute="_get_image_size",
+        compute="_get_image_sizes",
         help='For backend only',
-        store=True
+        store=True,
+        readonly=True,
+        # attachment=True # > 9 ?
     )
 
     def _compute_get_file(self):
         _logger.warning('comupte get file [enfant]')
         return True
 
-    @api.depends('backend_id')
-    def _get_image_size(self):
-        """ pour le lookup"""
-        _logger.info('dans _get_image_size')
+    @api.multi
+    @api.depends('file_id')
+    def _get_image_sizes(self):
         for rec in self:
             try:
-                rec.image_medium = self._get_or_create(128, 128).get_base64()
-                rec.image_small = self._get_or_create(64, 64).get_base64()
-            except:  # a virer c'est juste pour le dev
-                rec.image_medium = ''
-                rec.image_small = ''
+                vals = tools.image_get_resized_images(
+                    rec.get_base64())
+            except:
+                vals = {"image_medium": False,
+                        "image_small": False}
+            rec.update(vals)
 
     def get_thumbnail(self, size_x, size_y):
         # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
