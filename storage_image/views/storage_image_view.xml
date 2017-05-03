@@ -21,15 +21,13 @@
                     <field name="name" />
                     <field name="alt_name" />
                 </group>
-                <field name="backend_id" />
+                <group>
+                    <field name="image_small" widget="image" />
+                    <field name="thumbnail_ids"/>
+                    <button string="Create Thumbnail" type="action" name="%(action_wiz_create_thumbnail)d" />
+                </group>
+                <field name="backend_id" readonly="True" />
                 <field name="res_id" invisible="True" />
-                <field name="thumbnail_ids"/>
-                <button string="Create Thumbnail" type="action" name="%(action_wiz_create_thumbnail)d" />
-
-                <p>Img small : <field name="image_small" widget="image" /></p>
-                <field name="sequence" string="sequence" help="sequence" />
-
-                <field name="image_medium" string="image" />
                 <p>Public url : <field name="public_url" /></p>
                 <field name="product_variant_ids"
                    widget="many2many_tags"
