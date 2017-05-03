@@ -37,11 +37,12 @@ class OdooStorageBackend(models.Model):
         pj = self.env['ir.attachment'].create(ir_attach)
         size = pj.file_size
         url = (
-            '/web/binary/image?model=%(res_model)s' #res_model doit être storage.image
-            '&id=%(res_id)s&field=image_medium' # comment on sait que c'est une image? a mettre ailleurs
+            '/web/binary/image?model=%(res_model)s'
+            '&id=%(res_id)s&field=datas'
+            # comment on sait que c'est une image? a mettre ailleurs
         ) % {
-            'res_model': ir_attach['res_model'], # devrait être storage.image ou storage.thumbnail
-            'res_id': ir_attach['res_id']
+            'res_model': pj._name,
+            'res_id': pj.id
         }
 
         basic_vals = {
