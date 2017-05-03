@@ -12,7 +12,6 @@
                     <field name="original_id" readonly="True"/>
                     <field name="size_x"/>
                     <field name="size_y"/>
-                    <field name="todo"/>
                 </form>
             </field>
         </record>
@@ -22,7 +21,6 @@
             <field name="arch" type="xml">
                 <tree string="Thumgnail">
                     <field name="name" />
-                    <field name="todo" />
                     <field name="size_x" />
                     <field name="size_y" />
                 </tree>
