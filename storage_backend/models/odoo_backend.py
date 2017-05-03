@@ -20,6 +20,10 @@ class OdooStorageBackend(models.Model):
         checksum = u'' + hashlib.sha1(blob).hexdigest()
         path = checksum
 
+        # res_model = OdooStrogageBackend
+        # car il faut faire savoir sur quel
+        # backend on est lié
+
         ir_attach = {
             'name': checksum,  # utiliser name a la place
             'type': 'binary',
@@ -33,10 +37,10 @@ class OdooStorageBackend(models.Model):
         pj = self.env['ir.attachment'].create(ir_attach)
         size = pj.file_size
         url = (
-            '/web/binary/image?model=%(res_model)s'
-            '&id=%(res_id)s&field=image_medium'
+            '/web/binary/image?model=%(res_model)s' #res_model doit être storage.image
+            '&id=%(res_id)s&field=image_medium' # comment on sait que c'est une image? a mettre ailleurs
         ) % {
-            'res_model': ir_attach['res_model'],
+            'res_model': ir_attach['res_model'], # devrait être storage.image ou storage.thumbnail
             'res_id': ir_attach['res_id']
         }
 
