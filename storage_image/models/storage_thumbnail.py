@@ -131,7 +131,7 @@ class ThumbnailFactory(models.AbstractModel):
             size_x=size_x,
             size_y=size_y,
         )
-        return self.presist(
+        return self.persist(
             blob=blob,
             target=original_id,
             size_x=size_x,
@@ -143,7 +143,7 @@ class ThumbnailFactory(models.AbstractModel):
         blob = tools.image_resize_image(base64_source, (size_x, size_y)) + u''
         return blob
 
-    def presist(self, blob, target, **kwargs):
+    def persist(self, blob, target, **kwargs):
         _logger.info('on build !')
         size_x = kwargs['size_x']
         size_y = kwargs['size_y']

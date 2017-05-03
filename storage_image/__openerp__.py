@@ -23,6 +23,7 @@
         'product',
     ],
     "data": [
+        'views/storage_thumbnail_wizard.xml',
         'views/storage_image_view.xml',
         'views/storage_image_wizard.xml',
         'views/partner.xml',

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from openerp import models, fields
+from openerp import models, fields, api
 
 _logger = logging.getLogger(__name__)
 
@@ -14,17 +14,22 @@ class ProductTemplate(models.Model):
         domain=lambda self: [("res_model", "=", self._name)],
     )
 
-class ProductProduct(models.Model):
-    _inherit = 'product.product'
+    image_medium = fields.Binary(
+        compute='_get_image_ak',
+    )
 
-#    exclusion_image_id = fields.Many2many(
-#        comodel_name="storage.image",
-#        inverse_name='product_variant_ids',
-#        #domain=lambda self: [(
-#        #   ("res_model", "=", self.product_tmpl_id._name),
-#        #   ('res_id', '=', self.product_tmpl_id.id)
-#        #],
-#    )
+    image_small = fields.Binary(
+        compute='_get_image_ak',
+    )
+
+    @api.multi
+    @api.depends('image_ids', 'name')
+    def _get_image_ak(self):
+        _logger.info('dans _get_image_ak image')
+        for rec in self:
+            if (self.image_ids):
+                self.image_medium = self.image_ids[0].image_medium
+                self.image_small = self.image_ids[0].image_small
 
 
 class Image(models.Model):
