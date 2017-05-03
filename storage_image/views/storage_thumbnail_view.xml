@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+        <record id="view_thumbnail_form" model="ir.ui.view">
+            <field name="model">storage.thumbnail</field>
+            <field name="arch" type="xml">
+                <form string="Thumgnail">
+                    <group string="Name">
+                        <field name="name" readonly="True" />
+                    </group>
+                    <field name="url" readonly="True" />
+                    <field name="original_id" readonly="True"/>
+                    <field name="size_x"/>
+                    <field name="size_y"/>
+                    <field name="todo"/>
+                </form>
+            </field>
+        </record>
+    
+        <record id="view_thumbnail_tree" model="ir.ui.view">
+            <field name="model">storage.thumbnail</field>
+            <field name="arch" type="xml">
+                <tree string="Thumgnail">
+                    <field name="name" />
+                    <field name="todo" />
+                    <field name="size_x" />
+                    <field name="size_y" />
+                </tree>
+            </field>
+        </record>
+</data>
+</openerp>
