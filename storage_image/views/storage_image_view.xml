@@ -22,8 +22,12 @@
                     <field name="alt_name" />
                 </group>
                 <field name="backend_id" />
-                <field name="thumbnail_ids" />
+                <field name="res_id" invisible="True" />
+                <field name="thumbnail_ids"/>
+                <button string="Create Thumbnail" type="action" name="%(action_wiz_create_thumbnail)d" />
+
                 <p>Img small : <field name="image_small" widget="image" /></p>
+                <field name="sequence" string="sequence" help="sequence" />
 
                 <field name="image_medium" string="image" />
                 <p>Public url : <field name="public_url" /></p>
@@ -38,10 +42,11 @@
     <record id="storage_image_view_kanban" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
-            <kanban create="false">
+            <kanban create="false" delete="true">
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="image_small" />
+                <field name="sequence"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
