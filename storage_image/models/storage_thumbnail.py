@@ -30,4 +30,3 @@ class StorageThumbnail(models.Model):
     to_do = fields.Boolean(
         string="Todo",
         help='Mark as to generate from original')
-
