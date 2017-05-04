@@ -5,7 +5,7 @@
 
 from openerp import api, fields, models
 import logging
-
+import os
 _logger = logging.getLogger(__name__)
 
 
@@ -31,6 +31,9 @@ class StorageFile(models.Model):
     index_content = fields.Char('Indexed Content', readonly=True)
     public = fields.Boolean('Is public document')
 
+    filename = fields.Char("Filename without extension", compute='_extract_filename')
+    extension = fields.Char("Extension", compute='_extract_filename')
+
     the_file = fields.Binary(
         help="The file",
         inverse='_inverse_set_file',
@@ -50,6 +53,14 @@ class StorageFile(models.Model):
         _logger.info('compute_url du parent')
         for rec in self:
             rec.public_url = rec.backend_id.get_public_url(rec)
+
+    @api.depends('name')
+    def _extract_filename(self):
+        for rec in self:
+            self.filename, self.extension = os.path.splitext(
+                self.name
+            )
+            _logger.info('file name:  ', self.filename)
 
     def get_base64(self):
         _logger.info('file.get_base64')
