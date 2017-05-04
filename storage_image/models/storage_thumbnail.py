@@ -20,8 +20,8 @@ class StorageThumbnail(models.Model):
         string='Original file',
         required=True)
 
-    size_x = fields.Integer()
-    size_y = fields.Integer()
+    size_x = fields.Integer("weight")
+    size_y = fields.Integer("height")
     ratio = fields.Float()  # a quel point on a divisé
     # crop ?
     # watermarked ?
@@ -136,7 +136,8 @@ class ThumbnailFactory(models.AbstractModel):
             blob=blob,
             target=original_id,
             size_x=size_x,
-            size_y=size_y)
+            size_y=size_y,
+        )
 
     def transform(self, original_id, size_x, size_y):
         _logger.info('on resize !!')
@@ -149,12 +150,9 @@ class ThumbnailFactory(models.AbstractModel):
         size_x = kwargs['size_x']
         size_y = kwargs['size_y']
         backend = self.deduce_backend(target, **kwargs)
+
         init_vals = {
-            'name': '%s_%s_%s%s' % (
-                target.filename,
-                size_x,
-                size_y,
-                target.extension)
+            'name': self._make_name(blob, target, **kwargs)
         }
         basic_data = backend.store(blob, init_vals)
 
@@ -166,6 +164,15 @@ class ThumbnailFactory(models.AbstractModel):
         )
         _logger.info(vals)
         return self.env['storage.thumbnail'].create(vals)
+
+    def _make_name(blob, target, kwargs):
+        """Build a name for the thumbnail"""
+        return '%s_%s_%s%s' % (
+            target.filename,
+            kwargs['size_x'],
+            kwargs['size_y'],
+            target.extension
+        )
 
     def deduce_backend(self, original, **kwargs):
         # on met kwargs ici car on peut avoir des règles metiers
