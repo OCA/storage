@@ -5,6 +5,7 @@ from openerp import models, fields, api
 
 _logger = logging.getLogger(__name__)
 
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
