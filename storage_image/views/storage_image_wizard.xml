@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <form string="Upload an image">
                 <group name="main">
+                    <field name="the_file" filename="name"/>
                     <field name="name" />
                     <field name="alt_name" />
-                    <field name="the_file" filename="name"/>
                 </group>
                 <footer>
                     <button name="associate" string="Accociate"
