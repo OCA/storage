@@ -52,7 +52,6 @@ class ImageFactory(models.AbstractModel):
             'checksum': checksum,
             'file_size': file_size,
             'backend_id': backend_id,
-            'url': url,
             'res_model': target._name,
             'res_id': target.id,
             'private_path': private_path,
