@@ -124,12 +124,14 @@ class ThumbnailFactory(models.AbstractModel):
         # return backends[0]  # par defaut on prends le premier
         #
         # # autres idées
-        # # en fonction du type (ex : un pour les thumbnail, un autre pour image)
+        # # en fonction du type (ex : un pour les thumbnail,
+        #    un autre pour image)
         # # ou un pour les partner, un pour les produits ?
         # # on a une config
         # backend_name = self.env['ir.config_parameter'].get_param(
         #     'storage.thumbnail.backend')
-        # return self.env['storage.backend'].search(['name', '=', backend_name])
+        # return self.env['storage.backend']
+        # .search(['name', '=', backend_name])
         #
         # # ne servir du CDN qu'a partir d'une certaine taille
         # if kwargs['size_x'] == 90:

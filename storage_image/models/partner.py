@@ -5,6 +5,7 @@ from openerp import models, fields
 
 _logger = logging.getLogger(__name__)
 
+
 class Partner(models.Model):
     _inherit = 'res.partner'
 
@@ -13,4 +14,3 @@ class Partner(models.Model):
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
     )
-

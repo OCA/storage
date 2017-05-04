@@ -27,4 +27,4 @@ class StorageImageWizard(models.TransientModel):
             blob=self.the_file,
             target=target)
 
-        return True
+        return img

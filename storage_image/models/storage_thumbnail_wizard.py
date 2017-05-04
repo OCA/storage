@@ -5,6 +5,7 @@ from openerp import models, fields, api
 
 _logger = logging.getLogger(__name__)
 
+
 class StorageThumbnailWizard(models.TransientModel):
     _name = "storage.thumbnail.wizard"
 
@@ -28,4 +29,4 @@ class StorageThumbnailWizard(models.TransientModel):
             original_id=original_id,
             later=self.later)
 
-        return True
+        return img
