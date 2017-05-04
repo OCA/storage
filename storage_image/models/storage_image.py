@@ -34,14 +34,14 @@ class StorageImage(models.Model):
     # a persister en base pour odoo, c'est plus simple?
     # a garder ici ou mettre dans un autre module qui étand ?
     image_medium = fields.Binary(
-        compute="_get_image_sizes",
+        compute="_compute_get_image_sizes",
         help='For backend only',
         store=True,
         readonly=True,
         # attachment=True # > 9 ?
     )
     image_small = fields.Binary(
-        compute="_get_image_sizes",
+        compute="_compute_get_image_sizes",
         help='For backend only',
         store=True,
         readonly=True,
@@ -54,7 +54,7 @@ class StorageImage(models.Model):
 
     @api.multi
     @api.depends('file_id')
-    def _get_image_sizes(self):
+    def _compute_get_image_sizes(self):
         for rec in self:
             try:
                 vals = tools.image_get_resized_images(
@@ -93,6 +93,7 @@ class StorageImage(models.Model):
 
     def _compute_url(self):
         _logger.info('compute_url de l\'enfant')
+        # TODO utile ?
         for rec in self:
             rec.file_id.public_url
 

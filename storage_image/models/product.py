@@ -15,18 +15,18 @@ class ProductTemplate(models.Model):
     )
 
     image_medium = fields.Binary(
-        compute='_get_image_ak',
+        compute='_compute_get_image_ak',
         # only for odoo backends views
     )
 
     image_small = fields.Binary(
-        compute='_get_image_ak',
+        compute='_compute_get_image_ak',
         # only for odoo backends views
     )
 
     @api.multi
     @api.depends('image_ids', 'name')
-    def _get_image_ak(self):
+    def _compute_get_image_ak(self):
         # TODO comprendre pourquoi on peu pas
         # depdends(image_ids.sequence)
         _logger.info('dans _get_image_ak image')
