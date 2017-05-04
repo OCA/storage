@@ -16,16 +16,16 @@ class OdooStorageBackend(models.Model):
     backend_type = fields.Selection(
         selection_add=[('odoo', 'Odoo')])
 
-    def _odoostore(self, blob, vals={}, object_type=None):
+    def _odoostore(self, blob, vals):
         checksum = u'' + hashlib.sha1(blob).hexdigest()
-        path = checksum
+        name = vals.get('name', checksum)
 
         # res_model = OdooStrogageBackend
         # car il faut faire savoir sur quel
         # backend on est lié
 
         ir_attach = {
-            'name': checksum,  # utiliser name a la place
+            'name': name,  # utiliser name a la place
             'type': 'binary',
             'datas': blob,
             'res_model': self._name,
@@ -47,6 +47,7 @@ class OdooStorageBackend(models.Model):
 
         basic_vals = {
             # 'name': '',
+            'name': name,
             'url': url,
             'file_size': size,
             'checksum': checksum,

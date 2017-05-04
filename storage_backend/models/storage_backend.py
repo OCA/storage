@@ -32,7 +32,7 @@ class StorageBackend(models.Model):
     public_base_url = fields.Char()
 
     @implemented_by_factory
-    def store(self, blob, vals={}, object_type=None):
+    def store(self, blob, vals):
         pass
 
     @implemented_by_factory
