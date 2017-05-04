@@ -1,1 +1,1 @@
-server-tools
+server-tools https://github.com/akretion/server-tools.git 8.0-keychain
