@@ -60,7 +60,7 @@ class StorageFile(models.Model):
             self.filename, self.extension = os.path.splitext(
                 self.name
             )
-            _logger.info('file name:  ', self.filename)
+            _logger.info('file name:  %s' % self.filename)
 
     def get_base64(self):
         _logger.info('file.get_base64')
