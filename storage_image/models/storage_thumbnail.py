@@ -34,9 +34,10 @@ class ImageFactory(models.AbstractModel):
 
     def persist(self, name, alt_name, blob, target):
         backend = self._deduce_backend()
+        init_vals = {'name': name, 'alt_name': alt_name}
         basic_data = backend.store(
             blob=blob,
-            vals={},
+            vals=init_vals,
             object_type=self.env['storage.image']
         )
         vals = self._prepare_dict(
@@ -148,7 +149,14 @@ class ThumbnailFactory(models.AbstractModel):
         size_x = kwargs['size_x']
         size_y = kwargs['size_y']
         backend = self.deduce_backend(target, **kwargs)
-        basic_data = backend.store(blob, "file name")
+        init_vals = {
+            'name': '%s_%s_%s%s' % (
+                target.filename,
+                size_x,
+                size_y,
+                target.extension)
+        }
+        basic_data = backend.store(blob, init_vals)
 
         vals = self._prepare_dict(
             target=target,
