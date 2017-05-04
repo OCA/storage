@@ -31,8 +31,8 @@ class StorageFile(models.Model):
     index_content = fields.Char('Indexed Content', readonly=True)
     public = fields.Boolean('Is public document')
 
-    filename = fields.Char("Filename without extension", compute='_extract_filename')
-    extension = fields.Char("Extension", compute='_extract_filename')
+    filename = fields.Char("Filename without extension", compute='_compute_extract_filename')
+    extension = fields.Char("Extension", compute='_compute_extract_filename')
 
     the_file = fields.Binary(
         help="The file",
@@ -55,7 +55,7 @@ class StorageFile(models.Model):
             rec.public_url = rec.backend_id.get_public_url(rec)
 
     @api.depends('name')
-    def _extract_filename(self):
+    def _compute_extract_filename(self):
         for rec in self:
             self.filename, self.extension = os.path.splitext(
                 self.name
