@@ -9,6 +9,7 @@
                 <group name="main">
                     <field name="size_x" />
                     <field name="size_y" />
+                    <field name="later" />
                 </group>
                 <footer>
                     <button name="create_thumb" string="Create"

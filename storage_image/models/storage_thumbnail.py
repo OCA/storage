@@ -18,15 +18,18 @@ class StorageThumbnail(models.Model):
     original_id = fields.Many2one(
         comodel_name='storage.file',
         string='Original file',
+        help="Original image",
         required=True)
 
     size_x = fields.Integer("weight")
     size_y = fields.Integer("height")
-    ratio = fields.Float()  # a quel point on a divisé
+    # ratio = fields.Float()  # a quel point on a divisé
     # crop ?
     # watermarked ?
     # key_frame ?
-    to_do = fields.Boolean(help='Mark as to generate from original')
+    to_do = fields.Boolean(
+        string="Todo",
+        help='Mark as to generate from original')
 
 
 class ImageFactory(models.AbstractModel):
@@ -96,18 +99,19 @@ class ThumbnailFactory(models.AbstractModel):
             target,
             size_x,
             size_y,
+            to_do,
     ):
-        url = basic_data['url']
-        file_size = basic_data['file_size']
-        checksum = basic_data['checksum']
+        url = basic_data.get('url')
+        file_size = basic_data.get('file_size')
+        checksum = basic_data.get('checksum')
         backend_id = basic_data['backend_id']
-        private_path = basic_data['private_path']
+        private_path = basic_data.get('private_path')
 
         vals = {
             'original_id': target.file_id.id,
             'size_x': size_x,
             'size_y': size_y,
-            'to_do': True,
+            'to_do': to_do,
             # TODO: refactor this:
             'type': 'url',
             'name': target.name,
@@ -121,22 +125,28 @@ class ThumbnailFactory(models.AbstractModel):
         }
         return vals
 
-    def build(self, original_id, size_x, size_y):
+    def build(self, original_id, size_x, size_y, later=False):
         # entry point !
         # a partir d'un original et d'une taille
         """
         Original_id : storage_image
         """
-        blob = self.transform(
-            original_id=original_id,
-            size_x=size_x,
-            size_y=size_y,
-        )
+
+        if later:
+            blob = None
+        else:
+            blob = self.transform(
+                original_id=original_id,
+                size_x=size_x,
+                size_y=size_y,
+            )
+
         return self.persist(
             blob=blob,
             target=original_id,
             size_x=size_x,
             size_y=size_y,
+            later=later,
         )
 
     def transform(self, original_id, size_x, size_y):
@@ -146,26 +156,32 @@ class ThumbnailFactory(models.AbstractModel):
         return blob
 
     def persist(self, blob, target, **kwargs):
-        _logger.info('on build !')
+        _logger.info('on build ! %s' % kwargs['later'])
         size_x = kwargs['size_x']
         size_y = kwargs['size_y']
+        later = kwargs['later']
         backend = self.deduce_backend(target, **kwargs)
 
         init_vals = {
-            'name': self._make_name(blob, target, **kwargs)
+            'name': self._make_name(blob=blob, target=target, **kwargs)
         }
-        basic_data = backend.store(blob, init_vals)
+
+        if later:
+            basic_data = {'backend_id': backend.id}
+        else:
+            basic_data = backend.store(blob, init_vals)
 
         vals = self._prepare_dict(
             target=target,
             basic_data=basic_data,
             size_x=size_x,
             size_y=size_y,
+            to_do=later,
         )
         _logger.info(vals)
         return self.env['storage.thumbnail'].create(vals)
 
-    def _make_name(blob, target, kwargs):
+    def _make_name(self, blob, target, **kwargs):
         """Build a name for the thumbnail"""
         return '%s_%s_%s%s' % (
             target.filename,
