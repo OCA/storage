@@ -4,8 +4,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import logging
 from functools import wraps
-from openerp import api, fields, models
+from openerp import _, fields, models
 _logger = logging.getLogger(__name__)
+
 
 def implemented_by_factory(func):
     """Call a prefixed function based on 'namespace'."""
@@ -18,6 +19,7 @@ def implemented_by_factory(func):
             fun = '_default%s' % (fun_name)
         return getattr(cls, fun)(*args, **kwargs)
     return wrapper
+
 
 class StorageBackend(models.Model):
     _name = 'storage.backend'
@@ -59,5 +61,5 @@ class StorageBackend(models.Model):
             ])
         if len(accounts) == 0:
             _logger.debug('No account found for %s' % self.backend_type)
-            raise Warning("No account found based on the ")
+            raise Warning(_("No account found based on the "))
         return accounts
