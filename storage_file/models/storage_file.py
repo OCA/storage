@@ -26,12 +26,14 @@ class StorageFile(models.Model):
         required=True)
 
     # forward compliency to v9 and v10
-    checksum = fields.Char("Checksum/SHA1", size=40, select=True, readonly=True)
+    checksum = fields.Char(
+        "Checksum/SHA1", size=40, select=True, readonly=True)
     mimetype = fields.Char('Mime Type', readonly=True)
     index_content = fields.Char('Indexed Content', readonly=True)
     public = fields.Boolean('Is public document')
 
-    filename = fields.Char("Filename without extension", compute='_compute_extract_filename')
+    filename = fields.Char(
+        "Filename without extension", compute='_compute_extract_filename')
     extension = fields.Char("Extension", compute='_compute_extract_filename')
 
     the_file = fields.Binary(
