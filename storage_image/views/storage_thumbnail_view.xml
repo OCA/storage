@@ -5,14 +5,14 @@
             <field name="model">storage.thumbnail</field>
             <field name="arch" type="xml">
                 <form string="Thumgnail">
-                    <group string="Name">
+                    <group>
                         <field name="name" readonly="True" />
+                        <field name="original_id" readonly="True"/>
+                        <field name="size_x" />
+                        <field name="size_y" />
+                        <field name="public_url" />
+                        <field name="to_do" />
                     </group>
-                    <field name="url" readonly="True" />
-                    <field name="original_id" readonly="True"/>
-                    <field name="size_x"/>
-                    <field name="size_y"/>
-                    <field name="public_url" />
                 </form>
             </field>
         </record>

@@ -10,6 +10,9 @@ class StorageThumbnailWizard(models.TransientModel):
 
     size_x = fields.Integer('Size X')
     size_y = fields.Integer('Size Y')
+    later = fields.Boolean(
+        string='Process async (non-blocking)',
+        help='Let a task process the thumbnails')
 
     @api.multi
     def create_thumb(self):
@@ -22,6 +25,7 @@ class StorageThumbnailWizard(models.TransientModel):
         img = self.env['storage.thumbnail.factory'].build(
             size_x=self.size_x,
             size_y=self.size_y,
-            original_id=original_id)
+            original_id=original_id,
+            later=self.later)
 
         return True
