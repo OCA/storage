@@ -3,11 +3,15 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
 import hashlib
-from fs.osfs import OSFS
 import logging
+from openerp import fields, models
 logger = logging.getLogger(__name__)
+
+try:
+    from fs.osfs import OSFS
+except ImportError as err:
+    logger.debug(err)
 
 
 class FileStoreStorageBackend(models.Model):
@@ -16,7 +20,7 @@ class FileStoreStorageBackend(models.Model):
     public_base_url = fields.Char()
     base_path = u'~/images'
 
-    def _filestorestore(self, blob, vals={}, object_type=None):
+    def _filestorestore(self, blob, vals):
         # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
@@ -36,9 +40,6 @@ class FileStoreStorageBackend(models.Model):
             'private_path': path,
         }
         return basic_vals
-        # vals.update(basic_vals)
-        # obj = object_type.create(vals)  # ou déléguer?
-        # return obj
 
     def _filestoreget_public_url(self, obj):
         # TODO faire mieux
