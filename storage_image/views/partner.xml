@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+<data>
 
-        <record id="view_partner_form" model="ir.ui.view">
-            <field name="name">res.partner.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form" />
-            <field name="arch" type="xml">
-                 <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
-                    <field name="image_ids" mode="kanban" />
-                    <button string="associate" type="action" name="%(action_wiz_associate)d" />
-                 </xpath>
-            </field>
-        </record>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+             <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
+                <field name="image_ids" mode="kanban" />
+                <button string="associate" type="action" name="%(action_wiz_associate)d" />
+             </xpath>
+        </field>
+    </record>
 
-    </data>
+</data>
 </openerp>

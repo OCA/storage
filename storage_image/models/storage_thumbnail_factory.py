@@ -116,27 +116,27 @@ class ThumbnailFactory(models.AbstractModel):
         backends = self.env['storage.backend'].search(domain)
         return backends[0]  # par defaut on prends le premier
 
-        if kwargs['size_x'] == 90:
-            _logger.info('on est une miniature')
-            domain = [('backend_type', '=', 'odoo')]
-
-        backends = self.env['storage.backend'].search(domain)
-        return backends[0]  # par defaut on prends le premier
-
-        # autres idées
-        # en fonction du type (ex : un pour les thumbnail, un autre pour image)
-        # ou un pour les partner, un pour les produits ?
-        # on a une config
-        backend_name = self.env['ir.config_parameter'].get_param(
-            'storage.thumbnail.backend')
-        return self.env['storage.backend'].search(['name', '=', backend_name])
-
-        # ne servir du CDN qu'a partir d'une certaine taille
-        if kwargs['size_x'] == 90:
-            return 'local_backend'
-        else:
-            return 'S3'
-        return True
+        # if kwargs['size_x'] == 90:
+        #     _logger.info('on est une miniature')
+        #     domain = [('backend_type', '=', 'odoo')]
+        #
+        # backends = self.env['storage.backend'].search(domain)
+        # return backends[0]  # par defaut on prends le premier
+        #
+        # # autres idées
+        # # en fonction du type (ex : un pour les thumbnail, un autre pour image)
+        # # ou un pour les partner, un pour les produits ?
+        # # on a une config
+        # backend_name = self.env['ir.config_parameter'].get_param(
+        #     'storage.thumbnail.backend')
+        # return self.env['storage.backend'].search(['name', '=', backend_name])
+        #
+        # # ne servir du CDN qu'a partir d'une certaine taille
+        # if kwargs['size_x'] == 90:
+        #     return 'local_backend'
+        # else:
+        #     return 'S3'
+        # return True
 
     def deduce_size(self, original, size_x, size_y, **kwargs):
         # objectifs: renvoyer une val par defaut a size_x
