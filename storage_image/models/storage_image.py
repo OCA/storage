@@ -91,11 +91,11 @@ class StorageImage(models.Model):
             self._ask_for_thumbnail_creation(size_x, size_y)
         )
 
-    def _compute_url(self):
-        _logger.info('compute_url de l\'enfant')
-        # TODO utile ?
-        for rec in self:
-            rec.file_id.public_url
+    # def _compute_url(self):
+    #     _logger.info('compute_url de l\'enfant')
+    #     # TODO utile ?
+    #     for rec in self:
+    #         rec.file_id.public_url
 
     def get_base64(self):
         return self.file_id.get_base64()
