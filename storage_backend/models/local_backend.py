@@ -17,8 +17,8 @@ except ImportError as err:
 class FileStoreStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
-    public_base_url = fields.Char()
-    base_path = u'~/images'
+    filestore_public_base_url = fields.Char()
+    filestore_base_path = fields.Char()
 
     def _filestorestore(self, vals):
         # TODO: refactorer, ça marche plus vraiment
@@ -28,7 +28,7 @@ class FileStoreStorageBackend(models.Model):
         checksum = u'' + hashlib.sha1(blob).hexdigest()
         path = checksum
 
-        with OSFS(self.base_path) as the_dir:
+        with OSFS(self.filestore_base_path) as the_dir:
             the_dir.setcontents(path, blob)
             size = the_dir.getsize(path)
 
@@ -45,9 +45,9 @@ class FileStoreStorageBackend(models.Model):
     def _filestoreget_public_url(self, obj):
         # TODO faire mieux
         logger.info('get_public_url')
-        return self.public_base_url + '/' + obj.name
+        return self.filestore_public_base_url + '/' + obj.name
 
     def _filestoreget_base64(self, file_id):
         logger.info('return base64 of a file')
-        with OSFS(self.base_path) as the_dir:
+        with OSFS(self.filestore_base_path) as the_dir:
             return the_dir.open(file_id.url).read()
