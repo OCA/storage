@@ -19,6 +19,7 @@
     "depends": [
         "base",
         "keychain",
+        "base_sparse_field",
     ],
     "data": [
         "views/backend_storage_view.xml",

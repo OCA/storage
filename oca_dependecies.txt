@@ -1,1 +1,1 @@
-server-tools https://github.com/akretion/server-tools.git 8.0-keychain
+ak-odoo-incubator https://github.com/akretion/ak-odoo-incubator.git 8.0
