@@ -51,7 +51,7 @@ class StorageFile(models.Model):
     def _compute_upload_file(self):
         _logger.warning('comupte get file [parent]')
         for rec in self:
-            rec.datas = rec.get_base64()
+            rec.datas = rec.backend_id.get_base64(self)
 
     @api.model
     def create(self, vals):
@@ -72,7 +72,3 @@ class StorageFile(models.Model):
                 self.name
             )
             _logger.info('file name:  %s' % self.filename)
-
-    def get_base64(self):
-        _logger.info('file.get_base64')
-        return self.backend_id.get_base64(self)
