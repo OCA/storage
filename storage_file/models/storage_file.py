@@ -47,9 +47,11 @@ class StorageFile(models.Model):
         pdb.set_trace()
         _logger.warning('comupte set file [parent]')
 
+    @api.multi
     def _compute_upload_file(self):
         _logger.warning('comupte get file [parent]')
-        return True
+        for rec in self:
+            rec.datas = rec.get_base64()
 
     @api.model
     def create(self, vals):
