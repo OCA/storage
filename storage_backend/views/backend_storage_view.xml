@@ -7,6 +7,7 @@
     <field name="arch" type="xml">
         <tree string="Storage Backend">
             <field name="name"/>
+            <field name="backend_type" />
         </tree>
     </field>
 </record>
@@ -16,6 +17,18 @@
     <field name="arch" type="xml">
         <form string="Storage Backend">
             <field name="name"/>
+            <field name="backend_type" />
+            <group name="sftp" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}">
+                <field name="sftp_server" />
+                <field name="sftp_dir_path" />
+                <field name="sftp_public_base_url" />
+            </group>
+            <group name="odoo" attrs="{'invisible': [('backend_type', '!=', 'odoo')]}">
+            </group>
+            <group name="filestore" attrs="{'invisible': [('backend_type', '!=', 'filestore')]}">
+                <field name="filestore_base_path" />
+                <field name="filestore_public_base_url" />
+            </group>
         </form>
     </field>
 </record>
