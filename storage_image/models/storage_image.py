@@ -67,7 +67,8 @@ class StorageImage(models.Model):
         return super(StorageImage, self).create(vals)
 
     def _deduce_backend(self):
-        backends = self.env['storage.backend'].search([])
+        backends = self.env['storage.backend'].search([
+            ('backend_type','=','sftp')])
         return backends[0]  # par defaut on prends le premier
 
     @api.multi
