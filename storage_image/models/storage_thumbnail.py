@@ -6,7 +6,6 @@
 
 from openerp import api, fields, models
 import logging
-
 _logger = logging.getLogger(__name__)
 
 
