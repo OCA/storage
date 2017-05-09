@@ -9,7 +9,6 @@
             <xpath expr="/form/sheet/notebook" position="inside">
                 <page string="Images Ak" name="product_images">
                     <field name="image_ids" mode="kanban" />
-                    <button string="associate" type="action" name="%(action_wiz_associate)d"/>
                 </page>
             </xpath>
         </field>
