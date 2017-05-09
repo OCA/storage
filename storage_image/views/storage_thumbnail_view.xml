@@ -6,8 +6,6 @@
             <field name="arch" type="xml">
                 <form string="Thumgnail">
                     <group>
-                        <field name="name" readonly="True" />
-                        <field name="original_id" readonly="True"/>
                         <field name="size_x" />
                         <field name="size_y" />
                         <field name="public_url" />
