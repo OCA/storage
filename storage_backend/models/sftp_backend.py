@@ -22,7 +22,7 @@ except ImportError as err:
 class SftpStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
-    public_base_url = fields.Char(
+    sftp_public_base_url = fields.Char(
         string='Public url',
         help='')
     sftp_server = fields.Char(
@@ -70,7 +70,7 @@ class SftpStorageBackend(models.Model):
             logger.warning(
                 'public url not available for not processed thumbnail')
             return None
-        return self.public_base_url + obj.url
+        return self.sftp_public_base_url + obj.url
 
     def _sftpget_base64(self, file_id):
         logger.info('return base64 of a file')
