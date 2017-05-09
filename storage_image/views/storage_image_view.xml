@@ -18,16 +18,16 @@
         <field name="arch" type="xml">
             <form string="Image">
                 <group string="Name">
+                    <field name="datas" filename="name" />
                     <field name="name" />
                     <field name="alt_name" />
                 </group>
                 <group>
                     <field name="image_small" widget="image" />
                     <field name="thumbnail_ids"/>
-                    <button string="Create Thumbnail" type="action" name="%(action_wiz_create_thumbnail)d" />
                 </group>
-                <field name="backend_id" readonly="True" />
                 <field name="res_id" invisible="True" />
+                <field name="res_model" invisible="True" />
                 <p>Public url : <field name="public_url" /></p>
                 <field name="product_variant_ids"
                    widget="many2many_tags"
@@ -40,11 +40,12 @@
     <record id="storage_image_view_kanban" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
-            <kanban create="false" delete="true">
+            <kanban delete="true">
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="image_small" />
                 <field name="sequence"/>
+                <field name="res_model" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
