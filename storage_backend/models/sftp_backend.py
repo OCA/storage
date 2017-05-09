@@ -8,7 +8,7 @@ import hashlib
 import logging
 import base64
 
-from openerp import fields, models
+from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
 
 logger = logging.getLogger(__name__)
@@ -22,15 +22,23 @@ except ImportError as err:
 class SftpStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
+    _backend_name = 'storage_backend_sftp'
+
     sftp_public_base_url = fields.Char(
         string='Public url',
-        help='')
+        help='',
+        sparse="data"
+    )
     sftp_server = fields.Char(
         string='SFTP host',
-        help='')
+        help='',
+        sparse="data"
+    )
     sftp_dir_path = fields.Char(
         string='Remote path',
-        help='Dir on the server where to store files')
+        help='Dir on the server where to store files',
+        sparse="data"
+    )
 
     # TODO externiser ça dans des parametres
     # ou dans un keychain ?
