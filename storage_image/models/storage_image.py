@@ -48,6 +48,29 @@ class StorageImage(models.Model):
         # attachment=True # > 9 ?
     )
 
+    @api.model
+    def create(self, vals):
+        vals['res_model'] = self._context['params']['model']
+        vals['res_id'] = self._context['params']['id']
+        backend = self._deduce_backend()
+        basic_data = backend.store(
+            vals=vals
+        )
+        _logger.info('dans parent')
+        import pdb
+        pdb.set_trace()
+        #vals['exifs'] = self._extract_exifs(vals['datas'])
+        vals['backend_id'] = backend.id
+        vals['url'] = basic_data['url']
+        vals['file_size'] = basic_data['file_size']
+        vals['checksum'] = basic_data['checksum']
+
+        return super(StorageImage, self).create(vals)
+
+    def _deduce_backend(self):
+        backends = self.env['storage.backend'].search([])
+        return backends[0]  # par defaut on prends le premier
+
     def _compute_get_file(self):
         _logger.warning('comupte get file [enfant]')
         return True
