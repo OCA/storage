@@ -28,7 +28,6 @@ class StorageImage(models.Model):
         string='Thumbnails',
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
-        #readonly=True
     )
 
     # a persister en base pour odoo, c'est plus simple?
@@ -71,7 +70,6 @@ class StorageImage(models.Model):
         backends = self.env['storage.backend'].search([])
         return backends[0]  # par defaut on prends le premier
 
-
     @api.multi
     @api.depends('file_id')
     def _compute_get_image_sizes(self):
@@ -84,39 +82,21 @@ class StorageImage(models.Model):
                         "image_small": False}
             rec.update(vals)
 
-    def get_thumbnail(self, size_x, size_y):
-        # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
-        domain = [
-            ('res_model', '=', self._name),
-            ('res_id', '=', self.id),
-            ('size_x', '=', size_x),
-            ('size_y', '=', size_y)
-        ]
-        _logger.info('on va chercher du thumbnail')
-        return self.env['storage.thumbnail'].search(domain)
-
     @api.multi
-    def ask_for_thumbnail_creation(self, size_x, size_y):
-        for img in self:
-            img._ask_for_thumbnail_creation(size_x, size_y)
+    def get_thumbnails(self, size_x, size_y, multi=False):
+        # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
 
-    def _ask_for_thumbnail_creation(self, size_x, size_y):
-        kwargs = {'size_x': size_x, 'size_y': size_y}
-        return self.env['storage.thumbnail.factory'].build(
-            self, **kwargs)
-
-    def _get_or_create(self, size_x, size_y):
         return (
             self.get_thumbnail(size_x, size_y) or
             self._ask_for_thumbnail_creation(size_x, size_y)
         )
 
-    # def _compute_url(self):
-    #     _logger.info('compute_url de l\'enfant')
-    #     # TODO utile ?
-    #     for rec in self:
-    #         rec.file_id.public_url
+    @api.multi
+    def ask_for_thumbnail_creation(self, size_x, size_y, to_do=True):
+        for img in self:
+            img._ask_for_thumbnail_creation(size_x, size_y, to_do)
 
-    def get_base64(self):
-        _logger.info('get base64 de l enfant')
-        return self.file_id.get_base64()
+    def _ask_for_thumbnail_creation(self, size_x, size_y, to_do):
+        kwargs = {'size_x': size_x, 'size_y': size_y, 'to_do': to_do}
+        return self.env['storage.thumbnail.factory'].build(
+            self, **kwargs)
