@@ -35,7 +35,8 @@ class SftpStorageBackend(models.Model):
     # TODO externiser ça dans des parametres
     # ou dans un keychain ?
 
-    def _sftpstore(self, blob, vals):
+    def _sftpstore(self, vals):
+        blob = vals['datas']
         checksum = u'' + hashlib.sha1(blob).hexdigest()
 
         name = vals.get('name', checksum)
