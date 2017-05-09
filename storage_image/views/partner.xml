@@ -9,7 +9,6 @@
         <field name="arch" type="xml">
              <xpath expr="//page[@name='internal_notes']//field[@name='comment']" position="before">
                 <field name="image_ids" mode="kanban" />
-                <button string="associate" type="action" name="%(action_wiz_associate)d" />
              </xpath>
         </field>
     </record>

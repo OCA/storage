@@ -24,7 +24,7 @@
                 </group>
                 <group>
                     <field name="image_small" widget="image" />
-                    <field name="thumbnail_ids"/>
+                    <field name="thumbnail_ids" context="{}"/> <!-- WTF ctx= {} ?? -->
                 </group>
                 <field name="res_id" invisible="True" />
                 <field name="res_model" invisible="True" />
@@ -45,7 +45,6 @@
                 <field name="alt_name" />
                 <field name="image_small" />
                 <field name="sequence"/>
-                <field name="res_model" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">

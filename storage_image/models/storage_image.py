@@ -28,7 +28,7 @@ class StorageImage(models.Model):
         string='Thumbnails',
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)],
-        readonly=True
+        #readonly=True
     )
 
     # a persister en base pour odoo, c'est plus simple?
@@ -71,9 +71,6 @@ class StorageImage(models.Model):
         backends = self.env['storage.backend'].search([])
         return backends[0]  # par defaut on prends le premier
 
-    def _compute_get_file(self):
-        _logger.warning('comupte get file [enfant]')
-        return True
 
     @api.multi
     @api.depends('file_id')
@@ -121,4 +118,5 @@ class StorageImage(models.Model):
     #         rec.file_id.public_url
 
     def get_base64(self):
+        _logger.info('get base64 de l enfant')
         return self.file_id.get_base64()
