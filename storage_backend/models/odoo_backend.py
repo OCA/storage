@@ -15,7 +15,8 @@ class OdooStorageBackend(models.Model):
     backend_type = fields.Selection(
         selection_add=[('odoo', 'Odoo')])
 
-    def _odoostore(self, blob, vals):
+    def _odoostore(self, vals):
+        blob = vals['datas']
         checksum = u'' + hashlib.sha1(blob).hexdigest()
         name = vals.get('name', checksum)
 
