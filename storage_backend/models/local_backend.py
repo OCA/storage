@@ -20,10 +20,11 @@ class FileStoreStorageBackend(models.Model):
     public_base_url = fields.Char()
     base_path = u'~/images'
 
-    def _filestorestore(self, blob, vals):
+    def _filestorestore(self, vals):
         # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
+        blob = vals['datas']
         checksum = u'' + hashlib.sha1(blob).hexdigest()
         path = checksum
 
