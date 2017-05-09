@@ -36,18 +36,25 @@ class StorageFile(models.Model):
         "Filename without extension", compute='_compute_extract_filename')
     extension = fields.Char("Extension", compute='_compute_extract_filename')
 
-    the_file = fields.Binary(
+    datas = fields.Binary(
         help="The file",
-        inverse='_inverse_set_file',
-        compute='_compute_get_file',
-        store=False)
+        inverse='_inverse_upload_file',
+        compute='_compute_upload_file',
+        store=False)  #
 
-    def _inverse_set_file(self):
+    def _inverse_upload_file(self):
+        import pdb
+        pdb.set_trace()
         _logger.warning('comupte set file [parent]')
 
-    def _compute_get_file(self):
+    def _compute_upload_file(self):
         _logger.warning('comupte get file [parent]')
         return True
+
+    @api.model
+    def create(self, vals):
+        _logger.info('dans parent, normalement on devrait faire le store ici')
+        return super(StorageFile, self).create(vals)
 
     @api.depends('backend_id')
     def _compute_url(self):
