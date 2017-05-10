@@ -24,6 +24,9 @@ class SftpStorageBackend(models.Model):
 
     _backend_name = 'storage_backend_sftp'
 
+    backend_type = fields.Selection(
+        selection_add=[('sftp', 'SFTP')])
+
     sftp_public_base_url = fields.Char(
         string='Public url',
         help='',

@@ -17,6 +17,9 @@ except ImportError as err:
 class FileStoreStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
+    backend_type = fields.Selection(
+        selection_add=[('filestore', 'Filestore')])
+
     filestore_public_base_url = fields.Char()
     filestore_base_path = fields.Char()
 
