@@ -26,11 +26,7 @@ class StorageBackend(models.Model):
     _inherit = 'keychain.backend'
 
     name = fields.Char(required=True)
-    backend_type = fields.Selection([
-        ('amazon-s3', 'Amazon-S3'),
-        ('filestore', 'Filestore'),
-        ('sftp', 'Sftp'),
-    ], required=True)
+    backend_type = fields.Selection([], required=True)  # added by subclasses
     public_base_url = fields.Char()
 
     @implemented_by_factory
