@@ -24,6 +24,7 @@ def implemented_by_factory(func):
 class StorageBackend(models.Model):
     _name = 'storage.backend'
     _inherit = 'keychain.backend'
+    _backend_name = 'storage_backend'
 
     name = fields.Char(required=True)
     backend_type = fields.Selection([], required=True)  # added by subclasses
