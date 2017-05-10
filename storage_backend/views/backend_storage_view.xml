@@ -29,6 +29,11 @@
                 <field name="filestore_base_path" />
                 <field name="filestore_public_base_url" />
             </group>
+            <group name="Amazon S3" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}">
+                <field name="aws_bucket" />
+                <field name="aws_secret_key" />
+                <field name="aws_access_key" />
+            </group>
         </form>
     </field>
 </record>
