@@ -22,8 +22,6 @@ except ImportError as err:
 class SftpStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
-    _backend_name = 'storage_backend_sftp'
-
     backend_type = fields.Selection(
         selection_add=[('sftp', 'SFTP')])
 
