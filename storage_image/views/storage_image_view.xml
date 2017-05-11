@@ -23,6 +23,10 @@
                     <field name="datas" filename="name" />
                     <field name="name" />
                     <field name="alt_name" />
+                    <p>Res id:</p>
+                    <field name="res_model"/>
+                    <field name="res_id"/>
+
                 </group>
                 <group>
                     <field name="image_small" widget="image" />

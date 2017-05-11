@@ -79,7 +79,7 @@ class StorageImage(models.Model):
         for rec in self:
             try:
                 vals = tools.image_get_resized_images(
-                    rec.get_base64())
+                    rec.datas)
             except:
                 vals = {"image_medium": False,
                         "image_small": False}

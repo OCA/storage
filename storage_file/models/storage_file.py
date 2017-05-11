@@ -25,6 +25,9 @@ class StorageFile(models.Model):
         'Storage',
         required=True)
 
+    res_model = fields.Char(readonly=False)
+    res_id = fields.Integer(readonly=False)
+
     # forward compliency to v9 and v10
     checksum = fields.Char(
         "Checksum/SHA1", size=40, select=True, readonly=True)
