@@ -30,7 +30,7 @@
                 </group>
                 <group>
                     <field name="image_small" widget="image" />
-                    <field name="thumbnail_ids"/>
+                    <field name="thumbnail_ids" readonly="True"/>
                 </group>
                 <field name="res_id" invisible="True" />
                 <field name="res_model" invisible="True" />
