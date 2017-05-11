@@ -27,6 +27,7 @@
         'views/storage_image_view.xml',
         'views/partner.xml',
         'views/product.xml',
+        'data/ir_parameter.xml',
     ],
     "demo": [
     ],

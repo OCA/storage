@@ -69,9 +69,15 @@ class StorageImage(models.Model):
         return super(StorageImage, self).create(vals)
 
     def _deduce_backend(self):
-        backends = self.env['storage.backend'].search([
-            ('backend_type','=','amazon_s3')])
-        return backends[0]  # par defaut on prends le premier
+        """Choose the correct backend.
+
+        By default : it's the one configured as ir.config_parameter
+        Overload this method if you need something more powerfull
+        """
+        backend_id = int(self.env['ir.config_parameter'].get_param(
+            'storage.image.backend_id'))
+        backend = self.env['storage.backend'].browse(backend_id)
+        return backend
 
     @api.multi
     @api.depends('file_id')
