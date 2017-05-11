@@ -18,6 +18,8 @@
         <field name="arch" type="xml">
             <form string="Image">
                 <group string="Name">
+                    <!-- TODO: trouver un moyen de pas calc datas
+                    lors qu'on a deja un id -->
                     <field name="datas" filename="name" />
                     <field name="name" />
                     <field name="alt_name" />
