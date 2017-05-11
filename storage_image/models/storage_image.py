@@ -49,6 +49,9 @@ class StorageImage(models.Model):
 
     @api.model
     def create(self, vals):
+        import pdb
+        pdb.set_trace()
+
         vals['res_model'] = self._context['params']['model']
         vals['res_id'] = self._context['params']['id']
         backend = self._deduce_backend()
@@ -56,19 +59,18 @@ class StorageImage(models.Model):
             vals=vals
         )
         _logger.info('dans parent')
-        import pdb
-        pdb.set_trace()
         #vals['exifs'] = self._extract_exifs(vals['datas'])
         vals['backend_id'] = backend.id
         vals['url'] = basic_data['url']
         vals['file_size'] = basic_data['file_size']
         vals['checksum'] = basic_data['checksum']
+        vals['private_path'] = basic_data['private_path']
 
         return super(StorageImage, self).create(vals)
 
     def _deduce_backend(self):
         backends = self.env['storage.backend'].search([
-            ('backend_type','=','sftp')])
+            ('backend_type','=','amazon_s3')])
         return backends[0]  # par defaut on prends le premier
 
     @api.multi
