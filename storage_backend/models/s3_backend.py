@@ -50,6 +50,7 @@ class S3StorageBackend(models.Model):
                 the_dir.setcontents(name, b_decoded)
                 size = the_dir.getsize(name)
                 url = the_dir.getpathurl(name)
+                # Todo : j'arrive pas mettre le mime type ici
                 key = the_dir._s3bukt.get_key(name)
                 key.copy(
                     key.bucket,
