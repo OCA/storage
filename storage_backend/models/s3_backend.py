@@ -43,20 +43,21 @@ class S3StorageBackend(models.Model):
                 self.aws_bucket,
                 aws_secret_key=self.aws_secret_key,
                 aws_access_key=self.aws_access_key,
-                host='s3.eu-central-1.amazonaws.com')
+                host='s3.eu-central-1.amazonaws.com'
             ) as the_dir:
                 the_dir.setcontents(name, b_decoded)
                 size = the_dir.getsize(name)
+                url = the_dir.getpathurl(name)
         except socket.error:
-            raise UserError('SFTP server not available')
+            raise UserError('S3 server not available')
 
         basic_vals = {
             'name': name,
-            'url': name,
+            'url': url,
             'file_size': size,
             'checksum': checksum,
             'backend_id': self.id,
-            'private_path': '' # todo here
+            'private_path': name
         }
         return basic_vals
 
