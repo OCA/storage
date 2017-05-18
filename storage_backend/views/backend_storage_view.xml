@@ -16,24 +16,35 @@
     <field name="model">storage.backend</field>
     <field name="arch" type="xml">
         <form string="Storage Backend">
-            <field name="name"/>
-            <field name="backend_type" />
-            <group name="sftp" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}">
-                <field name="sftp_server" />
-                <field name="sftp_dir_path" />
-                <field name="sftp_public_base_url" />
-            </group>
-            <group name="odoo" attrs="{'invisible': [('backend_type', '!=', 'odoo')]}">
-            </group>
-            <group name="filestore" attrs="{'invisible': [('backend_type', '!=', 'filestore')]}">
-                <field name="filestore_base_path" />
-                <field name="filestore_public_base_url" />
-            </group>
-            <group name="Amazon S3" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}">
-                <field name="aws_bucket" />
-                <field name="aws_secret_key" />
-                <field name="aws_access_key" />
-            </group>
+            <sheet>
+			    <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="backend_type" />
+                </group>
+                <group name="sftp" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}">
+                    <field name="sftp_server" />
+                    <field name="sftp_dir_path" />
+                    <field name="sftp_public_base_url" />
+                </group>
+                <group name="odoo" attrs="{'invisible': [('backend_type', '!=', 'odoo')]}">
+                </group>
+                <group name="filestore" attrs="{'invisible': [('backend_type', '!=', 'filestore')]}">
+                    <field name="filestore_base_path" />
+                    <field name="filestore_public_base_url" />
+                </group>
+                <group name="Amazon S3" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}">
+                    <field name="aws_bucket" />
+                    <field name="aws_host" placeholder="s3.eu-central-1.amazonaws.com"/>
+                    <field name="aws_cloudfront_domain" />
+                    <field name="aws_access_key" />
+                    <field name="aws_secret_key" />
+                </group>
+			</sheet>
         </form>
     </field>
 </record>
