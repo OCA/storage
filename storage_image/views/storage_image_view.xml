@@ -28,7 +28,6 @@
                     <field name="image_small" widget="image" />
                     <field name="thumbnail_ids" readonly="True"/>
                 </group>
-                <field name="res_id" invisible="True" />
                 <field name="res_model" invisible="True" />
                 <p>Public url : <field name="public_url" /></p>
                 <field name="product_variant_ids"

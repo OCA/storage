@@ -15,14 +15,13 @@ from openerp.exceptions import Warning as UserError
 logger = logging.getLogger(__name__)
 
 try:
-    from fs import s3fs
+    from boto.s3.connection import S3Connection
 except ImportError as err:
     logger.debug(err)
 
 
 class S3StorageBackend(models.Model):
     _inherit = 'storage.backend'
-    _backend_name = 'storage_backend_sftp'
 
     backend_type = fields.Selection(
         selection_add=[('amazon_s3', 'Amazon S3')])
@@ -30,49 +29,43 @@ class S3StorageBackend(models.Model):
     aws_bucket = fields.Char(sparse="data")
     aws_secret_key = fields.Char(sparse="data")
     aws_access_key = fields.Char(sparse="data")
+    aws_host = fields.Char(sparse="data")
+    aws_cloudfront_domain = fields.Char(sparse="data")
+
+    def _amazon_s3_build_public_url(self, name):
+        if self.aws_cloudfront_domain:
+            host = self.aws_cloutfront_domain
+        else:
+            host = self.aws_host
+        return "https://%s/%s/%s" % (host, self.aws_bucket, name)
 
     def _amazon_s3store(self, vals):
-        blob = vals['datas']
-        checksum = u'' + hashlib.sha1(blob).hexdigest()
-
-        name = vals.get('name', checksum)
-        # todo add filename here (for extention)
+        name = vals['name']
         mime, enc = mimetypes.guess_type(name)
-
-        b_decoded = base64.b64decode(blob)
+        b_decoded = base64.b64decode(vals['datas'])
         try:
-            with s3fs.S3FS(
-                self.aws_bucket,
-                aws_secret_key=self.aws_secret_key,
-                aws_access_key=self.aws_access_key,
-                host='s3.eu-central-1.amazonaws.com'
-            ) as the_dir:
-                the_dir.setcontents(name, b_decoded)
-                size = the_dir.getsize(name)
-                # Todo : j'arrive pas mettre le mime type ici
-                key = the_dir._s3bukt.get_key(name)
-                key.copy(
-                    key.bucket,
-                    key.name,
-                    preserve_acl=True,
-                    metadata={'Content-Type': mime})
-                # make shor url
-                # peut etre avec des ACL on pourrait s'en passer
-                key.make_public()
-                url = the_dir.getpathurl(name)
-
+            conn = S3Connection(
+                self.aws_access_key,
+                self.aws_secret_key,
+                host=self.aws_host)
+            buck = conn.get_bucket('storage-testing-raph')
+            key = buck.get_key(name)
+            if not key:
+                key = buck.new_key(name)
+            key.set_metadata("Content-Type", mime)
+            key.set_contents_from_string(b_decoded)
+            key.make_public()
         except socket.error:
             raise UserError('S3 server not available')
 
-        basic_vals = {
+        return {
             'name': name,
-            'url': url,
-            'file_size': size,
-            'checksum': checksum,
+            'url': self._amazon_s3_build_public_url(name),
+            'file_size': key.size,
+            'checksum': key.md5,
             'backend_id': self.id,
             'private_path': name
         }
-        return basic_vals
 
     def _amazon_s3get_public_url(self, obj):
         # TODO faire mieux

@@ -32,9 +32,9 @@ class ProductTemplate(models.Model):
         # depdends(image_ids.sequence)
         _logger.info('dans _get_image_ak image')
         for rec in self:
-            if (self.image_ids):
-                self.image_medium = self.image_ids[0].image_medium
-                self.image_small = self.image_ids[0].image_small
+            if (rec.image_ids):
+                rec.image_medium = rec.image_ids[0].image_medium
+                rec.image_small = rec.image_ids[0].image_small
 
 
 class Image(models.Model):
