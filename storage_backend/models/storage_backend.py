@@ -41,22 +41,3 @@ class StorageBackend(models.Model):
     @implemented_by_factory
     def get_base64(self, file_id):
         pass
-
-    @implemented_by_factory
-    def _get_account(self):
-        """Appelé par celui qui dépose le fichiers."""
-        keychain = self.env['keychain.account']
-        if self.env.user.has_group('storage.backend_access'):
-            retrieve = keychain.suspend_security().retrieve
-        else:
-            retrieve = keychain.retrieve
-
-        accounts = retrieve(
-            [
-                ['namespace', '=', 'storage_%s' % self.backend_type],
-                ['technical_name', '=', self.name]
-            ])
-        if len(accounts) == 0:
-            _logger.debug('No account found for %s' % self.backend_type)
-            raise Warning(_("No account found based on the "))
-        return accounts
