@@ -20,16 +20,13 @@
                 <group string="Name">
                     <!-- TODO: trouver un moyen de pas calc datas
                     lors qu'on a deja un id -->
-                    <field name="datas" filename="name" />
                     <field name="name" />
                     <field name="alt_name" />
                 </group>
                 <group>
-                    <field name="image_small" widget="image" />
-                    <field name="thumbnail_ids" readonly="True"/>
+                    <field name="public_url" readonly="True" widget="image_url"/>
                 </group>
                 <field name="res_model" invisible="True" />
-                <p>Public url : <field name="public_url" /></p>
                 <field name="product_variant_ids"
                    widget="many2many_tags"
                    domain="[('product_tmpl_id', '=', res_id)]"
