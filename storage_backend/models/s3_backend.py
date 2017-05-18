@@ -74,12 +74,13 @@ class S3StorageBackend(models.Model):
 
     def _amazon_s3get_base64(self, file_id):
         logger.warning('return base64 of a file')
-        with s3fs.S3FS(
-            self.aws_bucket,
-            aws_secret_key=self.aws_secret_key,
-            aws_access_key=self.aws_access_key,
-            host='s3.eu-central-1.amazonaws.com'
-        ) as the_dir:
-            # TODO : quel horreur ! on a deja l'url
-            bin = the_dir.getcontents(file_id.name)  # mettre private_path
-            return base64.b64encode(bin)
+        # TODO reimplement
+        #with s3fs.S3FS(
+        #    self.aws_bucket,
+        #    aws_secret_key=self.aws_secret_key,
+        #    aws_access_key=self.aws_access_key,
+        #    host='s3.eu-central-1.amazonaws.com'
+        #) as the_dir:
+        #    # TODO : quel horreur ! on a deja l'url
+        #    bin = the_dir.getcontents(file_id.name)  # mettre private_path
+        #    return base64.b64encode(bin)
