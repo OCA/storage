@@ -49,23 +49,8 @@ class StorageImage(models.Model):
 
     @api.model
     def create(self, vals):
-        import pdb
-        pdb.set_trace()
-
-        vals['res_model'] = self._context['params']['model']
-        vals['res_id'] = self._context['params']['id']
         backend = self._deduce_backend()
-        basic_data = backend.store(
-            vals=vals
-        )
-        _logger.info('dans parent')
-        #vals['exifs'] = self._extract_exifs(vals['datas'])
-        vals['backend_id'] = backend.id
-        vals['url'] = basic_data['url']
-        vals['file_size'] = basic_data['file_size']
-        vals['checksum'] = basic_data['checksum']
-        vals['private_path'] = basic_data['private_path']
-
+        vals.update(backend.store(vals=vals))
         return super(StorageImage, self).create(vals)
 
     def _deduce_backend(self):
@@ -76,8 +61,7 @@ class StorageImage(models.Model):
         """
         backend_id = int(self.env['ir.config_parameter'].get_param(
             'storage.image.backend_id'))
-        backend = self.env['storage.backend'].browse(backend_id)
-        return backend
+        return self.env['storage.backend'].browse(backend_id)
 
     @api.multi
     @api.depends('file_id')
