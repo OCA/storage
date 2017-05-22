@@ -8,6 +8,7 @@
         <tree string="File">
             <field name="name"/>
             <field name="backend_id"/>
+            <field name="file_size"/>
         </tree>
     </field>
 </record>
@@ -24,6 +25,9 @@
                 <group>
                     <field name="backend_id"/>
                     <field name="url" widget="url"/>
+                    <field name="file_size"/>
+                    <field name="checksum"/>
+                    <field name="private_path"/>
                 </group>
             </div>
         </form>
