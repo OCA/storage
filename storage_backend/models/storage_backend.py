@@ -30,8 +30,13 @@ class StorageBackend(models.Model):
     backend_type = fields.Selection([], required=True)  # added by subclasses
     public_base_url = fields.Char()
 
+    def store(self, name, datas, is_base64=True, **kwargs):
+        if is_base64:
+            datas = base64.b64decode(datas)
+        return self._store(name, datas, **kwargs)
+
     @implemented_by_factory
-    def store(self, vals):
+    def _store(self, name, datas, **kwargs):
         pass
 
     @implemented_by_factory
