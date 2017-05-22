@@ -37,7 +37,3 @@ class StorageBackend(models.Model):
     @implemented_by_factory
     def get_public_url(self, obj):
         pass
-
-    @implemented_by_factory
-    def get_base64(self, file_id):
-        pass
