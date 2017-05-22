@@ -18,42 +18,35 @@ class StorageImage(models.Model):
     sequence = fields.Integer(default=10)
     alt_name = fields.Char(string="Alt Image name")
     file_id = fields.Many2one('storage.file', 'File')
-    # display_name = ?
-    # exifs ? auteur, date de crétation, upload, gps, mots clefs, features ?
-
-    exifs = fields.Char()
 
     thumbnail_ids = fields.One2many(
         comodel_name='storage.thumbnail',
         string='Thumbnails',
         inverse_name='res_id',
-        domain=lambda self: [("res_model", "=", self._name)],
-    )
+        domain=lambda self: [("res_model", "=", self._name)])
 
     image_medium_url = fields.Char(
         compute="_compute_get_image_url",
-        readonly=True,
-    )
+        readonly=True)
+
     image_small_url = fields.Binary(
         compute="_compute_get_image_url",
-        readonly=True,
-    )
+        readonly=True)
 
     @api.model
     def create(self, vals):
-        backend = self._deduce_backend()
-        vals.update(backend.store(vals=vals))
+        if not 'backend_id' in vals:
+            vals['backend_id'] = self._deduce_backend_id()
         return super(StorageImage, self).create(vals)
 
-    def _deduce_backend(self):
+    def _deduce_backend_id(self):
         """Choose the correct backend.
 
         By default : it's the one configured as ir.config_parameter
         Overload this method if you need something more powerfull
         """
-        backend_id = int(self.env['ir.config_parameter'].get_param(
+        return int(self.env['ir.config_parameter'].get_param(
             'storage.image.backend_id'))
-        return self.env['storage.backend'].browse(backend_id)
 
     @api.multi
     @api.depends('file_id')

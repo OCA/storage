@@ -34,21 +34,18 @@ class StorageThumbnail(models.Model):
     def _create_thumbnail(self, image, size_x, size_y):
         vals = self._prepare_thumbnail(image, size_x, size_y)
         vals['datas'] = self._resize(image, size_x, size_y)
-        print 'create thumbnail'
         return self.create(vals)
 
-    def _deduce_backend(self):
+    def _deduce_backend_id(self):
         """Choose the correct backend.
 
         By default : it's the one configured as ir.config_parameter
         Overload this method if you need something more powerfull
         """
-        backend_id = int(self.env['ir.config_parameter'].get_param(
+        return int(self.env['ir.config_parameter'].get_param(
             'storage.image.backend_id'))
-        return self.env['storage.backend'].browse(backend_id)
 
     @api.model
     def create(self, vals):
-        backend = self._deduce_backend()
-        vals.update(backend.store(vals=vals))
+        vals['backend_id'] = self._deduce_backend_id()
         return super(StorageThumbnail, self).create(vals)

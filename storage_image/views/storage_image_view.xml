@@ -24,6 +24,7 @@
                     <field name="alt_name" />
                 </group>
                 <group>
+                    <field name="datas"/>
                     <field name="image_small_url" readonly="True" widget="image_url"/>
                     <field name="image_medium_url" readonly="True" widget="image_url"/>
                     <field name="url" readonly="True" widget="image_url"/>

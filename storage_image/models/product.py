@@ -31,10 +31,6 @@ class ProductTemplate(models.Model):
         # TODO comprendre pourquoi on peu pas
         # depdends(image_ids.sequence)
         _logger.info('dans _get_image_ak image')
-        for rec in self:
-            if (rec.image_ids):
-                rec.image_medium = rec.image_ids[0].image_medium
-                rec.image_small = rec.image_ids[0].image_small
 
 
 class Image(models.Model):
