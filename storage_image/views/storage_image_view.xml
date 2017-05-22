@@ -24,7 +24,9 @@
                     <field name="alt_name" />
                 </group>
                 <group>
-                    <field name="public_url" readonly="True" widget="image_url"/>
+                    <field name="image_small_url" readonly="True" widget="image_url"/>
+                    <field name="image_medium_url" readonly="True" widget="image_url"/>
+                    <field name="url" readonly="True" widget="image_url"/>
                 </group>
                 <field name="res_model" invisible="True" />
                 <field name="product_variant_ids"
@@ -42,12 +44,15 @@
             <kanban delete="true">
                 <field name="name" />
                 <field name="alt_name" />
-                <field name="image_small" />
+                <field name="image_small_url" />
                 <field name="sequence"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
-                            <a type="open"><img t-att-src="kanban_image('storage.image', 'image_small', record.id.value)" class="oe_kanban_image"/></a>
+                            <a type="open">
+                                <img t-att-src="record.image_small_url.value"
+                                     class="oe_kanban_image"/>
+                            </a>
                             <div class="oe_kanban_details">
                                 <h4>
                                     <a type="open">

@@ -9,7 +9,6 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
 class StorageImage(models.Model):
     _name = 'storage.image'
     _description = 'Storage Image'
@@ -18,6 +17,7 @@ class StorageImage(models.Model):
 
     sequence = fields.Integer(default=10)
     alt_name = fields.Char(string="Alt Image name")
+    file_id = fields.Many2one('storage.file', 'File')
     # display_name = ?
     # exifs ? auteur, date de crétation, upload, gps, mots clefs, features ?
 
@@ -30,21 +30,13 @@ class StorageImage(models.Model):
         domain=lambda self: [("res_model", "=", self._name)],
     )
 
-    # a persister en base pour odoo, c'est plus simple?
-    # a garder ici ou mettre dans un autre module qui étand ?
-    image_medium = fields.Binary(
-        compute="_compute_get_image_sizes",
-        help='For backend only',
-        store=True,
+    image_medium_url = fields.Char(
+        compute="_compute_get_image_url",
         readonly=True,
-        # attachment=True # > 9 ?
     )
-    image_small = fields.Binary(
-        compute="_compute_get_image_sizes",
-        help='For backend only',
-        store=True,
+    image_small_url = fields.Binary(
+        compute="_compute_get_image_url",
         readonly=True,
-        # attachment=True # > 9 ?
     )
 
     @api.model
@@ -65,31 +57,22 @@ class StorageImage(models.Model):
 
     @api.multi
     @api.depends('file_id')
-    def _compute_get_image_sizes(self):
+    def _compute_get_image_url(self):
         for rec in self:
-            try:
-                vals = tools.image_get_resized_images(
-                    rec.datas)
-            except:
-                vals = {"image_medium": False,
-                        "image_small": False}
-            rec.update(vals)
+            # TODO make it configurable
+            rec.image_medium_url = rec.get_thumbnail(128, 128).url
+            rec.image_small_url = rec.get_thumbnail(64, 64).url
 
     @api.multi
-    def get_thumbnails(self, size_x, size_y, multi=False):
-        # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
-
-        return (
-            self.get_thumbnail(size_x, size_y) or
-            self._ask_for_thumbnail_creation(size_x, size_y)
-        )
-
-    @api.multi
-    def ask_for_thumbnail_creation(self, size_x, size_y, to_do=True):
-        for img in self:
-            img._ask_for_thumbnail_creation(size_x, size_y, to_do)
-
-    def _ask_for_thumbnail_creation(self, size_x, size_y, to_do):
-        kwargs = {'size_x': size_x, 'size_y': size_y, 'to_do': to_do}
-        return self.env['storage.thumbnail.factory'].build(
-            self, **kwargs)
+    def get_thumbnail(self, size_x, size_y):
+        self.ensure_one()
+        thumbnail = self.env['storage.thumbnail'].search([
+            ('size_x', '=', size_x),
+            ('size_y', '=', size_y),
+            ('res_id', '=', self.id),
+            ('res_model', '=', self._name),
+            ])
+        if not thumbnail and self.datas:
+            thumbnail = self.env['storage.thumbnail']._create_thumbnail(
+                self, size_x, size_y)
+        return thumbnail
