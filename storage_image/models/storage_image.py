@@ -6,8 +6,15 @@
 
 from openerp import api, fields, models, tools
 import logging
+import os
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from slugify import slugify
+except ImportError:
+    _logger.debug('Cannot `import slugify`.')
+
 
 class StorageImage(models.Model):
     _name = 'storage.image'
@@ -29,9 +36,33 @@ class StorageImage(models.Model):
         compute="_compute_get_image_url",
         readonly=True)
 
-    image_small_url = fields.Binary(
+    image_small_url = fields.Char(
         compute="_compute_get_image_url",
         readonly=True)
+
+    image_url = fields.Char(
+        inverse="_inverse_image_url",
+        compute="_compute_image_url")
+
+    @api.onchange('name')
+    def onchange_name(self):
+        for record in self:
+            if record.name:
+                filename, extension = os.path.splitext(record.name)
+                record.name = "%s%s" % (slugify(filename), extension)
+                record.alt_name = filename
+                for char in ['-', '_']:
+                    record.alt_name = record.alt_name.replace(char, ' ')
+
+    @api.multi
+    def _compute_image_url(self):
+        for record in self:
+            record.image_url = record.url
+
+    @api.multi
+    def _inverse_image_url(self):
+        for record in self:
+            record.file_id.datas = record.image_url
 
     @api.model
     def create(self, vals):

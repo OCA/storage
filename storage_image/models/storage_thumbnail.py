@@ -33,8 +33,13 @@ class StorageThumbnail(models.Model):
 
     def _create_thumbnail(self, image, size_x, size_y):
         vals = self._prepare_thumbnail(image, size_x, size_y)
-        vals['datas'] = self._resize(image, size_x, size_y)
-        return self.create(vals)
+        datas = vals['datas'] = self._resize(image, size_x, size_y)
+        record = self.create(vals)
+        # Bug with odoo 8 the field datas belong to the storage.file
+        # and the _create method never write it as it's a computed field
+        # with the new api and it's an inherited fields
+        record.file_id.write({'datas': datas})
+        return record
 
     def _deduce_backend_id(self):
         """Choose the correct backend.

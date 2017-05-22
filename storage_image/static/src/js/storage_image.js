@@ -11,9 +11,10 @@ instance.web.form.FieldImageUrl = instance.web.form.FieldBinaryImage.extend({
         var self = this;
         var url = this.get('value');
         if (!url) {
-            url = this.placeholder
+            url = this.placeholder;
+        } else if (!url.startsWith('http')) {
+            url = 'data:image/png;base64,' + url;
         }
-
         var $img = $(QWeb.render("FieldBinaryImage-img", { widget: this, url: url }));
         $($img).click(function(e) {
             if(self.view.get("actual_mode") == "view") {
@@ -24,6 +25,7 @@ instance.web.form.FieldImageUrl = instance.web.form.FieldBinaryImage.extend({
         });
         this.$el.find('> img').remove();
         this.$el.prepend($img);
+        console.log(self.options)
         $img.load(function() {
             if (! self.options.size)
                 return;
