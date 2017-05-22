@@ -4,6 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+import urllib, base64
 import logging
 import os
 _logger = logging.getLogger(__name__)
@@ -36,25 +37,27 @@ class StorageFile(models.Model):
     public = fields.Boolean('Is public document')
 
     filename = fields.Char(
-        "Filename without extension", compute='_compute_extract_filename')
-    extension = fields.Char("Extension", compute='_compute_extract_filename')
+        "Filename without extension",
+        compute='_compute_extract_filename',
+        store=True)
+    extension = fields.Char(
+        "Extension",
+        compute='_compute_extract_filename',
+        store=True)
 
     datas = fields.Binary(
         help="The file",
-        inverse='_inverse_upload_file',
-        compute='_compute_upload_file',
+        compute='_compute_datas',
         store=False)  #
 
-    def _inverse_upload_file(self):
-        import pdb
-        pdb.set_trace()
-        _logger.warning('comupte set file [parent]')
-
     @api.multi
-    def _compute_upload_file(self):
-        _logger.warning('comupte get file [parent]')
+    def _compute_datas(self):
         for rec in self:
-            rec.datas = rec.backend_id.get_base64(self)
+            try:
+                rec.datas = base64.b64encode(urllib.urlopen(rec.url).read())
+            except:
+                _logger.error('Image %s not found', rec.url)
+                rec.datas = None
 
     @api.model
     def create(self, vals):
@@ -71,7 +74,4 @@ class StorageFile(models.Model):
     @api.depends('name')
     def _compute_extract_filename(self):
         for rec in self:
-            self.filename, self.extension = os.path.splitext(
-                self.name
-            )
-            _logger.info('file name:  %s' % self.filename)
+            rec.filename, rec.extension = os.path.splitext(rec.name)
