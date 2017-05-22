@@ -17,17 +17,16 @@
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <form string="Image">
+                <group string="Image">
+                    <field name="image_url"
+                           widget="image_url"
+                           filename="name"
+                           nolabel="1"
+                           options="{'size':(800,800)}"/>
+                </group>
                 <group string="Name">
-                    <!-- TODO: trouver un moyen de pas calc datas
-                    lors qu'on a deja un id -->
                     <field name="name" />
                     <field name="alt_name" />
-                </group>
-                <group>
-                    <field name="datas"/>
-                    <field name="image_small_url" readonly="True" widget="image_url"/>
-                    <field name="image_medium_url" readonly="True" widget="image_url"/>
-                    <field name="url" readonly="True" widget="image_url"/>
                 </group>
                 <field name="res_model" invisible="True" />
                 <field name="product_variant_ids"
