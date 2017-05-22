@@ -7,6 +7,7 @@
     <field name="arch" type="xml">
         <tree string="File">
             <field name="name"/>
+            <field name="backend_id"/>
         </tree>
     </field>
 </record>
@@ -15,7 +16,16 @@
     <field name="model">storage.file</field>
     <field name="arch" type="xml">
         <form string="File">
-            <field name="name"/>
+            <div class="oe_title">
+                <label for="name" class="oe_edit_only"/>
+                <h1>
+                    <field name="name"/>
+                </h1>
+                <group>
+                    <field name="backend_id"/>
+                    <field name="url" widget="url"/>
+                </group>
+            </div>
         </form>
     </field>
 </record>
@@ -25,6 +35,8 @@
     <field name="arch" type="xml">
         <search string="File">
             <field name="name"/>
+            <field name="backend_id"/>
+            <field name="url"/>
         </search>
     </field>
 </record>
