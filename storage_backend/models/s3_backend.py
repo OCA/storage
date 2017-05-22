@@ -32,17 +32,8 @@ class S3StorageBackend(models.Model):
     aws_host = fields.Char(sparse="data")
     aws_cloudfront_domain = fields.Char(sparse="data")
 
-    def _amazon_s3_build_public_url(self, name):
-        if self.aws_cloudfront_domain:
-            host = self.aws_cloutfront_domain
-        else:
-            host = self.aws_host
-        return "https://%s/%s/%s" % (host, self.aws_bucket, name)
-
-    def _amazon_s3store(self, vals):
-        name = vals['name']
+    def _amazon_s3_store(self, name, datas, is_public=False):
         mime, enc = mimetypes.guess_type(name)
-        b_decoded = base64.b64decode(vals['datas'])
         try:
             conn = S3Connection(
                 self.aws_access_key,
@@ -53,24 +44,18 @@ class S3StorageBackend(models.Model):
             if not key:
                 key = buck.new_key(name)
             key.set_metadata("Content-Type", mime)
-            key.set_contents_from_string(b_decoded)
-            key.make_public()
+            key.set_contents_from_string(datas)
+            if is_public:
+                key.make_public()
         except socket.error:
             raise UserError('S3 server not available')
 
-        return {
-            'name': name,
-            'url': self._amazon_s3_build_public_url(name),
-            'file_size': key.size,
-            'checksum': key.md5,
-            'backend_id': self.id,
-            'private_path': name
-        }
-
-    def _amazon_s3get_public_url(self, obj):
-        # TODO faire mieux
-        logger.info('get_public_url')
-        return obj.url
+    def _amazon_s3get_public_url(self, name):
+        if self.aws_cloudfront_domain:
+            host = self.aws_cloutfront_domain
+        else:
+            host = self.aws_host
+        return "https://%s/%s/%s" % (host, self.aws_bucket, name)
 
     def _amazon_s3get_base64(self, file_id):
         logger.warning('return base64 of a file')
