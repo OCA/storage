@@ -5,6 +5,7 @@
 
 
 from openerp import api, fields, models
+from openerp.tools import image_resize_image
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -12,74 +13,42 @@ _logger = logging.getLogger(__name__)
 class StorageThumbnail(models.Model):
     _name = 'storage.thumbnail'
     _description = 'Storage Thumbnail'
-    _inherit = 'storage.file'
-
-    original_id = fields.Many2one(
-        comodel_name='storage.file',
-        string='Original file',
-        help="Original image",
-        required=True,
-    )
+    _inherits = {'storage.file': 'file_id'}
 
     size_x = fields.Integer("weight")
     size_y = fields.Integer("height")
-    # ratio = fields.Float()  # a quel point on a divisé
-    # crop ?
-    # watermarked ?
-    # key_frame ?
-    to_do = fields.Boolean(
-        string="Todo",
-        help='Mark as to generate from original')
+    file_id = fields.Many2one('storage.file', 'File')
+
+    def _prepare_thumbnail(self, image, size_x, size_y):
+        return {
+            'res_model': image._name,
+            'res_id': image.id,
+            'name' : '%s_%s_%s%s' % (image.filename, size_x, size_y, image.extension),
+            'size_x': size_x,
+            'size_y': size_y,
+            }
+
+    def _resize(self, image, size_x, size_y):
+        return image_resize_image(image.datas, size=(size_x, size_y))
+
+    def _create_thumbnail(self, image, size_x, size_y):
+        vals = self._prepare_thumbnail(image, size_x, size_y)
+        vals['datas'] = self._resize(image, size_x, size_y)
+        print 'create thumbnail'
+        return self.create(vals)
+
+    def _deduce_backend(self):
+        """Choose the correct backend.
+
+        By default : it's the one configured as ir.config_parameter
+        Overload this method if you need something more powerfull
+        """
+        backend_id = int(self.env['ir.config_parameter'].get_param(
+            'storage.image.backend_id'))
+        return self.env['storage.backend'].browse(backend_id)
 
     @api.model
     def create(self, vals):
-        _logger.info('dans enfant, normalement on devrait faire le store ici')
-
         backend = self._deduce_backend()
-
-        # TODO: trouver stroage.image dans le context
-        original_id = self.env['storage.image'].browse(vals['res_id'])
-
-        vals['res_model'] = original_id._name
-        vals['res_id'] = original_id.id
-
-        vals['name'] = self._make_name(
-            vals=vals,
-            target=original_id,
-        )
-
-        init_vals = {
-            'size_x': vals['size_x'],
-            'size_y': vals['size_y'],
-            'name': vals['name'],
-            'datas': original_id.datas,
-        }
-
-        if vals['to_do']:
-            basic_data = {'backend_id': backend.id}
-        else:
-            basic_data = backend.store(init_vals)
-
-        vals['url'] = basic_data.get('url')
-        vals['file_size'] = basic_data.get('file_size')
-        vals['checksum'] = basic_data.get('checksum')
-        vals['backend_id'] = basic_data['backend_id']
-        vals['private_path'] = basic_data.get('private_path')
-        vals['original_id'] = original_id.file_id.id
-        vals['url'] = 'url'
-
+        vals.update(backend.store(vals=vals))
         return super(StorageThumbnail, self).create(vals)
-
-    def _deduce_backend(self, **kwargs):
-        domain = [('backend_type', '=', 'sftp')]
-        backends = self.env['storage.backend'].search(domain)
-        return backends[0]  # par defaut on prends le premier
-
-    def _make_name(self, vals, target):
-        """Build a name for the thumbnail"""
-        return '%s_%s_%s%s' % (
-            target.filename,
-            vals['size_x'],
-            vals['size_y'],
-            target.extension
-        )

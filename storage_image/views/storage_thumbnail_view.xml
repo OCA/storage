@@ -9,12 +9,11 @@
                         <field name="size_x" />
                         <field name="size_y" />
                         <field name="public_url" />
-                        <field name="to_do" />
                     </group>
                 </form>
             </field>
         </record>
-    
+
         <record id="view_thumbnail_tree" model="ir.ui.view">
             <field name="model">storage.thumbnail</field>
             <field name="arch" type="xml">
