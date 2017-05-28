@@ -8,7 +8,7 @@ import hashlib
 import logging
 import base64
 
-from openerp import api, fields, models
+from openerp import fields, models
 from openerp.exceptions import Warning as UserError
 
 logger = logging.getLogger(__name__)
