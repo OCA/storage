@@ -4,24 +4,22 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import socket
-import hashlib
 import logging
-import base64
+import mimetypes
 
-from openerp import api, fields, models
+from openerp import fields, models
 from openerp.exceptions import Warning as UserError
 
 logger = logging.getLogger(__name__)
 
 try:
-    from fs import s3fs
+    from boto.s3.connection import S3Connection
 except ImportError as err:
     logger.debug(err)
 
 
 class S3StorageBackend(models.Model):
     _inherit = 'storage.backend'
-    _backend_name = 'storage_backend_sftp'
 
     backend_type = fields.Selection(
         selection_add=[('amazon_s3', 'Amazon S3')])
@@ -29,52 +27,43 @@ class S3StorageBackend(models.Model):
     aws_bucket = fields.Char(sparse="data")
     aws_secret_key = fields.Char(sparse="data")
     aws_access_key = fields.Char(sparse="data")
-    s3_public_base_url = fields.Char(sparse="data")
+    aws_host = fields.Char(sparse="data")
+    aws_cloudfront_domain = fields.Char(sparse="data")
 
-    def _amazon_s3store(self, vals):
-        blob = vals['datas']
-        checksum = u'' + hashlib.sha1(blob).hexdigest()
-
-        name = vals.get('name', checksum)
-        # todo add filename here (for extention)
-        b_decoded = base64.b64decode(blob)
+    def _amazon_s3_store(self, name, datas, is_public=False):
+        mime, enc = mimetypes.guess_type(name)
         try:
-            with s3fs.S3FS(
-                self.aws_bucket,
-                aws_secret_key=self.aws_secret_key,
-                aws_access_key=self.aws_access_key,
-                host='s3.eu-central-1.amazonaws.com')
-            ) as the_dir:
-                the_dir.setcontents(name, b_decoded)
-                size = the_dir.getsize(name)
+            conn = S3Connection(
+                self.aws_access_key,
+                self.aws_secret_key,
+                host=self.aws_host)
+            buck = conn.get_bucket('storage-testing-raph')
+            key = buck.get_key(name)
+            if not key:
+                key = buck.new_key(name)
+            key.set_metadata("Content-Type", mime)
+            key.set_contents_from_string(datas)
+            if is_public:
+                key.make_public()
         except socket.error:
-            raise UserError('SFTP server not available')
+            raise UserError('S3 server not available')
 
-        basic_vals = {
-            'name': name,
-            'url': name,
-            'file_size': size,
-            'checksum': checksum,
-            'backend_id': self.id,
-            'private_path': '' # todo here
-        }
-        return basic_vals
-
-    def __amazon_s3get_public_url(self, obj):
-        # TODO faire mieux
-        logger.info('get_public_url')
-
-        if obj.to_do:
-            logger.warning(
-                'public url not available for not processed thumbnail')
-            return None
-        return self.s3_public_base_url + obj.url
+    def _amazon_s3get_public_url(self, name):
+        if self.aws_cloudfront_domain:
+            host = self.aws_cloutfront_domain
+        else:
+            host = self.aws_host
+        return "https://%s/%s/%s" % (host, self.aws_bucket, name)
 
     def _amazon_s3get_base64(self, file_id):
-        logger.info('return base64 of a file')
-        with s3fs.S3FS(
-            self.aws_bucket,
-            aws_secret_key=self.aws_secret_key,
-            aws_access_key=self.aws_access_key,
-        ) as the_dir:
-            return the_dir.open(file_id.url, 'r')
+        logger.warning('return base64 of a file')
+        # TODO reimplement
+        # with s3fs.S3FS(
+        #    self.aws_bucket,
+        #    aws_secret_key=self.aws_secret_key,
+        #    aws_access_key=self.aws_access_key,
+        #    host='s3.eu-central-1.amazonaws.com'
+        # ) as the_dir:
+        #    # TODO : quel horreur ! on a deja l'url
+        #    bin = the_dir.getcontents(file_id.name)  # mettre private_path
+        #    return base64.b64encode(bin)

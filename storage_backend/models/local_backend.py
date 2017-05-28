@@ -3,27 +3,35 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
 import hashlib
-from fs.osfs import OSFS
 import logging
+from openerp import fields, models
 logger = logging.getLogger(__name__)
+
+try:
+    from fs.osfs import OSFS
+except ImportError as err:
+    logger.debug(err)
 
 
 class FileStoreStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
-    public_base_url = fields.Char()
-    base_path = u'~/images'
+    backend_type = fields.Selection(
+        selection_add=[('filestore', 'Filestore')])
 
-    def _filestorestore(self, blob, vals={}, object_type=None):
+    filestore_public_base_url = fields.Char()
+    filestore_base_path = fields.Char()
+
+    def _filestorestore(self, vals):
         # TODO: refactorer, ça marche plus vraiment
         # enregistre le binary la où on lui dit
         # renvois l'objet en question
+        blob = vals['datas']
         checksum = u'' + hashlib.sha1(blob).hexdigest()
         path = checksum
 
-        with OSFS(self.base_path) as the_dir:
+        with OSFS(self.filestore_base_path) as the_dir:
             the_dir.setcontents(path, blob)
             size = the_dir.getsize(path)
 
@@ -36,16 +44,13 @@ class FileStoreStorageBackend(models.Model):
             'private_path': path,
         }
         return basic_vals
-        # vals.update(basic_vals)
-        # obj = object_type.create(vals)  # ou déléguer?
-        # return obj
 
     def _filestoreget_public_url(self, obj):
         # TODO faire mieux
         logger.info('get_public_url')
-        return self.public_base_url + '/' + obj.name
+        return self.filestore_public_base_url + '/' + obj.name
 
     def _filestoreget_base64(self, file_id):
         logger.info('return base64 of a file')
-        with OSFS(self.base_path) as the_dir:
+        with OSFS(self.filestore_base_path) as the_dir:
             return the_dir.open(file_id.url).read()
