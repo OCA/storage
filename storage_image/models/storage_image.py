@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, fields, models, tools
+from openerp import api, fields, models
 import logging
 import os
 
@@ -33,14 +33,17 @@ class StorageImage(models.Model):
         domain=lambda self: [("res_model", "=", self._name)])
 
     image_medium_url = fields.Char(
-        compute="_compute_get_image_url",
+        compute="_compute_image_url",
+        store=True,
         readonly=True)
 
     image_small_url = fields.Char(
-        compute="_compute_get_image_url",
+        compute="_compute_image_url",
+        store=True,
         readonly=True)
 
     image_url = fields.Char(
+        store=True,
         inverse="_inverse_image_url",
         compute="_compute_image_url")
 
@@ -55,18 +58,13 @@ class StorageImage(models.Model):
                     record.alt_name = record.alt_name.replace(char, ' ')
 
     @api.multi
-    def _compute_image_url(self):
-        for record in self:
-            record.image_url = record.url
-
-    @api.multi
     def _inverse_image_url(self):
         for record in self:
             record.file_id.datas = record.image_url
 
     @api.model
     def create(self, vals):
-        if not 'backend_id' in vals:
+        if 'backend_id' not in vals:
             vals['backend_id'] = self._deduce_backend_id()
         return super(StorageImage, self).create(vals)
 
@@ -79,13 +77,28 @@ class StorageImage(models.Model):
         return int(self.env['ir.config_parameter'].get_param(
             'storage.image.backend_id'))
 
+    def _get_medium_thumbnail(self):
+        return self.get_thumbnail(128, 128)
+
+    def _get_small_thumbnail(self):
+        return self.get_thumbnail(64, 64)
+
     @api.multi
-    @api.depends('file_id')
-    def _compute_get_image_url(self):
+    @api.depends('url')
+    def _compute_image_url(self):
+        # We need a clear env for getting the thumbnail
+        # as a potential create/write can be called
+        # This avoid useless recomputation of field
+        # TODO we should see with odoo how we can improve the ORM
+        todo = self.env.all.todo
+        self.env.all.todo = {}
         for rec in self:
-            # TODO make it configurable
-            rec.image_medium_url = rec.get_thumbnail(128, 128).url
-            rec.image_small_url = rec.get_thumbnail(64, 64).url
+            rec.update({
+                'image_url': rec.url,
+                'image_medium_url': rec._get_medium_thumbnail().url,
+                'image_small_url': rec._get_small_thumbnail().url,
+            })
+        self.env.all.todo = todo
 
     @api.multi
     def get_thumbnail(self, size_x, size_y):

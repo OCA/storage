@@ -29,11 +29,7 @@
                     <field name="alt_name" />
                 </group>
                 <field name="res_model" invisible="True" />
-                <field name="product_variant_ids"
-                   widget="many2many_tags"
-                   domain="[('product_tmpl_id', '=', res_id)]"
-                   placeholder="(keep empty for being visible for all variants)"/>
-               </form>
+            </form>
         </field>
     </record>
 
@@ -49,6 +45,9 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <div class="oe_edit_only oe_right">
+                                <a type="delete" class="oe_e">[</a>
+                            </div>
                             <a type="open">
                                 <img t-att-src="record.image_small_url.value"
                                      class="oe_kanban_image"/>
