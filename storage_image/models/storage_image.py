@@ -101,6 +101,11 @@ class StorageImage(models.Model):
         self.env.all.todo = todo
 
     @api.multi
+    def get_thumbnail_from_resize(self, resize):
+        self.ensure_one()
+        return self.get_thumbnail(resize.size_x, resize.size_y)
+
+    @api.multi
     def get_thumbnail(self, size_x, size_y):
         self.ensure_one()
         thumbnail = self.env['storage.thumbnail'].search([
