@@ -25,8 +25,6 @@
     "data": [
         'views/storage_thumbnail_view.xml',
         'views/storage_image_view.xml',
-        'views/partner.xml',
-        'views/product.xml',
         'views/js.xml',
         'data/ir_parameter.xml',
     ],

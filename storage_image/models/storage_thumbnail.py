@@ -23,7 +23,8 @@ class StorageThumbnail(models.Model):
         return {
             'res_model': image._name,
             'res_id': image.id,
-            'name' : '%s_%s_%s%s' % (image.filename, size_x, size_y, image.extension),
+            'name': '%s_%s_%s%s' % (
+                image.filename, size_x, size_y, image.extension),
             'size_x': size_x,
             'size_y': size_y,
             }
@@ -33,7 +34,7 @@ class StorageThumbnail(models.Model):
 
     def _create_thumbnail(self, image, size_x, size_y):
         vals = self._prepare_thumbnail(image, size_x, size_y)
-        datas = vals['datas'] = self._resize(image, size_x, size_y)
+        datas = self._resize(image, size_x, size_y)
         record = self.create(vals)
         # Bug with odoo 8 the field datas belong to the storage.file
         # and the _create method never write it as it's a computed field
