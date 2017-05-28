@@ -4,18 +4,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-from openerp.exceptions import Warning as UserError
-import urllib, base64
+import urllib
+import base64
 import logging
 import os
 import mimetypes
 import hashlib
 _logger = logging.getLogger(__name__)
-
-try:
-    import cStringIO as StringIO
-except ImportError:
-    import StringIO
 
 
 class StorageFile(models.Model):
@@ -62,6 +57,12 @@ class StorageFile(models.Model):
         inverse='_inverse_datas',
         compute='_compute_datas',
         store=False)  #
+
+    _sql_constraints = [
+        ('url_uniq', 'unique(url)', 'The url must be uniq'),
+        ('path_uniq', 'unique(private_path, backend_id)',
+         'The private path must be uniq per backend'),
+    ]
 
     def _prepare_meta_for_file(self, datas):
         return {
