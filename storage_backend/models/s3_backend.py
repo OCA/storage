@@ -4,12 +4,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import socket
-import hashlib
 import logging
-import base64
 import mimetypes
 
-from openerp import api, fields, models
+from openerp import fields, models
 from openerp.exceptions import Warning as UserError
 
 logger = logging.getLogger(__name__)
@@ -60,12 +58,12 @@ class S3StorageBackend(models.Model):
     def _amazon_s3get_base64(self, file_id):
         logger.warning('return base64 of a file')
         # TODO reimplement
-        #with s3fs.S3FS(
+        # with s3fs.S3FS(
         #    self.aws_bucket,
         #    aws_secret_key=self.aws_secret_key,
         #    aws_access_key=self.aws_access_key,
         #    host='s3.eu-central-1.amazonaws.com'
-        #) as the_dir:
+        # ) as the_dir:
         #    # TODO : quel horreur ! on a deja l'url
         #    bin = the_dir.getcontents(file_id.name)  # mettre private_path
         #    return base64.b64encode(bin)
