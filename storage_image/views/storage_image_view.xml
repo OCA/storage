@@ -17,25 +17,19 @@
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <form string="Image">
+                <group string="Image">
+                    <field name="image_url"
+                           widget="image_url"
+                           filename="name"
+                           nolabel="1"
+                           options="{'size':(800,800)}"/>
+                </group>
                 <group string="Name">
-                    <!-- TODO: trouver un moyen de pas calc datas
-                    lors qu'on a deja un id -->
-                    <field name="datas" filename="name" />
                     <field name="name" />
                     <field name="alt_name" />
                 </group>
-                <group>
-                    <field name="image_small" widget="image" />
-                    <field name="thumbnail_ids" readonly="True"/>
-                </group>
-                <field name="res_id" invisible="True" />
                 <field name="res_model" invisible="True" />
-                <p>Public url : <field name="public_url" /></p>
-                <field name="product_variant_ids"
-                   widget="many2many_tags"
-                   domain="[('product_tmpl_id', '=', res_id)]"
-                   placeholder="(keep empty for being visible for all variants)"/>
-               </form>
+            </form>
         </field>
     </record>
 
@@ -46,12 +40,18 @@
             <kanban delete="true">
                 <field name="name" />
                 <field name="alt_name" />
-                <field name="image_small" />
+                <field name="image_small_url" />
                 <field name="sequence"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
-                            <a type="open"><img t-att-src="kanban_image('storage.image', 'image_small', record.id.value)" class="oe_kanban_image"/></a>
+                            <div class="oe_edit_only oe_right">
+                                <a type="delete" class="oe_e">[</a>
+                            </div>
+                            <a type="open">
+                                <img t-att-src="record.image_small_url.value"
+                                     class="oe_kanban_image"/>
+                            </a>
                             <div class="oe_kanban_details">
                                 <h4>
                                     <a type="open">

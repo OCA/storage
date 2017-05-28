@@ -4,10 +4,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, fields, models, tools
+from openerp import api, fields, models
 import logging
+import os
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from slugify import slugify
+except ImportError:
+    _logger.debug('Cannot `import slugify`.')
 
 
 class StorageImage(models.Model):
@@ -18,94 +24,97 @@ class StorageImage(models.Model):
 
     sequence = fields.Integer(default=10)
     alt_name = fields.Char(string="Alt Image name")
-    # display_name = ?
-    # exifs ? auteur, date de crétation, upload, gps, mots clefs, features ?
-
-    exifs = fields.Char()
+    file_id = fields.Many2one('storage.file', 'File')
 
     thumbnail_ids = fields.One2many(
         comodel_name='storage.thumbnail',
         string='Thumbnails',
         inverse_name='res_id',
-        domain=lambda self: [("res_model", "=", self._name)],
-    )
+        domain=lambda self: [("res_model", "=", self._name)])
 
-    # a persister en base pour odoo, c'est plus simple?
-    # a garder ici ou mettre dans un autre module qui étand ?
-    image_medium = fields.Binary(
-        compute="_compute_get_image_sizes",
-        help='For backend only',
+    image_medium_url = fields.Char(
+        compute="_compute_image_url",
         store=True,
-        readonly=True,
-        # attachment=True # > 9 ?
-    )
-    image_small = fields.Binary(
-        compute="_compute_get_image_sizes",
-        help='For backend only',
+        readonly=True)
+
+    image_small_url = fields.Char(
+        compute="_compute_image_url",
         store=True,
-        readonly=True,
-        # attachment=True # > 9 ?
-    )
+        readonly=True)
+
+    image_url = fields.Char(
+        store=True,
+        inverse="_inverse_image_url",
+        compute="_compute_image_url")
+
+    @api.onchange('name')
+    def onchange_name(self):
+        for record in self:
+            if record.name:
+                filename, extension = os.path.splitext(record.name)
+                record.name = "%s%s" % (slugify(filename), extension)
+                record.alt_name = filename
+                for char in ['-', '_']:
+                    record.alt_name = record.alt_name.replace(char, ' ')
+
+    @api.multi
+    def _inverse_image_url(self):
+        for record in self:
+            record.file_id.datas = record.image_url
 
     @api.model
     def create(self, vals):
-        import pdb
-        pdb.set_trace()
-
-        vals['res_model'] = self._context['params']['model']
-        vals['res_id'] = self._context['params']['id']
-        backend = self._deduce_backend()
-        basic_data = backend.store(
-            vals=vals
-        )
-        _logger.info('dans parent')
-        #vals['exifs'] = self._extract_exifs(vals['datas'])
-        vals['backend_id'] = backend.id
-        vals['url'] = basic_data['url']
-        vals['file_size'] = basic_data['file_size']
-        vals['checksum'] = basic_data['checksum']
-        vals['private_path'] = basic_data['private_path']
-
+        if 'backend_id' not in vals:
+            vals['backend_id'] = self._deduce_backend_id()
         return super(StorageImage, self).create(vals)
 
-    def _deduce_backend(self):
+    def _deduce_backend_id(self):
         """Choose the correct backend.
 
         By default : it's the one configured as ir.config_parameter
         Overload this method if you need something more powerfull
         """
-        backend_id = int(self.env['ir.config_parameter'].get_param(
+        return int(self.env['ir.config_parameter'].get_param(
             'storage.image.backend_id'))
-        backend = self.env['storage.backend'].browse(backend_id)
-        return backend
+
+    def _get_medium_thumbnail(self):
+        return self.get_thumbnail(128, 128)
+
+    def _get_small_thumbnail(self):
+        return self.get_thumbnail(64, 64)
 
     @api.multi
-    @api.depends('file_id')
-    def _compute_get_image_sizes(self):
+    @api.depends('url')
+    def _compute_image_url(self):
+        # We need a clear env for getting the thumbnail
+        # as a potential create/write can be called
+        # This avoid useless recomputation of field
+        # TODO we should see with odoo how we can improve the ORM
+        todo = self.env.all.todo
+        self.env.all.todo = {}
         for rec in self:
-            try:
-                vals = tools.image_get_resized_images(
-                    rec.datas)
-            except:
-                vals = {"image_medium": False,
-                        "image_small": False}
-            rec.update(vals)
+            rec.update({
+                'image_url': rec.url,
+                'image_medium_url': rec._get_medium_thumbnail().url,
+                'image_small_url': rec._get_small_thumbnail().url,
+            })
+        self.env.all.todo = todo
 
     @api.multi
-    def get_thumbnails(self, size_x, size_y, multi=False):
-        # faidrait filtrer sur thumbnail_ids au lieu de faire un domaine ?
-
-        return (
-            self.get_thumbnail(size_x, size_y) or
-            self._ask_for_thumbnail_creation(size_x, size_y)
-        )
+    def get_thumbnail_from_resize(self, resize):
+        self.ensure_one()
+        return self.get_thumbnail(resize.size_x, resize.size_y)
 
     @api.multi
-    def ask_for_thumbnail_creation(self, size_x, size_y, to_do=True):
-        for img in self:
-            img._ask_for_thumbnail_creation(size_x, size_y, to_do)
-
-    def _ask_for_thumbnail_creation(self, size_x, size_y, to_do):
-        kwargs = {'size_x': size_x, 'size_y': size_y, 'to_do': to_do}
-        return self.env['storage.thumbnail.factory'].build(
-            self, **kwargs)
+    def get_thumbnail(self, size_x, size_y):
+        self.ensure_one()
+        thumbnail = self.env['storage.thumbnail'].search([
+            ('size_x', '=', size_x),
+            ('size_y', '=', size_y),
+            ('res_id', '=', self.id),
+            ('res_model', '=', self._name),
+            ])
+        if not thumbnail and self.datas:
+            thumbnail = self.env['storage.thumbnail']._create_thumbnail(
+                self, size_x, size_y)
+        return thumbnail

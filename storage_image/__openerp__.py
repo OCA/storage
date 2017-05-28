@@ -25,12 +25,13 @@
     "data": [
         'views/storage_thumbnail_view.xml',
         'views/storage_image_view.xml',
-        'views/partner.xml',
-        'views/product.xml',
+        'views/js.xml',
+        'views/image_resize_view.xml',
         'data/ir_parameter.xml',
     ],
     "demo": [
     ],
     "qweb": [
+        'static/src/xml/custom_xml.xml',
     ]
 }
