@@ -18,7 +18,8 @@
         <field name="arch" type="xml">
             <form string="Image">
                 <group string="Image">
-                    <field name="image_url"
+                    <field name="image_medium_url"
+                           readonly="False"
                            widget="image_url"
                            filename="name"
                            nolabel="1"

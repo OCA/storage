@@ -42,10 +42,6 @@ class StorageImage(models.Model):
         compute="_compute_image_url",
         store=True,
         readonly=True)
-    image_url = fields.Char(
-        store=True,
-        inverse="_inverse_image_url",
-        compute="_compute_image_url")
 
     @api.onchange('name')
     def onchange_name(self):
@@ -57,16 +53,18 @@ class StorageImage(models.Model):
                 for char in ['-', '_']:
                     record.alt_name = record.alt_name.replace(char, ' ')
 
-    @api.multi
-    def _inverse_image_url(self):
-        for record in self:
-            record.file_id.datas = record.image_url
-
     @api.model
     def create(self, vals):
         if 'backend_id' not in vals:
             vals['backend_id'] = self._deduce_backend_id()
-        return super(StorageImage, self).create(vals)
+        if 'image_medium_url' in vals:
+            # TODO find a better way to pass the datas from the image widget
+            datas = vals.pop('image_medium_url')
+        image = super(StorageImage, self).create(vals)
+        # ORM bug computed field are not visible
+        # in write from the inherited class
+        image.file_id.datas = datas
+        return image
 
     def _deduce_backend_id(self):
         """Choose the correct backend.
@@ -93,11 +91,10 @@ class StorageImage(models.Model):
         todo = self.env.all.todo
         self.env.all.todo = {}
         for rec in self:
-            rec.update({
-                'image_url': rec.url,
-                'image_medium_url': rec._get_medium_thumbnail().url,
-                'image_small_url': rec._get_small_thumbnail().url,
-            })
+            medium_url = rec._get_medium_thumbnail().url
+            small_url = rec._get_small_thumbnail().url
+            rec.image_medium_url = medium_url
+            rec.image_small_url = small_url
         self.env.all.todo = todo
 
     @api.multi
