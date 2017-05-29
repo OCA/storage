@@ -17,7 +17,11 @@ class StorageThumbnail(models.Model):
 
     size_x = fields.Integer("weight")
     size_y = fields.Integer("height")
-    file_id = fields.Many2one('storage.file', 'File')
+    file_id = fields.Many2one(
+        'storage.file',
+        'File',
+        required=True,
+        ondelete='cascade')
 
     def _prepare_thumbnail(self, image, size_x, size_y):
         return {

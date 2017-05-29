@@ -24,24 +24,24 @@ class StorageImage(models.Model):
 
     sequence = fields.Integer(default=10)
     alt_name = fields.Char(string="Alt Image name")
-    file_id = fields.Many2one('storage.file', 'File')
-
+    file_id = fields.Many2one(
+        'storage.file',
+        'File',
+        required=True,
+        ondelete='cascade')
     thumbnail_ids = fields.One2many(
         comodel_name='storage.thumbnail',
         string='Thumbnails',
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)])
-
     image_medium_url = fields.Char(
         compute="_compute_image_url",
         store=True,
         readonly=True)
-
     image_small_url = fields.Char(
         compute="_compute_image_url",
         store=True,
         readonly=True)
-
     image_url = fields.Char(
         store=True,
         inverse="_inverse_image_url",
