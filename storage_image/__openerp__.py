@@ -28,6 +28,7 @@
         'views/js.xml',
         'views/image_resize_view.xml',
         'data/ir_parameter.xml',
+        'security/ir.model.access.csv',
     ],
     "demo": [
     ],
