@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_storage_image,storage_image manager,model_storage_image,base.group_system,1,1,1,1
+access_storage_thumbnail,storage_thumbnail manager,model_storage_thumbnail,base.group_system,1,1,1,1
+access_image_resize,image_resize manager,model_image_resize,base.group_system,1,1,1,1
