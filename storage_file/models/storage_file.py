@@ -64,6 +64,8 @@ class StorageFile(models.Model):
          'The private path must be uniq per backend'),
     ]
 
+    # TODO add code for using security rule like ir.attachment
+
     def _prepare_meta_for_file(self, datas):
         return {
             'url': self.backend_id.get_public_url(self.name),
