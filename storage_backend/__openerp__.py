@@ -24,5 +24,6 @@
     "data": [
         "views/backend_storage_view.xml",
         "data/data.xml",
+        "security/ir.model.access.csv",
     ],
 }
