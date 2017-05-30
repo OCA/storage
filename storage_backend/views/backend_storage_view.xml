@@ -30,6 +30,7 @@
                     <field name="sftp_server" />
                     <field name="sftp_dir_path" />
                     <field name="sftp_public_base_url" />
+                    <field name="sftp_login" />
                 </group>
                 <group name="odoo" attrs="{'invisible': [('backend_type', '!=', 'odoo')]}">
                 </group>
