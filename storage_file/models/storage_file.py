@@ -56,7 +56,7 @@ class StorageFile(models.Model):
         help="Datas",
         inverse='_inverse_datas',
         compute='_compute_datas',
-        store=False)  #
+        store=False)
 
     _sql_constraints = [
         ('url_uniq', 'unique(url)', 'The url must be uniq'),
@@ -64,25 +64,24 @@ class StorageFile(models.Model):
          'The private path must be uniq per backend'),
     ]
 
-    # TODO add code for using security rule like ir.attachment
-
-    def _prepare_meta_for_file(self, datas):
+    def _prepare_meta_for_file(self, datas, private_path):
         return {
-            'url': self.backend_id.get_public_url(self.name),
+            'url': self.backend_id.get_public_url(private_path),
             'checksum': hashlib.sha1(datas).hexdigest(),
             'file_size': len(datas),
+            'private_path': private_path
             }
 
     @api.multi
     def _inverse_datas(self):
         for record in self:
             b_decoded = base64.b64decode(record.datas)
-            self.backend_id.store(
+            private_path = self.backend_id.store(
                 record.name,
                 b_decoded,
                 is_public=True,
                 is_base64=False)
-            vals = record._prepare_meta_for_file(b_decoded)
+            vals = record._prepare_meta_for_file(b_decoded, private_path)
             record.write(vals)
 
     @api.multi
