@@ -32,7 +32,8 @@ class SftpStorageBackend(models.Model):
     )
     sftp_server = fields.Char(
         string='SFTP host',
-        help='',
+        help='Can include the port if necessary, like '
+             'my-server:22222',
         sparse="data"
     )
     sftp_dir_path = fields.Char(
@@ -40,46 +41,58 @@ class SftpStorageBackend(models.Model):
         help='Dir on the server where to store files',
         sparse="data"
     )
+    sftp_login = fields.Char(
+        string='SFTP login',
+        help='Login to connect to sftp server',
+        sparse="data"
+    )
 
     # TODO externiser ça dans des parametres
     # ou dans un keychain ?
+    # Can't work without login/password??
+#    def _sftp_store(self, name, datas, is_public=False):
+#        checksum = u'' + hashlib.sha1(blob).hexdigest()
+#        name = name or checksum
+#        # todo add filename here (for extention)
+#        b_decoded = base64.b64decode(datas)
+#        try:
+#            with sftpfs.SFTPFS(
+#                self.sftp_server,
+#                root_path=self.sftp_dir_path
+#            ) as the_dir:
+#                the_dir.setcontents(name, b_decoded)
+#        except socket.error:
+#            raise UserError('SFTP server not available')
+#        return name
 
-    def _sftpstore(self, vals):
-        blob = vals['datas']
-        checksum = u'' + hashlib.sha1(blob).hexdigest()
-
-        name = vals.get('name', checksum)
+    def _sftp_store(self, name, datas, is_public=False):
         # todo add filename here (for extention)
-        b_decoded = base64.b64decode(blob)
         try:
-            with sftpfs.SFTPFS(
-                self.sftp_server,
-                root_path=self.sftp_dir_path
-            ) as the_dir:
-                the_dir.setcontents(name, b_decoded)
-                size = the_dir.getsize(name)
+            account = self._get_keychain_account()
+            password = account.get_password()
+            print password, self.sftp_login, self.sftp_server
+            with  sftpfs.SFTPFS(connection=self.sftp_server,
+                        username=self.sftp_login,
+                        password=password
+                    ) as conn:
+                full_path = self.sftp_dir_path + '/' + name
+                conn.setcontents(full_path, datas)
         except socket.error:
             raise UserError('SFTP server not available')
+        return name
 
-        basic_vals = {
-            'name': name,
-            'url': name,
-            'file_size': size,
-            'checksum': checksum,
-            'backend_id': self.id,
-            'private_path': self.sftp_dir_path + name,
-        }
-        return basic_vals
-
-    def _sftpget_public_url(self, obj):
+    def _sftpget_public_url(self, name):
         # TODO faire mieux
         logger.info('get_public_url')
 
-        if obj.to_do:
-            logger.warning(
-                'public url not available for not processed thumbnail')
-            return None
-        return self.sftp_public_base_url + obj.url
+#        if obj.to_do:
+#            logger.warning(
+#                'public url not available for not processed thumbnail')
+#            return None
+        host = self.sftp_public_base_url
+        directory = self.sftp_dir_path
+        return "https://%s/%s/%s" % (host, directory, name)
+#        return self.sftp_public_base_url + obj.url
 
     def _sftpget_base64(self, file_id):
         logger.info('return base64 of a file')
