@@ -20,15 +20,15 @@ class Owner(models.AbstractModel):
     image_url = fields.Char(
         string="Main image",
         compute="_compute_main_image_url",
-        store=True)
+        store=False)
     image_medium_url = fields.Char(
         string="Medium image",
         compute="_compute_main_image_url",
-        store=True)
+        store=False)
     image_small_url = fields.Char(
         string="Small image",
         compute="_compute_main_image_url",
-        store=True)
+        store=False)
 
     def _has_onchange(self, field, other_fields):
         # Remove onchange on image_ids fields to avoid
