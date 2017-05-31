@@ -43,3 +43,7 @@ class StorageBackend(models.Model):
     @implemented_by_factory
     def get_public_url(self, name, **kwargs):
         pass
+
+    @implemented_by_factory
+    def retrieve_datas(self, name, **kwargs):
+        pass

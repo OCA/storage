@@ -4,9 +4,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import socket
-import hashlib
 import logging
 import base64
+import os
 
 from openerp import fields, models
 from openerp.exceptions import Warning as UserError
@@ -70,12 +70,11 @@ class SftpStorageBackend(models.Model):
         try:
             account = self._get_keychain_account()
             password = account.get_password()
-            print password, self.sftp_login, self.sftp_server
-            with  sftpfs.SFTPFS(connection=self.sftp_server,
-                        username=self.sftp_login,
-                        password=password
-                    ) as conn:
-                full_path = self.sftp_dir_path + '/' + name
+            with sftpfs.SFTPFS(connection=self.sftp_server,
+                               username=self.sftp_login,
+                               password=password
+                               ) as conn:
+                full_path = os.path.join(self.sftp_dir_path, name)
                 conn.setcontents(full_path, datas)
         except socket.error:
             raise UserError('SFTP server not available')
@@ -85,19 +84,23 @@ class SftpStorageBackend(models.Model):
         # TODO faire mieux
         logger.info('get_public_url')
 
-#        if obj.to_do:
-#            logger.warning(
-#                'public url not available for not processed thumbnail')
-#            return None
         host = self.sftp_public_base_url
         directory = self.sftp_dir_path
         return "https://%s/%s/%s" % (host, directory, name)
-#        return self.sftp_public_base_url + obj.url
 
-    def _sftpget_base64(self, file_id):
+    def _sftpretrieve_datas(self, name):
         logger.info('return base64 of a file')
-        with sftpfs.SFTPFS(
-            self.sftp_server,
-            root_path=self.sftp_dir_path
-        ) as the_dir:
-            return the_dir.open(file_id.url, 'r')
+        try:
+            account = self._get_keychain_account()
+            password = account.get_password()
+            with sftpfs.SFTPFS(connection=self.sftp_server,
+                               username=self.sftp_login,
+                               password=password
+                               ) as conn:
+                full_path = os.path.join(self.sftp_dir_path, name)
+                file_data = conn.open(full_path, 'rb')
+                datas = file_data.read()
+                datas_encoded = datas and base64.b64encode(datas) or False
+        except socket.error:
+            raise UserError('SFTP server not available')
+        return datas_encoded
