@@ -4,7 +4,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import fields, models
-import hashlib
 import base64
 
 
@@ -19,8 +18,6 @@ class OdooStorageBackend(models.Model):
         selection_add=[('odoo', 'Odoo')])
 
     def _odoo_store(self, name, datas, is_public=False, **kwargs):
-        checksum = u'' + hashlib.sha1(datas).hexdigest()
-        name = name or checksum
         datas_encoded = base64.b64encode(datas)
         ir_attach_vals = {
             'name': name,
@@ -40,21 +37,21 @@ class OdooStorageBackend(models.Model):
 #            limit=1)
         attach = self.env['ir.attachment'].browse(attach_id)
         url = (
-            '/web/binary/image?model=%(model)s'
+            'web/binary/image?model=%(model)s'
             '&id=%(attach_id)s&field=datas'
             # comment on sait que c'est une image? a mettre ailleurs
         ) % {
             'model': attach._name,
             'attach_id': attach.id
         }
-        print url
-        return url
+        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        if not base_url.endswith('/'):
+            base_url = base_url + '/'
+        return base_url + url
 
-    def _odooget_base64(self, file_id):
+    # This method is kind of useless but we can keep it to be consistent with
+    # other storage backends
+    def _odooretrieve_datas(self, attach_id):
         logger.info('return base64 of a file')
-        return self._odoo_lookup(file_id).datas
-
-    def _odoo_lookup(self, obj):
-        return self.env['ir.attachment'].search([
-            ('id', '=', obj.private_path)
-        ])
+        attach = self.env['ir.attachment'].browse(attach_id)
+        return attach.datas
