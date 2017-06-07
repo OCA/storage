@@ -8,6 +8,7 @@
         <form string="Image Resize">
             <group>
                 <field name="name"/>
+                <field name="key"/>
                 <field name="size_x"/>
                 <field name="size_y"/>
             </group>
