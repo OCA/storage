@@ -44,7 +44,7 @@ class Owner(models.AbstractModel):
     def _compute_main_image_url(self):
         for s in self:
             first = s.image_ids[:1]
-            s.image_url = first.image_url
+            s.image_url = first.url
             s.image_medium_url = first.image_medium_url
             s.image_small_url = first.image_small_url
 

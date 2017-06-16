@@ -91,10 +91,11 @@ class StorageImage(models.Model):
         todo = self.env.all.todo
         self.env.all.todo = {}
         for rec in self:
-            medium_url = rec._get_medium_thumbnail().url
-            small_url = rec._get_small_thumbnail().url
-            rec.image_medium_url = medium_url
-            rec.image_small_url = small_url
+            if rec.datas:
+                medium_url = rec._get_medium_thumbnail().url
+                small_url = rec._get_small_thumbnail().url
+                rec.image_medium_url = medium_url
+                rec.image_small_url = small_url
         self.env.all.todo = todo
 
     @api.multi
