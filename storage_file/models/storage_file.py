@@ -10,6 +10,8 @@ import logging
 import os
 import mimetypes
 import hashlib
+from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 
@@ -81,15 +83,15 @@ class StorageFile(models.Model):
 
     @api.depends('file_size')
     def _compute_human_file_size(self):
-        suffixes=['B','KB','MB','GB','TB']
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB']
         for record in self:
-            suffixIndex = 0
+            suffix_index = 0
             size = record.file_size
-            while size > 1024 and suffixIndex < 4:
-                suffixIndex += 1
+            while size > 1024 and suffix_index < 4:
+                suffix_index += 1
                 size = size/1024.0
             record.human_file_size = "%.*f%s" % (
-                2, size, suffixes[suffixIndex])
+                2, size, suffixes[suffix_index])
 
     def _prepare_meta_for_file(self, datas):
         return {
@@ -118,7 +120,8 @@ class StorageFile(models.Model):
                 rec.datas = None
             else:
                 try:
-                    rec.datas = base64.b64encode(urllib.urlopen(rec.url).read())
+                    rec.datas = base64.b64encode(
+                        urllib.urlopen(rec.url).read())
                 except:
                     _logger.error('Image %s not found', rec.url)
                     rec.datas = None
