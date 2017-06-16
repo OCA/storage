@@ -25,9 +25,11 @@
                 <group>
                     <field name="backend_id"/>
                     <field name="url" widget="url"/>
-                    <field name="file_size"/>
+                    <field name="human_file_size"/>
                     <field name="checksum"/>
                     <field name="private_path"/>
+                    <field name="res_model" readonly="True"/>
+                    <field name="res_id" readonly="True"/>
                 </group>
             </div>
         </form>
