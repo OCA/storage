@@ -34,12 +34,15 @@ class StorageFile(models.Model):
         readonly=False,
         select=True)
     file_size = fields.Integer('File Size')
+    human_file_size = fields.Char(
+        'Human File Size',
+        compute='_compute_human_file_size',
+        store=True)
     checksum = fields.Char(
         "Checksum/SHA1",
         size=40,
         select=True,
         readonly=True)
-
     filename = fields.Char(
         "Filename without extension",
         compute='_compute_extract_filename',
@@ -64,7 +67,31 @@ class StorageFile(models.Model):
          'The private path must be uniq per backend'),
     ]
 
-    def _prepare_meta_for_file(self, datas, private_path):
+    # TODO add code for using security rule like ir.attachment
+
+    @api.multi
+    def write(self, vals):
+        if 'datas' in vals:
+            for record in self:
+                if record.datas:
+                    raise UserError(
+                        _('File can not be updated,'
+                          'remove it and create a new one'))
+        return super(StorageFile, self).write(vals)
+
+    @api.depends('file_size')
+    def _compute_human_file_size(self):
+        suffixes=['B','KB','MB','GB','TB']
+        for record in self:
+            suffixIndex = 0
+            size = record.file_size
+            while size > 1024 and suffixIndex < 4:
+                suffixIndex += 1
+                size = size/1024.0
+            record.human_file_size = "%.*f%s" % (
+                2, size, suffixes[suffixIndex])
+
+    def _prepare_meta_for_file(self, datas):
         return {
             'url': self.backend_id.get_public_url(private_path),
             'checksum': hashlib.sha1(datas).hexdigest(),
@@ -87,11 +114,14 @@ class StorageFile(models.Model):
     @api.multi
     def _compute_datas(self):
         for rec in self:
-            try:
-                rec.datas = base64.b64encode(urllib.urlopen(rec.url).read())
-            except:
-                _logger.error('Image %s not found', rec.url)
+            if not rec.url:
                 rec.datas = None
+            else:
+                try:
+                    rec.datas = base64.b64encode(urllib.urlopen(rec.url).read())
+                except:
+                    _logger.error('Image %s not found', rec.url)
+                    rec.datas = None
 
     @api.depends('name')
     def _compute_extract_filename(self):
