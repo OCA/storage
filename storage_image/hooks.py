@@ -28,10 +28,10 @@ def pre_init_hook_for_submodules(cr, model, field):
                 ALTER TABLE %(table)s
                 RENAME COLUMN %(field)s TO %(mig_field)s
             """ % {
-                    "table": env[model]._table,
-                    "field": field,
-                    "mig_field": mig_field
-                }
+                "table": env[model]._table,
+                "field": field,
+                "mig_field": mig_field
+            }
         )
 
 
@@ -59,11 +59,10 @@ def post_init_hook_for_submodules(cr, model, img_field, name_field):
             FROM %(table)s
             WHERE %(mig_field)s IS NOT NULL
         """ % {
-                    "table": env[model]._table,
-                    "mig_field": mig_field,
-                    "name": name_field
-                }
-        )
+            "table": env[model]._table,
+            "mig_field": mig_field,
+            "name": name_field
+        })
         res_sql = cr.fetchall()
         for record_id, record_name, val_img in res_sql:
             vals = {
@@ -77,6 +76,6 @@ def post_init_hook_for_submodules(cr, model, img_field, name_field):
         cr.execute("""
             ALTER TABLE %(table)s DROP COLUMN %(mig_field)s
         """ % {
-                "mig_field": mig_field,
-                "table": env[model]._table,
-            })
+            "mig_field": mig_field,
+            "table": env[model]._table,
+        })
