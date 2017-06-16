@@ -47,6 +47,7 @@ class S3StorageBackend(models.Model):
                 key.make_public()
         except socket.error:
             raise UserError('S3 server not available')
+        return name
 
     def _amazon_s3get_public_url(self, name):
         if self.aws_cloudfront_domain:
