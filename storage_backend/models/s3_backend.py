@@ -25,19 +25,23 @@ class S3StorageBackend(models.Model):
         selection_add=[('amazon_s3', 'Amazon S3')])
 
     aws_bucket = fields.Char(sparse="data")
-    aws_secret_key = fields.Char(sparse="data")
+    aws_directory = fields.Char(sparse="data")
     aws_access_key = fields.Char(sparse="data")
     aws_host = fields.Char(sparse="data")
     aws_cloudfront_domain = fields.Char(sparse="data")
+    aws_cloudfront_domain_include_directory = fields.Boolean(sparse="data")
 
     def _amazon_s3_store(self, name, datas, is_public=False):
         mime, enc = mimetypes.guess_type(name)
+        account = self._get_existing_keychain()
         try:
             conn = S3Connection(
                 self.aws_access_key,
-                self.aws_secret_key,
+                account.get_password(),
                 host=self.aws_host)
-            buck = conn.get_bucket('storage-testing-raph')
+            buck = conn.get_bucket(self.aws_bucket)
+            if self.aws_directory:
+                name = "%s/%s" % (self.aws_directory, name)
             key = buck.get_key(name)
             if not key:
                 key = buck.new_key(name)
@@ -49,12 +53,16 @@ class S3StorageBackend(models.Model):
             raise UserError('S3 server not available')
         return name
 
-    def _amazon_s3get_public_url(self, name):
+    def _amazon_s3get_public_url(self, path):
         if self.aws_cloudfront_domain:
-            host = self.aws_cloutfront_domain
+            if self.aws_cloudfront_domain_include_directory:
+                if path.startswith('%s/' % self.aws_directory):
+                    path = path[len(self.aws_directory)+1:]
+                else:
+                    raise UserError(_('Path do not match with aws directory'))
+            return "https://%s/%s" % (self.aws_cloudfront_domain, path)
         else:
-            host = self.aws_host
-        return "https://%s/%s/%s" % (host, self.aws_bucket, name)
+            return "https://%s/%s/%s" % (self.aws_host, self.aws_bucket, path)
 
     def _amazon_s3get_base64(self, file_id):
         logger.warning('return base64 of a file')
