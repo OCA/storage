@@ -9,6 +9,7 @@ import mimetypes
 
 from openerp import fields, models
 from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +51,7 @@ class S3StorageBackend(models.Model):
             if is_public:
                 key.make_public()
         except socket.error:
-            raise UserError('S3 server not available')
+            raise UserError(_('S3 server not available'))
         return name
 
     def _amazon_s3get_public_url(self, path):
