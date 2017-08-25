@@ -8,7 +8,13 @@ import logging
 import os
 import re
 from openerp import fields, models
+from openerp.exceptions import AccessError
 logger = logging.getLogger(__name__)
+
+
+
+def is_safe_path(basedir, path):
+    return os.path.realpath(path).startswith(basedir)
 
 
 class FileStoreStorageBackend(models.Model):
@@ -22,17 +28,19 @@ class FileStoreStorageBackend(models.Model):
     filestore_base_path = fields.Char(
         sparse="data")
 
+    def _basedir(self):
+        return os.path.join(self.env['ir.attachment']._filestore(), 'storage')
+
     def _fullpath(self, name):
         """This will build the full path for the file, we force to
         store the data inside the filestore in the directory 'storage".
         Becarefull if you implement your own custom path, end user
         should never be able to write or read unwanted filesystem file"""
-        # sanitize base_path
-        base_path = re.sub('[.]', '', self.filestore_base_path).strip('/\\')
-        # sanitize name
-        name = name.strip('/\\')
-        return os.path.join(
-            self.env['ir.attachment']._filestore(), 'storage', base_path, name)
+        base_dir = self._basedir()
+        full_path = os.path.join(base_dir, self.filestore_base_path, name)
+        if not is_safe_path(base_dir, full_path):
+            raise AccessError("Access to %s is forbidden" % full_path)
+        return full_path
 
     def _filestore_store(self, name, datas, is_public=False):
         full_path = self._fullpath(name)
