@@ -35,6 +35,8 @@
                 <group name="odoo" attrs="{'invisible': [('backend_type', '!=', 'odoo')]}">
                 </group>
                 <group name="filestore" attrs="{'invisible': [('backend_type', '!=', 'filestore')]}">
+                    The path is relative and your data will be store inside the filestore
+                    in the directory filestore/your_database/storage/your_custom_path
                     <field name="filestore_base_path" />
                     <field name="filestore_public_base_url" />
                 </group>
@@ -45,8 +47,10 @@
                     <field name="aws_cloudfront_domain"/>
                     <field name="aws_cloudfront_domain_include_directory"/>
                     <field name="aws_access_key"/>
-                    <field name="password" string="Secret Key"/>
                 </group>
+                <label for="password" string="AWS secret key" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}"/>
+                <label for="password" string="SFTP password" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}"/>
+                <field name="password" attrs="{'required': [('backend_type', '=', 'amazon_s3')], 'invisible':[('backend_type', 'not in', ('amazon_s3', 'sftp'))]}"/>
 			</sheet>
         </form>
     </field>
