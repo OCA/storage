@@ -17,7 +17,7 @@
     <field name="arch" type="xml">
         <form string="Storage Backend">
             <sheet>
-			    <div class="oe_title">
+                <div class="oe_title">
                     <label for="name" class="oe_edit_only"/>
                     <h1>
                         <field name="name"/>
@@ -51,7 +51,7 @@
                 <label for="password" string="AWS secret key" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}"/>
                 <label for="password" string="SFTP password" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}"/>
                 <field name="password" attrs="{'required': [('backend_type', '=', 'amazon_s3')], 'invisible':[('backend_type', 'not in', ('amazon_s3', 'sftp'))]}"/>
-			</sheet>
+            </sheet>
         </form>
     </field>
 </record>

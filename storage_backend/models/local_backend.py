@@ -6,11 +6,10 @@
 import base64
 import logging
 import os
-import re
 from openerp import fields, models
 from openerp.exceptions import AccessError
+from openerp.tools.translate import _
 logger = logging.getLogger(__name__)
-
 
 
 def is_safe_path(basedir, path):
@@ -39,7 +38,7 @@ class FileStoreStorageBackend(models.Model):
         base_dir = self._basedir()
         full_path = os.path.join(base_dir, self.filestore_base_path, name)
         if not is_safe_path(base_dir, full_path):
-            raise AccessError("Access to %s is forbidden" % full_path)
+            raise AccessError(_("Access to %s is forbidden" % full_path))
         return full_path
 
     def _filestore_store(self, name, datas, is_public=False):

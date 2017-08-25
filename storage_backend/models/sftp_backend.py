@@ -10,6 +10,7 @@ import os
 
 from openerp import fields, models
 from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +78,7 @@ class SftpStorageBackend(models.Model):
                 full_path = os.path.join(self.sftp_dir_path, name)
                 conn.setcontents(full_path, datas)
         except socket.error:
-            raise UserError('SFTP server not available')
+            raise UserError(_('SFTP server not available'))
         return name
 
     def _sftpget_public_url(self, name):
@@ -102,5 +103,5 @@ class SftpStorageBackend(models.Model):
                 datas = file_data.read()
                 datas_encoded = datas and base64.b64encode(datas) or False
         except socket.error:
-            raise UserError('SFTP server not available')
+            raise UserError(_('SFTP server not available'))
         return datas_encoded
