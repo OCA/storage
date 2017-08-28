@@ -14,7 +14,9 @@
     "application": False,
     "installable": True,
     "external_dependencies": {
-        "python": ["fs"],
+        "python": [
+            "paramiko",
+        ],
     },
     "depends": [
         "base",
