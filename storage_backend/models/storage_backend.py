@@ -14,7 +14,7 @@ def implemented_by_factory(func):
     @wraps(func)
     def wrapper(cls, *args, **kwargs):
         fun_name = func.__name__
-        fun = '_%s%s' % (cls.backend_type, fun_name)
+        fun = '_%s_%s' % (cls.backend_type, fun_name)
         _logger.info('try %s' % fun)
         if not hasattr(cls, fun):
             fun = '_default%s' % (fun_name)
@@ -34,10 +34,10 @@ class StorageBackend(models.Model):
     def store(self, name, datas, is_base64=True, **kwargs):
         if is_base64:
             datas = base64.b64decode(datas)
-        return self._store(name, datas, **kwargs)
+        return self.store_data(name, datas, **kwargs)
 
     @implemented_by_factory
-    def _store(self, name, datas, **kwargs):
+    def store_data(self, name, datas, **kwargs):
         pass
 
     @implemented_by_factory

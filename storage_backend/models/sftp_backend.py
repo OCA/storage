@@ -74,7 +74,7 @@ class SftpStorageBackend(models.Model):
         sparse="data"
     )
 
-    def _sftp_store(self, name, datas, is_public=False):
+    def _sftp_store_data(self, name, datas, is_public=False):
         with sftp(self) as client:
             full_path = os.path.join(self.sftp_dir_path or '/', name)
             dirname = os.path.dirname(full_path)
@@ -91,11 +91,12 @@ class SftpStorageBackend(models.Model):
 	    remote_file.close()
         return name
 
-    def _sftpget_public_url(self, name):
+    def _sftp_get_public_url(self, name):
         return os.path.join(self.sftp_public_base_url, name)
 
-    def _sftpretrieve_datas(self, name):
+    def _sftp_retrieve_datas(self, name):
         logger.debug('Backend Storage: Read file %s from filestore', name)
+        full_path = os.path.join(self.sftp_dir_path or '/', name)
         with sftp(self) as client:
             file_data = client.open(full_path, 'rb')
             datas = file_data.read()
