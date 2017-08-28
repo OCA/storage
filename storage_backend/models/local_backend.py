@@ -41,7 +41,7 @@ class FileStoreStorageBackend(models.Model):
             raise AccessError(_("Access to %s is forbidden" % full_path))
         return full_path
 
-    def _filestore_store(self, name, datas, is_public=False):
+    def _filestore_store_data(self, name, datas, is_public=False):
         full_path = self._fullpath(name)
         dirname = os.path.dirname(full_path)
         if not os.path.isdir(dirname):
@@ -51,10 +51,10 @@ class FileStoreStorageBackend(models.Model):
             my_file.write(datas)
         return name
 
-    def _filestoreget_public_url(self, name):
+    def _filestore_get_public_url(self, name):
         return os.path.join(self.filestore_public_base_url, name)
 
-    def _filestoreretrieve_datas(self, name):
+    def _filestore_retrieve_datas(self, name):
         logger.debug('Backend Storage: Read file %s from filestore', name)
         full_path = self._fullpath(name)
         with open(full_path, "b") as my_file:

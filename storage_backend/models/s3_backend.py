@@ -32,7 +32,7 @@ class S3StorageBackend(models.Model):
     aws_cloudfront_domain = fields.Char(sparse="data")
     aws_cloudfront_domain_include_directory = fields.Boolean(sparse="data")
 
-    def _amazon_s3_store(self, name, datas, is_public=False):
+    def _amazon_s3_store_data(self, name, datas, is_public=False):
         mime, enc = mimetypes.guess_type(name)
         account = self._get_existing_keychain()
         try:
@@ -54,7 +54,7 @@ class S3StorageBackend(models.Model):
             raise UserError(_('S3 server not available'))
         return name
 
-    def _amazon_s3get_public_url(self, path):
+    def _amazon_s3_get_public_url(self, path):
         if self.aws_cloudfront_domain:
             if self.aws_cloudfront_domain_include_directory:
                 if path.startswith('%s/' % self.aws_directory):
