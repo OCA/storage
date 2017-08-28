@@ -120,8 +120,7 @@ class StorageFile(models.Model):
                 rec.datas = None
             else:
                 try:
-                    rec.datas = base64.b64encode(
-                        urllib.urlopen(rec.url).read())
+                    rec.datas = rec.backend_id.retrieve_datas(rec.private_path)
                 except:
                     _logger.error('Image %s not found', rec.url)
                     rec.datas = None
