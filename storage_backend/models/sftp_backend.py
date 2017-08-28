@@ -7,17 +7,40 @@ import socket
 import logging
 import base64
 import os
+import errno
 
 from openerp import fields, models
 from openerp.exceptions import Warning as UserError
 from openerp.tools.translate import _
+from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)
 
 try:
-    from fs import sftpfs
+    import paramiko
 except ImportError as err:
     logger.debug(err)
+
+
+def sftp_mkdirs(client, path, mode=511):
+    try:
+        client.mkdir(path, mode)
+    except IOError, e:
+        if e.errno == errno.ENOENT:
+            sftp_mkdirs(client, os.path.dirname(path), mode=mode)
+            client.mkdir(path, mode)
+        else:
+	    raise
+
+@contextmanager
+def sftp(backend):
+    account = backend._get_keychain_account()
+    password = account.get_password()
+    transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
+    transport.connect(username=backend.sftp_login, password=password)
+    client = paramiko.SFTPClient.from_transport(transport)
+    yield client
+    transport.close()
 
 
 class SftpStorageBackend(models.Model):
@@ -33,8 +56,11 @@ class SftpStorageBackend(models.Model):
     )
     sftp_server = fields.Char(
         string='SFTP host',
-        help='Can include the port if necessary, like '
-             'my-server:22222',
+        sparse="data"
+    )
+    sftp_port = fields.Integer(
+        string='SFTP port',
+        default=22,
         sparse="data"
     )
     sftp_dir_path = fields.Char(
@@ -48,60 +74,30 @@ class SftpStorageBackend(models.Model):
         sparse="data"
     )
 
-    # TODO externiser ça dans des parametres
-    # ou dans un keychain ?
-    # Can't work without login/password??
-#    def _sftp_store(self, name, datas, is_public=False):
-#        checksum = u'' + hashlib.sha1(blob).hexdigest()
-#        name = name or checksum
-#        # todo add filename here (for extention)
-#        b_decoded = base64.b64decode(datas)
-#        try:
-#            with sftpfs.SFTPFS(
-#                self.sftp_server,
-#                root_path=self.sftp_dir_path
-#            ) as the_dir:
-#                the_dir.setcontents(name, b_decoded)
-#        except socket.error:
-#            raise UserError('SFTP server not available')
-#        return name
-
     def _sftp_store(self, name, datas, is_public=False):
-        # todo add filename here (for extention)
-        try:
-            account = self._get_keychain_account()
-            password = account.get_password()
-            with sftpfs.SFTPFS(connection=self.sftp_server,
-                               username=self.sftp_login,
-                               password=password
-                               ) as conn:
-                full_path = os.path.join(self.sftp_dir_path, name)
-                conn.setcontents(full_path, datas)
-        except socket.error:
-            raise UserError(_('SFTP server not available'))
+        with sftp(self) as client:
+            full_path = os.path.join(self.sftp_dir_path or '/', name)
+            dirname = os.path.dirname(full_path)
+            try:
+                client.stat(dirname)
+            except IOError, e:
+                if e.errno == errno.ENOENT:
+                    sftp_mkdirs(client, dirname)
+                else:
+                    raise
+            logger.debug('Backend Storage: Write file %s to filestore', full_path)
+            remote_file = client.open(full_path, 'w+b')
+            remote_file.write(datas)
+	    remote_file.close()
         return name
 
     def _sftpget_public_url(self, name):
-        # TODO faire mieux
-        logger.info('get_public_url')
-
-        host = self.sftp_public_base_url
-        directory = self.sftp_dir_path
-        return "https://%s/%s/%s" % (host, directory, name)
+        return os.path.join(self.sftp_public_base_url, name)
 
     def _sftpretrieve_datas(self, name):
-        logger.info('return base64 of a file')
-        try:
-            account = self._get_keychain_account()
-            password = account.get_password()
-            with sftpfs.SFTPFS(connection=self.sftp_server,
-                               username=self.sftp_login,
-                               password=password
-                               ) as conn:
-                full_path = os.path.join(self.sftp_dir_path, name)
-                file_data = conn.open(full_path, 'rb')
-                datas = file_data.read()
-                datas_encoded = datas and base64.b64encode(datas) or False
-        except socket.error:
-            raise UserError(_('SFTP server not available'))
+        logger.debug('Backend Storage: Read file %s from filestore', name)
+        with sftp(self) as client:
+            file_data = client.open(full_path, 'rb')
+            datas = file_data.read()
+            datas_encoded = datas and base64.b64encode(datas) or False
         return datas_encoded
