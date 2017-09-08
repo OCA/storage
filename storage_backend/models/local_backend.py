@@ -57,6 +57,6 @@ class FileStoreStorageBackend(models.Model):
     def _filestore_retrieve_datas(self, name):
         logger.debug('Backend Storage: Read file %s from filestore', name)
         full_path = self._fullpath(name)
-        with open(full_path, "b") as my_file:
+        with open(full_path, "rb") as my_file:
             datas = my_file.read()
         return datas and base64.b64encode(datas) or False
