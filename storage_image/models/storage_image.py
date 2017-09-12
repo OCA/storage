@@ -92,8 +92,8 @@ class StorageImage(models.Model):
         self.env.all.todo = {}
         for rec in self:
             if rec.url:
-                medium_url = rec._get_medium_thumbnail().url
-                small_url = rec._get_small_thumbnail().url
+                medium_url = rec.sudo()._get_medium_thumbnail().url
+                small_url = rec.sudo()._get_small_thumbnail().url
                 rec.image_medium_url = medium_url
                 rec.image_small_url = small_url
         self.env.all.todo = todo
