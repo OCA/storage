@@ -93,7 +93,7 @@ class SftpStorageBackend(models.Model):
     def _sftp_get_public_url(self, name):
         return os.path.join(self.sftp_public_base_url, name)
 
-    def _sftp_retrieve_datas(self, name):
+    def _sftp_retrieve_data(self, name):
         logger.debug('Backend Storage: Read file %s from filestore', name)
         full_path = os.path.join(self.sftp_dir_path or '/', name)
         with sftp(self) as client:
