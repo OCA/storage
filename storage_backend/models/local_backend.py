@@ -54,7 +54,7 @@ class FileStoreStorageBackend(models.Model):
     def _filestore_get_public_url(self, name):
         return os.path.join(self.filestore_public_base_url, name)
 
-    def _filestore_retrieve_datas(self, name):
+    def _filestore_retrieve_data(self, name):
         logger.debug('Backend Storage: Read file %s from filestore', name)
         full_path = self._fullpath(name)
         with open(full_path, "rb") as my_file:
