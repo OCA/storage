@@ -45,5 +45,5 @@ class StorageBackend(models.Model):
         pass
 
     @implemented_by_factory
-    def retrieve_datas(self, name, **kwargs):
+    def retrieve_data(self, name, **kwargs):
         pass
