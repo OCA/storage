@@ -51,7 +51,7 @@ class OdooStorageBackend(models.Model):
 
     # This method is kind of useless but we can keep it to be consistent with
     # other storage backends
-    def _odooretrieve_datas(self, attach_id):
+    def _odoo_retrieve_data(self, attach_id):
         logger.info('return base64 of a file')
         attach = self.env['ir.attachment'].browse(attach_id)
         return attach.datas
