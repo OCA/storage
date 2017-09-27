@@ -4,7 +4,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-import urllib
 import base64
 import logging
 import os
@@ -95,7 +94,7 @@ class StorageFile(models.Model):
 
     def _prepare_meta_for_file(self, datas, private_path):
         return {
-            'url': self.backend_id.get_public_url(private_path),
+            'url': self.backend_id.sudo().get_public_url(private_path),
             'checksum': hashlib.sha1(datas).hexdigest(),
             'file_size': len(datas),
             'private_path': private_path
@@ -105,7 +104,7 @@ class StorageFile(models.Model):
     def _inverse_datas(self):
         for record in self:
             b_decoded = base64.b64decode(record.datas)
-            private_path = self.backend_id.store(
+            private_path = self.backend_id.sudo().store(
                 record.name,
                 b_decoded,
                 is_public=True,
@@ -120,11 +119,12 @@ class StorageFile(models.Model):
                 rec.datas = None
             else:
                 try:
-                    rec.datas = base64.b64encode(
-                        urllib.urlopen(rec.url).read())
+                    rec.datas = rec.backend_id.sudo().retrieve_data(
+                        rec.private_path)
                 except:
                     _logger.error('Image %s not found', rec.url)
                     rec.datas = None
+                    raise
 
     @api.depends('name')
     def _compute_extract_filename(self):
