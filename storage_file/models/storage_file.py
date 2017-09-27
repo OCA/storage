@@ -119,7 +119,7 @@ class StorageFile(models.Model):
                 rec.datas = None
             else:
                 try:
-                    rec.datas = rec.backend_id.sudo().retrieve_datas(
+                    rec.datas = rec.backend_id.sudo().retrieve_data(
                         rec.private_path)
                 except:
                     _logger.error('Image %s not found', rec.url)
