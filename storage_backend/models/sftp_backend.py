@@ -3,15 +3,12 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import socket
 import logging
 import base64
 import os
 import errno
 
 from openerp import fields, models
-from openerp.exceptions import Warning as UserError
-from openerp.tools.translate import _
 from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)
@@ -30,7 +27,8 @@ def sftp_mkdirs(client, path, mode=511):
             sftp_mkdirs(client, os.path.dirname(path), mode=mode)
             client.mkdir(path, mode)
         else:
-	    raise
+            raise
+
 
 @contextmanager
 def sftp(backend):
@@ -85,10 +83,11 @@ class SftpStorageBackend(models.Model):
                     sftp_mkdirs(client, dirname)
                 else:
                     raise
-            logger.debug('Backend Storage: Write file %s to filestore', full_path)
+            logger.debug(
+                'Backend Storage: Write file %s to filestore', full_path)
             remote_file = client.open(full_path, 'w+b')
             remote_file.write(datas)
-	    remote_file.close()
+            remote_file.close()
         return name
 
     def _sftp_get_public_url(self, name):
