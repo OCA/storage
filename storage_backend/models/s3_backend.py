@@ -6,10 +6,12 @@
 import socket
 import logging
 import mimetypes
+import base64
 
 from odoo import fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
+
 
 logger = logging.getLogger(__name__)
 
@@ -58,22 +60,24 @@ class S3StorageBackend(models.Model):
         if self.aws_cloudfront_domain:
             if self.aws_cloudfront_domain_include_directory:
                 if path.startswith('%s/' % self.aws_directory):
-                    path = path[len(self.aws_directory)+1:]
+                    path = path[len(self.aws_directory) + 1:]
                 else:
                     raise UserError(_('Path do not match with aws directory'))
             return "https://%s/%s" % (self.aws_cloudfront_domain, path)
         else:
             return "https://%s/%s/%s" % (self.aws_host, self.aws_bucket, path)
 
-    def _amazon_s3get_base64(self, file_id):
-        logger.warning('return base64 of a file')
-        # TODO reimplement
-        # with s3fs.S3FS(
-        #    self.aws_bucket,
-        #    aws_secret_key=self.aws_secret_key,
-        #    aws_access_key=self.aws_access_key,
-        #    host='s3.eu-central-1.amazonaws.com'
-        # ) as the_dir:
-        #    # TODO : quel horreur ! on a deja l'url
-        #    bin = the_dir.getcontents(file_id.name)  # mettre private_path
-        #    return base64.b64encode(bin)
+    def _amazon_s3_retrieve_data(self, name):
+        logger.debug('Backend Storage: Read file %s from amazon S3', name)
+        account = self._get_existing_keychain()
+        try:
+            conn = S3Connection(
+                self.aws_access_key,
+                account.get_password(),
+                host=self.aws_host)
+            buck = conn.get_bucket(self.aws_bucket)
+            key = buck.get_key(name)
+            datas = key.read()
+        except socket.error:
+            raise UserError(_('S3 server not available'))
+        return datas and base64.b64encode(datas) or False
