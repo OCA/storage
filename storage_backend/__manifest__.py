@@ -15,6 +15,7 @@
     "external_dependencies": {
         "python": [
             "paramiko",
+            "boto",
         ],
     },
     "depends": [
