@@ -3,14 +3,14 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 import base64
 import logging
 import os
 import mimetypes
 import hashlib
-from openerp.exceptions import Warning as UserError
-from openerp.tools.translate import _
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 
@@ -88,7 +88,7 @@ class StorageFile(models.Model):
             size = record.file_size
             while size > 1024 and suffix_index < 4:
                 suffix_index += 1
-                size = size/1024.0
+                size = size / 1024.0
             record.human_file_size = "%.*f%s" % (
                 2, size, suffixes[suffix_index])
 
