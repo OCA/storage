@@ -1,1 +1,2 @@
-ak-odoo-incubator https://github.com/akretion/ak-odoo-incubator.git 8.0
+ak-odoo-incubator https://github.com/akretion/ak-odoo-incubator.git 10-base_sparse_field_list
+server-tools https://github.com/OCA/server-tools.git 10.0
