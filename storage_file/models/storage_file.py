@@ -20,20 +20,20 @@ class StorageFile(models.Model):
 
     name = fields.Char(
         required=True,
-        select=True)
+        index=True)
     backend_id = fields.Many2one(
         'storage.backend',
         'Storage',
-        select=True,
+        index=True,
         required=True)
     url = fields.Char(help="HTTP accessible path for odoo backend to the file")
     private_path = fields.Char(help='Location for backend, may be relative')
     res_model = fields.Char(
         readonly=False,
-        select=True)
+        index=True)
     res_id = fields.Integer(
         readonly=False,
-        select=True)
+        index=True)
     file_size = fields.Integer('File Size')
     human_file_size = fields.Char(
         'Human File Size',
@@ -42,7 +42,7 @@ class StorageFile(models.Model):
     checksum = fields.Char(
         "Checksum/SHA1",
         size=40,
-        select=True,
+        index=True,
         readonly=True)
     filename = fields.Char(
         "Filename without extension",
