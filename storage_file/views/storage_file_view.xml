@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-    <data>
+<odoo>
 
 <record id="storage_file_view_tree" model="ir.ui.view">
     <field name="model">storage.file</field>
@@ -77,5 +76,4 @@
     sequence="20"
     action="act_open_storage_file_view"/>
 
-    </data>
-</openerp>
+</odoo>
