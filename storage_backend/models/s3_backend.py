@@ -7,9 +7,9 @@ import socket
 import logging
 import mimetypes
 
-from openerp import fields, models
-from openerp.exceptions import Warning as UserError
-from openerp.tools.translate import _
+from odoo import fields, models
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 
 logger = logging.getLogger(__name__)
 
