@@ -6,7 +6,7 @@
 {
     "name": "Storage File",
     "summary": "Storage file in storage backend",
-    "version": "8.0.1.0.0",
+    "version": "10.0.1.0.0",
     "category": "Uncategorized",
     "website": "www.akretion.com",
     "author": " Akretion",
