@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-<data>
+<odoo>
+
 
     <record id="storage_image_view_tree" model="ir.ui.view">
         <field name="model">storage.image</field>
@@ -107,5 +107,5 @@
         sequence="30"
         action="act_open_storage_image_view"/>
 
-    </data>
-</openerp>
+    
+</odoo>
