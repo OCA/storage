@@ -8,7 +8,7 @@ import base64
 import os
 import errno
 
-from openerp import fields, models
+from odoo import fields, models
 from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)

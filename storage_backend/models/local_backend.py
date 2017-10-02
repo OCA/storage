@@ -6,9 +6,9 @@
 import base64
 import logging
 import os
-from openerp import fields, models
-from openerp.exceptions import AccessError
-from openerp.tools.translate import _
+from odoo import fields, models
+from odoo.exceptions import AccessError
+from odoo.tools.translate import _
 logger = logging.getLogger(__name__)
 
 
