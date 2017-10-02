@@ -5,7 +5,7 @@
 import base64
 import logging
 from functools import wraps
-from openerp import fields, models
+from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 
