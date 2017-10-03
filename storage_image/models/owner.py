@@ -7,7 +7,7 @@
 from odoo import api, fields, models
 
 
-class Owner(models.AbstractModel):
+class StorageImageOwner(models.AbstractModel):
     _name = "storage.image.owner"
     _description = "Storage Image Owner"
 
@@ -36,7 +36,8 @@ class Owner(models.AbstractModel):
         if field.name == 'image_ids':
             return False
         else:
-            return super(Owner, self)._has_onchange(field, other_fields)
+            return super(StorageImageOwner, self)._has_onchange(
+                field, other_fields)
 
     # TODO FIXME
     # @api.depends('image_ids.sequence')
@@ -52,7 +53,7 @@ class Owner(models.AbstractModel):
     def unlink(self):
         """Mimic `ondelete="cascade"` for multi images."""
         images = self.mapped("image_ids")
-        result = super(Owner, self).unlink()
+        result = super(StorageImageOwner, self).unlink()
         if result and not self.env.context.get('bypass_image_removal'):
             images.unlink()
         return result
