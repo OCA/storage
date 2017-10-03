@@ -19,8 +19,8 @@ It include these features:
 Known issues / Roadmap
 ======================
 
-Update README with the last model of README when migration to v11 in OCA
-
+* Update README with the last model of README when migration to v11 in OCA
+* No file deletion / unlink
 
 Credits
 =======
