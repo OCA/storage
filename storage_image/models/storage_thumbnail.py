@@ -4,8 +4,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, fields, models
-from openerp.tools import image_resize_image
+from odoo import api, fields, models
+from odoo.tools import image_resize_image
 import logging
 _logger = logging.getLogger(__name__)
 

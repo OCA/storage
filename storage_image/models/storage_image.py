@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 import logging
 import os
 
@@ -36,11 +36,9 @@ class StorageImage(models.Model):
         domain=lambda self: [("res_model", "=", self._name)])
     image_medium_url = fields.Char(
         compute="_compute_image_url",
-        store=True,
         readonly=True)
     image_small_url = fields.Char(
         compute="_compute_image_url",
-        store=True,
         readonly=True)
 
     @api.onchange('name')
