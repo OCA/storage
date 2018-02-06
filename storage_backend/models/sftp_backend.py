@@ -33,7 +33,7 @@ def sftp_mkdirs(client, path, mode=511):
 @contextmanager
 def sftp(backend):
     account = backend._get_keychain_account()
-    password = account.get_password()
+    password = account._get_password()
     transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
     transport.connect(username=backend.sftp_login, password=password)
     client = paramiko.SFTPClient.from_transport(transport)
