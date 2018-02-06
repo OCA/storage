@@ -40,7 +40,7 @@ class S3StorageBackend(models.Model):
         try:
             conn = S3Connection(
                 self.aws_access_key,
-                account.get_password(),
+                account._get_password(),
                 host=self.aws_host)
             buck = conn.get_bucket(self.aws_bucket)
             if self.aws_directory:
@@ -73,7 +73,7 @@ class S3StorageBackend(models.Model):
         try:
             conn = S3Connection(
                 self.aws_access_key,
-                account.get_password(),
+                account._get_password(),
                 host=self.aws_host)
             buck = conn.get_bucket(self.aws_bucket)
             key = buck.get_key(name)
