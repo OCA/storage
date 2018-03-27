@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_template_only_form_view" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='variants']" position="inside">
+              <!--   <field name="image_ids" widget="one2many_list">
+                    <tree string="Images">
+                        <field name="image_id" />
+                        <field name="attribute_value_ids" widget="many2many_tags" options="{'no_create_edit': True}" />
+                    </tree>
+                </field> -->
+                <field name="image_ids" context="{
+                       'default_owner_model': 'product.template',
+                       'default_owner_id': id,
+                    }"
+                    mode="kanban" />
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="product_image_form" model="ir.ui.view">
+        <field name="model">product.image</field>
+        <field name="arch" type="xml">
+            <form string="Association">
+                <group>
+                    <field name="image_id" />
+                    <field name="attribute_value_ids" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="product_image_kanban" model="ir.ui.view">
+        <field name="model">product.image</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="image_name" />
+                <field name="image_url" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <a type="open">
+                                <img t-att-src="record.image_url.value"
+                                     class="oe_kanban_image" />
+                            </a>
+                            <div class="oe_kanban_details">
+                                <h4>
+                                    <a type="open">
+                                         <field name="image_name"/>
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                   </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>
