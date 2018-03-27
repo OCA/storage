@@ -35,16 +35,13 @@
     <record id="storage_image_view_kanban" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
-            <kanban delete="true">
+            <kanban>
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="image_small_url" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
-                            <div class="oe_edit_only oe_right">
-                                <a type="delete" class="oe_e">[</a>
-                            </div>
                             <a type="open">
                                 <img t-att-src="record.image_small_url.value"
                                      class="oe_kanban_image"/>
@@ -78,7 +75,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">storage.image</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="search_view_id" ref="storage_image_view_search"/>
         <field name="domain">[]</field>
         <field name="context">{}</field>
