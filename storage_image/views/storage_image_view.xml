@@ -23,7 +23,7 @@
                            widget="image_url"
                            filename="name"
                            nolabel="1"
-                           options="{'size':(800,800)}"/>
+                           options="{'size':(128,128)}"/>
                 </group>
                 <group string="Name">
                     <field name="name" />
