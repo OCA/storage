@@ -17,7 +17,7 @@ class OdooStorageBackend(models.Model):
     backend_type = fields.Selection(
         selection_add=[('odoo', 'Odoo')])
 
-    def _odoo_store(self, name, datas, is_public=False, **kwargs):
+    def _odoo_store_data(self, name, datas, is_public=False, **kwargs):
         datas_encoded = base64.b64encode(datas)
         ir_attach_vals = {
             'name': name,
@@ -30,7 +30,7 @@ class OdooStorageBackend(models.Model):
         attachment = self.env['ir.attachment'].create(ir_attach_vals)
         return attachment.id
 
-    def _odooget_public_url(self, attach_id):
+    def _odoo_get_public_url(self, attach_id):
         # TODO faire mieux
         logger.info('get_public_url')
 #        attach = self.env['ir.attachment'].search([('name', '=', name)],
@@ -53,5 +53,5 @@ class OdooStorageBackend(models.Model):
     # other storage backends
     def _odoo_retrieve_data(self, attach_id):
         logger.info('return base64 of a file')
-        attach = self.env['ir.attachment'].browse(attach_id)
-        return attach.datas
+        attach = self.env['ir.attachment'].browse(int(attach_id))
+        return attach.with_context(bin_size=False).datas
