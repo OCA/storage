@@ -1,12 +1,13 @@
 
-console.log('loading')
-openerp.storage_image = function(instance, local) {
-"use strict";
-var QWeb = instance.web.qweb;
-var _t = instance.web._t;
-instance.web.form.widgets.add('image_url', 'instance.web.form.FieldImageUrl');
 console.log('loading');
-instance.web.form.FieldImageUrl = instance.web.form.FieldBinaryImage.extend({
+odoo.define('storage_image.image_url', function (require) {
+"use strict";
+var core = require('web.core');
+var _t = core._t;
+var QWeb = core.qweb;
+
+var FieldBinaryImage = core.form_widget_registry.map.image;
+var FieldImageUrl = FieldBinaryImage.extend({
     render_value: function() {
         var self = this;
         var url = this.get('value');
@@ -14,29 +15,32 @@ instance.web.form.FieldImageUrl = instance.web.form.FieldBinaryImage.extend({
             url = this.placeholder;
         } else if (!url.startsWith('http')) {
             url = 'data:image/png;base64,' + url;
+        } else {
+            console.log('autre cas', url);
         }
+
         var $img = $(QWeb.render("FieldBinaryImage-img", { widget: this, url: url }));
-        $($img).click(function(e) {
+        
+        $img.click(function(e) {
             if(self.view.get("actual_mode") == "view") {
-                var $button = $(".oe_form_button_edit");
+                var $button = $(".o_form_button_edit");
                 $button.openerpBounce();
                 e.stopPropagation();
             }
         });
-        this.$el.find('> img').remove();
+        this.$('> img').remove();
+        if (self.options.size) {
+            $img.css("width", "" + self.options.size[0] + "px");
+            $img.css("height", "" + self.options.size[1] + "px");
+        }
         this.$el.prepend($img);
-        console.log(self.options)
-        $img.load(function() {
-            if (! self.options.size)
-                return;
-            $img.css("max-width", "" + self.options.size[0] + "px");
-            $img.css("max-height", "" + self.options.size[1] + "px");
-        });
         $img.on('error', function() {
             self.on_clear();
             $img.attr('src', self.placeholder);
-            instance.webclient.notification.warn(_t("Image"), _t("Could not display the selected image."));
+            self.do_warn(_t("Image"), _t("Could not display the selected image."));
         });
     },
 });
-};
+core.form_widget_registry.add('image_url', FieldImageUrl);
+return FieldImageUrl;
+});
