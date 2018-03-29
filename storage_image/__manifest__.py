@@ -24,7 +24,7 @@
         'views/storage_thumbnail_view.xml',
         'views/storage_image_view.xml',
         # TODO fix js
-        # 'views/js.xml',
+         'views/js.xml',
         # 'views/image_resize_view.xml',
         'data/ir_parameter.xml',
         'security/ir.model.access.csv',
