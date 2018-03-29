@@ -56,12 +56,8 @@ class StorageImage(models.Model):
         if 'backend_id' not in vals:
             vals['backend_id'] = self._deduce_backend_id()
         if 'image_medium_url' in vals:
-            # TODO find a better way to pass the datas from the image widget
-            datas = vals.pop('image_medium_url')
+            vals['datas'] = vals.pop('image_medium_url')
         image = super(StorageImage, self).create(vals)
-        # ORM bug computed field are not visible
-        # in write from the inherited class
-        image.file_id.datas = datas
         return image
 
     def _deduce_backend_id(self):
