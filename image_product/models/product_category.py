@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 class ProductCategory(models.Model):
     _inherit = 'product.category'
 
-    image_id = fields.Many2one(
-        'storage.image',
-        string="Image"
+    image_ids = fields.One2many(
+        'category.image',
+        inverse_name='category_id',
     )
