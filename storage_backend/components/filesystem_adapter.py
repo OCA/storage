@@ -18,10 +18,10 @@ def is_safe_path(basedir, path):
     return os.path.realpath(path).startswith(basedir)
 
 
-class FileStoreStorageBackend(Component):
-    _name = 'filestore.adapter'
+class FileSystemStorageBackend(Component):
+    _name = 'filesystem.adapter'
     _inherit = 'base.storage.adapter'
-    _usage = 'filestore'
+    _usage = 'filesystem'
 
     def _basedir(self):
         return os.path.join(self.env['ir.attachment']._filestore(), 'storage')
@@ -34,7 +34,7 @@ class FileStoreStorageBackend(Component):
         base_dir = self._basedir()
         full_path = os.path.join(
             base_dir,
-            self.collection.filestore_base_path or '',
+            self.collection.filesystem_base_path or '',
             name)
         if not is_safe_path(base_dir, full_path):
             raise AccessError(_("Access to %s is forbidden" % full_path))
@@ -45,17 +45,17 @@ class FileStoreStorageBackend(Component):
         dirname = os.path.dirname(full_path)
         if not os.path.isdir(dirname):
             os.makedirs(dirname)
-        logger.debug('Backend Storage: Write file %s to filestore', full_path)
+        logger.debug('Backend Storage: Write file %s to filesystem', full_path)
         with open(full_path, "wb") as my_file:
             my_file.write(datas)
         return name
 
     def get_external_url(self, name):
         return os.path.join(
-            self.collection.filestore_public_base_url or '', name)
+            self.collection.filesystem_public_base_url or '', name)
 
     def retrieve_data(self, name):
-        logger.debug('Backend Storage: Read file %s from filestore', name)
+        logger.debug('Backend Storage: Read file %s from filesystem', name)
         full_path = self._fullpath(name)
         with open(full_path, "rb") as my_file:
             datas = my_file.read()

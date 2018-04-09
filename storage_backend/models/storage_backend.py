@@ -17,7 +17,7 @@ class StorageBackend(models.Model):
     name = fields.Char(required=True)
     backend_type = fields.Selection(
         selection=[
-            ('filestore', 'Filestore'),
+            ('filesystem', 'Filesystem'),
             ('amazon_s3', 'Amazon S3'),
             ('sftp', 'SFTP'),
             ])
@@ -28,8 +28,8 @@ class StorageBackend(models.Model):
             ])
 
     # Filestore specific fields
-    filestore_public_base_url = fields.Char(sparse="data")
-    filestore_base_path = fields.Char(sparse="data")
+    filesystem_public_base_url = fields.Char(sparse="data")
+    filesystem_base_path = fields.Char(sparse="data")
 
     # Amazon specific fields
     aws_bucket = fields.Char(sparse="data")
