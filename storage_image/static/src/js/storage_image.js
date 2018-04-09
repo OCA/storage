@@ -1,5 +1,3 @@
-
-console.log('loading');
 odoo.define('storage_image.image_url', function (require) {
 "use strict";
 var core = require('web.core');
@@ -15,14 +13,10 @@ var FieldImageUrl = FieldBinaryImage.extend({
             url = this.placeholder;
         } else if (!url.startsWith('http')) {
             url = 'data:image/png;base64,' + url;
-        } else {
-            console.log('autre cas', url);
         }
-
         var $img = $(QWeb.render("FieldBinaryImage-img", { widget: this, url: url }));
-        
         $img.click(function(e) {
-            if(self.view.get("actual_mode") == "view") {
+            if(self.view.get("actual_mode") === "view") {
                 var $button = $(".o_form_button_edit");
                 $button.openerpBounce();
                 e.stopPropagation();
@@ -30,8 +24,8 @@ var FieldImageUrl = FieldBinaryImage.extend({
         });
         this.$('> img').remove();
         if (self.options.size) {
-            $img.css("width", "" + self.options.size[0] + "px");
-            $img.css("height", "" + self.options.size[1] + "px");
+            $img.css("width", "" + String(self.options.size[0]) + "px");
+            $img.css("height", "" + String(self.options.size[1]) + "px");
         }
         this.$el.prepend($img);
         $img.on('error', function() {
