@@ -2,8 +2,8 @@
 <odoo noupdate="1">
 
     <record id="default_odoo_backend" model="storage.backend">
-        <field name="name">Odoo backend</field>
-        <field name="backend_type">odoo</field>
+        <field name="name">Filestore Bakcend</field>
+        <field name="backend_type">filestore</field>
     </record>
 
 </odoo>
