@@ -14,14 +14,14 @@
     'installable': True,
     "external_dependencies": {
         "python": [
-            "paramiko",
-            "boto",
+            #"paramiko",
+            #"boto",
         ],
     },
     "depends": [
         "base",
         "keychain",
-        "base_sparse_field_list_support",
+        "component",
     ],
     "data": [
         "views/backend_storage_view.xml",
