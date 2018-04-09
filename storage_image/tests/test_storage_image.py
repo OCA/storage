@@ -46,7 +46,7 @@ class StorageImageCase(TransactionComponentCase):
         self.assertEqual(len(image.thumbnail_ids), 0)
 
         # Getting thumbnail url should generate small and medium thumbnail
-        image.image_medium_url
+        self.assertIsNotNone(image.image_medium_url)
 
         # TODO FIXME we should find a way to avoid to clear the env here
         self.env.clear()
