@@ -8,7 +8,7 @@ import logging
 import mimetypes
 import base64
 
-from odoo import fields, models
+from odoo import models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
 
