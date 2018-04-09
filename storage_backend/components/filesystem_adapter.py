@@ -7,7 +7,7 @@ import base64
 import logging
 import os
 from odoo.exceptions import AccessError
-from odoo.tools.translate import _
+from odoo import _
 from odoo.addons.component.core import Component
 
 logger = logging.getLogger(__name__)
