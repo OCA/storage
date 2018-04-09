@@ -50,7 +50,7 @@ class FileStoreStorageBackend(Component):
             my_file.write(datas)
         return name
 
-    def get_public_url(self, name):
+    def get_external_url(self, name):
         return os.path.join(
             self.collection.filestore_public_base_url or '', name)
 
