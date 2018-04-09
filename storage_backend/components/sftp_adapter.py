@@ -44,34 +44,6 @@ def sftp(backend):
 class SftpStorageBackend(models.Model):
     _inherit = 'storage.backend'
 
-    backend_type = fields.Selection(
-        selection_add=[('sftp', 'SFTP')])
-
-    sftp_public_base_url = fields.Char(
-        string='Public url',
-        help='',
-        sparse="data"
-    )
-    sftp_server = fields.Char(
-        string='SFTP host',
-        sparse="data"
-    )
-    sftp_port = fields.Integer(
-        string='SFTP port',
-        default=22,
-        sparse="data"
-    )
-    sftp_dir_path = fields.Char(
-        string='Remote path',
-        help='Dir on the server where to store files',
-        sparse="data"
-    )
-    sftp_login = fields.Char(
-        string='SFTP login',
-        help='Login to connect to sftp server',
-        sparse="data"
-    )
-
     def _sftp_store_data(self, name, datas, is_public=False):
         with sftp(self) as client:
             full_path = os.path.join(self.sftp_dir_path or '/', name)
