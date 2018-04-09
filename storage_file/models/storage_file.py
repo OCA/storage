@@ -11,6 +11,7 @@ import mimetypes
 import hashlib
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
+from odoo.tools import human_size
 _logger = logging.getLogger(__name__)
 
 
@@ -18,22 +19,18 @@ class StorageFile(models.Model):
     _name = 'storage.file'
     _description = 'Storage File'
 
-    name = fields.Char(
-        required=True,
-        index=True)
+    name = fields.Char(required=True, index=True)
     backend_id = fields.Many2one(
         'storage.backend',
         'Storage',
         index=True,
         required=True)
-    url = fields.Char(help="HTTP accessible path for odoo backend to the file")
-    private_path = fields.Char(help='Location for backend, may be relative')
-    res_model = fields.Char(
-        readonly=False,
-        index=True)
-    res_id = fields.Integer(
-        readonly=False,
-        index=True)
+    url = fields.Char(
+        readonly=True,
+        help="HTTP accessible path for odoo backend to the file")
+    private_path = fields.Char(
+        readonly=True,
+        help='Location for backend, may be relative')
     file_size = fields.Integer('File Size')
     human_file_size = fields.Char(
         'Human File Size',
@@ -68,8 +65,6 @@ class StorageFile(models.Model):
          'The private path must be uniq per backend'),
     ]
 
-    # TODO add code for using security rule like ir.attachment
-
     @api.multi
     def write(self, vals):
         if 'datas' in vals:
@@ -82,19 +77,22 @@ class StorageFile(models.Model):
 
     @api.depends('file_size')
     def _compute_human_file_size(self):
-        suffixes = ['B', 'KB', 'MB', 'GB', 'TB']
         for record in self:
-            suffix_index = 0
-            size = record.file_size
-            while size > 1024 and suffix_index < 4:
-                suffix_index += 1
-                size = size / 1024.0
-            record.human_file_size = "%.*f%s" % (
-                2, size, suffixes[suffix_index])
+            record.human_file_size = human_size(self.file_size)
 
+<<<<<<< HEAD
     def _prepare_meta_for_file(self, datas):
+=======
+    def _prepare_meta_for_file(self, datas, private_path):
+        if self.backend_id.served_by == 'odoo':
+            base_url = self.env['ir.config_parameter'].sudo()\
+                .get_param('web.base.url')
+            url = base_url + '/web/content/storage.file/%s/datas' % self.id
+        else:
+            url = self.backend_id.sudo().get_external_url(private_path)
+>>>>>>> [REF] start to refactor code. Start to use component instead of odoo class, always build an url even if served by odoo. WIP
         return {
-            'url': self.backend_id.sudo().get_public_url(private_path),
+            'url': url,
             'checksum': hashlib.sha1(datas).hexdigest(),
             'file_size': len(datas),
             'private_path': private_path
@@ -115,16 +113,13 @@ class StorageFile(models.Model):
     @api.multi
     def _compute_datas(self):
         for rec in self:
-            if not rec.url:
-                rec.datas = None
+            if self._context.get('bin_size'):
+                rec.datas = rec.file_size
+            elif rec.private_path:
+                rec.datas = rec.backend_id.sudo().retrieve_data(
+                    rec.private_path)
             else:
-                try:
-                    rec.datas = rec.backend_id.sudo().retrieve_data(
-                        rec.private_path)
-                except:
-                    _logger.error('Image %s not found', rec.url)
-                    rec.datas = None
-                    raise
+                rec.datas = None
 
     @api.depends('name')
     def _compute_extract_filename(self):
