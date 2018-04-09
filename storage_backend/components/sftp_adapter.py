@@ -8,8 +8,9 @@ import base64
 import os
 import errno
 
-from odoo import fields, models
+from odoo import models
 from contextlib import contextmanager
+
 
 logger = logging.getLogger(__name__)
 

@@ -6,7 +6,6 @@
 import base64
 import logging
 import os
-from odoo import fields, models
 from odoo.exceptions import AccessError
 from odoo.tools.translate import _
 from odoo.addons.component.core import Component

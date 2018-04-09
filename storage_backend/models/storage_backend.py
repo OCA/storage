@@ -4,8 +4,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import base64
 import logging
-from functools import wraps
 from odoo import fields, models
+from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
@@ -62,7 +62,7 @@ class StorageBackend(models.Model):
 
     def get_external_url(self, name, **kwargs):
         self.ensure_one()
-        if self.served_by =='external':
+        if self.served_by == 'external':
             return self._forward('get_external_url', name, **kwargs)
         else:
             raise UserError('This backend do not provide external url')
