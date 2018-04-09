@@ -31,7 +31,7 @@ class StorageThumbnail(models.Model):
                 image.filename, size_x, size_y, image.extension),
             'size_x': size_x,
             'size_y': size_y,
-            }
+        }
 
     def _resize(self, image, size_x, size_y):
         return image_resize_image(image.datas, size=(size_x, size_y))
