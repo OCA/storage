@@ -19,7 +19,7 @@ class FileStoreCase(Common):
         return os.path.join(
             config.filestore(self.cr.dbname),
             'storage',
-            self.backend.filestore_base_path or '',
+            self.backend.filesystem_base_path or '',
             filename)
 
     def test_00_setting_datas(self):
@@ -35,7 +35,7 @@ class FileStoreCase(Common):
     def test_20_getting_external_url(self):
         self.backend.write({
             'served_by': 'external',
-            'filestore_public_base_url': 'https://cdn.example.com',
+            'filesystem_public_base_url': 'https://cdn.example.com',
             })
         url = self.backend.get_external_url(self.filename)
         self.assertEqual(url, 'https://cdn.example.com/test_file.txt')
