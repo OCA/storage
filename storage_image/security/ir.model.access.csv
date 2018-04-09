@@ -1,7 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_storage_image_edit,storage_image edit,model_storage_image,base.group_system,1,1,1,1
-access_storage_thumbnail_edit,storage_thumbnail edit,model_storage_thumbnail,base.group_system,1,1,1,1
-access_image_resize_edit,image_resize edit,model_image_resize,base.group_system,1,1,1,1
 access_storage_image_read,storage_image read,model_storage_image,base.group_user,1,0,0,0
-access_storage_thumbnail_read,storage_thumbnail read,model_storage_thumbnail,base.group_user,1,0,0,0
-access_image_resize_read,image_resize read,model_image_resize,base.group_user,1,0,0,0

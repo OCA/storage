@@ -7,8 +7,6 @@
         <field name="arch" type="xml">
             <tree string="Image">
                 <field name="name"/>
-                <field name="res_model"/>
-                <field name="res_id"/>
             </tree>
         </field>
     </record>
@@ -29,7 +27,6 @@
                     <field name="name" />
                     <field name="alt_name" />
                 </group>
-                <field name="res_model" invisible="True" />
             </form>
         </field>
     </record>
@@ -42,7 +39,6 @@
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="image_small_url" />
-                <field name="sequence"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
@@ -107,5 +103,4 @@
         sequence="30"
         action="act_open_storage_image_view"/>
 
-    
 </odoo>
