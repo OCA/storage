@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import base64
 import logging
-from odoo import fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
@@ -20,12 +20,14 @@ class StorageBackend(models.Model):
             ('filesystem', 'Filesystem'),
             ('amazon_s3', 'Amazon S3'),
             ('sftp', 'SFTP'),
-            ])
+            ],
+        require=True)
     served_by = fields.Selection(
         selection=[
             ('odoo', 'Odoo'),
             ('external', 'External'),
-            ])
+            ],
+        required=True)
 
     # Filestore specific fields
     filesystem_public_base_url = fields.Char(sparse="data")
@@ -65,7 +67,7 @@ class StorageBackend(models.Model):
         if self.served_by == 'external':
             return self._forward('get_external_url', name, **kwargs)
         else:
-            raise UserError('This backend do not provide external url')
+            raise UserError(_('This backend do not provide external url'))
 
     def retrieve_data(self, name, **kwargs):
         return self._forward('retrieve_data', name, **kwargs)
