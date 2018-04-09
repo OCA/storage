@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="storage_image_backend" model="ir.config_parameter">
-        <field name="key">storage.image.backend_id</field>
+    <record id="storage_thumbnail_backend" model="ir.config_parameter">
+        <field name="key">storage.thumbnail.backend_id</field>
         <field name="value" ref="storage_backend.default_storage_backend"/>
     </record>
 

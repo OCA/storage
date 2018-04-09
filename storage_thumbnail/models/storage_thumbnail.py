@@ -22,9 +22,16 @@ class StorageThumbnail(models.Model):
         'File',
         required=True,
         ondelete='cascade')
+    res_model = fields.Char(
+        readonly=False,
+        index=True)
+    res_id = fields.Integer(
+        readonly=False,
+        index=True)
 
     def _prepare_thumbnail(self, image, size_x, size_y):
         return {
+            'datas': self._resize(image, size_x, size_y),
             'res_model': image._name,
             'res_id': image.id,
             'name': '%s_%s_%s%s' % (
@@ -38,24 +45,18 @@ class StorageThumbnail(models.Model):
 
     def _create_thumbnail(self, image, size_x, size_y):
         vals = self._prepare_thumbnail(image, size_x, size_y)
-        datas = self._resize(image, size_x, size_y)
-        record = self.create(vals)
-        # Bug with odoo 8 the field datas belong to the storage.file
-        # and the _create method never write it as it's a computed field
-        # with the new api and it's an inherited fields
-        record.file_id.write({'datas': datas})
-        return record
+        return self.create(vals)
 
-    def _deduce_backend_id(self):
+    def _get_backend_id(self):
         """Choose the correct backend.
 
         By default : it's the one configured as ir.config_parameter
         Overload this method if you need something more powerfull
         """
         return int(self.env['ir.config_parameter'].get_param(
-            'storage.image.backend_id'))
+            'storage.thumbnail.backend_id'))
 
     @api.model
     def create(self, vals):
-        vals['backend_id'] = self._deduce_backend_id()
+        vals['backend_id'] = self._get_backend_id()
         return super(StorageThumbnail, self).create(vals)

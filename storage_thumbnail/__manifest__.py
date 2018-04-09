@@ -4,10 +4,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Storage Image",
-    "summary": "Store image and resized image in a storage backend",
+    "name": "Storage Thumbnail",
+    "summary": "Abstract module that add the possibility to have thumbnail",
     "version": "10.0.1.0.0",
-    "category": "Uncategorized",
+    "category": "Storage",
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
@@ -17,17 +17,15 @@
         "bin": [],
     },
     "depends": [
-        "storage_thumbnail",
+        "storage_file",
     ],
     "data": [
-        'views/storage_image_view.xml',
-        'views/js.xml',
         'data/ir_parameter.xml',
+        'views/storage_thumbnail_view.xml',
         'security/ir.model.access.csv',
     ],
     "demo": [
     ],
     "qweb": [
-        'static/src/xml/custom_xml.xml',
     ]
 }
