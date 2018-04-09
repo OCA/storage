@@ -23,7 +23,8 @@
                     </h1>
                 </div>
                 <group>
-                    <field name="backend_type" />
+                    <field name="backend_type"/>
+                    <field name="served_by"/>
                 </group>
                 <group name="sftp" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}">
                     <field name="sftp_server" />

@@ -9,6 +9,8 @@ import os
 from odoo import fields, models
 from odoo.exceptions import AccessError
 from odoo.tools.translate import _
+from odoo.addons.component.core import Component
+
 logger = logging.getLogger(__name__)
 
 
@@ -16,16 +18,10 @@ def is_safe_path(basedir, path):
     return os.path.realpath(path).startswith(basedir)
 
 
-class FileStoreStorageBackend(models.Model):
-    _inherit = 'storage.backend'
-
-    backend_type = fields.Selection(
-        selection_add=[('filestore', 'Filestore')])
-
-    filestore_public_base_url = fields.Char(
-        sparse="data")
-    filestore_base_path = fields.Char(
-        sparse="data")
+class FileStoreStorageBackend(Component):
+    _name = 'filestore.adapter'
+    _inherit = 'base.storage.adapter'
+    _usage = 'filestore'
 
     def _basedir(self):
         return os.path.join(self.env['ir.attachment']._filestore(), 'storage')
@@ -36,12 +32,15 @@ class FileStoreStorageBackend(models.Model):
         Becarefull if you implement your own custom path, end user
         should never be able to write or read unwanted filesystem file"""
         base_dir = self._basedir()
-        full_path = os.path.join(base_dir, self.filestore_base_path, name)
+        full_path = os.path.join(
+            base_dir,
+            self.collection.filestore_base_path or '',
+            name)
         if not is_safe_path(base_dir, full_path):
             raise AccessError(_("Access to %s is forbidden" % full_path))
         return full_path
 
-    def _filestore_store_data(self, name, datas, is_public=False):
+    def store_data(self, name, datas, is_public=False):
         full_path = self._fullpath(name)
         dirname = os.path.dirname(full_path)
         if not os.path.isdir(dirname):
@@ -51,10 +50,11 @@ class FileStoreStorageBackend(models.Model):
             my_file.write(datas)
         return name
 
-    def _filestore_get_public_url(self, name):
-        return os.path.join(self.filestore_public_base_url, name)
+    def get_public_url(self, name):
+        return os.path.join(
+            self.collection.filestore_public_base_url or '', name)
 
-    def _filestore_retrieve_data(self, name):
+    def retrieve_data(self, name):
         logger.debug('Backend Storage: Read file %s from filestore', name)
         full_path = self._fullpath(name)
         with open(full_path, "rb") as my_file:

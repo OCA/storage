@@ -22,13 +22,13 @@
                     <field name="name"/>
                 </h1>
                 <group>
-                    <field name="backend_id"/>
+                    <field name="id" invisible="True"/>
+                    <field name="backend_id" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="datas" attrs="{'readonly': [('id', '!=', False)]}"/>
                     <field name="url" widget="url"/>
                     <field name="human_file_size"/>
                     <field name="checksum"/>
                     <field name="private_path"/>
-                    <field name="res_model" readonly="True"/>
-                    <field name="res_id" readonly="True"/>
                 </group>
             </div>
         </form>

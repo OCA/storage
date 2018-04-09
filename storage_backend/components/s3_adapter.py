@@ -24,16 +24,6 @@ except ImportError as err:
 class S3StorageBackend(models.Model):
     _inherit = 'storage.backend'
 
-    backend_type = fields.Selection(
-        selection_add=[('amazon_s3', 'Amazon S3')])
-
-    aws_bucket = fields.Char(sparse="data")
-    aws_directory = fields.Char(sparse="data")
-    aws_access_key = fields.Char(sparse="data")
-    aws_host = fields.Char(sparse="data")
-    aws_cloudfront_domain = fields.Char(sparse="data")
-    aws_cloudfront_domain_include_directory = fields.Boolean(sparse="data")
-
     def _amazon_s3_store_data(self, name, datas, is_public=False):
         mime, enc = mimetypes.guess_type(name)
         account = self._get_existing_keychain()
