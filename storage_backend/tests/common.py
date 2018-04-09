@@ -5,11 +5,10 @@
 
 from odoo.addons.component.tests.common import TransactionComponentCase
 
+
 class Common(TransactionComponentCase):
 
     def setUp(self):
         super(Common, self).setUp()
         self.filedata = 'This is a simple file'
         self.filename = 'test_file.txt'
-
-

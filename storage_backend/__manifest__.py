@@ -14,8 +14,8 @@
     'installable': True,
     "external_dependencies": {
         "python": [
-            #"paramiko",
-            #"boto",
+            # "paramiko",
+            # "boto",
         ],
     },
     "depends": [
