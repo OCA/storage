@@ -57,3 +57,10 @@ class StorageImageCase(TransactionComponentCase):
         self.assertEqual(medium.size_y, 128)
         self.assertEqual(small.size_x, 64)
         self.assertEqual(small.size_y, 64)
+
+    def test_name_onchange(self):
+        image = self.env['storage.image'].new({
+            'name': 'Test-of image_name.png'})
+        image.onchange_name()
+        self.assertEqual(image.name, u'test-of-image_name.png')
+        self.assertEqual(image.alt_name, u'Test of image name')
