@@ -23,3 +23,11 @@ class StorageBackend(models.Model):
             "SHA Hash: will use the hash of the file as filename "
             "(same method as the native attachment storage)")
         )
+    served_by = fields.Selection(
+        selection=[
+            ('odoo', 'Odoo'),
+            ('external', 'External'),
+            ],
+        required=True,
+        default='odoo')
+    base_url = fields.Char()

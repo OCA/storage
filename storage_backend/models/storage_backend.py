@@ -2,10 +2,10 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import base64
+
 import logging
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+import base64
+from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 
@@ -18,28 +18,12 @@ class StorageBackend(models.Model):
     backend_type = fields.Selection(
         selection=[
             ('filesystem', 'Filesystem'),
-            ('amazon_s3', 'Amazon S3'),
             ('sftp', 'SFTP'),
             ],
-        require=True)
-    served_by = fields.Selection(
-        selection=[
-            ('odoo', 'Odoo'),
-            ('external', 'External'),
-            ],
         required=True)
-
-    # Filestore specific fields
-    filesystem_public_base_url = fields.Char(sparse="data")
-    filesystem_base_path = fields.Char(sparse="data")
-
-    # Amazon specific fields
-    aws_bucket = fields.Char(sparse="data")
-    aws_directory = fields.Char(sparse="data")
-    aws_access_key = fields.Char(sparse="data")
-    aws_host = fields.Char(sparse="data")
-    aws_cloudfront_domain = fields.Char(sparse="data")
-    aws_cloudfront_domain_include_directory = fields.Boolean(sparse="data")
+    directory_path = fields.Char(
+        sparse="data",
+        help="Relative path to the directory to store the file")
 
     # SFTP specific fields
     sftp_public_base_url = fields.Char(string='Public url', sparse="data")
@@ -54,23 +38,26 @@ class StorageBackend(models.Model):
         help='Login to connect to sftp server',
         sparse="data")
 
-    def store(self, name, datas, is_base64=True, **kwargs):
+    def store(self, relative_path, datas, is_base64=True, **kwargs):
         if is_base64:
             datas = base64.b64decode(datas)
-        return self.store_data(name, datas, **kwargs)
+        return self.store_data(relative_path, datas, **kwargs)
 
-    def store_data(self, name, datas, **kwargs):
-        return self._forward('store_data', name, datas, **kwargs)
+    def store_data(self, relative_path, datas, **kwargs):
+        _logger.debug(
+            'Backend Storage ID: %s type %s: Write file %s',
+            self.backend_type,
+            self.id,
+            relative_path)
+        return self._forward('store_data', relative_path, datas, **kwargs)
 
-    def get_external_url(self, name, **kwargs):
-        self.ensure_one()
-        if self.served_by == 'external':
-            return self._forward('get_external_url', name, **kwargs)
-        else:
-            raise UserError(_('This backend do not provide external url'))
-
-    def retrieve_data(self, name, **kwargs):
-        return self._forward('retrieve_data', name, **kwargs)
+    def retrieve_data(self, relative_path, **kwargs):
+        _logger.debug(
+            'Backend Storage ID: %s type %s: Read file %s',
+            self.backend_type,
+            self.id,
+            relative_path)
+        return self._forward('retrieve_data', relative_path, **kwargs)
 
     def _forward(self, method, *args, **kwargs):
         self.ensure_one()

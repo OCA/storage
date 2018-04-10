@@ -1,0 +1,55 @@
+interactions:
+- request:
+    body: !!python/object:StringIO.StringIO
+      buf: This is a simple file
+      buflist: []
+      closed: false
+      len: 21
+      pos: 0
+      softspace: 0
+    headers:
+      Cache-Control: ['max-age=31536000, public']
+      Content-Length: ['21']
+      Content-MD5: [GQqjEXsRqrPyxfTl99nkAg==]
+      Content-Type: [text/plain]
+      Expect: [100-continue]
+      User-Agent: [Boto3/1.7.3 Python/2.7.12 Linux/4.4.0-116-generic Botocore/1.10.3
+          Resource]
+      X-Amz-Content-SHA256: [UNSIGNED-PAYLOAD]
+      X-Amz-Date: [20180410T180649Z]
+    method: !!python/unicode 'PUT'
+    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/subdirectory/here/test_file.txt
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      content-length: ['0']
+      date: ['Tue, 10 Apr 2018 18:06:50 GMT']
+      etag: ['"190aa3117b11aab3f2c5f4e5f7d9e402"']
+      server: [AmazonS3]
+      x-amz-id-2: [03jxStVvVOVVyq9FQbWsBjejRi34eVjUoTie30vbPtB2HRYOxTL12tzvI2u14iSqCr7QKeWDC2U=]
+      x-amz-request-id: [7DDB6EFEAEA0ACC0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      User-Agent: [Boto3/1.7.3 Python/2.7.12 Linux/4.4.0-116-generic Botocore/1.10.3
+          Resource]
+      X-Amz-Content-SHA256: [e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
+      X-Amz-Date: [20180410T180649Z]
+    method: !!python/unicode 'GET'
+    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/subdirectory/here/test_file.txt
+  response:
+    body: {string: !!python/unicode 'This is a simple file'}
+    headers:
+      accept-ranges: [bytes]
+      cache-control: ['max-age=31536000, public']
+      content-length: ['21']
+      content-type: [text/plain]
+      date: ['Tue, 10 Apr 2018 18:06:50 GMT']
+      etag: ['"190aa3117b11aab3f2c5f4e5f7d9e402"']
+      last-modified: ['Tue, 10 Apr 2018 18:06:50 GMT']
+      server: [AmazonS3]
+      x-amz-id-2: [vq2QAqgty2k59hzwgcHOc4yB0q7Clc1JHyT3Z1hBVaBZkL8nx9T1glVbJVzIzbfrFHTvGHa6zI0=]
+      x-amz-request-id: [0606356005EF91EB]
+    status: {code: 200, message: OK}
+version: 1
