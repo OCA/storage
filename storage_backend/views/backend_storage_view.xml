@@ -22,9 +22,9 @@
                         <field name="name"/>
                     </h1>
                 </div>
-                <group>
+                <group name="config">
                     <field name="backend_type"/>
-                    <field name="served_by"/>
+                    <field name="directory_path"/>
                 </group>
                 <group name="sftp" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}">
                     <field name="sftp_server" />
@@ -33,26 +33,7 @@
                     <field name="sftp_public_base_url" />
                     <field name="sftp_login" />
                 </group>
-                <group name="odoo" attrs="{'invisible': [('backend_type', '!=', 'odoo')]}">
-                </group>
-                <group name="filesystem" attrs="{'invisible': [('backend_type', '!=', 'filesystem')]}">
-                    The path is relative and your data will be store inside the filestore
-                    in the directory filestore/your_database/storage/your_custom_path
-                    <field name="filesystem_base_path" />
-                    <field name="filesystem_public_base_url" />
-                </group>
-                <group name="Amazon S3" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}">
-                    <field name="aws_bucket"/>
-                    <field name="aws_host" placeholder="s3.eu-central-1.amazonaws.com"/>
-                    <field name="aws_directory"/>
-                    <field name="aws_cloudfront_domain"/>
-                    <field name="aws_cloudfront_domain_include_directory"/>
-                    <field name="aws_access_key"/>
-                </group>
-                <label for="password" string="AWS secret key" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}"/>
-                <label for="password" string="SFTP password" attrs="{'invisible': [('backend_type', '!=', 'sftp')]}"/>
-                <field name="password" attrs="{'required': [('backend_type', '=', 'amazon_s3')], 'invisible':[('backend_type', 'not in', ('amazon_s3', 'sftp'))]}"/>
-            </sheet>
+          </sheet>
         </form>
     </field>
 </record>
