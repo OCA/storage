@@ -26,8 +26,8 @@ class StorageFile(models.Model):
         index=True,
         required=True)
     url = fields.Char(
-        readonly=True,
-        help="HTTP accessible path for odoo backend to the file")
+        compute='_compute_url',
+        help="HTTP accessible path to the file")
     relative_path = fields.Char(
         readonly=True,
         help='Relative location for backend')
@@ -95,14 +95,7 @@ class StorageFile(models.Model):
         bin_data = base64.b64decode(self.datas)
         checksum = hashlib.sha1(bin_data).hexdigest()
         relative_path = self._build_relative_path(checksum)
-        if self.backend_id.served_by == 'odoo':
-            base_url = self.env['ir.config_parameter'].sudo()\
-                .get_param('web.base.url')
-            url = base_url + '/web/content/storage.file/%s/datas' % self.id
-        else:
-            url = self.backend_id.sudo().get_external_url(relative_path)
         return {
-            'url': url,
             'checksum': checksum,
             'file_size': len(bin_data),
             'relative_path': relative_path
@@ -124,6 +117,19 @@ class StorageFile(models.Model):
                     rec.relative_path)
             else:
                 rec.datas = None
+
+    @api.depends(
+        'backend_id.served_by', 'backend_id.base_url', 'relative_path')
+    def _compute_url(self):
+        for record in self:
+            if record.backend_id.served_by == 'odoo':
+                base_url = self.env['ir.config_parameter'].sudo()\
+                    .get_param('web.base.url')
+                record.url = \
+                    base_url + '/web/content/storage.file/%s/datas' % self.id
+            else:
+                record.url = "%s/%s" % (
+                    record.backend_id.base_url, record.relative_path)
 
     @api.depends('name')
     def _compute_extract_filename(self):

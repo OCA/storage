@@ -53,7 +53,7 @@ class StorageFileCase(TransactionComponentCase):
     def test_create_and_read_served_by_external(self):
         self.backend.write({
             'served_by': 'external',
-            'filesystem_public_base_url': 'https://cdn.example.com',
+            'base_url': 'https://cdn.example.com',
             })
         stfile = self._create_storage_file()
         self.assertEqual(stfile.datas, self.filedata)
