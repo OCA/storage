@@ -19,23 +19,22 @@ class FileStoreCase(Common):
         return os.path.join(
             config.filestore(self.cr.dbname),
             'storage',
-            self.backend.filesystem_base_path or '',
+            self.backend.directory_path or '',
             filename)
 
-    def test_00_setting_datas(self):
+    def test_00_setting_and_getting_data_from_root(self):
         self.backend.store(self.filename, self.filedata, is_base64=False)
         filepath = self._get_filepath(self.filename)
         data = open(filepath, 'r').read()
         self.assertEqual(data, self.filedata)
-
-    def test_10_getting_datas(self):
         data = self.backend.retrieve_data(self.filename)
         self.assertEqual(base64.b64decode(data), self.filedata)
 
-    def test_20_getting_external_url(self):
-        self.backend.write({
-            'served_by': 'external',
-            'filesystem_public_base_url': 'https://cdn.example.com',
-            })
-        url = self.backend.get_external_url(self.filename)
-        self.assertEqual(url, 'https://cdn.example.com/test_file.txt')
+    def test_00_setting_and_getting_data_from_dir(self):
+        self.backend.directory_path = 'subdirectory/here'
+        self.backend.store(self.filename, self.filedata, is_base64=False)
+        filepath = self._get_filepath(self.filename)
+        data = open(filepath, 'r').read()
+        self.assertEqual(data, self.filedata)
+        data = self.backend.retrieve_data(self.filename)
+        self.assertEqual(base64.b64decode(data), self.filedata)
