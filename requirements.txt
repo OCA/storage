@@ -1,2 +1,3 @@
 boto
 paramiko
+slugify
