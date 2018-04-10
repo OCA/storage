@@ -28,9 +28,9 @@ class StorageFile(models.Model):
     url = fields.Char(
         readonly=True,
         help="HTTP accessible path for odoo backend to the file")
-    private_path = fields.Char(
+    relative_path = fields.Char(
         readonly=True,
-        help='Location for backend, may be relative')
+        help='Relative location for backend')
     file_size = fields.Integer('File Size')
     human_file_size = fields.Char(
         'Human File Size',
@@ -61,7 +61,7 @@ class StorageFile(models.Model):
 
     _sql_constraints = [
         ('url_uniq', 'unique(url)', 'The url must be uniq'),
-        ('path_uniq', 'unique(private_path, backend_id)',
+        ('path_uniq', 'unique(relative_path, backend_id)',
          'The private path must be uniq per backend'),
     ]
 
@@ -80,44 +80,48 @@ class StorageFile(models.Model):
         for record in self:
             record.human_file_size = human_size(self.file_size)
 
-<<<<<<< HEAD
-    def _prepare_meta_for_file(self, datas):
-=======
-    def _prepare_meta_for_file(self, datas, private_path):
+    def _build_relative_path(self, checksum):
+        self.ensure_one()
+        if not self.backend_id.filename_strategy:
+            raise UserError(_(
+                "The filename strategy is empty for the backend %s.\n"
+                "Please configure it") % self.backend_id.name)
+        if self.backend_id.filename_strategy == 'hash':
+            return checksum[:2] + '/' + checksum
+        elif self.backend_id.filename_strategy == 'name_with_id':
+            return "%s-%s%s" % (self.filename, self.id, self.extension)
+
+    def _prepare_meta_for_file(self):
+        bin_data = base64.b64decode(self.datas)
+        checksum = hashlib.sha1(bin_data).hexdigest()
+        relative_path = self._build_relative_path(checksum)
         if self.backend_id.served_by == 'odoo':
             base_url = self.env['ir.config_parameter'].sudo()\
                 .get_param('web.base.url')
             url = base_url + '/web/content/storage.file/%s/datas' % self.id
         else:
-            url = self.backend_id.sudo().get_external_url(private_path)
->>>>>>> [REF] start to refactor code. Start to use component instead of odoo class, always build an url even if served by odoo. WIP
+            url = self.backend_id.sudo().get_external_url(relative_path)
         return {
             'url': url,
-            'checksum': hashlib.sha1(datas).hexdigest(),
-            'file_size': len(datas),
-            'private_path': private_path
+            'checksum': checksum,
+            'file_size': len(bin_data),
+            'relative_path': relative_path
             }
 
     @api.multi
     def _inverse_datas(self):
         for record in self:
-            b_decoded = base64.b64decode(record.datas)
-            private_path = self.backend_id.sudo().store(
-                record.name,
-                b_decoded,
-                is_public=True,
-                is_base64=False)
-            vals = record._prepare_meta_for_file(b_decoded, private_path)
-            record.write(vals)
+            record.write(record._prepare_meta_for_file())
+            record.backend_id.sudo().store(record.relative_path, record.datas)
 
     @api.multi
     def _compute_datas(self):
         for rec in self:
             if self._context.get('bin_size'):
                 rec.datas = rec.file_size
-            elif rec.private_path:
+            elif rec.relative_path:
                 rec.datas = rec.backend_id.sudo().retrieve_data(
-                    rec.private_path)
+                    rec.relative_path)
             else:
                 rec.datas = None
 
