@@ -32,11 +32,23 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(stfile.mimetype, u'text/plain')
         self.assertEqual(stfile.extension, u'.txt')
         self.assertEqual(stfile.filename, u'test_file')
+        self.assertEqual(stfile.relative_path, u'test_file-%s.txt' % stfile.id)
         url = urlparse.urlparse(stfile.url)
         self.assertEqual(
             url.path,
             "/web/content/storage.file/%s/datas" % stfile.id)
         self.assertEqual(stfile.file_size, self.filesize)
+
+    def test_create_store_with_hash(self):
+        self.backend.filename_strategy = 'hash'
+        stfile = self._create_storage_file()
+        self.assertEqual(stfile.datas, self.filedata)
+        self.assertEqual(stfile.mimetype, u'text/plain')
+        self.assertEqual(stfile.extension, u'.txt')
+        self.assertEqual(stfile.filename, u'test_file')
+        self.assertEqual(
+            stfile.relative_path,
+            u'13/1322d9ccb3d257095185b205eadc9307aae5dc84')
 
     def test_create_and_read_served_by_external(self):
         self.backend.write({
@@ -45,7 +57,9 @@ class StorageFileCase(TransactionComponentCase):
             })
         stfile = self._create_storage_file()
         self.assertEqual(stfile.datas, self.filedata)
-        self.assertEqual(stfile.url, 'https://cdn.example.com/test_file.txt')
+        self.assertEqual(
+            stfile.url,
+            'https://cdn.example.com/test_file-%s.txt' % stfile.id)
         self.assertEqual(stfile.file_size, self.filesize)
 
     def test_read_bin_size(self):

@@ -28,7 +28,7 @@
                     <field name="url" widget="url"/>
                     <field name="human_file_size"/>
                     <field name="checksum"/>
-                    <field name="private_path"/>
+                    <field name="relative_path"/>
                 </group>
             </div>
         </form>
