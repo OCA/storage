@@ -24,7 +24,7 @@
                 <group>
                     <field name="id" invisible="True"/>
                     <field name="backend_id" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="datas" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="data" attrs="{'readonly': [('id', '!=', False)]}"/>
                     <field name="url" widget="url"/>
                     <field name="human_file_size"/>
                     <field name="checksum"/>
