@@ -14,3 +14,6 @@ class KeychainAccount(models.Model):
 
     def _storage_backend_validate_data(self, data):
         return True
+
+    def _storage_backend_init_data(self):
+        return {}

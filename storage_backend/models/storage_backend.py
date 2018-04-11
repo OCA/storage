@@ -18,25 +18,11 @@ class StorageBackend(models.Model):
     backend_type = fields.Selection(
         selection=[
             ('filesystem', 'Filesystem'),
-            ('sftp', 'SFTP'),
             ],
         required=True)
     directory_path = fields.Char(
         sparse="data",
         help="Relative path to the directory to store the file")
-
-    # SFTP specific fields
-    sftp_public_base_url = fields.Char(string='Public url', sparse="data")
-    sftp_server = fields.Char(string='SFTP host', sparse="data")
-    sftp_port = fields.Integer(string='SFTP port', default=22, sparse="data")
-    sftp_dir_path = fields.Char(
-        string='Remote path',
-        help='Dir on the server where to store files',
-        sparse="data")
-    sftp_login = fields.Char(
-        string='SFTP login',
-        help='Login to connect to sftp server',
-        sparse="data")
 
     def store(self, relative_path, datas, is_base64=True, **kwargs):
         if is_base64:
