@@ -18,8 +18,8 @@ class BaseStorageAdapter(AbstractComponent):
         else:
             return relative_path
 
-    def store_data(self, relative_path, datas, **kwargs):
+    def add(self, relative_path, data, **kwargs):
         raise NotImplemented
 
-    def retrieve_data(self, relative_path, **kwargs):
+    def get(self, relative_path, **kwargs):
         raise NotImplemented
