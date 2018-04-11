@@ -31,15 +31,9 @@ class S3StorageBackend(Component):
             aws_secret_access_key=account._get_password(),
             region_name=self.collection.aws_region).resource('s3')
 
-    def _get_path(self, relative_path):
-        if self.collection.directory_path:
-            return "%s/%s" % (self.collection.directory_path, relative_path)
-        else:
-            return relative_path
-
     def _get_amazon_s3_object(self, relative_path):
         s3 = self._get_resource()
-        path = self._get_path(relative_path)
+        path = self._fullpath(relative_path)
         return s3.Object(self.collection.aws_bucket, path)
 
     def store_data(self, relative_path, datas, mimetype=None):
