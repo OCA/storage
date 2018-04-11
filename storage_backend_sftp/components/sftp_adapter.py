@@ -4,7 +4,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import base64
 import os
 import errno
 
@@ -47,7 +46,7 @@ class SftpStorageBackend(Component):
     _inherit = 'base.storage.adapter'
     _usage = 'sftp'
 
-    def store_data(self, relative_path, datas, **kwargs):
+    def add(self, relative_path, data, **kwargs):
         with sftp(self.collection) as client:
             full_path = self._fullpath(relative_path)
             dirname = os.path.dirname(full_path)
@@ -60,13 +59,12 @@ class SftpStorageBackend(Component):
                     else:
                         raise
             remote_file = client.open(full_path, 'w+b')
-            remote_file.write(datas)
+            remote_file.write(data)
             remote_file.close()
 
-    def retrieve_data(self, relative_path, **kwargs):
+    def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
             file_data = client.open(full_path, 'rb')
-            datas = file_data.read()
-            datas_encoded = datas and base64.b64encode(datas) or False
-        return datas_encoded
+            data = file_data.read()
+        return data

@@ -9,7 +9,6 @@
 
 from odoo.addons.storage_backend.tests.common import Common
 import os
-import base64
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -29,16 +28,14 @@ class SftpCase(Common):
             })
 
     def test_00_setting_and_reading_data_from_root(self):
-        self.backend.store(
-            self.filename, self.filedata,
-            is_base64=False, mimetype=u'text/plain')
-        data = self.backend.retrieve_data(self.filename)
-        self.assertEqual(base64.b64decode(data), self.filedata)
+        self.backend.add_b64_data(
+            self.filename, self.filedata, mimetype=u'text/plain')
+        data = self.backend.get_b64_data(self.filename)
+        self.assertEqual(data, self.filedata)
 
     def test_10_setting_and_reading_data_from_directory(self):
         self.backend.directory_path = 'upload/subdirectory/here'
-        self.backend.store(
-            self.filename, self.filedata,
-            is_base64=False, mimetype=u'text/plain')
-        data = self.backend.retrieve_data(self.filename)
-        self.assertEqual(base64.b64decode(data), self.filedata)
+        self.backend.add_b64_data(
+            self.filename, self.filedata, mimetype=u'text/plain')
+        data = self.backend.get_b64_data(self.filename)
+        self.assertEqual(data, self.filedata)
