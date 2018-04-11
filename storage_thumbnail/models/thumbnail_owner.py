@@ -38,7 +38,7 @@ class ThumbnailOwner(models.AbstractModel):
             ('res_id', '=', self.id),
             ('res_model', '=', self._name),
         ])
-        if not thumbnail and self.datas:
+        if not thumbnail and self.data:
             thumbnail = self.env['storage.thumbnail']._create_thumbnail(
                 self, size_x, size_y)
         return thumbnail
