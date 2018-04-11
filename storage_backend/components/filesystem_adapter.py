@@ -3,7 +3,6 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
 import os
 from odoo.exceptions import AccessError
 from odoo import _
@@ -35,16 +34,16 @@ class FileSystemStorageBackend(Component):
             raise AccessError(_("Access to %s is forbidden" % full_path))
         return full_path
 
-    def store_data(self, relative_path, datas, is_public=False):
+    def add(self, relative_path, data, **kwargs):
         full_path = self._fullpath(relative_path)
         dirname = os.path.dirname(full_path)
         if not os.path.isdir(dirname):
             os.makedirs(dirname)
         with open(full_path, "wb") as my_file:
-            my_file.write(datas)
+            my_file.write(data)
 
-    def retrieve_data(self, relative_path):
+    def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
         with open(full_path, "rb") as my_file:
-            datas = my_file.read()
-        return datas and base64.b64encode(datas) or False
+            data = my_file.read()
+        return data

@@ -24,26 +24,29 @@ class StorageBackend(models.Model):
         sparse="data",
         help="Relative path to the directory to store the file")
 
-    def store(self, relative_path, datas, is_base64=True, **kwargs):
-        if is_base64:
-            datas = base64.b64decode(datas)
-        return self.store_data(relative_path, datas, **kwargs)
+    def add_b64_data(self, relative_path, data, **kwargs):
+        return self.add_bin_data(
+            relative_path, base64.b64decode(data), **kwargs)
 
-    def store_data(self, relative_path, datas, **kwargs):
+    def get_b64_data(self, relative_path, **kwargs):
+        data = self.get_bin_data(relative_path, **kwargs)
+        return data and base64.b64encode(data) or ''
+
+    def add_bin_data(self, relative_path, data, **kwargs):
         _logger.debug(
             'Backend Storage ID: %s type %s: Write file %s',
             self.backend_type,
             self.id,
             relative_path)
-        return self._forward('store_data', relative_path, datas, **kwargs)
+        return self._forward('add', relative_path, data, **kwargs)
 
-    def retrieve_data(self, relative_path, **kwargs):
+    def get_bin_data(self, relative_path, **kwargs):
         _logger.debug(
             'Backend Storage ID: %s type %s: Read file %s',
             self.backend_type,
             self.id,
             relative_path)
-        return self._forward('retrieve_data', relative_path, **kwargs)
+        return self._forward('get', relative_path, **kwargs)
 
     def _forward(self, method, *args, **kwargs):
         self.ensure_one()
