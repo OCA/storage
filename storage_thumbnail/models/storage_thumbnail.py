@@ -31,7 +31,7 @@ class StorageThumbnail(models.Model):
 
     def _prepare_thumbnail(self, image, size_x, size_y):
         return {
-            'datas': self._resize(image, size_x, size_y),
+            'data': self._resize(image, size_x, size_y),
             'res_model': image._name,
             'res_id': image.id,
             'name': '%s_%s_%s%s' % (
@@ -41,7 +41,7 @@ class StorageThumbnail(models.Model):
         }
 
     def _resize(self, image, size_x, size_y):
-        return image_resize_image(image.datas, size=(size_x, size_y))
+        return image_resize_image(image.data, size=(size_x, size_y))
 
     def _create_thumbnail(self, image, size_x, size_y):
         vals = self._prepare_thumbnail(image, size_x, size_y)
