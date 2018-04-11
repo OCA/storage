@@ -7,17 +7,16 @@
 # disable warning on 'vcr' missing in manifest: this is only a dependency for
 # dev/tests
 
-from odoo.addons.storage_backend.tests.common import Common
+from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
 import os
 import logging
 _logger = logging.getLogger(__name__)
 
 
-class SftpCase(Common):
+class SftpCase(Common, GenericStoreCase):
 
     def setUp(self):
         super(SftpCase, self).setUp()
-        self.backend = self.env.ref('storage_backend.default_storage_backend')
         self.backend.write({
             'backend_type': 'sftp',
             'sftp_login': 'foo',
@@ -26,16 +25,4 @@ class SftpCase(Common):
             'sftp_port': os.environ.get('SFTP_PORT', '2222'),
             'directory_path': 'upload',
             })
-
-    def test_00_setting_and_reading_data_from_root(self):
-        self.backend.add_b64_data(
-            self.filename, self.filedata, mimetype=u'text/plain')
-        data = self.backend.get_b64_data(self.filename)
-        self.assertEqual(data, self.filedata)
-
-    def test_10_setting_and_reading_data_from_directory(self):
-        self.backend.directory_path = 'upload/subdirectory/here'
-        self.backend.add_b64_data(
-            self.filename, self.filedata, mimetype=u'text/plain')
-        data = self.backend.get_b64_data(self.filename)
-        self.assertEqual(data, self.filedata)
+        self.case_with_subdirectory = 'upload/subdirectory/here'
