@@ -23,18 +23,18 @@ class FileStoreCase(Common):
             filename)
 
     def test_00_setting_and_getting_data_from_root(self):
-        self.backend.store(self.filename, self.filedata, is_base64=False)
+        self.backend.add_b64_data(self.filename, self.filedata)
         filepath = self._get_filepath(self.filename)
         data = open(filepath, 'r').read()
+        self.assertEqual(data, base64.b64decode(self.filedata))
+        data = self.backend.get_b64_data(self.filename)
         self.assertEqual(data, self.filedata)
-        data = self.backend.retrieve_data(self.filename)
-        self.assertEqual(base64.b64decode(data), self.filedata)
 
     def test_00_setting_and_getting_data_from_dir(self):
         self.backend.directory_path = 'subdirectory/here'
-        self.backend.store(self.filename, self.filedata, is_base64=False)
+        self.backend.add_b64_data(self.filename, self.filedata)
         filepath = self._get_filepath(self.filename)
         data = open(filepath, 'r').read()
+        self.assertEqual(data, base64.b64decode(self.filedata))
+        data = self.backend.get_b64_data(self.filename)
         self.assertEqual(data, self.filedata)
-        data = self.backend.retrieve_data(self.filename)
-        self.assertEqual(base64.b64decode(data), self.filedata)
