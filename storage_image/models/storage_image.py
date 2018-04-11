@@ -44,7 +44,7 @@ class StorageImage(models.Model):
         if 'backend_id' not in vals:
             vals['backend_id'] = self._get_backend_id()
         if 'image_medium_url' in vals:
-            vals['datas'] = vals.pop('image_medium_url')
+            vals['data'] = vals.pop('image_medium_url')
         image = super(StorageImage, self).create(vals)
         return image
 

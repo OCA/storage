@@ -53,10 +53,10 @@ class StorageFile(models.Model):
         "Mime Type",
         compute='_compute_extract_filename',
         store=True)
-    datas = fields.Binary(
+    data = fields.Binary(
         help="Datas",
-        inverse='_inverse_datas',
-        compute='_compute_datas',
+        inverse='_inverse_data',
+        compute='_compute_data',
         store=False)
 
     _sql_constraints = [
@@ -67,9 +67,9 @@ class StorageFile(models.Model):
 
     @api.multi
     def write(self, vals):
-        if 'datas' in vals:
+        if 'data' in vals:
             for record in self:
-                if record.datas:
+                if record.data:
                     raise UserError(
                         _('File can not be updated,'
                           'remove it and create a new one'))
@@ -92,7 +92,7 @@ class StorageFile(models.Model):
             return "%s-%s%s" % (self.filename, self.id, self.extension)
 
     def _prepare_meta_for_file(self):
-        bin_data = base64.b64decode(self.datas)
+        bin_data = base64.b64decode(self.data)
         checksum = hashlib.sha1(bin_data).hexdigest()
         relative_path = self._build_relative_path(checksum)
         return {
@@ -102,21 +102,22 @@ class StorageFile(models.Model):
             }
 
     @api.multi
-    def _inverse_datas(self):
+    def _inverse_data(self):
         for record in self:
             record.write(record._prepare_meta_for_file())
-            record.backend_id.sudo().store(record.relative_path, record.datas)
+            record.backend_id.sudo().add_b64_data(
+                record.relative_path, record.data)
 
     @api.multi
-    def _compute_datas(self):
+    def _compute_data(self):
         for rec in self:
             if self._context.get('bin_size'):
-                rec.datas = rec.file_size
+                rec.data = rec.file_size
             elif rec.relative_path:
-                rec.datas = rec.backend_id.sudo().retrieve_data(
+                rec.data = rec.backend_id.sudo().get_b64_data(
                     rec.relative_path)
             else:
-                rec.datas = None
+                rec.data = None
 
     @api.depends(
         'backend_id.served_by', 'backend_id.base_url', 'relative_path')
@@ -126,7 +127,7 @@ class StorageFile(models.Model):
                 base_url = self.env['ir.config_parameter'].sudo()\
                     .get_param('web.base.url')
                 record.url = \
-                    base_url + '/web/content/storage.file/%s/datas' % self.id
+                    base_url + '/web/content/storage.file/%s/data' % self.id
             else:
                 record.url = "%s/%s" % (
                     record.backend_id.base_url, record.relative_path)

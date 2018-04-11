@@ -3,8 +3,6 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
-import base64
 import logging
 from odoo.exceptions import UserError
 from odoo import _
@@ -31,25 +29,25 @@ class S3StorageBackend(Component):
             aws_secret_access_key=account._get_password(),
             region_name=self.collection.aws_region).resource('s3')
 
-    def _get_amazon_s3_object(self, relative_path):
+    def _get_object(self, relative_path):
         s3 = self._get_resource()
         path = self._fullpath(relative_path)
         return s3.Object(self.collection.aws_bucket, path)
 
-    def store_data(self, relative_path, datas, mimetype=None):
+    def add(self, relative_path, data, mimetype=None, **kwargs):
         try:
-            s3object = self._get_amazon_s3_object(relative_path)
+            s3object = self._get_object(relative_path)
             s3object.put(
-                Body=datas,
+                Body=data,
                 ContentType=mimetype,
                 CacheControl=self.collection.aws_cache_control or '')
         except socket.error:
             raise UserError(_('S3 server not available'))
 
-    def retrieve_data(self, relative_path):
+    def get(self, relative_path, **kwargs):
         try:
-            s3object = self._get_amazon_s3_object(relative_path)
-            datas = s3object.get()['Body'].read()
+            s3object = self._get_object(relative_path)
+            data = s3object.get()['Body'].read()
         except socket.error:
             raise UserError(_('S3 server not available'))
-        return datas and base64.b64encode(datas) or False
+        return data
