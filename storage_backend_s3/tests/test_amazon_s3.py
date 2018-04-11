@@ -7,7 +7,7 @@
 # disable warning on 'vcr' missing in manifest: this is only a dependency for
 # dev/tests
 
-from odoo.addons.storage_backend.tests.common import Common
+from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
 import os
 from os.path import dirname, join
 from vcr import VCR
@@ -25,11 +25,10 @@ recorder = VCR(
 )
 
 
-class AmazonS3Case(Common):
+class AmazonS3Case(Common, GenericStoreCase):
 
     def setUp(self):
         super(AmazonS3Case, self).setUp()
-        self.backend = self.env.ref('storage_backend.default_storage_backend')
         self.backend.write({
             'backend_type': 'amazon_s3',
             'aws_bucket': os.environ.get(
@@ -43,16 +42,9 @@ class AmazonS3Case(Common):
             })
 
     @recorder.use_cassette
-    def test_00_setting_and_reading_data_from_bucket(self):
-        self.backend.add_b64_data(
-            self.filename, self.filedata, mimetype=u'text/plain')
-        data = self.backend.get_b64_data(self.filename)
-        self.assertEqual(data, self.filedata)
+    def test_setting_and_getting_data_from_root(self):
+        super(AmazonS3Case, self).test_setting_and_getting_data_from_root()
 
     @recorder.use_cassette
-    def test_10_setting_and_reading_data_from_directory(self):
-        self.backend.directory_path = 'subdirectory/here'
-        self.backend.add_b64_data(
-            self.filename, self.filedata, mimetype=u'text/plain')
-        data = self.backend.get_b64_data(self.filename)
-        self.assertEqual(data, self.filedata)
+    def test_setting_and_getting_data_from_dir(self):
+        super(AmazonS3Case, self).test_setting_and_getting_data_from_dir()
