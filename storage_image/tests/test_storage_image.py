@@ -24,19 +24,19 @@ class StorageImageCase(TransactionComponentCase):
     def _create_storage_image(self):
         return self.env['storage.image'].create({
             'name': self.filename,
-            'datas': self.filedata,
+            'data': self.filedata,
             })
 
     def test_create_and_read_image(self):
         image = self._create_storage_image()
-        self.assertEqual(image.datas, self.filedata)
+        self.assertEqual(image.data, self.filedata)
         self.assertEqual(image.mimetype, u'image/png')
         self.assertEqual(image.extension, u'.png')
         self.assertEqual(image.filename, u'akretion-logo')
         url = urlparse.urlparse(image.url)
         self.assertEqual(
             url.path,
-            "/web/content/storage.file/%s/datas" % image.file_id.id)
+            "/web/content/storage.file/%s/data" % image.file_id.id)
         self.assertEqual(image.file_size, self.filesize)
         self.assertEqual(self.backend.id, image.backend_id.id)
 
