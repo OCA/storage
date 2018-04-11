@@ -8,8 +8,8 @@ import base64
 import os
 import errno
 
-from odoo import models
 from contextlib import contextmanager
+from odoo.addons.component.core import Component
 
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ def sftp_mkdirs(client, path, mode=511):
     try:
         client.mkdir(path, mode)
     except IOError, e:
-        if e.errno == errno.ENOENT:
+        if e.errno == errno.ENOENT and path:
             sftp_mkdirs(client, os.path.dirname(path), mode=mode)
             client.mkdir(path, mode)
         else:
@@ -42,34 +42,30 @@ def sftp(backend):
     transport.close()
 
 
-class SftpStorageBackend(models.Model):
-    _inherit = 'storage.backend'
+class SftpStorageBackend(Component):
+    _name = 'sftp.adapter'
+    _inherit = 'base.storage.adapter'
+    _usage = 'sftp'
 
-    def _sftp_store_data(self, name, datas, is_public=False):
-        with sftp(self) as client:
-            full_path = os.path.join(self.sftp_dir_path or '/', name)
+    def store_data(self, relative_path, datas, **kwargs):
+        with sftp(self.collection) as client:
+            full_path = self._fullpath(relative_path)
             dirname = os.path.dirname(full_path)
-            try:
-                client.stat(dirname)
-            except IOError, e:
-                if e.errno == errno.ENOENT:
-                    sftp_mkdirs(client, dirname)
-                else:
-                    raise
-            logger.debug(
-                'Backend Storage: Write file %s to filestore', full_path)
+            if dirname:
+                try:
+                    client.stat(dirname)
+                except IOError, e:
+                    if e.errno == errno.ENOENT:
+                        sftp_mkdirs(client, dirname)
+                    else:
+                        raise
             remote_file = client.open(full_path, 'w+b')
             remote_file.write(datas)
             remote_file.close()
-        return name
 
-    def _sftp_get_public_url(self, name):
-        return os.path.join(self.sftp_public_base_url, name)
-
-    def _sftp_retrieve_data(self, name):
-        logger.debug('Backend Storage: Read file %s from filestore', name)
-        full_path = os.path.join(self.sftp_dir_path or '/', name)
-        with sftp(self) as client:
+    def retrieve_data(self, relative_path, **kwargs):
+        full_path = self._fullpath(relative_path)
+        with sftp(self.collection) as client:
             file_data = client.open(full_path, 'rb')
             datas = file_data.read()
             datas_encoded = datas and base64.b64encode(datas) or False

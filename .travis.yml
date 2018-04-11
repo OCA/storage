@@ -1,9 +1,12 @@
 language: python
-sudo: false
+sudo: required
 cache: pip
 
 python:
   - "2.7"
+
+services:
+  - docker
 
 addons:
   apt:
@@ -23,6 +26,9 @@ env:
 
 virtualenv:
   system_site_packages: true
+
+before_install:
+  - docker run -p 2222:22 -d atmoz/sftp:alpine foo:pass:::upload
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
