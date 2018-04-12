@@ -32,6 +32,7 @@ class ThumbnailOwner(models.AbstractModel):
     @api.multi
     def get_thumbnail(self, size_x, size_y):
         self.ensure_one()
+        self = self.with_context(bin_size=False)
         thumbnail = self.env['storage.thumbnail'].search([
             ('size_x', '=', size_x),
             ('size_y', '=', size_y),
