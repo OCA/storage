@@ -24,8 +24,16 @@ class StorageImageCase(TransactionComponentCase):
     def _create_storage_image(self):
         return self.env['storage.image'].create({
             'name': self.filename,
-            'data': self.filedata,
+            'image_medium_url': self.filedata,
             })
+
+    def _check_thumbnail(self, image):
+        self.assertEqual(len(image.thumbnail_ids), 2)
+        medium, small = image.thumbnail_ids
+        self.assertEqual(medium.size_x, 128)
+        self.assertEqual(medium.size_y, 128)
+        self.assertEqual(small.size_x, 64)
+        self.assertEqual(small.size_y, 64)
 
     def test_create_and_read_image(self):
         image = self._create_storage_image()
@@ -50,13 +58,23 @@ class StorageImageCase(TransactionComponentCase):
 
         # TODO FIXME we should find a way to avoid to clear the env here
         self.env.clear()
+        self._check_thumbnail(image)
 
-        self.assertEqual(len(image.thumbnail_ids), 2)
-        medium, small = image.thumbnail_ids
-        self.assertEqual(medium.size_x, 128)
-        self.assertEqual(medium.size_y, 128)
-        self.assertEqual(small.size_x, 64)
-        self.assertEqual(small.size_y, 64)
+    def test_create_thumbnail_with_bin_size(self):
+        image = self._create_storage_image()
+        # Reading a image can be done with bin_size context
+        # this should not impact the generation of thumbnail
+        image = image.with_context(bin_size=True)
+
+        # Check that no thumbnail exist
+        self.assertEqual(len(image.thumbnail_ids), 0)
+
+        # Getting thumbnail url should generate small and medium thumbnail
+        self.assertIsNotNone(image.image_medium_url)
+
+        # TODO FIXME we should find a way to avoid to clear the env here
+        self.env.clear()
+        self._check_thumbnail(image)
 
     def test_name_onchange(self):
         image = self.env['storage.image'].new({
