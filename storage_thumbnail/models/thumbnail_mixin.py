@@ -8,8 +8,8 @@ from openerp import api, fields, models
 
 
 class ThumbnailOwner(models.AbstractModel):
-    _name = 'thumbnail.owner'
-    _description = 'Thumbnail Owner'
+    _name = 'thumbnail.mixin'
+    _description = 'Thumbnail Mixin add the thumbnail capability'
 
     thumbnail_ids = fields.One2many(
         comodel_name='storage.thumbnail',
