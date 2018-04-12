@@ -19,7 +19,7 @@ except ImportError:
 class StorageImage(models.Model):
     _name = 'storage.image'
     _description = 'Storage Image'
-    _inherit = 'thumbnail.owner'
+    _inherit = 'thumbnail.mixin'
     _inherits = {'storage.file': 'file_id'}
 
     alt_name = fields.Char(string="Alt Image name")
