@@ -24,8 +24,10 @@ var FieldImageUrl = FieldBinaryImage.extend({
         });
         this.$('> img').remove();
         if (self.options.size) {
-            $img.css("width", "" + String(self.options.size[0]) + "px");
-            $img.css("height", "" + String(self.options.size[1]) + "px");
+            $img.css({
+                width: self.options.size[0] + "px",
+                height: self.options.size[1] + "px",
+            })
         }
         this.$el.prepend($img);
         $img.on('error', function() {
