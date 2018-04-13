@@ -4,10 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from odoo.exceptions import UserError
-from odoo import _
 from odoo.addons.component.core import Component
-import socket
 
 logger = logging.getLogger(__name__)
 
@@ -35,19 +32,24 @@ class S3StorageBackend(Component):
         return s3.Object(self.collection.aws_bucket, path)
 
     def add(self, relative_path, data, mimetype=None, **kwargs):
-        try:
-            s3object = self._get_object(relative_path)
-            s3object.put(
-                Body=data,
-                ContentType=mimetype,
-                CacheControl=self.collection.aws_cache_control or '')
-        except socket.error:
-            raise UserError(_('S3 server not available'))
+        s3object = self._get_object(relative_path)
+        s3object.put(
+            Body=data,
+            ContentType=mimetype,
+            CacheControl=self.collection.aws_cache_control or '')
 
-    def get(self, relative_path, **kwargs):
-        try:
-            s3object = self._get_object(relative_path)
-            data = s3object.get()['Body'].read()
-        except socket.error:
-            raise UserError(_('S3 server not available'))
-        return data
+    def get(self, relative_path):
+        s3object = self._get_object(relative_path)
+        return s3object.get()['Body'].read()
+
+    def list(self, relative_path):
+        resource = self._get_resource()
+        bucket = resource.Bucket(self.collection.aws_bucket)
+        dir_path = self.collection.directory_path or ''
+        return [
+            o.key.replace(dir_path, '').lstrip('/')
+            for o in bucket.objects.filter(Prefix=dir_path)]
+
+    def delete(self, relative_path):
+        s3object = self._get_object(relative_path)
+        s3object.delete()
