@@ -76,3 +76,26 @@ class StorageFileCase(TransactionComponentCase):
 
         # check that the file have been not modified
         self.assertEqual(stfile.read()[0]['data'], self.filedata)
+
+    def test_unlink(self):
+        # Do not commit during the test
+        self.cr.commit = lambda: True
+        stfile = self._create_storage_file()
+
+        backend = stfile.backend_id
+        relative_path = stfile.relative_path
+        stfile.unlink()
+
+        # Check the the storage file is set to delete
+        # and the file still exist on the storage
+        self.assertEqual(stfile.to_delete, True)
+        self.assertIn(relative_path, backend.list())
+
+        # Run the method to clean the storage.file
+        self.env['storage.file']._clean_storage_file()
+
+        # Check that the file is deleted
+        files = self.env['storage.file'].with_context(
+            active_test=False).search([('id', '=', stfile.id)])
+        self.assertEqual(len(files), 0)
+        self.assertNotIn(relative_path, backend.list())
