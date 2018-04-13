@@ -56,3 +56,11 @@ class StorageImage(models.Model):
         """
         return int(self.env['ir.config_parameter'].get_param(
             'storage.image.backend_id'))
+
+    def unlink(self):
+        files = self.mapped('file_id')
+        thumbnails = self.mapped('thumbnail_ids')
+        super(StorageImage, self).unlink()
+        thumbnails.unlink()
+        files.unlink()
+        return True
