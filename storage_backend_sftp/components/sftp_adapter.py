@@ -68,3 +68,20 @@ class SftpStorageBackend(Component):
             file_data = client.open(full_path, 'rb')
             data = file_data.read()
         return data
+
+    def list(self, relative_path):
+        full_path = self._fullpath(relative_path)
+        with sftp(self.collection) as client:
+            try:
+                return client.listdir(full_path)
+            except IOError, e:
+                if e.errno == errno.ENOENT:
+                    # The path do not exist return an empty list
+                    return []
+                else:
+                    raise
+
+    def delete(self, relative_path):
+        full_path = self._fullpath(relative_path)
+        with sftp(self.collection) as client:
+            return client.remove(full_path)
