@@ -33,23 +33,25 @@ class StorageBackend(models.Model):
         return data and base64.b64encode(data) or ''
 
     def add_bin_data(self, relative_path, data, **kwargs):
-        _logger.debug(
-            'Backend Storage ID: %s type %s: Write file %s',
-            self.backend_type,
-            self.id,
-            relative_path)
         return self._forward('add', relative_path, data, **kwargs)
 
     def get_bin_data(self, relative_path, **kwargs):
-        _logger.debug(
-            'Backend Storage ID: %s type %s: Read file %s',
-            self.backend_type,
-            self.id,
-            relative_path)
         return self._forward('get', relative_path, **kwargs)
 
-    def _forward(self, method, *args, **kwargs):
+    def list(self, relative_path=''):
+        return self._forward('list', relative_path)
+
+    def delete(self, relative_path):
+        return self._forward('delete', relative_path)
+
+    def _forward(self, method, relative_path, *args, **kwargs):
+        _logger.debug(
+            'Backend Storage ID: %s type %s: %s file %s',
+            self.backend_type,
+            self.id,
+            method,
+            relative_path)
         self.ensure_one()
         with self.work_on(self._name) as work:
             adapter = work.component(usage=self.backend_type)
-            return getattr(adapter, method)(*args, **kwargs)
+            return getattr(adapter, method)(relative_path, *args, **kwargs)

@@ -47,3 +47,13 @@ class FileSystemStorageBackend(Component):
         with open(full_path, "rb") as my_file:
             data = my_file.read()
         return data
+
+    def list(self, relative_path=''):
+        full_path = self._fullpath(relative_path)
+        if os.path.isdir(full_path):
+            return os.listdir(full_path)
+        return []
+
+    def delete(self, relative_path):
+        full_path = self._fullpath(relative_path)
+        os.remove(full_path)
