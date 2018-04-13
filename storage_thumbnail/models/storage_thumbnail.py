@@ -60,3 +60,9 @@ class StorageThumbnail(models.Model):
     def create(self, vals):
         vals['backend_id'] = self._get_backend_id()
         return super(StorageThumbnail, self).create(vals)
+
+    def unlink(self):
+        files = self.mapped('file_id')
+        super(StorageThumbnail, self).unlink()
+        files.unlink()
+        return True

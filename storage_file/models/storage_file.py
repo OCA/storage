@@ -58,6 +58,8 @@ class StorageFile(models.Model):
         inverse='_inverse_data',
         compute='_compute_data',
         store=False)
+    to_delete = fields.Boolean()
+    active = fields.Boolean(default=True)
 
     _sql_constraints = [
         ('url_uniq', 'unique(url)', 'The url must be uniq'),
@@ -65,7 +67,6 @@ class StorageFile(models.Model):
          'The private path must be uniq per backend'),
     ]
 
-    @api.multi
     def write(self, vals):
         if 'data' in vals:
             for record in self:
@@ -101,14 +102,12 @@ class StorageFile(models.Model):
             'relative_path': relative_path
             }
 
-    @api.multi
     def _inverse_data(self):
         for record in self:
             record.write(record._prepare_meta_for_file())
             record.backend_id.sudo().add_b64_data(
                 record.relative_path, record.data)
 
-    @api.multi
     def _compute_data(self):
         for rec in self:
             if self._context.get('bin_size'):
@@ -138,3 +137,21 @@ class StorageFile(models.Model):
             rec.filename, rec.extension = os.path.splitext(rec.name)
             mime, enc = mimetypes.guess_type(rec.name)
             rec.mimetype = mime
+
+    def unlink(self):
+        if self._context.get('cleanning_storage_file'):
+            super(StorageFile, self).unlink()
+        else:
+            self.write({'to_delete': True, 'active': False})
+        return True
+
+    @api.model
+    def _clean_storage_file(self):
+        self._cr.execute("""SELECT id
+            FROM storage_file
+            WHERE to_delete=True FOR UPDATE""")
+        ids = [x[0] for x in self._cr.fetchall()]
+        for st_file in self.browse(ids):
+            st_file.backend_id.sudo().delete(st_file.relative_path)
+            st_file.with_context(cleanning_storage_file=True).unlink()
+            st_file._cr.commit()
