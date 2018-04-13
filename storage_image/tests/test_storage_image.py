@@ -82,3 +82,21 @@ class StorageImageCase(TransactionComponentCase):
         image.onchange_name()
         self.assertEqual(image.name, u'test-of-image_name.png')
         self.assertEqual(image.alt_name, u'Test of image name')
+
+    def test_unlink(self):
+        image = self._create_storage_image()
+
+        # Generate thumbnail
+        self.assertIsNotNone(image.image_medium_url)
+
+        # TODO FIXME we should find a way to avoid to clear the env here
+        self.env.clear()
+
+        stfile = image.file_id
+        thumbnail_files = image.thumbnail_ids.mapped('file_id')
+        image.unlink()
+        self.assertEqual(stfile.to_delete, True)
+        self.assertEqual(stfile.active, False)
+        for thumbnail_file in thumbnail_files:
+            self.assertEqual(thumbnail_file.to_delete, True)
+            self.assertEqual(thumbnail_file.active, False)
