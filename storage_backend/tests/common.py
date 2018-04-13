@@ -10,10 +10,26 @@ import base64
 class GenericStoreCase(object):
 
     def _test_setting_and_getting_data(self):
+        # Check that the directory is empty
+        files = self.backend.list()
+        self.assertNotIn(self.filename, files)
+
+        # Add a new file
         self.backend.add_b64_data(
             self.filename, self.filedata, mimetype=u'text/plain')
+
+        # Check that the file exist
+        files = self.backend.list()
+        self.assertIn(self.filename, files)
+
+        # Retrieve the file added
         data = self.backend.get_b64_data(self.filename)
         self.assertEqual(data, self.filedata)
+
+        # Delete the file
+        self.backend.delete(self.filename)
+        files = self.backend.list()
+        self.assertNotIn(self.filename, files)
 
     def test_setting_and_getting_data_from_root(self):
         self._test_setting_and_getting_data()
