@@ -23,3 +23,9 @@ class BaseStorageAdapter(AbstractComponent):
 
     def get(self, relative_path, **kwargs):
         raise NotImplemented
+
+    def list(self, relative_path=''):
+        raise NotImplemented
+
+    def delete(self, relative_path):
+        raise NotImplemented
