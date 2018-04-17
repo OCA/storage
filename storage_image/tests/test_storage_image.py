@@ -62,9 +62,6 @@ class StorageImageCase(TransactionComponentCase):
 
         # Getting thumbnail url should generate small and medium thumbnail
         self.assertIsNotNone(image.image_medium_url)
-
-        # TODO FIXME we should find a way to avoid to clear the env here
-        self.env.clear()
         self._check_thumbnail(image)
 
     def test_create_thumbnail_with_bin_size(self):
@@ -78,9 +75,6 @@ class StorageImageCase(TransactionComponentCase):
 
         # Getting thumbnail url should generate small and medium thumbnail
         self.assertIsNotNone(image.image_medium_url)
-
-        # TODO FIXME we should find a way to avoid to clear the env here
-        self.env.clear()
         self._check_thumbnail(image)
 
     def test_name_onchange(self):
@@ -95,9 +89,6 @@ class StorageImageCase(TransactionComponentCase):
 
         # Generate thumbnail
         self.assertIsNotNone(image.image_medium_url)
-
-        # TODO FIXME we should find a way to avoid to clear the env here
-        self.env.clear()
 
         stfile = image.file_id
         thumbnail_files = image.thumbnail_ids.mapped('file_id')
