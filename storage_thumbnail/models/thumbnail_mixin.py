@@ -18,9 +18,11 @@ class ThumbnailOwner(models.AbstractModel):
         domain=lambda self: [("res_model", "=", self._name)])
     image_medium_url = fields.Char(
         compute="_compute_image_url",
+        compute_sudo=True,
         readonly=True)
     image_small_url = fields.Char(
         compute="_compute_image_url",
+        compute_sudo=True,
         readonly=True)
 
     def _get_medium_thumbnail(self):
@@ -55,8 +57,7 @@ class ThumbnailOwner(models.AbstractModel):
         self.env.all.todo = {}
         for rec in self:
             if rec.url:
-                medium_url = rec.sudo()._get_medium_thumbnail().url
-                small_url = rec.sudo()._get_small_thumbnail().url
-                rec.image_medium_url = medium_url
-                rec.image_small_url = small_url
+                rec.image_medium_url = rec._get_medium_thumbnail().url
+                rec.image_small_url = rec._get_small_thumbnail().url
+                rec._cache.pop('thumbnail_ids', None)
         self.env.all.todo = todo
