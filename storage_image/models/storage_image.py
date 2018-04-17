@@ -44,8 +44,11 @@ class StorageImage(models.Model):
         vals['file_type'] = 'image'
         if 'backend_id' not in vals:
             vals['backend_id'] = self._get_backend_id()
-        if 'image_medium_url' in vals:
-            vals['data'] = vals.pop('image_medium_url')
+        # When using the widget image_url, the create will pass the data
+        # in the "url" field. We map it to the data field
+        for key in ['image_medium_url', 'image_small_url']:
+            if key in vals:
+                vals['data'] = vals.pop(key)
         image = super(StorageImage, self).create(vals)
         return image
 
