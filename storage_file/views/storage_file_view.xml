@@ -8,6 +8,8 @@
             <field name="name"/>
             <field name="backend_id"/>
             <field name="file_size"/>
+            <field name="file_type"/>
+            <field name="company_id" groups="base.group_multi_company"/>
         </tree>
     </field>
 </record>
@@ -29,6 +31,8 @@
                     <field name="human_file_size"/>
                     <field name="checksum"/>
                     <field name="relative_path"/>
+                    <field name="file_type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
                 </group>
             </div>
         </form>
