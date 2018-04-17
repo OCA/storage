@@ -50,6 +50,11 @@ class StorageFileCase(TransactionComponentCase):
             stfile.relative_path,
             u'13/1322d9ccb3d257095185b205eadc9307aae5dc84')
 
+    def test_missing_name_strategy(self):
+        self.backend.filename_strategy = None
+        with self.assertRaises(UserError):
+            self._create_storage_file()
+
     def test_create_and_read_served_by_external(self):
         self.backend.write({
             'served_by': 'external',
