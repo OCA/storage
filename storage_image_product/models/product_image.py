@@ -12,7 +12,9 @@ _logger = logging.getLogger(__name__)
 
 class ProductImage(models.Model):
     _name = 'product.image'
+    _order = 'sequence, image_id'
 
+    sequence = fields.Integer()
     image_id = fields.Many2one(
         'storage.image',
     )
