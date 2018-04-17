@@ -4,6 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.addons.component.tests.common import TransactionComponentCase
+from odoo.exceptions import AccessError
 import base64
 import urlparse
 import os
@@ -13,6 +14,12 @@ class StorageImageCase(TransactionComponentCase):
 
     def setUp(self):
         super(StorageImageCase, self).setUp()
+        # Run the test with the demo user in order to check the access right
+        self.user = self.env.ref('base.user_demo')
+        self.user.write({'groups_id': [
+            (4, self.env.ref('storage_image.group_image_manager').id)]})
+        self.env = self.env(user=self.user)
+
         self.backend = self.env.ref('storage_backend.default_storage_backend')
         path = os.path.dirname(os.path.abspath(__file__))
         f = open(os.path.join(path, 'static/akretion-logo.png'))
@@ -100,3 +107,11 @@ class StorageImageCase(TransactionComponentCase):
         for thumbnail_file in thumbnail_files:
             self.assertEqual(thumbnail_file.to_delete, True)
             self.assertEqual(thumbnail_file.active, False)
+
+    def test_no_manager_user_can_not_write(self):
+        # Remove access rigth to demo user
+        group_manager = self.env.ref('storage_image.group_image_manager')
+        self.user = self.env.ref('base.user_demo')
+        self.user.sudo().write({'groups_id': [(3, group_manager.id)]})
+        with self.assertRaises(AccessError):
+            self._create_storage_image()
