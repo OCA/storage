@@ -5,22 +5,13 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='variants']" position="inside">
-              <!--   <field name="image_ids" widget="one2many_list">
-                    <tree string="Images">
-                        <field name="image_id" />
-                        <field name="attribute_value_ids" widget="many2many_tags" options="{'no_create_edit': True}" />
-                    </tree>
-                </field> -->
-                <field name="image_ids" context="{
-                       'default_owner_model': 'product.template',
-                       'default_owner_id': id,
-                    }"
-                    mode="kanban" />
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="image" string="Image">
+                    <field name="image_ids" mode="kanban" />
+                </page>
             </xpath>
         </field>
     </record>
-
 
     <record id="product_image_form" model="ir.ui.view">
         <field name="model">product.image</field>
@@ -28,12 +19,18 @@
             <form string="Association">
                 <group>
                     <field name="image_id" />
-                    <field name="attribute_value_ids" />
+                    <field name="available_attribute_value_ids" invisible="1" widget="many2many_tags"/>
+                    <field
+                        name="attribute_value_ids"
+                        domain="[('id', 'in', available_attribute_value_ids[0][2])]"
+                        widget="many2many_tags"
+                        attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
+                        options="{'limit': 10, 'create': false, 'create_edit': false}"/>
                 </group>
+                <field name="image_url" widget="image_url" nolabel="1" colspan="2"/>
             </form>
         </field>
     </record>
-
 
     <record id="product_image_kanban" model="ir.ui.view">
         <field name="model">product.image</field>

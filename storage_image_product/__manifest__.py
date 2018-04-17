@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Image Product",
+    "name": "Storage Image Product",
     "summary": "Link images to products and categories",
     "version": "10.0.1.0.0",
     "category": "Storage",
@@ -14,7 +14,8 @@
     'installable': True,
     "depends": [
         "storage_image",
-        'product',
+        "product",
+        "web_m2x_options",
     ],
     "data": [
         "views/product_template.xml",
