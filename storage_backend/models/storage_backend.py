@@ -24,24 +24,24 @@ class StorageBackend(models.Model):
         sparse="data",
         help="Relative path to the directory to store the file")
 
-    def add_b64_data(self, relative_path, data, **kwargs):
-        return self.add_bin_data(
+    def _add_b64_data(self, relative_path, data, **kwargs):
+        return self._add_bin_data(
             relative_path, base64.b64decode(data), **kwargs)
 
-    def get_b64_data(self, relative_path, **kwargs):
-        data = self.get_bin_data(relative_path, **kwargs)
+    def _get_b64_data(self, relative_path, **kwargs):
+        data = self._get_bin_data(relative_path, **kwargs)
         return data and base64.b64encode(data) or ''
 
-    def add_bin_data(self, relative_path, data, **kwargs):
+    def _add_bin_data(self, relative_path, data, **kwargs):
         return self._forward('add', relative_path, data, **kwargs)
 
-    def get_bin_data(self, relative_path, **kwargs):
+    def _get_bin_data(self, relative_path, **kwargs):
         return self._forward('get', relative_path, **kwargs)
 
-    def list(self, relative_path=''):
+    def _list(self, relative_path=''):
         return self._forward('list', relative_path)
 
-    def delete(self, relative_path):
+    def _delete(self, relative_path):
         return self._forward('delete', relative_path)
 
     def _forward(self, method, relative_path, *args, **kwargs):
