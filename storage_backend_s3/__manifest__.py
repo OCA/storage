@@ -7,7 +7,7 @@
     "name": "Storage Backend S3",
     "summary": "Implement amazon S3 Storage",
     "version": "10.0.1.0.0",
-    "category": "Uncategorized",
+    "category": "Storage",
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
