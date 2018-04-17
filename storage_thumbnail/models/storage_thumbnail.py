@@ -58,7 +58,10 @@ class StorageThumbnail(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['backend_id'] = self._get_backend_id()
+        vals.update({
+            'backend_id': self._get_backend_id(),
+            'file_type': 'thumbnail',
+            })
         return super(StorageThumbnail, self).create(vals)
 
     def unlink(self):
