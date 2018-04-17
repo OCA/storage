@@ -41,6 +41,7 @@ class StorageImage(models.Model):
 
     @api.model
     def create(self, vals):
+        vals['file_type'] = 'image'
         if 'backend_id' not in vals:
             vals['backend_id'] = self._get_backend_id()
         if 'image_medium_url' in vals:
