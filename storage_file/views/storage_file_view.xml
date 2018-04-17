@@ -8,6 +8,8 @@
             <field name="name"/>
             <field name="backend_id"/>
             <field name="file_size"/>
+            <field name="file_type"/>
+            <field name="company_id" groups="base.group_multi_company"/>
         </tree>
     </field>
 </record>
@@ -22,13 +24,15 @@
                     <field name="name"/>
                 </h1>
                 <group>
-                    <field name="backend_id"/>
+                    <field name="id" invisible="True"/>
+                    <field name="backend_id" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="data" attrs="{'readonly': [('id', '!=', False)]}"/>
                     <field name="url" widget="url"/>
                     <field name="human_file_size"/>
                     <field name="checksum"/>
-                    <field name="private_path"/>
-                    <field name="res_model" readonly="True"/>
-                    <field name="res_id" readonly="True"/>
+                    <field name="relative_path"/>
+                    <field name="file_type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
                 </group>
             </div>
         </form>

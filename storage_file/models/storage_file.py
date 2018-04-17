@@ -11,6 +11,7 @@ import mimetypes
 import hashlib
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
+from odoo.tools import human_size
 _logger = logging.getLogger(__name__)
 
 
@@ -18,22 +19,20 @@ class StorageFile(models.Model):
     _name = 'storage.file'
     _description = 'Storage File'
 
-    name = fields.Char(
-        required=True,
-        index=True)
+    name = fields.Char(required=True, index=True)
     backend_id = fields.Many2one(
         'storage.backend',
         'Storage',
         index=True,
         required=True)
-    url = fields.Char(help="HTTP accessible path for odoo backend to the file")
-    private_path = fields.Char(help='Location for backend, may be relative')
-    res_model = fields.Char(
-        readonly=False,
-        index=True)
-    res_id = fields.Integer(
-        readonly=False,
-        index=True)
+    url = fields.Char(
+        compute='_compute_url',
+        compute_sudo=True,
+        store=True,
+        help="HTTP accessible path to the file")
+    relative_path = fields.Char(
+        readonly=True,
+        help='Relative location for backend')
     file_size = fields.Integer('File Size')
     human_file_size = fields.Char(
         'Human File Size',
@@ -56,25 +55,29 @@ class StorageFile(models.Model):
         "Mime Type",
         compute='_compute_extract_filename',
         store=True)
-    datas = fields.Binary(
+    data = fields.Binary(
         help="Datas",
-        inverse='_inverse_datas',
-        compute='_compute_datas',
+        inverse='_inverse_data',
+        compute='_compute_data',
         store=False)
+    to_delete = fields.Boolean()
+    active = fields.Boolean(default=True)
+    company_id = fields.Many2one(
+        'res.company',
+        'Company',
+        default=lambda self: self.env.user.company_id.id)
+    file_type = fields.Selection([])
 
     _sql_constraints = [
         ('url_uniq', 'unique(url)', 'The url must be uniq'),
-        ('path_uniq', 'unique(private_path, backend_id)',
+        ('path_uniq', 'unique(relative_path, backend_id)',
          'The private path must be uniq per backend'),
     ]
 
-    # TODO add code for using security rule like ir.attachment
-
-    @api.multi
     def write(self, vals):
-        if 'datas' in vals:
+        if 'data' in vals:
             for record in self:
-                if record.datas:
+                if record.data:
                     raise UserError(
                         _('File can not be updated,'
                           'remove it and create a new one'))
@@ -82,49 +85,59 @@ class StorageFile(models.Model):
 
     @api.depends('file_size')
     def _compute_human_file_size(self):
-        suffixes = ['B', 'KB', 'MB', 'GB', 'TB']
         for record in self:
-            suffix_index = 0
-            size = record.file_size
-            while size > 1024 and suffix_index < 4:
-                suffix_index += 1
-                size = size / 1024.0
-            record.human_file_size = "%.*f%s" % (
-                2, size, suffixes[suffix_index])
+            record.human_file_size = human_size(self.file_size)
 
-    def _prepare_meta_for_file(self, datas, private_path):
+    def _build_relative_path(self, checksum):
+        self.ensure_one()
+        strategy = self.sudo().backend_id.filename_strategy
+        if not strategy:
+            raise UserError(_(
+                "The filename strategy is empty for the backend %s.\n"
+                "Please configure it") % self.backend_id.name)
+        if strategy == 'hash':
+            return checksum[:2] + '/' + checksum
+        elif strategy == 'name_with_id':
+            return "%s-%s%s" % (self.filename, self.id, self.extension)
+
+    def _prepare_meta_for_file(self):
+        bin_data = base64.b64decode(self.data)
+        checksum = hashlib.sha1(bin_data).hexdigest()
+        relative_path = self._build_relative_path(checksum)
         return {
-            'url': self.backend_id.sudo().get_public_url(private_path),
-            'checksum': hashlib.sha1(datas).hexdigest(),
-            'file_size': len(datas),
-            'private_path': private_path
+            'checksum': checksum,
+            'file_size': len(bin_data),
+            'relative_path': relative_path
             }
 
-    @api.multi
-    def _inverse_datas(self):
+    def _inverse_data(self):
         for record in self:
-            b_decoded = base64.b64decode(record.datas)
-            private_path = self.backend_id.sudo().store(
-                record.name,
-                b_decoded,
-                is_public=True,
-                is_base64=False)
-            vals = record._prepare_meta_for_file(b_decoded, private_path)
-            record.write(vals)
+            record.write(record._prepare_meta_for_file())
+            record.backend_id.sudo()._add_b64_data(
+                record.relative_path, record.data)
 
-    @api.multi
-    def _compute_datas(self):
+    def _compute_data(self):
         for rec in self:
-            if not rec.url:
-                rec.datas = None
+            if self._context.get('bin_size'):
+                rec.data = rec.file_size
+            elif rec.relative_path:
+                rec.data = rec.backend_id.sudo()._get_b64_data(
+                    rec.relative_path)
             else:
-                try:
-                    rec.datas = rec.backend_id.sudo().retrieve_data(
-                        rec.private_path)
-                except:
-                    _logger.error('Image %s not found', rec.url)
-                    rec.datas = None
-                    raise
+                rec.data = None
+
+    @api.depends(
+        'backend_id.served_by', 'backend_id.base_url', 'relative_path')
+    def _compute_url(self):
+        for record in self:
+            if record.backend_id.served_by == 'odoo':
+                base_url = self.env['ir.config_parameter'].sudo()\
+                    .get_param('web.base.url')
+                record.url = \
+                    base_url + '/web/content/storage.file/%s/data' % record.id
+            else:
+                record.url = "%s/%s" % (
+                    record.backend_id.base_url, record.relative_path)
 
     @api.depends('name')
     def _compute_extract_filename(self):
@@ -132,3 +145,21 @@ class StorageFile(models.Model):
             rec.filename, rec.extension = os.path.splitext(rec.name)
             mime, enc = mimetypes.guess_type(rec.name)
             rec.mimetype = mime
+
+    def unlink(self):
+        if self._context.get('cleanning_storage_file'):
+            super(StorageFile, self).unlink()
+        else:
+            self.write({'to_delete': True, 'active': False})
+        return True
+
+    @api.model
+    def _clean_storage_file(self):
+        self._cr.execute("""SELECT id
+            FROM storage_file
+            WHERE to_delete=True FOR UPDATE""")
+        ids = [x[0] for x in self._cr.fetchall()]
+        for st_file in self.browse(ids):
+            st_file.backend_id.sudo()._delete(st_file.relative_path)
+            st_file.with_context(cleanning_storage_file=True).unlink()
+            st_file._cr.commit()

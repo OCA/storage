@@ -7,7 +7,7 @@
     "name": "Storage File",
     "summary": "Storage file in storage backend",
     "version": "10.0.1.0.0",
-    "category": "Uncategorized",
+    "category": "Storage",
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
@@ -22,7 +22,9 @@
     ],
     "data": [
         'views/storage_file_view.xml',
+        'views/storage_backend_view.xml',
         'security/ir.model.access.csv',
+        'data/ir_cron.xml',
     ],
     "demo": [
     ],

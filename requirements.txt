@@ -1,2 +1,4 @@
-boto
+boto3
 paramiko
+slugify
+vcrpy
