@@ -27,6 +27,8 @@ class StorageFile(models.Model):
         required=True)
     url = fields.Char(
         compute='_compute_url',
+        compute_sudo=True,
+        store=True,
         help="HTTP accessible path to the file")
     relative_path = fields.Char(
         readonly=True,
@@ -60,6 +62,11 @@ class StorageFile(models.Model):
         store=False)
     to_delete = fields.Boolean()
     active = fields.Boolean(default=True)
+    company_id = fields.Many2one(
+        'res.company',
+        'Company',
+        default=lambda self: self.env.user.company_id.id)
+    file_type = fields.Selection([])
 
     _sql_constraints = [
         ('url_uniq', 'unique(url)', 'The url must be uniq'),
@@ -83,13 +90,14 @@ class StorageFile(models.Model):
 
     def _build_relative_path(self, checksum):
         self.ensure_one()
-        if not self.backend_id.filename_strategy:
+        strategy = self.sudo().backend_id.filename_strategy
+        if not strategy:
             raise UserError(_(
                 "The filename strategy is empty for the backend %s.\n"
                 "Please configure it") % self.backend_id.name)
-        if self.backend_id.filename_strategy == 'hash':
+        if strategy == 'hash':
             return checksum[:2] + '/' + checksum
-        elif self.backend_id.filename_strategy == 'name_with_id':
+        elif strategy == 'name_with_id':
             return "%s-%s%s" % (self.filename, self.id, self.extension)
 
     def _prepare_meta_for_file(self):
@@ -105,7 +113,7 @@ class StorageFile(models.Model):
     def _inverse_data(self):
         for record in self:
             record.write(record._prepare_meta_for_file())
-            record.backend_id.sudo().add_b64_data(
+            record.backend_id.sudo()._add_b64_data(
                 record.relative_path, record.data)
 
     def _compute_data(self):
@@ -113,7 +121,7 @@ class StorageFile(models.Model):
             if self._context.get('bin_size'):
                 rec.data = rec.file_size
             elif rec.relative_path:
-                rec.data = rec.backend_id.sudo().get_b64_data(
+                rec.data = rec.backend_id.sudo()._get_b64_data(
                     rec.relative_path)
             else:
                 rec.data = None
@@ -126,7 +134,7 @@ class StorageFile(models.Model):
                 base_url = self.env['ir.config_parameter'].sudo()\
                     .get_param('web.base.url')
                 record.url = \
-                    base_url + '/web/content/storage.file/%s/data' % self.id
+                    base_url + '/web/content/storage.file/%s/data' % record.id
             else:
                 record.url = "%s/%s" % (
                     record.backend_id.base_url, record.relative_path)
@@ -152,6 +160,6 @@ class StorageFile(models.Model):
             WHERE to_delete=True FOR UPDATE""")
         ids = [x[0] for x in self._cr.fetchall()]
         for st_file in self.browse(ids):
-            st_file.backend_id.sudo().delete(st_file.relative_path)
+            st_file.backend_id.sudo()._delete(st_file.relative_path)
             st_file.with_context(cleanning_storage_file=True).unlink()
             st_file._cr.commit()

@@ -23,7 +23,9 @@
         'views/storage_image_view.xml',
         'views/js.xml',
         'data/ir_parameter.xml',
+        'security/res_group.xml',
         'security/ir.model.access.csv',
+        'security/ir_rule.xml',
     ],
     "demo": [
     ],
