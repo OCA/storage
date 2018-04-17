@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_category_form_view" model="ir.ui.view">
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="model">product.category</field>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="image_ids" mode="kanban" />
+            </field>
+        </field>
+    </record>
+
+
+    <record id="product_category_image_form" model="ir.ui.view">
+        <field name="model">category.image</field>
+        <field name="arch" type="xml">
+            <form string="Association">
+                <group>
+                    <field name="image_id" />
+                    <field name="image_categ_type_id" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="product_category_image_kanban" model="ir.ui.view">
+        <field name="model">category.image</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="image_name" />
+                <field name="image_url" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <a type="open">
+                                <img t-att-src="record.image_url.value"
+                                     class="oe_kanban_image" />
+                            </a>
+                            <div class="oe_kanban_details">
+                                <h4>
+                                    <field name="type_name" />
+                                    <a type="open">
+                                         <field name="image_name"/>
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                   </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+
+</odoo>
