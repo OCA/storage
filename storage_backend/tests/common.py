@@ -11,24 +11,24 @@ class GenericStoreCase(object):
 
     def _test_setting_and_getting_data(self):
         # Check that the directory is empty
-        files = self.backend.list()
+        files = self.backend._list()
         self.assertNotIn(self.filename, files)
 
         # Add a new file
-        self.backend.add_b64_data(
+        self.backend._add_b64_data(
             self.filename, self.filedata, mimetype=u'text/plain')
 
         # Check that the file exist
-        files = self.backend.list()
+        files = self.backend._list()
         self.assertIn(self.filename, files)
 
         # Retrieve the file added
-        data = self.backend.get_b64_data(self.filename)
+        data = self.backend._get_b64_data(self.filename)
         self.assertEqual(data, self.filedata)
 
         # Delete the file
-        self.backend.delete(self.filename)
-        files = self.backend.list()
+        self.backend._delete(self.filename)
+        files = self.backend._list()
         self.assertNotIn(self.filename, files)
 
     def test_setting_and_getting_data_from_root(self):
