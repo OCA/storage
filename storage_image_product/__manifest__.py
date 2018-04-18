@@ -16,6 +16,7 @@
         "storage_image",
         "product",
         "web_m2x_options",
+        "sale",  # only for the menu
     ],
     "data": [
         "security/ir.model.access.csv",
