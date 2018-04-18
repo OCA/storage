@@ -18,7 +18,7 @@
             <form string="Association">
                 <group>
                     <field name="image_id" />
-                    <field name="image_categ_type_id" />
+                    <field name="tag_id"/>
                 </group>
             </form>
         </field>
@@ -40,7 +40,6 @@
                             </a>
                             <div class="oe_kanban_details">
                                 <h4>
-                                    <field name="type_name" />
                                     <a type="open">
                                          <field name="image_name"/>
                                     </a>

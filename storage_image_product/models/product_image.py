@@ -17,6 +17,7 @@ class ProductImage(models.Model):
     sequence = fields.Integer()
     image_id = fields.Many2one(
         'storage.image',
+        required=True,
     )
     attribute_value_ids = fields.Many2many(
         'product.attribute.value',
@@ -34,6 +35,12 @@ class ProductImage(models.Model):
     image_name = fields.Char(related='image_id.name')
     # for kanban view
     image_url = fields.Char(related='image_id.image_medium_url')
+
+    tag_id = fields.Many2one(
+        'image.tag',
+        domain=[('apply_on', '=', 'product')],
+    )
+
 
     @api.depends('image_id', 'product_tmpl_id.attribute_line_ids.value_ids')
     def _compute_available_attribute(self):
