@@ -15,22 +15,22 @@ class CategoryImage(models.Model):
 
     image_id = fields.Many2one(
         'storage.image',
+        required=True,
     )
     category_id = fields.Many2one(
         'product.category',
     )
-    image_categ_type_id = fields.Many2one(
-        'category.image.type')
+    tag_id = fields.Many2one(
+        'image.tag',
+        domain=[('apply_on', '=', 'category')])
 
     # for kanban view
     image_name = fields.Char(related='image_id.name')
     # for kanban view
     image_url = fields.Char(related='image_id.image_medium_url')
 
-    type_name = fields.Char(related='image_categ_type_id.name')
 
-
-class CategoryImageType(models.Model):
-    _name = 'category.image.type'
+class ImageTag(models.Model):
+    _name = 'image.tag'
 
     name = fields.Char()

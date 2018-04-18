@@ -23,5 +23,6 @@
         "views/product_image.xml",
         "views/product_product.xml",
         "views/product_category.xml",
+        "views/image_tag.xml",
     ],
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="image_tag_view_tree" model="ir.ui.view">
+    <field name="model">image.tag</field>
+    <field name="arch" type="xml">
+        <tree string="Image Tag" editable="bottom">
+            <field name="name"/>
+            <field name="apply_on"/>
+        </tree>
+    </field>
+</record>
+
+<record id="image_tag_view_search" model="ir.ui.view">
+    <field name="model">image.tag</field>
+    <field name="arch" type="xml">
+        <search string="Image Tag">
+            <field name="name"/>
+        </search>
+    </field>
+</record>
+
+<record model="ir.actions.act_window" id="act_open_image_tag_view">
+    <field name="name">Image Tag</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">image.tag</field>
+    <field name="view_mode">tree</field>
+    <field name="search_view_id" ref="image_tag_view_search"/>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+</record>
+
+<record model="ir.actions.act_window.view" id="act_open_image_tag_view_tree">
+    <field name="act_window_id" ref="act_open_image_tag_view"/>
+    <field name="sequence" eval="10"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="image_tag_view_tree"/>
+</record>
+
+<menuitem id="menu_image_tag"
+    parent="sale.prod_config_main"
+    sequence="10"
+    action="act_open_image_tag_view"/>
+
+</odoo>
