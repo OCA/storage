@@ -6,7 +6,8 @@
         <field name="arch" type="xml">
             <form string="Association">
                 <group>
-                    <field name="image_id" />
+                    <field name="image_id"/>
+                    <field name="tag_id"/>
                     <field name="available_attribute_value_ids" invisible="1" widget="many2many_tags"/>
                     <field
                         name="attribute_value_ids"
