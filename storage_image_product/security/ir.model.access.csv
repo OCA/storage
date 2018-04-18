@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_image_edit,storage_image edit,model_product_image,base.group_system,1,1,1,1
-access_product_image_read,storage_image read,model_product_image,base.group_system,1,0,0,0
+access_product_image_edit,product_image edit,model_product_image,storage_image.group_image_manager,1,1,1,1
+access_product_image_read,product_image read,model_product_image,base.group_user,1,0,0,0
+access_category_image_edit,category_image edit,model_category_image,storage_image.group_image_manager,1,1,1,1
+access_category_image_read,category_image read,model_category_image,base.group_user,1,0,0,0
