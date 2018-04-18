@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_image_form" model="ir.ui.view">
+        <field name="model">product.image</field>
+        <field name="arch" type="xml">
+            <form string="Association">
+                <group>
+                    <field name="image_id" />
+                    <field name="available_attribute_value_ids" invisible="1" widget="many2many_tags"/>
+                    <field
+                        name="attribute_value_ids"
+                        domain="[('id', 'in', available_attribute_value_ids[0][2])]"
+                        widget="many2many_tags"
+                        attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
+                        options="{'limit': 10, 'create': false, 'create_edit': false}"/>
+                </group>
+                <field name="image_url" widget="image_url" nolabel="1" colspan="2"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_image_kanban" model="ir.ui.view">
+        <field name="model">product.image</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="image_name"/>
+                <field name="image_url"/>
+                <field name="attribute_value_ids"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <a t-if="! read_only_mode"
+                                  type="delete"
+                                  style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                            <a type="open">
+                                <img t-att-src="record.image_url.value"
+                                     class="oe_kanban_image" />
+                            </a>
+                            <div class="oe_kanban_details">
+                                <h4>
+                                    <a type="open">
+                                         <field name="image_name"/>
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                   </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>
