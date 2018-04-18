@@ -18,7 +18,10 @@
         "web_m2x_options",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "views/product_template.xml",
+        "views/product_image.xml",
+        "views/product_product.xml",
         "views/product_category.xml",
     ],
 }
