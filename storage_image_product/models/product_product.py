@@ -12,12 +12,15 @@ class ProductProduct(models.Model):
     # small and medium image are here to replace
     # native image field on form and kanban
     variant_image_small_url = fields.Char(
-        related='variant_image_ids.image_id.image_small_url')
+        related='variant_image_ids.image_id.image_small_url',
+        store=True)
     variant_image_medium_url = fields.Char(
-        related='variant_image_ids.image_id.image_medium_url')
+        related='variant_image_ids.image_id.image_medium_url',
+        store=True)
     variant_image_ids = fields.Many2many(
         'product.image',
-        compute="_compute_variant_image_ids")
+        compute="_compute_variant_image_ids",
+        store=True)
 
     @api.depends('product_tmpl_id.image_ids', 'attribute_value_ids')
     def _compute_variant_image_ids(self):
