@@ -114,7 +114,7 @@ class StorageFile(models.Model):
         for record in self:
             record.write(record._prepare_meta_for_file())
             record.backend_id.sudo()._add_b64_data(
-                record.relative_path, record.data)
+                record.relative_path, record.data, mimetype=record.mimetype)
 
     def _compute_data(self):
         for rec in self:
