@@ -57,24 +57,8 @@ class StorageImageCase(TransactionComponentCase):
 
     def test_create_thumbnail(self):
         image = self._create_storage_image()
-        # Check that no thumbnail exist
-        self.assertEqual(len(image.thumbnail_ids), 0)
-
-        # Getting thumbnail url should generate small and medium thumbnail
         self.assertIsNotNone(image.image_medium_url)
-        self._check_thumbnail(image)
-
-    def test_create_thumbnail_with_bin_size(self):
-        image = self._create_storage_image()
-        # Reading a image can be done with bin_size context
-        # this should not impact the generation of thumbnail
-        image = image.with_context(bin_size=True)
-
-        # Check that no thumbnail exist
-        self.assertEqual(len(image.thumbnail_ids), 0)
-
-        # Getting thumbnail url should generate small and medium thumbnail
-        self.assertIsNotNone(image.image_medium_url)
+        self.assertIsNotNone(image.image_small_url)
         self._check_thumbnail(image)
 
     def test_name_onchange(self):
@@ -86,10 +70,6 @@ class StorageImageCase(TransactionComponentCase):
 
     def test_unlink(self):
         image = self._create_storage_image()
-
-        # Generate thumbnail
-        self.assertIsNotNone(image.image_medium_url)
-
         stfile = image.file_id
         thumbnail_files = image.thumbnail_ids.mapped('file_id')
         image.unlink()
