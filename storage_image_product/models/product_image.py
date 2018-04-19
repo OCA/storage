@@ -23,6 +23,8 @@ class ProductImage(models.Model):
         'product.attribute.value',
         string='Attributes'
     )
+    # This field will list all attribute value used by the template
+    # in order to filter the attribute value available for the current image
     available_attribute_value_ids = fields.Many2many(
         'product.attribute.value',
         string='Attributes',
