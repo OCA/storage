@@ -3,5 +3,5 @@ access_product_image_edit,product_image edit,model_product_image,storage_image.g
 access_product_image_read,product_image read,model_product_image,base.group_user,1,0,0,0
 access_category_image_edit,category_image edit,model_category_image,storage_image.group_image_manager,1,1,1,1
 access_category_image_read,category_image read,model_category_image,base.group_user,1,0,0,0
-access_image_tag_edit,image_tag edit,model_image_tag,storage_image.group_image_manager,1,1,1,1
+access_image_tag_edit,image_tag edit,model_image_tag,base.group_erp_manager,1,1,1,1
 access_image_tag_read,image_tag read,model_image_tag,base.group_user,1,0,0,0

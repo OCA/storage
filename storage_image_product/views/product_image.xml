@@ -13,8 +13,7 @@
                         name="attribute_value_ids"
                         domain="[('id', 'in', available_attribute_value_ids[0][2])]"
                         widget="many2many_tags"
-                        attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
-                        options="{'limit': 10, 'create': false, 'create_edit': false}"/>
+                        attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"/>
                 </group>
                 <field name="image_url" widget="image_url" nolabel="1" colspan="2"/>
             </form>
