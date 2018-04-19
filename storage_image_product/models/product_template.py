@@ -16,9 +16,11 @@ class ProductTemplate(models.Model):
     # small and medium image are here to replace
     # native image field on form and kanban
     image_small_url = fields.Char(
-        related='image_ids.image_id.image_small_url')
+        related='image_ids.image_id.image_small_url',
+        store=True)
     image_medium_url = fields.Char(
-        related='image_ids.image_id.image_medium_url')
+        related='image_ids.image_id.image_medium_url',
+        store=True)
     image_ids = fields.One2many(
         'product.image',
         inverse_name='product_tmpl_id',
