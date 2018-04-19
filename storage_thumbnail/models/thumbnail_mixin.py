@@ -7,7 +7,7 @@
 from openerp import api, fields, models
 
 
-class ThumbnailOwner(models.AbstractModel):
+class ThumbnailMixing(models.AbstractModel):
     _name = 'thumbnail.mixin'
     _description = 'Thumbnail Mixin add the thumbnail capability'
 
@@ -16,23 +16,16 @@ class ThumbnailOwner(models.AbstractModel):
         string='Thumbnails',
         inverse_name='res_id',
         domain=lambda self: [("res_model", "=", self._name)])
-    image_medium_url = fields.Char(
-        compute="_compute_image_url",
-        compute_sudo=True,
-        readonly=True)
-    image_small_url = fields.Char(
-        compute="_compute_image_url",
-        compute_sudo=True,
-        readonly=True)
+    image_medium_url = fields.Char(readonly=True)
+    image_small_url = fields.Char(readonly=True)
 
     def _get_medium_thumbnail(self):
-        return self.get_thumbnail(128, 128)
+        return self.get_or_create_thumbnail(128, 128)
 
     def _get_small_thumbnail(self):
-        return self.get_thumbnail(64, 64)
+        return self.get_or_create_thumbnail(64, 64)
 
-    @api.multi
-    def get_thumbnail(self, size_x, size_y):
+    def get_or_create_thumbnail(self, size_x, size_y):
         self.ensure_one()
         self = self.with_context(bin_size=False)
         thumbnail = self.env['storage.thumbnail'].search([
@@ -46,18 +39,15 @@ class ThumbnailOwner(models.AbstractModel):
                 self, size_x, size_y)
         return thumbnail
 
-    @api.multi
-    @api.depends('url')
-    def _compute_image_url(self):
-        # We need a clear env for getting the thumbnail
-        # as a potential create/write can be called
-        # This avoid useless recomputation of field
-        # TODO we should see with odoo how we can improve the ORM
-        todo = self.env.all.todo
-        self.env.all.todo = {}
-        for rec in self:
-            if rec.url:
-                rec.image_medium_url = rec._get_medium_thumbnail().url
-                rec.image_small_url = rec._get_small_thumbnail().url
-                rec._cache.pop('thumbnail_ids', None)
-        self.env.all.todo = todo
+    def generate_odoo_thumbnail(self):
+        self.write({
+            'image_medium_url': self.sudo()._get_medium_thumbnail().url,
+            'image_small_url': self.sudo()._get_small_thumbnail().url,
+            })
+        return True
+
+    @api.model
+    def create(self, vals):
+        record = super(ThumbnailMixing, self).create(vals)
+        record.generate_odoo_thumbnail()
+        return record
