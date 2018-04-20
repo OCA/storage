@@ -17,7 +17,7 @@ class StorageFileCase(TransactionComponentCase):
         data = 'This is a simple file'
         self.filesize = len(data)
         self.filedata = base64.b64encode(data)
-        self.filename = 'test_file.txt'
+        self.filename = 'test of my_file.txt'
 
     def _create_storage_file(self):
         return self.env['storage.file'].create({
@@ -31,8 +31,9 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(stfile.data, self.filedata)
         self.assertEqual(stfile.mimetype, u'text/plain')
         self.assertEqual(stfile.extension, u'.txt')
-        self.assertEqual(stfile.filename, u'test_file')
-        self.assertEqual(stfile.relative_path, u'test_file-%s.txt' % stfile.id)
+        self.assertEqual(stfile.filename, u'test of my_file')
+        self.assertEqual(
+            stfile.relative_path, u'test-of-my_file-%s.txt' % stfile.id)
         url = urlparse.urlparse(stfile.url)
         self.assertEqual(
             url.path,
@@ -45,7 +46,7 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(stfile.data, self.filedata)
         self.assertEqual(stfile.mimetype, u'text/plain')
         self.assertEqual(stfile.extension, u'.txt')
-        self.assertEqual(stfile.filename, u'test_file')
+        self.assertEqual(stfile.filename, u'test of my_file')
         self.assertEqual(
             stfile.relative_path,
             u'13/1322d9ccb3d257095185b205eadc9307aae5dc84')
@@ -64,7 +65,7 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(stfile.data, self.filedata)
         self.assertEqual(
             stfile.url,
-            'https://cdn.example.com/test_file-%s.txt' % stfile.id)
+            'https://cdn.example.com/test-of-my_file-%s.txt' % stfile.id)
         self.assertEqual(stfile.file_size, self.filesize)
 
     def test_read_bin_size(self):
