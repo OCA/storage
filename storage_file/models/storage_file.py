@@ -14,6 +14,11 @@ from odoo.tools.translate import _
 from odoo.tools import human_size
 _logger = logging.getLogger(__name__)
 
+try:
+    from slugify import slugify
+except ImportError:
+    _logger.debug('Cannot `import slugify`.')
+
 
 class StorageFile(models.Model):
     _name = 'storage.file'
@@ -98,7 +103,9 @@ class StorageFile(models.Model):
         if strategy == 'hash':
             return checksum[:2] + '/' + checksum
         elif strategy == 'name_with_id':
-            return "%s-%s%s" % (self.filename, self.id, self.extension)
+            return "%s%s" % (
+                slugify("%s-%s" % (self.filename, self.id)),
+                self.extension)
 
     def _prepare_meta_for_file(self):
         bin_data = base64.b64decode(self.data)
