@@ -18,14 +18,14 @@ class ProductProduct(models.Model):
         related='variant_image_ids.image_id.image_medium_url',
         store=True)
     variant_image_ids = fields.Many2many(
-        'product.image',
+        'product.image.relation',
         compute="_compute_variant_image_ids",
         store=True)
 
     @api.depends('product_tmpl_id.image_ids', 'attribute_value_ids')
     def _compute_variant_image_ids(self):
         for variant in self:
-            res = self.env['product.image'].browse([])
+            res = self.env['product.image.relation'].browse([])
             for image in variant.image_ids:
                 if not (image.attribute_value_ids -
                         variant.attribute_value_ids):
