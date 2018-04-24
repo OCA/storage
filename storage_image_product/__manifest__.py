@@ -6,7 +6,7 @@
 {
     "name": "Storage Image Product",
     "summary": "Link images to products and categories",
-    "version": "10.0.1.0.0",
+    "version": "10.0.2.0.0",
     "category": "Storage",
     "website": "www.akretion.com",
     "author": " Akretion",
@@ -20,7 +20,7 @@
     "data": [
         "security/ir.model.access.csv",
         "views/product_template.xml",
-        "views/product_image.xml",
+        "views/product_image_relation.xml",
         "views/product_product.xml",
         "views/product_category.xml",
         "views/image_tag.xml",
