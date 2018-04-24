@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id="product_image_form" model="ir.ui.view">
-        <field name="model">product.image</field>
+    <record id="product_image_relation_form" model="ir.ui.view">
+        <field name="model">product.image.relation</field>
         <field name="arch" type="xml">
             <form string="Association">
                 <group>
@@ -20,8 +20,8 @@
         </field>
     </record>
 
-    <record id="product_image_kanban" model="ir.ui.view">
-        <field name="model">product.image</field>
+    <record id="product_image_relation_kanban" model="ir.ui.view">
+        <field name="model">product.image.relation</field>
         <field name="arch" type="xml">
             <kanban>
                 <field name="image_name"/>
