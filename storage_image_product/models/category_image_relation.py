@@ -10,8 +10,8 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class CategoryImage(models.Model):
-    _name = "category.image"
+class CategoryImageRelation(models.Model):
+    _name = "category.image.relation"
 
     image_id = fields.Many2one(
         'storage.image',

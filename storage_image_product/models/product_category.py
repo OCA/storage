@@ -14,6 +14,6 @@ class ProductCategory(models.Model):
     _inherit = 'product.category'
 
     image_ids = fields.One2many(
-        'category.image',
+        'category.image.relation',
         inverse_name='category_id',
     )
