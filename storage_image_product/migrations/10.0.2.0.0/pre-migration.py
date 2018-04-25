@@ -23,5 +23,11 @@ def migrate(cr, version):
                     "RENAME TO product_image_relation;"
     query_category = "ALTER TABLE category_image " \
                      "RENAME TO category_image_relation;"
+    query_seq_product = "ALTER SEQUENCE product_image_id_seq " \
+                        "RENAME TO product_image_relation_id_seq;"
+    query_seq_categ = "ALTER SEQUENCE category_image_id_seq " \
+                      "RENAME TO category_image_relation_id_seq;"
     cr.execute(query_product)
     cr.execute(query_category)
+    cr.execute(query_seq_product)
+    cr.execute(query_seq_categ)
