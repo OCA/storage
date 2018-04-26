@@ -17,6 +17,10 @@ class StorageThumbnail(models.Model):
 
     size_x = fields.Integer("weight")
     size_y = fields.Integer("height")
+    alt_name = fields.Char(
+        "Alt Image name",
+        help="Alt name of the picture",
+    )
     file_id = fields.Many2one(
         'storage.file',
         'File',
@@ -29,7 +33,7 @@ class StorageThumbnail(models.Model):
         readonly=False,
         index=True)
 
-    def _prepare_thumbnail(self, image, size_x, size_y):
+    def _prepare_thumbnail(self, image, size_x, size_y, alt_name=''):
         return {
             'data': self._resize(image, size_x, size_y),
             'res_model': image._name,
@@ -38,13 +42,14 @@ class StorageThumbnail(models.Model):
                 image.filename, size_x, size_y, image.extension),
             'size_x': size_x,
             'size_y': size_y,
+            'alt_name': alt_name,
         }
 
     def _resize(self, image, size_x, size_y):
         return image_resize_image(image.data, size=(size_x, size_y))
 
-    def _create_thumbnail(self, image, size_x, size_y):
-        vals = self._prepare_thumbnail(image, size_x, size_y)
+    def _create_thumbnail(self, image, size_x, size_y, alt_name):
+        vals = self._prepare_thumbnail(image, size_x, size_y, alt_name)
         return self.create(vals)
 
     def _get_backend_id(self):
@@ -66,6 +71,6 @@ class StorageThumbnail(models.Model):
 
     def unlink(self):
         files = self.mapped('file_id')
-        super(StorageThumbnail, self).unlink()
+        result = super(StorageThumbnail, self).unlink()
         files.unlink()
-        return True
+        return result
