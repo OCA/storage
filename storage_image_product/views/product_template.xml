@@ -7,6 +7,7 @@
         <field name="priority" eval="32"/>
         <field name="arch" type="xml">
             <field name="image_medium" position="replace">
+                <field name="image_medium" invisible="True"/>
                 <field name="image_medium_url" widget="image_url" class="oe_avatar"/>
             </field>
             <xpath expr="//page[@name='sales']" position="after">
@@ -23,6 +24,7 @@
         <field name="priority" eval="32"/>
         <field name="arch" type="xml">
             <field name="image_small" position="replace">
+                <field name="image_small" invisible="True"/>
                 <field name="image_small_url" widget="image_url" class="oe_avatar"/>
             </field>
             <xpath expr="//div[@class='o_kanban_image']/img" position="replace">

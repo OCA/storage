@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-<record id="product_kanban_view" model="ir.ui.view">
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_kanban_view"/>
-    <field name="priority" eval="32"/>
-    <field name="arch" type="xml">
-        <field name="image_small" position="replace">
-            <field name="variant_image_small_url" widget="image_url" class="oe_avatar"/>
+    <record id="product_kanban_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_kanban_view"/>
+        <field name="priority" eval="32"/>
+        <field name="arch" type="xml">
+            <field name="image_small" position="replace">
+                <field name="image_small" invisible="True"/>
+                <field name="variant_image_small_url" widget="image_url" class="oe_avatar"/>
+            </field>
+            <xpath expr="//div[@class='o_kanban_image']/img" position="replace">
+                <img t-att-src="record.variant_image_small_url.value"/>
+            </xpath>
         </field>
-        <xpath expr="//div[@class='o_kanban_image']/img" position="replace">
-            <img t-att-src="record.variant_image_small_url.value"/>
-        </xpath>
-    </field>
-</record>
+    </record>
 
 
-<record id="product_normal_form_view" model="ir.ui.view">
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_normal_form_view"/>
-    <field name="arch" type="xml">
-        <field name="image_medium" position="replace">
-            <field name="variant_image_medium_url" widget="image_url" class="oe_avatar"/>
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="image_medium" position="replace">
+                <field name="image_medium" invisible="True"/>
+                <field name="variant_image_medium_url" widget="image_url" class="oe_avatar"/>
+            </field>
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="image" string="Image">
+                    <field name="variant_image_ids" mode="kanban"/>
+                </page>
+            </xpath>
         </field>
-        <xpath expr="//page[@name='sales']" position="after">
-            <page name="image" string="Image">
-                <field name="variant_image_ids" mode="kanban"/>
-            </page>
-        </xpath>
-    </field>
-</record>
+    </record>
 
-<record id="product_variant_easy_edit_view" model="ir.ui.view">
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
-    <field name="arch" type="xml">
-        <field name="image_medium" position="replace">
-            <field name="variant_image_medium_url" widget="image_url" class="oe_avatar"/>
+    <record id="product_variant_easy_edit_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <field name="image_medium" position="replace">
+                <field name="image_medium" invisible="True"/>
+                <field name="variant_image_medium_url" widget="image_url" class="oe_avatar"/>
+            </field>
         </field>
-    </field>
-</record>
+    </record>
 
 </odoo>
