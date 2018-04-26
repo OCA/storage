@@ -2,9 +2,16 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from odoo import api, fields, models
 
+import logging
 
-from openerp import api, fields, models
+_logger = logging.getLogger(__name__)
+
+try:
+    from slugify import slugify
+except ImportError:
+    _logger.debug('Cannot `import slugify`.')
 
 
 class ThumbnailMixing(models.AbstractModel):
@@ -25,18 +32,23 @@ class ThumbnailMixing(models.AbstractModel):
     def _get_small_thumbnail(self):
         return self.get_or_create_thumbnail(64, 64)
 
-    def get_or_create_thumbnail(self, size_x, size_y):
+    def get_or_create_thumbnail(self, size_x, size_y, alt_name=False):
         self.ensure_one()
         self = self.with_context(bin_size=False)
-        thumbnail = self.env['storage.thumbnail'].search([
+        if not alt_name:
+            alt_name = self.display_name
+        alt_name = slugify(alt_name)
+        domain = [
             ('size_x', '=', size_x),
             ('size_y', '=', size_y),
             ('res_id', '=', self.id),
             ('res_model', '=', self._name),
-        ])
+            ('alt_name', '=', alt_name),
+        ]
+        thumbnail = self.env['storage.thumbnail'].search(domain, limit=1)
         if not thumbnail and self.data:
             thumbnail = self.env['storage.thumbnail']._create_thumbnail(
-                self, size_x, size_y)
+                self, size_x, size_y, alt_name=alt_name)
         return thumbnail
 
     def generate_odoo_thumbnail(self):
