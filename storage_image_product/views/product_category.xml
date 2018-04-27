@@ -5,9 +5,11 @@
         <field name="inherit_id" ref="product.product_category_form_view"/>
         <field name="model">product.category</field>
         <field name="arch" type="xml">
-            <field name="type" position="after">
-                <field name="image_ids" mode="kanban" />
-            </field>
+            <xpath expr="//group[last()]" position="after">
+                <group name="images" string="Images">
+                    <field name="image_ids" mode="kanban" />
+                </group>
+            </xpath>
         </field>
     </record>
 
