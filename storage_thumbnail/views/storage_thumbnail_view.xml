@@ -4,9 +4,9 @@
     <record id="view_thumbnail_form" model="ir.ui.view">
         <field name="model">storage.thumbnail</field>
         <field name="arch" type="xml">
-            <form string="Thumgnail">
+            <form string="Thumbnail">
                 <group>
-                    <field name="alt_name" />
+                    <field name="url_key" />
                     <field name="size_x" />
                     <field name="size_y" />
                 </group>
@@ -19,7 +19,7 @@
         <field name="arch" type="xml">
             <tree string="Thumgnail">
                 <field name="name" />
-                <field name="alt_name" />
+                <field name="url_key" />
                 <field name="size_x" />
                 <field name="size_y" />
             </tree>
