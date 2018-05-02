@@ -61,6 +61,26 @@ class StorageImageCase(TransactionComponentCase):
         self.assertIsNotNone(image.image_small_url)
         self._check_thumbnail(image)
 
+    def test_create_specific_thumbnail(self):
+        image = self._create_storage_image()
+        thumbnail = image.get_or_create_thumbnail(
+            100, 100, u'my-image-thumbnail')
+        self.assertEqual(thumbnail.url_key, u'my-image-thumbnail')
+        self.assertEqual(
+            thumbnail.relative_path[0:26],
+            u'my-image-thumbnail_100_100')
+
+        # Check that method will return the same thumbnail
+        # Check also that url_key have been slugified
+        new_thumbnail = image.get_or_create_thumbnail(
+            100, 100, u'My Image Thumbnail')
+        self.assertEqual(new_thumbnail.id, thumbnail.id)
+
+        # Check that method will return a new thumbnail
+        new_thumbnail = image.get_or_create_thumbnail(
+            100, 100, u'My New Image Thumbnail')
+        self.assertNotEqual(new_thumbnail.id, thumbnail.id)
+
     def test_name_onchange(self):
         image = self.env['storage.image'].new({
             'name': 'Test-of image_name.png'})
