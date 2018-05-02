@@ -22,6 +22,6 @@ class ProductTemplate(models.Model):
         related='image_ids.image_id.image_medium_url',
         store=True)
     image_ids = fields.One2many(
-        'product.image',
+        'product.image.relation',
         inverse_name='product_tmpl_id',
     )

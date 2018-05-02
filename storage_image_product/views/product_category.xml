@@ -12,8 +12,8 @@
     </record>
 
 
-    <record id="product_category_image_form" model="ir.ui.view">
-        <field name="model">category.image</field>
+    <record id="product_category_image_relation_form" model="ir.ui.view">
+        <field name="model">category.image.relation</field>
         <field name="arch" type="xml">
             <form string="Association">
                 <group>
@@ -25,8 +25,8 @@
     </record>
 
 
-    <record id="product_category_image_kanban" model="ir.ui.view">
-        <field name="model">category.image</field>
+    <record id="product_category_image_relation_kanban" model="ir.ui.view">
+        <field name="model">category.image.relation</field>
         <field name="arch" type="xml">
             <kanban>
                 <field name="image_name" />

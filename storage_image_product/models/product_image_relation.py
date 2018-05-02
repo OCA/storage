@@ -10,8 +10,8 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class ProductImage(models.Model):
-    _name = 'product.image'
+class ProductImageRelation(models.Model):
+    _name = 'product.image.relation'
     _order = 'sequence, image_id'
 
     sequence = fields.Integer()

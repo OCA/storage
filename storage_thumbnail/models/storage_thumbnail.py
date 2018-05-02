@@ -17,6 +17,10 @@ class StorageThumbnail(models.Model):
 
     size_x = fields.Integer("weight")
     size_y = fields.Integer("height")
+    url_key = fields.Char(
+        "Url key",
+        help="Specific URL key for generating the url of the image",
+    )
     file_id = fields.Many2one(
         'storage.file',
         'File',
@@ -29,22 +33,26 @@ class StorageThumbnail(models.Model):
         readonly=False,
         index=True)
 
-    def _prepare_thumbnail(self, image, size_x, size_y):
+    def _prepare_thumbnail(self, image, size_x, size_y, url_key):
         return {
             'data': self._resize(image, size_x, size_y),
             'res_model': image._name,
             'res_id': image.id,
             'name': '%s_%s_%s%s' % (
-                image.filename, size_x, size_y, image.extension),
+                url_key or image.filename,
+                size_x,
+                size_y,
+                image.extension),
             'size_x': size_x,
             'size_y': size_y,
+            'url_key': url_key,
         }
 
     def _resize(self, image, size_x, size_y):
         return image_resize_image(image.data, size=(size_x, size_y))
 
-    def _create_thumbnail(self, image, size_x, size_y):
-        vals = self._prepare_thumbnail(image, size_x, size_y)
+    def _create_thumbnail(self, image, size_x, size_y, url_key):
+        vals = self._prepare_thumbnail(image, size_x, size_y, url_key)
         return self.create(vals)
 
     def _get_backend_id(self):
@@ -66,6 +74,6 @@ class StorageThumbnail(models.Model):
 
     def unlink(self):
         files = self.mapped('file_id')
-        super(StorageThumbnail, self).unlink()
+        result = super(StorageThumbnail, self).unlink()
         files.unlink()
-        return True
+        return result
