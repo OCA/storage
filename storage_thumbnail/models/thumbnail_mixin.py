@@ -32,23 +32,27 @@ class ThumbnailMixing(models.AbstractModel):
     def _get_small_thumbnail(self):
         return self.get_or_create_thumbnail(64, 64)
 
-    def get_or_create_thumbnail(self, size_x, size_y, alt_name=False):
-        self.ensure_one()
-        self = self.with_context(bin_size=False)
-        if not alt_name:
-            alt_name = self.display_name
-        alt_name = slugify(alt_name)
+    def _get_domain(self, size_x, size_y, url_key):
         domain = [
             ('size_x', '=', size_x),
             ('size_y', '=', size_y),
             ('res_id', '=', self.id),
             ('res_model', '=', self._name),
-            ('alt_name', '=', alt_name),
         ]
+        if url_key:
+            domain.append(('url_key', '=', url_key))
+        return domain
+
+    def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
+        self.ensure_one()
+        self = self.with_context(bin_size=False)
+        if url_key:
+            url_key = slugify(url_key)
+        domain = self._get_domain(size_x, size_y, url_key)
         thumbnail = self.env['storage.thumbnail'].search(domain, limit=1)
         if not thumbnail and self.data:
             thumbnail = self.env['storage.thumbnail']._create_thumbnail(
-                self, size_x, size_y, alt_name=alt_name)
+                self, size_x, size_y, url_key)
         return thumbnail
 
     def generate_odoo_thumbnail(self):
