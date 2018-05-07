@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2014-Today Akretion (https://www.akretion.com)
+     @author Pierrick Brun
+     @author Sebastien Beau
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <!-- Add: JS Files -->
+    <template id="assets_backend" name="storage_image_product_pos assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/storage_image_product_pos/static/src/js/pos_product.js"></script>
+        </xpath>
+    </template>
+</odoo>

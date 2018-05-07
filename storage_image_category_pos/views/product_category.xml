@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_category_form_view" model="ir.ui.view">
+        <field name="inherit_id" ref="pos_remove_pos_category.product_category_form_view"/>
+        <field name="model">product.category</field>
+        <field name="arch" type="xml">
+            <field name="image_medium" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>
