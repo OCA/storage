@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_storage_media_edit,storage_media edit,model_storage_media,group_media_manager,1,1,1,1
+access_storage_file_media_edit,storage_file media edit,storage_file.model_storage_file,group_media_manager,1,1,1,1
+access_storage_thumbnail_edit,storage_thumbnail edit,storage_thumbnail.model_storage_thumbnail,group_media_manager,1,1,1,1
+access_storage_media_read,storage_media read,model_storage_media,base.group_user,1,0,0,0
+access_storage_media_type_edit,storage_media_type edit,model_storage_media_type,base.group_system,1,1,1,1
+access_storage_media_type_read,storage_media_type read,model_storage_media_type,base.group_user,1,0,0,0
