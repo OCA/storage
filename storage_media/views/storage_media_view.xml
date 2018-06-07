@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="storage_media_view_tree" model="ir.ui.view">
+    <field name="model">storage.media</field>
+    <field name="arch" type="xml">
+        <tree string="Storage Media">
+            <field name="name"/>
+            <field name="media_type_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="storage_media_view_form" model="ir.ui.view">
+    <field name="model">storage.media</field>
+    <field name="arch" type="xml">
+        <form string="Storage Media">
+            <group>
+                <field name="id" invisible="True"/>
+                <field name="data"
+                       filename="name"
+                       attrs="{'invisible': [('id', '!=', False)]}"/>
+                <field name="url"
+                       readonly="True"
+                       attrs="{'invisible': [('id', '=', False)]}"
+                       widget="url"/>
+                <field name="name"/>
+                <field name="media_type_id" widget="selection"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="storage_media_type_view_tree" model="ir.ui.view">
+    <field name="model">storage.media.type</field>
+    <field name="arch" type="xml">
+        <tree string="Storage Media Type">
+            <field name="name"/>
+            <field name="code"/>
+        </tree>
+    </field>
+</record>
+
+<record id="storage_media_type_view_form" model="ir.ui.view">
+    <field name="model">storage.media.type</field>
+    <field name="arch" type="xml">
+        <form string="Storage Media Type">
+            <group>
+                <field name="name"/>
+                <field name="code"/>
+           </group>
+        </form>
+    </field>
+</record>
+
+<record id="storage_media_type_view_search" model="ir.ui.view">
+    <field name="model">storage.media.type</field>
+    <field name="arch" type="xml">
+        <search string="Storage Media Type">
+            <field name="name"/>
+            <field name="code"/>
+        </search>
+    </field>
+</record>
+
+<record model="ir.actions.act_window" id="act_open_storage_media_type_view">
+    <field name="name">Storage Media Type</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">storage.media.type</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="search_view_id" ref="storage_media_type_view_search"/>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+</record>
+
+<record model="ir.actions.act_window.view" id="act_open_storage_media_type_view_form">
+    <field name="act_window_id" ref="act_open_storage_media_type_view"/>
+    <field name="sequence" eval="20"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="storage_media_type_view_form"/>
+</record>
+
+<record model="ir.actions.act_window.view" id="act_open_storage_media_type_view_tree">
+    <field name="act_window_id" ref="act_open_storage_media_type_view"/>
+    <field name="sequence" eval="10"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="storage_media_type_view_tree"/>
+</record>
+
+<menuitem id="menu_storage_media_type"
+    parent="storage_backend.menu_storage"
+    sequence="40"
+    action="act_open_storage_media_type_view"/>
+
+<record id="storage_media_action" model="ir.actions.act_window">
+    <field name="name">Storage Media</field>
+    <field name="res_model">storage.media</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="storage_media_menu"
+    parent="storage_backend.menu_storage"
+    action="storage_media_action"
+    sequence="50"/>
+
+</odoo>
