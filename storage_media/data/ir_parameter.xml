@@ -4,7 +4,7 @@
 
     <record id="storage_media_backend" model="ir.config_parameter">
         <field name="key">storage.media.backend_id</field>
-        <field name="value" ref="storage_backend.default_odoo_backend"/>
+        <field name="value" ref="storage_backend.default_storage_backend"/>
     </record>
 
 </data>

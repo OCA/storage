@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 ==============
-Product Media
+Storage Media
 ==============
 
 This module add the possibilty to store media (with specific tag/typology) on a public
@@ -23,7 +23,7 @@ Install the module and configure your storage (see storage module)
 Usage
 =====
 
-Go on the product form and add a media
+Go on the storage form and add a media
 
 Known issues / Roadmap
 ======================
