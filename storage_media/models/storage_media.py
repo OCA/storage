@@ -10,16 +10,8 @@ _logger = logging.getLogger(__name__)
 
 try:
     from slugify import slugify
-except ImportError, err:
-    _logger.debug(err)
-
-
-class MediaType(models.Model):
-    _name = 'storage.media.type'
-    _description = 'Storage Media Type'
-
-    name = fields.Char(translated=True, required=True)
-    code = fields.Char()
+except ImportError:
+    _logger.debug('Cannot `import slugify`.')
 
 
 class StorageMedia(models.Model):
@@ -48,7 +40,7 @@ class StorageMedia(models.Model):
         vals['file_type'] = 'media'
         if 'backend_id' not in vals:
             vals['backend_id'] = self._get_backend_id()
-	return super(StorageMedia, self).create(vals)
+        return super(StorageMedia, self).create(vals)
 
     def _get_backend_id(self):
         """Choose the correct backend.

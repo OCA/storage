@@ -19,6 +19,7 @@
     },
     "depends": [
         "storage_file",
+        "storage_thumbnail",
     ],
     "data": [
         "views/storage_media_view.xml",
