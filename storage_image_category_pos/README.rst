@@ -3,9 +3,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=============
+===========================
 Storage Image Category POS
-=============
+===========================
 
 
 Simple module installing the remove Category POS module and removing the image
