@@ -24,6 +24,7 @@
         'views/storage_file_view.xml',
         'views/storage_backend_view.xml',
         'security/ir.model.access.csv',
+        'security/storage_file.xml',
         'data/ir_cron.xml',
     ],
     "demo": [
