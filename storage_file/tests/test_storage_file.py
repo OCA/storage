@@ -6,7 +6,7 @@
 from odoo.addons.component.tests.common import TransactionComponentCase
 import base64
 import urlparse
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, AccessError
 
 
 class StorageFileCase(TransactionComponentCase):
@@ -105,3 +105,66 @@ class StorageFileCase(TransactionComponentCase):
             active_test=False).search([('id', '=', stfile.id)])
         self.assertEqual(len(files), 0)
         self.assertNotIn(relative_path, backend._list())
+
+    def test_public_access1(self):
+        """
+        Test the public access (when is_public on the backend).
+        When checked, the public user should have access to every content
+        (storage.file).
+        For this case, we use this public user and try to read a field on
+        no-public storage.file.
+        An exception should be raised because the backend is not public
+        :return: bool
+        """
+        storage_file = self._create_storage_file()
+        # Ensure it's False (we shouldn't specify a is_public = False on the
+        # storage.backend creation because False must be the default value)
+        self.assertFalse(storage_file.backend_id.is_public)
+        # Public user used on the controller when authentication is 'public'
+        public_user = self.env.ref("base.public_user")
+        env = self.env(user=public_user)
+        storage_file_public = env[storage_file._name].browse(storage_file.ids)
+        with self.assertRaises(AccessError):
+            storage_file_public.name
+        return True
+
+    def test_public_access2(self):
+        """
+        Test the public access (when is_public on the backend).
+        When checked, the public user should have access to every content
+        (storage.file).
+        For this case, we use this public user and try to read a field on
+        no-public storage.file.
+        This public user should have access because the backend is public
+        :return: bool
+        """
+        storage_file = self._create_storage_file()
+        storage_file.backend_id.write({
+            'is_public': True,
+        })
+        self.assertTrue(storage_file.backend_id.is_public)
+        # Public user used on the controller when authentication is 'public'
+        public_user = self.env.ref("base.public_user")
+        env = self.env(user=public_user)
+        storage_file_public = env[storage_file._name].browse(storage_file.ids)
+        self.assertTrue(storage_file_public.name)
+        return True
+
+    def test_public_access3(self):
+        """
+        Test the public access (when is_public on the backend).
+        When checked, the public user should have access to every content
+        (storage.file).
+        For this case, we use the demo user and try to read a field on
+        no-public storage.file (no exception should be raised)
+        :return: bool
+        """
+        storage_file = self._create_storage_file()
+        # Ensure it's False (we shouldn't specify a is_public = False on the
+        # storage.backend creation because False must be the default value)
+        self.assertFalse(storage_file.backend_id.is_public)
+        demo_user = self.env.ref("base.user_demo")
+        env = self.env(user=demo_user)
+        storage_file_public = env[storage_file._name].browse(storage_file.ids)
+        self.assertTrue(storage_file_public.name)
+        return True
