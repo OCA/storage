@@ -31,3 +31,12 @@ class StorageBackend(models.Model):
         required=True,
         default='odoo')
     base_url = fields.Char()
+    is_public = fields.Boolean(
+        default=False,
+        help="Define if every files stored into this backend are "
+             "public or not. Examples:\n"
+             "Private: your file/image can not be displayed is the user is "
+             "not logged (not available on other website);\n"
+             "Public: your file/image can be displayed if nobody is "
+             "logged (useful to display files on external websites)",
+    )

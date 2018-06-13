@@ -32,7 +32,7 @@ class StorageImageCase(TransactionComponentCase):
         return self.env['storage.image'].create({
             'name': self.filename,
             'image_medium_url': self.filedata,
-            })
+        })
 
     def _check_thumbnail(self, image):
         self.assertEqual(len(image.thumbnail_ids), 2)
