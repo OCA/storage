@@ -6,6 +6,7 @@
 import logging
 import os
 import errno
+from StringIO import StringIO
 
 from contextlib import contextmanager
 from odoo.addons.component.core import Component
@@ -29,13 +30,26 @@ def sftp_mkdirs(client, path, mode=511):
         else:
             raise
 
+def load_ssh_key(ssh_key_buffer):
+    for pkey_class in (paramiko.RSAKey, paramiko.DSSKey,
+                       paramiko.ECDSAKey, paramiko.Ed25519Key):
+        try:
+            return pkey_class.from_private_key(ssh_key_buffer)
+        except paramiko.SSHException:
+            ssh_key_buffer.seek(0) # reset the buffer "file"
+    raise Exception("Invalid ssh private key")
 
 @contextmanager
 def sftp(backend):
     account = backend._get_keychain_account()
     password = account._get_password()
     transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
-    transport.connect(username=backend.sftp_login, password=password)
+    if backend.sftp_auth_method == 'pwd':
+        transport.connect(username=backend.sftp_login, password=password)
+    elif backend.sftp_auth_method == 'ssh_key':
+        ssh_key_buffer = StringIO(password)
+        private_key = load_ssh_key(ssh_key_buffer)
+        transport.connect(username=backend.sftp_login, pkey=private_key)
     client = paramiko.SFTPClient.from_transport(transport)
     yield client
     transport.close()
