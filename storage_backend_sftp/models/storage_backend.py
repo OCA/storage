@@ -25,3 +25,12 @@ class StorageBackend(models.Model):
         string='Port',
         default=22,
         sparse="data")
+    sftp_auth_method = fields.Selection(
+        string="Authentification Method",
+        selection=[
+            ('pwd', 'Password'),
+            ('ssh_key', 'Private key')
+        ],
+        default='pwd',
+        required=True,
+    )
