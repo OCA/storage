@@ -30,14 +30,16 @@ def sftp_mkdirs(client, path, mode=511):
         else:
             raise
 
+
 def load_ssh_key(ssh_key_buffer):
     for pkey_class in (paramiko.RSAKey, paramiko.DSSKey,
                        paramiko.ECDSAKey, paramiko.Ed25519Key):
         try:
             return pkey_class.from_private_key(ssh_key_buffer)
         except paramiko.SSHException:
-            ssh_key_buffer.seek(0) # reset the buffer "file"
+            ssh_key_buffer.seek(0)  # reset the buffer "file"
     raise Exception("Invalid ssh private key")
+
 
 @contextmanager
 def sftp(backend):
