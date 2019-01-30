@@ -32,24 +32,19 @@ class ThumbnailMixing(models.AbstractModel):
     def _get_small_thumbnail(self):
         return self.get_or_create_thumbnail(64, 64)
 
-    def _get_domain(self, size_x, size_y, url_key):
-        domain = [
-            ('size_x', '=', size_x),
-            ('size_y', '=', size_y),
-            ('res_id', '=', self.id),
-            ('res_model', '=', self._name),
-        ]
-        if url_key:
-            domain.append(('url_key', '=', url_key))
-        return domain
-
     def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
         self.ensure_one()
-        self = self.with_context(bin_size=False)
+        # preserve the prefetch when changing context
+        self = self.with_context(bin_size=False).with_prefetch(self._prefetch)
         if url_key:
             url_key = slugify(url_key)
-        domain = self._get_domain(size_x, size_y, url_key)
-        thumbnail = self.env['storage.thumbnail'].search(domain, limit=1)
+        thumbnail = self.env['storage.thumbnail'].browse()
+        for th in self.thumbnail_ids:
+            if th.size_x == size_x and th.size_y == size_y:
+                if url_key and url_key != th.url_key:
+                    continue
+                thumbnail = th
+                break
         if not thumbnail and self.data:
             thumbnail = self.env['storage.thumbnail']._create_thumbnail(
                 self, size_x, size_y, url_key)
