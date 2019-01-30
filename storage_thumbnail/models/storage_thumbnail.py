@@ -51,10 +51,6 @@ class StorageThumbnail(models.Model):
     def _resize(self, image, size_x, size_y):
         return image_resize_image(image.data, size=(size_x, size_y))
 
-    def _create_thumbnail(self, image, size_x, size_y, url_key):
-        vals = self._prepare_thumbnail(image, size_x, size_y, url_key)
-        return self.create(vals)
-
     def _get_backend_id(self):
         """Choose the correct backend.
 
