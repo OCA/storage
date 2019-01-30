@@ -46,8 +46,12 @@ class ThumbnailMixing(models.AbstractModel):
                 thumbnail = th
                 break
         if not thumbnail and self.data:
-            thumbnail = self.env['storage.thumbnail']._create_thumbnail(
+            vals = self.env['storage.thumbnail']._prepare_thumbnail(
                 self, size_x, size_y, url_key)
+            # use the relation to create the thumbnail to be sure that the
+            # record is added to the cache of this relation.
+            self.write({'thumbnail_ids': [(0, 0, vals)]})
+            return self.get_or_create_thumbnail(size_x, size_y, url_key)
         return thumbnail
 
     def generate_odoo_thumbnail(self):
