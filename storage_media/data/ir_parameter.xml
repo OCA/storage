@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
+<data noupdate="1">
 
     <record id="storage_media_backend" model="ir.config_parameter">
         <field name="key">storage.media.backend_id</field>
