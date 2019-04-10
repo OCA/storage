@@ -13,9 +13,9 @@ Attach images to products and categories
 Installation
 ============
 
-See installation notes of the following modules : 
+See installation notes of the following modules :
 
-- storage_image 
+- storage_image
 - storage_file
 - storage_backend
 
@@ -28,7 +28,7 @@ See installation
 Usage
 =====
 
-A) Categories 
+A) Categories
 
    Go to Sales > Configuration > Products > Product Categories.
    A new field Image is available to upload or use an existing image.
@@ -63,5 +63,3 @@ Maintainer
 ----------
 
 * Akretion
-
-
