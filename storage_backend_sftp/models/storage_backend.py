@@ -7,30 +7,18 @@ from odoo import fields, models
 
 
 class StorageBackend(models.Model):
-    _inherit = 'storage.backend'
+    _inherit = "storage.backend"
 
-    backend_type = fields.Selection(
-        selection_add=[('sftp', 'SFTP')])
-    sftp_password = fields.Char(
-        related="password",
-        string="Password")
+    backend_type = fields.Selection(selection_add=[("sftp", "SFTP")])
+    sftp_password = fields.Char(related="password", string="Password")
     sftp_login = fields.Char(
-        string='Login',
-        help='Login to connect to sftp server',
-        sparse="data")
-    sftp_server = fields.Char(
-        string='Host',
-        sparse="data")
-    sftp_port = fields.Integer(
-        string='Port',
-        default=22,
-        sparse="data")
+        string="Login", help="Login to connect to sftp server", sparse="data"
+    )
+    sftp_server = fields.Char(string="Host", sparse="data")
+    sftp_port = fields.Integer(string="Port", default=22, sparse="data")
     sftp_auth_method = fields.Selection(
         string="Authentification Method",
-        selection=[
-            ('pwd', 'Password'),
-            ('ssh_key', 'Private key')
-        ],
-        default='pwd',
+        selection=[("pwd", "Password"), ("ssh_key", "Private key")],
+        default="pwd",
         required=True,
     )
