@@ -11,12 +11,8 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    'installable': True,
-    "depends": [
-        "storage_image",
-        "product",
-        "sale",  # only for the menu
-    ],
+    "installable": True,
+    "depends": ["storage_image", "product", "sale"],  # only for the menu
     "data": [
         "security/ir.model.access.csv",
         "views/product_template.xml",
