@@ -12,23 +12,16 @@
     "author": " Akretion",
     "license": "AGPL-3",
     "application": False,
-    'installable': True,
-    "external_dependencies": {
-        "python": ['slugify'],
-        "bin": [],
-    },
-    "depends": [
-        "storage_backend",
-    ],
+    "installable": True,
+    "external_dependencies": {"python": ["slugify"], "bin": []},
+    "depends": ["storage_backend"],
     "data": [
-        'views/storage_file_view.xml',
-        'views/storage_backend_view.xml',
-        'security/ir.model.access.csv',
-        'security/storage_file.xml',
-        'data/ir_cron.xml',
+        "views/storage_file_view.xml",
+        "views/storage_backend_view.xml",
+        "security/ir.model.access.csv",
+        "security/storage_file.xml",
+        "data/ir_cron.xml",
     ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
+    "demo": [],
+    "qweb": [],
 }
