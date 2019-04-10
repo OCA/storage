@@ -11,18 +11,14 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    'installable': True,
+    "installable": True,
     "external_dependencies": {
         "python": [
             # "paramiko",
             # "boto",
-        ],
+        ]
     },
-    "depends": [
-        "base",
-        "keychain",
-        "component",
-    ],
+    "depends": ["base", "keychain", "component"],
     "data": [
         "views/backend_storage_view.xml",
         "data/data.xml",
