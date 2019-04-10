@@ -11,21 +11,14 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    'installable': True,
-    "external_dependencies": {
-        "python": [],
-        "bin": [],
-    },
-    "depends": [
-        "storage_file",
-    ],
+    "installable": True,
+    "external_dependencies": {"python": [], "bin": []},
+    "depends": ["storage_file"],
     "data": [
-        'data/ir_parameter.xml',
-        'views/storage_thumbnail_view.xml',
-        'security/ir.model.access.csv',
+        "data/ir_parameter.xml",
+        "views/storage_thumbnail_view.xml",
+        "security/ir.model.access.csv",
     ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
+    "demo": [],
+    "qweb": [],
 }
