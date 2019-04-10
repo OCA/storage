@@ -4,6 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+
 from odoo.addons.component.core import Component
 
 logger = logging.getLogger(__name__)
@@ -15,16 +16,17 @@ except ImportError as err:
 
 
 class S3StorageBackend(Component):
-    _name = 's3.adapter'
-    _inherit = 'base.storage.adapter'
-    _usage = 'amazon_s3'
+    _name = "s3.adapter"
+    _inherit = "base.storage.adapter"
+    _usage = "amazon_s3"
 
     def _get_resource(self):
         account = self.collection._get_existing_keychain()
         return boto3.Session(
             aws_access_key_id=self.collection.aws_access_key_id,
             aws_secret_access_key=account._get_password(),
-            region_name=self.collection.aws_region).resource('s3')
+            region_name=self.collection.aws_region,
+        ).resource("s3")
 
     def _get_object(self, relative_path):
         s3 = self._get_resource()
@@ -36,19 +38,21 @@ class S3StorageBackend(Component):
         s3object.put(
             Body=data,
             ContentType=mimetype,
-            CacheControl=self.collection.aws_cache_control or '')
+            CacheControl=self.collection.aws_cache_control or "",
+        )
 
     def get(self, relative_path):
         s3object = self._get_object(relative_path)
-        return s3object.get()['Body'].read()
+        return s3object.get()["Body"].read()
 
     def list(self, relative_path):
         resource = self._get_resource()
         bucket = resource.Bucket(self.collection.aws_bucket)
-        dir_path = self.collection.directory_path or ''
+        dir_path = self.collection.directory_path or ""
         return [
-            o.key.replace(dir_path, '').lstrip('/')
-            for o in bucket.objects.filter(Prefix=dir_path)]
+            o.key.replace(dir_path, "").lstrip("/")
+            for o in bucket.objects.filter(Prefix=dir_path)
+        ]
 
     def delete(self, relative_path):
         s3object = self._get_object(relative_path)

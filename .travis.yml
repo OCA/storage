@@ -36,9 +36,6 @@ env:
   - UNIT_TEST="1" ODOO_REPO="OCA/OCB"
 #  - UNIT_TEST="1" ODOO_REPO="odoo/odoo"
 
-virtualenv:
-  system_site_packages: true
-
 before_install:
   - docker run -p 2222:22 -d atmoz/sftp:alpine foo:pass:::upload
 
@@ -57,4 +54,3 @@ script:
 
 after_success:
   - travis_after_tests_success
-

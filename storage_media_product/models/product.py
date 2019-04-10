@@ -7,74 +7,64 @@ from odoo import api, fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     media_ids = fields.One2many(
-        'product.media.relation',
-        inverse_name='product_tmpl_id',
+        "product.media.relation", inverse_name="product_tmpl_id"
     )
 
 
 class ProductProduct(models.Model):
-    _inherit = 'product.product'
+    _inherit = "product.product"
 
     variant_media_ids = fields.Many2many(
-        'product.media.relation',
+        "product.media.relation",
         compute="_compute_variant_media_ids",
-        store=True)
+        store=True,
+    )
 
-    @api.depends('product_tmpl_id.media_ids', 'attribute_value_ids')
+    @api.depends("product_tmpl_id.media_ids", "attribute_value_ids")
     def _compute_variant_media_ids(self):
         for variant in self:
-            res = self.env['product.media.relation'].browse([])
+            res = self.env["product.media.relation"].browse([])
             for media in variant.media_ids:
-                if not (media.attribute_value_ids -
-                        variant.attribute_value_ids):
+                if not (
+                    media.attribute_value_ids - variant.attribute_value_ids
+                ):
                     res |= media
             variant.variant_media_ids = res
 
 
 class ProductMediaRelation(models.Model):
-    _name = 'product.media.relation'
-    _order = 'sequence, media_id'
+    _name = "product.media.relation"
+    _order = "sequence, media_id"
 
     sequence = fields.Integer()
-    media_id = fields.Many2one(
-        'storage.media',
-        required=True,
-    )
+    media_id = fields.Many2one("storage.media", required=True)
     attribute_value_ids = fields.Many2many(
-        'product.attribute.value',
-        string='Attributes'
+        "product.attribute.value", string="Attributes"
     )
     # This field will list all attribute value used by the template
     # in order to filter the attribute value available for the current media
     available_attribute_value_ids = fields.Many2many(
-        'product.attribute.value',
-        string='Attributes',
-        compute="_compute_available_attribute"
+        "product.attribute.value",
+        string="Attributes",
+        compute="_compute_available_attribute",
     )
-    product_tmpl_id = fields.Many2one(
-        'product.template',
-    )
+    product_tmpl_id = fields.Many2one("product.template")
     media_type_id = fields.Many2one(
-        'storage.media.type',
-        'Media Type',
-        related='media_id.media_type_id',
+        "storage.media.type", "Media Type", related="media_id.media_type_id"
     )
-    name = fields.Char(
-        related='media_id.name',
-        readonly=True)
-    url = fields.Char(
-        related='media_id.url',
-        readonly=True)
+    name = fields.Char(related="media_id.name", readonly=True)
+    url = fields.Char(related="media_id.url", readonly=True)
     media_type_id = fields.Many2one(
-        related='media_id.media_type_id',
-        readonly=True)
+        related="media_id.media_type_id", readonly=True
+    )
 
-    @api.depends('media_id', 'product_tmpl_id.attribute_line_ids.value_ids')
+    @api.depends("media_id", "product_tmpl_id.attribute_line_ids.value_ids")
     def _compute_available_attribute(self):
         # the depend on 'media_id' only added for triggering the onchange
-        for record in self:
-            record.available_attribute_value_ids =\
-                record.product_tmpl_id.mapped('attribute_line_ids.value_ids')
+        for rec in self:
+            rec.available_attribute_value_ids = rec.product_tmpl_id.mapped(
+                "attribute_line_ids.value_ids"
+            )
