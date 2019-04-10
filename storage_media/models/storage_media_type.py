@@ -7,8 +7,8 @@ from odoo import fields, models
 
 
 class MediaType(models.Model):
-    _name = 'storage.media.type'
-    _description = 'Storage Media Type'
+    _name = "storage.media.type"
+    _description = "Storage Media Type"
 
     name = fields.Char(translated=True, required=True)
     code = fields.Char()

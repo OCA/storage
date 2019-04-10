@@ -7,6 +7,6 @@ from odoo import fields, models
 
 
 class StorageFile(models.Model):
-    _inherit = 'storage.file'
+    _inherit = "storage.file"
 
-    file_type = fields.Selection(selection_add=[('media', 'Media')])
+    file_type = fields.Selection(selection_add=[("media", "Media")])

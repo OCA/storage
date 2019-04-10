@@ -12,15 +12,9 @@
     "author": " Akretion",
     "license": "AGPL-3",
     "application": False,
-    'installable': True,
-    "external_dependencies": {
-        "python": [],
-        "bin": [],
-    },
-    "depends": [
-        "storage_file",
-        "storage_thumbnail",
-    ],
+    "installable": True,
+    "external_dependencies": {"python": [], "bin": []},
+    "depends": ["storage_file", "storage_thumbnail"],
     "data": [
         "views/storage_media_view.xml",
         "data/ir_parameter.xml",
@@ -28,8 +22,6 @@
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
     ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
+    "demo": [],
+    "qweb": [],
 }
