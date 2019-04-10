@@ -14,6 +14,18 @@ addons:
       - expect-dev  # provides unbuffer utility
       - python-lxml # because pip installation is slow
 
+stages:
+  - linting
+  - test
+
+jobs:
+  include:
+    - stage: linting
+      name: "Pre-Commit"
+      python: 3.6
+      install: pip install pre_commit
+      script: pre-commit run --all
+
 env:
   global:
   - VERSION="10.0" TESTS="1" LINT_CHECK="0"
@@ -40,6 +52,7 @@ install:
   - travis_configure
 
 script:
+  - mv .isort.cfg .isoft.cfg.disabled # to avoid trouble with pylint odoo
   - travis_run_tests
 
 after_success:
