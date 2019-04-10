@@ -2,27 +2,28 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models
-
 import logging
+
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 try:
     from slugify import slugify
 except ImportError:
-    _logger.debug('Cannot `import slugify`.')
+    _logger.debug("Cannot `import slugify`.")
 
 
 class ThumbnailMixing(models.AbstractModel):
-    _name = 'thumbnail.mixin'
-    _description = 'Thumbnail Mixin add the thumbnail capability'
+    _name = "thumbnail.mixin"
+    _description = "Thumbnail Mixin add the thumbnail capability"
 
     thumbnail_ids = fields.One2many(
-        comodel_name='storage.thumbnail',
-        string='Thumbnails',
-        inverse_name='res_id',
-        domain=lambda self: [("res_model", "=", self._name)])
+        comodel_name="storage.thumbnail",
+        string="Thumbnails",
+        inverse_name="res_id",
+        domain=lambda self: [("res_model", "=", self._name)],
+    )
     image_medium_url = fields.Char(readonly=True)
     image_small_url = fields.Char(readonly=True)
 
@@ -38,7 +39,7 @@ class ThumbnailMixing(models.AbstractModel):
         self = self.with_context(bin_size=False).with_prefetch(self._prefetch)
         if url_key:
             url_key = slugify(url_key)
-        thumbnail = self.env['storage.thumbnail'].browse()
+        thumbnail = self.env["storage.thumbnail"].browse()
         for th in self.thumbnail_ids:
             if th.size_x == size_x and th.size_y == size_y:
                 if url_key and url_key != th.url_key:
@@ -46,19 +47,22 @@ class ThumbnailMixing(models.AbstractModel):
                 thumbnail = th
                 break
         if not thumbnail and self.data:
-            vals = self.env['storage.thumbnail']._prepare_thumbnail(
-                self, size_x, size_y, url_key)
+            vals = self.env["storage.thumbnail"]._prepare_thumbnail(
+                self, size_x, size_y, url_key
+            )
             # use the relation to create the thumbnail to be sure that the
             # record is added to the cache of this relation.
-            self.write({'thumbnail_ids': [(0, 0, vals)]})
+            self.write({"thumbnail_ids": [(0, 0, vals)]})
             return self.get_or_create_thumbnail(size_x, size_y, url_key)
         return thumbnail
 
     def generate_odoo_thumbnail(self):
-        self.write({
-            'image_medium_url': self.sudo()._get_medium_thumbnail().url,
-            'image_small_url': self.sudo()._get_small_thumbnail().url,
-            })
+        self.write(
+            {
+                "image_medium_url": self.sudo()._get_medium_thumbnail().url,
+                "image_small_url": self.sudo()._get_small_thumbnail().url,
+            }
+        )
         return True
 
     @api.model

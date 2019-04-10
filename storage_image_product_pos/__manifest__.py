@@ -11,12 +11,7 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    'installable': True,
-    "depends": [
-        "storage_image_product",
-        "point_of_sale",
-    ],
-    "data": [
-        "views/pos_product.xml",
-    ],
+    "installable": True,
+    "depends": ["storage_image_product", "point_of_sale"],
+    "data": ["views/pos_product.xml"],
 }

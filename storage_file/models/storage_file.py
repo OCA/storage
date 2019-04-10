@@ -3,92 +3,95 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
 import base64
-import logging
-import os
-import mimetypes
 import hashlib
+import logging
+import mimetypes
+import os
+
+from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.translate import _
 from odoo.tools import human_size
+from odoo.tools.translate import _
+
 _logger = logging.getLogger(__name__)
 
 try:
     from slugify import slugify
 except ImportError:
-    _logger.debug('Cannot `import slugify`.')
+    _logger.debug("Cannot `import slugify`.")
 
 
 class StorageFile(models.Model):
-    _name = 'storage.file'
-    _description = 'Storage File'
+    _name = "storage.file"
+    _description = "Storage File"
 
     name = fields.Char(required=True, index=True)
     backend_id = fields.Many2one(
-        'storage.backend',
-        'Storage',
-        index=True,
-        required=True)
+        "storage.backend", "Storage", index=True, required=True
+    )
     url = fields.Char(
-        compute='_compute_url',
+        compute="_compute_url",
         compute_sudo=True,
         store=True,
-        help="HTTP accessible path to the file")
+        help="HTTP accessible path to the file",
+    )
     relative_path = fields.Char(
-        readonly=True,
-        help='Relative location for backend')
-    file_size = fields.Integer('File Size')
+        readonly=True, help="Relative location for backend"
+    )
+    file_size = fields.Integer("File Size")
     human_file_size = fields.Char(
-        'Human File Size',
-        compute='_compute_human_file_size',
-        store=True)
-    checksum = fields.Char(
-        "Checksum/SHA1",
-        size=40,
-        index=True,
-        readonly=True)
+        "Human File Size", compute="_compute_human_file_size", store=True
+    )
+    checksum = fields.Char("Checksum/SHA1", size=40, index=True, readonly=True)
     filename = fields.Char(
         "Filename without extension",
-        compute='_compute_extract_filename',
-        store=True)
+        compute="_compute_extract_filename",
+        store=True,
+    )
     extension = fields.Char(
-        "Extension",
-        compute='_compute_extract_filename',
-        store=True)
+        "Extension", compute="_compute_extract_filename", store=True
+    )
     mimetype = fields.Char(
-        "Mime Type",
-        compute='_compute_extract_filename',
-        store=True)
+        "Mime Type", compute="_compute_extract_filename", store=True
+    )
     data = fields.Binary(
         help="Datas",
-        inverse='_inverse_data',
-        compute='_compute_data',
-        store=False)
+        inverse="_inverse_data",
+        compute="_compute_data",
+        store=False,
+    )
     to_delete = fields.Boolean()
     active = fields.Boolean(default=True)
     company_id = fields.Many2one(
-        'res.company',
-        'Company',
-        default=lambda self: self.env.user.company_id.id)
+        "res.company",
+        "Company",
+        default=lambda self: self.env.user.company_id.id,
+    )
     file_type = fields.Selection([])
 
     _sql_constraints = [
-        ('url_uniq', 'unique(url)', 'The url must be uniq'),
-        ('path_uniq', 'unique(relative_path, backend_id)',
-         'The private path must be uniq per backend'),
+        ("url_uniq", "unique(url)", "The url must be uniq"),
+        (
+            "path_uniq",
+            "unique(relative_path, backend_id)",
+            "The private path must be uniq per backend",
+        ),
     ]
 
     def write(self, vals):
-        if 'data' in vals:
+        if "data" in vals:
             for record in self:
                 if record.data:
                     raise UserError(
-                        _('File can not be updated,'
-                          'remove it and create a new one'))
+                        _(
+                            "File can not be updated,"
+                            "remove it and create a new one"
+                        )
+                    )
         return super(StorageFile, self).write(vals)
 
-    @api.depends('file_size')
+    @api.depends("file_size")
     def _compute_human_file_size(self):
         for record in self:
             record.human_file_size = human_size(self.file_size)
@@ -97,56 +100,68 @@ class StorageFile(models.Model):
         self.ensure_one()
         strategy = self.sudo().backend_id.filename_strategy
         if not strategy:
-            raise UserError(_(
-                "The filename strategy is empty for the backend %s.\n"
-                "Please configure it") % self.backend_id.name)
-        if strategy == 'hash':
-            return checksum[:2] + '/' + checksum
-        elif strategy == 'name_with_id':
-            return "%s%s" % (
-                slugify("%s-%s" % (self.filename, self.id)),
-                self.extension)
+            raise UserError(
+                _(
+                    "The filename strategy is empty for the backend %s.\n"
+                    "Please configure it"
+                )
+                % self.backend_id.name
+            )
+        if strategy == "hash":
+            return checksum[:2] + "/" + checksum
+        elif strategy == "name_with_id":
+            return "{}{}".format(
+                slugify("{}-{}".format(self.filename, self.id)), self.extension
+            )
 
     def _prepare_meta_for_file(self):
         bin_data = base64.b64decode(self.data)
         checksum = hashlib.sha1(bin_data).hexdigest()
         relative_path = self._build_relative_path(checksum)
         return {
-            'checksum': checksum,
-            'file_size': len(bin_data),
-            'relative_path': relative_path
-            }
+            "checksum": checksum,
+            "file_size": len(bin_data),
+            "relative_path": relative_path,
+        }
 
     def _inverse_data(self):
         for record in self:
             record.write(record._prepare_meta_for_file())
             record.backend_id.sudo()._add_b64_data(
-                record.relative_path, record.data, mimetype=record.mimetype)
+                record.relative_path, record.data, mimetype=record.mimetype
+            )
 
     def _compute_data(self):
         for rec in self:
-            if self._context.get('bin_size'):
+            if self._context.get("bin_size"):
                 rec.data = rec.file_size
             elif rec.relative_path:
                 rec.data = rec.backend_id.sudo()._get_b64_data(
-                    rec.relative_path)
+                    rec.relative_path
+                )
             else:
                 rec.data = None
 
     @api.depends(
-        'backend_id.served_by', 'backend_id.base_url', 'relative_path')
+        "backend_id.served_by", "backend_id.base_url", "relative_path"
+    )
     def _compute_url(self):
         for record in self:
-            if record.backend_id.served_by == 'odoo':
-                base_url = self.env['ir.config_parameter'].sudo()\
-                    .get_param('web.base.url')
-                record.url = \
-                    base_url + '/web/content/storage.file/%s/data' % record.id
+            if record.backend_id.served_by == "odoo":
+                base_url = (
+                    self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("web.base.url")
+                )
+                record.url = (
+                    base_url + "/web/content/storage.file/%s/data" % record.id
+                )
             else:
-                record.url = "%s/%s" % (
-                    record.backend_id.base_url, record.relative_path)
+                record.url = "{}/{}".format(
+                    record.backend_id.base_url, record.relative_path
+                )
 
-    @api.depends('name')
+    @api.depends("name")
     def _compute_extract_filename(self):
         for rec in self:
             rec.filename, rec.extension = os.path.splitext(rec.name)
@@ -154,17 +169,19 @@ class StorageFile(models.Model):
             rec.mimetype = mime
 
     def unlink(self):
-        if self._context.get('cleanning_storage_file'):
+        if self._context.get("cleanning_storage_file"):
             super(StorageFile, self).unlink()
         else:
-            self.write({'to_delete': True, 'active': False})
+            self.write({"to_delete": True, "active": False})
         return True
 
     @api.model
     def _clean_storage_file(self):
-        self._cr.execute("""SELECT id
+        self._cr.execute(
+            """SELECT id
             FROM storage_file
-            WHERE to_delete=True FOR UPDATE""")
+            WHERE to_delete=True FOR UPDATE"""
+        )
         ids = [x[0] for x in self._cr.fetchall()]
         for st_file in self.browse(ids):
             st_file.backend_id.sudo()._delete(st_file.relative_path)

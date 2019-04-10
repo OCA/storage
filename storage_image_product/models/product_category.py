@@ -4,16 +4,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import fields, models
 import logging
+
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
 
 class ProductCategory(models.Model):
-    _inherit = 'product.category'
+    _inherit = "product.category"
 
     image_ids = fields.One2many(
-        'category.image.relation',
-        inverse_name='category_id',
+        "category.image.relation", inverse_name="category_id"
     )
