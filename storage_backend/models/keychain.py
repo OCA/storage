@@ -7,10 +7,11 @@ from odoo import fields, models
 
 
 class KeychainAccount(models.Model):
-    _inherit = 'keychain.account'
+    _inherit = "keychain.account"
 
     namespace = fields.Selection(
-        selection_add=[('storage_backend', 'Storage Backend')])
+        selection_add=[("storage_backend", "Storage Backend")]
+    )
 
     def _storage_backend_validate_data(self, data):
         return True
