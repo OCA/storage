@@ -4,9 +4,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import os
-from odoo.exceptions import AccessError
+
 from odoo import _
 from odoo.addons.component.core import Component
+from odoo.exceptions import AccessError
 
 
 def is_safe_path(basedir, path):
@@ -14,20 +15,21 @@ def is_safe_path(basedir, path):
 
 
 class FileSystemStorageBackend(Component):
-    _name = 'filesystem.adapter'
-    _inherit = 'base.storage.adapter'
-    _usage = 'filesystem'
+    _name = "filesystem.adapter"
+    _inherit = "base.storage.adapter"
+    _usage = "filesystem"
 
     def _basedir(self):
-        return os.path.join(self.env['ir.attachment']._filestore(), 'storage')
+        return os.path.join(self.env["ir.attachment"]._filestore(), "storage")
 
     def _fullpath(self, relative_path):
         """This will build the full path for the file, we force to
         store the data inside the filestore in the directory 'storage".
         Becarefull if you implement your own custom path, end user
         should never be able to write or read unwanted filesystem file"""
-        full_path =\
-            super(FileSystemStorageBackend, self)._fullpath(relative_path)
+        full_path = super(FileSystemStorageBackend, self)._fullpath(
+            relative_path
+        )
         base_dir = self._basedir()
         full_path = os.path.join(base_dir, full_path)
         if not is_safe_path(base_dir, full_path):
@@ -48,7 +50,7 @@ class FileSystemStorageBackend(Component):
             data = my_file.read()
         return data
 
-    def list(self, relative_path=''):
+    def list(self, relative_path=""):
         full_path = self._fullpath(relative_path)
         if os.path.isdir(full_path):
             return os.listdir(full_path)
