@@ -11,16 +11,8 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    'installable': True,
-    "external_dependencies": {
-        "python": [
-            "boto3",
-        ],
-    },
-    "depends": [
-        "storage_backend",
-    ],
-    "data": [
-        "views/backend_storage_view.xml",
-    ],
+    "installable": True,
+    "external_dependencies": {"python": ["boto3"]},
+    "depends": ["storage_backend"],
+    "data": ["views/backend_storage_view.xml"],
 }
