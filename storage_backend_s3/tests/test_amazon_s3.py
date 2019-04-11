@@ -9,25 +9,22 @@
 
 import logging
 import os
-from os.path import dirname, join
 
 from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
-from vcr import VCR
+from vcr_unittest import VCRMixin
 
 _logger = logging.getLogger(__name__)
 
 
-logging.getLogger("vcr").setLevel(logging.WARNING)
+class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
+    def _get_vcr_kwargs(self, **kwargs):
+        return {
+            "record_mode": "once",
+            "match_on": ["method", "path", "query", "body"],
+            "filter_headers": ["Authorization"],
+            "decode_compressed_response": True,
+        }
 
-recorder = VCR(
-    record_mode="once",
-    cassette_library_dir=join(dirname(__file__), "fixtures/cassettes"),
-    path_transformer=VCR.ensure_suffix(".yaml"),
-    filter_headers=["Authorization"],
-)
-
-
-class AmazonS3Case(Common, GenericStoreCase):
     def setUp(self):
         super(AmazonS3Case, self).setUp()
         self.backend.write(
@@ -45,11 +42,3 @@ class AmazonS3Case(Common, GenericStoreCase):
                 ),
             }
         )
-
-    @recorder.use_cassette
-    def test_setting_and_getting_data_from_root(self):
-        super(AmazonS3Case, self).test_setting_and_getting_data_from_root()
-
-    @recorder.use_cassette
-    def test_setting_and_getting_data_from_dir(self):
-        super(AmazonS3Case, self).test_setting_and_getting_data_from_dir()
