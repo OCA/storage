@@ -3,3 +3,4 @@ paramiko
 slugify
 vcrpy
 cerberus
+vcrpy-unittest

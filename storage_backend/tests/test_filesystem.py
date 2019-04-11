@@ -9,10 +9,29 @@ from .common import Common, GenericStoreCase
 
 
 class FileSystemCase(Common, GenericStoreCase):
-    def test_demo_user_can_not_use_storage(self):
-        # Demo user do not have the access right
-        self.user = self.env.ref("base.user_demo")
-        self.env = self.env(user=self.user)
-        self.backend = self.env.ref("storage_backend.default_storage_backend")
+    pass
+
+
+class FileSystemDemoUserAccessCase(Common):
+    def _add_access_right_to_user(self):
+        # We do not give the access to demo user
+        # all test should raise an error
+        pass
+
+    def test_cannot_add_file(self):
         with self.assertRaises(AccessError):
-            self._test_setting_and_getting_data()
+            self.backend._add_b64_data(
+                self.filename, self.filedata, mimetype=u"text/plain"
+            )
+
+    def test_cannot_list_file(self):
+        with self.assertRaises(AccessError):
+            self.backend._list()
+
+    def test_cannot_read_file(self):
+        with self.assertRaises(AccessError):
+            self.backend._get_b64_data(self.filename)
+
+    def test_cannot_delete_file(self):
+        with self.assertRaises(AccessError):
+            self.backend._delete(self.filename)
