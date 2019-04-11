@@ -110,8 +110,9 @@ class StorageFile(models.Model):
         if strategy == "hash":
             return checksum[:2] + "/" + checksum
         elif strategy == "name_with_id":
-            return "{}{}".format(
-                slugify("{}-{}".format(self.filename, self.id)), self.extension
+            return u"{}{}".format(
+                slugify(u"{}-{}".format(self.filename, self.id)),
+                self.extension,
             )
 
     def _prepare_meta_for_file(self):
