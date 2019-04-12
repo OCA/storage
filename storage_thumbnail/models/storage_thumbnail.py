@@ -38,7 +38,7 @@ class StorageThumbnail(models.Model):
         else:
             extension = image.extension
         return {
-            "data": self._resize(image, size_x, size_y),
+            "data": self._resize(image, size_x, size_y, image_resize_format),
             "res_model": image._name,
             "res_id": image.id,
             "name": "%s_%s_%s%s"
@@ -48,20 +48,16 @@ class StorageThumbnail(models.Model):
             "url_key": url_key,
         }
 
-    def _resize(self, image, size_x, size_y):
-        image_server_resize = self.env["ir.config_parameter"].get_param(
-            "storage.image.server.resize"
+    def _resize(self, image, size_x, size_y, fmt):
+        image_resize_server = self.env["ir.config_parameter"].get_param(
+            "storage.image.resize.server"
         )
-        if image_server_resize and image.backend_id.served_by != "odoo":
-            image_resize_format = self.env["ir.config_parameter"].get_param(
-                "storage.image.resize.format"
-            )
+        if image_resize_server and image.backend_id.served_by != "odoo":
             values = {"url": image.url, "width": size_x, "height": size_y}
-            if image_resize_format:
-                values["fmt"] = image_resize_format
-            url = image_server_resize.format(**values)
-            request = requests.get(url)
-            return request.content.encode("base64")
+            if fmt:
+                values["fmt"] = fmt
+            url = image_resize_server.format(**values)
+            return requests.get(url).content.encode("base64")
         return image_resize_image(image.data, size=(size_x, size_y))
 
     def _get_backend_id(self):
