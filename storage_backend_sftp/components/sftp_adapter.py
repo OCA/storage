@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 try:
     import paramiko
-except ImportError as err:
+except ImportError as err:  # pragma: no cover
     logger.debug(err)
 
 
@@ -27,7 +27,7 @@ def sftp_mkdirs(client, path, mode=511):
             sftp_mkdirs(client, os.path.dirname(path), mode=mode)
             client.mkdir(path, mode)
         else:
-            raise
+            raise  # pragma: no cover
 
 
 def load_ssh_key(ssh_key_buffer):
@@ -76,7 +76,7 @@ class SftpStorageBackend(Component):
                     if e.errno == errno.ENOENT:
                         sftp_mkdirs(client, dirname)
                     else:
-                        raise
+                        raise  # pragma: no cover
             remote_file = client.open(full_path, "w+b")
             remote_file.write(data)
             remote_file.close()
@@ -98,7 +98,7 @@ class SftpStorageBackend(Component):
                     # The path do not exist return an empty list
                     return []
                 else:
-                    raise
+                    raise  # pragma: no cover
 
     def delete(self, relative_path):
         full_path = self._fullpath(relative_path)
