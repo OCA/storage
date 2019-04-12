@@ -38,7 +38,7 @@ class StorageThumbnail(models.Model):
         else:
             extension = image.extension
         return {
-            "data": self._resize(image, size_x, size_y, image_resize_format),
+            "data": self._resize(image, size_x, size_y, extension),
             "res_model": image._name,
             "res_id": image.id,
             "name": "%s_%s_%s%s"
@@ -53,9 +53,12 @@ class StorageThumbnail(models.Model):
             "storage.image.resize.server"
         )
         if image_resize_server and image.backend_id.served_by != "odoo":
-            values = {"url": image.url, "width": size_x, "height": size_y}
-            if fmt:
-                values["fmt"] = fmt
+            values = {
+                "url": image.url,
+                "width": size_x,
+                "height": size_y,
+                "fmt": fmt,
+            }
             url = image_resize_server.format(**values)
             return requests.get(url).content.encode("base64")
         return image_resize_image(image.data, size=(size_x, size_y))
