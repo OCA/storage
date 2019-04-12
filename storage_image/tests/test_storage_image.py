@@ -6,6 +6,7 @@
 import base64
 import os
 
+import requests_mock
 import urlparse
 from odoo.addons.component.tests.common import TransactionComponentCase
 from odoo.exceptions import AccessError
@@ -114,3 +115,32 @@ class StorageImageCase(TransactionComponentCase):
         self.user.sudo().write({"groups_id": [(3, group_manager.id)]})
         with self.assertRaises(AccessError):
             self._create_storage_image()
+
+    def test_create_thumbnail_pilbox(self):
+        self.env["ir.config_parameter"].sudo().create(
+            {
+                "key": "storage.image.server.resize",
+                "value": "http://pilbox:8888?url={url}&w={width}&h={height}"
+                "&mode=fill&fmt={fmt}",
+            }
+        )
+        self.env["ir.config_parameter"].sudo().create(
+            {"key": "storage.image.resize.format", "value": "webp"}
+        )
+        backend = self.env["storage.backend"].sudo().browse([self.backend.id])
+        backend.served_by = "external"
+        backend.base_url = "test"
+        with requests_mock.mock() as m:
+            m.get("http://pilbox:8888?", text="data")
+            image = self._create_storage_image()
+            self.assertEqual(len(m.request_history), 2)
+            self.assertEqual(
+                m.request_history[0].url,
+                "http://pilbox:8888/?url=test/akretion-logo-%s.png"
+                "&w=128&h=128&mode=fill&fmt=webp" % image.file_id.id,
+            )
+            self.assertEqual(
+                m.request_history[1].url,
+                "http://pilbox:8888/?url=test/akretion-logo-%s.png"
+                "&w=64&h=64&mode=fill&fmt=webp" % image.file_id.id,
+            )
