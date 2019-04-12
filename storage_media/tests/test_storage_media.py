@@ -9,16 +9,17 @@ from odoo.addons.component.tests.common import TransactionComponentCase
 class StorageMediaCase(TransactionComponentCase):
     def setUp(self):
         super(StorageMediaCase, self).setUp()
+        self.backend = self.env.ref("storage_backend.default_storage_backend")
         self.filename = "test of my_file.txt"
 
     def test_onchange_name(self):
         media = self.env["storage.media"].create(
-            {"name": self.filename, "backend_id": self.backend_id}
+            {"name": self.filename, "backend_id": self.backend.id}
         )
-        self.assetEqual(media.name, self.filename)
-        new_filename = "new file_name.txt"
+        self.assertEqual(media.name, self.filename)
+        new_filename = "new file name.txt"
         media.name = new_filename
-        media._onchange_name()
+        media.onchange_name()
         values = media._convert_to_write(media._cache)
         self.assertEqual(values["name"], "new-file-name.txt")
 
