@@ -119,7 +119,7 @@ class StorageImageCase(TransactionComponentCase):
     def test_create_thumbnail_pilbox(self):
         self.env["ir.config_parameter"].sudo().create(
             {
-                "key": "storage.image.server.resize",
+                "key": "storage.image.resize.server",
                 "value": "http://pilbox:8888?url={url}&w={width}&h={height}"
                 "&mode=fill&fmt={fmt}",
             }
