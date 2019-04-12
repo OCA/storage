@@ -58,8 +58,8 @@ class StorageThumbnail(models.Model):
             )
             values = {"url": image.url, "width": size_x, "height": size_y}
             if image_resize_format:
-                values["format"] = image_resize_format
-            url = image_server_resize % values
+                values["fmt"] = image_resize_format
+            url = image_server_resize.format(**values)
             request = requests.get(url)
             return request.content.encode("base64")
         return image_resize_image(image.data, size=(size_x, size_y))
