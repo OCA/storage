@@ -6,6 +6,7 @@
 
 import logging
 
+import requests
 from odoo import api, fields, models
 from odoo.tools import image_resize_image
 
@@ -29,18 +30,38 @@ class StorageThumbnail(models.Model):
     res_id = fields.Integer(readonly=False, index=True)
 
     def _prepare_thumbnail(self, image, size_x, size_y, url_key):
+        image_resize_format = self.env["ir.config_parameter"].get_param(
+            "storage.image.resize.format"
+        )
+        if image_resize_format:
+            extension = image_resize_format
+        else:
+            extension = image.extension
         return {
             "data": self._resize(image, size_x, size_y),
             "res_model": image._name,
             "res_id": image.id,
             "name": "%s_%s_%s%s"
-            % (url_key or image.filename, size_x, size_y, image.extension),
+            % (url_key or image.filename, size_x, size_y, extension),
             "size_x": size_x,
             "size_y": size_y,
             "url_key": url_key,
         }
 
     def _resize(self, image, size_x, size_y):
+        image_server_resize = self.env["ir.config_parameter"].get_param(
+            "storage.image.server.resize"
+        )
+        if image_server_resize and image.backend_id.served_by != "odoo":
+            image_resize_format = self.env["ir.config_parameter"].get_param(
+                "storage.image.resize.format"
+            )
+            values = {"url": image.url, "width": size_x, "height": size_y}
+            if image_resize_format:
+                values["format"] = image_resize_format
+            url = image_server_resize % values
+            request = requests.get(url)
+            return request.content.encode("base64")
         return image_resize_image(image.data, size=(size_x, size_y))
 
     def _get_backend_id(self):
