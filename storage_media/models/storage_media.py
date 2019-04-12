@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from slugify import slugify
-except ImportError:
+except ImportError:  # pragma: no cover
     _logger.debug("Cannot `import slugify`.")
 
 
