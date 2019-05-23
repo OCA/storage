@@ -54,7 +54,9 @@ class StorageImageCase(TransactionComponentCase):
         self.assertEqual(image.extension, u".png")
         self.assertEqual(image.filename, u"akretion-logo")
         url = urlparse.urlparse(image.url)
-        self.assertEqual(url.path, "/storage.file/%s" % image.file_id.name)
+        self.assertEqual(
+            url.path, "/storage.file/akretion-logo-%d.png" % image.file_id.id
+        )
         self.assertEqual(image.file_size, self.filesize)
         self.assertEqual(self.backend.id, image.backend_id.id)
 
