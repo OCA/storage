@@ -38,8 +38,27 @@ class StorageFileCase(TransactionComponentCase):
             stfile.relative_path, u"test-of-my_file-%s.txt" % stfile.id
         )
         url = urlparse.urlparse(stfile.url)
-        self.assertEqual(url.path, "/storage.file/%s" % stfile.name)
+        self.assertEqual(
+            url.path, "/storage.file/test-of-my_file-%s.txt" % stfile.id
+        )
         self.assertEqual(stfile.file_size, self.filesize)
+
+    def test_get_from_slug_name_with_id(self):
+        stfile = self._create_storage_file()
+        stfile2 = self.env["storage.file"].get_from_slug_name_with_id(
+            "test-of-my_file-%s.txt" % stfile.id
+        )
+        self.assertEqual(stfile, stfile2)
+        # the method parse the given string to find the id. The id is the
+        # last sequence of digit starting with '-'
+        stfile2 = self.env["storage.file"].get_from_slug_name_with_id(
+            "test-999-%s.txt2" % stfile.id
+        )
+        self.assertEqual(stfile, stfile2)
+        stfile2 = self.env["storage.file"].get_from_slug_name_with_id(
+            "test-999-%s" % stfile.id
+        )
+        self.assertEqual(stfile, stfile2)
 
     def test_create_store_with_hash(self):
         self.backend.filename_strategy = "hash"

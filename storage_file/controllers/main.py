@@ -11,10 +11,16 @@ from odoo.http import request
 
 
 class StorageFileController(http.Controller):
-    @http.route(["/storage.file/<string:name>"], type="http", auth="public")
-    def content_common(self, name, token=None, download=None, **kw):
-        storage_file = request.env["storage.file"].search(
-            [("name", "=", name)]
+    @http.route(
+        ["/storage.file/<string:slug_name_with_id>"],
+        type="http",
+        auth="public",
+    )
+    def content_common(
+        self, slug_name_with_id, token=None, download=None, **kw
+    ):
+        storage_file = request.env["storage.file"].get_from_slug_name_with_id(
+            slug_name_with_id
         )
         status, headers, content = binary_content(
             model=storage_file._name,
