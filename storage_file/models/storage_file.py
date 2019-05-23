@@ -154,8 +154,8 @@ class StorageFile(models.Model):
                     .sudo()
                     .get_param("web.base.url")
                 )
-                record.url = (
-                    base_url + "/web/content/storage.file/%s/data" % record.id
+                record.url = u"{}/storage.file/{}".format(
+                    base_url, record.name
                 )
             else:
                 record.url = "{}/{}".format(

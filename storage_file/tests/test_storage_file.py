@@ -38,9 +38,7 @@ class StorageFileCase(TransactionComponentCase):
             stfile.relative_path, u"test-of-my_file-%s.txt" % stfile.id
         )
         url = urlparse.urlparse(stfile.url)
-        self.assertEqual(
-            url.path, "/web/content/storage.file/%s/data" % stfile.id
-        )
+        self.assertEqual(url.path, "/storage.file/%s" % stfile.name)
         self.assertEqual(stfile.file_size, self.filesize)
 
     def test_create_store_with_hash(self):
