@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -13,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class StorageBackend(models.Model):
     _name = "storage.backend"
-    _inherit = ["keychain.backend", "collection.base"]
+    _inherit = ["collection.base"]
     _backend_name = "storage_backend"
 
     name = fields.Char(required=True)
@@ -21,7 +20,7 @@ class StorageBackend(models.Model):
         selection=[("filesystem", "Filesystem")], required=True
     )
     directory_path = fields.Char(
-        sparse="data", help="Relative path to the directory to store the file"
+        help="Relative path to the directory to store the file"
     )
 
     def _add_b64_data(self, relative_path, data, **kwargs):
