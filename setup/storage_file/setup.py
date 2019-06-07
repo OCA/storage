@@ -1,3 +1,12 @@
 import setuptools
 
-setuptools.setup(setup_requires=["setuptools-odoo"], odoo_addon=True)
+setuptools.setup(
+    setup_requires=["setuptools-odoo"],
+    odoo_addon={
+        'external_dependencies_override': {
+            'python': {
+                'slugify': 'python-slugify>=3.0.2',
+            },
+        },
+    },
+)
