@@ -11,7 +11,7 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    "installable": True,
+    "installable": False,
     "depends": ["storage_media", "product"],
     "data": [
         "security/ir.model.access.csv",
