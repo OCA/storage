@@ -12,7 +12,7 @@
     "author": " Akretion",
     "license": "AGPL-3",
     "application": False,
-    "installable": True,
+    "installable": False,
     "external_dependencies": {"python": ["slugify"], "bin": []},
     "depends": ["storage_backend"],
     "data": [
