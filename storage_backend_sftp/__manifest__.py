@@ -11,7 +11,7 @@
     "website": "www.akretion.com",
     "author": " Akretion",
     "license": "AGPL-3",
-    "installable": True,
+    "installable": False,
     "external_dependencies": {"python": ["paramiko"]},
     "depends": ["storage_backend"],
     "data": ["views/backend_storage_view.xml"],
