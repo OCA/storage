@@ -35,7 +35,8 @@
                                   style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
                             <a type="open">
                                 <img t-att-src="record.image_url.value"
-                                     class="oe_kanban_image" />
+                                     class="oe_kanban_image"
+                                     t-att-alt="record.alt_name"/>
                             </a>
                             <div class="oe_kanban_details">
                                 <h4>

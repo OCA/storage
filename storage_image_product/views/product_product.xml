@@ -11,7 +11,7 @@
                 <field name="variant_image_small_url" widget="image_url" class="oe_avatar"/>
             </field>
             <xpath expr="//div[@class='o_kanban_image']/img" position="replace">
-                <img t-att-src="record.variant_image_small_url.value"/>
+                <img t-att-src="record.variant_image_small_url.value" t-att-alt="record.alt_name"/>
             </xpath>
         </field>
     </record>
