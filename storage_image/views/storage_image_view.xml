@@ -49,7 +49,7 @@
                         <div class="oe_kanban_vignette oe_semantic_html_override">
                             <a type="open">
                                 <img t-att-src="record.image_small_url.value"
-                                     class="oe_kanban_image"/>
+                                     class="oe_kanban_image" t-att-alt="record.alt_name"/>
                             </a>
                             <div class="oe_kanban_details">
                                 <h4>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -8,6 +7,7 @@ import logging
 import os
 
 from odoo import api, fields, models
+from odoo.addons.storage_file.models.storage_file import REGEX_SLUGIFY
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +33,9 @@ class StorageImage(models.Model):
         for record in self:
             if record.name:
                 filename, extension = os.path.splitext(record.name)
-                record.name = "{}{}".format(slugify(filename), extension)
+                record.name = "{}{}".format(
+                    slugify(filename, regex_pattern=REGEX_SLUGIFY), extension
+                )
                 record.alt_name = filename
                 for char in ["-", "_"]:
                     record.alt_name = record.alt_name.replace(char, " ")
@@ -58,9 +60,9 @@ class StorageImage(models.Model):
         Overload this method if you need something more powerfull
         """
         return int(
-            self.env["ir.config_parameter"].get_param(
-                "storage.image.backend_id"
-            )
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("storage.image.backend_id")
         )
 
     def unlink(self):
