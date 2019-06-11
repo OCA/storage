@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
+import base64
 import logging
 
 import requests
@@ -30,8 +29,10 @@ class StorageThumbnail(models.Model):
     res_id = fields.Integer(readonly=False, index=True)
 
     def _prepare_thumbnail(self, image, size_x, size_y, url_key):
-        image_resize_format = self.env["ir.config_parameter"].get_param(
-            "storage.image.resize.format"
+        image_resize_format = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("storage.image.resize.format")
         )
         if image_resize_format:
             extension = image_resize_format
@@ -49,8 +50,10 @@ class StorageThumbnail(models.Model):
         }
 
     def _resize(self, image, size_x, size_y, fmt):
-        image_resize_server = self.env["ir.config_parameter"].get_param(
-            "storage.image.resize.server"
+        image_resize_server = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("storage.image.resize.server")
         )
         if image_resize_server and image.backend_id.served_by != "odoo":
             values = {
@@ -60,7 +63,7 @@ class StorageThumbnail(models.Model):
                 "fmt": fmt,
             }
             url = image_resize_server.format(**values)
-            return requests.get(url).content.encode("base64")
+            return base64.encodestring(requests.get(url).content)
         return image_resize_image(image.data, size=(size_x, size_y))
 
     def _get_backend_id(self):
@@ -70,9 +73,9 @@ class StorageThumbnail(models.Model):
         Overload this method if you need something more powerfull
         """
         return int(
-            self.env["ir.config_parameter"].get_param(
-                "storage.thumbnail.backend_id"
-            )
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("storage.thumbnail.backend_id")
         )
 
     @api.model
@@ -80,10 +83,10 @@ class StorageThumbnail(models.Model):
         vals.update(
             {"backend_id": self._get_backend_id(), "file_type": "thumbnail"}
         )
-        return super(StorageThumbnail, self).create(vals)
+        return super().create(vals)
 
     def unlink(self):
         files = self.mapped("file_id")
-        result = super(StorageThumbnail, self).unlink()
+        result = super().unlink()
         files.unlink()
         return result
