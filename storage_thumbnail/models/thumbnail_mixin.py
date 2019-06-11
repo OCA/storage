@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -57,16 +56,17 @@ class ThumbnailMixing(models.AbstractModel):
         return thumbnail
 
     def generate_odoo_thumbnail(self):
+        self_sudo = self.sudo()
         self.write(
             {
-                "image_medium_url": self.sudo()._get_medium_thumbnail().url,
-                "image_small_url": self.sudo()._get_small_thumbnail().url,
+                "image_medium_url": self_sudo._get_medium_thumbnail().url,
+                "image_small_url": self_sudo._get_small_thumbnail().url,
             }
         )
         return True
 
     @api.model
     def create(self, vals):
-        record = super(ThumbnailMixing, self).create(vals)
+        record = super().create(vals)
         record.generate_odoo_thumbnail()
         return record
