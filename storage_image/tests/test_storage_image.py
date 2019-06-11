@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
 import os
+from urllib import parse
 
 import requests_mock
-import urlparse
 from odoo.addons.component.tests.common import TransactionComponentCase
 from odoo.exceptions import AccessError
 
@@ -28,8 +27,8 @@ class StorageImageCase(TransactionComponentCase):
 
         self.backend = self.env.ref("storage_backend.default_storage_backend")
         path = os.path.dirname(os.path.abspath(__file__))
-        f = open(os.path.join(path, "static/akretion-logo.png"))
-        data = f.read()
+        with open(os.path.join(path, "static/akretion-logo.png"), "rb") as f:
+            data = f.read()
         self.filesize = len(data)
         self.filedata = base64.b64encode(data)
         self.filename = "akretion-logo.png"
@@ -53,7 +52,7 @@ class StorageImageCase(TransactionComponentCase):
         self.assertEqual(image.mimetype, u"image/png")
         self.assertEqual(image.extension, u".png")
         self.assertEqual(image.filename, u"akretion-logo")
-        url = urlparse.urlparse(image.url)
+        url = parse.urlparse(image.url)
         self.assertEqual(
             url.path, "/storage.file/akretion-logo-%d.png" % image.file_id.id
         )
