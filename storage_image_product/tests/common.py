@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -12,8 +11,9 @@ from odoo.addons.component.tests.common import SavepointComponentCase
 class ProductImageCommonCase(SavepointComponentCase):
     def _get_image(self, name):
         path = os.path.dirname(os.path.abspath(__file__))
-        f = open(os.path.join(path, "static", name))
-        return base64.b64encode(f.read())
+        with open(os.path.join(path, "static", name), "rb") as f:
+            data = f.read()
+        return base64.b64encode(data)
 
     def _create_storage_image(self, name):
         return self.env["storage.image"].create(
