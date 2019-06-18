@@ -1,20 +1,19 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+from urllib import parse
 
-import urlparse
 from odoo.addons.component.tests.common import TransactionComponentCase
 from odoo.exceptions import AccessError, UserError
 
 
 class StorageFileCase(TransactionComponentCase):
     def setUp(self):
-        super(StorageFileCase, self).setUp()
+        super().setUp()
         self.backend = self.env.ref("storage_backend.default_storage_backend")
-        data = "This is a simple file"
+        data = b"This is a simple file"
         self.filesize = len(data)
         self.filedata = base64.b64encode(data)
         self.filename = "test of my_file.txt"
@@ -37,7 +36,7 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(
             stfile.relative_path, u"test-of-my_file-%s.txt" % stfile.id
         )
-        url = urlparse.urlparse(stfile.url)
+        url = parse.urlparse(stfile.url)
         self.assertEqual(
             url.path, "/storage.file/test-of-my_file-%s.txt" % stfile.id
         )
@@ -97,7 +96,7 @@ class StorageFileCase(TransactionComponentCase):
 
     def test_cannot_update_data(self):
         stfile = self._create_storage_file()
-        data = base64.b64encode("This is different data")
+        data = base64.b64encode(b"This is different data")
         with self.assertRaises(UserError):
             stfile.write({"data": data})
 
