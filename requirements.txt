@@ -7,4 +7,4 @@ vcrpy-unittest
 # https://github.com/kevin1024/vcrpy/issues/382
 # for now we freeze the boto3 version
 boto3==1.7.84
-requests_mock
+requests-mock
