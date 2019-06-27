@@ -9,7 +9,7 @@
                 <field name="sftp_server"/>
                 <field name="sftp_port"/>
                 <field name="sftp_login"/>
-                <field name="sftp_password"/>
+                <field name="sftp_password" password="True"/>
                 <field name="sftp_auth_method"/>
             </group>
         </group>
