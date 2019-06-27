@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -7,9 +6,9 @@ import errno
 import logging
 import os
 from contextlib import contextmanager
+from io import StringIO
 
 from odoo.addons.component.core import Component
-from StringIO import StringIO
 
 logger = logging.getLogger(__name__)
 
@@ -46,8 +45,7 @@ def load_ssh_key(ssh_key_buffer):
 
 @contextmanager
 def sftp(backend):
-    account = backend._get_keychain_account()
-    password = account._get_password()
+    password = backend.sftp_password
     transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
     if backend.sftp_auth_method == "pwd":
         transport.connect(username=backend.sftp_login, password=password)
