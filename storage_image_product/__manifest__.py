@@ -12,7 +12,12 @@
     "author": " Akretion",
     "license": "AGPL-3",
     "installable": True,
-    "depends": ["storage_image", "product", "sale"],  # only for the menu
+    "depends": [
+        "storage_image",
+        "product",
+        "sale",
+        "web_tree_image",
+    ],  # only for the menu
     "data": [
         "security/ir.model.access.csv",
         "views/product_template.xml",
