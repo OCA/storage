@@ -8,6 +8,7 @@ from odoo import fields, models
 
 class ImageTag(models.Model):
     _name = "image.tag"
+    _description = "Image Tag"
 
     name = fields.Char()
     apply_on = fields.Selection(

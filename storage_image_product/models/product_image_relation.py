@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class ProductImageRelation(models.Model):
     _name = "product.image.relation"
+    _description = "Product Image Relation"
     _order = "sequence, image_id"
 
     sequence = fields.Integer()
@@ -23,7 +24,7 @@ class ProductImageRelation(models.Model):
     # in order to filter the attribute value available for the current image
     available_attribute_value_ids = fields.Many2many(
         "product.attribute.value",
-        string="Attributes",
+        string="Available Attributes",
         compute="_compute_available_attribute",
     )
     product_tmpl_id = fields.Many2one("product.template")
