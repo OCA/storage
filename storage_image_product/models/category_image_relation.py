@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class CategoryImageRelation(models.Model):
     _name = "category.image.relation"
+    _description = "Category Image Relation"
 
     image_id = fields.Many2one("storage.image", required=True)
     category_id = fields.Many2one("product.category")
@@ -27,5 +28,6 @@ class CategoryImageRelation(models.Model):
 
 class ImageTag(models.Model):
     _name = "image.tag"
+    _description = "Image Tag"
 
     name = fields.Char()
