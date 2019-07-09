@@ -20,7 +20,8 @@
             <form string="Association">
                 <group>
                     <field name="image_id" />
-                    <field name="tag_id"/>
+                    <field name="tag_id"
+                           context="{'active_model': context.get('active_model')}"/>
                 </group>
             </form>
         </field>
