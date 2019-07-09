@@ -7,7 +7,8 @@
             <form string="Association">
                 <group>
                     <field name="image_id"/>
-                    <field name="tag_id"/>
+                    <field name="tag_id"
+                           context="{'active_model': context.get('active_model')}"/>
                     <field name="available_attribute_value_ids" invisible="1" widget="many2many_tags"/>
                     <field
                         name="attribute_value_ids"
