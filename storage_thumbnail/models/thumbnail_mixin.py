@@ -4,7 +4,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -35,8 +36,6 @@ class ThumbnailMixing(models.AbstractModel):
 
     def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
         self.ensure_one()
-        # preserve the prefetch when changing context
-        self = self.with_context(bin_size=False).with_prefetch(self._prefetch)
         if url_key:
             url_key = slugify(url_key)
         thumbnail = self.env["storage.thumbnail"].browse()
@@ -46,14 +45,23 @@ class ThumbnailMixing(models.AbstractModel):
                     continue
                 thumbnail = th
                 break
-        if not thumbnail and self.data:
+        if not thumbnail and self.file_size:
+            # We have to force real data (binary) to create thumbnail
+            self_data = self.with_context(bin_size=False).with_prefetch(
+                self._prefetch
+            )
             vals = self.env["storage.thumbnail"]._prepare_thumbnail(
-                self, size_x, size_y, url_key
+                self_data, size_x, size_y, url_key
             )
             # use the relation to create the thumbnail to be sure that the
             # record is added to the cache of this relation.
             self.write({"thumbnail_ids": [(0, 0, vals)]})
             return self.get_or_create_thumbnail(size_x, size_y, url_key)
+        elif not self.file_size:
+            raise UserError(
+                _("There is no source image to create thumbnail for: %s")
+                % self.relative_path
+            )
         return thumbnail
 
     def generate_odoo_thumbnail(self):
