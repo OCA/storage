@@ -8,6 +8,7 @@ from odoo import api, fields, models
 
 class ImageTag(models.Model):
     _name = "image.tag"
+    _description = "Image Tag"
 
     @api.model
     def _get_default_apply_on(self):
