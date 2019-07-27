@@ -2,46 +2,47 @@ odoo.define('storage_image.image_url', function (require) {
     "use strict";
     var core = require('web.core');
     var _t = core._t;
-    var QWeb = core.qweb;
+    var qweb = core.qweb;
+    var registry = require('web.field_registry');
+    var basic_fields = require('web.basic_fields');
 
-    var FieldBinaryImage = core.form_widget_registry.map.image;
-    var FieldImageUrl = FieldBinaryImage.extend({
-        render_value: function () {
+    var FieldImageUrl = basic_fields.FieldBinaryImage.extend({
+        _render: function () {
+            // This code is an override that only change the way the rul is build
+            // In Odoo core if the value is not a binary, Odoo always query the
+            // server on /web/image....
             var self = this;
-            var url = this.get('value');
+            var url = this.value;
             if (!url) {
                 url = this.placeholder;
             } else if (!url.startsWith('http')) {
                 url = 'data:image/png;base64,' + url;
             }
-            var $img = $(QWeb.render("FieldBinaryImage-img", {
-                widget: this, url: url,
-            }));
-            $img.click(function (e) {
-                if (self.view.get("actual_mode") === "view") {
-                    var $button = $(".o_form_button_edit");
-                    $button.openerpBounce();
-                    e.stopPropagation();
-                }
-            });
-            this.$('> img').remove();
-            if (self.options.size) {
-                $img.css({
-                    width: self.options.size[0] + "px",
-                    height: self.options.size[1] + "px",
-                });
+            /*
+             From here it's the same code as in FieldBinaryImage
+             */
+            var $img = $(qweb.render("FieldBinaryImage-img", {widget: this, url: url}));
+            // override css size attributes (could have been defined in css files)
+            // if specified on the widget
+            var width = this.nodeOptions.size ? this.nodeOptions.size[0] : this.attrs.width;
+            var height = this.nodeOptions.size ? this.nodeOptions.size[1] : this.attrs.height;
+            if (width) {
+                $img.attr('width', width);
+                $img.css('max-width', width + 'px');
             }
+            if (height) {
+                $img.attr('height', height);
+                $img.css('max-height', height + 'px');
+            }
+            this.$('> img').remove();
             this.$el.prepend($img);
             $img.on('error', function () {
-                self.on_clear();
+                self._clearFile();
                 $img.attr('src', self.placeholder);
-                self.do_warn(
-                    _t("Image"),
-                    _t("Could not display the selected image.")
-                );
+                self.do_warn(_t("Image"), _t("Could not display the selected image."));
             });
         },
     });
-    core.form_widget_registry.add('image_url', FieldImageUrl);
+    registry.add('image_url', FieldImageUrl);
     return FieldImageUrl;
 });
