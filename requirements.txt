@@ -3,8 +3,5 @@ python-slugify>=3.0.2
 vcrpy
 cerberus
 vcrpy-unittest
-# vcrp is not yet compatible with the change done in boto3
-# https://github.com/kevin1024/vcrpy/issues/382
-# for now we freeze the boto3 version
-boto3==1.7.84
+boto3
 requests-mock
