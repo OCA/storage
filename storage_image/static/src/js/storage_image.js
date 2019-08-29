@@ -8,7 +8,7 @@ odoo.define('storage_image.image_url', function (require) {
 
     var FieldImageUrl = basic_fields.FieldBinaryImage.extend({
         _render: function () {
-            // This code is an override that only change the way the rul is build
+            // This code is an override that only change the way the rule is build
             // In Odoo core if the value is not a binary, Odoo always query the
             // server on /web/image....
             var self = this;
