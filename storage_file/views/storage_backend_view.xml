@@ -6,9 +6,13 @@
         <field name="arch" type="xml">
             <field name="backend_type" position="after">
                 <field name="served_by"/>
+                <div class="alert alert-info" attrs="{'invisible': [('served_by', '!=', 'odoo')]}">
+                    Served by Odoo option will use `web.base.url` as the base URL.
+                    <br />Make sure this parameter is properly configured and accessible
+                    from everwhere you want to access the service.
+                </div>
                 <field name="is_public" attrs="{'invisible': [('served_by', '!=', 'odoo')]}"/>
-                <field name="base_url"
-                    attrs="{'invisible':[('served_by', '!=', 'external')]}"/>
+                <field name="base_url" attrs="{'invisible':[('served_by', '!=', 'external')]}"/>
                 <field name="filename_strategy"/>
             </field>
         </field>
