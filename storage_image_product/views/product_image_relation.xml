@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <record id="product_image_relation_tree" model="ir.ui.view">
+        <field name="model">product.image.relation</field>
+        <field name="arch" type="xml">
+            <tree string="Images">
+                <field name="sequence" widget="handle"/>
+                <field name="image_url" widget="image" nolabel="1" colspan="2" height="128"/>
+                <field name="image_name"/>
+                <field name="tag_id"/>
+                <field name="attribute_value_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+
     <record id="product_image_relation_form" model="ir.ui.view">
         <field name="model">product.image.relation</field>
         <field name="arch" type="xml">

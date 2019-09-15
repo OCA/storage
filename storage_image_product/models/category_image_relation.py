@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 class CategoryImageRelation(models.Model):
     _name = "category.image.relation"
 
+    sequence = fields.Integer()
     image_id = fields.Many2one("storage.image", required=True)
     category_id = fields.Many2one("product.category")
     tag_id = fields.Many2one(
