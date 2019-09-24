@@ -1,4 +1,4 @@
-exclude: "^(setup/)|.pot$|.po$"
+exclude: "^(setup/)|.pot$|.po$|README.rst"
 repos:
 - repo: https://github.com/ambv/black
   rev: 19.3b0
