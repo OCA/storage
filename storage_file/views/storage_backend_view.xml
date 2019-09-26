@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <field name="backend_type" position="after">
                 <field name="served_by"/>
-                <div class="alert alert-info" attrs="{'invisible': [('served_by', '!=', 'odoo')]}">
+                <div class="alert alert-info" role="alert" attrs="{'invisible': [('served_by', '!=', 'odoo')]}">
                     Served by Odoo option will use `web.base.url` as the base URL.
                     <br />Make sure this parameter is properly configured and accessible
                     from everwhere you want to access the service.
