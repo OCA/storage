@@ -10,8 +10,9 @@
 import logging
 import os
 
-from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
 from vcr_unittest import VCRMixin
+
+from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
 
 _logger = logging.getLogger(__name__)
 
@@ -30,13 +31,9 @@ class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
         self.backend.write(
             {
                 "backend_type": "amazon_s3",
-                "aws_bucket": os.environ.get(
-                    "AWS_BUCKET", "ak-testing-bucket"
-                ),
+                "aws_bucket": os.environ.get("AWS_BUCKET", "ak-testing-bucket"),
                 "aws_region": os.environ.get("AWS_REGION", "eu-west-3"),
-                "aws_access_key_id": os.environ.get(
-                    "AWS_ACCESS_KEY_ID", "FAKEID"
-                ),
+                "aws_access_key_id": os.environ.get("AWS_ACCESS_KEY_ID", "FAKEID"),
                 "aws_secret_access_key": os.environ.get(
                     "AWS_SECRET_ACCESS_KEY", "FAKESECRET"
                 ),
