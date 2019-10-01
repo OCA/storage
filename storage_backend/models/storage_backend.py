@@ -24,9 +24,7 @@ class StorageBackend(models.Model):
     )
 
     def _add_b64_data(self, relative_path, data, **kwargs):
-        return self._add_bin_data(
-            relative_path, base64.b64decode(data), **kwargs
-        )
+        return self._add_bin_data(relative_path, base64.b64decode(data), **kwargs)
 
     def _get_b64_data(self, relative_path, **kwargs):
         data = self._get_bin_data(relative_path, **kwargs)
