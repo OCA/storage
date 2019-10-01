@@ -1,9 +1,12 @@
 language: python
-sudo: required
-cache: pip
+sudo: false
+cache:
+  directories:
+  - $HOME/.cache/pip
+  - $HOME/.cache/pre-commit
 
 python:
-  - "3.6"
+  - "3.5"
 
 services:
   - docker
@@ -13,7 +16,6 @@ addons:
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
-      - python-lxml # because pip installation is slow
 
 stages:
   - linting
@@ -22,31 +24,32 @@ stages:
 jobs:
   include:
     - stage: linting
-      name: "Pre-Commit"
-      python: 3.6
-      install: pip install pre_commit
-      script: pre-commit run --all
+      name: "pre-commit"
+      python: "3.6"
+      install: pip install pre-commit
+      script: pre-commit run --all --show-diff-on-failure
+      after_success:
+      before_install:
+    - stage: test
+      env:
+        - TESTS="1" ODOO_REPO="odoo/odoo" MAKEPOT="1"
+    - stage: test
+      env:
+        - TESTS="1" ODOO_REPO="OCA/OCB"
 
 env:
   global:
-  - VERSION="12.0" TESTS="1" LINT_CHECK="0"
-
-  matrix:
-  - TESTS="0" LINT_CHECK="1"
-  - ODOO_REPO="OCA/OCB"
-  - UNIT_TEST="1" ODOO_REPO="OCA/OCB"
-#  - UNIT_TEST="1" ODOO_REPO="odoo/odoo"
+  - VERSION="12.0" TESTS="0" LINT_CHECK="0" MAKEPOT="0"
 
 before_install:
   - docker run -p 2222:22 -d atmoz/sftp:alpine foo:pass:::upload
 
 install:
-  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
 
 script:
-  - mv .isort.cfg .isoft.cfg.disabled # to avoid trouble with pylint odoo
   - travis_run_tests
 
 after_success:
