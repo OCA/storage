@@ -25,16 +25,10 @@ class ProductImageCommonCase(SavepointComponentCase):
         # Run the test with the demo user in order to check the access right
         self.user = self.env.ref("base.user_demo")
         self.user.write(
-            {
-                "groups_id": [
-                    (4, self.env.ref("storage_image.group_image_manager").id)
-                ]
-            }
+            {"groups_id": [(4, self.env.ref("storage_image.group_image_manager").id)]}
         )
         self.env = self.env(user=self.user)
-        self.template = self.env.ref(
-            "product.product_product_4_product_template"
-        )
+        self.template = self.env.ref("product.product_product_4_product_template")
         self.product_a = self.env.ref("product.product_product_4")
         self.product_b = self.env.ref("product.product_product_4b")
         self.product_c = self.env.ref("product.product_product_4c")

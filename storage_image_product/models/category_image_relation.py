@@ -16,9 +16,7 @@ class CategoryImageRelation(models.Model):
 
     image_id = fields.Many2one("storage.image", required=True)
     category_id = fields.Many2one("product.category")
-    tag_id = fields.Many2one(
-        "image.tag", domain=[("apply_on", "=", "category")]
-    )
+    tag_id = fields.Many2one("image.tag", domain=[("apply_on", "=", "category")])
 
     # for kanban view
     image_name = fields.Char(related="image_id.name")

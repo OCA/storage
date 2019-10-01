@@ -32,8 +32,6 @@ class ProductProduct(models.Model):
         for variant in self:
             res = self.env["product.image.relation"].browse([])
             for image in variant.image_ids:
-                if not (
-                    image.attribute_value_ids - variant.attribute_value_ids
-                ):
+                if not (image.attribute_value_ids - variant.attribute_value_ids):
                     res |= image
             variant.variant_image_ids = res
