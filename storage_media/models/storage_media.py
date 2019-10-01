@@ -21,9 +21,7 @@ class StorageMedia(models.Model):
     _description = "Storage Media"
     _inherits = {"storage.file": "file_id"}
 
-    file_id = fields.Many2one(
-        "storage.file", "File", required=True, ondelete="cascade"
-    )
+    file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
     media_type_id = fields.Many2one("storage.media.type", "Media Type")
 
     @api.onchange("name")
@@ -47,7 +45,5 @@ class StorageMedia(models.Model):
         Overload this method if you need something more powerfull
         """
         return int(
-            self.env["ir.config_parameter"].get_param(
-                "storage.media.backend_id"
-            )
+            self.env["ir.config_parameter"].get_param("storage.media.backend_id")
         )
