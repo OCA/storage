@@ -6,6 +6,7 @@ import base64
 import logging
 
 import requests
+
 from odoo import api, fields, models
 from odoo.tools import image_resize_image
 
@@ -22,9 +23,7 @@ class StorageThumbnail(models.Model):
     url_key = fields.Char(
         "Url key", help="Specific URL key for generating the url of the image"
     )
-    file_id = fields.Many2one(
-        "storage.file", "File", required=True, ondelete="cascade"
-    )
+    file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
     res_model = fields.Char(readonly=False, index=True)
     res_id = fields.Integer(readonly=False, index=True)
 
@@ -56,12 +55,7 @@ class StorageThumbnail(models.Model):
             .get_param("storage.image.resize.server")
         )
         if image_resize_server and image.backend_id.served_by != "odoo":
-            values = {
-                "url": image.url,
-                "width": size_x,
-                "height": size_y,
-                "fmt": fmt,
-            }
+            values = {"url": image.url, "width": size_x, "height": size_y, "fmt": fmt}
             url = image_resize_server.format(**values)
             return base64.encodestring(requests.get(url).content)
         return image_resize_image(image.data, size=(size_x, size_y))
@@ -80,9 +74,7 @@ class StorageThumbnail(models.Model):
 
     @api.model
     def create(self, vals):
-        vals.update(
-            {"backend_id": self._get_backend_id(), "file_type": "thumbnail"}
-        )
+        vals.update({"backend_id": self._get_backend_id(), "file_type": "thumbnail"})
         return super().create(vals)
 
     def unlink(self):
