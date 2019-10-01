@@ -4,20 +4,18 @@ import base64
 
 import werkzeug.utils
 import werkzeug.wrappers
+
 from odoo import http
-from odoo.addons.web.controllers.main import binary_content
 from odoo.http import request
+
+from odoo.addons.web.controllers.main import binary_content
 
 
 class StorageFileController(http.Controller):
     @http.route(
-        ["/storage.file/<string:slug_name_with_id>"],
-        type="http",
-        auth="public",
+        ["/storage.file/<string:slug_name_with_id>"], type="http", auth="public"
     )
-    def content_common(
-        self, slug_name_with_id, token=None, download=None, **kw
-    ):
+    def content_common(self, slug_name_with_id, token=None, download=None, **kw):
         storage_file = request.env["storage.file"].get_from_slug_name_with_id(
             slug_name_with_id
         )
@@ -29,9 +27,7 @@ class StorageFileController(http.Controller):
             download=download,
         )
         if status == 304:
-            response = werkzeug.wrappers.Response(
-                status=status, headers=headers
-            )
+            response = werkzeug.wrappers.Response(status=status, headers=headers)
         elif status == 301:
             return werkzeug.utils.redirect(content, code=301)
         elif status != 200:
