@@ -5,8 +5,9 @@
 import base64
 from urllib import parse
 
-from odoo.addons.component.tests.common import TransactionComponentCase
 from odoo.exceptions import AccessError, UserError
+
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 
 class StorageFileCase(TransactionComponentCase):
@@ -33,13 +34,9 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(stfile.mimetype, u"text/plain")
         self.assertEqual(stfile.extension, u".txt")
         self.assertEqual(stfile.filename, u"test of my_file")
-        self.assertEqual(
-            stfile.relative_path, u"test-of-my_file-%s.txt" % stfile.id
-        )
+        self.assertEqual(stfile.relative_path, u"test-of-my_file-%s.txt" % stfile.id)
         url = parse.urlparse(stfile.url)
-        self.assertEqual(
-            url.path, "/storage.file/test-of-my_file-%s.txt" % stfile.id
-        )
+        self.assertEqual(url.path, "/storage.file/test-of-my_file-%s.txt" % stfile.id)
         self.assertEqual(stfile.file_size, self.filesize)
 
     def test_get_from_slug_name_with_id(self):
@@ -67,8 +64,7 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(stfile.extension, u".txt")
         self.assertEqual(stfile.filename, u"test of my_file")
         self.assertEqual(
-            stfile.relative_path,
-            u"13/1322d9ccb3d257095185b205eadc9307aae5dc84",
+            stfile.relative_path, u"13/1322d9ccb3d257095185b205eadc9307aae5dc84"
         )
 
     def test_missing_name_strategy(self):
@@ -83,16 +79,13 @@ class StorageFileCase(TransactionComponentCase):
         stfile = self._create_storage_file()
         self.assertEqual(stfile.data, self.filedata)
         self.assertEqual(
-            stfile.url,
-            "https://cdn.example.com/test-of-my_file-%s.txt" % stfile.id,
+            stfile.url, "https://cdn.example.com/test-of-my_file-%s.txt" % stfile.id
         )
         self.assertEqual(stfile.file_size, self.filesize)
 
     def test_read_bin_size(self):
         stfile = self._create_storage_file()
-        self.assertEqual(
-            stfile.with_context(bin_size=True).data, "21.00 bytes"
-        )
+        self.assertEqual(stfile.with_context(bin_size=True).data, "21.00 bytes")
 
     def test_cannot_update_data(self):
         stfile = self._create_storage_file()
