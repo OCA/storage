@@ -7,8 +7,10 @@ import os
 from urllib import parse
 
 import requests_mock
-from odoo.addons.component.tests.common import TransactionComponentCase
+
 from odoo.exceptions import AccessError
+
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 
 class StorageImageCase(TransactionComponentCase):
@@ -17,11 +19,7 @@ class StorageImageCase(TransactionComponentCase):
         # Run the test with the demo user in order to check the access right
         self.user = self.env.ref("base.user_demo")
         self.user.write(
-            {
-                "groups_id": [
-                    (4, self.env.ref("storage_image.group_image_manager").id)
-                ]
-            }
+            {"groups_id": [(4, self.env.ref("storage_image.group_image_manager").id)]}
         )
         self.env = self.env(user=self.user)
 
@@ -67,19 +65,13 @@ class StorageImageCase(TransactionComponentCase):
 
     def test_create_specific_thumbnail(self):
         image = self._create_storage_image()
-        thumbnail = image.get_or_create_thumbnail(
-            100, 100, u"my-image-thumbnail"
-        )
+        thumbnail = image.get_or_create_thumbnail(100, 100, u"my-image-thumbnail")
         self.assertEqual(thumbnail.url_key, u"my-image-thumbnail")
-        self.assertEqual(
-            thumbnail.relative_path[0:26], u"my-image-thumbnail_100_100"
-        )
+        self.assertEqual(thumbnail.relative_path[0:26], u"my-image-thumbnail_100_100")
 
         # Check that method will return the same thumbnail
         # Check also that url_key have been slugified
-        new_thumbnail = image.get_or_create_thumbnail(
-            100, 100, u"My Image Thumbnail"
-        )
+        new_thumbnail = image.get_or_create_thumbnail(100, 100, u"My Image Thumbnail")
         self.assertEqual(new_thumbnail.id, thumbnail.id)
 
         # Check that method will return a new thumbnail
@@ -89,9 +81,7 @@ class StorageImageCase(TransactionComponentCase):
         self.assertNotEqual(new_thumbnail.id, thumbnail.id)
 
     def test_name_onchange(self):
-        image = self.env["storage.image"].new(
-            {"name": "Test-of image_name.png"}
-        )
+        image = self.env["storage.image"].new({"name": "Test-of image_name.png"})
         image.onchange_name()
         self.assertEqual(image.name, u"test-of-image_name.png")
         self.assertEqual(image.alt_name, u"Test of image name")
