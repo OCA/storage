@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -6,8 +5,9 @@
 import os
 
 from odoo import _
-from odoo.addons.component.core import Component
 from odoo.exceptions import AccessError
+
+from odoo.addons.component.core import Component
 
 
 def is_safe_path(basedir, path):
@@ -27,9 +27,7 @@ class FileSystemStorageBackend(Component):
         store the data inside the filestore in the directory 'storage".
         Becarefull if you implement your own custom path, end user
         should never be able to write or read unwanted filesystem file"""
-        full_path = super(FileSystemStorageBackend, self)._fullpath(
-            relative_path
-        )
+        full_path = super(FileSystemStorageBackend, self)._fullpath(relative_path)
         base_dir = self._basedir()
         full_path = os.path.join(base_dir, full_path)
         if not is_safe_path(base_dir, full_path):
