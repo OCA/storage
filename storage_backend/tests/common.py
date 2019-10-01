@@ -14,9 +14,7 @@ class GenericStoreCase(object):
         self.assertNotIn(self.filename, files)
 
         # Add a new file
-        self.backend._add_b64_data(
-            self.filename, self.filedata, mimetype=u"text/plain"
-        )
+        self.backend._add_b64_data(self.filename, self.filedata, mimetype=u"text/plain")
 
         # Check that the file exist
         files = self.backend._list()
@@ -41,9 +39,7 @@ class GenericStoreCase(object):
 
 class Common(TransactionComponentCase):
     def _add_access_right_to_user(self):
-        self.user.write(
-            {"groups_id": [(4, self.env.ref("base.group_system").id)]}
-        )
+        self.user.write({"groups_id": [(4, self.env.ref("base.group_system").id)]})
 
     def setUp(self):
         super(Common, self).setUp()
