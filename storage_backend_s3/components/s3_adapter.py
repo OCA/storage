@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -21,10 +20,9 @@ class S3StorageBackend(Component):
     _usage = "amazon_s3"
 
     def _get_resource(self):
-        account = self.collection._get_existing_keychain()
         return boto3.Session(
             aws_access_key_id=self.collection.aws_access_key_id,
-            aws_secret_access_key=account._get_password(),
+            aws_secret_access_key=self.collection.aws_secret_access_key,
             region_name=self.collection.aws_region,
         ).resource("s3")
 
