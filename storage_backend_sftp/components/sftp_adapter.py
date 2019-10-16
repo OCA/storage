@@ -84,6 +84,7 @@ class SftpStorageBackend(Component):
         with sftp(self.collection) as client:
             file_data = client.open(full_path, "rb")
             data = file_data.read()
+            # TODO: shouldn't we close the file?
         return data
 
     def list(self, relative_path):
