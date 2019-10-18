@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* storage_image
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__active
+msgid "Active"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__alt_name
+msgid "Alt Image name"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__checksum
+msgid "Checksum/SHA1"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__company_id
+msgid "Company"
+msgstr ""
+
+#. module: storage_image
+#. openerp-web
+#: code:addons/storage_image/static/src/js/storage_image.js:42
+#, python-format
+msgid "Could not display the selected image."
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__data
+msgid "Data"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_storage_image__data
+msgid "Datas"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__extension
+msgid "Extension"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__file_id
+msgid "File"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__file_size
+msgid "File Size"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_file__file_type
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__file_type
+#: model:ir.model.fields,field_description:storage_image.field_storage_thumbnail__file_type
+msgid "File Type"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__filename
+msgid "Filename without extension"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_storage_image__url
+msgid "HTTP accessible path to the file"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__human_file_size
+msgid "Human File Size"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__id
+msgid "ID"
+msgstr ""
+
+#. module: storage_image
+#. openerp-web
+#: code:addons/storage_image/static/src/js/storage_image.js:42
+#: model:ir.actions.act_window,name:storage_image.act_open_storage_image_view
+#: model:ir.ui.menu,name:storage_image.menu_storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_tree
+#: selection:storage.file,file_type:0
+#, python-format
+msgid "Image"
+msgstr ""
+
+#. module: storage_image
+#: model:res.groups,name:storage_image.group_image_manager
+msgid "Image Manager"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__image_medium_url
+msgid "Image Medium Url"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__image_small_url
+msgid "Image Small Url"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__mimetype
+msgid "Mime Type"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__name
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
+msgid "Name"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__relative_path
+msgid "Relative Path"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_storage_image__relative_path
+msgid "Relative location for backend"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__backend_id
+msgid "Storage"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model,name:storage_image.model_storage_file
+msgid "Storage File"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model,name:storage_image.model_storage_image
+msgid "Storage Image"
+msgstr ""
+
+#. module: storage_image
+#: selection:storage.file,file_type:0
+msgid "Thumbnail"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__thumbnail_ids
+msgid "Thumbnails"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__to_delete
+msgid "To Delete"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__url
+msgid "Url"
+msgstr ""
+
