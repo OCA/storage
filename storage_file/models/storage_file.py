@@ -39,37 +39,26 @@ class StorageFile(models.Model):
         store=True,
         help="HTTP accessible path to the file",
     )
-    relative_path = fields.Char(
-        readonly=True, help="Relative location for backend"
-    )
+    relative_path = fields.Char(readonly=True, help="Relative location for backend")
     file_size = fields.Integer("File Size")
     human_file_size = fields.Char(
         "Human File Size", compute="_compute_human_file_size", store=True
     )
     checksum = fields.Char("Checksum/SHA1", size=40, index=True, readonly=True)
     filename = fields.Char(
-        "Filename without extension",
-        compute="_compute_extract_filename",
-        store=True,
+        "Filename without extension", compute="_compute_extract_filename", store=True
     )
     extension = fields.Char(
         "Extension", compute="_compute_extract_filename", store=True
     )
-    mimetype = fields.Char(
-        "Mime Type", compute="_compute_extract_filename", store=True
-    )
+    mimetype = fields.Char("Mime Type", compute="_compute_extract_filename", store=True)
     data = fields.Binary(
-        help="Datas",
-        inverse="_inverse_data",
-        compute="_compute_data",
-        store=False,
+        help="Datas", inverse="_inverse_data", compute="_compute_data", store=False
     )
     to_delete = fields.Boolean()
     active = fields.Boolean(default=True)
     company_id = fields.Many2one(
-        "res.company",
-        "Company",
-        default=lambda self: self.env.user.company_id.id,
+        "res.company", "Company", default=lambda self: self.env.user.company_id.id
     )
     file_type = fields.Selection([])
 
@@ -87,10 +76,7 @@ class StorageFile(models.Model):
             for record in self:
                 if record.data:
                     raise UserError(
-                        _(
-                            "File can not be updated,"
-                            "remove it and create a new one"
-                        )
+                        _("File can not be updated," "remove it and create a new one")
                     )
         return super(StorageFile, self).write(vals)
 
@@ -102,8 +88,7 @@ class StorageFile(models.Model):
     def _slugify_name_with_id(self):
         return u"{}{}".format(
             slugify(
-                u"{}-{}".format(self.filename, self.id),
-                regex_pattern=REGEX_SLUGIFY,
+                u"{}-{}".format(self.filename, self.id), regex_pattern=REGEX_SLUGIFY
             ),
             self.extension,
         )
@@ -146,22 +131,16 @@ class StorageFile(models.Model):
             if self._context.get("bin_size"):
                 rec.data = rec.file_size
             elif rec.relative_path:
-                rec.data = rec.backend_id.sudo()._get_b64_data(
-                    rec.relative_path
-                )
+                rec.data = rec.backend_id.sudo()._get_b64_data(rec.relative_path)
             else:
                 rec.data = None
 
-    @api.depends(
-        "backend_id.served_by", "backend_id.base_url", "relative_path"
-    )
+    @api.depends("backend_id.served_by", "backend_id.base_url", "relative_path")
     def _compute_url(self):
         for record in self:
             if record.backend_id.served_by == "odoo":
                 base_url = (
-                    self.env["ir.config_parameter"]
-                    .sudo()
-                    .get_param("web.base.url")
+                    self.env["ir.config_parameter"].sudo().get_param("web.base.url")
                 )
                 record.url = u"{}/storage.file/{}".format(
                     base_url, record._slugify_name_with_id()

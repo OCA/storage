@@ -2,8 +2,9 @@ import base64
 import os
 from operator import attrgetter
 
-from odoo.addons.component.tests.common import TransactionComponentCase
 from odoo.fields import first
+
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 from .models import ModelTest
 
@@ -36,10 +37,7 @@ class TestStorageThumbnail(TransactionComponentCase):
         parents = list(parents)
         parents.extend(ModelTest._inherits.keys())
         parents.append("base")
-        funcs = [
-            attrgetter(kind + "_children")
-            for kind in ["_inherits", "_inherit"]
-        ]
+        funcs = [attrgetter(kind + "_children") for kind in ["_inherits", "_inherit"]]
         for parent in parents:
             for func in funcs:
                 children = func(env.registry[parent])
