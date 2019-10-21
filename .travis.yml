@@ -8,9 +8,6 @@ cache:
 python:
   - "3.5"
 
-services:
-  - docker
-
 addons:
   postgresql: "9.6"
   apt:
@@ -40,9 +37,6 @@ jobs:
 env:
   global:
   - VERSION="12.0" TESTS="0" LINT_CHECK="0" MAKEPOT="0"
-
-before_install:
-  - docker run -p 2222:22 -d atmoz/sftp:alpine foo:pass:::upload
 
 install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
