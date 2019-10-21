@@ -11,7 +11,7 @@
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "development_status": "Stable/Production",
-    "installable": True,
+    "installable": False,
     "depends": ["storage_image", "product", "sale"],  # only for the menu
     "data": [
         "security/ir.model.access.csv",
