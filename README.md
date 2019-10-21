@@ -1,9 +1,17 @@
-[![Build Status](https://travis-ci.org/akretion/storage.svg?branch=10.0)](https://travis-ci.org/akretion/storage)
-[![codecov](https://codecov.io/gh/akretion/storage/branch/10.0/graph/badge.svg)](https://codecov.io/gh/akretion/storage/branch/10.0)
-[![Code Climate](https://codeclimate.com/github/akretion/storage/badges/gpa.svg)](https://codeclimate.com/github/akretion/storage)
+[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/275/13.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-storage-275)
+[![Build Status](https://travis-ci.com/OCA/storage.svg?branch=13.0)](https://travis-ci.com/OCA/storage)
+[![codecov](https://codecov.io/gh/OCA/storage/branch/13.0/graph/badge.svg)](https://codecov.io/gh/OCA/storage)
 
+# Storage
 
-Storage
-=================
+Storage addons for Odoo
 
-Storage module for odoo
+[//]: # (addons)
+This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+[//]: # (end addons)
+
+----
+
+OCA, or the [Odoo Community Association](http://odoo-community.org/), is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.
