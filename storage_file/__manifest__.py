@@ -12,7 +12,7 @@
     "license": "AGPL-3",
     "development_status": "Stable/Production",
     "application": False,
-    "installable": True,
+    "installable": False,
     "external_dependencies": {"python": ["slugify"]},
     "depends": ["storage_backend"],
     "data": [
