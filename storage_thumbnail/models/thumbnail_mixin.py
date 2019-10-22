@@ -34,8 +34,6 @@ class ThumbnailMixing(models.AbstractModel):
 
     def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
         self.ensure_one()
-        # preserve the prefetch when changing context
-        self = self.with_context(bin_size=False).with_prefetch(self._prefetch)
         if url_key:
             url_key = slugify(url_key)
         thumbnail = self.env["storage.thumbnail"].browse()
@@ -49,10 +47,13 @@ class ThumbnailMixing(models.AbstractModel):
             vals = self.env["storage.thumbnail"]._prepare_thumbnail(
                 self, size_x, size_y, url_key
             )
-            # use the relation to create the thumbnail to be sure that the
-            # record is added to the cache of this relation.
-            self.write({"thumbnail_ids": [(0, 0, vals)]})
-            return self.get_or_create_thumbnail(size_x, size_y, url_key)
+            thumbnail = self.thumbnail_ids.create(vals)
+            # invalidate field since a new record is created
+            # The actual model is a mixin, therefore the inverse into
+            # storage.thumbnail is not defined as a one2many to this mixin.
+            # As consequence, the ORM is not able to trigger the invalidation
+            # of thumbnail_ids on our mixin
+            self.thumbnail_ids.refresh()
         return thumbnail
 
     def generate_odoo_thumbnail(self):
