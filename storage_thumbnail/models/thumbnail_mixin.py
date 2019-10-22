@@ -15,7 +15,7 @@ except ImportError:
     _logger.debug("Cannot `import slugify`.")
 
 
-class ThumbnailMixing(models.AbstractModel):
+class ThumbnailMixin(models.AbstractModel):
     _name = "thumbnail.mixin"
     _description = "Thumbnail Mixin add the thumbnail capability"
 
@@ -75,6 +75,6 @@ class ThumbnailMixing(models.AbstractModel):
 
     @api.model
     def create(self, vals):
-        record = super(ThumbnailMixing, self).create(vals)
+        record = super(ThumbnailMixin, self).create(vals)
         record.generate_odoo_thumbnail()
         return record
