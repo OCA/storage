@@ -8,7 +8,7 @@ import logging
 import requests
 
 from odoo import api, fields, models
-from odoo.tools import image_resize_image
+from odoo.tools import ImageProcess
 
 _logger = logging.getLogger(__name__)
 
@@ -58,7 +58,8 @@ class StorageThumbnail(models.Model):
             values = {"url": image.url, "width": size_x, "height": size_y, "fmt": fmt}
             url = image_resize_server.format(**values)
             return base64.encodestring(requests.get(url).content)
-        return image_resize_image(image.data, size=(size_x, size_y))
+        image_process = ImageProcess(image.data)
+        return image_process.resize(max_width=size_x, max_height=size_y).image_base64()
 
     def _get_backend_id(self):
         """Choose the correct backend.
