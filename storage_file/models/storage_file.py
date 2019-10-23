@@ -83,7 +83,7 @@ class StorageFile(models.Model):
     @api.depends("file_size")
     def _compute_human_file_size(self):
         for record in self:
-            record.human_file_size = human_size(self.file_size)
+            record.human_file_size = human_size(record.file_size)
 
     def _slugify_name_with_id(self):
         return u"{}{}".format(
@@ -153,8 +153,11 @@ class StorageFile(models.Model):
     @api.depends("name")
     def _compute_extract_filename(self):
         for rec in self:
-            rec.filename, rec.extension = os.path.splitext(rec.name)
-            mime, __ = mimetypes.guess_type(rec.name)
+            if rec.name:
+                rec.filename, rec.extension = os.path.splitext(rec.name)
+                mime, enc = mimetypes.guess_type(rec.name)
+            else:
+                rec.filename = rec.extension = mime = False
             rec.mimetype = mime
 
     def unlink(self):
