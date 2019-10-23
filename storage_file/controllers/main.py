@@ -8,9 +8,6 @@ import werkzeug.wrappers
 from odoo import http
 from odoo.http import request
 
-from odoo.addons.web.controllers.main import binary_content
-
-
 class StorageFileController(http.Controller):
     @http.route(
         ["/storage.file/<string:slug_name_with_id>"], type="http", auth="public"
@@ -19,7 +16,7 @@ class StorageFileController(http.Controller):
         storage_file = request.env["storage.file"].get_from_slug_name_with_id(
             slug_name_with_id
         )
-        status, headers, content = binary_content(
+        status, headers, content = request.env['ir.http'].binary_content(
             model=storage_file._name,
             id=storage_file.id,
             field="data",
