@@ -6,8 +6,7 @@
         <field name="inherit_id" ref="product.product_kanban_view"/>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <field name="image_small" position="replace">
-                <field name="image_small" invisible="True"/>
+            <field name="id" position="after">
                 <field name="variant_image_small_url" widget="image_url" class="oe_avatar"/>
             </field>
             <xpath expr="//div[hasclass('o_kanban_image')]/img" position="replace">
@@ -21,8 +20,8 @@
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
-            <field name="image_medium" position="replace">
-                <field name="image_medium" invisible="True"/>
+            <field name="image_1920" position="replace">
+                <field name="image_1920" invisible="True"/>
                 <field name="variant_image_medium_url" widget="image_url" class="oe_avatar"/>
             </field>
             <xpath expr="//page[@name='sales']" position="after">
@@ -38,8 +37,8 @@
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
         <field name="arch" type="xml">
-            <field name="image_medium" position="replace">
-                <field name="image_medium" invisible="True"/>
+            <field name="image_1920" position="replace">
+                <field name="image_1920" invisible="True"/>
                 <field name="variant_image_medium_url" widget="image_url" class="oe_avatar"/>
             </field>
         </field>
