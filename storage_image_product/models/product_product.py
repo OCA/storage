@@ -27,11 +27,11 @@ class ProductProduct(models.Model):
         string="Variant Images",
     )
 
-    @api.depends("product_tmpl_id.image_ids", "attribute_value_ids")
+    @api.depends("product_tmpl_id.image_ids.attribute_value_ids", "product_template_attribute_value_ids")
     def _compute_variant_image_ids(self):
         for variant in self:
             res = self.env["product.image.relation"].browse([])
             for image in variant.image_ids:
-                if not (image.attribute_value_ids - variant.attribute_value_ids):
+                if not (image.attribute_value_ids - variant.mapped("product_template_attribute_value_ids.product_attribute_value_id")):
                     res |= image
             variant.variant_image_ids = res
