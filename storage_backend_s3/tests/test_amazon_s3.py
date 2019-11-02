@@ -30,11 +30,24 @@ class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
         self.backend.write(
             {
                 "backend_type": "amazon_s3",
-                "aws_bucket": os.environ.get("AWS_BUCKET", "ak-testing-bucket"),
-                "aws_region": os.environ.get("AWS_REGION", "eu-west-3"),
-                "aws_access_key_id": os.environ.get("AWS_ACCESS_KEY_ID", "FAKEID"),
+                "aws_bucket": os.environ.get(
+                    "AWS_BUCKET", "test-storage-backend"
+                ),
+                "aws_access_key_id": os.environ.get("AWS_ACCESS_KEY_ID", ""),
                 "aws_secret_access_key": os.environ.get(
-                    "AWS_SECRET_ACCESS_KEY", "FAKESECRET"
+                    "AWS_SECRET_ACCESS_KEY", ""
+                ),
+                "aws_host": os.environ.get(
+                    "AWS_HOST", "https://sos-ch-dk-2.exo.io"
                 ),
             }
         )
+
+    def test_params(self):
+        adapter = self.backend._get_adapter()
+        self.backend.aws_host = ""
+        params = adapter._aws_bucket_params()
+        self.assertNotIn("endpoint_url", params)
+        self.backend.aws_host = "another.s3.endpoint.com"
+        params = adapter._aws_bucket_params()
+        self.assertEqual(params["endpoint_url"], "another.s3.endpoint.com")
