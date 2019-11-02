@@ -154,7 +154,7 @@ class StorageFile(models.Model):
     def _compute_extract_filename(self):
         for rec in self:
             rec.filename, rec.extension = os.path.splitext(rec.name)
-            mime, enc = mimetypes.guess_type(rec.name)
+            mime, __ = mimetypes.guess_type(rec.name)
             rec.mimetype = mime
 
     def unlink(self):
