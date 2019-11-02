@@ -2,138 +2,503 @@ interactions:
 - request:
     body: null
     headers:
-      User-Agent: [Boto3/1.7.40 Python/2.7.9 Linux/4.15.0-47-generic Botocore/1.10.40
-          Resource]
-      X-Amz-Content-SHA256: [e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
-      X-Amz-Date: [20190411T090837Z]
-    method: !!python/unicode 'GET'
-    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/?prefix=&encoding-type=url
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ3Wg==
+    method: HEAD
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend
   response:
-    body: {string: !!python/unicode '<?xml version="1.0" encoding="UTF-8"?>
-
-        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>ak-testing-bucket</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c78f2ff7d9f002478ab05/files/slide-2.png</Key><LastModified>2018-07-04T07:36:19.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c78f3ff7d9f002478ab08/files/slide-1.png</Key><LastModified>2018-07-04T07:36:20.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c7969ff7d9f002478abe6/files/slide-2.png</Key><LastModified>2018-07-04T07:38:18.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c7969ff7d9f002478abe9/files/slide-1.png</Key><LastModified>2018-07-04T07:38:18.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c79a8ff7d9f002478ac17/files/slide-2.png</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c79a8ff7d9f002478ac1a/files/slide-1.png</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0b/files/rawpixel-com-268376-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;99c8da16055e2d2c259925047e354b4f&quot;</ETag><Size>221985</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0b/files/william-iven-5895-thumb.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;54c5877c668be615d66829af706af9f7&quot;</ETag><Size>36972</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0e/files/alphacolor-13-172877-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;0cff59cf33745eb0133683cefe1bcc0d&quot;</ETag><Size>229370</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0e/files/alphacolor-13-172877-thumb.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;ab4e5c8a80ee3ed56d948808e0284acd&quot;</ETag><Size>40957</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab11/files/jeff-sheldon-3225-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;e81c06a564d313ae08050314eb669166&quot;</ETag><Size>221049</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab11/files/jeff-sheldon-3225-thumb.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;add79fc36b7f75393e935a94e36188bb&quot;</ETag><Size>111825</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab14/files/rawpixel-com-211021-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;720b38c5b73c0d5c989fc3471b1b5247&quot;</ETag><Size>239027</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab14/files/rawpixel-com-211021-thumb-1.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;96588038b60a089ec9082d9f6bdf19ce&quot;</ETag><Size>225120</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab17/files/brooke-lark-175184-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:23.000Z</LastModified><ETag>&quot;857a7cf78efb4dcf31eb1d1d3210a426&quot;</ETag><Size>372090</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab17/files/brooke-lark-175184-thubnail.jpg</Key><LastModified>2018-07-04T07:39:23.000Z</LastModified><ETag>&quot;dfe0c0ca1ab1e70a1e13ff37da762351&quot;</ETag><Size>54513</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/FontAwesome.otf</Key><LastModified>2018-06-29T13:44:25.000Z</LastModified><ETag>&quot;0d2717cd5d853e5c765ca032dfd41a4d&quot;</ETag><Size>134808</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/Lato-Black.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;77d353744697c77955f9bacc7f3ed90a&quot;</ETag><Size>114588</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.eot</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;f4769f9bdb7466be65088239c12046d1&quot;</ETag><Size>20127</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.svg</Key><LastModified>2018-06-29T13:44:33.000Z</LastModified><ETag>&quot;89889688147bd7575d6327160d64e760&quot;</ETag><Size>108738</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.ttf</Key><LastModified>2018-06-29T13:44:33.000Z</LastModified><ETag>&quot;e18bbf611f2a2e43afc071aa2f4e1512&quot;</ETag><Size>45404</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.woff</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;fa2772327f55d8198301fdb8bcfc8158&quot;</ETag><Size>23424</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.woff2</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;448c34a56d699c29117adc64c43affeb&quot;</ETag><Size>18028</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.eot</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;674f50d287a8c48dc19ba404d20fe713&quot;</ETag><Size>165742</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.svg</Key><LastModified>2018-06-29T13:44:32.000Z</LastModified><ETag>&quot;912ec66d7572ff821749319396470bde&quot;</ETag><Size>444379</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;b06871f281fee6b241d60582ae9369b9&quot;</ETag><Size>165548</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.woff</Key><LastModified>2018-06-29T13:44:25.000Z</LastModified><ETag>&quot;fee66e712a8a08eef5805a46892932ad&quot;</ETag><Size>98024</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.woff2</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;af7ae505a9eed503f8b8e6982036873e&quot;</ETag><Size>77160</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.eot</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;ae37590ab05e9c625bcabf1759ab9dc2&quot;</ETag><Size>98620</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.svg</Key><LastModified>2018-06-29T13:44:28.000Z</LastModified><ETag>&quot;fb0cbe85f42e49383ac4764fd3211e66&quot;</ETag><Size>507478</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.ttf</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;c09b5960237e462582aa7b66411e57d5&quot;</ETag><Size>98384</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.woff</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;b5f5ef6112d693b968ad9d1646eea529&quot;</ETag><Size>63712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.woff2</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;c971847be1cd6c17abca74025b4f36ae&quot;</ETag><Size>54420</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.eot</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;d7de79cae74b02f2d377786656f1d816&quot;</ETag><Size>31156</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.svg</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;c15c758e798dd295b471b69ac409ef02&quot;</ETag><Size>107199</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.ttf</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;6bad016cd4efb36aa82618f55f0f660d&quot;</ETag><Size>30928</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.woff</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;562010a46ef5216ac76a08c2ceb99985&quot;</ETag><Size>14712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.woff2</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;032ba2e0f134a35ed87df1564936d352&quot;</ETag><Size>12220</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.eot</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;10c304f14cd2f6b6bed2ae7f574f03af&quot;</ETag><Size>102152</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.svg</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;9948e588ad4ca0db716da1c4d57f900e&quot;</ETag><Size>378215</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.ttf</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;3f07fd745b951055c656cf27db9a31d5&quot;</ETag><Size>101932</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.woff</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;c9a328cc89d13b8959e710d82b4b40d1&quot;</ETag><Size>48704</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.woff2</Key><LastModified>2018-06-29T13:44:28.000Z</LastModified><ETag>&quot;f9b85c9463af7103b9b24bbbf09a06ed&quot;</ETag><Size>38784</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/lato-regular.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;7f690e503a254e0b8349aec0177e07aa&quot;</ETag><Size>120196</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/sf-distant-galaxy.ttf</Key><LastModified>2018-06-29T13:44:31.000Z</LastModified><ETag>&quot;75c0119ca475dea587b8661501320be5&quot;</ETag><Size>58860</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/banner-categories.jpg</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;4cd91e4b4d53a8be36a87c1901509025&quot;</ETag><Size>157481</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/banner-info.jpg</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;43bc85397f794a217ca6302f31132a83&quot;</ETag><Size>284177</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/cart-icon.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;27023441e91a1bfd49e853083c5be189&quot;</ETag><Size>1719</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/favicon.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;8430a7e6b73eaafb75d72bcd43351789&quot;</ETag><Size>4295</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/powered-by-shopinvader-logo.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;0b28631a788bc3bc5b4e8fbffc77a6fc&quot;</ETag><Size>4995</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/user-icon.png</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;9a4cbcac50e8a8dc8716602dc6939506&quot;</ETag><Size>1519</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/address_autocomplete.js</Key><LastModified>2018-06-29T13:44:58.000Z</LastModified><ETag>&quot;825f802393fe3cab46aca96f85e808e6&quot;</ETag><Size>1214</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/application.js</Key><LastModified>2018-06-29T13:44:56.000Z</LastModified><ETag>&quot;7b27f5eedf5b6a8765911598d657af0b&quot;</ETag><Size>3676</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/bootstrap3.min.js</Key><LastModified>2018-06-29T13:45:01.000Z</LastModified><ETag>&quot;c9599ff427c45c06987d2a77504061d0&quot;</ETag><Size>36641</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/bootstrap4.min.js</Key><LastModified>2018-06-29T13:45:02.000Z</LastModified><ETag>&quot;52fb01bb48c42d311b54a638fc3bbb66&quot;</ETag><Size>51130</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.min.js</Key><LastModified>2018-07-04T07:31:04.000Z</LastModified><ETag>&quot;a04a0b2062dba95a1c195ba8ba81da33&quot;</ETag><Size>96438</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.slidereveal.min.js</Key><LastModified>2018-06-29T13:44:56.000Z</LastModified><ETag>&quot;8b3f238f0edcb6b1bd2e0a1ca8dbadcf&quot;</ETag><Size>2636</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.touchSwipe.min.js</Key><LastModified>2018-06-29T13:44:54.000Z</LastModified><ETag>&quot;2ca5cd81e4decec5d563ccc714c13f75&quot;</ETag><Size>10666</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/popper.min.js</Key><LastModified>2018-07-04T07:31:02.000Z</LastModified><ETag>&quot;7fadcd304c51c2bf074dab5d173fad96&quot;</ETag><Size>18900</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/search.js</Key><LastModified>2018-06-29T13:44:55.000Z</LastModified><ETag>&quot;496ab01d638a8d9be0eaec5d9357da99&quot;</ETag><Size>6901</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/search_autocomplete.js</Key><LastModified>2018-06-29T13:44:54.000Z</LastModified><ETag>&quot;abce4f520d568e5e8a27c876cccf07a5&quot;</ETag><Size>2926</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/services-worker.js</Key><LastModified>2018-06-29T13:44:55.000Z</LastModified><ETag>&quot;c16e4b803908e63721393b2aed92cc1a&quot;</ETag><Size>627</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/shopinvader.jquery.js</Key><LastModified>2018-06-29T13:44:58.000Z</LastModified><ETag>&quot;205cc517dbd11156b5e88ccd226acead&quot;</ETag><Size>1273</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/application.css</Key><LastModified>2018-07-04T07:39:34.000Z</LastModified><ETag>&quot;aefd53a2b193daebbd450704ef07e76d&quot;</ETag><Size>175035</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;921023af04e9bfbdfcd9e908ae41838a&quot;</ETag><Size>1660</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap-grid.css</Key><LastModified>2018-06-29T13:44:53.000Z</LastModified><ETag>&quot;3bf136721f307910a86b0c12c075b00a&quot;</ETag><Size>18934</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap-reboot.css</Key><LastModified>2018-06-29T13:44:53.000Z</LastModified><ETag>&quot;17e26b4ec047a23fae14084355c307f3&quot;</ETag><Size>3894</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap.css</Key><LastModified>2018-06-29T13:44:52.000Z</LastModified><ETag>&quot;7dc28db4b228b26a897793e820f962c0&quot;</ETag><Size>122618</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/font-awesome.min.css</Key><LastModified>2018-06-29T13:44:50.000Z</LastModified><ETag>&quot;dab5d93045d08b50c34834f543ef2860&quot;</ETag><Size>31000</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-brands.css</Key><LastModified>2018-06-29T13:44:44.000Z</LastModified><ETag>&quot;3b03a4e1b155ac50c811bc8fb5d92a56&quot;</ETag><Size>719</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-regular.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;cca47fb43f791546264ddcf85d46872c&quot;</ETag><Size>734</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-solid.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;fa42ec4d3ddd4f4dd6f794ecaa5efc9a&quot;</ETag><Size>726</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fontawesome.css</Key><LastModified>2018-06-29T13:44:44.000Z</LastModified><ETag>&quot;5664ed3aceb3f01878afb4ccb720708e&quot;</ETag><Size>35125</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.eot</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;ae37590ab05e9c625bcabf1759ab9dc2&quot;</ETag><Size>98620</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.svg</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;fb0cbe85f42e49383ac4764fd3211e66&quot;</ETag><Size>507478</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.ttf</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;c09b5960237e462582aa7b66411e57d5&quot;</ETag><Size>98384</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.woff</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;b5f5ef6112d693b968ad9d1646eea529&quot;</ETag><Size>63712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.woff2</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;c971847be1cd6c17abca74025b4f36ae&quot;</ETag><Size>54420</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.eot</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;d7de79cae74b02f2d377786656f1d816&quot;</ETag><Size>31156</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.svg</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;c15c758e798dd295b471b69ac409ef02&quot;</ETag><Size>107199</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.ttf</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;6bad016cd4efb36aa82618f55f0f660d&quot;</ETag><Size>30928</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.woff</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;562010a46ef5216ac76a08c2ceb99985&quot;</ETag><Size>14712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.woff2</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;032ba2e0f134a35ed87df1564936d352&quot;</ETag><Size>12220</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.eot</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;10c304f14cd2f6b6bed2ae7f574f03af&quot;</ETag><Size>102152</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.svg</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;9948e588ad4ca0db716da1c4d57f900e&quot;</ETag><Size>378215</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.ttf</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;3f07fd745b951055c656cf27db9a31d5&quot;</ETag><Size>101932</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.woff</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;c9a328cc89d13b8959e710d82b4b40d1&quot;</ETag><Size>48704</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.woff2</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;f9b85c9463af7103b9b24bbbf09a06ed&quot;</ETag><Size>38784</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>uploaded_assets/5b363695b82aa70027161e8d/icon.png</Key><LastModified>2018-06-29T13:44:19.000Z</LastModified><ETag>&quot;8430a7e6b73eaafb75d72bcd43351789&quot;</ETag><Size>4295</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>'}
+    body:
+      string: ''
     headers:
-      content-type: [application/xml]
-      date: ['Thu, 11 Apr 2019 09:08:39 GMT']
-      server: [AmazonS3]
-      transfer-encoding: [chunked]
-      x-amz-bucket-region: [eu-west-3]
-      x-amz-id-2: [Jj7HLNDjYTEW7pGeO+25kO8E+0wEG4ROWLqZW5QBW9Dd/RAa1iOwfqu75souBcfEdd8WLWDCqDA=]
-      x-amz-request-id: [32DE59095E04EF5F]
-    status: {code: 200, message: OK}
-- request:
-    body: !!python/object:StringIO.StringIO
-      buf: This is a simple file
-      buflist: []
-      closed: false
-      len: 21
-      pos: 0
-      softspace: 0
-    headers:
-      Cache-Control: ['max-age=31536000, public']
-      Content-Length: ['21']
-      Content-MD5: [GQqjEXsRqrPyxfTl99nkAg==]
-      Content-Type: [text/plain]
-      Expect: [100-continue]
-      User-Agent: [Boto3/1.7.40 Python/2.7.9 Linux/4.15.0-47-generic Botocore/1.10.40
-          Resource]
-      X-Amz-Content-SHA256: [UNSIGNED-PAYLOAD]
-      X-Amz-Date: [20190411T090838Z]
-    method: !!python/unicode 'PUT'
-    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/test_file.txt
-  response:
-    body: {string: !!python/unicode ''}
-    headers:
-      content-length: ['0']
-      date: ['Thu, 11 Apr 2019 09:08:39 GMT']
-      etag: ['"190aa3117b11aab3f2c5f4e5f7d9e402"']
-      server: [AmazonS3]
-      x-amz-id-2: [aCasC7srqbXYyy0VdyH2H5GJClt2GwoiN++v5ncexWIzMoIbVwLMVFwVqaj9c8RN910D/yETIBg=]
-      x-amz-request-id: [79A9DEC19AA46D7A]
-    status: {code: 200, message: OK}
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:47 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 29a34678-f089-4df0-82be-6ea48fa074fc
+      x-amz-request-id:
+      - 29a34678-f089-4df0-82be-6ea48fa074fc
+      x-amz-requestid:
+      - 29a34678-f089-4df0-82be-6ea48fa074fc
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
-      User-Agent: [Boto3/1.7.40 Python/2.7.9 Linux/4.15.0-47-generic Botocore/1.10.40
-          Resource]
-      X-Amz-Content-SHA256: [e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
-      X-Amz-Date: [20190411T090838Z]
-    method: !!python/unicode 'GET'
-    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/?prefix=&encoding-type=url
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ3Wg==
+    method: GET
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend?encoding-type=url&prefix=
   response:
-    body: {string: !!python/unicode '<?xml version="1.0" encoding="UTF-8"?>
-
-        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>ak-testing-bucket</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c78f2ff7d9f002478ab05/files/slide-2.png</Key><LastModified>2018-07-04T07:36:19.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c78f3ff7d9f002478ab08/files/slide-1.png</Key><LastModified>2018-07-04T07:36:20.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c7969ff7d9f002478abe6/files/slide-2.png</Key><LastModified>2018-07-04T07:38:18.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c7969ff7d9f002478abe9/files/slide-1.png</Key><LastModified>2018-07-04T07:38:18.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c79a8ff7d9f002478ac17/files/slide-2.png</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c79a8ff7d9f002478ac1a/files/slide-1.png</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0b/files/rawpixel-com-268376-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;99c8da16055e2d2c259925047e354b4f&quot;</ETag><Size>221985</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0b/files/william-iven-5895-thumb.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;54c5877c668be615d66829af706af9f7&quot;</ETag><Size>36972</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0e/files/alphacolor-13-172877-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;0cff59cf33745eb0133683cefe1bcc0d&quot;</ETag><Size>229370</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0e/files/alphacolor-13-172877-thumb.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;ab4e5c8a80ee3ed56d948808e0284acd&quot;</ETag><Size>40957</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab11/files/jeff-sheldon-3225-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;e81c06a564d313ae08050314eb669166&quot;</ETag><Size>221049</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab11/files/jeff-sheldon-3225-thumb.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;add79fc36b7f75393e935a94e36188bb&quot;</ETag><Size>111825</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab14/files/rawpixel-com-211021-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;720b38c5b73c0d5c989fc3471b1b5247&quot;</ETag><Size>239027</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab14/files/rawpixel-com-211021-thumb-1.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;96588038b60a089ec9082d9f6bdf19ce&quot;</ETag><Size>225120</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab17/files/brooke-lark-175184-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:23.000Z</LastModified><ETag>&quot;857a7cf78efb4dcf31eb1d1d3210a426&quot;</ETag><Size>372090</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab17/files/brooke-lark-175184-thubnail.jpg</Key><LastModified>2018-07-04T07:39:23.000Z</LastModified><ETag>&quot;dfe0c0ca1ab1e70a1e13ff37da762351&quot;</ETag><Size>54513</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/FontAwesome.otf</Key><LastModified>2018-06-29T13:44:25.000Z</LastModified><ETag>&quot;0d2717cd5d853e5c765ca032dfd41a4d&quot;</ETag><Size>134808</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/Lato-Black.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;77d353744697c77955f9bacc7f3ed90a&quot;</ETag><Size>114588</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.eot</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;f4769f9bdb7466be65088239c12046d1&quot;</ETag><Size>20127</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.svg</Key><LastModified>2018-06-29T13:44:33.000Z</LastModified><ETag>&quot;89889688147bd7575d6327160d64e760&quot;</ETag><Size>108738</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.ttf</Key><LastModified>2018-06-29T13:44:33.000Z</LastModified><ETag>&quot;e18bbf611f2a2e43afc071aa2f4e1512&quot;</ETag><Size>45404</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.woff</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;fa2772327f55d8198301fdb8bcfc8158&quot;</ETag><Size>23424</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.woff2</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;448c34a56d699c29117adc64c43affeb&quot;</ETag><Size>18028</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.eot</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;674f50d287a8c48dc19ba404d20fe713&quot;</ETag><Size>165742</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.svg</Key><LastModified>2018-06-29T13:44:32.000Z</LastModified><ETag>&quot;912ec66d7572ff821749319396470bde&quot;</ETag><Size>444379</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;b06871f281fee6b241d60582ae9369b9&quot;</ETag><Size>165548</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.woff</Key><LastModified>2018-06-29T13:44:25.000Z</LastModified><ETag>&quot;fee66e712a8a08eef5805a46892932ad&quot;</ETag><Size>98024</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.woff2</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;af7ae505a9eed503f8b8e6982036873e&quot;</ETag><Size>77160</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.eot</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;ae37590ab05e9c625bcabf1759ab9dc2&quot;</ETag><Size>98620</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.svg</Key><LastModified>2018-06-29T13:44:28.000Z</LastModified><ETag>&quot;fb0cbe85f42e49383ac4764fd3211e66&quot;</ETag><Size>507478</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.ttf</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;c09b5960237e462582aa7b66411e57d5&quot;</ETag><Size>98384</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.woff</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;b5f5ef6112d693b968ad9d1646eea529&quot;</ETag><Size>63712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.woff2</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;c971847be1cd6c17abca74025b4f36ae&quot;</ETag><Size>54420</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.eot</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;d7de79cae74b02f2d377786656f1d816&quot;</ETag><Size>31156</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.svg</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;c15c758e798dd295b471b69ac409ef02&quot;</ETag><Size>107199</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.ttf</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;6bad016cd4efb36aa82618f55f0f660d&quot;</ETag><Size>30928</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.woff</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;562010a46ef5216ac76a08c2ceb99985&quot;</ETag><Size>14712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.woff2</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;032ba2e0f134a35ed87df1564936d352&quot;</ETag><Size>12220</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.eot</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;10c304f14cd2f6b6bed2ae7f574f03af&quot;</ETag><Size>102152</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.svg</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;9948e588ad4ca0db716da1c4d57f900e&quot;</ETag><Size>378215</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.ttf</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;3f07fd745b951055c656cf27db9a31d5&quot;</ETag><Size>101932</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.woff</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;c9a328cc89d13b8959e710d82b4b40d1&quot;</ETag><Size>48704</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.woff2</Key><LastModified>2018-06-29T13:44:28.000Z</LastModified><ETag>&quot;f9b85c9463af7103b9b24bbbf09a06ed&quot;</ETag><Size>38784</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/lato-regular.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;7f690e503a254e0b8349aec0177e07aa&quot;</ETag><Size>120196</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/sf-distant-galaxy.ttf</Key><LastModified>2018-06-29T13:44:31.000Z</LastModified><ETag>&quot;75c0119ca475dea587b8661501320be5&quot;</ETag><Size>58860</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/banner-categories.jpg</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;4cd91e4b4d53a8be36a87c1901509025&quot;</ETag><Size>157481</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/banner-info.jpg</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;43bc85397f794a217ca6302f31132a83&quot;</ETag><Size>284177</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/cart-icon.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;27023441e91a1bfd49e853083c5be189&quot;</ETag><Size>1719</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/favicon.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;8430a7e6b73eaafb75d72bcd43351789&quot;</ETag><Size>4295</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/powered-by-shopinvader-logo.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;0b28631a788bc3bc5b4e8fbffc77a6fc&quot;</ETag><Size>4995</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/user-icon.png</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;9a4cbcac50e8a8dc8716602dc6939506&quot;</ETag><Size>1519</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/address_autocomplete.js</Key><LastModified>2018-06-29T13:44:58.000Z</LastModified><ETag>&quot;825f802393fe3cab46aca96f85e808e6&quot;</ETag><Size>1214</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/application.js</Key><LastModified>2018-06-29T13:44:56.000Z</LastModified><ETag>&quot;7b27f5eedf5b6a8765911598d657af0b&quot;</ETag><Size>3676</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/bootstrap3.min.js</Key><LastModified>2018-06-29T13:45:01.000Z</LastModified><ETag>&quot;c9599ff427c45c06987d2a77504061d0&quot;</ETag><Size>36641</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/bootstrap4.min.js</Key><LastModified>2018-06-29T13:45:02.000Z</LastModified><ETag>&quot;52fb01bb48c42d311b54a638fc3bbb66&quot;</ETag><Size>51130</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.min.js</Key><LastModified>2018-07-04T07:31:04.000Z</LastModified><ETag>&quot;a04a0b2062dba95a1c195ba8ba81da33&quot;</ETag><Size>96438</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.slidereveal.min.js</Key><LastModified>2018-06-29T13:44:56.000Z</LastModified><ETag>&quot;8b3f238f0edcb6b1bd2e0a1ca8dbadcf&quot;</ETag><Size>2636</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.touchSwipe.min.js</Key><LastModified>2018-06-29T13:44:54.000Z</LastModified><ETag>&quot;2ca5cd81e4decec5d563ccc714c13f75&quot;</ETag><Size>10666</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/popper.min.js</Key><LastModified>2018-07-04T07:31:02.000Z</LastModified><ETag>&quot;7fadcd304c51c2bf074dab5d173fad96&quot;</ETag><Size>18900</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/search.js</Key><LastModified>2018-06-29T13:44:55.000Z</LastModified><ETag>&quot;496ab01d638a8d9be0eaec5d9357da99&quot;</ETag><Size>6901</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/search_autocomplete.js</Key><LastModified>2018-06-29T13:44:54.000Z</LastModified><ETag>&quot;abce4f520d568e5e8a27c876cccf07a5&quot;</ETag><Size>2926</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/services-worker.js</Key><LastModified>2018-06-29T13:44:55.000Z</LastModified><ETag>&quot;c16e4b803908e63721393b2aed92cc1a&quot;</ETag><Size>627</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/shopinvader.jquery.js</Key><LastModified>2018-06-29T13:44:58.000Z</LastModified><ETag>&quot;205cc517dbd11156b5e88ccd226acead&quot;</ETag><Size>1273</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/application.css</Key><LastModified>2018-07-04T07:39:34.000Z</LastModified><ETag>&quot;aefd53a2b193daebbd450704ef07e76d&quot;</ETag><Size>175035</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;921023af04e9bfbdfcd9e908ae41838a&quot;</ETag><Size>1660</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap-grid.css</Key><LastModified>2018-06-29T13:44:53.000Z</LastModified><ETag>&quot;3bf136721f307910a86b0c12c075b00a&quot;</ETag><Size>18934</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap-reboot.css</Key><LastModified>2018-06-29T13:44:53.000Z</LastModified><ETag>&quot;17e26b4ec047a23fae14084355c307f3&quot;</ETag><Size>3894</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap.css</Key><LastModified>2018-06-29T13:44:52.000Z</LastModified><ETag>&quot;7dc28db4b228b26a897793e820f962c0&quot;</ETag><Size>122618</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/font-awesome.min.css</Key><LastModified>2018-06-29T13:44:50.000Z</LastModified><ETag>&quot;dab5d93045d08b50c34834f543ef2860&quot;</ETag><Size>31000</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-brands.css</Key><LastModified>2018-06-29T13:44:44.000Z</LastModified><ETag>&quot;3b03a4e1b155ac50c811bc8fb5d92a56&quot;</ETag><Size>719</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-regular.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;cca47fb43f791546264ddcf85d46872c&quot;</ETag><Size>734</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-solid.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;fa42ec4d3ddd4f4dd6f794ecaa5efc9a&quot;</ETag><Size>726</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fontawesome.css</Key><LastModified>2018-06-29T13:44:44.000Z</LastModified><ETag>&quot;5664ed3aceb3f01878afb4ccb720708e&quot;</ETag><Size>35125</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.eot</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;ae37590ab05e9c625bcabf1759ab9dc2&quot;</ETag><Size>98620</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.svg</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;fb0cbe85f42e49383ac4764fd3211e66&quot;</ETag><Size>507478</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.ttf</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;c09b5960237e462582aa7b66411e57d5&quot;</ETag><Size>98384</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.woff</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;b5f5ef6112d693b968ad9d1646eea529&quot;</ETag><Size>63712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.woff2</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;c971847be1cd6c17abca74025b4f36ae&quot;</ETag><Size>54420</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.eot</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;d7de79cae74b02f2d377786656f1d816&quot;</ETag><Size>31156</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.svg</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;c15c758e798dd295b471b69ac409ef02&quot;</ETag><Size>107199</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.ttf</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;6bad016cd4efb36aa82618f55f0f660d&quot;</ETag><Size>30928</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.woff</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;562010a46ef5216ac76a08c2ceb99985&quot;</ETag><Size>14712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.woff2</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;032ba2e0f134a35ed87df1564936d352&quot;</ETag><Size>12220</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.eot</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;10c304f14cd2f6b6bed2ae7f574f03af&quot;</ETag><Size>102152</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.svg</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;9948e588ad4ca0db716da1c4d57f900e&quot;</ETag><Size>378215</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.ttf</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;3f07fd745b951055c656cf27db9a31d5&quot;</ETag><Size>101932</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.woff</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;c9a328cc89d13b8959e710d82b4b40d1&quot;</ETag><Size>48704</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.woff2</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;f9b85c9463af7103b9b24bbbf09a06ed&quot;</ETag><Size>38784</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>test_file.txt</Key><LastModified>2019-04-11T09:08:39.000Z</LastModified><ETag>&quot;190aa3117b11aab3f2c5f4e5f7d9e402&quot;</ETag><Size>21</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>uploaded_assets/5b363695b82aa70027161e8d/icon.png</Key><LastModified>2018-06-29T13:44:19.000Z</LastModified><ETag>&quot;8430a7e6b73eaafb75d72bcd43351789&quot;</ETag><Size>4295</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>'}
+    body:
+      string: <?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated></ListBucketResult>
     headers:
-      content-type: [application/xml]
-      date: ['Thu, 11 Apr 2019 09:08:40 GMT']
-      server: [AmazonS3]
-      transfer-encoding: [chunked]
-      x-amz-bucket-region: [eu-west-3]
-      x-amz-id-2: [zSQKQ+RYpWu0jxDzc7c+ulMM7ORJt9uP5wb/VjHg4ul6nl56b308SLV2N9BvbBamYrgsH6tT9Rc=]
-      x-amz-request-id: [9C61321610F0E16F]
-    status: {code: 200, message: OK}
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '283'
+      Content-Type:
+      - application/xml
+      Date:
+      - Sat, 02 Nov 2019 14:42:47 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 1dab5d2a-721c-44bb-b98b-c4bee9abd720
+      x-amz-request-id:
+      - 1dab5d2a-721c-44bb-b98b-c4bee9abd720
+      x-amzn-requestid:
+      - 1dab5d2a-721c-44bb-b98b-c4bee9abd720
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
-      User-Agent: [Boto3/1.7.40 Python/2.7.9 Linux/4.15.0-47-generic Botocore/1.10.40
-          Resource]
-      X-Amz-Content-SHA256: [e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
-      X-Amz-Date: [20190411T090839Z]
-    method: !!python/unicode 'GET'
-    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/test_file.txt
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ3Wg==
+    method: HEAD
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend
   response:
-    body: {string: !!python/unicode 'This is a simple file'}
+    body:
+      string: ''
     headers:
-      accept-ranges: [bytes]
-      cache-control: ['max-age=31536000, public']
-      content-length: ['21']
-      content-type: [text/plain]
-      date: ['Thu, 11 Apr 2019 09:08:40 GMT']
-      etag: ['"190aa3117b11aab3f2c5f4e5f7d9e402"']
-      last-modified: ['Thu, 11 Apr 2019 09:08:39 GMT']
-      server: [AmazonS3]
-      x-amz-id-2: [qE8FgLk+SZt+DY7sqGkYiU0UmZUFrdeYJ1dyEsJ9PJb1hE2ZEetAC2J+xnq0ge8a9R296+lCRsE=]
-      x-amz-request-id: [9A21FEADFDA20D2E]
-    status: {code: 200, message: OK}
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:47 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 4be173e4-123b-497c-9a9c-c4acf4d0dcfd
+      x-amz-request-id:
+      - 4be173e4-123b-497c-9a9c-c4acf4d0dcfd
+      x-amz-requestid:
+      - 4be173e4-123b-497c-9a9c-c4acf4d0dcfd
+    status:
+      code: 200
+      message: OK
+- request:
+    body: !!python/object/new:_io.BytesIO
+      state: !!python/tuple
+      - !!binary |
+        VGhpcyBpcyBhIHNpbXBsZSBmaWxl
+      - 0
+      - null
+    headers:
+      Cache-Control:
+      - !!binary |
+        bWF4LWFnZT0zMTUzNjAwMCwgcHVibGlj
+      Content-Length:
+      - '21'
+      Content-MD5:
+      - !!binary |
+        R1FxakVYc1JxclB5eGZUbDk5bmtBZz09
+      Content-Type:
+      - !!binary |
+        dGV4dC9wbGFpbg==
+      Expect:
+      - !!binary |
+        MTAwLWNvbnRpbnVl
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        VU5TSUdORUQtUEFZTE9BRA==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ3Wg==
+    method: PUT
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend/test_file.txt
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      etag:
+      - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 6b3a20b8-79de-4146-89e3-6014ac70a811
+      x-amz-request-id:
+      - 6b3a20b8-79de-4146-89e3-6014ac70a811
+      x-amz-requestid:
+      - 6b3a20b8-79de-4146-89e3-6014ac70a811
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
-      Content-Length: ['0']
-      User-Agent: [Boto3/1.7.40 Python/2.7.9 Linux/4.15.0-47-generic Botocore/1.10.40
-          Resource]
-      X-Amz-Content-SHA256: [e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
-      X-Amz-Date: [20190411T090839Z]
-    method: !!python/unicode 'DELETE'
-    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/test_file.txt
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: HEAD
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend
   response:
-    body: {string: !!python/unicode ''}
+    body:
+      string: ''
     headers:
-      date: ['Thu, 11 Apr 2019 09:08:40 GMT']
-      server: [AmazonS3]
-      x-amz-id-2: [Szc7bOq3HQg9M0w5wq6lkurvUJof0+BMuD5oNKOR/OOrEeznx+dKyzCr+xH/04hTdmhFlu/aMy0=]
-      x-amz-request-id: [B8D18326F8CF1D7B]
-    status: {code: 204, message: No Content}
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - efeeb2fc-f22c-4afe-80c4-ac5b4fa2aa33
+      x-amz-request-id:
+      - efeeb2fc-f22c-4afe-80c4-ac5b4fa2aa33
+      x-amz-requestid:
+      - efeeb2fc-f22c-4afe-80c4-ac5b4fa2aa33
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
-      User-Agent: [Boto3/1.7.40 Python/2.7.9 Linux/4.15.0-47-generic Botocore/1.10.40
-          Resource]
-      X-Amz-Content-SHA256: [e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
-      X-Amz-Date: [20190411T090840Z]
-    method: !!python/unicode 'GET'
-    uri: https://ak-testing-bucket.s3.eu-west-3.amazonaws.com/?prefix=&encoding-type=url
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: GET
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend?encoding-type=url&prefix=
   response:
-    body: {string: !!python/unicode '<?xml version="1.0" encoding="UTF-8"?>
-
-        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>ak-testing-bucket</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c78f2ff7d9f002478ab05/files/slide-2.png</Key><LastModified>2018-07-04T07:36:19.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c78f3ff7d9f002478ab08/files/slide-1.png</Key><LastModified>2018-07-04T07:36:20.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c7969ff7d9f002478abe6/files/slide-2.png</Key><LastModified>2018-07-04T07:38:18.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c7969ff7d9f002478abe9/files/slide-1.png</Key><LastModified>2018-07-04T07:38:18.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c79a8ff7d9f002478ac17/files/slide-2.png</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;45fa4485a0c50eb4b6e3b1cf7ebc2992&quot;</ETag><Size>108599</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b2b82aa70027161e92/5b3c79a8ff7d9f002478ac1a/files/slide-1.png</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;20f01407d9bef37c532d264a09b6c619&quot;</ETag><Size>73956</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0b/files/rawpixel-com-268376-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;99c8da16055e2d2c259925047e354b4f&quot;</ETag><Size>221985</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0b/files/william-iven-5895-thumb.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;54c5877c668be615d66829af706af9f7&quot;</ETag><Size>36972</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0e/files/alphacolor-13-172877-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:21.000Z</LastModified><ETag>&quot;0cff59cf33745eb0133683cefe1bcc0d&quot;</ETag><Size>229370</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f3ff7d9f002478ab0e/files/alphacolor-13-172877-thumb.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;ab4e5c8a80ee3ed56d948808e0284acd&quot;</ETag><Size>40957</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab11/files/jeff-sheldon-3225-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;e81c06a564d313ae08050314eb669166&quot;</ETag><Size>221049</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab11/files/jeff-sheldon-3225-thumb.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;add79fc36b7f75393e935a94e36188bb&quot;</ETag><Size>111825</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab14/files/rawpixel-com-211021-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;720b38c5b73c0d5c989fc3471b1b5247&quot;</ETag><Size>239027</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab14/files/rawpixel-com-211021-thumb-1.jpg</Key><LastModified>2018-07-04T07:39:22.000Z</LastModified><ETag>&quot;96588038b60a089ec9082d9f6bdf19ce&quot;</ETag><Size>225120</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab17/files/brooke-lark-175184-jumbotron.jpg</Key><LastModified>2018-07-04T07:39:23.000Z</LastModified><ETag>&quot;857a7cf78efb4dcf31eb1d1d3210a426&quot;</ETag><Size>372090</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/content_entry5b3637b3b82aa70027161e97/5b3c78f4ff7d9f002478ab17/files/brooke-lark-175184-thubnail.jpg</Key><LastModified>2018-07-04T07:39:23.000Z</LastModified><ETag>&quot;dfe0c0ca1ab1e70a1e13ff37da762351&quot;</ETag><Size>54513</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/FontAwesome.otf</Key><LastModified>2018-06-29T13:44:25.000Z</LastModified><ETag>&quot;0d2717cd5d853e5c765ca032dfd41a4d&quot;</ETag><Size>134808</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/Lato-Black.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;77d353744697c77955f9bacc7f3ed90a&quot;</ETag><Size>114588</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.eot</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;f4769f9bdb7466be65088239c12046d1&quot;</ETag><Size>20127</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.svg</Key><LastModified>2018-06-29T13:44:33.000Z</LastModified><ETag>&quot;89889688147bd7575d6327160d64e760&quot;</ETag><Size>108738</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.ttf</Key><LastModified>2018-06-29T13:44:33.000Z</LastModified><ETag>&quot;e18bbf611f2a2e43afc071aa2f4e1512&quot;</ETag><Size>45404</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.woff</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;fa2772327f55d8198301fdb8bcfc8158&quot;</ETag><Size>23424</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/bootstrap/glyphicons-halflings-regular.woff2</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;448c34a56d699c29117adc64c43affeb&quot;</ETag><Size>18028</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.eot</Key><LastModified>2018-06-29T13:44:34.000Z</LastModified><ETag>&quot;674f50d287a8c48dc19ba404d20fe713&quot;</ETag><Size>165742</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.svg</Key><LastModified>2018-06-29T13:44:32.000Z</LastModified><ETag>&quot;912ec66d7572ff821749319396470bde&quot;</ETag><Size>444379</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;b06871f281fee6b241d60582ae9369b9&quot;</ETag><Size>165548</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.woff</Key><LastModified>2018-06-29T13:44:25.000Z</LastModified><ETag>&quot;fee66e712a8a08eef5805a46892932ad&quot;</ETag><Size>98024</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome-webfont.woff2</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;af7ae505a9eed503f8b8e6982036873e&quot;</ETag><Size>77160</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.eot</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;ae37590ab05e9c625bcabf1759ab9dc2&quot;</ETag><Size>98620</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.svg</Key><LastModified>2018-06-29T13:44:28.000Z</LastModified><ETag>&quot;fb0cbe85f42e49383ac4764fd3211e66&quot;</ETag><Size>507478</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.ttf</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;c09b5960237e462582aa7b66411e57d5&quot;</ETag><Size>98384</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.woff</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;b5f5ef6112d693b968ad9d1646eea529&quot;</ETag><Size>63712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-brands-400.woff2</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;c971847be1cd6c17abca74025b4f36ae&quot;</ETag><Size>54420</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.eot</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;d7de79cae74b02f2d377786656f1d816&quot;</ETag><Size>31156</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.svg</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;c15c758e798dd295b471b69ac409ef02&quot;</ETag><Size>107199</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.ttf</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;6bad016cd4efb36aa82618f55f0f660d&quot;</ETag><Size>30928</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.woff</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;562010a46ef5216ac76a08c2ceb99985&quot;</ETag><Size>14712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-regular-400.woff2</Key><LastModified>2018-06-29T13:44:27.000Z</LastModified><ETag>&quot;032ba2e0f134a35ed87df1564936d352&quot;</ETag><Size>12220</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.eot</Key><LastModified>2018-06-29T13:44:30.000Z</LastModified><ETag>&quot;10c304f14cd2f6b6bed2ae7f574f03af&quot;</ETag><Size>102152</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.svg</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;9948e588ad4ca0db716da1c4d57f900e&quot;</ETag><Size>378215</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.ttf</Key><LastModified>2018-06-29T13:44:29.000Z</LastModified><ETag>&quot;3f07fd745b951055c656cf27db9a31d5&quot;</ETag><Size>101932</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.woff</Key><LastModified>2018-06-29T13:44:26.000Z</LastModified><ETag>&quot;c9a328cc89d13b8959e710d82b4b40d1&quot;</ETag><Size>48704</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/fontawesome/fa-solid-900.woff2</Key><LastModified>2018-06-29T13:44:28.000Z</LastModified><ETag>&quot;f9b85c9463af7103b9b24bbbf09a06ed&quot;</ETag><Size>38784</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/lato-regular.ttf</Key><LastModified>2018-06-29T13:44:35.000Z</LastModified><ETag>&quot;7f690e503a254e0b8349aec0177e07aa&quot;</ETag><Size>120196</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/fonts/sf-distant-galaxy.ttf</Key><LastModified>2018-06-29T13:44:31.000Z</LastModified><ETag>&quot;75c0119ca475dea587b8661501320be5&quot;</ETag><Size>58860</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/banner-categories.jpg</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;4cd91e4b4d53a8be36a87c1901509025&quot;</ETag><Size>157481</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/banner-info.jpg</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;43bc85397f794a217ca6302f31132a83&quot;</ETag><Size>284177</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/cart-icon.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;27023441e91a1bfd49e853083c5be189&quot;</ETag><Size>1719</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/favicon.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;8430a7e6b73eaafb75d72bcd43351789&quot;</ETag><Size>4295</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/powered-by-shopinvader-logo.png</Key><LastModified>2018-06-29T13:44:36.000Z</LastModified><ETag>&quot;0b28631a788bc3bc5b4e8fbffc77a6fc&quot;</ETag><Size>4995</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/images/user-icon.png</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;9a4cbcac50e8a8dc8716602dc6939506&quot;</ETag><Size>1519</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/address_autocomplete.js</Key><LastModified>2018-06-29T13:44:58.000Z</LastModified><ETag>&quot;825f802393fe3cab46aca96f85e808e6&quot;</ETag><Size>1214</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/application.js</Key><LastModified>2018-06-29T13:44:56.000Z</LastModified><ETag>&quot;7b27f5eedf5b6a8765911598d657af0b&quot;</ETag><Size>3676</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/bootstrap3.min.js</Key><LastModified>2018-06-29T13:45:01.000Z</LastModified><ETag>&quot;c9599ff427c45c06987d2a77504061d0&quot;</ETag><Size>36641</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/bootstrap4.min.js</Key><LastModified>2018-06-29T13:45:02.000Z</LastModified><ETag>&quot;52fb01bb48c42d311b54a638fc3bbb66&quot;</ETag><Size>51130</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.min.js</Key><LastModified>2018-07-04T07:31:04.000Z</LastModified><ETag>&quot;a04a0b2062dba95a1c195ba8ba81da33&quot;</ETag><Size>96438</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.slidereveal.min.js</Key><LastModified>2018-06-29T13:44:56.000Z</LastModified><ETag>&quot;8b3f238f0edcb6b1bd2e0a1ca8dbadcf&quot;</ETag><Size>2636</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/jquery.touchSwipe.min.js</Key><LastModified>2018-06-29T13:44:54.000Z</LastModified><ETag>&quot;2ca5cd81e4decec5d563ccc714c13f75&quot;</ETag><Size>10666</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/popper.min.js</Key><LastModified>2018-07-04T07:31:02.000Z</LastModified><ETag>&quot;7fadcd304c51c2bf074dab5d173fad96&quot;</ETag><Size>18900</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/search.js</Key><LastModified>2018-06-29T13:44:55.000Z</LastModified><ETag>&quot;496ab01d638a8d9be0eaec5d9357da99&quot;</ETag><Size>6901</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/search_autocomplete.js</Key><LastModified>2018-06-29T13:44:54.000Z</LastModified><ETag>&quot;abce4f520d568e5e8a27c876cccf07a5&quot;</ETag><Size>2926</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/services-worker.js</Key><LastModified>2018-06-29T13:44:55.000Z</LastModified><ETag>&quot;c16e4b803908e63721393b2aed92cc1a&quot;</ETag><Size>627</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/javascripts/shopinvader.jquery.js</Key><LastModified>2018-06-29T13:44:58.000Z</LastModified><ETag>&quot;205cc517dbd11156b5e88ccd226acead&quot;</ETag><Size>1273</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/application.css</Key><LastModified>2018-07-04T07:39:34.000Z</LastModified><ETag>&quot;aefd53a2b193daebbd450704ef07e76d&quot;</ETag><Size>175035</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;921023af04e9bfbdfcd9e908ae41838a&quot;</ETag><Size>1660</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap-grid.css</Key><LastModified>2018-06-29T13:44:53.000Z</LastModified><ETag>&quot;3bf136721f307910a86b0c12c075b00a&quot;</ETag><Size>18934</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap-reboot.css</Key><LastModified>2018-06-29T13:44:53.000Z</LastModified><ETag>&quot;17e26b4ec047a23fae14084355c307f3&quot;</ETag><Size>3894</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/bootstrap4/bootstrap.css</Key><LastModified>2018-06-29T13:44:52.000Z</LastModified><ETag>&quot;7dc28db4b228b26a897793e820f962c0&quot;</ETag><Size>122618</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/font-awesome.min.css</Key><LastModified>2018-06-29T13:44:50.000Z</LastModified><ETag>&quot;dab5d93045d08b50c34834f543ef2860&quot;</ETag><Size>31000</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-brands.css</Key><LastModified>2018-06-29T13:44:44.000Z</LastModified><ETag>&quot;3b03a4e1b155ac50c811bc8fb5d92a56&quot;</ETag><Size>719</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-regular.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;cca47fb43f791546264ddcf85d46872c&quot;</ETag><Size>734</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fa-solid.css</Key><LastModified>2018-06-29T13:44:42.000Z</LastModified><ETag>&quot;fa42ec4d3ddd4f4dd6f794ecaa5efc9a&quot;</ETag><Size>726</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/fontawesome/fontawesome.css</Key><LastModified>2018-06-29T13:44:44.000Z</LastModified><ETag>&quot;5664ed3aceb3f01878afb4ccb720708e&quot;</ETag><Size>35125</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.eot</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;ae37590ab05e9c625bcabf1759ab9dc2&quot;</ETag><Size>98620</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.svg</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;fb0cbe85f42e49383ac4764fd3211e66&quot;</ETag><Size>507478</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.ttf</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;c09b5960237e462582aa7b66411e57d5&quot;</ETag><Size>98384</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.woff</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;b5f5ef6112d693b968ad9d1646eea529&quot;</ETag><Size>63712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-brands-400.woff2</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;c971847be1cd6c17abca74025b4f36ae&quot;</ETag><Size>54420</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.eot</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;d7de79cae74b02f2d377786656f1d816&quot;</ETag><Size>31156</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.svg</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;c15c758e798dd295b471b69ac409ef02&quot;</ETag><Size>107199</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.ttf</Key><LastModified>2018-06-29T13:44:37.000Z</LastModified><ETag>&quot;6bad016cd4efb36aa82618f55f0f660d&quot;</ETag><Size>30928</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.woff</Key><LastModified>2018-06-29T13:44:39.000Z</LastModified><ETag>&quot;562010a46ef5216ac76a08c2ceb99985&quot;</ETag><Size>14712</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-regular-400.woff2</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;032ba2e0f134a35ed87df1564936d352&quot;</ETag><Size>12220</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.eot</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;10c304f14cd2f6b6bed2ae7f574f03af&quot;</ETag><Size>102152</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.svg</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;9948e588ad4ca0db716da1c4d57f900e&quot;</ETag><Size>378215</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.ttf</Key><LastModified>2018-06-29T13:44:41.000Z</LastModified><ETag>&quot;3f07fd745b951055c656cf27db9a31d5&quot;</ETag><Size>101932</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.woff</Key><LastModified>2018-06-29T13:44:38.000Z</LastModified><ETag>&quot;c9a328cc89d13b8959e710d82b4b40d1&quot;</ETag><Size>48704</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>sites/5b363695b82aa70027161e8d/theme/stylesheets/webfonts/fa-solid-900.woff2</Key><LastModified>2018-06-29T13:44:40.000Z</LastModified><ETag>&quot;f9b85c9463af7103b9b24bbbf09a06ed&quot;</ETag><Size>38784</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>uploaded_assets/5b363695b82aa70027161e8d/icon.png</Key><LastModified>2018-06-29T13:44:19.000Z</LastModified><ETag>&quot;8430a7e6b73eaafb75d72bcd43351789&quot;</ETag><Size>4295</Size><Owner><ID>5710f4d93f4553b9993fadcaf0462bc22323402d134a01ad84baeb725fc66d29</ID></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>'}
+    body:
+      string: <?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>test_file.txt</Key><LastModified>2019-11-02T14:42:48.041Z</LastModified><ETag>"190aa3117b11aab3f2c5f4e5f7d9e402"</ETag><Size>21</Size><Owner><ID>odoo-plateforme</ID><DisplayName>odoo-plateforme</DisplayName></Owner><StorageClass>Standard</StorageClass></Contents></ListBucketResult>
     headers:
-      content-type: [application/xml]
-      date: ['Thu, 11 Apr 2019 09:08:41 GMT']
-      server: [AmazonS3]
-      transfer-encoding: [chunked]
-      x-amz-bucket-region: [eu-west-3]
-      x-amz-id-2: [rDdDbwcQdLMtI5SijE9Yv4N7JA5wool+ihXzgISObkTVeN/cE4UsuIQAQ5/KboDW+LaXuFoW/0c=]
-      x-amz-request-id: [F2A5DC6B017F793D]
-    status: {code: 200, message: OK}
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '561'
+      Content-Type:
+      - application/xml
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 313f3b01-a1d5-40ae-8ae8-87eaf491b38e
+      x-amz-request-id:
+      - 313f3b01-a1d5-40ae-8ae8-87eaf491b38e
+      x-amzn-requestid:
+      - 313f3b01-a1d5-40ae-8ae8-87eaf491b38e
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: HEAD
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - a095635b-ac42-489e-bf67-f87c30ce4dfd
+      x-amz-request-id:
+      - a095635b-ac42-489e-bf67-f87c30ce4dfd
+      x-amz-requestid:
+      - a095635b-ac42-489e-bf67-f87c30ce4dfd
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: GET
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend/test_file.txt
+  response:
+    body:
+      string: This is a simple file
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '21'
+      Content-Type:
+      - text/plain
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      cache-control:
+      - max-age=31536000, public
+      etag:
+      - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+      last-modified:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 9d6ba5a1-90d6-4106-81f4-40ba427cb124
+      x-amz-request-id:
+      - 9d6ba5a1-90d6-4106-81f4-40ba427cb124
+      x-amzn-requestid:
+      - 9d6ba5a1-90d6-4106-81f4-40ba427cb124
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: HEAD
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - b5f09cc0-4e00-4ce4-826e-72295237ab45
+      x-amz-request-id:
+      - b5f09cc0-4e00-4ce4-826e-72295237ab45
+      x-amz-requestid:
+      - b5f09cc0-4e00-4ce4-826e-72295237ab45
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Length:
+      - '0'
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: DELETE
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend/test_file.txt
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - keep-alive
+      Date:
+      - Sat, 02 Nov 2019 14:42:48 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - bc2092e4-173a-465f-b87b-64a63fc18d17
+      x-amz-request-id:
+      - bc2092e4-173a-465f-b87b-64a63fc18d17
+      x-amz-requestid:
+      - bc2092e4-173a-465f-b87b-64a63fc18d17
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ4Wg==
+    method: HEAD
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 02 Nov 2019 14:42:49 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - 70d48c9e-b13b-4b16-abd2-4c853ca55855
+      x-amz-request-id:
+      - 70d48c9e-b13b-4b16-abd2-4c853ca55855
+      x-amz-requestid:
+      - 70d48c9e-b13b-4b16-abd2-4c853ca55855
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+        cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAxOTExMDJUMTQ0MjQ5Wg==
+    method: GET
+    uri: https://sos-ch-dk-2.exo.io/test-storage-backend?encoding-type=url&prefix=
+  response:
+    body:
+      string: <?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated></ListBucketResult>
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '283'
+      Content-Type:
+      - application/xml
+      Date:
+      - Sat, 02 Nov 2019 14:42:49 GMT
+      Server:
+      - nginx
+      x-amz-bucket-region:
+      - ch-dk-2
+      x-amz-id-2:
+      - f6a89089-3bda-45da-ad7b-9645679252c2
+      x-amz-request-id:
+      - f6a89089-3bda-45da-ad7b-9645679252c2
+      x-amzn-requestid:
+      - f6a89089-3bda-45da-ad7b-9645679252c2
+    status:
+      code: 200
+      message: OK
 version: 1
