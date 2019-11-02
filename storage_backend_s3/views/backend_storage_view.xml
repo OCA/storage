@@ -6,9 +6,10 @@
     <field name="arch" type="xml">
         <group name="config" position="after">
             <group name="Amazon S3" string="Amazon S3" attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}">
+                <field name="aws_host" />
                 <field name="aws_access_key_id" attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"/>
                 <field name="aws_secret_access_key" attrs="{'required': [('backend_type', '=', 'amazon_s3')], 'readonly':[('backend_type', '!=', 'amazon_s3')]}"/>
-                <field name="aws_region" attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"/>
+                <field name="aws_region" attrs="{'required': [('backend_type', '=', 'amazon_s3'),('aws_host','=',False)]}"/>
                 <field name="aws_bucket"  attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"/>
                 <field name="aws_cache_control"/>
             </group>
