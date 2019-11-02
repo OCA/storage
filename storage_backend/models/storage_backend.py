@@ -51,6 +51,9 @@ class StorageBackend(models.Model):
             relative_path,
         )
         self.ensure_one()
+        adapter = self._get_adapter()
+        return getattr(adapter, method)(relative_path, *args, **kwargs)
+
+    def _get_adapter(self):
         with self.work_on(self._name) as work:
-            adapter = work.component(usage=self.backend_type)
-            return getattr(adapter, method)(relative_path, *args, **kwargs)
+            return work.component(usage=self.backend_type)
