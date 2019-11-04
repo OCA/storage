@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo12-addon-storage_backend',
+        'odoo12-addon-storage_backend_s3',
         'odoo12-addon-storage_backend_sftp',
         'odoo12-addon-storage_file',
         'odoo12-addon-storage_image',
