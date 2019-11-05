@@ -7,6 +7,7 @@ class ModelTest(models.TransientModel):
     _name = "model.test"
     _inherit = "thumbnail.mixin"
     _inherits = {"storage.file": "file_id"}
+    _description = "Model test"
 
     alt_name = fields.Char(string="Alt Image name")
     file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
