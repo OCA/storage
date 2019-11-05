@@ -18,11 +18,12 @@ odoo.define('storage_image.image_url', function (require) {
             } else if (!url.startsWith('http')) {
                 url = 'data:image/png;base64,' + url;
             }
+
             /*
              From here it's the same code as in FieldBinaryImage
              */
             var $img = $(qweb.render("FieldBinaryImage-img", {widget: this, url: url}));
-            // override css size attributes (could have been defined in css files)
+            // Override css size attributes (could have been defined in css files)
             // if specified on the widget
             var width = this.nodeOptions.size ? this.nodeOptions.size[0] : this.attrs.width;
             var height = this.nodeOptions.size ? this.nodeOptions.size[1] : this.attrs.height;
