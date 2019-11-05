@@ -14,6 +14,7 @@ class StorageBackend(models.Model):
     _name = "storage.backend"
     _inherit = ["collection.base"]
     _backend_name = "storage_backend"
+    _description = "Storage Backend"
 
     name = fields.Char(required=True)
     backend_type = fields.Selection(
