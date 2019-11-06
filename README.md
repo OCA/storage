@@ -8,11 +8,17 @@ Storage addons for Odoo
 
 [//]: # (addons)
 
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[storage_backend](storage_backend/) | 13.0.1.0.0 | Implement the concept of Storage with amazon S3, sftp...
+
+
 Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[storage_backend](storage_backend/) | 12.0.1.0.1 (unported) | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_s3](storage_backend_s3/) | 10.0.1.0.0 (unported) | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 12.0.1.0.0 (unported) | Implement SFTP Storage
 [storage_file](storage_file/) | 12.0.1.1.0 (unported) | Storage file in storage backend

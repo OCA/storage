@@ -1,4 +1,4 @@
-exclude: "^setup/|/static/lib/|/static/src/lib/|^storage_backend|^storage_backend_s3|^storage_backend_sftp|^storage_file|^storage_image|^storage_image_category_pos|^storage_image_product|^storage_image_product_pos|^storage_media|^storage_media_product|^storage_thumbnail"
+exclude: "^setup/|/static/lib/|/static/src/lib/|^storage_backend_s3|^storage_backend_sftp|^storage_file|^storage_image|^storage_image_category_pos|^storage_image_product|^storage_image_product_pos|^storage_media|^storage_media_product|^storage_thumbnail"
 default_language_version:
   python: python3
 repos:
