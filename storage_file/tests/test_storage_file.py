@@ -85,7 +85,7 @@ class StorageFileCase(TransactionComponentCase):
 
     def test_read_bin_size(self):
         stfile = self._create_storage_file()
-        self.assertEqual(stfile.with_context(bin_size=True).data, "21.00 bytes")
+        self.assertEqual(stfile.with_context(bin_size=True).data, b"21.00 bytes")
 
     def test_cannot_update_data(self):
         stfile = self._create_storage_file()
@@ -138,9 +138,13 @@ class StorageFileCase(TransactionComponentCase):
         self.assertFalse(storage_file.backend_id.is_public)
         # Public user used on the controller when authentication is 'public'
         public_user = self.env.ref("base.public_user")
-        env = self.env(user=public_user)
         with self.assertRaises(AccessError):
-            env[storage_file._name].browse(storage_file.ids).name
+            # BUG OR NOT with_user doesn't invalidate the cache...
+            # force cache invalidation
+            self.env.cache.invalidate()
+            self.env[storage_file._name].with_user(public_user).browse(
+                storage_file.ids
+            ).name
         return True
 
     def test_public_access2(self):

@@ -83,7 +83,7 @@ class StorageFile(models.Model):
     @api.depends("file_size")
     def _compute_human_file_size(self):
         for record in self:
-            record.human_file_size = human_size(self.file_size)
+            record.human_file_size = human_size(record.file_size)
 
     def _slugify_name_with_id(self):
         return u"{}{}".format(
@@ -153,8 +153,11 @@ class StorageFile(models.Model):
     @api.depends("name")
     def _compute_extract_filename(self):
         for rec in self:
-            rec.filename, rec.extension = os.path.splitext(rec.name)
-            mime, enc = mimetypes.guess_type(rec.name)
+            if rec.name:
+                rec.filename, rec.extension = os.path.splitext(rec.name)
+                mime, enc = mimetypes.guess_type(rec.name)
+            else:
+                rec.filename = rec.extension = mime = False
             rec.mimetype = mime
 
     def unlink(self):
@@ -166,6 +169,9 @@ class StorageFile(models.Model):
 
     @api.model
     def _clean_storage_file(self):
+        # we must be sure that all the changes are into the DB since
+        # we by pass the ORM
+        self.flush()
         self._cr.execute(
             """SELECT id
             FROM storage_file
@@ -175,6 +181,9 @@ class StorageFile(models.Model):
         for st_file in self.browse(ids):
             st_file.backend_id.sudo()._delete(st_file.relative_path)
             st_file.with_context(cleanning_storage_file=True).unlink()
+            # commit is required since the backend could be an external system
+            # therefore, if the record is deleted on the external system
+            # we must be sure that the record is also deleted into Odoo
             st_file._cr.commit()
 
     @api.model
