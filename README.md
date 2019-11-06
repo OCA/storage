@@ -14,6 +14,7 @@ addon | version | summary
 --- | --- | ---
 [storage_backend](storage_backend/) | 13.0.1.0.0 | Implement the concept of Storage with amazon S3, sftp...
 [storage_file](storage_file/) | 13.0.1.0.0 | Storage file in storage backend
+[storage_thumbnail](storage_thumbnail/) | 13.0.1.0.0 | Abstract module that add the possibility to have thumbnail
 
 
 Unported addons
@@ -28,7 +29,6 @@ addon | version | summary
 [storage_image_product_pos](storage_image_product_pos/) | 10.0.1.0.0 (unported) | Link images to products and categories inside POS
 [storage_media](storage_media/) | 10.0.1.0.0 (unported) | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 10.0.2.0.0 (unported) | Link media to products and categories
-[storage_thumbnail](storage_thumbnail/) | 12.0.1.0.1 (unported) | Abstract module that add the possibility to have thumbnail
 
 [//]: # (end addons)
 
