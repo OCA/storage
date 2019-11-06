@@ -13,6 +13,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [storage_backend](storage_backend/) | 13.0.1.0.0 | Implement the concept of Storage with amazon S3, sftp...
+[storage_file](storage_file/) | 13.0.1.0.0 | Storage file in storage backend
 
 
 Unported addons
@@ -21,7 +22,6 @@ addon | version | summary
 --- | --- | ---
 [storage_backend_s3](storage_backend_s3/) | 10.0.1.0.0 (unported) | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 12.0.1.0.0 (unported) | Implement SFTP Storage
-[storage_file](storage_file/) | 12.0.1.1.0 (unported) | Storage file in storage backend
 [storage_image](storage_image/) | 12.0.1.0.1 (unported) | Store image and resized image in a storage backend
 [storage_image_category_pos](storage_image_category_pos/) | 10.0.1.0.0 (unported) | Add image handling to product category and use it for POS
 [storage_image_product](storage_image_product/) | 12.0.1.0.2 (unported) | Link images to products and categories
