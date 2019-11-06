@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* storage_image_product
+# 	* storage_image_product
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,8 +35,8 @@ msgid "Available Attributes"
 msgstr ""
 
 #. module: storage_image_product
-#: selection:image.tag,apply_on:0
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__category_id
+#: model:ir.model.fields.selection,name:storage_image_product.selection__image_tag__apply_on__category
 msgid "Category"
 msgstr ""
 
@@ -146,8 +146,8 @@ msgid "Name"
 msgstr ""
 
 #. module: storage_image_product
-#: selection:image.tag,apply_on:0
 #: model:ir.model,name:storage_image_product.model_product_product
+#: model:ir.model.fields.selection,name:storage_image_product.selection__image_tag__apply_on__product
 msgid "Product"
 msgstr ""
 
@@ -196,4 +196,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_ids
 msgid "Variant Images"
 msgstr ""
-
