@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo13-addon-storage_backend',
         'odoo13-addon-storage_file',
+        'odoo13-addon-storage_thumbnail',
     ],
     classifiers=[
         'Programming Language :: Python',
