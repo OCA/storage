@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* storage_image
+# 	* storage_image
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr ""
 
 #. module: storage_image
 #. openerp-web
-#: code:addons/storage_image/static/src/js/storage_image.js:42
+#: code:addons/storage_image/static/src/js/storage_image.js:0
 #, python-format
 msgid "Could not display the selected image."
 msgstr ""
@@ -109,13 +109,13 @@ msgstr ""
 
 #. module: storage_image
 #. openerp-web
-#: code:addons/storage_image/static/src/js/storage_image.js:42
+#: code:addons/storage_image/static/src/js/storage_image.js:0
 #: model:ir.actions.act_window,name:storage_image.act_open_storage_image_view
+#: model:ir.model.fields.selection,name:storage_image.selection__storage_file__file_type__image
 #: model:ir.ui.menu,name:storage_image.menu_storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_tree
-#: selection:storage.file,file_type:0
 #, python-format
 msgid "Image"
 msgstr ""
@@ -187,11 +187,6 @@ msgid "Storage Image"
 msgstr ""
 
 #. module: storage_image
-#: selection:storage.file,file_type:0
-msgid "Thumbnail"
-msgstr ""
-
-#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__thumbnail_ids
 msgid "Thumbnails"
 msgstr ""
@@ -205,4 +200,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__url
 msgid "Url"
 msgstr ""
-
