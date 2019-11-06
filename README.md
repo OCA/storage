@@ -23,7 +23,7 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[storage_backend_s3](storage_backend_s3/) | 10.0.1.0.0 (unported) | Implement amazon S3 Storage
+[storage_backend_s3](storage_backend_s3/) | 12.0.1.0.0 (unported) | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 12.0.1.0.0 (unported) | Implement SFTP Storage
 [storage_image_category_pos](storage_image_category_pos/) | 10.0.1.0.0 (unported) | Add image handling to product category and use it for POS
 [storage_image_product_pos](storage_image_product_pos/) | 10.0.1.0.0 (unported) | Link images to products and categories inside POS
