@@ -1,6 +1,6 @@
 paramiko
 python-slugify>=3.0.2
-vcrpy
+vcrpy>=2.1.1
 cerberus
 vcrpy-unittest
 boto3

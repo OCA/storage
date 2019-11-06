@@ -155,7 +155,7 @@ class StorageFile(models.Model):
         for rec in self:
             if rec.name:
                 rec.filename, rec.extension = os.path.splitext(rec.name)
-                mime, enc = mimetypes.guess_type(rec.name)
+                mime, __ = mimetypes.guess_type(rec.name)
             else:
                 rec.filename = rec.extension = mime = False
             rec.mimetype = mime
