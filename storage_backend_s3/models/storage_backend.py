@@ -30,10 +30,13 @@ class StorageBackend(models.Model):
         selection='_selection_aws_region', string="Region"
     )
     aws_cache_control = fields.Char(default="max-age=31536000, public")
+    aws_other_region = fields.Char(
+        string="Other region"
+    )
 
     def _selection_aws_region(self):
         session = boto3.session.Session()
         return [
             (region, region.replace("-", " ").capitalize())
             for region in session.get_available_regions("s3")
-        ]
+        ] + [('other', 'Empty or Other (Manually specify below)')]
