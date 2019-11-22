@@ -12,7 +12,7 @@
     "license": "AGPL-3",
     "development_status": "Stable/Production",
     "installable": True,
-    "depends": ["base", "component"],
+    "depends": ["base", "component", "server_environment"],
     "data": [
         "views/backend_storage_view.xml",
         "data/data.xml",
