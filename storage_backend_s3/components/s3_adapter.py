@@ -98,6 +98,8 @@ class S3StorageAdapter(Component):
             extra_args["ContentType"] = mimetype
         if self.collection.aws_cache_control:
             extra_args["CacheControl"] = self.collection.aws_cache_control
+        if self.collection.aws_file_acl:
+            extra_args["ACL"] = self.collection.aws_file_acl
         if extra_args:
             return {"ExtraArgs": extra_args}
         return {}
