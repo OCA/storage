@@ -19,7 +19,7 @@ class StorageBackend(models.Model):
 
     backend_type = fields.Selection(selection_add=[("amazon_s3", "Amazon S3")])
     aws_host = fields.Char(
-        string="Host",
+        string="AWS Host",
         help="If you are using a different host than standard AWS ones, "
         "eg: Exoscale",
     )
