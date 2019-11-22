@@ -17,6 +17,7 @@ class StorageThumbnail(models.Model):
     _name = "storage.thumbnail"
     _description = "Storage Thumbnail"
     _inherits = {"storage.file": "file_id"}
+    _default_file_type = "thumbnail"
 
     size_x = fields.Integer("weight")
     size_y = fields.Integer("height")
@@ -61,21 +62,21 @@ class StorageThumbnail(models.Model):
         image_process = ImageProcess(image.data)
         return image_process.resize(max_width=size_x, max_height=size_y).image_base64()
 
-    def _get_backend_id(self):
+    def _get_default_backend_id(self):
         """Choose the correct backend.
 
         By default : it's the one configured as ir.config_parameter
         Overload this method if you need something more powerfull
         """
-        return int(
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("storage.thumbnail.backend_id")
+        return self.env["storage.backend"]._get_backend_id_from_param(
+            self.env, "storage.thumbnail.backend_id"
         )
 
     @api.model
     def create(self, vals):
-        vals.update({"backend_id": self._get_backend_id(), "file_type": "thumbnail"})
+        vals["file_type"] = self._default_file_type
+        if "backend_id" not in vals:
+            vals["backend_id"] = self._get_default_backend_id()
         return super().create(vals)
 
     def unlink(self):
