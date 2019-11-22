@@ -1,5 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
@@ -40,6 +42,20 @@ class StorageBackend(models.Model):
         ('bucket-owner-read', 'bucket-owner-read'),
         ('bucket-owner-full-control', 'bucket-owner-full-control'),
     ])
+
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update({
+            "aws_host": {},
+            "aws_bucket": {},
+            "aws_access_key_id": {},
+            "aws_secret_access_key": {},
+            "aws_region": {},
+            "aws_cache_control": {},
+            "aws_file_acl": {},
+        })
+        return env_fields
 
     def _selection_aws_region(self):
         session = boto3.session.Session()
