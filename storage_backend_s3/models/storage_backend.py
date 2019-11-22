@@ -30,6 +30,16 @@ class StorageBackend(models.Model):
         selection='_selection_aws_region', string="Region"
     )
     aws_cache_control = fields.Char(default="max-age=31536000, public")
+    aws_file_acl = fields.Selection(selection=[
+        ('', ''),
+        ('private', 'private'),
+        ('public-read', 'public-read'),
+        ('public-read-write', 'public-read-write'),
+        ('aws-exec-read', 'aws-exec-read'),
+        ('authenticated-read', 'authenticated-read'),
+        ('bucket-owner-read', 'bucket-owner-read'),
+        ('bucket-owner-full-control', 'bucket-owner-full-control'),
+    ])
 
     def _selection_aws_region(self):
         session = boto3.session.Session()
