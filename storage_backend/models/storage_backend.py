@@ -1,5 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
@@ -12,7 +14,7 @@ _logger = logging.getLogger(__name__)
 
 class StorageBackend(models.Model):
     _name = "storage.backend"
-    _inherit = ["collection.base"]
+    _inherit = ["collection.base", "server.env.mixin"]
     _backend_name = "storage_backend"
     _description = "Storage Backend"
 
@@ -23,6 +25,10 @@ class StorageBackend(models.Model):
     directory_path = fields.Char(
         help="Relative path to the directory to store the file"
     )
+
+    @property
+    def _server_env_fields(self):
+        return {"backend_type": {}, "directory_path": {}}
 
     def _add_b64_data(self, relative_path, data, **kwargs):
         return self._add_bin_data(relative_path, base64.b64decode(data), **kwargs)
