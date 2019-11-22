@@ -15,6 +15,9 @@
                 <field name="base_url" attrs="{'invisible':[('served_by', '!=', 'external')]}"/>
                 <field name="filename_strategy"/>
             </field>
+            <field name="directory_path" position="after">
+                <field name="url_include_directory_path" attrs="{'invisible': [('directory_path', '=', False)]}"/>
+            </field>
         </field>
     </record>
 </odoo>

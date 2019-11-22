@@ -56,6 +56,33 @@ class StorageFileCase(TransactionComponentCase):
         )
         self.assertEqual(stfile, stfile2)
 
+    def test_url(self):
+        stfile = self._create_storage_file()
+        params = self.env["ir.config_parameter"].sudo()
+        base_url = params.get_param("web.base.url")
+        # served by odoo
+        self.assertEqual(
+            stfile.url,
+            "{}/storage.file/test-of-my_file-{}.txt".format(base_url, stfile.id),
+        )
+        # served by external
+        stfile.backend_id.update(
+            {
+                "served_by": "external",
+                "base_url": "https://foo.com",
+                "directory_path": "baz",
+            }
+        )
+        # path not included
+        self.assertEqual(
+            stfile.url, "https://foo.com/test-of-my_file-{}.txt".format(stfile.id)
+        )
+        # path included
+        stfile.backend_id.url_include_directory_path = True
+        self.assertEqual(
+            stfile.url, "https://foo.com/baz/test-of-my_file-{}.txt".format(stfile.id)
+        )
+
     def test_create_store_with_hash(self):
         self.backend.filename_strategy = "hash"
         stfile = self._create_storage_file()
