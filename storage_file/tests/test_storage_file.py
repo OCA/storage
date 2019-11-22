@@ -5,6 +5,8 @@
 import base64
 from urllib import parse
 
+import mock
+
 from odoo.exceptions import AccessError, UserError
 
 from odoo.addons.component.tests.common import TransactionComponentCase
@@ -212,3 +214,26 @@ class StorageFileCase(TransactionComponentCase):
         storage_file_public = env[storage_file._name].browse(storage_file.ids)
         self.assertTrue(storage_file_public.name)
         return True
+
+    def test_get_backend_from_param(self):
+        storage_file = self._create_storage_file()
+        with mock.patch.object(
+            type(self.env["ir.config_parameter"]), "get_param"
+        ) as mocked:
+            mocked.return_value = str(storage_file.backend_id.id)
+            self.assertEqual(
+                self.env["storage.backend"]._get_backend_id_from_param(
+                    self.env, "foo.baz"
+                ),
+                storage_file.backend_id.id,
+            )
+        with mock.patch.object(
+            type(self.env["ir.config_parameter"]), "get_param"
+        ) as mocked:
+            mocked.return_value = "storage_backend.default_storage_backend"
+            self.assertEqual(
+                self.env["storage.backend"]._get_backend_id_from_param(
+                    self.env, "foo.baz"
+                ),
+                storage_file.backend_id.id,
+            )
