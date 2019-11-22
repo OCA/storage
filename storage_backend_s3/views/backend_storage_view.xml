@@ -12,6 +12,7 @@
                 <field name="aws_region" attrs="{'required': [('backend_type', '=', 'amazon_s3'),('aws_host','=',False)]}"/>
                 <field name="aws_bucket"  attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"/>
                 <field name="aws_cache_control"/>
+                <field name="aws_file_acl"/>
             </group>
         </group>
     </field>
