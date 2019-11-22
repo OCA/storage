@@ -23,6 +23,7 @@ class StorageImage(models.Model):
     _description = "Storage Image"
     _inherit = "thumbnail.mixin"
     _inherits = {"storage.file": "file_id"}
+    _default_file_type = "image"
 
     alt_name = fields.Char(string="Alt Image name")
     file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
@@ -41,9 +42,9 @@ class StorageImage(models.Model):
 
     @api.model
     def create(self, vals):
-        vals["file_type"] = "image"
+        vals["file_type"] = self._default_file_type
         if "backend_id" not in vals:
-            vals["backend_id"] = self._get_backend_id()
+            vals["backend_id"] = self._get_default_backend_id()
         # When using the widget image_url, the create will pass the data
         # in the "url" field. We map it to the data field
         for key in ["image_medium_url", "image_small_url"]:
@@ -52,14 +53,9 @@ class StorageImage(models.Model):
         image = super(StorageImage, self).create(vals)
         return image
 
-    def _get_backend_id(self):
-        """Choose the correct backend.
-
-        By default : it's the one configured as ir.config_parameter
-        Overload this method if you need something more powerfull
-        """
-        return int(
-            self.env["ir.config_parameter"].sudo().get_param("storage.image.backend_id")
+    def _get_default_backend_id(self):
+        return self.env["storage.backend"]._get_backend_id_from_param(
+            self.env, "storage.image.backend_id"
         )
 
     def unlink(self):
