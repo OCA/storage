@@ -135,20 +135,33 @@ class StorageFile(models.Model):
             else:
                 rec.data = None
 
-    @api.depends("backend_id.served_by", "backend_id.base_url", "relative_path")
+    @api.depends(
+        "backend_id.served_by",
+        "backend_id.base_url",
+        "backend_id.url_include_directory_path",
+        "relative_path",
+    )
     def _compute_url(self):
         for record in self:
-            if record.backend_id.served_by == "odoo":
-                base_url = (
-                    self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-                )
-                record.url = u"{}/storage.file/{}".format(
-                    base_url, record._slugify_name_with_id()
-                )
-            else:
-                record.url = "{}/{}".format(
-                    record.backend_id.base_url, record.relative_path
-                )
+            record.url = record._get_url()
+
+    def _get_url(self, backend=None):
+        """Retrieve file URL based on backend params."""
+        backend = backend or self.backend_id
+        parts = []
+        if backend.served_by == "odoo":
+            params = self.env["ir.config_parameter"].sudo()
+            parts = [
+                params.get_param("web.base.url"),
+                "storage.file",
+                self._slugify_name_with_id(),
+            ]
+        else:
+            parts = [backend.base_url or ""]
+            if backend.url_include_directory_path and backend.directory_path:
+                parts.append(backend.directory_path)
+            parts.append(self.relative_path)
+        return "/".join(parts)
 
     @api.depends("name")
     def _compute_extract_filename(self):

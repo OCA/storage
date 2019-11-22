@@ -27,7 +27,7 @@ class StorageBackend(models.Model):
         required=True,
         default="odoo",
     )
-    base_url = fields.Char()
+    base_url = fields.Char(default="")
     is_public = fields.Boolean(
         default=False,
         help="Define if every files stored into this backend are "
@@ -36,4 +36,10 @@ class StorageBackend(models.Model):
         "not logged (not available on other website);\n"
         "Public: your file/image can be displayed if nobody is "
         "logged (useful to display files on external websites)",
+    )
+    url_include_directory_path = fields.Boolean(
+        default=False,
+        help="Normally the directory_path it's for internal usage. "
+        "If this flag is enabled "
+        "the path will be used to compute the public URL.",
     )
