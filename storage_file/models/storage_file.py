@@ -33,12 +33,7 @@ class StorageFile(models.Model):
     backend_id = fields.Many2one(
         "storage.backend", "Storage", index=True, required=True
     )
-    url = fields.Char(
-        compute="_compute_url",
-        compute_sudo=True,
-        store=True,
-        help="HTTP accessible path to the file",
-    )
+    url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
     relative_path = fields.Char(readonly=True, help="Relative location for backend")
     file_size = fields.Integer("File Size")
     human_file_size = fields.Char(
@@ -63,12 +58,11 @@ class StorageFile(models.Model):
     file_type = fields.Selection([])
 
     _sql_constraints = [
-        ("url_uniq", "unique(url)", "The url must be uniq"),
         (
             "path_uniq",
             "unique(relative_path, backend_id)",
             "The private path must be uniq per backend",
-        ),
+        )
     ]
 
     def write(self, vals):
@@ -135,20 +129,33 @@ class StorageFile(models.Model):
             else:
                 rec.data = None
 
-    @api.depends("backend_id.served_by", "backend_id.base_url", "relative_path")
+    @api.depends(
+        "backend_id.served_by",
+        "backend_id.base_url",
+        "backend_id.url_include_directory_path",
+        "relative_path",
+    )
     def _compute_url(self):
         for record in self:
-            if record.backend_id.served_by == "odoo":
-                base_url = (
-                    self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-                )
-                record.url = u"{}/storage.file/{}".format(
-                    base_url, record._slugify_name_with_id()
-                )
-            else:
-                record.url = "{}/{}".format(
-                    record.backend_id.base_url, record.relative_path
-                )
+            record.url = record._get_url()
+
+    def _get_url(self):
+        """Retrieve file URL based on backend params."""
+        backend = self.backend_id.sudo()
+        parts = []
+        if backend.served_by == "odoo":
+            params = self.env["ir.config_parameter"].sudo()
+            parts = [
+                params.get_param("web.base.url"),
+                "storage.file",
+                self._slugify_name_with_id(),
+            ]
+        else:
+            parts = [backend.base_url or ""]
+            if backend.url_include_directory_path and backend.directory_path:
+                parts.append(backend.directory_path)
+            parts.append(self.relative_path)
+        return "/".join(parts)
 
     @api.depends("name")
     def _compute_extract_filename(self):

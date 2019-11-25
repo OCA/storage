@@ -1,5 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
@@ -19,7 +21,7 @@ class StorageBackend(models.Model):
 
     backend_type = fields.Selection(selection_add=[("amazon_s3", "Amazon S3")])
     aws_host = fields.Char(
-        string="Host",
+        string="AWS Host",
         help="If you are using a different host than standard AWS ones, "
         "eg: Exoscale",
     )
@@ -30,6 +32,30 @@ class StorageBackend(models.Model):
         selection='_selection_aws_region', string="Region"
     )
     aws_cache_control = fields.Char(default="max-age=31536000, public")
+    aws_file_acl = fields.Selection(selection=[
+        ('', ''),
+        ('private', 'private'),
+        ('public-read', 'public-read'),
+        ('public-read-write', 'public-read-write'),
+        ('aws-exec-read', 'aws-exec-read'),
+        ('authenticated-read', 'authenticated-read'),
+        ('bucket-owner-read', 'bucket-owner-read'),
+        ('bucket-owner-full-control', 'bucket-owner-full-control'),
+    ])
+
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update({
+            "aws_host": {},
+            "aws_bucket": {},
+            "aws_access_key_id": {},
+            "aws_secret_access_key": {},
+            "aws_region": {},
+            "aws_cache_control": {},
+            "aws_file_acl": {},
+        })
+        return env_fields
 
     def _selection_aws_region(self):
         session = boto3.session.Session()

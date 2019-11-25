@@ -21,5 +21,6 @@
         "security/ir.model.access.csv",
         "security/storage_file.xml",
         "data/ir_cron.xml",
+        "data/storage_backend.xml",
     ],
 }
