@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_host
+msgid "AWS Host"
+msgstr ""
+
+#. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_access_key_id
 msgid "Access Key ID"
 msgstr ""
@@ -30,6 +35,11 @@ msgid "Aws Cache Control"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_file_acl
+msgid "Aws File Acl"
+msgstr ""
+
+#. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__backend_type
 msgid "Backend Type"
 msgstr ""
@@ -42,11 +52,6 @@ msgstr ""
 #. module: storage_backend_s3
 #: selection:storage.backend,backend_type:0
 msgid "Filesystem"
-msgstr ""
-
-#. module: storage_backend_s3
-#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_host
-msgid "Host"
 msgstr ""
 
 #. module: storage_backend_s3
@@ -70,9 +75,44 @@ msgid "Secret Access Key"
 msgstr ""
 
 #. module: storage_backend_s3
-#: code:addons/storage_backend_s3/components/s3_adapter.py:92
+#: code:addons/storage_backend_s3/components/s3_adapter.py:94
 #, python-format
 msgid "The file could not be stored: %s"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "authenticated-read"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "aws-exec-read"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "bucket-owner-full-control"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "bucket-owner-read"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "private"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "public-read"
+msgstr ""
+
+#. module: storage_backend_s3
+#: selection:storage.backend,aws_file_acl:0
+msgid "public-read-write"
 msgstr ""
 
 #. module: storage_backend_s3
