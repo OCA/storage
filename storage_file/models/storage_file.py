@@ -33,12 +33,7 @@ class StorageFile(models.Model):
     backend_id = fields.Many2one(
         "storage.backend", "Storage", index=True, required=True
     )
-    url = fields.Char(
-        compute="_compute_url",
-        compute_sudo=True,
-        store=True,
-        help="HTTP accessible path to the file",
-    )
+    url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
     relative_path = fields.Char(readonly=True, help="Relative location for backend")
     file_size = fields.Integer("File Size")
     human_file_size = fields.Char(
@@ -63,12 +58,11 @@ class StorageFile(models.Model):
     file_type = fields.Selection([])
 
     _sql_constraints = [
-        ("url_uniq", "unique(url)", "The url must be uniq"),
         (
             "path_uniq",
             "unique(relative_path, backend_id)",
             "The private path must be uniq per backend",
-        ),
+        )
     ]
 
     def write(self, vals):
@@ -145,9 +139,9 @@ class StorageFile(models.Model):
         for record in self:
             record.url = record._get_url()
 
-    def _get_url(self, backend=None):
+    def _get_url(self):
         """Retrieve file URL based on backend params."""
-        backend = backend or self.backend_id
+        backend = self.backend_id.sudo()
         parts = []
         if backend.served_by == "odoo":
             params = self.env["ir.config_parameter"].sudo()
