@@ -21,12 +21,23 @@ msgstr ""
 
 #. module: storage_backend
 #: selection:storage.backend,backend_type:0
+#: selection:storage.backend,backend_type_env_default:0
 msgid "Amazon S3"
 msgstr ""
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type
 msgid "Backend Type"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_is_editable
+msgid "Backend Type Env Is Editable"
 msgstr ""
 
 #. module: storage_backend
@@ -45,12 +56,23 @@ msgid "Directory Path"
 msgstr ""
 
 #. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
+msgid "Directory Path Env Default"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_is_editable
+msgid "Directory Path Env Is Editable"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: storage_backend
 #: selection:storage.backend,backend_type:0
+#: selection:storage.backend,backend_type_env_default:0
 msgid "Filesystem"
 msgstr ""
 
@@ -86,7 +108,13 @@ msgstr ""
 
 #. module: storage_backend
 #: selection:storage.backend,backend_type:0
+#: selection:storage.backend,backend_type_env_default:0
 msgid "SFTP"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
+msgid "Server Env Defaults"
 msgstr ""
 
 #. module: storage_backend
