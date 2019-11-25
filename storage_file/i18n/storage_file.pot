@@ -102,7 +102,7 @@ msgid "File Type"
 msgstr ""
 
 #. module: storage_file
-#: code:addons/storage_file/models/storage_file.py:79
+#: code:addons/storage_file/models/storage_file.py:73
 #, python-format
 msgid "File can not be updated,remove it and create a new one"
 msgstr ""
@@ -173,6 +173,11 @@ msgid "Name and ID"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_backend__url_include_directory_path
+msgid "Normally the directory_path it's for internal usage. If this flag is enabled the path will be used to compute the public URL."
+msgstr ""
+
+#. module: storage_file
 #: selection:storage.backend,served_by:0
 msgid "Odoo"
 msgstr ""
@@ -222,7 +227,7 @@ msgid "Strategy to build the name of the file to be stored.\n"
 msgstr ""
 
 #. module: storage_file
-#: code:addons/storage_file/models/storage_file.py:101
+#: code:addons/storage_file/models/storage_file.py:95
 #, python-format
 msgid "The filename strategy is empty for the backend %s.\n"
 "Please configure it"
@@ -231,11 +236,6 @@ msgstr ""
 #. module: storage_file
 #: sql_constraint:storage.file:0
 msgid "The private path must be uniq per backend"
-msgstr ""
-
-#. module: storage_file
-#: sql_constraint:storage.file:0
-msgid "The url must be uniq"
 msgstr ""
 
 #. module: storage_file
@@ -251,6 +251,11 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__url
 msgid "Url"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__url_include_directory_path
+msgid "Url Include Directory Path"
 msgstr ""
 
 #. module: storage_file
