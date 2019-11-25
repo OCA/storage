@@ -20,8 +20,24 @@ msgid "Access to %s is forbidden"
 msgstr ""
 
 #. module: storage_backend
+#: selection:storage.backend,backend_type:0
+#: selection:storage.backend,backend_type_env_default:0
+msgid "Amazon S3"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type
 msgid "Backend Type"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_is_editable
+msgid "Backend Type Env Is Editable"
 msgstr ""
 
 #. module: storage_backend
@@ -40,12 +56,23 @@ msgid "Directory Path"
 msgstr ""
 
 #. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
+msgid "Directory Path Env Default"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_is_editable
+msgid "Directory Path Env Is Editable"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: storage_backend
-#: model:ir.model.fields.selection,name:storage_backend.selection__storage_backend__backend_type__filesystem
+#: selection:storage.backend,backend_type:0
+#: selection:storage.backend,backend_type_env_default:0
 msgid "Filesystem"
 msgstr ""
 
