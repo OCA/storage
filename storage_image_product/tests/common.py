@@ -9,29 +9,28 @@ from odoo.addons.component.tests.common import SavepointComponentCase
 
 
 class ProductImageCommonCase(SavepointComponentCase):
-    def _get_image(self, name):
-        path = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(path, "static", name), "rb") as f:
+    @staticmethod
+    def _get_file_content(name, base_path=None, as_binary=False):
+        path = base_path or os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(path, "fixture", name), "rb") as f:
             data = f.read()
+        if as_binary:
+            return data
         return base64.b64encode(data)
 
-    def _create_storage_image(self, name):
-        return self.env["storage.image"].create(
-            {"name": name, "data": self._get_image(name)}
+    @classmethod
+    def _create_storage_image(cls, name):
+        return cls.env["storage.image"].create(
+            {"name": name, "data": cls._get_file_content(name)}
         )
 
-    def setUp(self):
-        super(ProductImageCommonCase, self).setUp()
-        # Run the test with the demo user in order to check the access right
-        self.user = self.env.ref("base.user_demo")
-        self.user.write(
-            {"groups_id": [(4, self.env.ref("storage_image.group_image_manager").id)]}
-        )
-        self.env = self.env(user=self.user)
-        self.template = self.env.ref("product.product_product_4_product_template")
-        self.product_a = self.env.ref("product.product_product_4")
-        self.product_b = self.env.ref("product.product_product_4b")
-        self.product_c = self.env.ref("product.product_product_4c")
-        self.logo_image = self._create_storage_image("logo-image.jpg")
-        self.white_image = self._create_storage_image("white-image.jpg")
-        self.black_image = self._create_storage_image("black-image.jpg")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.template = cls.env.ref("product.product_product_4_product_template")
+        cls.product_a = cls.env.ref("product.product_product_4")
+        cls.product_b = cls.env.ref("product.product_product_4b")
+        cls.product_c = cls.env.ref("product.product_product_4c")
+        cls.logo_image = cls._create_storage_image("logo-image.jpg")
+        cls.white_image = cls._create_storage_image("white-image.jpg")
+        cls.black_image = cls._create_storage_image("black-image.jpg")
