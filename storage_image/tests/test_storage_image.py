@@ -16,6 +16,7 @@ from odoo.addons.component.tests.common import TransactionComponentCase
 class StorageImageCase(TransactionComponentCase):
     def setUp(self):
         super(StorageImageCase, self).setUp()
+        # FIXME: remove this, should have explicit permission tests
         # Run the test with the demo user in order to check the access right
         self.user = self.env.ref("base.user_demo")
         self.user.write(
