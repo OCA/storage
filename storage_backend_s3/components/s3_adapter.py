@@ -1,5 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import io
@@ -102,6 +104,8 @@ class S3StorageAdapter(Component):
             extra_args["ContentType"] = mimetype
         if self.collection.aws_cache_control:
             extra_args["CacheControl"] = self.collection.aws_cache_control
+        if self.collection.aws_file_acl:
+            extra_args["ACL"] = self.collection.aws_file_acl
         if extra_args:
             return {"ExtraArgs": extra_args}
         return {}

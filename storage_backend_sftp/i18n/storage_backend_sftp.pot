@@ -34,11 +34,6 @@ msgid "Filesystem"
 msgstr ""
 
 #. module: storage_backend_sftp
-#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_server
-msgid "Host"
-msgstr ""
-
-#. module: storage_backend_sftp
 #: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_login
 msgid "Login"
 msgstr ""
@@ -68,6 +63,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_backend_sftp.storage_backend_view_form
 #: selection:storage.backend,backend_type:0
 msgid "SFTP"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_server
+msgid "SFTP Host"
 msgstr ""
 
 #. module: storage_backend_sftp

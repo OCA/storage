@@ -1,5 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
@@ -27,7 +29,7 @@ class StorageBackend(models.Model):
         required=True,
         default="odoo",
     )
-    base_url = fields.Char()
+    base_url = fields.Char(default="")
     is_public = fields.Boolean(
         default=False,
         help="Define if every files stored into this backend are "
@@ -37,3 +39,33 @@ class StorageBackend(models.Model):
         "Public: your file/image can be displayed if nobody is "
         "logged (useful to display files on external websites)",
     )
+    url_include_directory_path = fields.Boolean(
+        default=False,
+        help="Normally the directory_path it's for internal usage. "
+        "If this flag is enabled "
+        "the path will be used to compute the public URL.",
+    )
+
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update(
+            {
+                "filename_strategy": {},
+                "served_by": {},
+                "base_url": {},
+                "url_include_directory_path": {},
+            }
+        )
+        return env_fields
+
+    @classmethod
+    def _get_backend_id_from_param(cls, env, param_name):
+        param = env["ir.config_parameter"].sudo().get_param(param_name)
+        if param:
+            if param.isdigit():
+                return int(param)
+            elif "." in param:
+                # assume is a xid, let it raise if not found
+                return env.ref(param).id
+        return None
