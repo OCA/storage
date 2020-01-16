@@ -38,7 +38,7 @@ class StorageBackend(models.Model):
 
     def _selection_aws_region(self):
         session = boto3.session.Session()
-        return [
+        return [('', 'None')] + [
             (region, region.replace("-", " ").capitalize())
             for region in session.get_available_regions("s3")
         ] + [('other', 'Empty or Other (Manually specify below)')]

@@ -51,3 +51,20 @@ class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
         self.backend.aws_host = "another.s3.endpoint.com"
         params = adapter._aws_bucket_params()
         self.assertEqual(params["endpoint_url"], "another.s3.endpoint.com")
+
+    def test_aws_other_region_filled(self):
+        adapter = self.backend._get_adapter()
+        self.assertFalse(self.backend.aws_region)
+        self.backend.aws_other_region = "fr-par"
+        params = adapter._aws_bucket_params()
+        # no region as "aws_region" is empty
+        self.assertNotIn("region_name", params)
+        self.backend.aws_region = "other"
+        params = adapter._aws_bucket_params()
+        self.assertEqual(params["region_name"], "fr-par")
+
+    def test_aws_other_region_empty(self):
+        self.backend.aws_other_region = ""
+        adapter = self.backend._get_adapter()
+        params = adapter._aws_bucket_params()
+        self.assertNotIn("region_name", params)
