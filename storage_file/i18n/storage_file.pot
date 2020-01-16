@@ -170,11 +170,13 @@ msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_backend__url_include_directory_path
-msgid "Normally the directory_path it's for internal usage. If this flag is enabled the path will be used to compute the public URL."
+msgid ""
+"Normally the directory_path it's for internal usage. If this flag is enabled"
+" the path will be used to compute the public URL."
 msgstr ""
 
 #. module: storage_file
-#: selection:storage.backend,served_by:0
+#: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__served_by__odoo
 msgid "Odoo"
 msgstr ""
 
@@ -243,11 +245,6 @@ msgid "The private path must be uniq per backend"
 msgstr ""
 
 #. module: storage_file
-#: selection:storage.file,file_type:0
-msgid "Thumbnail"
-msgstr ""
-
-#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__to_delete
 msgid "To Delete"
 msgstr ""
@@ -260,9 +257,4 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__url_include_directory_path
 msgid "Url Include Directory Path"
-msgstr ""
-
-#. module: storage_file
-#: model:ir.model,name:storage_file.model_storage_backend
-msgid "storage.backend"
 msgstr ""
