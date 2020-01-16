@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* storage_backend_s3
+# 	* storage_backend_s3
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,8 +24,8 @@ msgid "Access Key ID"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__backend_type__amazon_s3
 #: model_terms:ir.ui.view,arch_db:storage_backend_s3.storage_backend_view_form
-#: selection:storage.backend,backend_type:0
 msgid "Amazon S3"
 msgstr ""
 
@@ -50,13 +50,13 @@ msgid "Bucket"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,backend_type:0
-msgid "Filesystem"
+#: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_host
+msgid "If you are using a different host than standard AWS ones, eg: Exoscale"
 msgstr ""
 
 #. module: storage_backend_s3
-#: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_host
-msgid "If you are using a different host than standard AWS ones, eg: Exoscale"
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_other_region
+msgid "Other region"
 msgstr ""
 
 #. module: storage_backend_s3
@@ -65,58 +65,52 @@ msgid "Region"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,backend_type:0
-msgid "SFTP"
-msgstr ""
-
-#. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_secret_access_key
 msgid "Secret Access Key"
 msgstr ""
 
 #. module: storage_backend_s3
-#: code:addons/storage_backend_s3/components/s3_adapter.py:94
+#: model:ir.model,name:storage_backend_s3.model_storage_backend
+msgid "Storage Backend"
+msgstr ""
+
+#. module: storage_backend_s3
+#: code:addons/storage_backend_s3/components/s3_adapter.py:0
 #, python-format
 msgid "The file could not be stored: %s"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__authenticated-read
 msgid "authenticated-read"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__aws-exec-read
 msgid "aws-exec-read"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__bucket-owner-full-control
 msgid "bucket-owner-full-control"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__bucket-owner-read
 msgid "bucket-owner-read"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__private
 msgid "private"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__public-read
 msgid "public-read"
 msgstr ""
 
 #. module: storage_backend_s3
-#: selection:storage.backend,aws_file_acl:0
+#: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__public-read-write
 msgid "public-read-write"
 msgstr ""
-
-#. module: storage_backend_s3
-#: model:ir.model,name:storage_backend_s3.model_storage_backend
-msgid "storage.backend"
-msgstr ""
-
