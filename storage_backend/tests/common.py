@@ -4,7 +4,7 @@
 
 import base64
 
-from odoo.addons.component.tests.common import TransactionComponentCase
+from odoo.addons.component.tests.common import SavepointComponentCase
 
 
 class GenericStoreCase(object):
@@ -37,16 +37,19 @@ class GenericStoreCase(object):
         self._test_setting_and_getting_data()
 
 
-class Common(TransactionComponentCase):
-    def _add_access_right_to_user(self):
-        self.user.write({"groups_id": [(4, self.env.ref("base.group_system").id)]})
+class Common(SavepointComponentCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.user = cls.env.ref("base.user_demo")
+        cls._add_access_right_to_user()
+        cls.env = cls.env(user=cls.user)
+        cls.backend = cls.env.ref("storage_backend.default_storage_backend")
+        cls.filedata = base64.b64encode(b"This is a simple file")
+        cls.filename = "test_file.txt"
+        cls.case_with_subdirectory = "subdirectory/here"
 
-    def setUp(self):
-        super(Common, self).setUp()
-        self.user = self.env.ref("base.user_demo")
-        self._add_access_right_to_user()
-        self.env = self.env(user=self.user)
-        self.backend = self.env.ref("storage_backend.default_storage_backend")
-        self.filedata = base64.b64encode(b"This is a simple file")
-        self.filename = "test_file.txt"
-        self.case_with_subdirectory = "subdirectory/here"
+    @classmethod
+    def _add_access_right_to_user(cls):
+        cls.user.write({"groups_id": [(4, cls.env.ref("base.group_system").id)]})

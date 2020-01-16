@@ -12,7 +12,8 @@ class FileSystemCase(Common, GenericStoreCase):
 
 
 class FileSystemDemoUserAccessCase(Common):
-    def _add_access_right_to_user(self):
+    @classmethod
+    def _add_access_right_to_user(cls):
         # We do not give the access to demo user
         # all test should raise an error
         pass
