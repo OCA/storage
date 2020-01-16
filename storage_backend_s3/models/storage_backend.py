@@ -35,6 +35,31 @@ class StorageBackend(models.Model):
     aws_other_region = fields.Char(
         string="Other region"
     )
+    aws_file_acl = fields.Selection(selection=[
+        ('', ''),
+        ('private', 'private'),
+        ('public-read', 'public-read'),
+        ('public-read-write', 'public-read-write'),
+        ('aws-exec-read', 'aws-exec-read'),
+        ('authenticated-read', 'authenticated-read'),
+        ('bucket-owner-read', 'bucket-owner-read'),
+        ('bucket-owner-full-control', 'bucket-owner-full-control'),
+    ])
+
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update({
+            "aws_host": {},
+            "aws_bucket": {},
+            "aws_access_key_id": {},
+            "aws_secret_access_key": {},
+            "aws_region": {},
+            "aws_other_region": {},
+            "aws_cache_control": {},
+            "aws_file_acl": {},
+        })
+        return env_fields
 
     def _selection_aws_region(self):
         session = boto3.session.Session()
