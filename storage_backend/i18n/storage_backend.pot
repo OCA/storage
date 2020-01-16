@@ -107,6 +107,11 @@ msgid "Relative path to the directory to store the file"
 msgstr ""
 
 #. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
+msgid "Server Env Defaults"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.actions.act_window,name:storage_backend.act_open_storage_backend_view
 #: model:ir.model,name:storage_backend.model_storage_backend
 #: model:ir.ui.menu,name:storage_backend.menu_storage
