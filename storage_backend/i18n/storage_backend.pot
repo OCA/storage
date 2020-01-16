@@ -25,6 +25,16 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_is_editable
+msgid "Backend Type Env Is Editable"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_uid
 msgid "Created by"
 msgstr ""
@@ -37,6 +47,16 @@ msgstr ""
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path
 msgid "Directory Path"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
+msgid "Directory Path Env Default"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_is_editable
+msgid "Directory Path Env Is Editable"
 msgstr ""
 
 #. module: storage_backend
@@ -77,6 +97,11 @@ msgstr ""
 #. module: storage_backend
 #: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path
 msgid "Relative path to the directory to store the file"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
+msgid "Server Env Defaults"
 msgstr ""
 
 #. module: storage_backend
