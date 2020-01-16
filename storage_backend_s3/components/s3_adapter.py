@@ -26,7 +26,6 @@ class S3StorageAdapter(Component):
     _usage = "amazon_s3"
 
     def _aws_bucket_params(self):
-
         params = {
             "aws_access_key_id": self.collection.aws_access_key_id,
             "aws_secret_access_key": self.collection.aws_secret_access_key,
@@ -34,11 +33,11 @@ class S3StorageAdapter(Component):
         if self.collection.aws_host:
             params["endpoint_url"] = self.collection.aws_host
 
-        if not self.collection.aws_region == 'other':
-            params['region_name'] = self.collection.aws_region
-        elif self.collection.aws_region == 'other' and \
-                self.collection.aws_other_region:
-            params['region_name'] = self.collection.aws_other_region
+        if self.collection.aws_region:
+            if self.collection.aws_region != 'other':
+                params['region_name'] = self.collection.aws_region
+            elif self.collection.aws_other_region:
+                params['region_name'] = self.collection.aws_other_region
         return params
 
     def _get_bucket(self):
