@@ -12,7 +12,9 @@ class StorageBackend(models.Model):
 
     backend_type = fields.Selection(selection_add=[("sftp", "SFTP")])
     sftp_password = fields.Char(string="Password")
-    sftp_login = fields.Char(string="Login", help="Login to connect to sftp server")
+    sftp_login = fields.Char(
+        string="Login", help="Login to connect to sftp server"
+    )
     sftp_server = fields.Char(string="SFTP Host")
     sftp_port = fields.Integer(string="Port", default=22)
     sftp_auth_method = fields.Selection(
