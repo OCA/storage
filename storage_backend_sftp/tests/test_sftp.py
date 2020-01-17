@@ -66,7 +66,9 @@ class SftpCase(Common, GenericStoreCase):
         with open("/tmp/fakefile2.txt", "w+b") as fakefile:
             fakefile.write(b"filecontent")
         client.open.return_value = open("/tmp/fakefile2.txt", "r")
-        self.assertEqual(self.backend._get_bin_data("fake/path"), "filecontent")
+        self.assertEqual(
+            self.backend._get_bin_data("fake/path"), "filecontent"
+        )
 
     @mock.patch(PARAMIKO_PATH)
     def test_list(self, mocked_paramiko):
