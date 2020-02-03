@@ -57,7 +57,6 @@ Contributors
 * Benoît Guillot <benoit.guillot@akretion.com>
 * Laurent Mignon <laurent.mignon@acsone.eu>
 * Denis Roussel <denis.roussel@acsone.eu>
-* Giovanni Serra <giovanni@gslab.it>
 
 Maintainers
 ~~~~~~~~~~~
