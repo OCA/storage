@@ -26,6 +26,7 @@
                         <field name="backend_type"/>
                         <field name="directory_path"/>
                     </group>
+                    <notebook name="backend_config" attrs="{'invisible': [('backend_type', '=', False)]}" />
                 </sheet>
             </form>
         </field>

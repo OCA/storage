@@ -2,9 +2,10 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
 # @author Simone Orsi <simone.orsi@camptocamp.com>
+# Copyright 2020 Giovanni Serra
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
 import base64
+import fnmatch
 import logging
 
 from odoo import fields, models
@@ -42,8 +43,11 @@ class StorageBackend(models.Model):
     def _get_bin_data(self, relative_path, **kwargs):
         return self._forward("get", relative_path, **kwargs)
 
-    def _list(self, relative_path=""):
-        return self._forward("list", relative_path)
+    def _list(self, relative_path="", pattern=False):
+        names = self._forward("list", relative_path)
+        if pattern:
+            names = fnmatch.filter(names, pattern)
+        return names
 
     def _delete(self, relative_path):
         return self._forward("delete", relative_path)
