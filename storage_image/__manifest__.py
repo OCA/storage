@@ -13,7 +13,6 @@
     "development_status": "Production/Stable",
     "installable": True,
     "depends": ["storage_thumbnail"],
-    "external_dependencies": {"python": ["requests_mock"]},
     "data": [
         "views/storage_image_view.xml",
         "views/js.xml",
