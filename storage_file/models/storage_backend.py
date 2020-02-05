@@ -59,13 +59,23 @@ class StorageBackend(models.Model):
         )
         return env_fields
 
+    _default_backend_xid = "storage_backend.default_storage_backend"
+
     @classmethod
-    def _get_backend_id_from_param(cls, env, param_name):
+    def _get_backend_id_from_param(cls, env, param_name, default_fallback=True):
+        backend_id = None
         param = env["ir.config_parameter"].sudo().get_param(param_name)
         if param:
             if param.isdigit():
-                return int(param)
+                backend_id = int(param)
             elif "." in param:
-                # assume is a xid, let it raise if not found
-                return env.ref(param).id
-        return None
+                backend = env.ref(param, raise_if_not_found=False)
+                if backend:
+                    backend_id = backend.id
+        if not backend_id and default_fallback:
+            backend = env.ref(cls._default_backend_xid, raise_if_not_found=False)
+            if backend:
+                backend_id = backend.id
+            else:
+                _logger.warn("No backend found, no default fallback found.")
+        return backend_id
