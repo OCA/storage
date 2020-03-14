@@ -1,32 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
-    <template id="assets_backend" name="web_dashboard_tile assets" inherit_id="web.assets_backend">
+    <template
+        id="assets_backend"
+        name="web_dashboard_tile assets"
+        inherit_id="web.assets_backend"
+    >
         <xpath expr="//link[last()]" position="after">
-            <link rel="stylesheet" href="/storage_image_product/static/src/less/kanban_image_view.less"/>
+            <link
+                rel="stylesheet"
+                href="/storage_image_product/static/src/less/kanban_image_view.less"
+            />
         </xpath>
     </template>
-
     <record id="storage_image_view_tree" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <tree string="Image">
-                <field name="name"/>
+                <field name="name" />
             </tree>
         </field>
     </record>
-
     <record id="storage_image_view_form" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <form string="Image">
                 <group string="Image">
-                    <field name="image_medium_url"
-                           readonly="False"
-                           widget="image_url"
-                           filename="name"
-                           nolabel="1"
-                           options="{'size':(128,128)}"/>
+                    <field
+                        name="image_medium_url"
+                        readonly="False"
+                        widget="image_url"
+                        filename="name"
+                        nolabel="1"
+                        options="{'size':(128,128)}"
+                    />
                 </group>
                 <group string="Name">
                     <field name="name" />
@@ -35,8 +41,6 @@
             </form>
         </field>
     </record>
-
-
     <record id="storage_image_view_kanban" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
@@ -48,14 +52,17 @@
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
                             <a type="open">
-                                <img t-att-src="record.image_small_url.value"
-                                     class="oe_kanban_image" t-att-alt="record.alt_name"/>
+                                <img
+                                    t-att-src="record.image_small_url.value"
+                                    class="oe_kanban_image"
+                                    t-att-alt="record.alt_name"
+                                />
                             </a>
                             <div class="oe_kanban_details">
                                 <h4>
                                     <a type="open">
-                                         <field name="name"/>
-                                         (<field name="alt_name"/>)
+                                         <field name="name" />
+                                         (<field name="alt_name" />)
                                     </a>
                                 </h4>
                             </div>
@@ -65,43 +72,39 @@
             </kanban>
         </field>
     </record>
-
     <record id="storage_image_view_search" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <search string="Image">
-                <field name="name"/>
+                <field name="name" />
             </search>
         </field>
     </record>
-
     <record model="ir.actions.act_window" id="act_open_storage_image_view">
         <field name="name">Image</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">storage.image</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="search_view_id" ref="storage_image_view_search"/>
+        <field name="search_view_id" ref="storage_image_view_search" />
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
-
     <record model="ir.actions.act_window.view" id="act_open_storage_image_view_form">
-        <field name="act_window_id" ref="act_open_storage_image_view"/>
-        <field name="sequence" eval="20"/>
+        <field name="act_window_id" ref="act_open_storage_image_view" />
+        <field name="sequence" eval="20" />
         <field name="view_mode">form</field>
-        <field name="view_id" ref="storage_image_view_form"/>
+        <field name="view_id" ref="storage_image_view_form" />
     </record>
-
     <record model="ir.actions.act_window.view" id="act_open_storage_image_view_tree">
-        <field name="act_window_id" ref="act_open_storage_image_view"/>
-        <field name="sequence" eval="10"/>
+        <field name="act_window_id" ref="act_open_storage_image_view" />
+        <field name="sequence" eval="10" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="storage_image_view_tree"/>
+        <field name="view_id" ref="storage_image_view_tree" />
     </record>
-
-    <menuitem id="menu_storage_image"
+    <menuitem
+        id="menu_storage_image"
         parent="storage_backend.menu_storage"
         sequence="30"
-        action="act_open_storage_image_view"/>
-
+        action="act_open_storage_image_view"
+    />
 </odoo>
