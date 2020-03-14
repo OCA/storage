@@ -30,16 +30,10 @@ class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
         self.backend.write(
             {
                 "backend_type": "amazon_s3",
-                "aws_bucket": os.environ.get(
-                    "AWS_BUCKET", "test-storage-backend"
-                ),
+                "aws_bucket": os.environ.get("AWS_BUCKET", "test-storage-backend"),
                 "aws_access_key_id": os.environ.get("AWS_ACCESS_KEY_ID", ""),
-                "aws_secret_access_key": os.environ.get(
-                    "AWS_SECRET_ACCESS_KEY", ""
-                ),
-                "aws_host": os.environ.get(
-                    "AWS_HOST", "https://sos-ch-dk-2.exo.io"
-                ),
+                "aws_secret_access_key": os.environ.get("AWS_SECRET_ACCESS_KEY", ""),
+                "aws_host": os.environ.get("AWS_HOST", "https://sos-ch-dk-2.exo.io"),
             }
         )
 
