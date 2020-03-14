@@ -1,82 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
-<record id="storage_file_view_tree" model="ir.ui.view">
-    <field name="model">storage.file</field>
-    <field name="arch" type="xml">
-        <tree string="File">
-            <field name="name"/>
-            <field name="backend_id"/>
-            <field name="file_size"/>
-            <field name="file_type"/>
-            <field name="company_id" groups="base.group_multi_company"/>
-        </tree>
-    </field>
-</record>
-
-<record id="storage_file_view_form" model="ir.ui.view">
-    <field name="model">storage.file</field>
-    <field name="arch" type="xml">
-        <form string="File">
-            <div class="oe_title">
-                <label for="name" class="oe_edit_only"/>
-                <h1>
-                    <field name="name"/>
-                </h1>
-                <group>
-                    <field name="id" invisible="True"/>
-                    <field name="backend_id" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="data" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="url" widget="url"/>
-                    <field name="human_file_size"/>
-                    <field name="checksum"/>
-                    <field name="relative_path"/>
-                    <field name="file_type"/>
-                    <field name="company_id" groups="base.group_multi_company"/>
-                </group>
-            </div>
-        </form>
-    </field>
-</record>
-
-<record id="storage_file_view_search" model="ir.ui.view">
-    <field name="model">storage.file</field>
-    <field name="arch" type="xml">
-        <search string="File">
-            <field name="name"/>
-            <field name="backend_id"/>
-            <field name="url"/>
-        </search>
-    </field>
-</record>
-
-<record model="ir.actions.act_window" id="act_open_storage_file_view">
-    <field name="name">File</field>
-    <field name="type">ir.actions.act_window</field>
-    <field name="res_model">storage.file</field>
-    <field name="view_mode">tree,form</field>
-    <field name="search_view_id" ref="storage_file_view_search"/>
-    <field name="domain">[]</field>
-    <field name="context">{}</field>
-</record>
-
-<record model="ir.actions.act_window.view" id="act_open_storage_file_view_form">
-    <field name="act_window_id" ref="act_open_storage_file_view"/>
-    <field name="sequence" eval="20"/>
-    <field name="view_mode">form</field>
-    <field name="view_id" ref="storage_file_view_form"/>
-</record>
-
-<record model="ir.actions.act_window.view" id="act_open_storage_file_view_tree">
-    <field name="act_window_id" ref="act_open_storage_file_view"/>
-    <field name="sequence" eval="10"/>
-    <field name="view_mode">tree</field>
-    <field name="view_id" ref="storage_file_view_tree"/>
-</record>
-
-<menuitem id="menu_storage_file"
-    parent="storage_backend.menu_storage"
-    sequence="20"
-    action="act_open_storage_file_view"/>
-
+    <record id="storage_file_view_tree" model="ir.ui.view">
+        <field name="model">storage.file</field>
+        <field name="arch" type="xml">
+            <tree string="File">
+                <field name="name" />
+                <field name="backend_id" />
+                <field name="file_size" />
+                <field name="file_type" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </tree>
+        </field>
+    </record>
+    <record id="storage_file_view_form" model="ir.ui.view">
+        <field name="model">storage.file</field>
+        <field name="arch" type="xml">
+            <form string="File">
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only" />
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <group>
+                        <field name="id" invisible="True" />
+                        <field
+                            name="backend_id"
+                            attrs="{'readonly': [('id', '!=', False)]}"
+                        />
+                        <field
+                            name="data"
+                            attrs="{'readonly': [('id', '!=', False)]}"
+                        />
+                        <field name="url" widget="url" />
+                        <field name="human_file_size" />
+                        <field name="checksum" />
+                        <field name="relative_path" />
+                        <field name="file_type" />
+                        <field name="company_id" groups="base.group_multi_company" />
+                    </group>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="storage_file_view_search" model="ir.ui.view">
+        <field name="model">storage.file</field>
+        <field name="arch" type="xml">
+            <search string="File">
+                <field name="name" />
+                <field name="backend_id" />
+                <field name="url" />
+            </search>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="act_open_storage_file_view">
+        <field name="name">File</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">storage.file</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="storage_file_view_search" />
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="act_open_storage_file_view_form">
+        <field name="act_window_id" ref="act_open_storage_file_view" />
+        <field name="sequence" eval="20" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="storage_file_view_form" />
+    </record>
+    <record model="ir.actions.act_window.view" id="act_open_storage_file_view_tree">
+        <field name="act_window_id" ref="act_open_storage_file_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="storage_file_view_tree" />
+    </record>
+    <menuitem
+        id="menu_storage_file"
+        parent="storage_backend.menu_storage"
+        sequence="20"
+        action="act_open_storage_file_view"
+    />
 </odoo>
