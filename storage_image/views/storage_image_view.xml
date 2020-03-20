@@ -11,7 +11,10 @@
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <tree string="Image">
+                <field name="write_date" />
                 <field name="name"/>
+                <field name="alt_name" />
+                <field name="human_file_size" />
             </tree>
         </field>
     </record>
@@ -31,6 +34,10 @@
                 <group string="Name">
                     <field name="name" />
                     <field name="alt_name" />
+                </group>
+                <group string="Misc" name="misc">
+                    <field name="file_id" readonly="True" />
+                    <field name="thumbnail_ids" readonly="True" />
                 </group>
             </form>
         </field>
