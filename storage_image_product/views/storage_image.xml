@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="storage_image_view_form" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="inherit_id" ref="storage_image.storage_image_view_form" />
+        <field name="arch" type="xml">
+            <page name="info" position="before">
+                <page name="products" string="Products">
+                    <field name="product_relation_ids" mode="tree,form,kanban">
+                        <tree>
+                            <field name="product_tmpl_id" />
+                            <field name="attribute_value_ids" />
+                            <field name="tag_id" />
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="product_tmpl_id" />
+                                <field name="attribute_value_ids" widget="many2many" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+                <page name="categories" string="Categories">
+                    <field name="category_relation_ids" mode="tree,form,kanban">
+                        <tree>
+                            <field name="category_id" />
+                            <field name="tag_id" />
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="category_id" />
+                                <field name="tag_id" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
