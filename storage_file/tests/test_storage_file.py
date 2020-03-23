@@ -237,3 +237,8 @@ class StorageFileCase(TransactionComponentCase):
                 ),
                 storage_file.backend_id.id,
             )
+
+    def test_empty(self):
+        # get_url is called on new records
+        empty = self.env["storage.file"].new({})._get_url()
+        self.assertEqual(empty, "/")
