@@ -33,6 +33,8 @@ class S3StorageAdapter(Component):
         }
         if self.collection.aws_host:
             params["endpoint_url"] = self.collection.aws_host
+        if not params["region_name"]:
+            # For some providers,
             # region must be excluded, otherwise endpoint is ignored
             params.pop("region_name", None)
         return params
