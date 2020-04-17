@@ -30,6 +30,11 @@ msgid "Amazon S3"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_available_regions
+msgid "Aws Available Regions"
+msgstr ""
+
+#. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_cache_control
 msgid "Aws Cache Control"
 msgstr ""
@@ -50,13 +55,23 @@ msgid "Bucket"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_region
+msgid "Can be empty for some providers"
+msgstr ""
+
+#. module: storage_backend_s3
 #: selection:storage.backend,backend_type:0
 msgid "Filesystem"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_available_regions
+msgid "Helper to choose a region."
+msgstr ""
+
+#. module: storage_backend_s3
 #: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_host
-msgid "If you are using a different host than standard AWS ones, eg: Exoscale"
+msgid "If you are using a different host than standard AWS ones, eg: Exoscale, Openstack. Also called endpoint"
 msgstr ""
 
 #. module: storage_backend_s3
@@ -75,7 +90,7 @@ msgid "Secret Access Key"
 msgstr ""
 
 #. module: storage_backend_s3
-#: code:addons/storage_backend_s3/components/s3_adapter.py:94
+#: code:addons/storage_backend_s3/components/s3_adapter.py:96
 #, python-format
 msgid "The file could not be stored: %s"
 msgstr ""
