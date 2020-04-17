@@ -6,7 +6,7 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import fields, models, api
 
 _logger = logging.getLogger(__name__)
 
@@ -23,14 +23,13 @@ class StorageBackend(models.Model):
     aws_host = fields.Char(
         string="AWS Host",
         help="If you are using a different host than standard AWS ones, "
-        "eg: Exoscale",
+        "eg: Exoscale, Openstack. Also called endpoint",
     )
     aws_bucket = fields.Char(string="Bucket")
     aws_access_key_id = fields.Char(string="Access Key ID")
     aws_secret_access_key = fields.Char(string="Secret Access Key")
-    aws_region = fields.Selection(
-        selection='_selection_aws_region', string="Region"
-    )
+    aws_region = fields.Char(string="Region",
+        help="Can be empty for some providers")
     aws_cache_control = fields.Char(default="max-age=31536000, public")
     aws_file_acl = fields.Selection(selection=[
         ('', ''),
@@ -42,6 +41,10 @@ class StorageBackend(models.Model):
         ('bucket-owner-read', 'bucket-owner-read'),
         ('bucket-owner-full-control', 'bucket-owner-full-control'),
     ])
+    aws_available_regions = fields.Selection(
+        selection="_selection_aws_region",
+        help="Helper to choose a region.",
+        store=False)
 
     @property
     def _server_env_fields(self):
@@ -57,9 +60,24 @@ class StorageBackend(models.Model):
         })
         return env_fields
 
+    _aws_available_regions = None
+
+    @classmethod
     def _selection_aws_region(self):
+        if self._aws_available_regions:
+            return self._aws_available_regions
+        # This calls AWS web servers,
+        # it introduce latency in rendering of
+        # form view and tree view of storage.backend
         session = boto3.session.Session()
-        return [
+        self._aws_available_regions = [
             (region, region.replace("-", " ").capitalize())
             for region in session.get_available_regions("s3")
         ]
+        return self._aws_available_regions
+
+    @api.onchange("aws_available_regions")
+    def _onchange_available_regions(self):
+        # aws_available_region is an helper to set region
+        # only if host is on amazon
+        self.aws_region = self.aws_available_regions
