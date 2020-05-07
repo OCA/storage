@@ -9,7 +9,7 @@
     "version": "10.0.1.0.0",
     "category": "Storage",
     "website": "www.akretion.com",
-    "author": " Akretion",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "installable": True,
     "external_dependencies": {"python": ["paramiko"]},
