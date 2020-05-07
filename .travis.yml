@@ -3,12 +3,10 @@ sudo: required
 cache: pip
 
 python:
-  - "2.7"
-
-services:
-  - docker
+  - "2.7.13"
 
 addons:
+  postgresql: "9.6"
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
@@ -28,19 +26,15 @@ jobs:
 
 env:
   global:
-  - VERSION="10.0" TESTS="1" LINT_CHECK="0"
+  - VERSION="10.0" TESTS="1" LINT_CHECK="0" MAKEPOT="0"
 
   matrix:
   - TESTS="0" LINT_CHECK="1"
-  - ODOO_REPO="OCA/OCB"
   - UNIT_TEST="1" ODOO_REPO="OCA/OCB"
-#  - UNIT_TEST="1" ODOO_REPO="odoo/odoo"
-
-before_install:
-  - docker run -p 2222:22 -d atmoz/sftp:alpine foo:pass:::upload
+  - UNIT_TEST="1" ODOO_REPO="odoo/odoo" MAKEPOT="1"
 
 install:
-  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - printf '[options]\n\nrunning_env = dev\nkeychain_key_dev = HRdthrkXp28SCHX0kmwOgIob-82N-w8zWoE_UsctE7E=' > ${HOME}/.openerp_serverrc
