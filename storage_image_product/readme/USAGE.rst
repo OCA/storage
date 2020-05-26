@@ -9,3 +9,4 @@ B) Products
 
 
 For uploading and managing the images see the module storage_image.
+You can also directly drop images in the Image tab to upload them and resequence the cards by drag-and-drop.
