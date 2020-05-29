@@ -154,7 +154,7 @@ class StorageFile(models.Model):
             parts = [backend.base_url or ""]
             if backend.url_include_directory_path and backend.directory_path:
                 parts.append(backend.directory_path)
-            parts.append(self.relative_path)
+            parts.append(self.relative_path or "")
         return "/".join(parts)
 
     @api.depends("name")
