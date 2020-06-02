@@ -12,11 +12,9 @@ _logger = logging.getLogger(__name__)
 
 class ProductImageRelation(models.Model):
     _name = "product.image.relation"
+    _inherit = "image.relation.abstract"
     _description = "Product Image Relation"
-    _order = "sequence, image_id"
 
-    sequence = fields.Integer()
-    image_id = fields.Many2one("storage.image", required=True)
     attribute_value_ids = fields.Many2many(
         "product.attribute.value", string="Attributes"
     )
@@ -28,11 +26,6 @@ class ProductImageRelation(models.Model):
         compute="_compute_available_attribute",
     )
     product_tmpl_id = fields.Many2one("product.template")
-    # for kanban view
-    image_name = fields.Char(related="image_id.name")
-    # for kanban view
-    image_url = fields.Char(related="image_id.image_medium_url")
-
     tag_id = fields.Many2one("image.tag", domain=[("apply_on", "=", "product")])
 
     @api.depends("image_id", "product_tmpl_id.attribute_line_ids.value_ids")

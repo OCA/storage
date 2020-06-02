@@ -12,16 +12,11 @@ _logger = logging.getLogger(__name__)
 
 class CategoryImageRelation(models.Model):
     _name = "category.image.relation"
+    _inherit = "image.relation.abstract"
     _description = "Category Image Relation"
 
-    image_id = fields.Many2one("storage.image", required=True)
     category_id = fields.Many2one("product.category")
     tag_id = fields.Many2one("image.tag", domain=[("apply_on", "=", "category")])
-
-    # for kanban view
-    image_name = fields.Char(related="image_id.name")
-    # for kanban view
-    image_url = fields.Char(related="image_id.image_medium_url")
 
 
 class ImageTag(models.Model):

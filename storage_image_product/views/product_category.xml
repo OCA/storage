@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[last()]" position="after">
                 <group name="images" string="Images">
-                    <field name="image_ids" mode="kanban" />
+                    <field name="image_ids" mode="kanban" widget="image_handle" />
                 </group>
             </xpath>
         </field>
@@ -31,6 +31,7 @@
             <kanban>
                 <field name="image_name" />
                 <field name="image_url" />
+                <field name="image_id" invisible="1" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
