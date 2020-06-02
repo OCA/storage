@@ -33,6 +33,8 @@
                 <field name="image_name" />
                 <field name="image_url" />
                 <field name="attribute_value_ids" />
+                <field name="sequence" widget="handle" />
+                <field name="image_id" invisible="1" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_vignette oe_semantic_html_override">
