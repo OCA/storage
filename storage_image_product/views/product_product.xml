@@ -37,7 +37,11 @@
                     <p
                         class="oe_grey"
                     >If you need to edit the images, do it from the product template.</p>
-                    <field name="variant_image_ids" mode="kanban" />
+                    <field
+                        name="variant_image_ids"
+                        mode="kanban"
+                        widget="image_handle"
+                    />
                 </page>
             </xpath>
         </field>
