@@ -9,7 +9,7 @@ from odoo import fields, models
 class StorageImage(models.Model):
     _inherit = "storage.image"
 
-    image_relation_ids = fields.One2many(
+    product_relation_ids = fields.One2many(
         "product.image.relation", inverse_name="image_id", string="Products"
     )
     category_relation_ids = fields.One2many(
