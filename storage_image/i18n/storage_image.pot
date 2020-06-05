@@ -156,6 +156,11 @@ msgid "Mime Type"
 msgstr ""
 
 #. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
+msgid "Misc"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__name
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Name"
