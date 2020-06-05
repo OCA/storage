@@ -10,9 +10,8 @@ class StorageImage(models.Model):
     _inherit = "storage.image"
 
     image_relation_ids = fields.One2many(
-        "product.image.relation",
-        inverse_name="image_id", string="Products"
+        "product.image.relation", inverse_name="image_id", string="Products"
     )
     category_relation_ids = fields.One2many(
-        "category.image.relation",
-        inverse_name="image_id", string="Categories")
+        "category.image.relation", inverse_name="image_id", string="Categories"
+    )
