@@ -11,7 +11,10 @@
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <tree string="Image">
+                <field name="write_date" />
                 <field name="name"/>
+                <field name="alt_name" />
+                <field name="human_file_size" />
             </tree>
         </field>
     </record>
@@ -20,7 +23,7 @@
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <form string="Image">
-                <group string="Image">
+                <group string="Image" name="image">
                     <field name="image_medium_url"
                            readonly="False"
                            widget="image_url"
@@ -28,9 +31,13 @@
                            nolabel="1"
                            options="{'size':(128,128)}"/>
                 </group>
-                <group string="Name">
+                <group string="Name" name="name">
                     <field name="name" />
                     <field name="alt_name" />
+                </group>
+                <group string="Misc" name="misc">
+                    <field name="file_id" readonly="True" required="False" />
+                    <field name="thumbnail_ids" readonly="True" />
                 </group>
             </form>
         </field>
