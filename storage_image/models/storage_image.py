@@ -24,9 +24,7 @@ class StorageImage(models.Model):
     _inherits = {"storage.file": "file_id"}
 
     alt_name = fields.Char(string="Alt Image name")
-    file_id = fields.Many2one(
-        "storage.file", "File", required=True, ondelete="cascade"
-    )
+    file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
 
     @api.onchange("name")
     def onchange_name(self):
@@ -58,9 +56,7 @@ class StorageImage(models.Model):
         Overload this method if you need something more powerfull
         """
         return int(
-            self.env["ir.config_parameter"].get_param(
-                "storage.image.backend_id"
-            )
+            self.env["ir.config_parameter"].get_param("storage.image.backend_id")
         )
 
     def unlink(self):

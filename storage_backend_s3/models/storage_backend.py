@@ -28,9 +28,7 @@ class StorageBackend(models.Model):
     backend_type = fields.Selection(selection_add=[("amazon_s3", "Amazon S3")])
     aws_bucket = fields.Char(sparse="data", string="Bucket")
     aws_access_key_id = fields.Char(sparse="data", string="Access Key ID")
-    aws_secret_access_key = fields.Char(
-        related="password", string="Secret Access Key"
-    )
+    aws_secret_access_key = fields.Char(related="password", string="Secret Access Key")
     aws_region = fields.Selection(
         selection=_get_aws_region, sparse="data", string="Region"
     )
