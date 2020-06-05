@@ -8,8 +8,9 @@ import logging
 import os
 from contextlib import contextmanager
 
-from odoo.addons.component.core import Component
 from StringIO import StringIO
+
+from odoo.addons.component.core import Component
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +87,7 @@ class SftpStorageBackend(Component):
         with sftp(self.collection) as client:
             file_data = client.open(full_path, "rb")
             data = file_data.read()
+            # TODO: shouldn't we close the file?
         return data
 
     def list(self, relative_path):

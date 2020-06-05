@@ -33,9 +33,7 @@ class ProductImageRelation(models.Model):
     # for kanban view
     image_url = fields.Char(related="image_id.image_medium_url")
 
-    tag_id = fields.Many2one(
-        "image.tag", domain=[("apply_on", "=", "product")]
-    )
+    tag_id = fields.Many2one("image.tag", domain=[("apply_on", "=", "product")])
 
     @api.depends("image_id", "product_tmpl_id.attribute_line_ids.value_ids")
     def _compute_available_attribute(self):

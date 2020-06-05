@@ -14,9 +14,7 @@ class BaseStorageAdapter(AbstractComponent):
 
     def _fullpath(self, relative_path):
         if self.collection.directory_path:
-            return os.path.join(
-                self.collection.directory_path or "", relative_path
-            )
+            return os.path.join(self.collection.directory_path or "", relative_path)
         else:
             return relative_path
 
