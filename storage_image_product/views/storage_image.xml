@@ -7,7 +7,7 @@
               <group name="misc" position="before">
                 <notebook>
                     <page name="products" string="Products">
-                      <field name="image_relation_ids" mode="tree,form,kanban">
+                      <field name="product_relation_ids" mode="tree,form,kanban">
                         <tree>
                           <field name="product_tmpl_id" />
                           <field name="attribute_value_ids" />
