@@ -1,0 +1,206 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* storage_image_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_apply_on
+msgid "Apply on"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.ui.view,arch_db:storage_image_product.product_category_image_relation_form
+#: model:ir.ui.view,arch_db:storage_image_product.product_image_relation_form
+msgid "Association"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_attribute_value_ids
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_available_attribute_value_ids
+msgid "Attributes"
+msgstr ""
+
+#. module: storage_image_product
+#: selection:image.tag,apply_on:0
+msgid "Category"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_category_id
+msgid "Category id"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_create_uid
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_create_uid
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_create_date
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_create_date
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_display_name
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_display_name
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_id
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_id
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_id
+msgid "ID"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.ui.view,arch_db:storage_image_product.product_normal_form_view
+msgid "If you need to edit the images, do it from the product template."
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.ui.view,arch_db:storage_image_product.product_normal_form_view
+#: model:ir.ui.view,arch_db:storage_image_product.product_template_only_form_view
+msgid "Image"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.actions.act_window,name:storage_image_product.act_open_image_tag_view
+#: model:ir.ui.menu,name:storage_image_product.menu_image_tag
+#: model:ir.ui.view,arch_db:storage_image_product.image_tag_view_search
+#: model:ir.ui.view,arch_db:storage_image_product.image_tag_view_tree
+msgid "Image Tag"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_image_id
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_image_id
+msgid "Image id"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_category_image_ids
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product_image_ids
+#: model:ir.model.fields,field_description:storage_image_product.field_product_template_image_ids
+msgid "Image ids"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_image_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_image_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product_image_medium_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product_variant_image_medium_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_template_image_medium_url
+msgid "Image medium url"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product_image_small_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product_variant_image_small_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_template_image_small_url
+msgid "Image small url"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.ui.view,arch_db:storage_image_product.product_category_form_view
+#: model:ir.ui.view,arch_db:storage_image_product.product_category_image_relation_tree
+#: model:ir.ui.view,arch_db:storage_image_product.product_image_relation_tree
+msgid "Images"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation___last_update
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag___last_update
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_write_uid
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_write_uid
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_write_date
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_write_date
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_image_name
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag_name
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_image_name
+msgid "Name"
+msgstr ""
+
+#. module: storage_image_product
+#: selection:image.tag,apply_on:0
+#: model:ir.model,name:storage_image_product.model_product_product
+msgid "Product"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_product_tmpl_id
+msgid "Product tmpl id"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_sequence
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_tag_id
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_tag_id
+msgid "Tag id"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product_variant_image_ids
+msgid "Variant image ids"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_category_image_relation
+msgid "category.image.relation"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_image_tag
+msgid "image.tag"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_product_image_relation
+msgid "product.image.relation"
+msgstr ""
+
