@@ -1,0 +1,192 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* storage_media
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_active
+msgid "Active"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_checksum
+msgid "Checksum/SHA1"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_code
+msgid "Code"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_company_id
+msgid "Company"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_create_uid
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_create_date
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_data
+msgid "Data"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media_data
+msgid "Datas"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_display_name
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_extension
+msgid "Extension"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_file_id
+msgid "File"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_file_size
+msgid "File Size"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_file_type
+msgid "File type"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_filename
+msgid "Filename without extension"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media_url
+msgid "HTTP accessible path to the file"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_human_file_size
+msgid "Human File Size"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_id
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_id
+msgid "ID"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media___last_update
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_write_uid
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_write_date
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_media_type_id
+msgid "Media Type"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_mimetype
+msgid "Mime Type"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_name
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_type_name
+msgid "Name"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media_relative_path
+msgid "Relative location for backend"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_relative_path
+msgid "Relative path"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_backend_id
+msgid "Storage"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model,name:storage_media.model_storage_file
+msgid "Storage File"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.actions.act_window,name:storage_media.storage_media_action
+#: model:ir.model,name:storage_media.model_storage_media
+#: model:ir.ui.menu,name:storage_media.storage_media_menu
+#: model:ir.ui.view,arch_db:storage_media.storage_media_view_form
+#: model:ir.ui.view,arch_db:storage_media.storage_media_view_tree
+msgid "Storage Media"
+msgstr ""
+
+#. module: storage_media
+#: model:res.groups,name:storage_media.group_media_manager
+msgid "Storage Media Manager"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.actions.act_window,name:storage_media.act_open_storage_media_type_view
+#: model:ir.model,name:storage_media.model_storage_media_type
+#: model:ir.ui.menu,name:storage_media.menu_storage_media_type
+#: model:ir.ui.view,arch_db:storage_media.storage_media_type_view_form
+#: model:ir.ui.view,arch_db:storage_media.storage_media_type_view_search
+#: model:ir.ui.view,arch_db:storage_media.storage_media_type_view_tree
+msgid "Storage Media Type"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_to_delete
+msgid "To delete"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media_url
+msgid "Url"
+msgstr ""
+
