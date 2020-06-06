@@ -1,0 +1,140 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* storage_media_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: storage_media_product
+#: model:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
+#: model:ir.ui.view,arch_db:storage_media_product.product_media_relation_tree
+msgid "Association"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_attribute_value_ids
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_available_attribute_value_ids
+msgid "Attributes"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,help:storage_media_product.field_product_media_relation_url
+msgid "HTTP accessible path to the file"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_id
+msgid "ID"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.ui.view,arch_db:storage_media_product.product_normal_form_view
+#: model:ir.ui.view,arch_db:storage_media_product.product_template_only_form_view
+msgid "Media"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_media_type_id
+msgid "Media Type"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_media_id
+msgid "Media id"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_category_media_ids
+#: model:ir.model.fields,field_description:storage_media_product.field_product_product_media_ids
+#: model:ir.model.fields,field_description:storage_media_product.field_product_template_media_ids
+msgid "Media ids"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.ui.view,arch_db:storage_media_product.product_category_form_view
+msgid "Medias"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_name
+msgid "Name"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model,name:storage_media_product.model_product_product
+msgid "Product"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model,name:storage_media_product.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model,name:storage_media_product.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_product_tmpl_id
+msgid "Product tmpl id"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation_url
+msgid "Url"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_product_variant_media_ids
+msgid "Variant media ids"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model,name:storage_media_product.model_product_media_relation
+msgid "product.media.relation"
+msgstr ""
+
