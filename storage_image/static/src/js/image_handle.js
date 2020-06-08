@@ -1,4 +1,4 @@
-odoo.define('storage_image_product.image_handle', function (require) {
+odoo.define('storage_image.image_handle', function (require) {
     "use strict";
     var registry = require('web.field_registry');
     var relational_fields = require('web.relational_fields');
@@ -31,7 +31,7 @@ odoo.define('storage_image_product.image_handle', function (require) {
                     update: function () {
                         self.trigger_up('resequence', {
                             "rowIDs": self._getIDs(),
-                            "handleField": self.nodeOptions["handle_field"],
+                            "handleField": "sequence",
                             "offset": 0,
                         });
                     },
@@ -71,8 +71,7 @@ odoo.define('storage_image_product.image_handle', function (require) {
                     var context = []
                     _.each(images, function (image) {
                         var context_val  = {}
-                        var default_image_field = 'default_' + self.nodeOptions["image_field"];
-                        context_val[default_image_field] = image
+                        context_val['default_image_id'] = image
                         context.push(context_val)
                     });
                     self.trigger_up("add_record", {

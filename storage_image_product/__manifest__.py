@@ -20,6 +20,5 @@
         "views/product_product.xml",
         "views/product_category.xml",
         "views/image_tag.xml",
-        "views/storage_image_product.xml",
     ],
 }
