@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 Camptocamp SA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+  <record model="ir.ui.view" id="storage_image_migrate_wizard_form">
+    <field name="name">storage.image.migrate.wizard.form</field>
+    <field name="model">storage.image.migrate.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Shopinvader Category Unbinding Wizard">
+        <field name='template_ids'/>
+        <field name='wipe_attachments_after'/>
+        <footer>
+          <button string="Migrate" name="action_migrate" type="object" class="oe_highlight" confirm="Do you really want to proceed?"/>
+          or
+          <button string="Cancel" class="oe_link" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record model="ir.actions.act_window" id="storage_image_migrate_wizard_action">
+    <field name="name">Migrate product images to storage images</field>
+    <field name="res_model">storage.image.migrate.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="context">{}</field>
+    <field name="target">new</field>
+    <field name="view_id" ref="storage_image_migrate_wizard_form"/>
+    <field name="groups_id" eval="[(4, ref('storage_image.group_image_manager'))]"/>
+  </record>
+
+  <menuitem id="menu_storage_image_migrate" parent="storage_backend.menu_storage" sequence="40" action="storage_image_migrate_wizard_action"/>
+
+</odoo>

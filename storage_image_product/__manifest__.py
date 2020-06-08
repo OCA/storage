@@ -20,5 +20,6 @@
         "views/product_product.xml",
         "views/product_category.xml",
         "views/image_tag.xml",
+        "wizards/migrate_product_image_wizard.xml",
     ],
 }
