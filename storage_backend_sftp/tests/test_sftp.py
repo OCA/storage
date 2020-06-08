@@ -23,9 +23,10 @@ PARAMIKO_PATH = MOD_PATH + ".paramiko"
 
 
 class SftpCase(Common, GenericStoreCase):
-    def setUp(self):
-        super(SftpCase, self).setUp()
-        self.backend.write(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.backend.write(
             {
                 "backend_type": "sftp",
                 "sftp_login": "foo",
@@ -35,7 +36,7 @@ class SftpCase(Common, GenericStoreCase):
                 "directory_path": "upload",
             }
         )
-        self.case_with_subdirectory = "upload/subdirectory/here"
+        cls.case_with_subdirectory = "upload/subdirectory/here"
 
     @mock.patch(MOD_PATH + ".sftp_mkdirs")
     @mock.patch(PARAMIKO_PATH)
@@ -66,7 +67,9 @@ class SftpCase(Common, GenericStoreCase):
         with open("/tmp/fakefile2.txt", "w+b") as fakefile:
             fakefile.write(b"filecontent")
         client.open.return_value = open("/tmp/fakefile2.txt", "r")
-        self.assertEqual(self.backend._get_bin_data("fake/path"), "filecontent")
+        self.assertEqual(
+            self.backend._get_bin_data("fake/path"), "filecontent"
+        )
 
     @mock.patch(PARAMIKO_PATH)
     def test_list(self, mocked_paramiko):
