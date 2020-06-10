@@ -14,7 +14,7 @@
             </field>
             <xpath expr="//page[@name='sales']" position="after">
                 <page name="image" string="Image">
-                    <field name="image_ids" mode="tree" />
+                    <field name="image_ids" mode="kanban" widget="image_handle"/>
                 </page>
             </xpath>
         </field>

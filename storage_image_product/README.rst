@@ -57,6 +57,7 @@ Contributors
 ------------
 
 * Raphaël Reverdy <raphael.reverdy@akretion.com>
+* Quentin Groulard <quentin.groulard@acsone.eu>
 
 
 Maintainer
