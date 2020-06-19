@@ -13,6 +13,15 @@
         <field name="model">storage.backend</field>
         <field name="arch" type="xml">
             <form string="Storage Backend">
+                <header>
+                    <field name="has_validation" invisible="1" />
+                    <button
+                        type="object"
+                        name="action_test_config"
+                        string="Test connection"
+                        attrs="{'invisible': [('has_validation', '=', False)]}"
+                    />
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only" />
