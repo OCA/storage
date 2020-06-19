@@ -44,12 +44,11 @@ def load_ssh_key(ssh_key_buffer):
 
 @contextmanager
 def sftp(backend):
-    password = backend.sftp_password
     transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
     if backend.sftp_auth_method == "pwd":
-        transport.connect(username=backend.sftp_login, password=password)
+        transport.connect(username=backend.sftp_login, password=backend.sftp_password)
     elif backend.sftp_auth_method == "ssh_key":
-        ssh_key_buffer = StringIO(password)
+        ssh_key_buffer = StringIO(backend.sftp_ssh_private_key)
         private_key = load_ssh_key(ssh_key_buffer)
         transport.connect(username=backend.sftp_login, pkey=private_key)
     client = paramiko.SFTPClient.from_transport(transport)
