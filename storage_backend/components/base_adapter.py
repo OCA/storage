@@ -28,3 +28,10 @@ class BaseStorageAdapter(AbstractComponent):
 
     def delete(self, relative_path):
         raise NotImplementedError
+
+    # You can define `validate_config` on your own adapter
+    # to make validation button available on UI.
+    # This method should simply pass smoothly when validation is ok,
+    # otherwise it should raise an exception.
+    # def validate_config(self):
+    #    raise NotImplementedError
