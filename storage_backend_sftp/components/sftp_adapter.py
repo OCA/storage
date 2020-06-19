@@ -7,7 +7,6 @@ import logging
 import os
 from contextlib import contextmanager
 from io import StringIO
-
 from odoo.addons.component.core import Component
 
 logger = logging.getLogger(__name__)
@@ -103,3 +102,7 @@ class SftpStorageBackend(Component):
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
             return client.remove(full_path)
+
+    def validate_config(self):
+        with sftp(self.collection) as client:
+            client.listdir()
