@@ -21,14 +21,18 @@ def migrate(cr, version):
     """
     if not version:
         return
-    query_product = "ALTER TABLE product_image " "RENAME TO product_image_relation;"
-    query_category = "ALTER TABLE category_image " "RENAME TO category_image_relation;"
+    query_product = (
+        "ALTER TABLE IF EXISTS product_image RENAME TO product_image_relation;"
+    )
+    query_category = (
+        "ALTER TABLE IF EXISTS category_image RENAME TO category_image_relation;"
+    )
     query_seq_product = (
-        "ALTER SEQUENCE product_image_id_seq "
+        "ALTER SEQUENCE IF EXISTS product_image_id_seq "
         "RENAME TO product_image_relation_id_seq;"
     )
     query_seq_categ = (
-        "ALTER SEQUENCE category_image_id_seq "
+        "ALTER SEQUENCE IF EXISTS category_image_id_seq "
         "RENAME TO category_image_relation_id_seq;"
     )
     cr.execute(query_product)
