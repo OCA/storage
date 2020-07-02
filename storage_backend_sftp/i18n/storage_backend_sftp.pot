@@ -24,6 +24,13 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend_sftp
+#: model:ir.model.fields,help:storage_backend_sftp.field_storage_backend__sftp_ssh_private_key
+msgid ""
+"It's recommended to not store the key here but to provide it via secret env "
+"variable. See `server_environment` docs."
+msgstr ""
+
+#. module: storage_backend_sftp
 #: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_login
 msgid "Login"
 msgstr ""
@@ -58,6 +65,11 @@ msgstr ""
 #. module: storage_backend_sftp
 #: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_server
 msgid "SFTP Host"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_ssh_private_key
+msgid "SSH private key"
 msgstr ""
 
 #. module: storage_backend_sftp
