@@ -7,7 +7,6 @@ import logging
 import os
 from contextlib import contextmanager
 from io import StringIO
-
 from odoo.addons.component.core import Component
 
 logger = logging.getLogger(__name__)
@@ -45,12 +44,11 @@ def load_ssh_key(ssh_key_buffer):
 
 @contextmanager
 def sftp(backend):
-    password = backend.sftp_password
     transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
     if backend.sftp_auth_method == "pwd":
-        transport.connect(username=backend.sftp_login, password=password)
+        transport.connect(username=backend.sftp_login, password=backend.sftp_password)
     elif backend.sftp_auth_method == "ssh_key":
-        ssh_key_buffer = StringIO(password)
+        ssh_key_buffer = StringIO(backend.sftp_ssh_private_key)
         private_key = load_ssh_key(ssh_key_buffer)
         transport.connect(username=backend.sftp_login, pkey=private_key)
     client = paramiko.SFTPClient.from_transport(transport)
@@ -103,3 +101,7 @@ class SftpStorageBackend(Component):
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
             return client.remove(full_path)
+
+    def validate_config(self):
+        with sftp(self.collection) as client:
+            client.listdir()
