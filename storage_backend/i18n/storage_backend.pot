@@ -35,6 +35,18 @@ msgid "Backend Type Env Is Editable"
 msgstr ""
 
 #. module: storage_backend
+#: code:addons/storage_backend/models/storage_backend.py:0
+#, python-format
+msgid "Connection Test Failed!"
+msgstr ""
+
+#. module: storage_backend
+#: code:addons/storage_backend/models/storage_backend.py:0
+#, python-format
+msgid "Connection Test Succeeded!"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_uid
 msgid "Created by"
 msgstr ""
@@ -65,8 +77,19 @@ msgid "Display Name"
 msgstr ""
 
 #. module: storage_backend
+#: code:addons/storage_backend/models/storage_backend.py:0
+#, python-format
+msgid "Everything seems properly set up!"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields.selection,name:storage_backend.selection__storage_backend__backend_type__filesystem
 msgid "Filesystem"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__has_validation
+msgid "Has Validation"
 msgstr ""
 
 #. module: storage_backend
@@ -113,4 +136,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_search
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_tree
 msgid "Storage Backend"
+msgstr ""
+
+#. module: storage_backend
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
+msgid "Test connection"
 msgstr ""
