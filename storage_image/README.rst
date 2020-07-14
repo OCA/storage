@@ -16,8 +16,11 @@ Storage Image
 .. |badge3| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/storage-13-0/storage-13-0-storage_image
     :alt: Translate me on Weblate
+.. |badge4| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
+    :target: https://runbot.odoo-community.org/runbot/275/13.0
+    :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3| |badge4| 
 
 External image management depending on Storage File module.
 
