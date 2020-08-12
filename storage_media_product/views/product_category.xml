@@ -6,7 +6,7 @@
         <field name="model">product.category</field>
         <field name="arch" type="xml">
             <xpath expr="//group[last()]" position="after">
-                <group name="medias" string="Medias">
+                <group name="media" string="Media">
                     <field name="media_ids"/>
                 </group>
             </xpath>
