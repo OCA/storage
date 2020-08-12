@@ -25,7 +25,7 @@
                        attrs="{'invisible': [('id', '=', False)]}"
                        widget="url"/>
                 <field name="name"/>
-                <field name="media_type_id" widget="selection"/>
+                <field name="media_type_id"/>
             </group>
         </form>
     </field>
