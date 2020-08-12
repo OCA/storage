@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -23,13 +22,16 @@ class ProductProduct(models.Model):
         store=True,
     )
 
-    @api.depends("product_tmpl_id.media_ids", "attribute_value_ids")
+    @api.depends("product_tmpl_id.media_ids", "product_template_attribute_value_ids")
     def _compute_variant_media_ids(self):
         for variant in self:
+            available_attr_values = variant.product_tmpl_id.mapped(
+                "attribute_line_ids.value_ids"
+            )
             res = self.env["product.media.relation"].browse([])
             for media in variant.media_ids:
                 if not (
-                    media.attribute_value_ids - variant.attribute_value_ids
+                    media.attribute_value_ids - available_attr_values
                 ):
                     res |= media
             variant.variant_media_ids = res
