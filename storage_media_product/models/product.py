@@ -40,6 +40,7 @@ class ProductProduct(models.Model):
 class ProductMediaRelation(models.Model):
     _name = "product.media.relation"
     _order = "sequence, media_id"
+    _description = "Products and storage media relation"
 
     sequence = fields.Integer()
     media_id = fields.Many2one("storage.media", required=True)
@@ -50,7 +51,7 @@ class ProductMediaRelation(models.Model):
     # in order to filter the attribute value available for the current media
     available_attribute_value_ids = fields.Many2many(
         "product.attribute.value",
-        string="Attributes",
+        string="Available attributes",
         compute="_compute_available_attribute",
     )
     product_tmpl_id = fields.Many2one("product.template")
