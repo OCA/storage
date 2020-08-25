@@ -81,7 +81,7 @@ class StorageFile(models.Model):
     @api.depends("file_size")
     def _compute_human_file_size(self):
         for record in self:
-            record.human_file_size = human_size(self.file_size)
+            record.human_file_size = human_size(record.file_size)
 
     def _slugify_name_with_id(self):
         return u"{}{}".format(
