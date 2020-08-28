@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -22,7 +21,9 @@ class StorageMedia(models.Model):
     _inherits = {"storage.file": "file_id"}
     _default_file_type = "media"
 
-    file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
+    file_id = fields.Many2one(
+        "storage.file", "File", required=True, ondelete="cascade"
+    )
     media_type_id = fields.Many2one("storage.media.type", "Media Type")
 
     @api.onchange("name")
