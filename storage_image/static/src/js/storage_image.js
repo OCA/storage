@@ -42,7 +42,6 @@ odoo.define("storage_image.image_url", function(require) {
             this.$("> img").remove();
             this.$el.prepend($img);
             $img.on("error", function() {
-                self._clearFile();
                 $img.attr("src", self.placeholder);
                 self.do_warn(_t("Image"), _t("Could not display the selected image."));
             });
