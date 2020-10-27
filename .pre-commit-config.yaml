@@ -13,6 +13,7 @@ exclude: |
   ^storage_backend_sftp/|^storage_image_category_pos/|^storage_image_product_pos/|^storage_media/|^storage_media_product/
 default_language_version:
   python: python3
+  node: "14.13.0"
 repos:
   - repo: https://github.com/psf/black
     rev: 19.10b0
