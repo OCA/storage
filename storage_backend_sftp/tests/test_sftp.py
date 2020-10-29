@@ -14,7 +14,7 @@ import os
 
 import mock
 
-from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
+from odoo.addons.storage_backend.tests.common import CommonCase, BackendStorageTestMixin
 
 _logger = logging.getLogger(__name__)
 
@@ -22,7 +22,8 @@ MOD_PATH = "odoo.addons.storage_backend_sftp.components.sftp_adapter"
 PARAMIKO_PATH = MOD_PATH + ".paramiko"
 
 
-class SftpCase(Common, GenericStoreCase):
+class SftpCase(CommonCase, BackendStorageTestMixin):
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -85,12 +86,3 @@ class SftpCase(Common, GenericStoreCase):
         client.listdir.side_effect = exc
         self.assertEqual(self.backend._list(), [])
 
-    def test_setting_and_getting_data_from_root(self):
-        # bypass as we tested all the methods mocked specifically above.
-        # Would be nice to have an integration test but is not feasible ATM.
-        pass
-
-    def test_setting_and_getting_data_from_dir(self):
-        # bypass as we tested all the methods mocked specifically above
-        # Would be nice to have an integration test but is not feasible ATM.
-        pass
