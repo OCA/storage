@@ -59,7 +59,7 @@ def sftp(backend):
     transport.close()
 
 
-class SftpStorageBackend(Component):
+class SFTPStorageBackendAdapter(Component):
     _name = "sftp.adapter"
     _inherit = "base.storage.adapter"
     _usage = "sftp"
