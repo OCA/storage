@@ -4,19 +4,24 @@
 
 from odoo.exceptions import AccessError
 
-from .common import Common, GenericStoreCase
+from .common import CommonCase, BackendStorageTestMixin
 
 
-class FileSystemCase(Common, GenericStoreCase):
-    pass
+class FileSystemCase(CommonCase, BackendStorageTestMixin):
+
+    def test_setting_and_getting_data_from_root(self):
+        self._test_setting_and_getting_data_from_root()
+
+    def test_setting_and_getting_data_from_dir(self):
+        self._test_setting_and_getting_data_from_dir()
 
 
-class FileSystemDemoUserAccessCase(Common):
+class FileSystemDemoUserAccessCase(CommonCase):
+
     @classmethod
-    def _add_access_right_to_user(cls):
-        # We do not give the access to demo user
-        # all test should raise an error
-        pass
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.backend = cls.backend.with_user(cls.demo_user)
 
     def test_cannot_add_file(self):
         with self.assertRaises(AccessError):
@@ -35,3 +40,4 @@ class FileSystemDemoUserAccessCase(Common):
     def test_cannot_delete_file(self):
         with self.assertRaises(AccessError):
             self.backend._delete(self.filename)
+
