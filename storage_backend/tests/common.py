@@ -4,6 +4,8 @@
 
 import base64
 
+import mock
+
 from odoo.addons.component.tests.common import SavepointComponentCase
 
 
@@ -36,16 +38,25 @@ class BackendStorageTestMixin(object):
         self.backend.directory_path = self.case_with_subdirectory
         self._test_setting_and_getting_data()
 
+    def _test_find_files(
+        self,
+        backend,
+        adapter_dotted_path,
+        mocked_filepaths,
+        pattern,
+        expected_filepaths,
+    ):
+        with mock.patch(adapter_dotted_path + ".list") as mocked:
+            mocked.return_value = mocked_filepaths
+            res = backend._find_files(pattern)
+            self.assertEqual(sorted(res), sorted(expected_filepaths))
 
 
 class CommonCase(SavepointComponentCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(
-            context=dict(cls.env.context, tracking_disable=True)
-        )
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.backend = cls.env.ref("storage_backend.default_storage_backend")
         cls.filedata = base64.b64encode(b"This is a simple file")
         cls.filename = "test_file.txt"
