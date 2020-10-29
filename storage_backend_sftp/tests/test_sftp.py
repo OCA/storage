@@ -19,6 +19,7 @@ from odoo.addons.storage_backend.tests.common import CommonCase, BackendStorageT
 _logger = logging.getLogger(__name__)
 
 MOD_PATH = "odoo.addons.storage_backend_sftp.components.sftp_adapter"
+ADAPTER_PATH =  MOD_PATH + ".SFTPStorageBackendAdapter"
 PARAMIKO_PATH = MOD_PATH + ".paramiko"
 
 
@@ -86,3 +87,17 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         client.listdir.side_effect = exc
         self.assertEqual(self.backend._list(), [])
 
+    def test_find_files(self):
+        good_filepaths = [
+            "somepath/file%d.good" % x for x in range(1, 10)
+        ]
+        bad_filepaths = [
+            "somepath/file%d.bad" % x for x in range(1, 10)
+        ]
+        mocked_filepaths = bad_filepaths + good_filepaths
+        backend = self.backend.sudo()
+        expected = good_filepaths[:]
+        expected = [
+            backend.directory_path + "/" + path for path in good_filepaths
+        ]
+        self._test_find_files(backend, ADAPTER_PATH, mocked_filepaths, r".*\.good$", expected)
