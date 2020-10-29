@@ -101,3 +101,24 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
             backend.directory_path + "/" + path for path in good_filepaths
         ]
         self._test_find_files(backend, ADAPTER_PATH, mocked_filepaths, r".*\.good$", expected)
+
+    @mock.patch(PARAMIKO_PATH)
+    def test_move_files(self, mocked_paramiko):
+        client = mocked_paramiko.SFTPClient.from_transport()
+        # simulate file is not already there
+        client.lstat.side_effect = FileNotFoundError()
+        to_move = "move/from/path/myfile.txt"
+        to_path = "move/to/path"
+        self.backend._move_files([to_move], to_path)
+        # no need to delete it
+        client.unlink.assert_not_called()
+        # rename gets called
+        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
+        # now try to override destination
+        client.lstat.side_effect = None
+        client.lstat.return_value =  True
+        self.backend._move_files([to_move], to_path)
+        # client will delete it first
+        client.unlink.assert_called_with(to_move.replace("from", "to"))
+        # then move it
+        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
