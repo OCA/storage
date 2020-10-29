@@ -1,7 +1,10 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
+# Copyright 2020 ACSONE SA/NV (<http://acsone.eu>)
+# @author Simone Orsi <simahawk@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
+import re
 import errno
 import logging
 import os
@@ -9,12 +12,12 @@ from contextlib import contextmanager
 from io import StringIO
 from odoo.addons.component.core import Component
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 try:
     import paramiko
 except ImportError as err:  # pragma: no cover
-    logger.debug(err)
+    _logger.debug(err)
 
 
 def sftp_mkdirs(client, path, mode=511):
@@ -96,6 +99,22 @@ class SftpStorageBackend(Component):
                     return []
                 else:
                     raise  # pragma: no cover
+
+    def move_files(self, files, destination_path):
+        _logger.debug('mv %s %s', files, destination_path)
+        with sftp(self.collection) as client:
+            for sftp_file in files:
+                dest_file_path = os.path.join(destination_path, os.path.basename(sftp_file))
+                # Remove existing file at the destination path (an error is raised
+                # otherwise)
+                try:
+                    client.lstat(dest_file_path)
+                except FileNotFoundError:
+                    _logger.debug("destination %s is free", dest_file_path)
+                else:
+                    client.unlink(dest_file_path)
+                # Move the file
+                client.rename(sftp_file, dest_file_path)
 
     def delete(self, relative_path):
         full_path = self._fullpath(relative_path)
