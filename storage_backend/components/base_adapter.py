@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import os
+import re
 
 from odoo.addons.component.core import AbstractComponent
 
@@ -24,6 +25,35 @@ class BaseStorageAdapter(AbstractComponent):
         raise NotImplementedError
 
     def list(self, relative_path=""):
+        raise NotImplementedError
+
+    def find_files(self, pattern, relative_path="", **kwargs):
+        """Find files matching given pattern.
+
+        :param pattern: regex expression
+        :param relative_path: optional relative path containing files
+        :return: list of file paths as full paths from the root
+        """
+        regex = re.compile(pattern)
+        filelist = self.list(relative_path)
+        files_matching = [
+            regex.match(file_).group() for file_ in filelist if regex.match(file_)
+        ]
+        filepaths = None
+        if files_matching:
+            filepaths = [
+                os.path.join(self._fullpath(relative_path) or "", filename)
+                for filename in files_matching
+            ]
+        return filepaths
+
+    def move_files(self, files, destination_path, **kwargs):
+        """Move files to given destination.
+
+        :param files: list of file paths to be moved
+        :param destination_path: directory path where to move files
+        :return: None
+        """
         raise NotImplementedError
 
     def delete(self, relative_path):
