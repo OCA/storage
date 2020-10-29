@@ -52,20 +52,27 @@ class StorageBackend(models.Model):
     def _list(self, relative_path=""):
         return self._forward("list", relative_path)
 
+    def _find_files(self, pattern, relative_path="", **kw):
+        return self._forward("find_files", pattern, relative_path=relative_path)
+
+    def _move_files(self, files, destination_path, **kw):
+        return self._forward("move_files", files, destination_path)
+
     def _delete(self, relative_path):
         return self._forward("delete", relative_path)
 
-    def _forward(self, method, relative_path, *args, **kwargs):
+    def _forward(self, method, *args, **kwargs):
         _logger.debug(
-            "Backend Storage ID: %s type %s: %s file %s",
+            "Backend Storage ID: %s type %s: %s file %s %s",
             self.backend_type,
             self.id,
             method,
-            relative_path,
+            args,
+            kwargs,
         )
         self.ensure_one()
         adapter = self._get_adapter()
-        return getattr(adapter, method)(relative_path, *args, **kwargs)
+        return getattr(adapter, method)(*args, **kwargs)
 
     def _get_adapter(self):
         with self.work_on(self._name) as work:
