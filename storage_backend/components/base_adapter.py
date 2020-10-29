@@ -1,6 +1,8 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# Copyright 2020 ACSONE SA/NV (<http://acsone.eu>)
+# @author Simone Orsi <simahawk@gmail.com>
 
 import os
 import re
@@ -39,7 +41,7 @@ class BaseStorageAdapter(AbstractComponent):
         files_matching = [
             regex.match(file_).group() for file_ in filelist if regex.match(file_)
         ]
-        filepaths = None
+        filepaths = []
         if files_matching:
             filepaths = [
                 os.path.join(self._fullpath(relative_path) or "", filename)
