@@ -11,12 +11,12 @@ import os
 
 from vcr_unittest import VCRMixin
 
-from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
+from odoo.addons.storage_backend.tests.common import BackendStorageTestMixin, CommonCase
 
 _logger = logging.getLogger(__name__)
 
 
-class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
+class AmazonS3Case(VCRMixin, CommonCase, BackendStorageTestMixin):
     def _get_vcr_kwargs(self, **kwargs):
         return {
             "record_mode": "once",
@@ -36,6 +36,12 @@ class AmazonS3Case(VCRMixin, Common, GenericStoreCase):
                 "aws_host": os.environ.get("AWS_HOST", "https://sos-ch-dk-2.exo.io"),
             }
         )
+
+    def test_setting_and_getting_data_from_root(self):
+        self._test_setting_and_getting_data_from_root()
+
+    def test_setting_and_getting_data_from_dir(self):
+        self._test_setting_and_getting_data_from_dir()
 
     def test_params(self):
         adapter = self.backend._get_adapter()
