@@ -184,6 +184,7 @@ msgid "Products"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__sequence
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__sequence
 msgid "Sequence"
 msgstr ""
