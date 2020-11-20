@@ -36,7 +36,6 @@ msgstr ""
 #. module: storage_image
 #. openerp-web
 #: code:addons/storage_image/static/src/js/storage_image.js:41
-#: code:addons/storage_image/static/src/js/storage_image.js:42
 #, python-format
 msgid "Could not display the selected image."
 msgstr ""
@@ -118,7 +117,6 @@ msgstr ""
 #. module: storage_image
 #. openerp-web
 #: code:addons/storage_image/static/src/js/storage_image.js:41
-#: code:addons/storage_image/static/src/js/storage_image.js:42
 #: model:ir.actions.act_window,name:storage_image.act_open_storage_image_view
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_id
 #: model:ir.ui.menu,name:storage_image.menu_storage_image
