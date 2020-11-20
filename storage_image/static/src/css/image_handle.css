@@ -1,0 +1,4 @@
+.is-dragover {
+    outline: 2px dashed #4F94C9;
+    outline-offset: +2px;
+}
