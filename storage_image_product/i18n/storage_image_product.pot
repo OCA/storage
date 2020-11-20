@@ -88,12 +88,6 @@ msgid "Image Tag"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_image_id
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_image_id
-msgid "Image id"
-msgstr ""
-
-#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_category_image_ids
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product_image_ids
 #: model:ir.model.fields,field_description:storage_image_product.field_product_template_image_ids
@@ -101,8 +95,6 @@ msgid "Image ids"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_image_url
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_image_url
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product_image_medium_url
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product_variant_image_medium_url
 #: model:ir.model.fields,field_description:storage_image_product.field_product_template_image_medium_url
@@ -145,9 +137,7 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_image_name
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag_name
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_image_name
 msgid "Name"
 msgstr ""
 
@@ -170,12 +160,6 @@ msgstr ""
 #. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_product_tmpl_id
 msgid "Product tmpl id"
-msgstr ""
-
-#. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation_sequence
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation_sequence
-msgid "Sequence"
 msgstr ""
 
 #. module: storage_image_product
