@@ -61,6 +61,7 @@ msgid "Datas"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__display_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__display_name
 msgid "Display Name"
 msgstr ""
@@ -108,6 +109,7 @@ msgid "Human File Size"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__id
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__id
 msgid "ID"
 msgstr ""
@@ -116,6 +118,7 @@ msgstr ""
 #. openerp-web
 #: code:addons/storage_image/static/src/js/storage_image.js:42
 #: model:ir.actions.act_window,name:storage_image.act_open_storage_image_view
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_id
 #: model:ir.ui.menu,name:storage_image.menu_storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
@@ -131,8 +134,14 @@ msgid "Image Manager"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_url
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__image_medium_url
 msgid "Image Medium Url"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model,name:storage_image.model_image_relation_abstract
+msgid "Image Relation Abstract"
 msgstr ""
 
 #. module: storage_image
@@ -141,6 +150,7 @@ msgid "Image Small Url"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract____last_update
 #: model:ir.model.fields,field_description:storage_image.field_storage_image____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -161,6 +171,7 @@ msgid "Mime Type"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__name
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Name"
@@ -174,6 +185,11 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__relative_path
 msgid "Relative location for backend"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__sequence
+msgid "Sequence"
 msgstr ""
 
 #. module: storage_image
