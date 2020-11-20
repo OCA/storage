@@ -66,6 +66,7 @@ Contributors
 * Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 * Antiun Ingeniería S.L. - Jairo Llopis
 * Denis Roussel <denis.roussel@acsone.eu>
+* Quentin Groulard <quentin.groulard@acsone.eu>
 
 Maintainers
 ~~~~~~~~~~~
