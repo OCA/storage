@@ -10,7 +10,7 @@
     "website": "https://www.github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "development_status": "Stable/Production",
+    "development_status": "Production/Stable",
     "application": False,
     "installable": True,
     "external_dependencies": {"python": ["python_slugify"]},
