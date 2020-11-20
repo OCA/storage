@@ -61,6 +61,7 @@ msgid "Datas"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract_display_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image_display_name
 msgid "Display Name"
 msgstr ""
@@ -101,6 +102,7 @@ msgid "Human File Size"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract_id
 #: model:ir.model.fields,field_description:storage_image.field_storage_image_id
 msgid "ID"
 msgstr ""
@@ -123,6 +125,26 @@ msgid "Image Manager"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model,name:storage_image.model_image_relation_abstract
+msgid "Image Relation Abstract"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_category_image_relation_image_id
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract_image_id
+#: model:ir.model.fields,field_description:storage_image.field_product_image_relation_image_id
+msgid "Image id"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_category_image_relation_image_url
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract_image_url
+#: model:ir.model.fields,field_description:storage_image.field_product_image_relation_image_url
+msgid "Image medium url"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract___last_update
 #: model:ir.model.fields,field_description:storage_image.field_storage_image___last_update
 msgid "Last Modified on"
 msgstr ""
@@ -143,6 +165,9 @@ msgid "Mime Type"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_category_image_relation_image_name
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract_image_name
+#: model:ir.model.fields,field_description:storage_image.field_product_image_relation_image_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image_name
 #: model:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Name"
@@ -156,6 +181,13 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image_relative_path
 msgid "Relative path"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_category_image_relation_sequence
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract_sequence
+#: model:ir.model.fields,field_description:storage_image.field_product_image_relation_sequence
+msgid "Sequence"
 msgstr ""
 
 #. module: storage_image
