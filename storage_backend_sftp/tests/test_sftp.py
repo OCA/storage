@@ -14,15 +14,17 @@ import os
 
 import mock
 
-from odoo.addons.storage_backend.tests.common import Common, GenericStoreCase
+from odoo.addons.storage_backend.tests.common import CommonCase, BackendStorageTestMixin
 
 _logger = logging.getLogger(__name__)
 
 MOD_PATH = "odoo.addons.storage_backend_sftp.components.sftp_adapter"
+ADAPTER_PATH =  MOD_PATH + ".SFTPStorageBackendAdapter"
 PARAMIKO_PATH = MOD_PATH + ".paramiko"
 
 
-class SftpCase(Common, GenericStoreCase):
+class SftpCase(CommonCase, BackendStorageTestMixin):
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -85,12 +87,38 @@ class SftpCase(Common, GenericStoreCase):
         client.listdir.side_effect = exc
         self.assertEqual(self.backend._list(), [])
 
-    def test_setting_and_getting_data_from_root(self):
-        # bypass as we tested all the methods mocked specifically above.
-        # Would be nice to have an integration test but is not feasible ATM.
-        pass
+    def test_find_files(self):
+        good_filepaths = [
+            "somepath/file%d.good" % x for x in range(1, 10)
+        ]
+        bad_filepaths = [
+            "somepath/file%d.bad" % x for x in range(1, 10)
+        ]
+        mocked_filepaths = bad_filepaths + good_filepaths
+        backend = self.backend.sudo()
+        expected = good_filepaths[:]
+        expected = [
+            backend.directory_path + "/" + path for path in good_filepaths
+        ]
+        self._test_find_files(backend, ADAPTER_PATH, mocked_filepaths, r".*\.good$", expected)
 
-    def test_setting_and_getting_data_from_dir(self):
-        # bypass as we tested all the methods mocked specifically above
-        # Would be nice to have an integration test but is not feasible ATM.
-        pass
+    @mock.patch(PARAMIKO_PATH)
+    def test_move_files(self, mocked_paramiko):
+        client = mocked_paramiko.SFTPClient.from_transport()
+        # simulate file is not already there
+        client.lstat.side_effect = FileNotFoundError()
+        to_move = "move/from/path/myfile.txt"
+        to_path = "move/to/path"
+        self.backend._move_files([to_move], to_path)
+        # no need to delete it
+        client.unlink.assert_not_called()
+        # rename gets called
+        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
+        # now try to override destination
+        client.lstat.side_effect = None
+        client.lstat.return_value =  True
+        self.backend._move_files([to_move], to_path)
+        # client will delete it first
+        client.unlink.assert_called_with(to_move.replace("from", "to"))
+        # then move it
+        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
