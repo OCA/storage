@@ -11,12 +11,12 @@ class ProductProduct(models.Model):
     # small and medium image are here to replace
     # native image field on form and kanban
     variant_image_small_url = fields.Char(
-        related="variant_image_ids.image_id.image_small_url",
+        compute="_compute_variant_image_ids",
         store=True,
         string="Variant Image Small Url",
     )
     variant_image_medium_url = fields.Char(
-        related="variant_image_ids.image_id.image_medium_url",
+        compute="_compute_variant_image_ids",
         store=True,
         string="Variant Image Medium Url",
     )
@@ -35,3 +35,9 @@ class ProductProduct(models.Model):
                 if not (image.attribute_value_ids - variant.attribute_value_ids):
                     res |= image
             variant.variant_image_ids = res
+            if res:
+                variant.variant_image_medium_url = res[0].image_id.image_medium_url
+                variant.variant_image_small_url = res[0].image_id.image_small_url
+            else:
+                variant.variant_image_medium_url = None
+                variant.variant_image_small_url = None
