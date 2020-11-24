@@ -49,13 +49,13 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         # general
         client.stat.side_effect = exc
         with self.assertRaises(IOError):
-            self.backend._add_bin_data("fake/path", b"fake data")
+            self.backend.add("fake/path", b"fake data")
         # not found
         exc.errno = errno.ENOENT
         client.stat.side_effect = exc
         fakefile = open("/tmp/fakefile.txt", "w+b")
         client.open.return_value = fakefile
-        self.backend._add_bin_data("fake/path", b"fake data")
+        self.backend.add("fake/path", b"fake data")
         # mkdirs has been called
         mocked_mkdirs.assert_called()
         # file has been written and closed
@@ -70,7 +70,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
             fakefile.write(b"filecontent")
         client.open.return_value = open("/tmp/fakefile2.txt", "r")
         self.assertEqual(
-            self.backend._get_bin_data("fake/path"), "filecontent"
+            self.backend.get("fake/path"), "filecontent"
         )
 
     @mock.patch(PARAMIKO_PATH)
@@ -81,11 +81,11 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         # general
         client.listdir.side_effect = exc
         with self.assertRaises(IOError):
-            self.backend._list()
+            self.backend.list_files()
         # not found
         exc.errno = errno.ENOENT
         client.listdir.side_effect = exc
-        self.assertEqual(self.backend._list(), [])
+        self.assertEqual(self.backend.list_files(), [])
 
     def test_find_files(self):
         good_filepaths = [
@@ -109,7 +109,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         client.lstat.side_effect = FileNotFoundError()
         to_move = "move/from/path/myfile.txt"
         to_path = "move/to/path"
-        self.backend._move_files([to_move], to_path)
+        self.backend.move_files([to_move], to_path)
         # no need to delete it
         client.unlink.assert_not_called()
         # rename gets called
@@ -117,7 +117,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         # now try to override destination
         client.lstat.side_effect = None
         client.lstat.return_value =  True
-        self.backend._move_files([to_move], to_path)
+        self.backend.move_files([to_move], to_path)
         # client will delete it first
         client.unlink.assert_called_with(to_move.replace("from", "to"))
         # then move it
