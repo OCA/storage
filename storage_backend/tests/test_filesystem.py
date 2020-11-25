@@ -38,18 +38,18 @@ class FileSystemDemoUserAccessCase(CommonCase):
 
     def test_cannot_add_file(self):
         with self.assertRaises(AccessError):
-            self.backend._add_b64_data(
-                self.filename, self.filedata, mimetype=u"text/plain"
+            self.backend.add(
+                self.filename, self.filedata, mimetype=u"text/plain", binary=False
             )
 
     def test_cannot_list_file(self):
         with self.assertRaises(AccessError):
-            self.backend._list()
+            self.backend.list_files()
 
     def test_cannot_read_file(self):
         with self.assertRaises(AccessError):
-            self.backend._get_b64_data(self.filename)
+            self.backend.get(self.filename, binary=False)
 
     def test_cannot_delete_file(self):
         with self.assertRaises(AccessError):
-            self.backend._delete(self.filename)
+            self.backend.delete(self.filename)

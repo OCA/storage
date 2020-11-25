@@ -137,7 +137,7 @@ class StorageFileCase(TransactionComponentCase):
         # Check the the storage file is set to delete
         # and the file still exist on the storage
         self.assertEqual(stfile.to_delete, True)
-        self.assertIn(relative_path, backend._list())
+        self.assertIn(relative_path, backend.list_files())
 
         # Run the method to clean the storage.file
         self.env["storage.file"]._clean_storage_file()
@@ -149,7 +149,7 @@ class StorageFileCase(TransactionComponentCase):
             .search([("id", "=", stfile.id)])
         )
         self.assertEqual(len(files), 0)
-        self.assertNotIn(relative_path, backend._list())
+        self.assertNotIn(relative_path, backend.list_files())
 
     def test_public_access1(self):
         """
