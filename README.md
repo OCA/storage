@@ -12,10 +12,10 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[storage_backend](storage_backend/) | 13.0.1.2.0 | Implement the concept of Storage with amazon S3, sftp...
+[storage_backend](storage_backend/) | 13.0.1.3.0 | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_s3](storage_backend_s3/) | 13.0.1.1.0 | Implement amazon S3 Storage
-[storage_backend_sftp](storage_backend_sftp/) | 13.0.1.2.0 | Implement SFTP Storage
-[storage_file](storage_file/) | 13.0.1.1.0 | Storage file in storage backend
+[storage_backend_sftp](storage_backend_sftp/) | 13.0.1.3.0 | Implement SFTP Storage
+[storage_file](storage_file/) | 13.0.1.2.0 | Storage file in storage backend
 [storage_image](storage_image/) | 13.0.1.2.0 | Store image and resized image in a storage backend
 [storage_image_product](storage_image_product/) | 13.0.1.1.0 | Link images to products and categories
 [storage_media](storage_media/) | 13.0.1.0.0 | Give the posibility to store media data in Odoo
