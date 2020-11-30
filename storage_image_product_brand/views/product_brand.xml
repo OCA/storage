@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="product_brand_form_view">
+        <field name="name">product.brand.form (in storage_image_product_brand)</field>
+        <field name="model">product.brand</field>
+        <field name="inherit_id" ref="product_brand.view_product_brand_form" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name="logo" position="replace">
+                <field name="logo" invisible="1" />
+                <field name="image_medium_url" widget="image_url" class="oe_avatar" />
+            </field>
+            <sheet position="inside">
+                <group name="images" string="Images">
+                    <field
+                        name="image_ids"
+                        mode="kanban"
+                        widget="image_handle"
+                        nolabel="1"
+                    />
+                </group>
+            </sheet>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_brand_kanban_view">
+        <field name="name">product.brand.kanban (in storage_image_product_brand)</field>
+        <field name="model">product.brand</field>
+        <field name="inherit_id" ref="product_brand.view_product_brand_kanban" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name="id" position="after">
+                <field name="image_small_url" widget="image_url" class="oe_avatar" />
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="replace">
+                <img
+                    t-att-src="record.image_small_url.value"
+                    t-att-alt="record.alt_name"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
