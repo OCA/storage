@@ -35,6 +35,12 @@ msgid "Available Attributes"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_storage_image__category_relation_ids
+#: model_terms:ir.ui.view,arch_db:storage_image_product.storage_image_view_form
+msgid "Categories"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__category_id
 #: model:ir.model.fields.selection,name:storage_image_product.selection__image_tag__apply_on__category
 msgid "Category"
@@ -172,9 +178,20 @@ msgid "Product Tmpl"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_storage_image__product_relation_ids
+#: model_terms:ir.ui.view,arch_db:storage_image_product.storage_image_view_form
+msgid "Products"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__sequence
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_storage_image
+msgid "Storage Image"
 msgstr ""
 
 #. module: storage_image_product
