@@ -1,7 +1,4 @@
-paramiko
-python-slugify>=3.0.2
-vcrpy>=2.1.1
-cerberus
-vcrpy-unittest
+# generated from manifests external_dependencies
 boto3
-requests-mock
+paramiko
+python_slugify

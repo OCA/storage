@@ -7,10 +7,10 @@
     "summary": "Link media to products and categories",
     "version": "13.0.1.0.0",
     "category": "Storage",
-    "website": "https://www.github.com/OCA/storage",
+    "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "installable": False,
+    "installable": True,
     "depends": ["storage_media", "product"],
     "data": [
         "security/ir.model.access.csv",
