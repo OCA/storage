@@ -11,7 +11,7 @@
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "application": False,
-    "installable": True,
+    "installable": False,
     "external_dependencies": {"python": [], "bin": []},
     "depends": ["storage_file", "storage_thumbnail"],
     "data": [
