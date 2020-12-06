@@ -19,15 +19,13 @@ class StorageBackend(models.Model):
         default="pwd",
         required=True,
     )
-    sftp_login = fields.Char(
-        string="Login", help="Login to connect to sftp server"
-    )
+    sftp_login = fields.Char(string="Login", help="Login to connect to sftp server")
     sftp_password = fields.Char(string="Password")
     sftp_ssh_private_key = fields.Text(
         string="SSH private key",
         help="It's recommended to not store the key here "
-             "but to provide it via secret env variable. "
-             "See `server_environment` docs."
+        "but to provide it via secret env variable. "
+        "See `server_environment` docs.",
     )
 
     @property
