@@ -7,12 +7,12 @@
     "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
-    "website": "https://www.github.com/OCA/storage",
+    "website": "https://github.com/OCA/storage",
     "depends": ["storage_image", "product_brand"],
     "data": [
         "security/product_brand_image_relation.xml",
         "views/product_brand.xml",
         "views/product_brand_image_relation.xml",
     ],
-    "installable": False,
+    "installable": True,
 }

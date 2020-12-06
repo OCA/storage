@@ -14,17 +14,16 @@ import os
 
 import mock
 
-from odoo.addons.storage_backend.tests.common import CommonCase, BackendStorageTestMixin
+from odoo.addons.storage_backend.tests.common import BackendStorageTestMixin, CommonCase
 
 _logger = logging.getLogger(__name__)
 
 MOD_PATH = "odoo.addons.storage_backend_sftp.components.sftp_adapter"
-ADAPTER_PATH =  MOD_PATH + ".SFTPStorageBackendAdapter"
+ADAPTER_PATH = MOD_PATH + ".SFTPStorageBackendAdapter"
 PARAMIKO_PATH = MOD_PATH + ".paramiko"
 
 
 class SftpCase(CommonCase, BackendStorageTestMixin):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -69,9 +68,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         with open("/tmp/fakefile2.txt", "w+b") as fakefile:
             fakefile.write(b"filecontent")
         client.open.return_value = open("/tmp/fakefile2.txt", "r")
-        self.assertEqual(
-            self.backend.get("fake/path"), "filecontent"
-        )
+        self.assertEqual(self.backend.get("fake/path"), "filecontent")
 
     @mock.patch(PARAMIKO_PATH)
     def test_list(self, mocked_paramiko):
@@ -88,19 +85,15 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         self.assertEqual(self.backend.list_files(), [])
 
     def test_find_files(self):
-        good_filepaths = [
-            "somepath/file%d.good" % x for x in range(1, 10)
-        ]
-        bad_filepaths = [
-            "somepath/file%d.bad" % x for x in range(1, 10)
-        ]
+        good_filepaths = ["somepath/file%d.good" % x for x in range(1, 10)]
+        bad_filepaths = ["somepath/file%d.bad" % x for x in range(1, 10)]
         mocked_filepaths = bad_filepaths + good_filepaths
         backend = self.backend.sudo()
         expected = good_filepaths[:]
-        expected = [
-            backend.directory_path + "/" + path for path in good_filepaths
-        ]
-        self._test_find_files(backend, ADAPTER_PATH, mocked_filepaths, r".*\.good$", expected)
+        expected = [backend.directory_path + "/" + path for path in good_filepaths]
+        self._test_find_files(
+            backend, ADAPTER_PATH, mocked_filepaths, r".*\.good$", expected
+        )
 
     @mock.patch(PARAMIKO_PATH)
     def test_move_files(self, mocked_paramiko):
@@ -116,7 +109,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
         # now try to override destination
         client.lstat.side_effect = None
-        client.lstat.return_value =  True
+        client.lstat.return_value = True
         self.backend.move_files([to_move], to_path)
         # client will delete it first
         client.unlink.assert_called_with(to_move.replace("from", "to"))

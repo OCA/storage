@@ -8,7 +8,7 @@ odoo.define("storage_image_product.pos_product", function (require) {
     "use strict";
 
     var screens = require("point_of_sale.screens");
-    var models = require('point_of_sale.models');
+    var models = require("point_of_sale.models");
 
     /* ********************************************************
     Overload: point_of_sale.ProductListWidget
@@ -18,7 +18,6 @@ odoo.define("storage_image_product.pos_product", function (require) {
     *********************************************************** */
     screens.ProductListWidget.include({
         get_product_image_url: function (product) {
-
             /* ************************************************
             Overload: 'get_product_image_url'
             */
@@ -32,9 +31,9 @@ odoo.define("storage_image_product.pos_product", function (require) {
          - Load 'image_medium_url' field of model product.product;
     *********************************************************** */
     models.PosModel.prototype.models.some(function (model) {
-        if (model.model === 'product.product') {
-            if (model.fields.indexOf('image_medium_url') === -1) {
-                model.fields.push('image_medium_url');
+        if (model.model === "product.product") {
+            if (model.fields.indexOf("image_medium_url") === -1) {
+                model.fields.push("image_medium_url");
             }
         }
         return false;
