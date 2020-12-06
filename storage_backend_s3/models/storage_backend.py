@@ -19,7 +19,10 @@ except ImportError as err:  # pragma: no cover
 class StorageBackend(models.Model):
     _inherit = "storage.backend"
 
-    backend_type = fields.Selection(selection_add=[("amazon_s3", "Amazon S3")])
+    backend_type = fields.Selection(
+        selection_add=[("amazon_s3", "Amazon S3")],
+        ondelete={"amazon_s3": "set default"},
+    )
     aws_host = fields.Char(
         string="AWS Host",
         help="If you are using a different host than standard AWS ones, "
