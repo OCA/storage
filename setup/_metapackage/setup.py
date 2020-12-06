@@ -14,6 +14,7 @@ setuptools.setup(
         'odoo13-addon-storage_file',
         'odoo13-addon-storage_image',
         'odoo13-addon-storage_image_product',
+        'odoo13-addon-storage_image_product_brand',
         'odoo13-addon-storage_media',
         'odoo13-addon-storage_media_product',
         'odoo13-addon-storage_thumbnail',
