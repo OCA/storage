@@ -7,11 +7,11 @@
     "summary": "Link images to products and categories",
     "version": "13.0.1.2.0",
     "category": "Storage",
-    "website": "https://www.github.com/OCA/storage",
+    "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
-    "installable": False,
+    "installable": True,
     "depends": ["storage_image", "product", "sale"],  # only for the menu
     "data": [
         "security/ir.model.access.csv",
