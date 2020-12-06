@@ -11,7 +11,7 @@
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
-    "installable": True,
+    "installable": False,
     "depends": ["base", "component", "server_environment"],
     "data": [
         "views/backend_storage_view.xml",
