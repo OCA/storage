@@ -14,5 +14,5 @@
         "views/product_brand.xml",
         "views/product_brand_image_relation.xml",
     ],
-    "installable": True,
+    "installable": False,
 }
