@@ -10,7 +10,7 @@
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "installable": True,
+    "installable": False,
     "depends": ["storage_image_product_pos", "pos_remove_pos_category"],
     "data": ["views/product_category.xml"],
 }

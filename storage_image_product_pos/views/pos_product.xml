@@ -13,7 +13,15 @@
         <xpath expr="." position="inside">
             <script
                 type="text/javascript"
-                src="/storage_image_product_pos/static/src/js/pos_product.js"
+                src="/storage_image_product_pos/static/src/js/models.js"
+            />
+            <script
+                type="text/javascript"
+                src="/storage_image_product_pos/static/src/js/ProductItem.js"
+            />
+            <script
+                type="text/javascript"
+                src="/storage_image_product_pos/static/src/js/Chrome.js"
             />
         </xpath>
     </template>
