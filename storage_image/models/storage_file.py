@@ -8,4 +8,6 @@ from odoo import fields, models
 class StorageFile(models.Model):
     _inherit = "storage.file"
 
-    file_type = fields.Selection(selection_add=[("image", "Image")])
+    file_type = fields.Selection(
+        selection_add=[("image", "Image")], ondelete={"image": "set null"}
+    )
