@@ -1,4 +1,4 @@
-odoo.define("storage_image.image_url", function(require) {
+odoo.define("storage_image.image_url", function (require) {
     "use strict";
     var core = require("web.core");
     var _t = core._t;
@@ -7,7 +7,7 @@ odoo.define("storage_image.image_url", function(require) {
     var basic_fields = require("web.basic_fields");
 
     var FieldImageUrl = basic_fields.FieldBinaryImage.extend({
-        _render: function() {
+        _render: function () {
             // This code is an override that only change the way the rule is build
             // In Odoo core if the value is not a binary, Odoo always query the
             // server on /web/image....
@@ -41,7 +41,7 @@ odoo.define("storage_image.image_url", function(require) {
             }
             this.$("> img").remove();
             this.$el.prepend($img);
-            $img.on("error", function() {
+            $img.on("error", function () {
                 $img.attr("src", self.placeholder);
                 self.do_warn(_t("Image"), _t("Could not display the selected image."));
             });
