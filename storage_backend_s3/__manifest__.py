@@ -10,7 +10,7 @@
     "website": "https://www.github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "installable": True,
+    "installable": False,
     "external_dependencies": {"python": ["boto3"]},
     "depends": ["storage_backend"],
     "data": ["views/backend_storage_view.xml"],
