@@ -71,10 +71,10 @@ class TestStorageThumbnail(TransactionComponentCase):
     def test_model(self):
         self._create_model()
         self.assertTrue(self.image.url)
-        self.assertEquals(2, len(self.image.thumbnail_ids))
-        self.assertEquals(".png", first(self.image.thumbnail_ids).extension)
+        self.assertEqual(2, len(self.image.thumbnail_ids))
+        self.assertEqual(".png", first(self.image.thumbnail_ids).extension)
 
     def test_model_resize(self):
         self._create_model(resize=True)
         self.assertIn("webp", first(self.image.thumbnail_ids).url)
-        self.assertEquals(".webp", first(self.image.thumbnail_ids).extension)
+        self.assertEqual(".webp", first(self.image.thumbnail_ids).extension)
