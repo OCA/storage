@@ -10,7 +10,9 @@ from odoo import fields, models
 class StorageBackend(models.Model):
     _inherit = "storage.backend"
 
-    backend_type = fields.Selection(selection_add=[("sftp", "SFTP")])
+    backend_type = fields.Selection(
+        selection_add=[("sftp", "SFTP")], ondelete={"sftp": "set default"}
+    )
     sftp_server = fields.Char(string="SFTP Host")
     sftp_port = fields.Integer(string="Port", default=22)
     sftp_auth_method = fields.Selection(
