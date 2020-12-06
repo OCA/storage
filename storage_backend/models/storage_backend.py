@@ -61,7 +61,7 @@ class StorageBackend(models.Model):
 
     name = fields.Char(required=True)
     backend_type = fields.Selection(
-        selection=[("filesystem", "Filesystem")], required=True
+        selection=[("filesystem", "Filesystem")], required=True, default="filesystem"
     )
     directory_path = fields.Char(
         help="Relative path to the directory to store the file"
