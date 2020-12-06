@@ -5,7 +5,7 @@ from odoo import fields, models
 
 
 class ImageRelationAbstract(models.AbstractModel):
-    """ Use this abstract if you want to add a relation between a model and
+    """Use this abstract if you want to add a relation between a model and
     storage.image ImageRelationAbstract comes with a JS widget 'image_handle'.
     Use this widget on your field in kanaban mode if you want to enable images adding
     and vignettes sequencing by drag&drop.
