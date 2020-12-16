@@ -13,4 +13,5 @@
     "installable": True,
     "depends": ["storage_image_product", "point_of_sale"],
     "data": ["views/pos_product.xml"],
+    "maintainers": ["hparfr", "pierrickbrun"],
 }
