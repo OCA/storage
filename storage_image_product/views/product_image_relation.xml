@@ -4,8 +4,41 @@
         <field name="model">product.image.relation</field>
         <field name="arch" type="xml">
             <form string="Association">
+                <group name="action" attrs="{'invisible': [('id', '!=', False)]}">
+                    <group>
+                        <field name="id" invisible="1" />
+                        <field name="add_type" string="What do you want to do?" />
+                        <field
+                            name="image_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                            attrs="{'invisible': [('add_type', '!=', 'select')], 'required': [('add_type', '=', 'select')]}"
+                        />
+                    </group>
+                    <group attrs="{'invisible': [('add_type', '!=', 'add')]}">
+                        <field
+                            name="add_image"
+                            widget="image"
+                            filename="add_image_name"
+                            nolabel="1"
+                            colspan="4"
+                        />
+                        <field
+                            name="add_image_name"
+                            placeholder="image-name.jpg"
+                            nolabel="1"
+                        />
+                    </group>
+                </group>
                 <group>
-                    <field name="image_id" />
+                    <field
+                        name="image_url"
+                        widget="image_url"
+                        nolabel="1"
+                        colspan="4"
+                        attrs="{'invisible': [('id', '=', False), ('add_type', '=', 'add')]}"
+                    />
+                </group>
+                <group>
                     <field
                         name="tag_id"
                         context="{'active_model': context.get('active_model')}"
@@ -22,7 +55,6 @@
                         attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
                     />
                 </group>
-                <field name="image_url" widget="image_url" nolabel="1" colspan="2" />
             </form>
         </field>
     </record>
@@ -32,6 +64,7 @@
             <kanban>
                 <field name="image_name" />
                 <field name="image_url" />
+                <field name="add_image" />
                 <field name="attribute_value_ids" />
                 <field name="sequence" widget="handle" />
                 <field name="image_id" invisible="1" />
