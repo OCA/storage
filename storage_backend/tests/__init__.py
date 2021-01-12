@@ -1,2 +1,1 @@
-from . import common
-from . import test_filesystem
+from . import common, test_filesystem

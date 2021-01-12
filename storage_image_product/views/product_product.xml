@@ -20,6 +20,7 @@
     <record id="product_normal_form_view" model="ir.ui.view">
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <field name="image_medium" position="replace">
                 <field name="image_medium" invisible="True"/>
@@ -37,6 +38,7 @@
     <record id="product_variant_easy_edit_view" model="ir.ui.view">
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <field name="image_medium" position="replace">
                 <field name="image_medium" invisible="True"/>
