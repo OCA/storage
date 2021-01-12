@@ -1,7 +1,9 @@
-from . import product_image_relation
-from . import product_template
-from . import product_product
-from . import product_category
-from . import category_image_relation
-from . import image_tag
-from . import storage_image
+from . import (
+    category_image_relation,
+    image_tag,
+    product_category,
+    product_image_relation,
+    product_product,
+    product_template,
+    storage_image,
+)
