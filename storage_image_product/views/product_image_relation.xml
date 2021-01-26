@@ -37,6 +37,19 @@
             <kanban position="attributes">
                 <attribute name="string">Images</attribute>
             </kanban>
+            <field name="sequence" position="before">
+                <field name="attribute_value_ids" />
+            </field>
+            <div class="card-body p-0" position="after">
+                <div class="o_kanban_tags_section">
+                    <field name="tag_id" />
+                    <field
+                        name="attribute_value_ids"
+                        widget="many2many_tags"
+                        groups="product.group_product_variant"
+                    />
+                </div>
+            </div>
         </field>
     </record>
 
