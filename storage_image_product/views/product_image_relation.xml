@@ -57,6 +57,14 @@
                                     </a>
                                 </h4>
                             </div>
+                            <div class="o_kanban_tags_section">
+                                <field name="tag_id" />
+                                <field
+                                    name="attribute_value_ids"
+                                    widget="many2many_tags"
+                                    groups="product.group_product_variant"
+                                />
+                            </div>
                         </div>
                     </t>
                 </templates>
