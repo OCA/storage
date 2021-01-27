@@ -144,12 +144,18 @@ class StorageFile(models.Model):
 
     def _get_url(self):
         """Retrieve file URL based on backend params."""
+        url_is_for_report = self.env.context.get("storage_image_url_for_report", False)
         backend = self.backend_id.sudo()
-        parts = []
         if backend.served_by == "odoo":
             params = self.env["ir.config_parameter"].sudo()
+            report_url = params.get_param("report.url") or params.get_param(
+                "web.base.url"
+            )
+            base_url = (
+                report_url if url_is_for_report else params.get_param("web.base.url")
+            )
             parts = [
-                params.get_param("web.base.url"),
+                base_url,
                 "storage.file",
                 self._slugify_name_with_id(),
             ]

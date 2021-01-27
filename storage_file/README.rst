@@ -18,6 +18,9 @@ Use cases (with help of additionnal modules):
 - store pdf (like invoices) on a file server with high SLA
 - access attachments with read/write on prod environment and only read only on dev / testing
 
+If the images are served by Odoo and you want to use them in reports, then you should fetch the image URL
+using context parameter 'storage_image_url_for_report'.
+
 Known issues / Roadmap
 ======================
 
