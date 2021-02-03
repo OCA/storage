@@ -58,6 +58,16 @@ class StorageFileCase(TransactionComponentCase):
         )
         self.assertEqual(stfile, stfile2)
 
+    def test_slug(self):
+        stfile = self._create_storage_file()
+        self.assertEqual(
+            stfile.slug, "test-of-my_file-{}.txt".format(stfile.id),
+        )
+        stfile.name = "Name has changed.png"
+        self.assertEqual(
+            stfile.slug, "name-has-changed-{}.png".format(stfile.id),
+        )
+
     def test_url(self):
         stfile = self._create_storage_file()
         params = self.env["ir.config_parameter"].sudo()
@@ -241,4 +251,4 @@ class StorageFileCase(TransactionComponentCase):
     def test_empty(self):
         # get_url is called on new records
         empty = self.env["storage.file"].new({})._get_url()
-        self.assertEqual(empty, "/")
+        self.assertEqual(empty, "")

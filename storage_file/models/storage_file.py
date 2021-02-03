@@ -34,6 +34,9 @@ class StorageFile(models.Model):
         "storage.backend", "Storage", index=True, required=True
     )
     url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
+    slug = fields.Char(
+        compute="_compute_slug", help="Slug-ified name with ID for URL", store=True
+    )
     relative_path = fields.Char(readonly=True, help="Relative location for backend")
     file_size = fields.Integer("File Size")
     human_file_size = fields.Char(
@@ -79,6 +82,11 @@ class StorageFile(models.Model):
         for record in self:
             record.human_file_size = human_size(record.file_size)
 
+    @api.depends("filename", "extension")
+    def _compute_slug(self):
+        for record in self:
+            record.slug = record._slugify_name_with_id()
+
     def _slugify_name_with_id(self):
         return u"{}{}".format(
             slugify(
@@ -101,7 +109,7 @@ class StorageFile(models.Model):
         if strategy == "hash":
             return checksum[:2] + "/" + checksum
         elif strategy == "name_with_id":
-            return self._slugify_name_with_id()
+            return self.slug
 
     def _prepare_meta_for_file(self):
         bin_data = base64.b64decode(self.data)
@@ -133,10 +141,7 @@ class StorageFile(models.Model):
                 rec.data = None
 
     @api.depends(
-        "backend_id.served_by",
-        "backend_id.base_url",
-        "backend_id.url_include_directory_path",
-        "relative_path",
+        "relative_path", "backend_id.base_url_for_files",
     )
     def _compute_url(self):
         for record in self:
@@ -144,21 +149,7 @@ class StorageFile(models.Model):
 
     def _get_url(self):
         """Retrieve file URL based on backend params."""
-        backend = self.backend_id.sudo()
-        parts = []
-        if backend.served_by == "odoo":
-            params = self.env["ir.config_parameter"].sudo()
-            parts = [
-                params.get_param("web.base.url"),
-                "storage.file",
-                self._slugify_name_with_id(),
-            ]
-        else:
-            parts = [backend.base_url or ""]
-            if backend.url_include_directory_path and backend.directory_path:
-                parts.append(backend.directory_path)
-            parts.append(self.relative_path or "")
-        return "/".join(parts)
+        return self.backend_id._get_url_for_file(self)
 
     @api.depends("name")
     def _compute_extract_filename(self):
