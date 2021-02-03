@@ -16,6 +16,20 @@ except ImportError as err:  # pragma: no cover
     _logger.debug(err)
 
 
+def _load_aws_regions():
+    _logger.info("Loading available AWS regions")
+    session = boto3.session.Session()
+    return [
+        (region, region.replace("-", " ").capitalize())
+        for region in session.get_available_regions("s3")
+    ]
+
+
+# AWS regions won't change that often, fine to retrieve them at instance load.
+# Also, this prevents to call AWS every time the selection list is accessed.
+AWS_REGIONS = _load_aws_regions()
+
+
 class StorageBackend(models.Model):
     _inherit = "storage.backend"
 
@@ -65,12 +79,8 @@ class StorageBackend(models.Model):
         return env_fields
 
     def _selection_aws_region(self):
-        session = boto3.session.Session()
         return (
             [("", "None")]
-            + [
-                (region, region.replace("-", " ").capitalize())
-                for region in session.get_available_regions("s3")
-            ]
+            + AWS_REGIONS
             + [("other", "Empty or Other (Manually specify below)")]
         )
