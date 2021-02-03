@@ -6,7 +6,7 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -45,6 +45,7 @@ class StorageBackend(models.Model):
         "If this flag is enabled "
         "the path will be used to compute the public URL.",
     )
+    base_url_for_files = fields.Char(compute="_compute_base_url_for_files", store=True)
 
     @property
     def _server_env_fields(self):
@@ -79,3 +80,34 @@ class StorageBackend(models.Model):
             else:
                 _logger.warn("No backend found, no default fallback found.")
         return backend_id
+
+    @api.depends(
+        "served_by", "base_url", "directory_path", "url_include_directory_path",
+    )
+    def _compute_base_url_for_files(self):
+        for record in self:
+            record.base_url_for_files = record._get_base_url_for_files()
+
+    def _get_base_url_for_files(self):
+        """Retrieve base URL for files."""
+        backend = self.sudo()
+        parts = []
+        if backend.served_by == "external":
+            parts = [backend.base_url or ""]
+            if backend.url_include_directory_path and backend.directory_path:
+                parts.append(backend.directory_path)
+        return "/".join(parts)
+
+    def _get_url_for_file(self, storage_file):
+        """Return final full URL for given file."""
+        backend = self.sudo()
+        if backend.served_by == "odoo":
+            params = self.env["ir.config_parameter"].sudo()
+            parts = [
+                params.get_param("web.base.url"),
+                "storage.file",
+                storage_file.slug,
+            ]
+        else:
+            parts = [backend.base_url_for_files or "", storage_file.relative_path or ""]
+        return "/".join([x for x in parts if x])
