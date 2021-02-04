@@ -20,7 +20,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [storage_backend](storage_backend/) | 13.0.1.3.1 | Implement the concept of Storage with amazon S3, sftp...
-[storage_backend_s3](storage_backend_s3/) | 13.0.1.1.1 | Implement amazon S3 Storage
+[storage_backend_s3](storage_backend_s3/) | 13.0.1.1.2 | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 13.0.1.3.1 | Implement SFTP Storage
 [storage_file](storage_file/) | 13.0.1.2.1 | Storage file in storage backend
 [storage_image](storage_image/) | 13.0.1.3.1 | Store image and resized image in a storage backend
