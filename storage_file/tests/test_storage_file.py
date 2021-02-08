@@ -95,6 +95,16 @@ class StorageFileCase(TransactionComponentCase):
             stfile.url, "https://foo.com/baz/test-of-my_file-{}.txt".format(stfile.id)
         )
 
+    def test_url_for_report(self):
+        stfile = self._create_storage_file()
+        params = self.env["ir.config_parameter"].sudo()
+        params.set_param("report.url", "http://report.url")
+        # served by odoo
+        self.assertEqual(
+            stfile.with_context(print_report_pdf=True).url,
+            "http://report.url/storage.file/test-of-my_file-{}.txt".format(stfile.id),
+        )
+
     def test_create_store_with_hash(self):
         self.backend.filename_strategy = "hash"
         stfile = self._create_storage_file()

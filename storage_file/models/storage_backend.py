@@ -98,13 +98,18 @@ class StorageBackend(models.Model):
                 parts.append(backend.directory_path)
         return "/".join(parts)
 
+    def _get_base_url_from_param(self):
+        base_url_param = (
+            "report.url" if self.env.context.get("print_report_pdf") else "web.base.url"
+        )
+        return self.env["ir.config_parameter"].sudo().get_param(base_url_param)
+
     def _get_url_for_file(self, storage_file):
         """Return final full URL for given file."""
         backend = self.sudo()
         if backend.served_by == "odoo":
-            params = self.env["ir.config_parameter"].sudo()
             parts = [
-                params.get_param("web.base.url"),
+                self._get_base_url_from_param(),
                 "storage.file",
                 storage_file.slug,
             ]
