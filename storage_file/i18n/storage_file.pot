@@ -24,6 +24,11 @@ msgid "Base Url"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__base_url_for_files
+msgid "Base Url For Files"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__checksum
 msgid "Checksum/SHA1"
 msgstr ""
@@ -191,6 +196,11 @@ msgid "Relative location for backend"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model,name:storage_file.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__filename_strategy__hash
 msgid "SHA hash"
 msgstr ""
@@ -206,6 +216,16 @@ msgid ""
 "Served by Odoo option will use `web.base.url` as the base URL.\n"
 "                    <br/>Make sure this parameter is properly configured and accessible\n"
 "                    from everwhere you want to access the service."
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__slug
+msgid "Slug"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__slug
+msgid "Slug-ified name with ID for URL"
 msgstr ""
 
 #. module: storage_file
