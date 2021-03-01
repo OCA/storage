@@ -5,14 +5,14 @@
 {
     "name": "Storage File",
     "summary": "Storage file in storage backend",
-    "version": "13.0.1.2.0",
+    "version": "14.0.1.0.0",
     "category": "Storage",
-    "website": "https://www.github.com/OCA/storage",
+    "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
     "application": False,
-    "installable": False,
+    "installable": True,
     "external_dependencies": {"python": ["python_slugify"]},
     "depends": ["storage_backend"],
     "data": [

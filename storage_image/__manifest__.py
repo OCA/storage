@@ -5,13 +5,13 @@
 {
     "name": "Storage Image",
     "summary": "Store image and resized image in a storage backend",
-    "version": "13.0.1.3.0",
+    "version": "14.0.1.0.0",
     "category": "Storage",
-    "website": "https://www.github.com/OCA/storage",
+    "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
-    "installable": False,
+    "installable": True,
     "depends": ["storage_thumbnail"],
     "data": [
         "views/storage_image_view.xml",

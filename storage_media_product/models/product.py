@@ -30,9 +30,7 @@ class ProductProduct(models.Model):
             )
             res = self.env["product.media.relation"].browse([])
             for media in variant.media_ids:
-                if not (
-                    media.attribute_value_ids - available_attr_values
-                ):
+                if not (media.attribute_value_ids - available_attr_values):
                     res |= media
             variant.variant_media_ids = res
 
@@ -60,9 +58,7 @@ class ProductMediaRelation(models.Model):
     )
     name = fields.Char(related="media_id.name", readonly=True)
     url = fields.Char(related="media_id.url", readonly=True)
-    media_type_id = fields.Many2one(
-        related="media_id.media_type_id", readonly=True
-    )
+    media_type_id = fields.Many2one(related="media_id.media_type_id", readonly=True)
 
     @api.depends("media_id", "product_tmpl_id.attribute_line_ids.value_ids")
     def _compute_available_attribute(self):

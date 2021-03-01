@@ -1,0 +1,2 @@
+vcrpy-unittest
+requests-mock

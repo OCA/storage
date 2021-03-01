@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
 
 <record model="ir.rule" id="storage_file_media_rule">
     <field name="name">Storage File for Media</field>
-    <field name="model_id" ref="storage_file.model_storage_file"/>
+    <field name="model_id" ref="storage_file.model_storage_file" />
     <field name="domain_force">[('file_type','=', 'media')]</field>
-    <field name="groups" eval="[(4, ref('storage_media.group_media_manager'))]"/>
+    <field name="groups" eval="[(4, ref('storage_media.group_media_manager'))]" />
 </record>
 
 </odoo>
