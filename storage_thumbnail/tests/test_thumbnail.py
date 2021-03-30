@@ -32,32 +32,38 @@ class TestStorageThumbnail(SavepointComponentCase):
     def _create_thumbnail(self):
         # create thumbnail
         vals = {"name": "TEST THUMB"}
-        self.thumbnail = self.env["storage.thumbnail"].create(vals)
+        return self.env["storage.thumbnail"].create(vals)
 
-    def _create_model(self, resize=False):
+    def _create_image(self, resize=False):
         if resize:
             self.env["ir.config_parameter"].sudo().create(
                 {"key": "storage.image.resize.format", "value": ".webp"}
             )
-        vals = {"name": self.filename, "image_medium_url": self.filedata}
-        self.image = self.env["model.test"].create(vals)
+        vals = {"name": self.filename, "data": self.filedata}
+        return self.env["model.test"].create(vals)
 
     def test_thumbnail(self):
-        self._create_thumbnail()
-        self.assertTrue(self.thumbnail.url)
-        file_id = self.thumbnail.file_id
+        thumb = self._create_thumbnail()
+        self.assertTrue(thumb.url)
+        file_id = thumb.file_id
         self.assertTrue(file_id)
-
-        self.thumbnail.unlink()
+        thumb.unlink()
         self.assertTrue(file_id.to_delete)
 
     def test_model(self):
-        self._create_model()
-        self.assertTrue(self.image.url)
-        self.assertEqual(2, len(self.image.thumbnail_ids))
-        self.assertEqual(".png", first(self.image.thumbnail_ids).extension)
+        image = self._create_image()
+        self.assertTrue(image.url)
+        self.assertEquals(2, len(image.thumbnail_ids))
+        self.assertEquals(".png", first(image.thumbnail_ids).extension)
 
     def test_model_resize(self):
-        self._create_model(resize=True)
-        self.assertIn("webp", first(self.image.thumbnail_ids).url)
-        self.assertEqual(".webp", first(self.image.thumbnail_ids).extension)
+        image = self._create_image(resize=True)
+        self.assertIn("webp", first(image.thumbnail_ids).url)
+        self.assertEquals(".webp", first(image.thumbnail_ids).extension)
+
+    def test_medium_small(self):
+        image = self._create_image()
+        self.assertEqual(image.thumb_medium_id.size_x, 128)
+        self.assertEqual(image.thumb_medium_id.size_y, 128)
+        self.assertEqual(image.thumb_small_id.size_x, 64)
+        self.assertEqual(image.thumb_small_id.size_y, 64)
