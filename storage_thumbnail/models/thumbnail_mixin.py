@@ -23,14 +23,51 @@ class ThumbnailMixing(models.AbstractModel):
         inverse_name="res_id",
         domain=lambda self: [("res_model", "=", self._name)],
     )
-    image_medium_url = fields.Char(readonly=True)
-    image_small_url = fields.Char(readonly=True)
+    thumb_medium_id = fields.Many2one(
+        comodel_name="storage.thumbnail",
+        compute="_compute_main_thumbs",
+        store=True,
+        readonly=False,
+    )
+    thumb_small_id = fields.Many2one(
+        comodel_name="storage.thumbnail",
+        compute="_compute_main_thumbs",
+        store=True,
+        readonly=False,
+    )
+    image_medium_url = fields.Char(
+        string="Medium thumb URL", related="thumb_medium_id.url"
+    )
+    image_small_url = fields.Char(
+        string="Small thumb URL", related="thumb_small_id.url"
+    )
+
+    _image_scale_mapping = {
+        "medium": (128, 128),
+        "small": (64, 64),
+    }
+
+    @api.depends("thumbnail_ids.size_x", "thumbnail_ids.size_y")
+    def _compute_main_thumbs(self):
+        for rec in self:
+            for scale in self._image_scale_mapping.keys():
+                fname = "thumb_%s_id" % scale
+                rec[fname] = self._get_thumb(scale_key=scale)
+
+    def _get_thumb(self, scale_key=None, scale=None):
+        """Retrievet the first thumb matching given scale."""
+        assert scale_key or scale
+        scale = scale or self._image_scale_mapping[scale_key]
+        size_x, size_y = scale
+        for thumb in self.thumbnail_ids:
+            if thumb.size_x == size_x and thumb.size_y == size_y:
+                return thumb
 
     def _get_medium_thumbnail(self):
-        return self.get_or_create_thumbnail(128, 128)
+        return self.get_or_create_thumbnail(*self._image_scale_mapping["medium"])
 
     def _get_small_thumbnail(self):
-        return self.get_or_create_thumbnail(64, 64)
+        return self.get_or_create_thumbnail(*self._image_scale_mapping["small"])
 
     def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
         self.ensure_one()
@@ -58,12 +95,8 @@ class ThumbnailMixing(models.AbstractModel):
 
     def generate_odoo_thumbnail(self):
         self_sudo = self.sudo()
-        self.write(
-            {
-                "image_medium_url": self_sudo._get_medium_thumbnail().url,
-                "image_small_url": self_sudo._get_small_thumbnail().url,
-            }
-        )
+        self_sudo._get_small_thumbnail()
+        self_sudo._get_medium_thumbnail()
         return True
 
     @api.model
