@@ -47,6 +47,7 @@ class StorageImage(models.Model):
             vals["backend_id"] = self._get_default_backend_id()
         # When using the widget image_url, the create will pass the data
         # in the "url" field. We map it to the data field
+        # TODO: WHY??? I don't see any handling of `data` as url in storage.file
         for key in ["image_medium_url", "image_small_url"]:
             if key in vals:
                 vals["data"] = vals.pop(key)

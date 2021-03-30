@@ -36,12 +36,13 @@ class StorageImageCase(SavepointComponentCase):
 
     def _create_storage_image(self):
         return self.env["storage.image"].create(
-            {"name": self.filename, "image_medium_url": self.filedata}
+            {"name": self.filename, "data": self.filedata}
         )
 
     def _check_thumbnail(self, image):
         self.assertEqual(len(image.thumbnail_ids), 2)
-        medium, small = image.thumbnail_ids
+        medium = image._get_thumb("medium")
+        small = image._get_thumb("small")
         self.assertEqual(medium.size_x, 128)
         self.assertEqual(medium.size_y, 128)
         self.assertEqual(small.size_x, 64)
@@ -126,13 +127,14 @@ class StorageImageCase(SavepointComponentCase):
             m.get("http://pilbox:8888?", text="data")
             image = self._create_storage_image()
             self.assertEqual(len(m.request_history), 2)
-            self.assertEqual(
-                m.request_history[0].url,
+            urls = [x.url for x in m.request_history]
+            self.assertIn(
                 "http://pilbox:8888/?url=test/akretion-logo-%s.png"
                 "&w=128&h=128&mode=fill&fmt=webp" % image.file_id.id,
+                urls,
             )
-            self.assertEqual(
-                m.request_history[1].url,
+            self.assertIn(
                 "http://pilbox:8888/?url=test/akretion-logo-%s.png"
                 "&w=64&h=64&mode=fill&fmt=webp" % image.file_id.id,
+                urls,
             )
