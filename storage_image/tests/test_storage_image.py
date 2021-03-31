@@ -10,27 +10,29 @@ import requests_mock
 
 from odoo.exceptions import AccessError
 
-from odoo.addons.component.tests.common import TransactionComponentCase
+from odoo.addons.component.tests.common import SavepointComponentCase
 
 
-class StorageImageCase(TransactionComponentCase):
-    def setUp(self):
-        super(StorageImageCase, self).setUp()
+class StorageImageCase(SavepointComponentCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         # FIXME: remove this, should have explicit permission tests
         # Run the test with the demo user in order to check the access right
-        self.user = self.env.ref("base.user_demo")
-        self.user.write(
-            {"groups_id": [(4, self.env.ref("storage_image.group_image_manager").id)]}
+        cls.user = cls.env.ref("base.user_demo")
+        cls.user.write(
+            {"groups_id": [(4, cls.env.ref("storage_image.group_image_manager").id)]}
         )
-        self.env = self.env(user=self.user)
+        cls.env = cls.env(user=cls.user)
 
-        self.backend = self.env.ref("storage_backend.default_storage_backend")
+        cls.backend = cls.env.ref("storage_backend.default_storage_backend")
         path = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(path, "static/akretion-logo.png"), "rb") as f:
             data = f.read()
-        self.filesize = len(data)
-        self.filedata = base64.b64encode(data)
-        self.filename = "akretion-logo.png"
+        cls.filesize = len(data)
+        cls.filedata = base64.b64encode(data)
+        cls.filename = "akretion-logo.png"
 
     def _create_storage_image(self):
         return self.env["storage.image"].create(
