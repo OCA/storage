@@ -1,50 +1,33 @@
 import base64
 import os
-from operator import attrgetter
+
+from odoo_test_helper import FakeModelLoader
 
 from odoo.fields import first
 
-from odoo.addons.component.tests.common import TransactionComponentCase
-
-from .models import ModelTest
+from odoo.addons.component.tests.common import SavepointComponentCase
 
 
-class TestStorageThumbnail(TransactionComponentCase):
-    def setUp(self):
-        super().setUp()
+class TestStorageThumbnail(SavepointComponentCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.loader = FakeModelLoader(cls.env, cls.__module__)
+        cls.loader.backup_registry()
+        from .models import ModelTest
 
-        # Register model inheritance
-        ModelTest._build_model(self.env.registry, self.env.cr)
-        self.env.registry.setup_models(self.env.cr)
-        ctx = dict(self.env.context, update_custom_fields=True, module="base")
-        self.env.registry.init_models(self.env.cr, [ModelTest._name], ctx)
-
-        # create model
+        cls.loader.update_registry((ModelTest,))
         path = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(path, "static/akretion-logo.png"), "rb") as f:
             data = f.read()
-        self.filesize = len(data)
-        self.filedata = base64.b64encode(data)
-        self.filename = "akretion-logo.png"
+        cls.filesize = len(data)
+        cls.filedata = base64.b64encode(data)
+        cls.filename = "akretion-logo.png"
 
-    def tearDown(self):
-        super().tearDown()
-        env = self.env
-        del env.registry.models[ModelTest._name]
-        parents = ModelTest._inherit
-        parents = [parents] if isinstance(parents, str) else (parents or [])
-        # keep a copy to be sure to not modify the original _inherit
-        parents = list(parents)
-        parents.extend(ModelTest._inherits.keys())
-        parents.append("base")
-        funcs = [attrgetter(kind + "_children") for kind in ["_inherits", "_inherit"]]
-        for parent in parents:
-            for func in funcs:
-                children = func(env.registry[parent])
-                if ModelTest._name in children:
-                    # at this stage our cls is referenced as children of
-                    # parent -> must un reference it
-                    children.remove(ModelTest._name)
+    @classmethod
+    def tearDownClass(cls):
+        cls.loader.restore_registry()
+        super().tearDownClass()
 
     def _create_thumbnail(self):
         # create thumbnail
