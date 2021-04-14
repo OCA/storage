@@ -4,7 +4,7 @@
 {
     "name": "Storage Image Product Brand",
     "summary": """Link images to product brands""",
-    "version": "13.0.1.0.1",
+    "version": "13.0.1.1.0",
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
