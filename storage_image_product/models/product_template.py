@@ -28,8 +28,13 @@ class ProductTemplate(models.Model):
     )
     # small and medium image are here to replace
     # native image field on form and kanban
-    image_small_url = fields.Char(related="main_image_id.image_small_url")
-    image_medium_url = fields.Char(related="main_image_id.image_medium_url")
+
+    image_small_url = fields.Char(
+        string="Main small image URL", related="main_image_id.image_small_url"
+    )
+    image_medium_url = fields.Char(
+        string="Main medium image URL", related="main_image_id.image_medium_url"
+    )
 
     @api.depends("image_ids", "image_ids.sequence", "image_ids.image_id")
     def _compute_main_image_id(self):
