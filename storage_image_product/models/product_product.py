@@ -11,12 +11,12 @@ class ProductProduct(models.Model):
     # small and medium image are here to replace
     # native image field on form and kanban
     variant_image_small_url = fields.Char(
-        related="variant_image_ids.image_id.image_small_url",
+        compute="_compute_variant_image_ids",
         store=True,
         string="Variant Image Small Url",
     )
     variant_image_medium_url = fields.Char(
-        related="variant_image_ids.image_id.image_medium_url",
+        compute="_compute_variant_image_ids",
         store=True,
         string="Variant Image Medium Url",
     )
@@ -29,12 +29,16 @@ class ProductProduct(models.Model):
 
     @api.depends(
         "product_tmpl_id.image_ids.attribute_value_ids",
+        "product_tmpl_id.image_ids.sequence",
         "product_template_attribute_value_ids",
     )
     def _compute_variant_image_ids(self):
         for variant in self:
             res = self.env["product.image.relation"].browse([])
-            for image in variant.image_ids:
+            variant_images = variant.image_ids.sorted(
+                key=lambda i: (i.sequence, i.image_id)
+            )
+            for image in variant_images:
                 if not (
                     image.attribute_value_ids
                     - variant.mapped(
@@ -43,4 +47,10 @@ class ProductProduct(models.Model):
                     )
                 ):
                     res |= image
+            if res:
+                variant.variant_image_small_url = res[0].image_id.image_small_url
+                variant.variant_image_medium_url = res[0].image_id.image_medium_url
+            else:
+                variant.variant_image_small_url = None
+                variant.variant_image_medium_url = None
             variant.variant_image_ids = res
