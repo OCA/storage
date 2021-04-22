@@ -5,7 +5,7 @@
 {
     "name": "Storage Image Product",
     "summary": "Link images to products and categories",
-    "version": "13.0.1.5.0",
+    "version": "13.0.1.5.1",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
