@@ -47,6 +47,24 @@ class StorageBackend(models.Model):
     )
     base_url_for_files = fields.Char(compute="_compute_base_url_for_files", store=True)
 
+    def write(self, vals):
+        # Ensure storage file URLs are up to date
+        clear_url_cache = False
+        url_related_fields = (
+            "served_by",
+            "base_url",
+            "directory_path",
+            "url_include_directory_path",
+        )
+        for fname in url_related_fields:
+            if fname in vals:
+                clear_url_cache = True
+                break
+        res = super().write(vals)
+        if clear_url_cache:
+            self.action_recompute_base_url_for_files()
+        return res
+
     @property
     def _server_env_fields(self):
         env_fields = super()._server_env_fields
@@ -100,6 +118,17 @@ class StorageBackend(models.Model):
             if backend.url_include_directory_path and backend.directory_path:
                 parts.append(backend.directory_path)
         return "/".join(parts)
+
+    def action_recompute_base_url_for_files(self):
+        """Refresh base URL for files.
+
+        Rationale: all the params for computing this URL might come from server env.
+        When this is the case, the URL - being stored - might be out of date.
+        This is because changes to server env fields are not detected at startup.
+        Hence, let's offer an easy way to promptly force this manually when needed.
+        """
+        self._compute_base_url_for_files()
+        self.env["storage.file"].invalidate_cache(["url"])
 
     def _get_base_url_from_param(self):
         base_url_param = (

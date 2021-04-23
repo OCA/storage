@@ -140,10 +140,7 @@ class StorageFile(models.Model):
             else:
                 rec.data = None
 
-    @api.depends(
-        "relative_path",
-        "backend_id.base_url_for_files",
-    )
+    @api.depends("relative_path", "backend_id")
     def _compute_url(self):
         for record in self:
             record.url = record._get_url()
