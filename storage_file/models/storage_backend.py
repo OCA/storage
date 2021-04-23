@@ -147,4 +147,4 @@ class StorageBackend(models.Model):
             ]
         else:
             parts = [backend.base_url_for_files or "", storage_file.relative_path or ""]
-        return "/".join([x for x in parts if x])
+        return "/".join([x.rstrip("/") for x in parts if x])
