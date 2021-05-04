@@ -45,6 +45,8 @@
                     <page name="info" string="File Informations">
                         <group name="info">
                             <field name="file_id" readonly="True" required="False" />
+                            <field name="thumb_medium_id" />
+                            <field name="thumb_small_id" />
                             <field name="thumbnail_ids" readonly="True" />
                         </group>
                     </page>

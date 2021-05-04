@@ -30,6 +30,29 @@
                     name="url_include_directory_path"
                     attrs="{'invisible': [('directory_path', '=', False)]}"
                 />
+                <field
+                    name="base_url_for_files"
+                    string="Base URL used for files"
+                    attrs="{'invisible':[('served_by', '!=', 'external')]}"
+                />
+                <div
+                    class="alert alert-info"
+                    role="alert"
+                    attrs="{'invisible': [('served_by', '!=', 'external')]}"
+                >
+                    When served by external service you might have special environment configuration
+                    for building final files URLs.
+                    <br />For performance reasons, the base URL is computed and stored.
+                    If you change some parameters (eg: in local dev environment or special instances)
+                    and you still want to see the images you might need to refresh this URL
+                    to make sure images and/or files are loaded correctly.
+                </div>
+                <button
+                    type="object"
+                    name="action_recompute_base_url_for_files"
+                    string="Recompute base URL for files"
+                    help="If you have changed parameters via server env settings the URL might look outdated."
+                />
             </field>
         </field>
     </record>
