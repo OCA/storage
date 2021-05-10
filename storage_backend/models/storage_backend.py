@@ -5,6 +5,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import fnmatch
 import functools
 import inspect
 import logging
@@ -104,12 +105,15 @@ class StorageBackend(models.Model):
     def _get_bin_data(self, relative_path, **kwargs):
         return self.get(relative_path, **kwargs)
 
-    def list_files(self, relative_path=""):
-        return self._forward("list", relative_path)
+    def list_files(self, relative_path="", pattern=False):
+        names = self._forward("list", relative_path)
+        if pattern:
+            names = fnmatch.filter(names, pattern)
+        return names
 
     @deprecated("Use `list_files`")
-    def _list(self, relative_path=""):
-        return self.list_files(relative_path)
+    def _list(self, relative_path="", pattern=False):
+        return self.list_files(relative_path, pattern=pattern)
 
     def find_files(self, pattern, relative_path="", **kw):
         return self._forward("find_files", pattern, relative_path=relative_path)
