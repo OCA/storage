@@ -16,7 +16,7 @@ class ImageRelationAbstract(models.AbstractModel):
     _order = "sequence, image_id"
 
     sequence = fields.Integer()
-    image_id = fields.Many2one("storage.image", required=True)
+    image_id = fields.Many2one("storage.image", required=True, ondelete="cascade")
     # for kanban view
     image_name = fields.Char(related="image_id.name")
     # for kanban view
