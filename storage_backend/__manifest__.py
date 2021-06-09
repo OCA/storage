@@ -5,7 +5,7 @@
 {
     "name": "Storage Bakend",
     "summary": "Implement the concept of Storage with amazon S3, sftp...",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.1.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
