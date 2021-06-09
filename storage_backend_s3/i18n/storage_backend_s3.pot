@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -50,8 +50,23 @@ msgid "Bucket"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__id
+msgid "ID"
+msgstr ""
+
+#. module: storage_backend_s3
 #: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_host
 msgid "If you are using a different host than standard AWS ones, eg: Exoscale"
+msgstr ""
+
+#. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend____last_update
+msgid "Last Modified on"
 msgstr ""
 
 #. module: storage_backend_s3
