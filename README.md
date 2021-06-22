@@ -28,7 +28,7 @@ addon | version | summary
 [storage_image_product_brand](storage_image_product_brand/) | 13.0.1.1.0 | Link images to product brands
 [storage_media](storage_media/) | 13.0.1.1.0 | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 13.0.1.2.0 | Link media to products and categories
-[storage_thumbnail](storage_thumbnail/) | 13.0.1.1.0 | Abstract module that add the possibility to have thumbnail
+[storage_thumbnail](storage_thumbnail/) | 13.0.1.2.0 | Abstract module that add the possibility to have thumbnail
 
 
 Unported addons
