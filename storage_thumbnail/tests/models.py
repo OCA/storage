@@ -23,7 +23,4 @@ class ModelTest(models.TransientModel):
         vals["file_type"] = "thumbnail"
         if "backend_id" not in vals:
             vals.update({"backend_id": self._get_backend_id()})
-        for key in ["image_medium_url", "image_small_url"]:
-            if key in vals:
-                vals["data"] = vals.pop(key)
         return super().create(vals)

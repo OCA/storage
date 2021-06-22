@@ -19,8 +19,8 @@ class StorageThumbnail(models.Model):
     _inherits = {"storage.file": "file_id"}
     _default_file_type = "thumbnail"
 
-    size_x = fields.Integer("weight")
-    size_y = fields.Integer("height")
+    size_x = fields.Integer("X size")
+    size_y = fields.Integer("Y size")
     url_key = fields.Char(
         "Url key", help="Specific URL key for generating the url of the image"
     )
