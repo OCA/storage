@@ -18,5 +18,6 @@
     },
     "depends": [
         "storage_image",
+        "storage_image_product",
     ],
 }

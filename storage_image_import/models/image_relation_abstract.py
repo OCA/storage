@@ -42,7 +42,7 @@ class ImageRelationAbstract(models.AbstractModel):
                 image = self._create_image_from_url(url)
             vals["image_id"] = image.id
 
-    def _get_domain_for_existing_relation(self):
+    def _get_domain_for_existing_relation(self, vals):
         return []
 
     def _get_existing_relation(self, vals):
