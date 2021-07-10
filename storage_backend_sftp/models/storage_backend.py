@@ -14,15 +14,17 @@ class StorageBackend(models.Model):
         selection_add=[("sftp", "SFTP")], ondelete={"sftp": "set default"}
     )
     sftp_server = fields.Char(string="SFTP Host")
-    sftp_port = fields.Integer(string="Port", default=22)
+    sftp_port = fields.Integer(string="SFTP Port", default=22)
     sftp_auth_method = fields.Selection(
-        string="Authentification Method",
+        string="SFTP Authentification Method",
         selection=[("pwd", "Password"), ("ssh_key", "Private key")],
         default="pwd",
         required=True,
     )
-    sftp_login = fields.Char(string="Login", help="Login to connect to sftp server")
-    sftp_password = fields.Char(string="Password")
+    sftp_login = fields.Char(
+        string="SFTP Login", help="Login to connect to sftp server"
+    )
+    sftp_password = fields.Char(string="SFTP Password")
     sftp_ssh_private_key = fields.Text(
         string="SSH private key",
         help="It's recommended to not store the key here "
