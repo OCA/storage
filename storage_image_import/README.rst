@@ -27,7 +27,6 @@ Storage Image Import
 
 This module allows to import images based on url (from csv file)
 
-
 **Table of contents**
 
 .. contents::
@@ -60,6 +59,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Sébastien Beau <sebastien.beau@akretion.com>
+* Kévin Roche <kevin.roche@akretion.com>
 
 Maintainers
 ~~~~~~~~~~~
