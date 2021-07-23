@@ -24,7 +24,9 @@ addon | version | summary
 [storage_backend_sftp](storage_backend_sftp/) | 14.0.1.0.1 | Implement SFTP Storage
 [storage_file](storage_file/) | 14.0.1.0.1 | Storage file in storage backend
 [storage_image](storage_image/) | 14.0.1.0.1 | Store image and resized image in a storage backend
+[storage_image_import](storage_image_import/) | 14.0.1.0.0 | Add the possibility to import image for csv base on url
 [storage_image_product](storage_image_product/) | 14.0.1.0.1 | Link images to products and categories
+[storage_image_product_import](storage_image_product_import/) | 14.0.1.0.0 | Helper for importing image for csv base on url
 [storage_image_product_pos](storage_image_product_pos/) | 14.0.1.0.1 | Link images to products and categories inside POS
 [storage_media](storage_media/) | 14.0.1.0.1 | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 14.0.1.0.1 | Link media to products and categories
