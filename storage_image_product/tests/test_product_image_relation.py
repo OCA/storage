@@ -2,10 +2,24 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from .common import ProductImageCommonCase
+import os
+
+from odoo.addons.storage_image.tests.common import StorageImageCommonCase
 
 
-class ProductImageCase(ProductImageCommonCase):
+class ProductImageCase(StorageImageCommonCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.template = cls.env.ref("product.product_product_4_product_template")
+        cls.product_a = cls.env.ref("product.product_product_4")
+        cls.product_b = cls.env.ref("product.product_product_4b")
+        cls.product_c = cls.env.ref("product.product_product_4c")
+        cls.base_path = os.path.dirname(os.path.abspath(__file__))
+        cls.logo_image = cls._create_storage_image_from_file("fixture/logo-image.jpg")
+        cls.white_image = cls._create_storage_image_from_file("fixture/white-image.jpg")
+        cls.black_image = cls._create_storage_image_from_file("fixture/black-image.jpg")
+
     def test_available_attribute_value(self):
         # The template have already 5 attribute values
         # see demo data of ipad
