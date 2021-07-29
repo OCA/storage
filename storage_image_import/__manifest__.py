@@ -16,8 +16,5 @@
     "external_dependencies": {
         "python": ["unicodecsv"],
     },
-    "depends": [
-        "storage_image",
-        "storage_image_product",
-    ],
+    "depends": ["storage_image"],
 }
