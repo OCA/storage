@@ -1,63 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="product_category_form_view" model="ir.ui.view">
-        <field name="inherit_id" ref="product.product_category_form_view" />
         <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//group[last()]" position="after">
                 <group name="images" string="Images">
-                    <field name="image_ids" mode="kanban" widget="image_handle" />
-                </group>
-            </xpath>
-        </field>
-    </record>
-    <record id="product_category_image_relation_form" model="ir.ui.view">
-        <field name="model">category.image.relation</field>
-        <field name="arch" type="xml">
-            <form string="Association">
-                <group>
-                    <field name="image_id" />
                     <field
-                        name="tag_id"
-                        context="{'active_model': context.get('active_model')}"
+                        name="image_ids"
+                        mode="kanban"
+                        widget="storage_image_handle"
                     />
                 </group>
-            </form>
-        </field>
-    </record>
-    <record id="product_category_image_relation_kanban" model="ir.ui.view">
-        <field name="model">category.image.relation</field>
-        <field name="arch" type="xml">
-            <kanban>
-                <field name="image_name" />
-                <field name="image_url" />
-                <field name="image_id" invisible="1" />
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_vignette oe_semantic_html_override">
-                            <a
-                                t-if="! read_only_mode"
-                                type="delete"
-                                style="position: absolute; right: 0; padding: 4px; diplay: inline-block"
-                            >X</a>
-                            <a type="open">
-                                <img
-                                    t-att-src="record.image_url.value"
-                                    class="oe_kanban_image"
-                                    t-att-alt="record.alt_name"
-                                />
-                            </a>
-                            <div class="oe_kanban_details">
-                                <h4>
-                                    <a type="open">
-                                        <field name="image_name" />
-                                    </a>
-                                </h4>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
+            </xpath>
         </field>
     </record>
 </odoo>
