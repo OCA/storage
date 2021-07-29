@@ -2,12 +2,7 @@
 # @author Raphaël Reverdy <https://github.com/hparfr>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-
-import logging
-
 from odoo import fields, models
-
-_logger = logging.getLogger(__name__)
 
 
 class CategoryImageRelation(models.Model):
@@ -15,12 +10,13 @@ class CategoryImageRelation(models.Model):
     _inherit = "image.relation.abstract"
     _description = "Category Image Relation"
 
-    category_id = fields.Many2one("product.category")
-    tag_id = fields.Many2one("image.tag", domain=[("apply_on", "=", "category")])
-
-
-class ImageTag(models.Model):
-    _name = "image.tag"
-    _description = "Image Tag"
-
-    name = fields.Char()
+    category_id = fields.Many2one(
+        "product.category",
+        required=True,
+        ondelete="cascade",
+    )
+    tag_id = fields.Many2one(
+        "image.tag",
+        string="Tag",
+        domain=[("apply_on", "=", "category")],
+    )
