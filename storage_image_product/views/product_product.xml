@@ -6,17 +6,12 @@
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="id" position="after">
-                <field
-                    name="variant_image_small_url"
-                    widget="image_url"
-                    class="oe_avatar"
-                />
+                <field name="variant_image_small_url" />
             </field>
-            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="replace">
-                <img
-                    t-att-src="record.variant_image_small_url.value"
-                    t-att-alt="record.alt_name"
-                />
+            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
+                <attribute
+                    name="t-att-src"
+                >record.variant_image_small_url.value</attribute>
             </xpath>
         </field>
     </record>
@@ -24,34 +19,38 @@
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_normal_form_view" />
         <field name="arch" type="xml">
-            <field name="image_1920" position="replace">
-                <field name="image_1920" invisible="True" />
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
                 <field
                     name="variant_image_medium_url"
                     widget="image_url"
                     class="oe_avatar"
                 />
             </field>
-            <xpath expr="//page[@name='sales']" position="after">
-                <page name="image" string="Image">
-                    <p
-                        class="oe_grey"
-                    >If you need to edit the images, do it from the product template.</p>
+            <page name="sales" position="after">
+                <page name="images" string="Images">
+                    <p class="oe_grey">
+                        If you need to edit the images, do it from the product template.
+                    </p>
                     <field
                         name="variant_image_ids"
                         mode="kanban"
-                        widget="image_handle"
+                        widget="storage_image_handle"
                     />
                 </page>
-            </xpath>
+            </page>
         </field>
     </record>
     <record id="product_variant_easy_edit_view" model="ir.ui.view">
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
         <field name="arch" type="xml">
-            <field name="image_1920" position="replace">
-                <field name="image_1920" invisible="True" />
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
                 <field
                     name="variant_image_medium_url"
                     widget="image_url"
