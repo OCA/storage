@@ -61,11 +61,13 @@ class StorageFileCase(TransactionComponentCase):
     def test_slug(self):
         stfile = self._create_storage_file()
         self.assertEqual(
-            stfile.slug, "test-of-my_file-{}.txt".format(stfile.id),
+            stfile.slug,
+            "test-of-my_file-{}.txt".format(stfile.id),
         )
         stfile.name = "Name has changed.png"
         self.assertEqual(
-            stfile.slug, "name-has-changed-{}.png".format(stfile.id),
+            stfile.slug,
+            "name-has-changed-{}.png".format(stfile.id),
         )
 
     def test_url(self):
