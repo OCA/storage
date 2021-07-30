@@ -82,7 +82,10 @@ class StorageBackend(models.Model):
         return backend_id
 
     @api.depends(
-        "served_by", "base_url", "directory_path", "url_include_directory_path",
+        "served_by",
+        "base_url",
+        "directory_path",
+        "url_include_directory_path",
     )
     def _compute_base_url_for_files(self):
         for record in self:
