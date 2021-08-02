@@ -8,11 +8,6 @@
         inherit_id="web.assets_backend"
     >
         <xpath expr="." position="inside">
-            <link
-                rel="stylesheet"
-                type="text/css"
-                href="/storage_image/static/src/css/image_handle.css"
-            />
             <script
                 type="text/javascript"
                 src="/storage_image/static/src/js/storage_image.js"
