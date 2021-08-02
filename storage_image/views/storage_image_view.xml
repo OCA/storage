@@ -29,9 +29,8 @@
             <form string="Image">
                 <group string="Image" name="image">
                     <field
-                        name="image_medium_url"
-                        readonly="False"
-                        widget="image_url"
+                        name="data"
+                        widget="image"
                         filename="name"
                         nolabel="1"
                         options="{'size':(128,128)}"

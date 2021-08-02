@@ -45,14 +45,7 @@ class StorageImage(models.Model):
         vals["file_type"] = self._default_file_type
         if "backend_id" not in vals:
             vals["backend_id"] = self._get_default_backend_id()
-        # When using the widget image_url, the create will pass the data
-        # in the "url" field. We map it to the data field
-        # TODO: WHY??? I don't see any handling of `data` as url in storage.file
-        for key in ["image_medium_url", "image_small_url"]:
-            if key in vals:
-                vals["data"] = vals.pop(key)
-        image = super(StorageImage, self).create(vals)
-        return image
+        return super(StorageImage, self).create(vals)
 
     def _get_default_backend_id(self):
         return self.env["storage.backend"]._get_backend_id_from_param(
