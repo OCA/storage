@@ -156,6 +156,16 @@ msgid "Res Model"
 msgstr ""
 
 #. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__slug
+msgid "Slug"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__slug
+msgid "Slug-ified name with ID for URL"
+msgstr ""
+
+#. module: storage_thumbnail
 #: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__url_key
 msgid "Specific URL key for generating the url of the image"
 msgstr ""
