@@ -3,7 +3,7 @@
 # Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
 # Copyright 2020 ACSONE SA/NV (<http://acsone.eu>)
 # @author Simone Orsi <simahawk@gmail.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 import errno
 import logging
 import os
