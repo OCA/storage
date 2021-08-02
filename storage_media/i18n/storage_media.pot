@@ -158,6 +158,16 @@ msgid "Relative location for backend"
 msgstr ""
 
 #. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media__slug
+msgid "Slug"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media__slug
+msgid "Slug-ified name with ID for URL"
+msgstr ""
+
+#. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__backend_id
 msgid "Storage"
 msgstr ""
