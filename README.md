@@ -27,7 +27,6 @@ addon | version | summary
 [storage_image_import](storage_image_import/) | 14.0.1.0.0 | Add the possibility to import image for csv base on url
 [storage_image_product](storage_image_product/) | 14.0.1.0.1 | Link images to products and categories
 [storage_image_product_import](storage_image_product_import/) | 14.0.1.0.0 | Helper for importing image for csv base on url
-[storage_image_product_pos](storage_image_product_pos/) | 14.0.1.0.1 | Link images to products and categories inside POS
 [storage_media](storage_media/) | 14.0.1.0.1 | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 14.0.1.0.1 | Link media to products and categories
 [storage_thumbnail](storage_thumbnail/) | 14.0.1.0.1 | Abstract module that add the possibility to have thumbnail
@@ -39,6 +38,7 @@ addon | version | summary
 --- | --- | ---
 [storage_image_category_pos](storage_image_category_pos/) | 10.0.1.0.0 (unported) | Add image handling to product category and use it for POS
 [storage_image_product_brand](storage_image_product_brand/) | 13.0.1.0.0 (unported) | Link images to product brands
+[storage_image_product_pos](storage_image_product_pos/) | 14.0.1.0.1 (unported) | Link images to products and categories inside POS
 
 [//]: # (end addons)
 
