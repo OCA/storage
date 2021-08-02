@@ -196,6 +196,16 @@ msgid "Sequence"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__slug
+msgid "Slug"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_storage_image__slug
+msgid "Slug-ified name with ID for URL"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__backend_id
 msgid "Storage"
 msgstr ""
