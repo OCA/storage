@@ -53,13 +53,13 @@ class TestStorageThumbnail(SavepointComponentCase):
     def test_model(self):
         image = self._create_image()
         self.assertTrue(image.url)
-        self.assertEquals(2, len(image.thumbnail_ids))
-        self.assertEquals(".png", first(image.thumbnail_ids).extension)
+        self.assertEqual(2, len(image.thumbnail_ids))
+        self.assertEqual(".png", first(image.thumbnail_ids).extension)
 
     def test_model_resize(self):
         image = self._create_image(resize=True)
         self.assertIn("webp", first(image.thumbnail_ids).url)
-        self.assertEquals(".webp", first(image.thumbnail_ids).extension)
+        self.assertEqual(".webp", first(image.thumbnail_ids).extension)
 
     def test_medium_small(self):
         image = self._create_image()
