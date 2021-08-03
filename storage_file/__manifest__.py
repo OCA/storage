@@ -5,7 +5,7 @@
 {
     "name": "Storage File",
     "summary": "Storage file in storage backend",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.1.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
