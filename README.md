@@ -29,7 +29,7 @@ addon | version | summary
 [storage_image_product_import](storage_image_product_import/) | 14.0.1.0.0 | Helper for importing image for csv base on url
 [storage_media](storage_media/) | 14.0.2.0.0 | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 14.0.2.0.0 | Link media to products and categories
-[storage_thumbnail](storage_thumbnail/) | 14.0.2.0.0 | Abstract module that add the possibility to have thumbnail
+[storage_thumbnail](storage_thumbnail/) | 14.0.2.1.0 | Abstract module that add the possibility to have thumbnail
 
 
 Unported addons
