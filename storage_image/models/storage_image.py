@@ -1,5 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2021 Camptocamp (http://www.camptocamp.com).
+# @author Iván Todorovich <ivan.todorovich@gmail.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 
@@ -45,7 +47,7 @@ class StorageImage(models.Model):
         vals["file_type"] = self._default_file_type
         if "backend_id" not in vals:
             vals["backend_id"] = self._get_default_backend_id()
-        return super(StorageImage, self).create(vals)
+        return super().create(vals)
 
     def _get_default_backend_id(self):
         return self.env["storage.backend"]._get_backend_id_from_param(
@@ -55,7 +57,4 @@ class StorageImage(models.Model):
     def unlink(self):
         files = self.mapped("file_id")
         thumbnails = self.mapped("thumbnail_ids")
-        super(StorageImage, self).unlink()
-        thumbnails.unlink()
-        files.unlink()
-        return True
+        return super().unlink() and thumbnails.unlink() and files.unlink()
