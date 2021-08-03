@@ -10,36 +10,39 @@ import requests_mock
 
 from odoo.exceptions import AccessError
 
-from odoo.addons.component.tests.common import TransactionComponentCase
+from odoo.addons.component.tests.common import SavepointComponentCase
 
 
-class StorageImageCase(TransactionComponentCase):
-    def setUp(self):
-        super(StorageImageCase, self).setUp()
+class StorageImageCase(SavepointComponentCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         # FIXME: remove this, should have explicit permission tests
         # Run the test with the demo user in order to check the access right
-        self.user = self.env.ref("base.user_demo")
-        self.user.write(
-            {"groups_id": [(4, self.env.ref("storage_image.group_image_manager").id)]}
+        cls.user = cls.env.ref("base.user_demo")
+        cls.user.write(
+            {"groups_id": [(4, cls.env.ref("storage_image.group_image_manager").id)]}
         )
-        self.env = self.env(user=self.user)
+        cls.env = cls.env(user=cls.user)
 
-        self.backend = self.env.ref("storage_backend.default_storage_backend")
+        cls.backend = cls.env.ref("storage_backend.default_storage_backend")
         path = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(path, "static/akretion-logo.png"), "rb") as f:
             data = f.read()
-        self.filesize = len(data)
-        self.filedata = base64.b64encode(data)
-        self.filename = "akretion-logo.png"
+        cls.filesize = len(data)
+        cls.filedata = base64.b64encode(data)
+        cls.filename = "akretion-logo.png"
 
     def _create_storage_image(self):
         return self.env["storage.image"].create(
-            {"name": self.filename, "image_medium_url": self.filedata}
+            {"name": self.filename, "data": self.filedata}
         )
 
     def _check_thumbnail(self, image):
         self.assertEqual(len(image.thumbnail_ids), 2)
-        medium, small = image.thumbnail_ids
+        medium = image._get_thumb("medium")
+        small = image._get_thumb("small")
         self.assertEqual(medium.size_x, 128)
         self.assertEqual(medium.size_y, 128)
         self.assertEqual(small.size_x, 64)
@@ -124,13 +127,14 @@ class StorageImageCase(TransactionComponentCase):
             m.get("http://pilbox:8888?", text="data")
             image = self._create_storage_image()
             self.assertEqual(len(m.request_history), 2)
-            self.assertEqual(
-                m.request_history[0].url,
+            urls = [x.url for x in m.request_history]
+            self.assertIn(
                 "http://pilbox:8888/?url=test/akretion-logo-%s.png"
                 "&w=128&h=128&mode=fill&fmt=webp" % image.file_id.id,
+                urls,
             )
-            self.assertEqual(
-                m.request_history[1].url,
+            self.assertIn(
                 "http://pilbox:8888/?url=test/akretion-logo-%s.png"
                 "&w=64&h=64&mode=fill&fmt=webp" % image.file_id.id,
+                urls,
             )

@@ -35,3 +35,11 @@ class ProductImageRelation(models.Model):
             rec.available_attribute_value_ids = rec.product_tmpl_id.mapped(
                 "attribute_line_ids.value_ids"
             )
+
+    def _match_variant(self, variant):
+        return not bool(
+            self.attribute_value_ids
+            - variant.mapped(
+                "product_template_attribute_value_ids.product_attribute_value_id"
+            )
+        )
