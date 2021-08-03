@@ -5,10 +5,12 @@ from odoo import fields, models
 
 
 class ImageRelationAbstract(models.AbstractModel):
-    """Use this abstract if you want to add a relation between a model and
-    storage.image ImageRelationAbstract comes with a JS widget 'image_handle'.
-    Use this widget on your field in kanaban mode if you want to enable images adding
-    and vignettes sequencing by drag&drop.
+    """Image Relation Abstract
+
+    Use this abstract if you want to add a relation between a model and storage.image
+
+    This module comes with a JS widget `image_handle`. Use this widget on your field
+    in kanaban mode if you want to enable adding and reordering images by drag&drop.
     """
 
     _name = "image.relation.abstract"
@@ -19,5 +21,5 @@ class ImageRelationAbstract(models.AbstractModel):
     image_id = fields.Many2one("storage.image", required=True, ondelete="cascade")
     # for kanban view
     image_name = fields.Char(related="image_id.name")
-    # for kanban view
+    image_alt_name = fields.Char(related="image_id.alt_name")
     image_url = fields.Char(related="image_id.image_medium_url")
