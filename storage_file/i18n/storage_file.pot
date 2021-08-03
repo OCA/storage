@@ -19,6 +19,11 @@ msgid "Active"
 msgstr ""
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid "Base URL used for files"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__base_url
 msgid "Base Url"
 msgstr ""
@@ -143,6 +148,13 @@ msgid "ID"
 msgstr ""
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid ""
+"If you have changed parameters via server env settings the URL might look "
+"outdated."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__is_public
 msgid "Is Public"
 msgstr ""
@@ -189,6 +201,11 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__served_by__odoo
 msgid "Odoo"
+msgstr ""
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid "Recompute base URL for files"
 msgstr ""
 
 #. module: storage_file
@@ -283,4 +300,15 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__url_include_directory_path
 msgid "Url Include Directory Path"
+msgstr ""
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid ""
+"When served by external service you might have special environment configuration\n"
+"                    for building final files URLs.\n"
+"                    <br/>For performance reasons, the base URL is computed and stored.\n"
+"                    If you change some parameters (eg: in local dev environment or special instances)\n"
+"                    and you still want to see the images you might need to refresh this URL\n"
+"                    to make sure images and/or files are loaded correctly."
 msgstr ""
