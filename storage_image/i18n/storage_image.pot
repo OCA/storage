@@ -100,6 +100,9 @@ msgid "Filename without extension"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_image_relation_abstract__image_url
+#: model:ir.model.fields,help:storage_image.field_storage_image__image_medium_url
+#: model:ir.model.fields,help:storage_image.field_storage_image__image_small_url
 #: model:ir.model.fields,help:storage_image.field_storage_image__url
 msgid "HTTP accessible path to the file"
 msgstr ""
@@ -136,19 +139,8 @@ msgid "Image Manager"
 msgstr ""
 
 #. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_url
-#: model:ir.model.fields,field_description:storage_image.field_storage_image__image_medium_url
-msgid "Image Medium Url"
-msgstr ""
-
-#. module: storage_image
 #: model:ir.model,name:storage_image.model_image_relation_abstract
 msgid "Image Relation Abstract"
-msgstr ""
-
-#. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_storage_image__image_small_url
-msgid "Image Small Url"
 msgstr ""
 
 #. module: storage_image
@@ -166,6 +158,12 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_url
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__image_medium_url
+msgid "Medium thumb URL"
 msgstr ""
 
 #. module: storage_image
@@ -206,6 +204,11 @@ msgid "Slug-ified name with ID for URL"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__image_small_url
+msgid "Small thumb URL"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__backend_id
 msgid "Storage"
 msgstr ""
@@ -218,6 +221,16 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model,name:storage_image.model_storage_image
 msgid "Storage Image"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__thumb_medium_id
+msgid "Thumb Medium"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__thumb_small_id
+msgid "Thumb Small"
 msgstr ""
 
 #. module: storage_image
