@@ -77,6 +77,18 @@ msgid "Display Name"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,help:storage_image_product.field_category_image_relation__image_url
+#: model:ir.model.fields,help:storage_image_product.field_product_image_relation__image_url
+#: model:ir.model.fields,help:storage_image_product.field_product_product__image_medium_url
+#: model:ir.model.fields,help:storage_image_product.field_product_product__image_small_url
+#: model:ir.model.fields,help:storage_image_product.field_product_product__variant_image_medium_url
+#: model:ir.model.fields,help:storage_image_product.field_product_product__variant_image_small_url
+#: model:ir.model.fields,help:storage_image_product.field_product_template__image_medium_url
+#: model:ir.model.fields,help:storage_image_product.field_product_template__image_small_url
+msgid "HTTP accessible path to the file"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__id
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag__id
 #: model:ir.model.fields,field_description:storage_image_product.field_product_category__id
@@ -99,20 +111,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_image_product.product_normal_form_view
 #: model_terms:ir.ui.view,arch_db:storage_image_product.product_template_only_form_view
 msgid "Image"
-msgstr ""
-
-#. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_url
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_url
-#: model:ir.model.fields,field_description:storage_image_product.field_product_product__image_medium_url
-#: model:ir.model.fields,field_description:storage_image_product.field_product_template__image_medium_url
-msgid "Image Medium Url"
-msgstr ""
-
-#. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_product_product__image_small_url
-#: model:ir.model.fields,field_description:storage_image_product.field_product_template__image_small_url
-msgid "Image Small Url"
 msgstr ""
 
 #. module: storage_image_product
@@ -154,6 +152,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag__write_date
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product__main_image_id
+#: model:ir.model.fields,field_description:storage_image_product.field_product_template__main_image_id
+msgid "Main Image"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product__image_medium_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_template__image_medium_url
+msgid "Main medium image URL"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product__image_small_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_template__image_small_url
+msgid "Main small image URL"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_url
+msgid "Medium thumb URL"
 msgstr ""
 
 #. module: storage_image_product
@@ -213,16 +235,16 @@ msgid "Tag"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_ids
+msgid "Variant Images"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_medium_url
-msgid "Variant Image Medium Url"
+msgid "Variant main medium image URL"
 msgstr ""
 
 #. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_small_url
-msgid "Variant Image Small Url"
-msgstr ""
-
-#. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_ids
-msgid "Variant Images"
+msgid "Variant main small image URL"
 msgstr ""
