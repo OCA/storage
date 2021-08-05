@@ -6,7 +6,7 @@ import logging
 import os
 import ssl
 from contextlib import contextmanager
-from io import StringIO
+from io import BytesIO
 
 from odoo.addons.component.core import Component
 
@@ -99,20 +99,19 @@ class FTPStorageBackendAdapter(Component):
 
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
-        with ftp(self.collection) as client, StringIO() as buff:
+        with ftp(self.collection) as client, BytesIO() as buff:
             try:
-                client.retrlines("RETR " + full_path, buff.write)
+                client.retrbinary("RETR " + full_path, buff.write)
+                data = buff.getvalue()
             except ftplib.Error as e:
                 raise FileNotFoundError(repr(e))
-            buff.seek(0)
-            data = buff.read()
-        return data.encode()
+        return data
 
     def list(self, relative_path):
         full_path = self._fullpath(relative_path)
         with ftp(self.collection) as client:
             try:
-                return client.retrlines("LIST " + full_path)
+                return client.nlst(full_path)
             except IOError as e:
                 if e.errno == errno.ENOENT:
                     # The path do not exist return an empty list
