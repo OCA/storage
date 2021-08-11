@@ -18,7 +18,6 @@ from zipfile import ZipFile
 
 from odoo import _, api, exceptions, fields, models
 from odoo.tools import date_utils
-from odoo.tools.pycompat import csv_reader
 
 _logger = logging.getLogger(__name__)
 
@@ -80,9 +79,27 @@ class ProductImageImportWizard(models.Model):
     )
     filename = fields.Char()
     file_csv = fields.Binary(string="CSV file", required=True)
-    csv_header = fields.Char(
-        string="CSV file header",
-        default=lambda self: self._default_csv_header(),
+    csv_delimiter = fields.Char(
+        string="CSV file delimiter",
+        default=",",
+        required=True,
+    )
+    csv_column_default_code = fields.Char(
+        string="Product Reference column",
+        help="The CSV File column name that holds the product reference.",
+        default="default_code",
+        required=True,
+    )
+    csv_column_tag_name = fields.Char(
+        string="Image Tag Name column",
+        help="The CSV File column name that holds the image tag name.",
+        default="tag",
+        required=True,
+    )
+    csv_column_file_path = fields.Char(
+        string="Image file path column",
+        help="The CSV File column name that holds the image file path or url.",
+        default="path",
         required=True,
     )
     csv_delimiter = fields.Char(string="CSV file delimiter", default=",", required=True)
@@ -164,27 +181,23 @@ class ProductImageImportWizard(models.Model):
 
     def _get_lines(self):
         lines = []
-        with closing(io.BytesIO(self._read_csv())) as file_csv:
-            reader = csv_reader(file_csv, delimiter=self.csv_delimiter)
-            headers = next(reader, None)
-
-            if headers != self.csv_header.split(self.csv_delimiter):
-                raise exceptions.UserError(
-                    _("Invalid CSV file headers found! Expected: %s") % self.csv_header
-                )
+        product_identifier_field = self._get_product_identifier_field()
+        mapping = {
+            product_identifier_field: self.csv_column_default_code,
+            "tag_name": self.csv_column_tag_name,
+            "file_path": self.csv_column_file_path,
+        }
+        with closing(io.BytesIO(self._read_csv())) as binary_file:
+            csv_file = (line.decode("utf8") for line in binary_file)
+            reader = csv.DictReader(csv_file, delimiter=self.csv_delimiter)
             csv.field_size_limit(sys.maxsize)
-            product_identifier_field = self._get_product_identifier_field()
             for row in reader:
-                if not row:
-                    continue
-                product_identifier, tag_name, file_path = row
-                lines.append(
-                    {
-                        product_identifier_field: product_identifier,
-                        "tag_name": tag_name,
-                        "file_path": file_path,
-                    }
-                )
+                try:
+                    line = {key: row[column] for key, column in mapping.items()}
+                except KeyError as e:
+                    _logger.error(e)
+                    raise exceptions.UserError(_("CSV Schema Incompatible"))
+                lines.append(line)
         return lines
 
     def _get_options(self):
