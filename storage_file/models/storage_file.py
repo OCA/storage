@@ -148,9 +148,9 @@ class StorageFile(models.Model):
         }
 
     def _inverse_data(self):
-        for record in self:
+        for record in self.sudo():
             record.write(record._prepare_meta_for_file())
-            record.backend_id.sudo().add(
+            record.backend_id.add(
                 record.relative_path,
                 record.data,
                 mimetype=record.mimetype,
@@ -158,11 +158,11 @@ class StorageFile(models.Model):
             )
 
     def _compute_data(self):
-        for rec in self:
+        for rec in self.sudo():
             if self._context.get("bin_size"):
                 rec.data = rec.file_size
             elif rec.relative_path:
-                rec.data = rec.backend_id.sudo().get(rec.relative_path, binary=False)
+                rec.data = rec.backend_id.get(rec.relative_path, binary=False)
             else:
                 rec.data = None
 
@@ -203,8 +203,8 @@ class StorageFile(models.Model):
             WHERE to_delete=True FOR UPDATE"""
         )
         ids = [x[0] for x in self._cr.fetchall()]
-        for st_file in self.browse(ids):
-            st_file.backend_id.sudo().delete(st_file.relative_path)
+        for st_file in self.browse(ids).sudo():
+            st_file.backend_id.delete(st_file.relative_path)
             st_file.with_context(cleanning_storage_file=True).unlink()
             # commit is required since the backend could be an external system
             # therefore, if the record is deleted on the external system
