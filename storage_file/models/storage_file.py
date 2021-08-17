@@ -59,6 +59,32 @@ class StorageFile(models.Model):
         "res.company", "Company", default=lambda self: self.env.user.company_id.id
     )
     file_type = fields.Selection([])
+    is_external = fields.Boolean(compute="_compute_is_external")
+    data_display = fields.Binary(compute="_compute_data_display")
+
+    @api.depends("backend_id.served_by")
+    def _compute_is_external(self):
+        for rec in self:
+            rec.is_external = rec.backend_id.served_by == "external"
+
+    def _compute_data_display(self):
+        """Compute data to display based on display policy.
+
+        If the backend policy is set to display only the external URL,
+        then data for display will be empty and no fetch call will be done
+        on the external storage.
+
+        Recommended: always use this field in views
+        unless you have something special to display (eg: image).
+        """
+        for rec in self:
+            # Do not load binary data if served from external service
+            # and `url` policy is enabled.
+            if rec.is_external or rec.backend_id.backend_display_mode == "url":
+                data = ""
+            else:
+                data = rec.data
+            rec.data_display = data
 
     _sql_constraints = [
         (

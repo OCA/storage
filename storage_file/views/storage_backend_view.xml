@@ -6,6 +6,10 @@
         <field name="arch" type="xml">
             <field name="backend_type" position="after">
                 <field name="served_by" />
+                <field
+                    name="backend_display_mode"
+                    attrs="{'invisible': [('served_by', '!=', 'external')]}"
+                />
                 <div
                     class="alert alert-info"
                     role="alert"

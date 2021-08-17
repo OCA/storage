@@ -17,8 +17,9 @@
         <form string="Storage Media">
             <group>
                 <field name="id" invisible="True" />
+                <field name="is_external" />
                 <field
-                        name="data"
+                        name="data_display"
                         filename="name"
                         attrs="{'invisible': [('id', '!=', False)]}"
                     />

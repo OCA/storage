@@ -29,6 +29,19 @@ class StorageBackend(models.Model):
         required=True,
         default="odoo",
     )
+    backend_display_mode = fields.Selection(
+        string="Backend display mode",
+        selection=[("url", "URL"), ("binary", "Binary")],
+        default="url",
+        help="Define how files served from external storages "
+        "are loaded in the backend UI.\n"
+        "Options:\n\n"
+        "* URL: render external URL, download file from external storage (faster);\n"
+        "* Binary: render standard binary widget "
+        "by fetching data from ext storage (slower).\n\n"
+        "NOTE: this has effects only when the field `data_display` "
+        "is used in storage files' views.",
+    )
     base_url = fields.Char(default="")
     is_public = fields.Boolean(
         default=False,
