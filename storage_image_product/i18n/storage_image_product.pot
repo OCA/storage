@@ -14,14 +14,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__apply_on
-msgid "Apply On"
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_alt_name
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_alt_name
+msgid "Alt Image name"
 msgstr ""
 
 #. module: storage_image_product
-#: model_terms:ir.ui.view,arch_db:storage_image_product.product_category_image_relation_form
-#: model_terms:ir.ui.view,arch_db:storage_image_product.product_image_relation_form
-msgid "Association"
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__apply_on
+msgid "Apply On"
 msgstr ""
 
 #. module: storage_image_product
@@ -108,8 +108,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_id
 #: model:ir.model.fields,field_description:storage_image_product.field_product_category__image_ids
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_id
-#: model_terms:ir.ui.view,arch_db:storage_image_product.product_normal_form_view
-#: model_terms:ir.ui.view,arch_db:storage_image_product.product_template_only_form_view
 msgid "Image"
 msgstr ""
 
@@ -126,7 +124,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__image_ids
 #: model:ir.model.fields,field_description:storage_image_product.field_product_template__image_ids
 #: model_terms:ir.ui.view,arch_db:storage_image_product.product_category_form_view
+#: model_terms:ir.ui.view,arch_db:storage_image_product.product_category_image_relation_kanban
+#: model_terms:ir.ui.view,arch_db:storage_image_product.product_image_relation_kanban
+#: model_terms:ir.ui.view,arch_db:storage_image_product.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:storage_image_product.product_template_only_form_view
 msgid "Images"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__import_from_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__import_from_url
+msgid "Imported From Url"
 msgstr ""
 
 #. module: storage_image_product
