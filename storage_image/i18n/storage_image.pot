@@ -14,11 +14,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
+msgid "<i class=\"fa fa-times\" title=\"Unlink\"/>"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__active
 msgid "Active"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_alt_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__alt_name
 msgid "Alt Image name"
 msgstr ""
@@ -31,13 +37,6 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__company_id
 msgid "Company"
-msgstr ""
-
-#. module: storage_image
-#. openerp-web
-#: code:addons/storage_image/static/src/js/storage_image.js:0
-#, python-format
-msgid "Could not display the selected image."
 msgstr ""
 
 #. module: storage_image
@@ -120,8 +119,6 @@ msgid "ID"
 msgstr ""
 
 #. module: storage_image
-#. openerp-web
-#: code:addons/storage_image/static/src/js/storage_image.js:0
 #: model:ir.actions.act_window,name:storage_image.act_open_storage_image_view
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_id
 #: model:ir.model.fields.selection,name:storage_image.selection__storage_file__file_type__image
@@ -129,7 +126,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_tree
-#, python-format
 msgid "Image"
 msgstr ""
 
