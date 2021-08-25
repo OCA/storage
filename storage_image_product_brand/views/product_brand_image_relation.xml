@@ -11,18 +11,18 @@
         <field name="inherit_id" ref="storage_image.view_storage_image_abstract_form" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <group name="extra" position="inside">
-                <field
-                    name="tag_id"
-                    context="{'active_model': context.get('active_model')}"
-                />
-            </group>
+            <form position="attributes">
+                <attribute name="string">Images</attribute>
+            </form>
         </field>
     </record>
 
     <record id="product_brand_image_relation_kanban_view" model="ir.ui.view">
         <field name="model">product.brand.image.relation</field>
-        <field name="inherit_id" ref="storage_image.view_storage_image_abstract_kanban" />
+        <field
+            name="inherit_id"
+            ref="storage_image.view_storage_image_abstract_kanban"
+        />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <kanban position="attributes">
