@@ -2,14 +2,10 @@
 # @author Raphaël Reverdy <https://github.com/hparfr>
 # Copyright 2021 Camptocamp SA (http://www.camptocamp.com)
 # @author Simone Orsi <simahawk@gmail.com>
+# @author Iván Todorovich <ivan.todorovich@gmail.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-
-import logging
-
 from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
 
 
 class ProductTemplate(models.Model):
@@ -28,7 +24,6 @@ class ProductTemplate(models.Model):
     )
     # small and medium image are here to replace
     # native image field on form and kanban
-
     image_small_url = fields.Char(
         string="Main small image URL", related="main_image_id.image_small_url"
     )

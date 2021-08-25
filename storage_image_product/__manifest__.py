@@ -19,6 +19,7 @@
         "views/product_image_relation.xml",
         "views/product_product.xml",
         "views/product_category.xml",
+        "views/product_category_image_relation.xml",
         "views/image_tag.xml",
         "views/storage_image.xml",
     ],

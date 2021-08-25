@@ -3,12 +3,15 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
+import logging
 import os
 import urllib
 from urllib.parse import urlparse
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class ImageRelationAbstract(models.AbstractModel):
@@ -26,7 +29,8 @@ class ImageRelationAbstract(models.AbstractModel):
                     "imported_from_url": url,
                 }
             )
-        except Exception:
+        except Exception as e:
+            _logger.error(e)
             raise ValidationError(
                 _("Fail to import image {} check if the url is valid").format(url)
             )
