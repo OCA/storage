@@ -8,7 +8,6 @@
     <record model="ir.ui.view" id="product_brand_form_view">
         <field name="model">product.brand</field>
         <field name="inherit_id" ref="product_brand.view_product_brand_form" />
-        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="logo" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -18,7 +17,12 @@
             </field>
             <sheet position="inside">
                 <group name="images" string="Images">
-                    <field name="image_ids" mode="kanban" widget="storage_image_handle" />
+                    <field
+                        name="image_ids"
+                        nolabel="1"
+                        mode="kanban"
+                        widget="storage_image_handle"
+                    />
                 </group>
             </sheet>
         </field>
@@ -26,7 +30,6 @@
     <record model="ir.ui.view" id="product_brand_kanban_view">
         <field name="model">product.brand</field>
         <field name="inherit_id" ref="product_brand.view_product_brand_kanban" />
-        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="id" position="after">
                 <field name="image_small_url" />
