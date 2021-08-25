@@ -5,15 +5,15 @@
 # @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    "name": "Import Shopinvader product image",
-    "version": "13.0.3.0.0",
+    "name": "Import Storage product image",
+    "version": "13.0.1.0.0",
     "summary": "Import product images",
-    "author": "Akretion, Camptocamp",
+    "author": "Akretion, Camptocamp, Odoo Community Association (OCA)",
     "company": "Akretion",
     "maintainer": "Akretion",
-    "website": "https://github.com/shopinvader/odoo-shopinvader",
+    "website": "https://github.com/OCA/storage",
     "category": "Product",
-    "depends": ["shopinvader_image"],
+    "depends": ["storage_image_product", "queue_job"],
     "external_dependencies": {
         "python": ["python-magic", "validators"],
         "deb": ["libmagic1"],

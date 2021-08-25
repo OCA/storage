@@ -2,9 +2,9 @@
 <odoo>
     <record id="product_import_image_form_view" model="ir.ui.view">
         <field name="name">product.import.image.form</field>
-        <field name="model">shopinvader.import.product_image</field>
+        <field name="model">storage.import.product_image</field>
         <field name="arch" type="xml">
-            <form string="Import shopinvader product images">
+            <form string="Import storage product images">
                 <header>
                     <field
                         name="state"
@@ -64,9 +64,9 @@
 
     <record id="product_import_image_tree_view" model="ir.ui.view">
         <field name="name">product.import.image.tree</field>
-        <field name="model">shopinvader.import.product_image</field>
+        <field name="model">storage.import.product_image</field>
         <field name="arch" type="xml">
-            <tree string="Import shopinvader product images"
+            <tree string="Import storage product images"
                 decoration-warning="state == 'scheduled'"
                 decoration-success="state == 'done'"
             >
@@ -82,24 +82,17 @@
     <record id="import_image_action" model="ir.actions.act_window">
         <field name="name">Import Product Image</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">shopinvader.import.product_image</field>
+        <field name="res_model">storage.import.product_image</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="product_import_image_tree_view" />
     </record>
 
     <menuitem
-        id="menu_sale_shopinvader_image_import"
+        id="menu_sale_storage_image_import"
         name="Import product images"
         parent="sale.product_menu_catalog"
         action="import_image_action"
         sequence="999"
         />
-
-    <record model="ir.ui.menu" id="menu_backend_shopinvader_image_import">
-        <field name="name">Import product images</field>
-        <field name="parent_id" ref="shopinvader.menu_shopinvader_root"/>
-        <field name="action" ref="import_image_action"/>
-        <field name="sequence" eval="30"/>
-    </record>
 
 </odoo>

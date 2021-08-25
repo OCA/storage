@@ -48,8 +48,8 @@ def gen_chunks(iterable, chunksize=10):
 
 class ProductImageImportWizard(models.Model):
 
-    _name = "shopinvader.import.product_image"
-    _description = "Handle import of shopinvader product images"
+    _name = "storage.import.product_image"
+    _description = "Handle import of storage product images"
 
     storage_backend_id = fields.Many2one(
         "storage.backend", "Storage Backend", required=True
@@ -110,7 +110,7 @@ class ProductImageImportWizard(models.Model):
 
     @api.depends("report")
     def _compute_report_html(self):
-        tmpl = self.env.ref("shopinvader_import_image.report_html")
+        tmpl = self.env.ref("storage_import_image.report_html")
         for record in self:
             if not record.report:
                 record.report_html = ""
