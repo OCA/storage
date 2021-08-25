@@ -21,15 +21,13 @@ class ProductBrand(models.Model):
         store=True,
     )
     image_small_url = fields.Char(
-        string="Main Image URL (small)",
-        related="main_image_id.image_small_url"
+        string="Main Image URL (small)", related="main_image_id.image_small_url"
     )
     image_medium_url = fields.Char(
-        string="Main Image URL (medium)",
-        related="main_image_id.image_medium_url"
+        string="Main Image URL (medium)", related="main_image_id.image_medium_url"
     )
 
     @api.depends("image_ids.sequence")
     def _compute_main_image_id(self):
         for rec in self:
-            rec.main_image_id = fields.first(rec.image_ids)
+            rec.main_image_id = fields.first(rec.image_ids).image_id
