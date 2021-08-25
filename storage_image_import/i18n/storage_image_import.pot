@@ -37,9 +37,7 @@ msgid "Image Relation Abstract"
 msgstr ""
 
 #. module: storage_image_import
-#: model:ir.model.fields,field_description:storage_image_import.field_category_image_relation__import_from_url
 #: model:ir.model.fields,field_description:storage_image_import.field_image_relation_abstract__import_from_url
-#: model:ir.model.fields,field_description:storage_image_import.field_product_image_relation__import_from_url
 #: model:ir.model.fields,field_description:storage_image_import.field_storage_image__imported_from_url
 msgid "Imported From Url"
 msgstr ""
