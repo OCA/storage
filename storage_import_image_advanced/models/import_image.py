@@ -51,6 +51,12 @@ class ProductImageImportWizard(models.Model):
     _name = "storage.import.product_image"
     _description = "Handle import of storage product images"
 
+    @api.model
+    def _default_csv_header(self):
+        product_identifier = self._get_product_identifier_field()
+        flds = [product_identifier, "tag", "path"]
+        return ",".join(flds)
+
     storage_backend_id = fields.Many2one(
         "storage.backend", "Storage Backend", required=True
     )
@@ -74,7 +80,9 @@ class ProductImageImportWizard(models.Model):
     )
     file_csv = fields.Binary(string="CSV file", required=True)
     csv_header = fields.Char(
-        string="CSV file header", default="default_code,tag,path", required=True,
+        string="CSV file header",
+        default=lambda self: self._default_csv_header(),
+        required=True,
     )
     csv_delimiter = fields.Char(string="CSV file delimiter", default=",", required=True)
     source_zipfile = fields.Binary("ZIP with images", required=False)
@@ -164,14 +172,14 @@ class ProductImageImportWizard(models.Model):
                     _("Invalid CSV file headers found! Expected: %s") % self.csv_header
                 )
             csv.field_size_limit(sys.maxsize)
-
+            product_identifier_field = self._get_product_identifier_field()
             for row in reader:
                 if not row:
                     continue
-                default_code, tag_name, file_path = row
+                product_identifier, tag_name, file_path = row
                 lines.append(
                     {
-                        "default_code": default_code,
+                        product_identifier_field: product_identifier,
                         "tag_name": tag_name,
                         "file_path": file_path,
                     }
@@ -223,12 +231,16 @@ class ProductImageImportWizard(models.Model):
         )
         return report
 
+    def _get_product_identifier_field(self):
+        """Override if you want to use another field as product identifier"""
+        return "default_code"
+
     def _do_import(self, lines, product_model, options=None):
         tag_obj = self.env["image.tag"]
         image_obj = self.env["storage.image"]
         relation_obj = self.env["product.image.relation"]
         prod_tmpl_attr_value_obj = self.env["product.template.attribute.value"]
-
+        product_identifier_field = self._get_product_identifier_field()
         report = {
             "created": set(),
             "file_not_found": set(),
@@ -238,19 +250,19 @@ class ProductImageImportWizard(models.Model):
         options = options or {}
 
         # do all query at once
-        lines_by_code = {x["default_code"]: x for x in lines}
+        lines_by_code = {x[product_identifier_field]: x for x in lines}
         all_codes = list(lines_by_code.keys())
-        _fields = ["default_code", "product_tmpl_id"]
+        _fields = [product_identifier_field, "product_tmpl_id"]
         if product_model == "product.template":
             # exclude template id
             _fields = _fields[:1]
         else:
             _fields.append("product_template_attribute_value_ids")
-
+        product_identifier_field = self._get_product_identifier_field()
         products = self.env[product_model].search_read(
-            [("default_code", "in", all_codes)], _fields
+            [(product_identifier_field, "in", all_codes)], _fields
         )
-        existing_by_code = {x["default_code"]: x for x in products}
+        existing_by_code = {x[product_identifier_field]: x for x in products}
         report["missing"] = sorted(
             [code for code in all_codes if not existing_by_code.get(code)]
         )
@@ -267,11 +279,11 @@ class ProductImageImportWizard(models.Model):
                 report["missing_tags"] = sorted(missing_tags)
 
         for prod in products:
-            line = lines_by_code[prod["default_code"]]
+            line = lines_by_code[prod[product_identifier_field]]
             file_path = line["file_path"]
             file_vals = self._prepare_file_values(file_path)
             if not file_vals:
-                report["file_not_found"].add(prod["default_code"])
+                report["file_not_found"].add(prod[product_identifier_field])
                 continue
             file_vals.update({"name": file_vals["name"], "alt_name": file_vals["name"]})
             # storage_file = file_obj.create(file_vals)
@@ -309,7 +321,7 @@ class ProductImageImportWizard(models.Model):
                     (6, 0, attr_values.mapped("product_attribute_value_id").ids,)
                 ]
             relation_obj.create(img_relation_values)
-            report["created"].add(prod["default_code"])
+            report["created"].add(prod[product_identifier_field])
         report["created"] = sorted(report["created"])
         report["file_not_found"] = sorted(report["file_not_found"])
         return report

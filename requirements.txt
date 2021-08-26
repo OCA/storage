@@ -5,3 +5,5 @@ cerberus
 vcrpy-unittest
 boto3
 requests-mock
+python-magic
+validators
