@@ -7,16 +7,14 @@ import os
 
 import mock
 
-from odoo.addons.shopinvader_image.tests.common import TestShopinvaderImageCase
+from odoo.addons.storage_image_product.tests.common import ProductImageCommonCase
 
 
-class TestShopinvaderImportImageCase(TestShopinvaderImageCase):
+class TestStorageImportImageCase(ProductImageCommonCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.storage_backend = cls.env.ref(
-            "storage_backend.default_storage_backend"
-        )
+        cls.storage_backend = cls.env.ref("storage_backend.default_storage_backend")
         cls.base_path = os.path.dirname(os.path.abspath(__file__))
         cls.file_csv_content = cls._get_file_content(
             "image_import_test.csv", base_path=cls.base_path
@@ -40,10 +38,10 @@ class TestShopinvaderImportImageCase(TestShopinvaderImageCase):
             "source_type": "zip_file",
         }
         vals.update(kw)
-        return self.env["shopinvader.import.product_image"].create(vals)
+        return self.env["storage.import.product_image"].create(vals)
 
 
-class TestShopinvaderImportImage(TestShopinvaderImportImageCase):
+class TestStorageImportImage(TestStorageImportImageCase):
     def test_get_lines(self):
         lines = self.wiz._get_lines()
         expected = [
@@ -53,13 +51,7 @@ class TestShopinvaderImportImage(TestShopinvaderImportImageCase):
                 "file_path": "A00%d.jpg" % x,
             }
             for x in range(1, 4)
-        ] + [
-            {
-                "default_code": "A004",
-                "file_path": "A004-MISSING.jpg",
-                "tag_name": "",
-            }
-        ]
+        ] + [{"default_code": "A004", "file_path": "A004-MISSING.jpg", "tag_name": ""}]
         self.assertEqual(lines, expected)
 
     def test_read_from_zip(self):
@@ -74,10 +66,7 @@ class TestShopinvaderImportImage(TestShopinvaderImportImageCase):
         )
         self.assertEqual(
             self.wiz._get_base64("A001.jpg"),
-            {
-                "mimetype": "image/jpeg",
-                "b64": base64.encodestring(img_content),
-            },
+            {"mimetype": "image/jpeg", "b64": base64.encodestring(img_content)},
         )
 
     def test_import_errors(self):
