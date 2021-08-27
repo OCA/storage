@@ -80,9 +80,7 @@ class ProductImageImportWizard(models.Model):
     filename = fields.Char()
     file_csv = fields.Binary(string="CSV file", required=True)
     csv_delimiter = fields.Char(
-        string="CSV file delimiter",
-        default=",",
-        required=True,
+        string="CSV file delimiter", default=",", required=True,
     )
     csv_column_default_code = fields.Char(
         string="Product Reference column",
