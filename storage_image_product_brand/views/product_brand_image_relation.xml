@@ -14,6 +14,12 @@
             <form position="attributes">
                 <attribute name="string">Images</attribute>
             </form>
+            <group name="extra" position="inside">
+                <field
+                    name="tag_id"
+                    context="{'active_model': context.get('active_model')}"
+                />
+            </group>
         </field>
     </record>
 
