@@ -14,3 +14,8 @@ class ProductBrandImageRelation(models.Model):
         required=True,
         ondelete="cascade",
     )
+    tag_id = fields.Many2one(
+        "image.tag",
+        string="tag",
+        domain=[("apply_on", "=", "brand")],
+    )
