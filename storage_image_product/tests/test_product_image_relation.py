@@ -128,3 +128,39 @@ class ProductImageCase(StorageImageCommonCase):
             (self.logo_image, self.product_b),
         )
         self._test_main_images_and_urls(expected)
+
+    def test_main_image_attribute(self):
+        """
+        Attach the image to the template and check the first image of the
+        variant is the one with same attributes
+        """
+        self.env["product.image.relation"].create(
+            {
+                "product_tmpl_id": self.template.id,
+                "image_id": self.logo_image.id,
+                "sequence": 1,
+            }
+        )
+        self.env["product.image.relation"].create(
+            {
+                "product_tmpl_id": self.template.id,
+                "image_id": self.white_image.id,
+                "attribute_value_ids": [
+                    (
+                        6,
+                        0,
+                        [
+                            self.env.ref("product.product_attribute_value_4").id,
+                            self.env.ref("product.product_attribute_value_1").id,
+                        ],
+                    )
+                ],
+                "sequence": 10,
+            }
+        )
+        # The variant should not take the only with the lowest sequence but
+        # the one with same attributes
+        expected = ((self.white_image, self.product_b),)
+        self._test_main_images_and_urls(expected)
+        expected = ((self.logo_image, self.product_c + self.product_a),)
+        self._test_main_images_and_urls(expected)
