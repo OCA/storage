@@ -5,7 +5,7 @@
 {
     "name": "Storage Image Product POS",
     "summary": "Link images to products and categories inside POS",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
