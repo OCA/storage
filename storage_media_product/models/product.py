@@ -20,15 +20,19 @@ class ProductProduct(models.Model):
         "product.media.relation", compute="_compute_variant_media_ids", store=True,
     )
 
-    @api.depends("product_tmpl_id.media_ids", "product_template_attribute_value_ids")
+    @api.depends(
+        "product_tmpl_id.media_ids",
+        "product_template_attribute_value_ids",
+        "product_tmpl_id.media_ids.attribute_value_ids",
+    )
     def _compute_variant_media_ids(self):
         for variant in self:
-            available_attr_values = variant.product_tmpl_id.mapped(
-                "attribute_line_ids.value_ids"
+            variant_attr_values = variant.product_template_attribute_value_ids.mapped(
+                "product_attribute_value_id"
             )
             res = self.env["product.media.relation"].browse([])
             for media in variant.media_ids:
-                if not (media.attribute_value_ids - available_attr_values):
+                if not (media.attribute_value_ids - variant_attr_values):
                     res |= media
             variant.variant_media_ids = res
 
