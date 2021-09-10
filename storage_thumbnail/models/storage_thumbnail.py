@@ -82,5 +82,7 @@ class StorageThumbnail(models.Model):
     def unlink(self):
         files = self.mapped("file_id")
         result = super().unlink()
-        files.unlink()
+        thumbnail_linked_to_images = self.search([("file_id", "in", files.ids)])
+        if not thumbnail_linked_to_images:
+            files.unlink()
         return result

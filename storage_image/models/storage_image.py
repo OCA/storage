@@ -63,6 +63,8 @@ class StorageImage(models.Model):
         files = self.mapped("file_id")
         thumbnails = self.mapped("thumbnail_ids")
         super(StorageImage, self).unlink()
+        files_linked_to_images = self.search([("file_id", "in", files.ids)])
+        if not files_linked_to_images:
+            files.unlink()
         thumbnails.unlink()
-        files.unlink()
         return True
