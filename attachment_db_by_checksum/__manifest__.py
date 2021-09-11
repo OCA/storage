@@ -4,7 +4,7 @@
     "name": "DB attachments saved by checksum",
     "summary": "Allow to identify database attachments through their hash, "
                "avoiding duplicates",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "development_status": "Beta",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
