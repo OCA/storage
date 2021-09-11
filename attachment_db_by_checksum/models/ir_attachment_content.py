@@ -8,7 +8,7 @@ class AttachmentContent(models.Model):
     _description = "Attachment content by hash"
 
     checksum = fields.Char(
-        "Checksum/SHA1", size=40, index=True, readonly=True, required=True)
+        "Checksum/SHA1", index=True, readonly=True, required=True)
     db_datas = fields.Binary("Database Data")
 
     _sql_constraints = [(

@@ -42,8 +42,12 @@ class Attachment(models.Model):
     def _file_delete(self, checksum):
         location = self._storage()
         if location == "hashed_db":
+            # see force_storage
             attachments = self.search([
-                ("store_fname", "=", checksum)
+                ("store_fname", "=", checksum),
+                "|",
+                ("res_field", '=', False),
+                ("res_field", "!=", False)
             ])
             if not attachments:
                 self.env["ir.attachment.content"].search([
