@@ -333,6 +333,7 @@ class ProductImageImportWizard(models.Model):
                     (6, 0, attr_values.mapped("product_attribute_value_id").ids,)
                 ]
             relation_obj.create(img_relation_values)
+            image._compute_main_thumbs()
             report["created"].add(prod[product_identifier_field])
         report["created"] = sorted(report["created"])
         report["file_not_found"] = sorted(report["file_not_found"])
