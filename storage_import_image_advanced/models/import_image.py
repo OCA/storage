@@ -78,6 +78,7 @@ class ProductImageImportWizard(models.Model):
         default="url",
     )
     filename = fields.Char()
+    filename_zip = fields.Char()
     file_csv = fields.Binary(string="CSV file", required=True)
     csv_delimiter = fields.Char(
         string="CSV file delimiter", default=",", required=True,
