@@ -46,9 +46,10 @@
                                         'invisible': [('source_type', '=', 'external_storage')]
                                     }"
                             />
+                            <field name="filename_zip" invisible="1" />
                             <field
                                 name="source_zipfile"
-                                filename="filename"
+                                filename="filename_zip"
                                 attrs="{
                                         'required': [('source_type', '=', 'zip_file')],
                                         'invisible': [('source_type', '!=', 'zip_file')]
