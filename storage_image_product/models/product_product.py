@@ -32,6 +32,7 @@ class ProductProduct(models.Model):
     )
 
     @api.depends(
+        "product_tmpl_id.image_ids",
         "product_tmpl_id.image_ids.attribute_value_ids",
         "product_template_attribute_value_ids",
     )
