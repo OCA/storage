@@ -19,7 +19,13 @@ msgid "Alt Image name"
 msgstr ""
 
 #. module: storage_image_product_brand
+#: model:ir.model.fields,field_description:storage_image_product_brand.field_image_tag__apply_on
+msgid "Apply On"
+msgstr ""
+
+#. module: storage_image_product_brand
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__brand_id
+#: model:ir.model.fields.selection,name:storage_image_product_brand.selection__image_tag__apply_on__brand
 msgid "Brand"
 msgstr ""
 
@@ -34,6 +40,7 @@ msgid "Created on"
 msgstr ""
 
 #. module: storage_image_product_brand
+#: model:ir.model.fields,field_description:storage_image_product_brand.field_image_tag__display_name
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand__display_name
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__display_name
 msgid "Display Name"
@@ -47,6 +54,7 @@ msgid "HTTP accessible path to the file"
 msgstr ""
 
 #. module: storage_image_product_brand
+#: model:ir.model.fields,field_description:storage_image_product_brand.field_image_tag__id
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand__id
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__id
 msgid "ID"
@@ -55,6 +63,11 @@ msgstr ""
 #. module: storage_image_product_brand
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__image_id
 msgid "Image"
+msgstr ""
+
+#. module: storage_image_product_brand
+#: model:ir.model,name:storage_image_product_brand.model_image_tag
+msgid "Image Tag"
 msgstr ""
 
 #. module: storage_image_product_brand
@@ -71,6 +84,7 @@ msgid "Imported From Url"
 msgstr ""
 
 #. module: storage_image_product_brand
+#: model:ir.model.fields,field_description:storage_image_product_brand.field_image_tag____last_update
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand____last_update
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation____last_update
 msgid "Last Modified on"
@@ -124,4 +138,9 @@ msgstr ""
 #. module: storage_image_product_brand
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: storage_image_product_brand
+#: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__tag_id
+msgid "tag"
 msgstr ""
