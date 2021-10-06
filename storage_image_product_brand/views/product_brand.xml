@@ -15,16 +15,15 @@
             <field name="logo" position="after">
                 <field name="image_medium_url" widget="image_url" class="oe_avatar" />
             </field>
-            <sheet position="inside">
-                <group name="images" string="Images">
+            <notebook position="inside">
+                <page name="images" string="Images">
                     <field
                         name="image_ids"
-                        nolabel="1"
                         mode="kanban"
                         widget="storage_image_handle"
                     />
-                </group>
-            </sheet>
+                </page>
+            </notebook>
         </field>
     </record>
     <record model="ir.ui.view" id="product_brand_kanban_view">
