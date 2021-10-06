@@ -25,7 +25,7 @@ addon | version | maintainers | summary
 [storage_file](storage_file/) | 14.0.2.1.0 |  | Storage file in storage backend
 [storage_image](storage_image/) | 14.0.2.2.0 |  | Store image and resized image in a storage backend
 [storage_image_import](storage_image_import/) | 14.0.1.1.0 |  | Add the possibility to import image for csv base on url
-[storage_image_product](storage_image_product/) | 14.0.2.2.0 |  | Link images to products and categories
+[storage_image_product](storage_image_product/) | 14.0.2.2.1 |  | Link images to products and categories
 [storage_image_product_brand](storage_image_product_brand/) | 14.0.1.1.0 |  | Link images to product brands
 [storage_image_product_import](storage_image_product_import/) | 14.0.1.0.0 |  | Helper for importing image for csv base on url
 [storage_image_product_pos](storage_image_product_pos/) | 14.0.1.0.2 | [![hparfr](https://github.com/hparfr.png?size=30px)](https://github.com/hparfr) [![pierrickbrun](https://github.com/pierrickbrun.png?size=30px)](https://github.com/pierrickbrun) | Link images to products and categories inside POS
