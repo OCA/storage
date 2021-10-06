@@ -52,7 +52,7 @@ class ThumbnailMixing(models.AbstractModel):
         for rec in self:
             for scale in self._image_scale_mapping.keys():
                 fname = "thumb_%s_id" % scale
-                rec[fname] = self._get_thumb(scale_key=scale)
+                rec[fname] = rec._get_thumb(scale_key=scale)
 
     def _get_thumb(self, scale_key=None, scale=None):
         """Retrievet the first thumb matching given scale."""
