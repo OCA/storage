@@ -12,6 +12,7 @@ addons:
   apt:
     packages:
       - expect-dev # provides unbuffer utility
+      - libmagic1 # Required by module storage_import_image
 
 stages:
   - test
