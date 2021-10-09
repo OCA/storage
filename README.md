@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [storage_image](storage_image/) | 13.0.1.5.1 |  | Store image and resized image in a storage backend
 [storage_image_product](storage_image_product/) | 13.0.1.6.1 |  | Link images to products and categories
 [storage_image_product_brand](storage_image_product_brand/) | 13.0.1.1.0 |  | Link images to product brands
+[storage_import_image_advanced](storage_import_image_advanced/) | 13.0.1.0.0 |  | Import product images using CSV
 [storage_media](storage_media/) | 13.0.1.2.0 |  | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 13.0.1.2.1 |  | Link media to products and categories
 [storage_thumbnail](storage_thumbnail/) | 13.0.1.3.0 |  | Abstract module that add the possibility to have thumbnail
