@@ -131,7 +131,7 @@ class ProductImageImportWizard(models.Model):
 
     @api.depends("report")
     def _compute_report_html(self):
-        tmpl = self.env.ref("storage_import_image.report_html")
+        tmpl = self.env.ref("storage_import_image_advanced.report_html")
         for record in self:
             if not record.report:
                 record.report_html = ""
