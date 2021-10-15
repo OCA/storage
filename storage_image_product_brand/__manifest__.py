@@ -8,7 +8,7 @@
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
-    "depends": ["storage_image", "product_brand"],
+    "depends": ["storage_image_product", "product_brand"],
     "data": [
         "security/product_brand_image_relation.xml",
         "views/product_brand.xml",
