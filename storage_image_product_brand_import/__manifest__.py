@@ -4,7 +4,7 @@
 {
     "name": "Storage Image Product Brand Import",
     "summary": "Helper for importing image for csv base on url",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Pharmasimple, Odoo Community Association (OCA)",
