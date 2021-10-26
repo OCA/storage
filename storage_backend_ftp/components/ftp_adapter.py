@@ -8,6 +8,8 @@ import ssl
 from contextlib import contextmanager
 from io import BytesIO
 
+from odoo.exceptions import UserError
+
 from odoo.addons.component.core import Component
 
 _logger = logging.getLogger(__name__)
@@ -16,6 +18,16 @@ try:
     import ftplib
 except ImportError as err:  # pragma: no cover
     _logger.debug(err)
+
+FTP_SECURITY_TO_PROTOCOL = {
+    "tls": ssl.PROTOCOL_TLS,
+    "tlsv1": ssl.PROTOCOL_TLSv1,
+    "tlsv1_1": ssl.PROTOCOL_TLSv1_1,
+    "tlsv1_2": ssl.PROTOCOL_TLSv1_2,
+    "sslv2": "sslv2 has been deprecated due to security issues",
+    "sslv23": ssl.PROTOCOL_SSLv23,
+    "sslv3": "sslv3 has been deprecated due to security issues",
+}
 
 
 def ftp_mkdirs(client, path):
@@ -39,21 +51,9 @@ def ftp(backend):
         ftp = ftplib.FTP_TLS
         # Due to a bug into between ftplib and ssl, this part (about ssl) might not work!
         # https://bugs.python.org/issue31727
-        security = None
-        if backend.ftp_security == "tls":
-            security = ssl.PROTOCOL_TLS
-        elif backend.ftp_security == "tlsv1":
-            security = ssl.PROTOCOL_TLSv1
-        elif backend.ftp_security == "tlsv1_1":
-            security = ssl.PROTOCOL_TLSv1_1
-        elif backend.ftp_security == "tlsv1_2":
-            security = ssl.PROTOCOL_TLSv1_2
-        elif backend.ftp_security == "sslv2":
-            security = ssl.PROTOCOL_SSLv2
-        elif backend.ftp_security == "sslv23":
-            security = ssl.PROTOCOL_SSLv23
-        elif backend.ftp_security == "sslv3":
-            security = ssl.PROTOCOL_SSLv3
+        security = FTP_SECURITY_TO_PROTOCOL.get(backend.ftp_security, None)
+        if isinstance(security, str):
+            raise UserError(security)
         if security:
             ctx = ssl._create_stdlib_context(security)
             params.update({"context": ctx})
