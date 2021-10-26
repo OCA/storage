@@ -70,15 +70,15 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         with open("/tmp/fakefile2.txt", "w+b") as fakefile:
             fakefile.write(content)
 
-        def side_effect_retrlines(*args, **kwargs):
+        def side_effect_retrbinary(*args, **kwargs):
             """
             Mock function to read tmp file.
             """
             cmd, buff_write = args
-            with open("/tmp/fakefile2.txt", "r") as tmp_file:
+            with open("/tmp/fakefile2.txt", "rb") as tmp_file:
                 buff_write(tmp_file.read())
 
-        client.retrlines.side_effect = side_effect_retrlines
+        client.retrbinary.side_effect = side_effect_retrbinary
         self.assertEqual(self.backend.get("fake/path"), content)
 
     @mock.patch(FTP_LIB_PATH)
@@ -87,12 +87,12 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         # simulate errors
         exc = IOError()
         # general
-        client.retrlines.side_effect = exc
+        client.nlst.side_effect = exc
         with self.assertRaises(IOError):
             self.backend.list_files()
         # not found
         exc.errno = errno.ENOENT
-        client.retrlines.side_effect = exc
+        client.nlst.side_effect = exc
         self.assertEqual(self.backend.list_files(), [])
 
     def test_find_files(self):
@@ -107,7 +107,7 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         )
 
     # Do not patch the entire ftplib otherwise the error_perm Exception
-    # become also a mock and then a traceback is genrated on the "except ftplib.error_perm"
+    # become also a mock and then a traceback is generated on the "except ftplib.error_perm"
     # because this ftplib.error_perm is not really an Exception (but a mock)!
     @mock.patch(FTP_LIB_PATH + ".FTP")
     def test_move_files(self, mocked_ftplib):
