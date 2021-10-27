@@ -3,7 +3,7 @@
 {
     "name": "Storage Backend FTP",
     "summary": "Implement FTP Storage",
-    "version": "13.0.1.0.0",
+    "version": "13.0.1.0.1",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Acsone SA/NV,Odoo Community Association (OCA)",
