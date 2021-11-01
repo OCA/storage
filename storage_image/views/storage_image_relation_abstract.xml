@@ -46,15 +46,44 @@
             <form>
                 <div class="row o_storage_image_relation">
                     <div class="col-md-6 col-xs-5">
-                        <group name="image">
-                            <field name="image_id" />
+                        <group
+                            name="action"
+                            attrs="{'invisible': [('id', '!=', False)]}"
+                        >
+                            <field name="id" invisible="1" />
+                            <field name="add_type" string="What do you want to do?" />
+                            <field
+                                name="image_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                attrs="{'invisible': [('add_type', '!=', 'select')], 'required': [('add_type', '=', 'select')]}"
+                            />
+                            <field
+                                attrs="{'invisible': [('add_type', '!=', 'add')]}"
+                                name="add_image"
+                                widget="image"
+                                filename="add_image_name"
+                                nolabel="1"
+                                colspan="4"
+                            />
+                            <field
+                                attrs="{'invisible': [('add_type', '!=', 'add')]}"
+                                name="add_image_name"
+                                placeholder="image-name.jpg"
+                                nolabel="1"
+                            />
                         </group>
                         <group name="extra">
                             <!-- Add here custom relation fields -->
                         </group>
                     </div>
                     <div class="col-md-6 col-xs-7 text-center">
-                        <field name="image_url" widget="image_url" />
+                        <field
+                            name="image_url"
+                            widget="image_url"
+                            nolabel="1"
+                            colspan="4"
+                            attrs="{'invisible': [('id', '=', False), ('add_type', '=', 'add')]}"
+                        />
                     </div>
                 </div>
             </form>
