@@ -2,5 +2,7 @@
 boto3
 paramiko
 pyftpdlib
+python-magic
 python_slugify
 unicodecsv
+validators
