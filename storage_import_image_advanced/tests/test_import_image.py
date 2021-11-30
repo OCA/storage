@@ -7,6 +7,9 @@ import os
 
 import mock
 
+from odoo.exceptions import UserError
+from odoo.tools import mute_logger
+
 from odoo.addons.storage_image_product.tests.common import ProductImageCommonCase
 
 
@@ -53,6 +56,17 @@ class TestStorageImportImage(TestStorageImportImageCase):
             for x in range(1, 4)
         ] + [{"default_code": "A004", "file_path": "A004-MISSING.jpg", "tag_name": ""}]
         self.assertEqual(lines, expected)
+
+    def test_get_lines_failed(self):
+        file_csv_content = self._get_file_content(
+            "image_import_test_1.csv", base_path=self.base_path
+        )
+        self.wiz.file_csv = file_csv_content
+        with mute_logger(
+            "odoo.addons.storage_import_image_advanced.models.import_image"
+        ):
+            with self.assertRaises(UserError):
+                self.wiz._get_lines()
 
     def test_read_from_zip(self):
         img_content = self._get_file_content(
