@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_backend_sftp
-#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_auth_method
-msgid "Authentification Method"
-msgstr ""
-
-#. module: storage_backend_sftp
 #: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__backend_type
 msgid "Backend Type"
 msgstr ""
@@ -46,24 +41,13 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: storage_backend_sftp
-#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_login
-msgid "Login"
-msgstr ""
-
-#. module: storage_backend_sftp
 #: model:ir.model.fields,help:storage_backend_sftp.field_storage_backend__sftp_login
 msgid "Login to connect to sftp server"
 msgstr ""
 
 #. module: storage_backend_sftp
-#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_password
 #: model:ir.model.fields.selection,name:storage_backend_sftp.selection__storage_backend__sftp_auth_method__pwd
 msgid "Password"
-msgstr ""
-
-#. module: storage_backend_sftp
-#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_port
-msgid "Port"
 msgstr ""
 
 #. module: storage_backend_sftp
@@ -78,8 +62,28 @@ msgid "SFTP"
 msgstr ""
 
 #. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_auth_method
+msgid "SFTP Authentification Method"
+msgstr ""
+
+#. module: storage_backend_sftp
 #: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_server
 msgid "SFTP Host"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_login
+msgid "SFTP Login"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_password
+msgid "SFTP Password"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_port
+msgid "SFTP Port"
 msgstr ""
 
 #. module: storage_backend_sftp
