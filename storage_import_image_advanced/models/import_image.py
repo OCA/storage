@@ -81,7 +81,9 @@ class ProductImageImportWizard(models.Model):
     filename_zip = fields.Char()
     file_csv = fields.Binary(string="CSV file", required=True)
     csv_delimiter = fields.Char(
-        string="CSV file delimiter", default=",", required=True,
+        string="CSV file delimiter",
+        default=",",
+        required=True,
     )
     csv_column_default_code = fields.Char(
         string="Product Reference column",
@@ -331,7 +333,11 @@ class ProductImageImportWizard(models.Model):
                     prod["product_template_attribute_value_ids"]
                 )
                 img_relation_values["attribute_value_ids"] = [
-                    (6, 0, attr_values.mapped("product_attribute_value_id").ids,)
+                    (
+                        6,
+                        0,
+                        attr_values.mapped("product_attribute_value_id").ids,
+                    )
                 ]
             relation_obj.create(img_relation_values)
             image._compute_main_thumbs()
