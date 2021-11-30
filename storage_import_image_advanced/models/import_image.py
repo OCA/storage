@@ -19,6 +19,8 @@ from zipfile import ZipFile
 from odoo import _, api, exceptions, fields, models
 from odoo.tools import date_utils
 
+from odoo.addons.base_sparse_field.models.fields import Serialized
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -112,7 +114,7 @@ class ProductImageImportWizard(models.Model):
         string="Path to CSV file",
         help="Relative path of the CSV file located in the external storage",
     )
-    options = fields.Serialized(readonly=True)
+    options = Serialized(readonly=True)
     overwrite = fields.Boolean(
         "Overwrite image with same name", sparse="options", default=False
     )
@@ -122,7 +124,7 @@ class ProductImageImportWizard(models.Model):
         default=10,
         help="How many lines will be handled in each job.",
     )
-    report = fields.Serialized(readonly=True)
+    report = Serialized(readonly=True)
     report_html = fields.Html(readonly=True, compute="_compute_report_html")
     state = fields.Selection(
         [("new", "New"), ("scheduled", "Scheduled"), ("done", "Done")],
