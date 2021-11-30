@@ -5,7 +5,7 @@
 {
     "name": "Storage Backend S3",
     "summary": "Implement amazon S3 Storage",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.1",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
