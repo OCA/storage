@@ -24,6 +24,9 @@ Known issues / Roadmap
 
 Update README with the last model of README when migration to v11 in OCA
 
+There is an issue with the latest version of `boto3` and `urllib3`
+- boto3 needs to be `boto3<=1.15.17` related with https://github.com/OCA/storage/issues/67
+
 
 Credits
 =======
