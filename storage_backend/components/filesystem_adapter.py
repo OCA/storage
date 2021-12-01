@@ -31,7 +31,7 @@ class FileSystemStorageBackend(Component):
         base_dir = self._basedir()
         full_path = os.path.join(base_dir, full_path)
         if not is_safe_path(base_dir, full_path):
-            raise AccessError(_("Access to %s is forbidden" % full_path))
+            raise AccessError(_("Access to %s is forbidden") % full_path)
         return full_path
 
     def add(self, relative_path, data, **kwargs):
