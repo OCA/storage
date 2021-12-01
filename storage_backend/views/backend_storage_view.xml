@@ -3,7 +3,7 @@
     <record id="storage_backend_view_tree" model="ir.ui.view">
         <field name="model">storage.backend</field>
         <field name="arch" type="xml">
-            <tree string="Storage Backend">
+            <tree>
                 <field name="name" />
                 <field name="backend_type" />
             </tree>
