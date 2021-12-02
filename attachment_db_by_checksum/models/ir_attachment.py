@@ -1,5 +1,6 @@
 import logging
-from odoo import models, api, _
+
+from odoo import _, api, models
 from odoo.exceptions import AccessError
 
 _logger = logging.getLogger(__name__)
@@ -14,14 +15,13 @@ class Attachment(models.Model):
         if location != "hashed_db":
             return super(Attachment, self)._file_write(value, checksum)
         fname, _ = self._get_path(False, checksum)
-        att = self.env["ir.attachment.content"].search([
-            ("checksum", "=", fname)
-        ], limit=1)
+        att = self.env["ir.attachment.content"].search(
+            [("checksum", "=", fname)], limit=1
+        )
         if not att:
-            self.env["ir.attachment.content"].create({
-                "checksum": fname,
-                "db_datas": value,
-            })
+            self.env["ir.attachment.content"].create(
+                {"checksum": fname, "db_datas": value}
+            )
         return fname
 
     @api.model
@@ -29,9 +29,7 @@ class Attachment(models.Model):
         location = self._storage()
         if location != "hashed_db":
             return super(Attachment, self)._file_read(checksum, bin_size)
-        att = self.env["ir.attachment.content"].search([
-            ("checksum", "=", checksum)
-        ])
+        att = self.env["ir.attachment.content"].search([("checksum", "=", checksum)])
         if not att:
             _logger.debug("File %s not found" % checksum)
             return super(Attachment, self)._file_read(checksum, bin_size)
@@ -42,16 +40,18 @@ class Attachment(models.Model):
         location = self._storage()
         if location == "hashed_db":
             # see force_storage
-            attachments = self.search([
-                ("store_fname", "=", checksum),
-                "|",
-                ("res_field", '=', False),
-                ("res_field", "!=", False)
-            ])
+            attachments = self.search(
+                [
+                    ("store_fname", "=", checksum),
+                    "|",
+                    ("res_field", "=", False),
+                    ("res_field", "!=", False),
+                ]
+            )
             if not attachments:
-                self.env["ir.attachment.content"].search([
-                    ("checksum", "=", checksum)
-                ]).unlink()
+                self.env["ir.attachment.content"].search(
+                    [("checksum", "=", checksum)]
+                ).unlink()
         return super(Attachment, self)._file_delete(checksum)
 
     @api.model
@@ -62,15 +62,21 @@ class Attachment(models.Model):
         if location == "hashed_db":
             # we don't know if previous storage was file system or DB:
             # we run for every attachment
-            for attach in self.search([
-                # trick to get every attachment, see _search method of ir.attachment
-                "|", ("res_field", '=', False), ("res_field", "!=", False)
-            ]):
-                attach.write({
-                    "datas": attach.datas,
-                    # do not try to guess mimetype overwriting existing value
-                    "mimetype": attach.mimetype,
-                })
+            for attach in self.search(
+                [
+                    # trick to get every attachment, see _search method of ir.attachment
+                    "|",
+                    ("res_field", "=", False),
+                    ("res_field", "!=", False),
+                ]
+            ):
+                attach.write(
+                    {
+                        "datas": attach.datas,
+                        # do not try to guess mimetype overwriting existing value
+                        "mimetype": attach.mimetype,
+                    }
+                )
             return True
         else:
             return super(Attachment, self).force_storage()
