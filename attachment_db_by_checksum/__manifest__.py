@@ -3,7 +3,7 @@
 {
     "name": "DB attachments saved by checksum",
     "summary": "Allow to identify database attachments through their hash, "
-               "avoiding duplicates",
+    "avoiding duplicates",
     "version": "12.0.1.0.1",
     "development_status": "Beta",
     "category": "Storage",
@@ -13,10 +13,6 @@
     "license": "LGPL-3",
     "application": False,
     "installable": True,
-    "depends": [
-        "base",
-    ],
-    "data": [
-        "security/ir.model.access.csv",
-    ],
+    "depends": ["base"],
+    "data": ["security/ir.model.access.csv"],
 }
