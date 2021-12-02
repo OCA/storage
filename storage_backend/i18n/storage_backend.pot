@@ -15,6 +15,7 @@ msgstr ""
 
 #. module: storage_backend
 #: code:addons/storage_backend/components/filesystem_adapter.py:33
+#: code:addons/storage_backend/components/filesystem_adapter.py:37
 #, python-format
 msgid "Access to %s is forbidden"
 msgstr ""
