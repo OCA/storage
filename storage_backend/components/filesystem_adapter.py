@@ -1,12 +1,16 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+import logging
 import os
 
 from odoo import _
 from odoo.exceptions import AccessError
 
 from odoo.addons.component.core import Component
+
+_logger = logging.getLogger(__name__)
 
 
 def is_safe_path(basedir, path):
@@ -55,4 +59,7 @@ class FileSystemStorageBackend(Component):
 
     def delete(self, relative_path):
         full_path = self._fullpath(relative_path)
-        os.remove(full_path)
+        try:
+            os.remove(full_path)
+        except FileNotFoundError:
+            _logger.warning("File not found in %s", full_path)
