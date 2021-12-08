@@ -6,7 +6,9 @@ from odoo import fields, models
 class StorageBackend(models.Model):
     _inherit = "storage.backend"
 
-    backend_type = fields.Selection(selection_add=[("ftp", "FTP")])
+    backend_type = fields.Selection(
+        selection_add=[("ftp", "FTP")], ondelete={"ftp": "set default"}
+    )
     ftp_server = fields.Char(string="FTP Host")
     ftp_port = fields.Integer(string="FTP Port", default=21)
     ftp_encryption = fields.Selection(
