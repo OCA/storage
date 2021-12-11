@@ -5,7 +5,7 @@
 {
     "name": "Storage Media Product",
     "summary": "Link media to products and categories",
-    "version": "14.0.2.0.1",
+    "version": "14.0.2.0.2",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
