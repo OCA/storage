@@ -5,7 +5,7 @@ cache:
     - $HOME/.cache/pre-commit
 
 python:
-  - "3.6"
+  - "3.8"
 
 addons:
   postgresql: "9.6"
@@ -27,9 +27,15 @@ jobs:
 env:
   global:
     - VERSION="14.0" TESTS="0" LINT_CHECK="0" MAKEPOT="0"
+    - VERSION="15.0" TESTS="0" LINT_CHECK="0" MAKEPOT="0"
     - MQT_DEP=PIP
 
 install:
+  - if [ $VERSION = '15.0' ]; then grep -rl 14.0 . | grep __manifest__.py | xargs sed -i
+    "s/14.0/15.0/g" ;fi
+  - if [ $VERSION = '15.0' ]; then echo "odoo-addon-component @
+    git+https://github.com/OCA/connector@refs/pull/425/head#subdirectory=setup/component"
+    >> test-requirements.txt ;fi
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git
     ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
