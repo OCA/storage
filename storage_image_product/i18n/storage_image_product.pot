@@ -243,6 +243,16 @@ msgid "Tag"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__tech_name
+msgid "Tech Name"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,help:storage_image_product.field_image_tag__tech_name
+msgid "Unique name for technical purposes. Eg: server env keys."
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_ids
 msgid "Variant Images"
 msgstr ""
