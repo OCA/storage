@@ -7,10 +7,17 @@
 import base64
 import os
 
-from odoo.addons.component.tests.common import SavepointComponentCase
+import odoo
+
+if odoo.release.version == "14.0":
+    from odoo.addons.component.tests.common import (
+        SavepointComponentCase as TransactionComponentCase,
+    )
+else:
+    from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class StorageImageCommonCase(SavepointComponentCase):
+class StorageImageCommonCase(TransactionComponentCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

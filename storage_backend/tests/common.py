@@ -6,7 +6,14 @@ import base64
 
 import mock
 
-from odoo.addons.component.tests.common import SavepointComponentCase
+import odoo
+
+if odoo.release.version == "14.0":
+    from odoo.addons.component.tests.common import (
+        SavepointComponentCase as TransactionComponentCase,
+    )
+else:
+    from odoo.addons.component.tests.common import TransactionComponentCase
 
 
 class BackendStorageTestMixin(object):
@@ -54,7 +61,7 @@ class BackendStorageTestMixin(object):
             self.assertEqual(sorted(res), sorted(expected_filepaths))
 
 
-class CommonCase(SavepointComponentCase):
+class CommonCase(TransactionComponentCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

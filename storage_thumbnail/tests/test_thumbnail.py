@@ -3,12 +3,18 @@ import os
 
 from odoo_test_helper import FakeModelLoader
 
+import odoo
 from odoo.fields import first
 
-from odoo.addons.component.tests.common import SavepointComponentCase
+if odoo.release.version == "14.0":
+    from odoo.addons.component.tests.common import (
+        SavepointComponentCase as TransactionComponentCase,
+    )
+else:
+    from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class TestStorageThumbnail(SavepointComponentCase):
+class TestStorageThumbnail(TransactionComponentCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
