@@ -20,6 +20,7 @@ setuptools.setup(
         'odoo14-addon-storage_image_product_brand_import',
         'odoo14-addon-storage_image_product_import',
         'odoo14-addon-storage_image_product_pos',
+        'odoo14-addon-storage_import_image_advanced',
         'odoo14-addon-storage_media',
         'odoo14-addon-storage_media_product',
         'odoo14-addon-storage_thumbnail',
