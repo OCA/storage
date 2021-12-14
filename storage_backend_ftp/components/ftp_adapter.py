@@ -41,31 +41,46 @@ def ftp_mkdirs(client, path):
             raise  # pragma: no cover
 
 
+class ImplicitFTPTLS(ftplib.FTP_TLS):
+    """FTP_TLS subclass that automatically wraps sockets in SSL to support implicit FTPS."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._sock = None
+
+    @property
+    def sock(self):
+        """Return the socket."""
+        return self._sock
+
+    @sock.setter
+    def sock(self, value):
+        """When modifying the socket, ensure that it is ssl wrapped."""
+        if value is not None and not isinstance(value, ssl.SSLSocket):
+            value = self.context.wrap_socket(value)
+        self._sock = value
+
+
 @contextmanager
 def ftp(backend):
-    params = {}
     security = None
     if backend.ftp_encryption == "ftp":
-        ftp = ftplib.FTP
+        ftp = ftplib.FTP()
     elif backend.ftp_encryption == "tls":
-        ftp = ftplib.FTP_TLS
+        ftp = ImplicitFTPTLS()
         # Due to a bug into between ftplib and ssl, this part (about ssl) might not work!
         # https://bugs.python.org/issue31727
         security = FTP_SECURITY_TO_PROTOCOL.get(backend.ftp_security, None)
         if isinstance(security, str):
             raise UserError(security)
-        if security:
-            ctx = ssl._create_stdlib_context(security)
-            params.update({"context": ctx})
     else:
         raise NotImplementedError()
-    with ftp(**params) as client:
-        client.connect(host=backend.ftp_server, port=backend.ftp_port)
-        if security:
-            client.auth()
-        client.login(backend.ftp_login, backend.ftp_password)
+    with ftp as client:
         if security:
             client.ssl_version = security
+        client.connect(host=backend.ftp_server, port=backend.ftp_port)
+        client.login(backend.ftp_login, backend.ftp_password)
+        if security:
             client.prot_p()
         if backend.ftp_passive:
             client.set_pasv(True)
