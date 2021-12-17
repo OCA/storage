@@ -26,9 +26,11 @@ class ProductTemplate(models.Model):
         # Store it to improve perf on product views
         store=True,
     )
-    # small and medium image are here to replace
-    # native image field on form and kanban
-
+    # Small and medium image are here to replace
+    # native image field on form and kanban.
+    # These URLs are the internal ones loading images via `/storage.file` endpoint.
+    # If you want to change this behavior, set `storage_public_url` ctx key.
+    # See `thumbnail.mixin._compute_thumb_urls`
     image_small_url = fields.Char(
         string="Main small image URL", related="main_image_id.image_small_url"
     )
