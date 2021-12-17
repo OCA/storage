@@ -67,3 +67,30 @@ class TestStorageThumbnail(SavepointComponentCase):
         self.assertEqual(image.thumb_medium_id.size_y, 128)
         self.assertEqual(image.thumb_small_id.size_x, 64)
         self.assertEqual(image.thumb_small_id.size_y, 64)
+
+    def test_urls(self):
+        image = self._create_image()
+        # Make it server externally
+        image.backend_id.served_by = "external"
+        image.backend_id.base_url = "https://somewhere.com"
+        # The main URL is external
+        self.assertTrue(image.url.startswith("https://somewhere.com/akretion-logo-"))
+        # Internal URL stay internal
+        self.assertTrue(
+            image.image_medium_url.startswith("/storage.file/akretion-logo_128_128")
+        )
+        self.assertTrue(
+            image.image_small_url.startswith("/storage.file/akretion-logo_64_64")
+        )
+        # Unless we enforce it to be external w/ ctx key
+        image = image.with_context(storage_public_url=True)
+        self.assertTrue(
+            image.image_medium_url.startswith(
+                "https://somewhere.com/akretion-logo_128_128"
+            )
+        )
+        self.assertTrue(
+            image.image_small_url.startswith(
+                "https://somewhere.com/akretion-logo_64_64"
+            )
+        )

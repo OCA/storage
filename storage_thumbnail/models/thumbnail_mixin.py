@@ -36,10 +36,12 @@ class ThumbnailMixing(models.AbstractModel):
         readonly=False,
     )
     image_medium_url = fields.Char(
-        string="Medium thumb URL", related="thumb_medium_id.url"
+        string="Medium thumb URL",
+        compute="_compute_thumb_urls",
     )
     image_small_url = fields.Char(
-        string="Small thumb URL", related="thumb_small_id.url"
+        string="Small thumb URL",
+        compute="_compute_thumb_urls",
     )
 
     _image_scale_mapping = {
@@ -53,6 +55,17 @@ class ThumbnailMixing(models.AbstractModel):
             for scale in self._image_scale_mapping.keys():
                 fname = "thumb_%s_id" % scale
                 rec[fname] = self._get_thumb(scale_key=scale)
+
+    @api.depends_context("storage_public_url")
+    @api.depends("thumb_medium_id", "thumb_small_id")
+    def _compute_thumb_urls(self):
+        # Use always the internal URL when not required otherwise.
+        url_fname = "internal_url"
+        if self.env.context.get("storage_public_url"):
+            url_fname = "url"
+        for rec in self:
+            rec.image_medium_url = rec.thumb_medium_id[url_fname]
+            rec.image_small_url = rec.thumb_small_id[url_fname]
 
     def _get_thumb(self, scale_key=None, scale=None):
         """Retrievet the first thumb matching given scale.
