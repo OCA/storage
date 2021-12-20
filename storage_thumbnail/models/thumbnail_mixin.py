@@ -36,12 +36,10 @@ class ThumbnailMixing(models.AbstractModel):
         readonly=False,
     )
     image_medium_url = fields.Char(
-        string="Medium thumb URL",
-        compute="_compute_thumb_urls",
+        string="Medium thumb URL", compute="_compute_thumb_urls",
     )
     image_small_url = fields.Char(
-        string="Small thumb URL",
-        compute="_compute_thumb_urls",
+        string="Small thumb URL", compute="_compute_thumb_urls",
     )
 
     _image_scale_mapping = {

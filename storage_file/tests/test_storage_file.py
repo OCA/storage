@@ -76,8 +76,7 @@ class StorageFileCase(TransactionComponentCase):
         )
         stfile.name = "Name has changed.png"
         self.assertEqual(
-            stfile.slug,
-            "name-has-changed-{}.png".format(stfile.id),
+            stfile.slug, "name-has-changed-{}.png".format(stfile.id),
         )
         self.assertEqual(
             stfile.internal_url,
