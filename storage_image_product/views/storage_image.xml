@@ -9,7 +9,7 @@
                     <field name="product_relation_ids" mode="tree,form,kanban">
                         <tree>
                             <field name="product_tmpl_id" />
-                            <field name="attribute_value_ids" />
+                            <field name="attribute_value_ids" widget="many2many_tags" />
                             <field name="tag_id" />
                         </tree>
                         <form>
