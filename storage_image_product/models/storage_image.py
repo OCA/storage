@@ -15,3 +15,8 @@ class StorageImage(models.Model):
     category_relation_ids = fields.One2many(
         "category.image.relation", inverse_name="image_id", string="Categories"
     )
+    public_category_relation_ids = fields.One2many(
+        "public.category.image.relation",
+        inverse_name="image_id",
+        string="Public Categories",
+    )

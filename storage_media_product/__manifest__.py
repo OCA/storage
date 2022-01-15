@@ -11,10 +11,11 @@
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "installable": True,
-    "depends": ["storage_media", "product"],
+    "depends": ["storage_media", "product", "website_sale"],
     "data": [
         "security/ir.model.access.csv",
         "views/product.xml",
         "views/product_category.xml",
+        "views/product_public_category.xml",
     ],
 }

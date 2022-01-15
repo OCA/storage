@@ -19,11 +19,17 @@ class ImageTag(models.Model):
             if active_model == "product.image.relation"
             else "category"
             if active_model == "category.image.relation"
+            else "public.category"
+            if active_model == "public.category.image.relation"
             else False
         )
 
     name = fields.Char(required=True)
     apply_on = fields.Selection(
-        selection=[("product", "Product"), ("category", "Category")],
+        selection=[
+            ("product", "Product"),
+            ("category", "Category"),
+            ("public.category", "Public Category"),
+        ],
         default=lambda self: self._get_default_apply_on(),
     )

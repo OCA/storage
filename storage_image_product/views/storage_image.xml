@@ -34,6 +34,20 @@
                         </form>
                     </field>
                 </page>
+                <page name="categories" string="Public Categories">
+                    <field name="public_category_relation_ids" mode="tree,form,kanban">
+                        <tree>
+                            <field name="public_category_id" />
+                            <field name="tag_id" />
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="public_category_id" />
+                                <field name="tag_id" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
             </page>
         </field>
     </record>

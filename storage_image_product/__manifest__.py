@@ -12,13 +12,19 @@
     "license": "LGPL-3",
     "development_status": "Production/Stable",
     "installable": True,
-    "depends": ["storage_image", "product", "sale"],  # only for the menu
+    "depends": [
+        "storage_image",
+        "product",
+        "sale",
+        "website_sale",
+    ],  # only for the menu
     "data": [
         "security/ir.model.access.csv",
         "views/product_template.xml",
         "views/product_image_relation.xml",
         "views/product_product.xml",
         "views/product_category.xml",
+        "views/product_public_category.xml",
         "views/product_category_image_relation.xml",
         "views/image_tag.xml",
         "views/storage_image.xml",
