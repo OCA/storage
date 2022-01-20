@@ -8,4 +8,4 @@ from odoo import fields, models
 class StorageImage(models.Model):
     _inherit = "storage.image"
 
-    imported_from_url = fields.Char()
+    imported_from_url = fields.Char(index=True)
