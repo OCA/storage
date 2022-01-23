@@ -11,7 +11,7 @@ import urllib
 from urllib.parse import urlparse
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -23,6 +23,7 @@ class ImageRelationAbstract(models.AbstractModel):
 
     def _get_filename(self, headers, url):
         # Note it will be better to use rfc6266 lib but it's doesn't support python 3.7
+        fname = None
         if headers["Content-Disposition"]:
             fname = re.findall(
                 r"filename\*?=([^;]+)",
@@ -41,10 +42,18 @@ class ImageRelationAbstract(models.AbstractModel):
         )
         return ast.literal_eval(headers)
 
+    def _parse_image_response(self, res):
+        if res.code == 200:
+            return res.read()
+        else:
+            raise UserError(
+                _("Invalid Response code excepted 200 get {}").format(res.code)
+            )
+
     def _prepare_image_from_url(self, url):
         req = urllib.request.Request(url, headers=self._get_download_header())
         res = urllib.request.urlopen(req)
-        data = res.read()
+        data = self._parse_image_response(res)
         return {
             "name": self._get_filename(res.headers, url),
             "data": base64.b64encode(data),
@@ -57,7 +66,9 @@ class ImageRelationAbstract(models.AbstractModel):
         except Exception as e:
             _logger.error(e)
             raise ValidationError(
-                _("Fail to import image {} check if the url is valid").format(url)
+                _(
+                    "Fail to import image {} check if the url is valid\n. Error: {}"
+                ).format(url, e)
             )
 
     def _get_existing_image_from_url(self, url):
