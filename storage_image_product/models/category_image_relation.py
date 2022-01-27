@@ -14,9 +14,11 @@ class CategoryImageRelation(models.Model):
         "product.category",
         required=True,
         ondelete="cascade",
+        index=True,
     )
     tag_id = fields.Many2one(
         "image.tag",
         string="Tag",
         domain=[("apply_on", "=", "category")],
+        index=True,
     )
