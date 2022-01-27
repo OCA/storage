@@ -11,7 +11,8 @@ class ProductImageRelation(models.Model):
     _description = "Product Image Relation"
 
     attribute_value_ids = fields.Many2many(
-        "product.attribute.value", string="Attributes"
+        "product.attribute.value",
+        string="Attributes",
     )
     # This field will list all attribute value used by the template
     # in order to filter the attribute value available for the current image
@@ -24,11 +25,13 @@ class ProductImageRelation(models.Model):
         "product.template",
         required=True,
         ondelete="cascade",
+        index=True,
     )
     tag_id = fields.Many2one(
         "image.tag",
         string="Tag",
         domain=[("apply_on", "=", "product")],
+        index=True,
     )
 
     @api.depends("image_id", "product_tmpl_id.attribute_line_ids.value_ids")
