@@ -9,3 +9,11 @@ class StorageImage(models.Model):
     _inherit = "storage.image"
 
     imported_from_url = fields.Char(index=True)
+
+    _sql_constraints = [
+        (
+            "uniq_imported_from_url",
+            "unique(imported_from_url)",
+            "uniq_imported_from_url must be uniq",
+        )
+    ]
