@@ -1,5 +1,5 @@
 # Copyright 2021 ACSONE SA/NV (<http://acsone.eu>)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 import errno
 import io
 import logging
@@ -108,9 +108,9 @@ class FTPStorageBackendAdapter(Component):
                 try:
                     client.storbinary("STOR " + full_path, tmp_file)
                 except ftplib.Error as e:
-                    raise ValueError(repr(e))
+                    raise ValueError(repr(e)) from e
                 except OSError as e:
-                    raise ValueError(repr(e))
+                    raise ValueError(repr(e)) from e
 
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
@@ -119,7 +119,7 @@ class FTPStorageBackendAdapter(Component):
                 client.retrbinary("RETR " + full_path, buff.write)
                 data = buff.getvalue()
             except ftplib.Error as e:
-                raise FileNotFoundError(repr(e))
+                raise FileNotFoundError(repr(e)) from e
         return data
 
     def list(self, relative_path):
