@@ -38,7 +38,7 @@ class ImageRelationAbstract(models.AbstractModel):
 
     def _get_download_header(self):
         headers = self.env["ir.config_parameter"].get_param(
-            "storage_image_import.headers", {}
+            "storage_image_import.headers", "{}"
         )
         return ast.literal_eval(headers)
 
