@@ -59,6 +59,7 @@ class ImageRelationAbstract(models.AbstractModel):
     @api.model_create_multi
     def create(self, vals_list):
         vals_to_create = []
+        records = self
         for vals in vals_list:
             record = None
             if "import_from_url" in vals:
@@ -66,11 +67,12 @@ class ImageRelationAbstract(models.AbstractModel):
             if record:
                 vals.pop("import_from_url")
                 record.write(vals)
+                records |= record
             else:
                 vals_to_create.append(vals)
         for vals in vals_to_create:
             self._process_import_from_url(vals)
-        return super().create(vals_to_create)
+        return records | super().create(vals_to_create)
 
     def write(self, vals):
         self._process_import_from_url(vals)
