@@ -25,7 +25,7 @@ addon | version | maintainers | summary
 [storage_backend_sftp](storage_backend_sftp/) | 13.0.1.4.1 |  | Implement SFTP Storage
 [storage_file](storage_file/) | 13.0.1.5.0 |  | Storage file in storage backend
 [storage_image](storage_image/) | 13.0.1.5.1 |  | Store image and resized image in a storage backend
-[storage_image_product](storage_image_product/) | 13.0.1.7.0 |  | Link images to products and categories
+[storage_image_product](storage_image_product/) | 13.0.2.0.0 |  | Link images to products and categories
 [storage_image_product_brand](storage_image_product_brand/) | 13.0.1.1.0 |  | Link images to product brands
 [storage_import_image_advanced](storage_import_image_advanced/) | 13.0.1.0.2 |  | Import product images using CSV
 [storage_media](storage_media/) | 13.0.1.2.0 |  | Give the posibility to store media data in Odoo
