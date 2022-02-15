@@ -148,3 +148,8 @@ class StorageBackend(models.Model):
         else:
             parts = [backend.base_url_for_files or "", storage_file.relative_path or ""]
         return "/".join([x.rstrip("/") for x in parts if x])
+
+    def _register_hook(self):
+        super()._register_hook()
+        self.search([]).action_recompute_base_url_for_files()
+        _logger.info("storage.backend base URL for files refreshed")
