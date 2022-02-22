@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,12 +17,6 @@ msgstr ""
 #: code:addons/storage_backend/components/filesystem_adapter.py:0
 #, python-format
 msgid "Access to %s is forbidden"
-msgstr ""
-
-#. module: storage_backend
-#: selection:storage.backend,backend_type:0
-#: selection:storage.backend,backend_type_env_default:0
-msgid "Amazon S3"
 msgstr ""
 
 #. module: storage_backend
@@ -125,13 +119,8 @@ msgstr ""
 
 #. module: storage_backend
 #: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path
+#: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path_env_default
 msgid "Relative path to the directory to store the file"
-msgstr ""
-
-#. module: storage_backend
-#: selection:storage.backend,backend_type:0
-#: selection:storage.backend,backend_type_env_default:0
-msgid "SFTP"
 msgstr ""
 
 #. module: storage_backend
@@ -146,7 +135,6 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_backend.menu_storage_backend
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_search
-#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_tree
 msgid "Storage Backend"
 msgstr ""
 
