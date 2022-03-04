@@ -53,6 +53,11 @@ class ProductProduct(models.Model):
         for record in self:
             record.main_image_id = record._get_main_image()
 
+    def _select_main_image(self, images):
+        return fields.first(
+            images.sorted(key=lambda i: (i.sequence, i.image_id))
+        ).image_id
+
     def _get_main_image(self):
         match_image = self.variant_image_ids.filtered(
             lambda i: i.attribute_value_ids
@@ -61,9 +66,5 @@ class ProductProduct(models.Model):
             )
         )
         if match_image:
-            return fields.first(
-                match_image.sorted(key=lambda i: (i.sequence, i.image_id))
-            ).image_id
-        return fields.first(
-            self.variant_image_ids.sorted(key=lambda i: (i.sequence, i.image_id))
-        ).image_id
+            return self._select_main_image(match_image)
+        return self._select_main_image(self.variant_image_ids)
