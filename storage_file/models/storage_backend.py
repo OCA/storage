@@ -151,5 +151,12 @@ class StorageBackend(models.Model):
 
     def _register_hook(self):
         super()._register_hook()
-        self.search([]).action_recompute_base_url_for_files()
+        backends = self.search([]).filtered(
+            lambda x: x._get_base_url_for_files() != x.base_url_for_files
+        )
+        if not backends:
+            return
+        sql = f"SELECT id FROM {self._table} WHERE ID IN %s FOR UPDATE"
+        self.env.cr.execute(sql, (tuple(backends.ids),), log_exceptions=False)
+        backends.action_recompute_base_url_for_files()
         _logger.info("storage.backend base URL for files refreshed")
