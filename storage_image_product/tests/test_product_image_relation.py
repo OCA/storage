@@ -164,3 +164,41 @@ class ProductImageCase(StorageImageCommonCase):
         self._test_main_images_and_urls(expected)
         expected = ((self.logo_image, self.product_c + self.product_a),)
         self._test_main_images_and_urls(expected)
+
+    def test_drop_template_attribute_value_propagation_to_image(self):
+        black_image = self.env["product.image.relation"].create(
+            {
+                "product_tmpl_id": self.template.id,
+                "image_id": self.black_image.id,
+                "attribute_value_ids": [
+                    (
+                        6,
+                        0,
+                        [
+                            self.env.ref("product.product_attribute_value_4").id,
+                            self.env.ref("product.product_attribute_value_1").id,
+                        ],
+                    )
+                ],
+                "sequence": 10,
+            }
+        )
+        # Remove Color black from variant tab:
+        self.template.attribute_line_ids.filtered(
+            lambda x: x.display_name == "Color"
+        ).value_ids -= self.env.ref("product.product_attribute_value_4")
+        # Attribute black is removed from image:
+        self.assertTrue(
+            self.env.ref("product.product_attribute_value_4")
+            not in black_image.attribute_value_ids
+        )
+
+        # Remove Leg attribute line from variant tab:
+        self.template.attribute_line_ids.filtered(
+            lambda x: x.display_name == "Legs"
+        ).unlink()
+        # Product image attribute values from Legs are removed:
+        self.assertTrue(
+            self.env.ref("product.product_attribute_value_1")
+            not in black_image.attribute_value_ids
+        )
