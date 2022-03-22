@@ -13,6 +13,7 @@ class ProductImageRelation(models.Model):
     attribute_value_ids = fields.Many2many(
         "product.attribute.value",
         string="Attributes",
+        domain="[('id', 'in', available_attribute_value_ids)]",
     )
     # This field will list all attribute value used by the template
     # in order to filter the attribute value available for the current image
