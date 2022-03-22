@@ -21,6 +21,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [storage_backend](storage_backend/) | 15.0.1.0.0 |  | Implement the concept of Storage with amazon S3, sftp...
+[storage_backend_ftp](storage_backend_ftp/) | 15.0.1.0.0 |  | Implement FTP Storage
 
 [//]: # (end addons)
 
