@@ -19,6 +19,7 @@
                         name="attribute_value_ids"
                         domain="[('id', 'in', available_attribute_value_ids)]"
                         widget="many2many_tags"
+                        context="{'show_attribute': True}"
                         attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
                     />
                 </group>
@@ -63,6 +64,7 @@
                                     name="attribute_value_ids"
                                     widget="many2many_tags"
                                     groups="product.group_product_variant"
+                                    context="{'show_attribute': True}"
                                 />
                             </div>
                         </div>
