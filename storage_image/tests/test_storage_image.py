@@ -28,9 +28,9 @@ class StorageImageCase(StorageImageCommonCase):
     def test_create_and_read_image(self):
         image = self._create_storage_image(self.filename, self.filedata)
         self.assertEqual(image.data, self.filedata)
-        self.assertEqual(image.mimetype, u"image/png")
-        self.assertEqual(image.extension, u".png")
-        self.assertEqual(image.filename, u"akretion-logo")
+        self.assertEqual(image.mimetype, "image/png")
+        self.assertEqual(image.extension, ".png")
+        self.assertEqual(image.filename, "akretion-logo")
         url = parse.urlparse(image.url)
         self.assertEqual(
             url.path, "/storage.file/akretion-logo-%d.png" % image.file_id.id
@@ -46,26 +46,26 @@ class StorageImageCase(StorageImageCommonCase):
 
     def test_create_specific_thumbnail(self):
         image = self._create_storage_image(self.filename, self.filedata)
-        thumbnail = image.get_or_create_thumbnail(100, 100, u"my-image-thumbnail")
-        self.assertEqual(thumbnail.url_key, u"my-image-thumbnail")
-        self.assertEqual(thumbnail.relative_path[0:26], u"my-image-thumbnail_100_100")
+        thumbnail = image.get_or_create_thumbnail(100, 100, "my-image-thumbnail")
+        self.assertEqual(thumbnail.url_key, "my-image-thumbnail")
+        self.assertEqual(thumbnail.relative_path[0:26], "my-image-thumbnail_100_100")
 
         # Check that method will return the same thumbnail
         # Check also that url_key have been slugified
-        new_thumbnail = image.get_or_create_thumbnail(100, 100, u"My Image Thumbnail")
+        new_thumbnail = image.get_or_create_thumbnail(100, 100, "My Image Thumbnail")
         self.assertEqual(new_thumbnail.id, thumbnail.id)
 
         # Check that method will return a new thumbnail
         new_thumbnail = image.get_or_create_thumbnail(
-            100, 100, u"My New Image Thumbnail"
+            100, 100, "My New Image Thumbnail"
         )
         self.assertNotEqual(new_thumbnail.id, thumbnail.id)
 
     def test_name_onchange(self):
         image = self.env["storage.image"].new({"name": "Test-of image_name.png"})
         image.onchange_name()
-        self.assertEqual(image.name, u"test-of-image_name.png")
-        self.assertEqual(image.alt_name, u"Test of image name")
+        self.assertEqual(image.name, "test-of-image_name.png")
+        self.assertEqual(image.alt_name, "Test of image name")
 
     def test_unlink(self):
         image = self._create_storage_image(self.filename, self.filedata)
