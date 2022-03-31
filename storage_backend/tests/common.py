@@ -17,7 +17,7 @@ class BackendStorageTestMixin(object):
 
         # Add a new file
         self.backend.add(
-            self.filename, self.filedata, mimetype=u"text/plain", binary=False
+            self.filename, self.filedata, mimetype="text/plain", binary=False
         )
 
         # Check that the file exist

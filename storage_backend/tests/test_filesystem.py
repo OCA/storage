@@ -39,7 +39,7 @@ class FileSystemDemoUserAccessCase(CommonCase):
     def test_cannot_add_file(self):
         with self.assertRaises(AccessError):
             self.backend.add(
-                self.filename, self.filedata, mimetype=u"text/plain", binary=False
+                self.filename, self.filedata, mimetype="text/plain", binary=False
             )
 
     def test_cannot_list_file(self):
