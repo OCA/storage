@@ -33,10 +33,10 @@ class StorageFileCase(TransactionComponentCase):
     def test_create_and_read_served_by_odoo(self):
         stfile = self._create_storage_file()
         self.assertEqual(stfile.data, self.filedata)
-        self.assertEqual(stfile.mimetype, u"text/plain")
-        self.assertEqual(stfile.extension, u".txt")
-        self.assertEqual(stfile.filename, u"test of my_file")
-        self.assertEqual(stfile.relative_path, u"test-of-my_file-%s.txt" % stfile.id)
+        self.assertEqual(stfile.mimetype, "text/plain")
+        self.assertEqual(stfile.extension, ".txt")
+        self.assertEqual(stfile.filename, "test of my_file")
+        self.assertEqual(stfile.relative_path, "test-of-my_file-%s.txt" % stfile.id)
         url = parse.urlparse(stfile.url)
         self.assertEqual(url.path, "/storage.file/test-of-my_file-%s.txt" % stfile.id)
         self.assertEqual(stfile.file_size, self.filesize)
@@ -111,11 +111,11 @@ class StorageFileCase(TransactionComponentCase):
         self.backend.filename_strategy = "hash"
         stfile = self._create_storage_file()
         self.assertEqual(stfile.data, self.filedata)
-        self.assertEqual(stfile.mimetype, u"text/plain")
-        self.assertEqual(stfile.extension, u".txt")
-        self.assertEqual(stfile.filename, u"test of my_file")
+        self.assertEqual(stfile.mimetype, "text/plain")
+        self.assertEqual(stfile.extension, ".txt")
+        self.assertEqual(stfile.filename, "test of my_file")
         self.assertEqual(
-            stfile.relative_path, u"13/1322d9ccb3d257095185b205eadc9307aae5dc84"
+            stfile.relative_path, "13/1322d9ccb3d257095185b205eadc9307aae5dc84"
         )
 
     def test_missing_name_strategy(self):

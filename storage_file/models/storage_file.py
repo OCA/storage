@@ -88,9 +88,9 @@ class StorageFile(models.Model):
             record.slug = record._slugify_name_with_id()
 
     def _slugify_name_with_id(self):
-        return u"{}{}".format(
+        return "{}{}".format(
             slugify(
-                u"{}-{}".format(self.filename, self.id), regex_pattern=REGEX_SLUGIFY
+                "{}-{}".format(self.filename, self.id), regex_pattern=REGEX_SLUGIFY
             ),
             self.extension,
         )
