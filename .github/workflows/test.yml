@@ -6,7 +6,8 @@ on:
       - "15.0*"
   push:
     branches:
-      - "15.0*"
+      - "15.0"
+      - "15.0-ocabot-*"
 
 jobs:
   unreleased-deps:
