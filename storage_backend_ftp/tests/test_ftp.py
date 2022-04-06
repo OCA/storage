@@ -120,7 +120,9 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         # no need to delete it
         client.delete.assert_not_called()
         # rename gets called
-        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
+        client.rename.assert_called_with(
+            "upload/" + to_move, "upload/" + to_move.replace("from", "to")
+        )
         # now try to override destination
         client.nlst.side_effect = None
         client.nlst.return_value = True
@@ -128,7 +130,9 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         # client will delete it first
         client.delete.assert_called_with(to_move.replace("from", "to"))
         # then move it
-        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
+        client.rename.assert_called_with(
+            "upload/" + to_move, "upload/" + to_move.replace("from", "to")
+        )
 
     @mock.patch(FTP_LIB_PATH)
     def test_delete(self, mocked_ftplib):
