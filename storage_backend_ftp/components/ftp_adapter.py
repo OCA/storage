@@ -136,6 +136,7 @@ class FTPStorageBackendAdapter(Component):
 
     def move_files(self, files, destination_path):
         _logger.debug("mv %s %s", files, destination_path)
+        fp = self._fullpath
         with ftp(self.collection) as client:
             for ftp_file in files:
                 dest_file_path = os.path.join(
@@ -150,8 +151,8 @@ class FTPStorageBackendAdapter(Component):
                     _logger.debug("destination %s is free", dest_file_path)
                 if result:
                     client.delete(dest_file_path)
-                # Move the file
-                client.rename(ftp_file, dest_file_path)
+                # Move the file using absolute filepaths
+                client.rename(fp(ftp_file), fp(dest_file_path))
 
     def delete(self, relative_path):
         full_path = self._fullpath(relative_path)
