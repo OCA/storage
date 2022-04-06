@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
+msgid " Env Default"
+msgstr ""
+
+#. module: storage_backend
 #: code:addons/storage_backend/components/filesystem_adapter.py:0
 #, python-format
 msgid "Access to %s is forbidden"
@@ -22,11 +28,6 @@ msgstr ""
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type
 msgid "Backend Type"
-msgstr ""
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
-msgid "Backend Type Env Default"
 msgstr ""
 
 #. module: storage_backend
@@ -59,11 +60,6 @@ msgstr ""
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path
 msgid "Directory Path"
-msgstr ""
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
-msgid "Directory Path Env Default"
 msgstr ""
 
 #. module: storage_backend
