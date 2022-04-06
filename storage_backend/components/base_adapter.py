@@ -15,10 +15,10 @@ class BaseStorageAdapter(AbstractComponent):
     _collection = "storage.backend"
 
     def _fullpath(self, relative_path):
-        if self.collection.directory_path:
-            return os.path.join(self.collection.directory_path or "", relative_path)
-        else:
+        dp = self.collection.directory_path
+        if not dp or relative_path.startswith(dp):
             return relative_path
+        return os.path.join(dp, relative_path)
 
     def add(self, relative_path, data, **kwargs):
         raise NotImplementedError
