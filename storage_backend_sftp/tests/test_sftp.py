@@ -106,7 +106,9 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         # no need to delete it
         client.unlink.assert_not_called()
         # rename gets called
-        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
+        client.rename.assert_called_with(
+            "upload/" + to_move, "upload/" + to_move.replace("from", "to")
+        )
         # now try to override destination
         client.lstat.side_effect = None
         client.lstat.return_value = True
@@ -114,4 +116,6 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         # client will delete it first
         client.unlink.assert_called_with(to_move.replace("from", "to"))
         # then move it
-        client.rename.assert_called_with(to_move, to_move.replace("from", "to"))
+        client.rename.assert_called_with(
+            "upload/" + to_move, "upload/" + to_move.replace("from", "to")
+        )
