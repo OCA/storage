@@ -11,7 +11,11 @@ class StorageBackend(models.Model):
     ftp_port = fields.Integer(string="FTP Port", default=21)
     ftp_encryption = fields.Selection(
         string="FTP Encryption method",
-        selection=[("ftp", "FTP"), ("tls", "FTP over TLS")],
+        selection=[
+            ("ftp", "FTP"),
+            ("tls", "Implicit FTP over TLS"),
+            ("tls_explicit", "Explicit FTP over TLS"),
+        ],
         default="ftp",
         required=True,
     )
