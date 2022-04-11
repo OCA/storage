@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo-addon-storage_backend>=15.0dev,<15.1dev',
         'odoo-addon-storage_backend_ftp>=15.0dev,<15.1dev',
+        'odoo-addon-storage_backend_sftp>=15.0dev,<15.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
