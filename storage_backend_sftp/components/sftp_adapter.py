@@ -76,14 +76,14 @@ class SFTPStorageBackendAdapter(Component):
                         sftp_mkdirs(client, dirname)
                     else:
                         raise  # pragma: no cover
-            remote_file = client.open(full_path, "w+b")
+            remote_file = client.open(full_path, "w")
             remote_file.write(data)
             remote_file.close()
 
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
-            file_data = client.open(full_path, "rb")
+            file_data = client.open(full_path, "r")
             data = file_data.read()
             # TODO: shouldn't we close the file?
         return data
