@@ -34,12 +34,13 @@ class TestStorageThumbnail(SavepointComponentCase):
         vals = {"name": "TEST THUMB"}
         return self.env["storage.thumbnail"].create(vals)
 
-    def _create_image(self, resize=False):
+    def _create_image(self, resize=False, **kw):
         if resize:
             self.env["ir.config_parameter"].sudo().create(
                 {"key": "storage.image.resize.format", "value": ".webp"}
             )
         vals = {"name": self.filename, "data": self.filedata}
+        vals.update(kw)
         return self.env["model.test"].create(vals)
 
     def test_thumbnail(self):
@@ -67,3 +68,53 @@ class TestStorageThumbnail(SavepointComponentCase):
         self.assertEqual(image.thumb_medium_id.size_y, 128)
         self.assertEqual(image.thumb_small_id.size_x, 64)
         self.assertEqual(image.thumb_small_id.size_y, 64)
+
+    def test_urls(self):
+        image1 = self._create_image()
+        image2 = self._create_image(name="another.png")
+        images = image1 + image2
+        # Make it server externally
+        self.assertFalse(image1.backend_id.backend_view_use_internal_url)
+        image1.backend_id.served_by = "external"
+        cdn = "https://somewhere.com"
+        image1.backend_id.base_url = cdn
+
+        t1_med_file = image1.thumb_medium_id.file_id
+        t1_small_file = image1.thumb_small_id.file_id
+        t2_med_file = image2.thumb_medium_id.file_id
+        t2_small_file = image2.thumb_small_id.file_id
+
+        # Internal URL use CDN by default
+        expected = [
+            {
+                "url": f"{cdn}/akretion-logo-{image1.file_id.id}.png",
+                "internal_url": f"/storage.file/akretion-logo-{image1.file_id.id}.png",
+                "image_medium_url": f"{cdn}/akretion-logo_128_128-{t1_med_file.id}.png",
+                "image_small_url": f"{cdn}/akretion-logo_64_64-{t1_small_file.id}.png",
+            },
+            {
+                "url": f"{cdn}/another-{image2.file_id.id}.png",
+                "internal_url": f"/storage.file/another-{image2.file_id.id}.png",
+                "image_medium_url": f"{cdn}/another_128_128-{t2_med_file.id}.png",
+                "image_small_url": f"{cdn}/another_64_64-{t2_small_file.id}.png",
+            },
+        ]
+        self.assertRecordValues(images, expected)
+        # Unless we enforce it
+        image1.backend_id.backend_view_use_internal_url = True
+        images.invalidate_cache()
+        expected = [
+            {
+                "url": f"{cdn}/akretion-logo-{image1.file_id.id}.png",
+                "internal_url": f"/storage.file/akretion-logo-{image1.file_id.id}.png",
+                "image_medium_url": f"/storage.file/akretion-logo_128_128-{t1_med_file.id}.png",
+                "image_small_url": f"/storage.file/akretion-logo_64_64-{t1_small_file.id}.png",
+            },
+            {
+                "url": f"{cdn}/another-{image2.file_id.id}.png",
+                "internal_url": f"/storage.file/another-{image2.file_id.id}.png",
+                "image_medium_url": f"/storage.file/another_128_128-{t2_med_file.id}.png",
+                "image_small_url": f"/storage.file/another_64_64-{t2_small_file.id}.png",
+            },
+        ]
+        self.assertRecordValues(images, expected)

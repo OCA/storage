@@ -34,6 +34,10 @@ class StorageFile(models.Model):
         "storage.backend", "Storage", index=True, required=True
     )
     url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
+    internal_url = fields.Char(
+        compute="_compute_internal_url",
+        help="HTTP URL to load the file directly from storage.",
+    )
     slug = fields.Char(
         compute="_compute_slug", help="Slug-ified name with ID for URL", store=True
     )
@@ -148,6 +152,19 @@ class StorageFile(models.Model):
     def _get_url(self):
         """Retrieve file URL based on backend params."""
         return self.backend_id._get_url_for_file(self)
+
+    @api.depends("slug")
+    def _compute_internal_url(self):
+        for record in self:
+            record.internal_url = record._get_internal_url()
+
+    def _get_internal_url(self):
+        """Retrieve file URL to load file directly from the storage.
+
+        It is recommended to use this for Odoo backend internal usage
+        to not generate traffic on external services.
+        """
+        return f"/storage.file/{self.slug}"
 
     @api.depends("name")
     def _compute_extract_filename(self):
