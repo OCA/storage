@@ -19,6 +19,11 @@ msgid "Active"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__backend_view_use_internal_url
+msgid "Backend View Use Internal Url"
+msgstr ""
+
+#. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
 msgid "Base URL used for files"
 msgstr ""
@@ -68,6 +73,14 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__data
 msgid "Datas"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_backend__backend_view_use_internal_url
+msgid ""
+"Decide if Odoo backend views should use the external URL (usually a CDN) or "
+"the internal url with direct access to the storage. This could save you some"
+" money if you pay by CDN traffic."
 msgstr ""
 
 #. module: storage_file
@@ -131,6 +144,11 @@ msgid "Filename without extension"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__internal_url
+msgid "HTTP URL to load the file directly from storage."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__url
 msgid "HTTP accessible path to the file"
 msgstr ""
@@ -152,6 +170,11 @@ msgstr ""
 msgid ""
 "If you have changed parameters via server env settings the URL might look "
 "outdated."
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__internal_url
+msgid "Internal Url"
 msgstr ""
 
 #. module: storage_file
