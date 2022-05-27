@@ -47,13 +47,6 @@ msgid "Display Name"
 msgstr ""
 
 #. module: storage_image_product_brand
-#: model:ir.model.fields,help:storage_image_product_brand.field_product_brand__image_medium_url
-#: model:ir.model.fields,help:storage_image_product_brand.field_product_brand__image_small_url
-#: model:ir.model.fields,help:storage_image_product_brand.field_product_brand_image_relation__image_url
-msgid "HTTP accessible path to the file"
-msgstr ""
-
-#. module: storage_image_product_brand
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_image_tag__id
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand__id
 #: model:ir.model.fields,field_description:storage_image_product_brand.field_product_brand_image_relation__id
