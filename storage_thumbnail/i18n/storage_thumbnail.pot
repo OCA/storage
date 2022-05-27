@@ -82,9 +82,12 @@ msgid "Filename without extension"
 msgstr ""
 
 #. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__internal_url
+msgid "HTTP URL to load the file directly from storage."
+msgstr ""
+
+#. module: storage_thumbnail
 #: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__url
-#: model:ir.model.fields,help:storage_thumbnail.field_thumbnail_mixin__image_medium_url
-#: model:ir.model.fields,help:storage_thumbnail.field_thumbnail_mixin__image_small_url
 msgid "HTTP accessible path to the file"
 msgstr ""
 
@@ -98,6 +101,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__id
 #: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__id
 msgid "ID"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__internal_url
+msgid "Internal Url"
 msgstr ""
 
 #. module: storage_thumbnail
