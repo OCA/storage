@@ -99,9 +99,11 @@ msgid "Filename without extension"
 msgstr ""
 
 #. module: storage_image
-#: model:ir.model.fields,help:storage_image.field_image_relation_abstract__image_url
-#: model:ir.model.fields,help:storage_image.field_storage_image__image_medium_url
-#: model:ir.model.fields,help:storage_image.field_storage_image__image_small_url
+#: model:ir.model.fields,help:storage_image.field_storage_image__internal_url
+msgid "HTTP URL to load the file directly from storage."
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__url
 msgid "HTTP accessible path to the file"
 msgstr ""
@@ -137,6 +139,11 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model,name:storage_image.model_image_relation_abstract
 msgid "Image Relation Abstract"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__internal_url
+msgid "Internal Url"
 msgstr ""
 
 #. module: storage_image
