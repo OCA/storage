@@ -113,6 +113,35 @@ class StorageFileCase(TransactionComponentCase):
             stfile.url, "https://foo.com/baz/test-of-my_file-{}.txt".format(stfile.id)
         )
 
+    def test_url_without_base_url(self):
+        stfile = self._create_storage_file()
+        # served by odoo
+        self.assertEqual(
+            stfile.url_path,
+            "/storage.file/test-of-my_file-{}.txt".format(stfile.id),
+        )
+        # served by external
+        stfile.backend_id.update(
+            {
+                "served_by": "external",
+                "base_url": "https://foo.com",
+                "directory_path": "baz",
+            }
+        )
+        stfile.invalidate_cache()
+        # path not included
+        self.assertEqual(
+            stfile.with_context(foo=1).url_path,
+            "/test-of-my_file-{}.txt".format(stfile.id),
+        )
+        # path included
+        stfile.backend_id.url_include_directory_path = True
+        stfile.invalidate_cache()
+        self.assertEqual(
+            stfile.url_path,
+            "/baz/test-of-my_file-{}.txt".format(stfile.id),
+        )
+
     def test_url_for_report(self):
         stfile = self._create_storage_file()
         params = self.env["ir.config_parameter"].sudo()

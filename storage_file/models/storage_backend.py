@@ -141,17 +141,20 @@ class StorageBackend(models.Model):
         )
         return self.env["ir.config_parameter"].sudo().get_param(base_url_param)
 
-    def _get_url_for_file(self, storage_file):
+    def _get_url_for_file(self, storage_file, exclude_base_url=False):
         """Return final full URL for given file."""
         backend = self.sudo()
         if backend.served_by == "odoo":
             parts = [
-                self._get_base_url_from_param(),
+                self._get_base_url_from_param() if not exclude_base_url else "/",
                 "storage.file",
                 storage_file.slug,
             ]
         else:
-            parts = [backend.base_url_for_files or "", storage_file.relative_path or ""]
+            base_url = backend.base_url_for_files
+            if exclude_base_url:
+                base_url = base_url.replace(backend.base_url, "") or "/"
+            parts = [base_url, storage_file.relative_path or ""]
         return "/".join([x.rstrip("/") for x in parts if x])
 
     def _register_hook(self):

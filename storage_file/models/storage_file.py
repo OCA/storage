@@ -34,6 +34,9 @@ class StorageFile(models.Model):
         "storage.backend", "Storage", index=True, required=True
     )
     url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
+    url_path = fields.Char(
+        compute="_compute_url_path", help="Accessible path, no base URL"
+    )
     internal_url = fields.Char(
         compute="_compute_internal_url",
         help="HTTP URL to load the file directly from storage.",
@@ -149,9 +152,21 @@ class StorageFile(models.Model):
         for record in self:
             record.url = record._get_url()
 
-    def _get_url(self):
-        """Retrieve file URL based on backend params."""
-        return self.backend_id._get_url_for_file(self)
+    @api.depends("relative_path", "backend_id")
+    def _compute_url_path(self):
+        # Keep this separated from `url` to avoid multiple compute:
+        # you'll need either one or the other.
+        for record in self:
+            record.url_path = record._get_url(exclude_base_url=True)
+
+    def _get_url(self, exclude_base_url=False):
+        """Retrieve file URL based on backend params.
+
+        :param exclude_base_url: skip base_url
+        """
+        return self.backend_id._get_url_for_file(
+            self, exclude_base_url=exclude_base_url
+        )
 
     @api.depends("slug")
     def _compute_internal_url(self):
