@@ -24,6 +24,7 @@
                     attrs="{'invisible':[('served_by', '!=', 'external')]}"
                 />
                 <field name="filename_strategy" />
+                <field name="backend_view_use_internal_url" />
             </field>
             <field name="directory_path" position="after">
                 <field
