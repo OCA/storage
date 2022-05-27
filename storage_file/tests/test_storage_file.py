@@ -70,6 +70,22 @@ class StorageFileCase(TransactionComponentCase):
             "name-has-changed-{}.png".format(stfile.id),
         )
 
+    def test_internal_url(self):
+        stfile = self._create_storage_file()
+        self.assertEqual(
+            stfile.internal_url,
+            "/storage.file/test-of-my_file-{}.txt".format(stfile.id),
+        )
+        stfile.name = "Name has changed.png"
+        self.assertEqual(
+            stfile.slug,
+            "name-has-changed-{}.png".format(stfile.id),
+        )
+        self.assertEqual(
+            stfile.internal_url,
+            "/storage.file/name-has-changed-{}.png".format(stfile.id),
+        )
+
     def test_url(self):
         stfile = self._create_storage_file()
         params = self.env["ir.config_parameter"].sudo()
