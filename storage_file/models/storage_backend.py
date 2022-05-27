@@ -46,6 +46,11 @@ class StorageBackend(models.Model):
         "the path will be used to compute the public URL.",
     )
     base_url_for_files = fields.Char(compute="_compute_base_url_for_files", store=True)
+    backend_view_use_internal_url = fields.Boolean(
+        help="Decide if Odoo backend views should use the external URL (usually a CDN) "
+        "or the internal url with direct access to the storage. "
+        "This could save you some money if you pay by CDN traffic."
+    )
 
     def write(self, vals):
         # Ensure storage file URLs are up to date
