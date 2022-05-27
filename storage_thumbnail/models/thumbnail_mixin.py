@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, tools
 
 _logger = logging.getLogger(__name__)
 
@@ -36,10 +36,12 @@ class ThumbnailMixing(models.AbstractModel):
         readonly=False,
     )
     image_medium_url = fields.Char(
-        string="Medium thumb URL", related="thumb_medium_id.url"
+        string="Medium thumb URL",
+        compute="_compute_thumb_urls",
     )
     image_small_url = fields.Char(
-        string="Small thumb URL", related="thumb_small_id.url"
+        string="Small thumb URL",
+        compute="_compute_thumb_urls",
     )
 
     _image_scale_mapping = {
@@ -53,6 +55,18 @@ class ThumbnailMixing(models.AbstractModel):
             for scale in self._image_scale_mapping.keys():
                 fname = "thumb_%s_id" % scale
                 rec[fname] = rec._get_thumb(scale_key=scale)
+
+    @api.depends(
+        "thumb_medium_id", "thumb_small_id", "backend_id.backend_view_use_internal_url"
+    )
+    def _compute_thumb_urls(self):
+        for backend, records in tools.groupby(self, lambda x: x.backend_id):
+            url_fname = "url"
+            if backend.backend_view_use_internal_url:
+                url_fname = "internal_url"
+            for rec in records:
+                rec.image_medium_url = rec.thumb_medium_id[url_fname]
+                rec.image_small_url = rec.thumb_small_id[url_fname]
 
     def _get_thumb(self, scale_key=None, scale=None):
         """Retrievet the first thumb matching given scale."""
