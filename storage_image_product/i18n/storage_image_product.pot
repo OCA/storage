@@ -77,18 +77,6 @@ msgid "Display Name"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model.fields,help:storage_image_product.field_category_image_relation__image_url
-#: model:ir.model.fields,help:storage_image_product.field_product_image_relation__image_url
-#: model:ir.model.fields,help:storage_image_product.field_product_product__image_medium_url
-#: model:ir.model.fields,help:storage_image_product.field_product_product__image_small_url
-#: model:ir.model.fields,help:storage_image_product.field_product_product__variant_image_medium_url
-#: model:ir.model.fields,help:storage_image_product.field_product_product__variant_image_small_url
-#: model:ir.model.fields,help:storage_image_product.field_product_template__image_medium_url
-#: model:ir.model.fields,help:storage_image_product.field_product_template__image_small_url
-msgid "HTTP accessible path to the file"
-msgstr ""
-
-#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__id
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag__id
 #: model:ir.model.fields,field_description:storage_image_product.field_product_category__id
