@@ -28,20 +28,20 @@ class ThumbnailMixing(models.AbstractModel):
         compute="_compute_main_thumbs",
         store=True,
         readonly=False,
+        compute_sudo=True,
     )
     thumb_small_id = fields.Many2one(
         comodel_name="storage.thumbnail",
         compute="_compute_main_thumbs",
         store=True,
         readonly=False,
+        compute_sudo=True,
     )
     image_medium_url = fields.Char(
-        string="Medium thumb URL",
-        compute="_compute_thumb_urls",
+        string="Medium thumb URL", compute="_compute_thumb_urls", compute_sudo=True
     )
     image_small_url = fields.Char(
-        string="Small thumb URL",
-        compute="_compute_thumb_urls",
+        string="Small thumb URL", compute="_compute_thumb_urls", compute_sudo=True
     )
 
     _image_scale_mapping = {
