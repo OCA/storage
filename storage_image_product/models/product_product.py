@@ -53,18 +53,14 @@ class ProductProduct(models.Model):
         for record in self:
             record.main_image_id = record._get_main_image()
 
-    def _select_main_image(self, images):
-        return fields.first(
-            images.sorted(key=lambda i: (i.sequence, i.image_id))
-        ).image_id
+    def _get_main_image_order(self, image):
+        matching_attr_values = (
+            self.product_template_attribute_value_ids.product_attribute_value_id
+            & image.attribute_value_ids
+        )
+        return [-len(matching_attr_values), image.sequence, image.image_id]
 
     def _get_main_image(self):
-        match_image = self.variant_image_ids.filtered(
-            lambda i: i.attribute_value_ids
-            == self.mapped(
-                "product_template_attribute_value_ids.product_attribute_value_id"
-            )
-        )
-        if match_image:
-            return self._select_main_image(match_image)
-        return self._select_main_image(self.variant_image_ids)
+        return fields.first(
+            self.variant_image_ids.sorted(key=lambda i: self._get_main_image_order(i))
+        ).image_id
