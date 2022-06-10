@@ -15,7 +15,7 @@
     <record id="view_thumbnail_tree" model="ir.ui.view">
         <field name="model">storage.thumbnail</field>
         <field name="arch" type="xml">
-            <tree string="Thumgnail">
+            <tree>
                 <field name="name" />
                 <field name="url_key" />
                 <field name="size_x" />
