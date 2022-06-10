@@ -42,17 +42,13 @@ class StorageFile(models.Model):
         compute="_compute_slug", help="Slug-ified name with ID for URL", store=True
     )
     relative_path = fields.Char(readonly=True, help="Relative location for backend")
-    file_size = fields.Integer("File Size")
-    human_file_size = fields.Char(
-        "Human File Size", compute="_compute_human_file_size", store=True
-    )
+    file_size = fields.Integer()
+    human_file_size = fields.Char(compute="_compute_human_file_size", store=True)
     checksum = fields.Char("Checksum/SHA1", size=40, index=True, readonly=True)
     filename = fields.Char(
         "Filename without extension", compute="_compute_extract_filename", store=True
     )
-    extension = fields.Char(
-        "Extension", compute="_compute_extract_filename", store=True
-    )
+    extension = fields.Char(compute="_compute_extract_filename", store=True)
     mimetype = fields.Char("Mime Type", compute="_compute_extract_filename", store=True)
     data = fields.Binary(
         help="Datas", inverse="_inverse_data", compute="_compute_data", store=False
@@ -171,7 +167,7 @@ class StorageFile(models.Model):
         for rec in self:
             if rec.name:
                 rec.filename, rec.extension = os.path.splitext(rec.name)
-                mime, enc = mimetypes.guess_type(rec.name)
+                mime, __ = mimetypes.guess_type(rec.name)
             else:
                 rec.filename = rec.extension = mime = False
             rec.mimetype = mime

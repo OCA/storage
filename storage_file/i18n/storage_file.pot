@@ -128,7 +128,7 @@ msgid "File Type"
 msgstr ""
 
 #. module: storage_file
-#: code:addons/storage_file/models/storage_file.py:73
+#: code:addons/storage_file/models/storage_file.py:0
 #, python-format
 msgid "File can not be updated,remove it and create a new one"
 msgstr ""
@@ -298,7 +298,7 @@ msgid ""
 msgstr ""
 
 #. module: storage_file
-#: code:addons/storage_file/models/storage_file.py:95
+#: code:addons/storage_file/models/storage_file.py:0
 #, python-format
 msgid ""
 "The filename strategy is empty for the backend %s.\n"
