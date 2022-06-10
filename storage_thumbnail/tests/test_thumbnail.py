@@ -5,13 +5,13 @@ from odoo_test_helper import FakeModelLoader
 
 from odoo.fields import first
 
-from odoo.addons.component.tests.common import SavepointComponentCase
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class TestStorageThumbnail(SavepointComponentCase):
+class TestStorageThumbnail(TransactionComponentCase):
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
+        res = super().setUpClass()
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
         from .models import ModelTest
@@ -23,11 +23,12 @@ class TestStorageThumbnail(SavepointComponentCase):
         cls.filesize = len(data)
         cls.filedata = base64.b64encode(data)
         cls.filename = "akretion-logo.png"
+        return res
 
     @classmethod
     def tearDownClass(cls):
         cls.loader.restore_registry()
-        super().tearDownClass()
+        return super().tearDownClass()
 
     def _create_thumbnail(self):
         # create thumbnail

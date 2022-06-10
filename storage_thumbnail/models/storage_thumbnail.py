@@ -21,9 +21,7 @@ class StorageThumbnail(models.Model):
 
     size_x = fields.Integer("X size")
     size_y = fields.Integer("Y size")
-    url_key = fields.Char(
-        "Url key", help="Specific URL key for generating the url of the image"
-    )
+    url_key = fields.Char(help="Specific URL key for generating the url of the image")
     file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
     res_model = fields.Char(readonly=False, index=True)
     res_id = fields.Integer(readonly=False, index=True)
