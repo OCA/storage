@@ -24,7 +24,7 @@ addon | version | maintainers | summary
 [storage_backend_ftp](storage_backend_ftp/) | 14.0.1.0.3 |  | Implement FTP Storage
 [storage_backend_s3](storage_backend_s3/) | 14.0.2.0.1 |  | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 14.0.2.0.2 |  | Implement SFTP Storage
-[storage_file](storage_file/) | 14.0.2.2.0 |  | Storage file in storage backend
+[storage_file](storage_file/) | 14.0.2.3.0 |  | Storage file in storage backend
 [storage_image](storage_image/) | 14.0.2.2.0 |  | Store image and resized image in a storage backend
 [storage_image_import](storage_image_import/) | 14.0.1.2.0 |  | Add the possibility to import image for csv base on url
 [storage_image_product](storage_image_product/) | 14.0.3.3.0 |  | Link images to products and categories
@@ -34,7 +34,7 @@ addon | version | maintainers | summary
 [storage_image_product_pos](storage_image_product_pos/) | 14.0.1.1.0 | [![hparfr](https://github.com/hparfr.png?size=30px)](https://github.com/hparfr) [![pierrickbrun](https://github.com/pierrickbrun.png?size=30px)](https://github.com/pierrickbrun) | Link images to products and categories inside POS
 [storage_import_image_advanced](storage_import_image_advanced/) | 14.0.1.0.2 |  | Import product images using CSV
 [storage_media](storage_media/) | 14.0.2.1.0 |  | Give the posibility to store media data in Odoo
-[storage_media_product](storage_media_product/) | 14.0.2.0.2 |  | Link media to products and categories
+[storage_media_product](storage_media_product/) | 14.0.2.1.0 |  | Link media to products and categories
 [storage_thumbnail](storage_thumbnail/) | 14.0.2.3.0 |  | Abstract module that add the possibility to have thumbnail
 
 
