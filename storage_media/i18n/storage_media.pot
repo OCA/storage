@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media__url_path
+msgid "Accessible path, no base URL"
+msgstr ""
+
+#. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__active
 msgid "Active"
 msgstr ""
@@ -219,4 +224,9 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__url
 msgid "Url"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media__url_path
+msgid "Url Path"
 msgstr ""
