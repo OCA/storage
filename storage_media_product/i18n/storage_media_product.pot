@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_media_product
+#: model:ir.model.fields,help:storage_media_product.field_product_media_relation__url_path
+msgid "Accessible path, no base URL"
+msgstr ""
+
+#. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_tree
 msgid "Association"
@@ -132,6 +137,11 @@ msgstr ""
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__url
 msgid "Url"
+msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__url_path
+msgid "Url Path"
 msgstr ""
 
 #. module: storage_media_product
