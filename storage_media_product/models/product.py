@@ -62,6 +62,7 @@ class ProductMediaRelation(models.Model):
     )
     name = fields.Char(related="media_id.name", readonly=True)
     url = fields.Char(related="media_id.url", readonly=True)
+    url_path = fields.Char(related="media_id.url_path", readonly=True)
     media_type_id = fields.Many2one(related="media_id.media_type_id", readonly=True)
 
     @api.depends("media_id", "product_tmpl_id.attribute_line_ids.value_ids")
