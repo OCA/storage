@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__url_path
+msgid "Accessible path, no base URL"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__active
 msgid "Active"
 msgstr ""
@@ -323,6 +328,11 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__url_include_directory_path
 msgid "Url Include Directory Path"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__url_path
+msgid "Url Path"
 msgstr ""
 
 #. module: storage_file
