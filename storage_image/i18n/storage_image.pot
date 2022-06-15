@@ -19,6 +19,11 @@ msgid "<i class=\"fa fa-times\" title=\"Unlink\"/>"
 msgstr ""
 
 #. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_storage_image__url_path
+msgid "Accessible path, no base URL"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__active
 msgid "Active"
 msgstr ""
@@ -249,4 +254,9 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__url
 msgid "Url"
+msgstr ""
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__url_path
+msgid "Url Path"
 msgstr ""
