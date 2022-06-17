@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -158,7 +158,6 @@ msgstr ""
 
 #. module: storage_import_image_advanced
 #: model_terms:ir.ui.view,arch_db:storage_import_image_advanced.product_import_image_form_view
-#: model_terms:ir.ui.view,arch_db:storage_import_image_advanced.product_import_image_tree_view
 msgid "Import storage product images"
 msgstr ""
 
@@ -269,7 +268,7 @@ msgstr ""
 
 #. module: storage_import_image_advanced
 #: model:ir.model.fields,field_description:storage_import_image_advanced.field_storage_import_product_image__source_type
-msgid "Source type"
+msgid "Source Type"
 msgstr ""
 
 #. module: storage_import_image_advanced
