@@ -5,10 +5,10 @@
 import base64
 import os
 
-from odoo.addons.component.tests.common import SavepointComponentCase
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class ProductImageCommonCase(SavepointComponentCase):
+class ProductImageCommonCase(TransactionComponentCase):
     @staticmethod
     def _get_file_content(name, base_path=None, as_binary=False):
         path = base_path or os.path.dirname(os.path.abspath(__file__))
