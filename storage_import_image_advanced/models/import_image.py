@@ -48,7 +48,6 @@ def gen_chunks(iterable, chunksize=10):
 
 
 class ProductImageImportWizard(models.Model):
-
     _name = "storage.import.product_image"
     _description = "Handle import of storage product images"
 
@@ -66,7 +65,6 @@ class ProductImageImportWizard(models.Model):
             ("product.template", "Product template"),
             ("product.product", "Product variants"),
         ],
-        string="Product Model",
         required=True,
     )
     source_type = fields.Selection(
@@ -75,7 +73,6 @@ class ProductImageImportWizard(models.Model):
             ("zip_file", "Zip file"),
             ("external_storage", "External storage"),
         ],
-        string="Source type",
         required=True,
         default="url",
     )
@@ -152,7 +149,7 @@ class ProductImageImportWizard(models.Model):
         binary = getattr(self, "_read_from_" + self.source_type)(file_path)
         if binary:
             mimetype = magic.from_buffer(binary, mime=True)
-            res = {"mimetype": mimetype, "b64": base64.encodestring(binary)}
+            res = {"mimetype": mimetype, "b64": base64.encodebytes(binary)}
         return res
 
     def _read_from_url(self, file_path):
@@ -200,7 +197,7 @@ class ProductImageImportWizard(models.Model):
                     line = {key: row[column] for key, column in mapping.items()}
                 except KeyError as e:
                     _logger.error(e)
-                    raise exceptions.UserError(_("CSV Schema Incompatible"))
+                    raise exceptions.UserError(_("CSV Schema Incompatible")) from e
                 lines.append(line)
         return lines
 

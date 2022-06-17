@@ -80,7 +80,7 @@ class TestStorageImportImage(TestStorageImportImageCase):
         )
         self.assertEqual(
             self.wiz._get_base64("A001.jpg"),
-            {"mimetype": "image/jpeg", "b64": base64.encodestring(img_content)},
+            {"mimetype": "image/jpeg", "b64": base64.encodebytes(img_content)},
         )
 
     def test_import_errors(self):
