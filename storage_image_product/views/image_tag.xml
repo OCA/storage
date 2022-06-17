@@ -3,7 +3,7 @@
     <record id="image_tag_view_tree" model="ir.ui.view">
         <field name="model">image.tag</field>
         <field name="arch" type="xml">
-            <tree string="Image Tag" editable="bottom">
+            <tree editable="bottom">
                 <field name="name" />
                 <field name="tech_name" />
                 <field name="apply_on" />
