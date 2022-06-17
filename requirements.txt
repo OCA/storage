@@ -2,4 +2,6 @@
 boto3<=1.15.18
 paramiko
 pyftpdlib
+python-magic
 python_slugify
+validators

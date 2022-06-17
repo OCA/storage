@@ -287,7 +287,7 @@ class ProductImageImportWizard(models.Model):
         )
         existing_by_code = {x[product_identifier_field]: x for x in products}
         report["missing"] = sorted(
-            [code for code in all_codes if not existing_by_code.get(code)]
+            code for code in all_codes if not existing_by_code.get(code)
         )
 
         all_tags = [x["tag_name"] for x in lines if x["tag_name"]]
