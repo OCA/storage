@@ -5,7 +5,7 @@
 {
     "name": "Storage Image",
     "summary": "Store image and resized image in a storage backend",
-    "version": "14.0.2.2.0",
+    "version": "15.0.1.0.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
@@ -16,10 +16,14 @@
         "security/res_group.xml",
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
-        "views/assets.xml",
         "views/storage_image.xml",
         "views/storage_image_relation_abstract.xml",
         "data/ir_config_parameter.xml",
     ],
-    "qweb": ["static/src/xml/custom_xml.xml"],
+    "assets": {
+        "web.assets_backend": [
+            "storage_image/static/src/css/FieldStorageImageHandle.scss",
+            "storage_image/static/src/js/FieldStorageImageHandle.js",
+        ]
+    },
 }

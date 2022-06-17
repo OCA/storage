@@ -7,10 +7,10 @@
 import base64
 import os
 
-from odoo.addons.component.tests.common import SavepointComponentCase
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class StorageImageCommonCase(SavepointComponentCase):
+class StorageImageCommonCase(TransactionComponentCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
