@@ -253,11 +253,16 @@ class ProductImageImportWizard(models.Model):
         """Override if you want to use another field as product identifier"""
         return "default_code"
 
+    def _assign_product_tmpl_attr_values(self, product):
+        prod_tmpl_attr_value_obj = self.env["product.template.attribute.value"]
+        return prod_tmpl_attr_value_obj.browse(
+            product["product_template_attribute_value_ids"]
+        )
+
     def _do_import(self, lines, product_model, options=None):
         tag_obj = self.env["image.tag"]
         image_obj = self.env["storage.image"]
         relation_obj = self.env["product.image.relation"]
-        prod_tmpl_attr_value_obj = self.env["product.template.attribute.value"]
         product_identifier_field = self._get_product_identifier_field()
         report = {
             "created": set(),
@@ -332,14 +337,13 @@ class ProductImageImportWizard(models.Model):
                 product_model == "product.product"
                 and prod["product_template_attribute_value_ids"]
             ):
-                attr_values = prod_tmpl_attr_value_obj.browse(
-                    prod["product_template_attribute_value_ids"]
-                )
                 img_relation_values["attribute_value_ids"] = [
                     (
                         6,
                         0,
-                        attr_values.mapped("product_attribute_value_id").ids,
+                        self._assign_product_tmpl_attr_values(prod)
+                        .mapped("product_attribute_value_id")
+                        .ids,
                     )
                 ]
             relation_obj.create(img_relation_values)
