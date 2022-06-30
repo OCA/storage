@@ -61,6 +61,7 @@ class ProductMediaRelation(models.Model):
         "storage.media.type", "Media Type", related="media_id.media_type_id"
     )
     name = fields.Char(related="media_id.name", readonly=True)
+    description = fields.Text()
     url = fields.Char(related="media_id.url", readonly=True)
     url_path = fields.Char(related="media_id.url_path", readonly=True)
     media_type_id = fields.Many2one(related="media_id.media_type_id", readonly=True)
