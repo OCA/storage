@@ -58,7 +58,7 @@ class S3StorageAdapter(Component):
         except EndpointConnectionError as error:
             # log verbose error from s3, return short message for user
             _logger.exception("Error during connection on S3")
-            raise exceptions.UserError(str(error))
+            raise exceptions.UserError(str(error)) from error
         region_name = params.get("region_name")
         if not exists:
             if not region_name:
@@ -90,7 +90,7 @@ class S3StorageAdapter(Component):
                 _logger.exception("Error during storage of the file %s" % relative_path)
                 raise exceptions.UserError(
                     _("The file could not be stored: %s") % str(error)
-                )
+                ) from error
 
     def _aws_upload_fileobj_params(self, mimetype=None, **kw):
         extra_args = {}
