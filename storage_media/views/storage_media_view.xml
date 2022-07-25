@@ -4,7 +4,7 @@
 <record id="storage_media_view_tree" model="ir.ui.view">
     <field name="model">storage.media</field>
     <field name="arch" type="xml">
-        <tree string="Storage Media">
+        <tree>
             <field name="name" />
             <field name="media_type_id" />
         </tree>
@@ -38,7 +38,7 @@
 <record id="storage_media_type_view_tree" model="ir.ui.view">
     <field name="model">storage.media.type</field>
     <field name="arch" type="xml">
-        <tree string="Storage Media Type">
+        <tree>
             <field name="name" />
             <field name="code" />
         </tree>
