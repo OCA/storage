@@ -1,6 +1,6 @@
 {
     "name": "Storage Image Backend Migration",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "summary": "Migrate src backend to destination backend",
     "author": "ForgeFlow, Odoo Community Association (OCA)",
     "company": "ForgeFlow",
