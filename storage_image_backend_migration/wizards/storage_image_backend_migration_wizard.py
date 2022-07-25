@@ -42,7 +42,8 @@ class StorageImageBackendMigrationWizard(models.TransientModel):
     )
 
     chunk_size = fields.Integer(
-        default=10, help="How many lines will be handled in each job.",
+        default=10,
+        help="How many lines will be handled in each job.",
     )
 
     def _get_storage_files(self):
