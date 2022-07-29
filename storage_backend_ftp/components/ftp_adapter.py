@@ -39,6 +39,12 @@ def ftp_mkdirs(client, path):
             client.mkd(path)
         else:
             raise  # pragma: no cover
+    except ftplib.error_perm as e:
+        if "550" in e.args[0]:
+            ftp_mkdirs(client, os.path.dirname(path))
+            client.mkd(path)
+        else:
+            raise
 
 
 class ImplicitFTPTLS(ftplib.FTP_TLS):
@@ -142,6 +148,20 @@ class FTPStorageBackendAdapter(Component):
                 dest_file_path = os.path.join(
                     destination_path, os.path.basename(ftp_file)
                 )
+                dirname = os.path.dirname(dest_file_path)
+                if dirname:
+                    try:
+                        client.cwd(dirname)
+                    except IOError as e:
+                        if e.errno == errno.ENOENT:
+                            ftp_mkdirs(client, dirname)
+                        else:
+                            raise  # pragma: no cover
+                    except ftplib.error_perm as e:
+                        if "550" in e.args[0]:
+                            ftp_mkdirs(client, dirname)
+                        else:
+                            raise
                 # Remove existing file at the destination path (an error is raised
                 # otherwise)
                 result = []
