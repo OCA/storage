@@ -1,6 +1,7 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+import os
 
 from odoo.exceptions import AccessError
 
@@ -27,6 +28,15 @@ class FileSystemCase(CommonCase, BackendStorageTestMixin):
         expected = [base_dir + "/" + path for path in good_filepaths]
         self._test_find_files(
             backend, ADAPTER_PATH, mocked_filepaths, r".*\.good$", expected
+        )
+
+    def test_move_files(self):
+        backend = self.backend.sudo()
+        base_dir = backend._get_adapter()._basedir()
+        expected = [base_dir + "/" + self.filename]
+        destination_path = os.path.join(base_dir, "destination")
+        self._test_move_files(
+            backend, ADAPTER_PATH, self.filename, destination_path, expected
         )
 
 
