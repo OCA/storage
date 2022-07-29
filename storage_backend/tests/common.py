@@ -52,6 +52,19 @@ class BackendStorageTestMixin(object):
             res = backend.find_files(pattern)
             self.assertEqual(sorted(res), sorted(expected_filepaths))
 
+    def _test_move_files(
+        self,
+        backend,
+        adapter_dotted_path,
+        filename,
+        destination_path,
+        expected_filepaths,
+    ):
+        with mock.patch(adapter_dotted_path + ".move_files") as mocked:
+            mocked.return_value = expected_filepaths
+            res = backend.move_files(filename, destination_path)
+            self.assertEqual(sorted(res), sorted(expected_filepaths))
+
 
 class CommonCase(TransactionComponentCase):
     @classmethod
