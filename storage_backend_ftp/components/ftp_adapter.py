@@ -96,6 +96,7 @@ class FTPStorageBackendAdapter(Component):
         with ftp(self.collection) as client:
             full_path = self._fullpath(relative_path)
             dirname = os.path.dirname(full_path)
+            filename = os.path.basename(full_path)
             if dirname:
                 try:
                     client.cwd(dirname)
@@ -106,7 +107,7 @@ class FTPStorageBackendAdapter(Component):
                         raise  # pragma: no cover
             with io.BytesIO(data) as tmp_file:
                 try:
-                    client.storbinary("STOR " + full_path, tmp_file)
+                    client.storbinary("STOR " + filename, tmp_file)
                 except ftplib.Error as e:
                     raise ValueError(repr(e))
                 except OSError as e:

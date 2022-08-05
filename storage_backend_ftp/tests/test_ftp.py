@@ -59,9 +59,8 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
             client.storbinary.assert_called()
             tmp_file.assert_called()
             tmp_file.assert_called_with(file_data)
-        client.storbinary.assert_called_with(
-            "STOR upload/fake/path", tmp_file().__enter__()
-        )
+        client.cwd.assert_called_with("upload/fake")
+        client.storbinary.assert_called_with("STOR path", tmp_file().__enter__())
 
     @mock.patch(FTP_LIB_PATH)
     def test_get(self, mocked_ftplib):
