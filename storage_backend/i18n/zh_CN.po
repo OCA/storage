@@ -1,0 +1,148 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* storage_backend
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#. module: storage_backend
+#: code:addons/storage_backend/components/filesystem_adapter.py:0
+#, python-format
+msgid "Access to %s is forbidden"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type
+msgid "Backend Type"
+msgstr "后端类型"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr "后端类型环境默认"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_is_editable
+msgid "Backend Type Env Is Editable"
+msgstr "后台类型环境是可编辑的"
+
+#. module: storage_backend
+#: code:addons/storage_backend/models/storage_backend.py:0
+#, python-format
+msgid "Connection Test Failed!"
+msgstr "连接测试失败！"
+
+#. module: storage_backend
+#: code:addons/storage_backend/models/storage_backend.py:0
+#, python-format
+msgid "Connection Test Succeeded!"
+msgstr "连接测试成功！"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_uid
+msgid "Created by"
+msgstr "创建人"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_date
+msgid "Created on"
+msgstr "创建于"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path
+msgid "Directory Path"
+msgstr "目录路径"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
+msgid "Directory Path Env Default"
+msgstr "目录路径环境默认"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_is_editable
+msgid "Directory Path Env Is Editable"
+msgstr "目录路径环境是可编辑的"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: storage_backend
+#: code:addons/storage_backend/models/storage_backend.py:0
+#, python-format
+msgid "Everything seems properly set up!"
+msgstr "看上去设置都正确！"
+
+#. module: storage_backend
+#: model:ir.model.fields.selection,name:storage_backend.selection__storage_backend__backend_type__filesystem
+msgid "Filesystem"
+msgstr "文件系统"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__has_validation
+msgid "Has Validation"
+msgstr "具有有效性"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__id
+msgid "ID"
+msgstr "ID"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend____last_update
+msgid "Last Modified on"
+msgstr "最后修改时间"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_uid
+msgid "Last Updated by"
+msgstr "最后更新时间"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_date
+msgid "Last Updated on"
+msgstr "最后更新于"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__name
+msgid "Name"
+msgstr "名称"
+
+#. module: storage_backend
+#: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path
+msgid "Relative path to the directory to store the file"
+msgstr "存储文件的目录的相对路径"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
+msgid "Server Env Defaults"
+msgstr "服务器环境默认"
+
+#. module: storage_backend
+#: model:ir.actions.act_window,name:storage_backend.act_open_storage_backend_view
+#: model:ir.model,name:storage_backend.model_storage_backend
+#: model:ir.ui.menu,name:storage_backend.menu_storage
+#: model:ir.ui.menu,name:storage_backend.menu_storage_backend
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_search
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_tree
+msgid "Storage Backend"
+msgstr "存储后端"
+
+#. module: storage_backend
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
+msgid "Test connection"
+msgstr "测试连接"
