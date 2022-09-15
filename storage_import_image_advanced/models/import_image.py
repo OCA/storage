@@ -187,7 +187,7 @@ class ProductImageImportWizard(models.Model):
             "file_path": self.csv_column_file_path,
         }
         with closing(io.BytesIO(self._read_csv())) as binary_file:
-            csv_file = (line.decode("utf8") for line in binary_file)
+            csv_file = (line.decode("utf-8-sig") for line in binary_file)
             reader = csv.DictReader(csv_file, delimiter=self.csv_delimiter)
             csv.field_size_limit(sys.maxsize)
             for row in reader:
