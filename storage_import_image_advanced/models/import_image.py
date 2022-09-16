@@ -244,6 +244,9 @@ class ProductImageImportWizard(models.Model):
         )
         return report
 
+    def _get_file_path(self, line):
+        return line.get("file_path", False)
+
     def _get_product_identifier_field(self):
         """Override if you want to use another field as product identifier"""
         return "default_code"
@@ -293,7 +296,7 @@ class ProductImageImportWizard(models.Model):
 
         for prod in products:
             line = lines_by_code[prod[product_identifier_field]]
-            file_path = line["file_path"]
+            file_path = self._get_file_path(line)
             file_vals = self._prepare_file_values(file_path)
             if not file_vals:
                 report["file_not_found"].add(prod[product_identifier_field])
