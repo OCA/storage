@@ -276,7 +276,13 @@ class ProductImageImportWizard(models.Model):
             _fields.append("product_template_attribute_value_ids")
         product_identifier_field = self._get_product_identifier_field()
         products = self.env[product_model].search_read(
-            [(product_identifier_field, "in", all_codes)], _fields
+            [
+                (product_identifier_field, "in", all_codes),
+                "|",
+                ("active", "=", True),
+                ("active", "=", False),
+            ],
+            _fields,
         )
         existing_by_code = {x[product_identifier_field]: x for x in products}
         report["missing"] = sorted(
