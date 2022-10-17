@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2018 ACSONE SA/NV
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <!--Security rule to allow public access on storage.file (depending on the storage.backend)-->
+    <record id="ir_rule_storage_file_public" model="ir.rule">
+        <field name="name">Storage file public</field>
+        <field name="model_id" ref="model_storage_file" />
+        <field name="groups" eval="[(4, ref('base.group_public'))]" />
+        <field name="domain_force">[('backend_id.is_public', '=', True)]</field>
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="False" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_unlink" eval="False" />
+    </record>
+</odoo>
