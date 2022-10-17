@@ -78,9 +78,8 @@ class SftpStorageBackend(Component):
                         sftp_mkdirs(client, dirname)
                     else:
                         raise  # pragma: no cover
-            remote_file = client.open(full_path, "w+b")
-            remote_file.write(data)
-            remote_file.close()
+            string_data = StringIO(data)
+            client.putfo(string_data, full_path)
 
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)

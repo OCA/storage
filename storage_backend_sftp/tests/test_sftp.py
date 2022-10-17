@@ -8,7 +8,7 @@
 # pylint: disable=missing-manifest-dependency
 # disable warning on 'vcr' missing in manifest: this is only a dependency for
 # dev/tests
-
+from paramiko.sftp_client import SFTPClient
 import errno
 import logging
 import os
@@ -40,7 +40,7 @@ class SftpCase(Common, GenericStoreCase):
 
     @mock.patch(MOD_PATH + ".sftp_mkdirs")
     @mock.patch(PARAMIKO_PATH)
-    def test_add(self, mocked_paramiko, mocked_mkdirs):
+    def test_add_error(self, mocked_paramiko, mocked_mkdirs):
         client = mocked_paramiko.SFTPClient.from_transport()
         # simulate errors
         exc = IOError()
@@ -51,15 +51,16 @@ class SftpCase(Common, GenericStoreCase):
         # not found
         exc.errno = errno.ENOENT
         client.stat.side_effect = exc
-        fakefile = open("/tmp/fakefile.txt", "w+b")
-        client.open.return_value = fakefile
         self.backend._add_bin_data("fake/path", b"fake data")
         # mkdirs has been called
         mocked_mkdirs.assert_called()
-        # file has been written and closed
-        self.assertTrue(fakefile.closed)
-        with open("/tmp/fakefile.txt", "r") as thefile:
-            self.assertEqual(thefile.read(), "fake data")
+
+    @mock.patch(MOD_PATH + ".sftp_mkdirs")
+    @mock.patch(PARAMIKO_PATH)
+    def test_add(self, mocked_paramiko, mocked_mkdirs):
+        client = mocked_paramiko.SFTPClient.from_transport()
+        self.backend._add_bin_data("fake/path", b"fake data")
+        client.putfo.assert_called()
 
     @mock.patch(PARAMIKO_PATH)
     def test_get(self, mocked_paramiko):
