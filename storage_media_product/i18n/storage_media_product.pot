@@ -45,6 +45,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__description
+msgid "Description"
+msgstr ""
+
+#. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_category__display_name
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__display_name
 #: model:ir.model.fields,field_description:storage_media_product.field_product_product__display_name
