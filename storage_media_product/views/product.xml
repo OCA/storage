@@ -19,6 +19,7 @@
         <field name="arch" type="xml">
             <form string="Association">
                 <group>
+                    <field name="description" />
                     <field name="media_id" />
                     <field
                         name="available_attribute_value_ids"
