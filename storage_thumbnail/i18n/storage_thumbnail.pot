@@ -1,0 +1,252 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* storage_thumbnail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__active
+msgid "Active"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__checksum
+msgid "Checksum/SHA1"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__company_id
+msgid "Company"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__data
+msgid "Data"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__data
+msgid "Datas"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_file__display_name
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__display_name
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__extension
+msgid "Extension"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__file_id
+msgid "File"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__file_size
+msgid "File Size"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_file__file_type
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__file_type
+msgid "File Type"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__filename
+msgid "Filename without extension"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__internal_url
+msgid "HTTP URL to load the file directly from storage."
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__url
+msgid "HTTP accessible path to the file"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__human_file_size
+msgid "Human File Size"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_file__id
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__id
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__internal_url
+msgid "Internal Url"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_file____last_update
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail____last_update
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__image_medium_url
+msgid "Medium thumb URL"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__mimetype
+msgid "Mime Type"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__name
+msgid "Name"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__relative_path
+msgid "Relative Path"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__relative_path
+msgid "Relative location for backend"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__res_id
+msgid "Res"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__res_model
+msgid "Res Model"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__slug
+msgid "Slug"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__slug
+msgid "Slug-ified name with ID for URL"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__image_small_url
+msgid "Small thumb URL"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__url_key
+msgid "Specific URL key for generating the url of the image"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__backend_id
+msgid "Storage"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model,name:storage_thumbnail.model_storage_file
+msgid "Storage File"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model,name:storage_thumbnail.model_storage_thumbnail
+msgid "Storage Thumbnail"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__thumb_medium_id
+msgid "Thumb Medium"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__thumb_small_id
+msgid "Thumb Small"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields.selection,name:storage_thumbnail.selection__storage_file__file_type__thumbnail
+#: model_terms:ir.ui.view,arch_db:storage_thumbnail.view_thumbnail_form
+msgid "Thumbnail"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model,name:storage_thumbnail.model_thumbnail_mixin
+msgid "Thumbnail Mixin add the thumbnail capability"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__thumbnail_ids
+msgid "Thumbnails"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model_terms:ir.ui.view,arch_db:storage_thumbnail.view_thumbnail_tree
+msgid "Thumgnail"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__to_delete
+msgid "To Delete"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__url
+msgid "Url"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__url_key
+msgid "Url key"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__size_x
+msgid "X size"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__size_y
+msgid "Y size"
+msgstr ""
