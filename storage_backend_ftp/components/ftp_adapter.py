@@ -124,7 +124,8 @@ class FTPStorageBackendAdapter(Component):
         return data
 
     def list(self, relative_path):
-        full_path = self._fullpath(relative_path)
+        # The _fullpath(...) return a Posix object. We need a str
+        full_path = str(self._fullpath(relative_path))
         with ftp(self.collection) as client:
             try:
                 return client.nlst(full_path)
