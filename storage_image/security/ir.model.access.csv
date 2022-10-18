@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_storage_image_edit,storage_image edit,model_storage_image,group_image_manager,1,1,1,1
+access_storage_file_image_edit,storage_file image edit,model_storage_file,group_image_manager,1,1,1,1
+access_storage_thumbnail_edit,storage_thumbnail edit,storage_thumbnail.model_storage_thumbnail,group_image_manager,1,1,1,1
+access_storage_image_read,storage_image read,model_storage_image,base.group_user,1,0,0,0
