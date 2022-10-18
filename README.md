@@ -25,6 +25,7 @@ addon | version | maintainers | summary
 [storage_backend_ftp](storage_backend_ftp/) | 15.0.1.0.1 |  | Implement FTP Storage
 [storage_backend_sftp](storage_backend_sftp/) | 15.0.1.0.2 |  | Implement SFTP Storage
 [storage_file](storage_file/) | 15.0.1.0.0 |  | Storage file in storage backend
+[storage_image](storage_image/) | 15.0.1.0.0 |  | Store image and resized image in a storage backend
 [storage_thumbnail](storage_thumbnail/) | 15.0.1.0.0 |  | Abstract module that add the possibility to have thumbnail
 
 [//]: # (end addons)
