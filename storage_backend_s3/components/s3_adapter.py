@@ -118,4 +118,12 @@ class S3StorageAdapter(Component):
 
     def delete(self, relative_path):
         s3object = self._get_object(relative_path)
+        try:
+            s3object.load()
+        except ClientError as e:
+            if e.response["Error"]["Code"] == "404":
+                return False
+            raise e
+
         s3object.delete()
+        return True
