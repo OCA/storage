@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,11 +16,6 @@ msgstr ""
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
 msgid "<i class=\"fa fa-times\" title=\"Unlink\"/>"
-msgstr ""
-
-#. module: storage_image
-#: model:ir.model.fields,help:storage_image.field_storage_image__url_path
-msgid "Accessible path, no base URL"
 msgstr ""
 
 #. module: storage_image
@@ -65,8 +60,6 @@ msgid "Datas"
 msgstr ""
 
 #. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__display_name
-#: model:ir.model.fields,field_description:storage_image.field_storage_file__display_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__display_name
 msgid "Display Name"
 msgstr ""
@@ -119,8 +112,6 @@ msgid "Human File Size"
 msgstr ""
 
 #. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__id
-#: model:ir.model.fields,field_description:storage_image.field_storage_file__id
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__id
 msgid "ID"
 msgstr ""
@@ -132,7 +123,6 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_image.menu_storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
-#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_tree
 msgid "Image"
 msgstr ""
 
@@ -152,8 +142,6 @@ msgid "Internal Url"
 msgstr ""
 
 #. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract____last_update
-#: model:ir.model.fields,field_description:storage_image.field_storage_file____last_update
 #: model:ir.model.fields,field_description:storage_image.field_storage_image____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -254,9 +242,4 @@ msgstr ""
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__url
 msgid "Url"
-msgstr ""
-
-#. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_storage_image__url_path
-msgid "Url Path"
 msgstr ""
