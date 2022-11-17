@@ -8,14 +8,13 @@ import logging
 import os
 from contextlib import contextmanager
 
-from StringIO import StringIO
-
 from odoo.addons.component.core import Component
 
 logger = logging.getLogger(__name__)
 
 try:
     import paramiko
+    from StringIO import StringIO
 except ImportError as err:  # pragma: no cover
     logger.debug(err)
 

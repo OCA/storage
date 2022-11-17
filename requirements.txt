@@ -1,7 +1,4 @@
+# generated from manifests external_dependencies
+boto3<1.16
 paramiko
 slugify
-vcrpy
-cerberus
-vcrpy-unittest
-boto3
-requests-mock
