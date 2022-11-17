@@ -20,6 +20,11 @@ msgid "Access to %s is forbidden"
 msgstr ""
 
 #. module: storage_backend
+#: selection:storage.backend,backend_type:0
+msgid "Amazon S3"
+msgstr ""
+
+#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend_backend_type
 msgid "Backend type"
 msgstr ""
