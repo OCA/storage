@@ -21,7 +21,6 @@ Use cases (with help of additionnal modules):
 Known issues / Roadmap
 ======================
 
-* Update README with the last model of README when migration to v11 in OCA
 * No file deletion / unlink
 
 Credits
