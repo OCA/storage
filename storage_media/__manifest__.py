@@ -21,6 +21,8 @@
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
     ],
-    "demo": [],
+    "demo": [
+        "demo/storage_type.xml",
+    ],
     "qweb": [],
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="storage_media_type_iso" model="storage.media.type">
+        <field name="name">ISO 13485 / 9001 certificates</field>
+        <field name="code">ISO</field>
+    </record>
+
+</odoo>

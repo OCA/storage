@@ -22,7 +22,9 @@ class StorageMedia(models.Model):
     _default_file_type = "media"
 
     file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
-    media_type_id = fields.Many2one("storage.media.type", "Media Type")
+    media_type_id = fields.Many2one(
+        "storage.media.type", "Media Type", required=True, ondelete="restrict"
+    )
 
     @api.onchange("name")
     def onchange_name(self):
