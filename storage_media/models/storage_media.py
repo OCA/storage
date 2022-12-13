@@ -23,8 +23,15 @@ class StorageMedia(models.Model):
 
     file_id = fields.Many2one("storage.file", "File", required=True, ondelete="cascade")
     media_type_id = fields.Many2one(
-        "storage.media.type", "Media Type", required=True, ondelete="restrict"
+        "storage.media.type",
+        "Media Type",
+        required=True,
+        default=lambda self: self._default_media_type(),
+        ondelete="restrict",
     )
+
+    def _default_media_type(self):
+        return self.env["storage.media.type"].search([], limit=1).id
 
     @api.onchange("name")
     def onchange_name(self):
