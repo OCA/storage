@@ -11,9 +11,9 @@ class ProductTemplateAttributeLine(models.Model):
             product_image_attribute_value_ids = self.product_tmpl_id.image_ids.mapped(
                 "attribute_value_ids"
             ).filtered(lambda x: x.attribute_id == self.attribute_id)
-            available_attribute_values_ids = values["value_ids"][0][2] or [0]
+            available_attribute_values_ids = self.value_ids
             to_remove = product_image_attribute_value_ids.filtered(
-                lambda x: x.id not in available_attribute_values_ids
+                lambda x: x not in available_attribute_values_ids
             )
             if to_remove:
                 for image in self.product_tmpl_id.image_ids:
