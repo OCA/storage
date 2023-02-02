@@ -184,7 +184,7 @@ class ProductImageCase(StorageImageCommonCase):
             }
         )
         # Remove Color black from variant tab:
-        self.template.attribute_line_ids.filtered(
+        self.template.attribute_line_ids.sudo().filtered(
             lambda x: x.display_name == "Color"
         ).value_ids -= self.env.ref("product.product_attribute_value_4")
         # Attribute black is removed from image:
@@ -194,7 +194,7 @@ class ProductImageCase(StorageImageCommonCase):
         )
 
         # Remove Leg attribute line from variant tab:
-        self.template.attribute_line_ids.filtered(
+        self.template.attribute_line_ids.sudo().filtered(
             lambda x: x.display_name == "Legs"
         ).unlink()
         # Product image attribute values from Legs are removed:
