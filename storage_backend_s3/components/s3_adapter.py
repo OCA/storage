@@ -106,7 +106,14 @@ class S3StorageAdapter(Component):
 
     def get(self, relative_path):
         s3object = self._get_object(relative_path)
-        return s3object.get()["Body"].read()
+        try:
+            return s3object.get()["Body"].read()
+        except ClientError as error:
+            # log verbose error from s3, return short message for user
+            _logger.exception("Error during reading of the file %s" % relative_path)
+            raise exceptions.UserError(
+                _("The file could not be read: %s") % str(error)
+            ) from error
 
     def list(self, relative_path):
         bucket = self._get_bucket()
@@ -118,4 +125,11 @@ class S3StorageAdapter(Component):
 
     def delete(self, relative_path):
         s3object = self._get_object(relative_path)
-        s3object.delete()
+        try:
+            s3object.delete()
+        except ClientError as error:
+            # log verbose error from s3, return short message for user
+            _logger.exception("Error during removal of the file %s" % relative_path)
+            raise exceptions.UserError(
+                _("The file could not be removed: %s") % str(error)
+            ) from error
