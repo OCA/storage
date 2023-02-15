@@ -83,3 +83,36 @@ class TestAttachmentByChecksum(SavepointCase):
         self.assertEqual(self.env["ir.attachment"]._storage(), HASHED_STORAGE_PARAMETER)
         attachment_content = self.env["ir.attachment.content"].search_by_checksum(fname)
         self.assertEqual(attachment_content.db_datas, data)
+
+    def test_force_storage_invisible_menu(self):
+        """Move storage from default to `hashed_db`:
+        attachments linked to invisible menus
+        are copied in `Attachment content by hash` records.
+        """
+        # Arrange: Create a menu invisible for current user
+        fname = self.fname
+        self.attachment.unlink()
+        menu_model = self.env["ir.ui.menu"]
+        invisible_menu = menu_model.create(
+            {
+                "name": "Test invisible menu",
+                "web_icon_data": base64.b64encode(self.data),
+                "groups_id": [(6, 0, self.env.ref("base.group_no_one").ids)],
+            }
+        )
+        # pre-condition: The menu is invisible and storage is not `hashed_db`
+        self.assertNotEqual(
+            self.env["ir.attachment"]._storage(), HASHED_STORAGE_PARAMETER
+        )
+        self.assertNotIn(invisible_menu, menu_model.search([]))
+
+        # Act: Move the storage to `hashed_db`
+        self._set_hashed_db_storage()
+        self.env["ir.attachment"].with_user(
+            self.env.ref("base.user_admin")
+        ).force_storage()
+
+        # Assert: The menu's attachment value is in the Attachment content by hash
+        self.assertEqual(self.env["ir.attachment"]._storage(), HASHED_STORAGE_PARAMETER)
+        attachment_content = self.env["ir.attachment.content"].search_by_checksum(fname)
+        self.assertTrue(attachment_content)

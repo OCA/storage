@@ -86,7 +86,10 @@ class Attachment(models.Model):
         get all the attachments having checksum `checksum`.
         """
         domain = self._get_all_attachments_by_checksum_domain(fname)
-        attachments = self.search(domain)
+        invisible_menu_context = {
+            "ir.ui.menu.full_list": True,
+        }
+        attachments = self.with_context(**invisible_menu_context).search(domain)
         return attachments
 
     @api.model
