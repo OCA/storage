@@ -73,7 +73,7 @@ class StorageFile(models.Model):
             for record in self:
                 if record.data:
                     raise UserError(
-                        _("File can not be updated," "remove it and create a new one")
+                        _("File can not be updated, remove it and create a new one")
                     )
         return super(StorageFile, self).write(vals)
 
@@ -183,7 +183,7 @@ class StorageFile(models.Model):
     def _clean_storage_file(self):
         # we must be sure that all the changes are into the DB since
         # we by pass the ORM
-        self.flush()
+        self.flush_model()
         self._cr.execute(
             """SELECT id
             FROM storage_file

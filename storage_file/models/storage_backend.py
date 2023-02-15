@@ -133,7 +133,7 @@ class StorageBackend(models.Model):
         Hence, let's offer an easy way to promptly force this manually when needed.
         """
         self._compute_base_url_for_files()
-        self.env["storage.file"].invalidate_cache(["url"])
+        self.env["storage.file"].invalidate_model(["url"])
 
     def _get_base_url_from_param(self):
         base_url_param = (

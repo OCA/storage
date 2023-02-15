@@ -9,6 +9,7 @@
                 <div
                     class="alert alert-info"
                     role="alert"
+                    colspan="2"
                     attrs="{'invisible': [('served_by', '!=', 'odoo')]}"
                 >
                     Served by Odoo option will use `web.base.url` as the base URL.
