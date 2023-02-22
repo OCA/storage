@@ -27,9 +27,11 @@
                             name="backend_id"
                             attrs="{'readonly': [('id', '!=', False)]}"
                         />
+                        <field name="filename" invisible="True" />
                         <field
                             name="data"
                             attrs="{'readonly': [('id', '!=', False)]}"
+                            filename="filename"
                         />
                         <field name="url" widget="url" />
                         <field name="human_file_size" />
