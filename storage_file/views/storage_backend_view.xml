@@ -41,6 +41,7 @@
                     class="alert alert-info"
                     role="alert"
                     attrs="{'invisible': [('served_by', '!=', 'external')]}"
+                    colspan="2"
                 >
                     When served by external service you might have special environment configuration
                     for building final files URLs.
