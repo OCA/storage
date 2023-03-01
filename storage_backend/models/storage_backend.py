@@ -71,7 +71,7 @@ class StorageBackend(models.Model):
 
     def _compute_has_validation(self):
         for rec in self:
-            adapter = self._get_adapter()
+            adapter = rec._get_adapter()
             rec.has_validation = hasattr(adapter, "validate_config")
 
     @property
