@@ -1,2 +1,3 @@
 mock
 vcrpy_unittest
+odoo-addon-storage_backend @ git+https://github.com/OCA/storage.git@refs/pull/235/head#subdirectory=setup/storage_backend
