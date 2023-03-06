@@ -1,5 +1,6 @@
 # generated from manifests external_dependencies
 boto3<=1.15.18
+cryptography<37
 paramiko
 pyftpdlib
 python_slugify
