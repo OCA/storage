@@ -8,14 +8,15 @@
     "version": "16.0.1.0.1",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
-    "author": " Akretion, Odoo Community Association (OCA)",
+    "author": " Akretion, ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "development_status": "Production/Stable",
     "installable": True,
-    "depends": ["base", "component", "server_environment"],
+    "depends": ["base"],
     "data": [
         "views/backend_storage_view.xml",
         "data/data.xml",
         "security/ir.model.access.csv",
     ],
+    "external_dependencies": {"python": ["fsspec"]},
 }

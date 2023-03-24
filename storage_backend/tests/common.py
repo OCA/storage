@@ -54,7 +54,7 @@ class BackendStorageTestMixin(object):
             self.assertEqual(sorted(res), sorted(expected_filepaths))
 
 
-class CommonCase(TransactionComponentCase):
+class StorageBackendCommonCase(TransactionComponentCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -25,11 +25,89 @@ Storage Bakend
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
+This addon is a technical addon that allows you to define filesystem like
+storage for your data. It's used by other addons to store their data in a
+transparent way into different kind of storages.
+
+Through the storage.backend record, you get access to an object that implements
+the `fsspec.spec.AbstractFileSystem <https://filesystem-spec.readthedocs.io/en/
+latest/api.html#fsspec.spec.AbstractFileSystem>`_ interface and therefore give
+you an unified interface to access your data whatever the storage protocol you
+decide to use.
+
+The list of supported protocols depends on the installed fsspec implementations.
+By default, the addon will install the following protocols:
+
+* LocalFileSystem
+* MemoryFileSystem
+* ZipFileSystem
+* TarFileSystem
+* FTPFileSystem
+* CachingFileSystem
+* WholeFileSystem
+* SimplCacheFileSystem
+* ReferenceFileSystem
+* GenericFileSystem
+* DirFileSystem
+* DatabricksFileSystem
+* GitHubFileSystem
+* JupiterFileSystem
+* OdooFileSystem
+
+The OdooFileSystem is the one that allows you to store your data into a directory
+mounted into your Odoo's storage directory. This is the default storage backend
+when creating a new storage.backend record.
+
+Others protocols are available through the installation of additional
+python packages:
+
+* DropboxDriveFileSystem -> `pip install fsspec[dropbox]`
+* HTTPFileSystem -> `pip install fsspec[http]`
+* HTTPSFileSystem -> `pip install fsspec[http]`
+* GCSFileSystem -> `pip install fsspec[gcs]`
+* GSFileSystem -> `pip install fsspec[gs]`
+* GoogleDriveFileSystem -> `pip install gdrivefs`
+* SFTPFileSystem -> `pip install fsspec[sftp]`
+* HaddoopFileSystem -> `pip install fsspec[hdfs]`
+* S3FileSystem -> `pip install fsspec[s3]`
+* WandbFS -> `pip install wandbfs`
+* OCIFileSystem -> `pip install fsspec[oci]`
+* AsyncLocalFileSystem -> `pip install 'morefs[asynclocalfs]`
+* AzureDatalakeFileSystem -> `pip install fsspec[adl]`
+* AzureBlobFileSystem -> `pip install fsspec[abfs]`
+* DaskWorkerFileSystem -> `pip install fsspec[dask]`
+* GitFileSystem -> `pip install fsspec[git]`
+* SMBFileSystem -> `pip install fsspec[smb]`
+* LibArchiveFileSystem -> `pip install fsspec[libarchive]`
+* OSSFileSystem -> `pip install ossfs`
+* WebdavFileSystem -> `pip install webdav4`
+* DVCFileSystem -> `pip install dvc`
+* XRootDFileSystem -> `pip install fsspec-xrootd`
+
+This list of supported protocols is not exhaustive or could change in the future
+depending on the fsspec releases. You can find more information about the
+supported protocols on the `fsspec documentation
+<https://filesystem-spec.readthedocs.io/en/latest/api.html#fsspec.spec.AbstractFileSystem>`_.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+When you create a new backend, you must specify the following:
+
+* The name of the backend. This is the name that will be used to
+  identify the backend into Odoo
+* The protocol used by the backend. The protocol refers to the supported
+  protocols of the fsspec python package.
+* A directory path. This is a root directory from which the filesystem will
+  be mounted. This directory must exist.
+* The protocol options. These are the options that will be passed to the
+  fsspec python package when creating the filesystem. These options depend
+  on the protocol used and are described in the fsspec documentation.
 
 Bug Tracker
 ===========
@@ -48,6 +126,7 @@ Authors
 ~~~~~~~
 
 * Akretion
+* ACSONE SA/NV
 
 Contributors
 ~~~~~~~~~~~~
