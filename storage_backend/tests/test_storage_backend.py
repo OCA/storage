@@ -105,3 +105,29 @@ class TestStorageBackend(TransactionCase):
             backend2.fs.ls(f"../{self.case_with_subdirectory}")
         self.backend.fs.rm_file(self.filename)
         backend2.fs.rm_file(self.filename)
+
+    def test_recursive_add_odoo_storage_path_to_options(self):
+        options = {
+            "directory_path": "/tmp/my_backend",
+            "target_protocol": "odoofs",
+        }
+        self.backend._recursive_add_odoo_storage_path(options)
+        self.assertEqual(
+            self.backend._odoo_storage_path,
+            options.get("target_options").get("odoo_storage_path"),
+        )
+        options = {
+            "directory_path": "/tmp/my_backend",
+            "target_protocol": "dir",
+            "target_options": {
+                "path": "/my_backend",
+                "target_protocol": "odoofs",
+            },
+        }
+        self.backend._recursive_add_odoo_storage_path(options)
+        self.assertEqual(
+            self.backend._odoo_storage_path,
+            options.get("target_options")
+            .get("target_options")
+            .get("odoo_storage_path"),
+        )

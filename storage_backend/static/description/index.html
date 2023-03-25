@@ -453,6 +453,23 @@ be mounted. This directory must exist.</li>
 fsspec python package when creating the filesystem. These options depend
 on the protocol used and are described in the fsspec documentation.</li>
 </ul>
+<p>Some protocols defined in the fsspec package are wrappers around other
+protocols. For example, the SimpleCacheFileSystem protocol is a wrapper
+around any local filesystem protocol. In such cases, you must specify into the
+protocol options the protocol to be wrapped and the options to be passed to
+the wrapped protocol.</p>
+<p>For example, if you want to create a backend that uses the SimpleCacheFileSystem
+protocol, after selecting the SimpleCacheFileSystem protocol, you must specify
+the protocol options as follows:</p>
+<pre class="code python literal-block">
+<span class="p">{</span>
+    <span class="s2">&quot;directory_path&quot;</span><span class="p">:</span> <span class="s2">&quot;/tmp/my_backend&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;target_protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;odoofs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;target_options&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>
+<span class="p">}</span>
+</pre>
+<p>In this example, the SimpleCacheFileSystem protocol will be used as a wrapper
+around the odoofs protocol.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#id2">Bug Tracker</a></h1>

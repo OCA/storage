@@ -68,11 +68,12 @@ class StorageBackend(models.Model):
     _backend_name = "storage_backend"
     _description = "Storage Backend"
 
-    __slots__ = ("_fs",)
+    __slots__ = ("__fs", "__odoo_storage_path")
 
     def __init__(self, env, ids=(), prefetch_ids=()):
         super().__init__(env, ids=ids, prefetch_ids=prefetch_ids)
-        self._fs = None
+        self.__fs = None
+        self.__odoo_storage_path = None
 
     name = fields.Char(required=True)
     protocol = fields.Selection(
@@ -135,7 +136,7 @@ class StorageBackend(models.Model):
     )
 
     def write(self, vals):
-        self._fs = None
+        self.__fs = None
         return super().write(vals)
 
     @api.model
@@ -194,9 +195,9 @@ class StorageBackend(models.Model):
     def fs(self) -> fsspec.AbstractFileSystem:
         """Get the fsspec filesystem for this backend."""
         self.ensure_one()
-        if not self._fs:
-            self._fs = self._get_filesystem()
-        return self._fs
+        if not self.__fs:
+            self.__fs = self._get_filesystem()
+        return self.__fs
 
     def _get_filesystem_storage_path(self) -> str:
         """Get the path to the storage directory.
@@ -206,6 +207,32 @@ class StorageBackend(models.Model):
         """
         self.ensure_one()
         return os.path.join(self.env["ir.attachment"]._filestore(), "storage")
+
+    @property
+    def _odoo_storage_path(self) -> str:
+        """Get the path to the storage directory.
+
+        This path is relative to the odoo filestore.and is used as root path
+        when the protocol is filesystem.
+        """
+        if not self.__odoo_storage_path:
+            self.__odoo_storage_path = self._get_filesystem_storage_path()
+        return self.__odoo_storage_path
+
+    def _recursive_add_odoo_storage_path(self, options: dict) -> dict:
+        """Add the odoo storage path to the options.
+
+        This is a recursive function that will add the odoo_storage_path
+        option to the nested target_options if the target_protocol is
+        odoofs
+        """
+        if "target_protocol" in options:
+            target_options = options.get("target_options", {})
+            if options["target_protocol"] == "odoofs":
+                target_options["odoo_storage_path"] = self._odoo_storage_path
+                options["target_options"] = target_options
+            self._recursive_add_odoo_storage_path(target_options)
+        return options
 
     def _get_filesystem(self) -> fsspec.AbstractFileSystem:
         """Get the fsspec filesystem for this backend.
@@ -217,11 +244,11 @@ class StorageBackend(models.Model):
         """
         self.ensure_one()
         options = self.json_options
-        protocol = self.protocol
-        directory_path = self.directory_path
         if self.protocol == "odoofs":
-            options["path"] = self._get_filesystem_storage_path()
-        fs = fsspec.filesystem(protocol, **options)
+            options["odoo_storage_path"] = self._odoo_storage_path
+        options = self._recursive_add_odoo_storage_path(options)
+        fs = fsspec.filesystem(self.protocol, **options)
+        directory_path = self.directory_path
         if directory_path:
             fs = fsspec.filesystem("rooted_dir", path=directory_path, fs=fs)
         return fs
