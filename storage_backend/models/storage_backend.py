@@ -118,7 +118,7 @@ class StorageBackend(models.Model):
     # the next fields are used to display documentation to help the user
     # to configure the backend
     options_protocol = fields.Selection(
-        string="Protocol",
+        string="Describes Protocol",
         selection="_get_options_protocol",
         default="odoofs",
         help="The protocol used to access the content of filesystem.\n"
@@ -206,7 +206,10 @@ class StorageBackend(models.Model):
         when the protocol is filesystem.
         """
         self.ensure_one()
-        return os.path.join(self.env["ir.attachment"]._filestore(), "storage")
+        path = os.path.join(self.env["ir.attachment"]._filestore(), "storage")
+        if not os.path.exists(path):
+            os.makedirs(path)
+        return path
 
     @property
     def _odoo_storage_path(self) -> str:
