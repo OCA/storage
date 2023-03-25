@@ -28,9 +28,40 @@
                         </h1>
                     </div>
                     <group name="config">
+                        <group>
                         <field name="protocol" />
-                        <field name="storage_options" />
                         <field name="directory_path" />
+                        <field
+                                name="options"
+                                widget="ace"
+                                options="{'mode': 'python'}"
+                                placeholder="Enter you fsspec options here."
+                            />
+                            </group>
+                        <group>
+                            <notebook colspan="2">
+                                <page string="Protocol Descr" colspan="2">
+                                    <group colspan="2">
+                                        <field
+                                            name="protocol_descr"
+                                            nolabel="1"
+                                            colspan="2"
+                                        />
+                                    </group>
+                                </page>
+                                <page string="Available options" colspan="2">
+                                    <group colspan="2">
+                                        <field name="options_protocol" />
+                                        <label for="options_properties" colspan="2" />
+                                        <field
+                                            name="options_properties"
+                                            nolabel="1"
+                                            colspan="2"
+                                        />
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
                     </group>
                 </sheet>
             </form>

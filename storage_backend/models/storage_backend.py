@@ -2,24 +2,25 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # Copyright 2019 Camptocamp SA (http://www.camptocamp.com).
 # @author Simone Orsi <simone.orsi@camptocamp.com>
-# Copyright 2023 ACSONE SA/NV (http://acsone.eu).
+# Copyright 2023 ACSONE SA/NV (https://www.acsone.eu).
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import base64
 import functools
 import inspect
+import json
 import logging
 import os.path
 import re
 import warnings
-from typing import AnyStr, Callable, List
+from typing import AnyStr, List
 
 import fsspec
 
 from odoo import _, api, fields, models
-from odoo.exceptions import AccessError
+from odoo.exceptions import ValidationError
 
-from ..rooted_filesystem import RootedFileSystem
+from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
 
@@ -62,15 +63,6 @@ def deprecated(reason):
     return decorator
 
 
-def _odoofs_path_validator(
-    fs: fsspec.AbstractFileSystem, resolved_path: str, root_path: str
-) -> None:
-    if not resolved_path.startswith(root_path):
-        raise AccessError(
-            _("Access to %(resolved_path)s is forbidden", resolved_path=resolved_path)
-        )
-
-
 class StorageBackend(models.Model):
     _name = "storage.backend"
     _backend_name = "storage_backend"
@@ -87,15 +79,18 @@ class StorageBackend(models.Model):
         selection="_get_protocols",
         required=True,
         default="odoofs",
-        help="The protocol used to access the content of the storage backend.\n"
+        help="The protocol used to access the content of filesystem.\n"
         "This list is the one supported by the fsspec library (see "
         "https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocol"
         "is added by default and refers to the odoo local filesystem.\n"
-        "Pay attention that according to the protocol, some storage_options must be"
-        "provided through the storage_options field.",
+        "Pay attention that according to the protocol, some options must be"
+        "provided through the options field.",
     )
-    storage_options = fields.Json(
-        help="The storage options used to access the storage backend.\n"
+    protocol_descr = fields.Text(
+        compute="_compute_protocol_descr",
+    )
+    options = fields.Text(
+        help="The options used to initialize the filesystem.\n"
         "This is a JSON field that depends on the protocol used.\n"
         "For example, for the sftp protocol, you can provide the following:\n"
         "{\n"
@@ -109,8 +104,34 @@ class StorageBackend(models.Model):
         "For more information, please refer to the fsspec documentation:\n"
         "https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations"
     )
+
+    json_options = Serialized(
+        help="The options used to initialize the filesystem.\n",
+        compute="_compute_json_options",
+        inverse="_inverse_json_options",
+    )
     directory_path = fields.Char(
         help="Relative path to the directory to store the file"
+    )
+
+    # the next fields are used to display documentation to help the user
+    # to configure the backend
+    options_protocol = fields.Selection(
+        string="Protocol",
+        selection="_get_options_protocol",
+        default="odoofs",
+        help="The protocol used to access the content of filesystem.\n"
+        "This list is the one supported by the fsspec library (see "
+        "https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocol"
+        "is added by default and refers to the odoo local filesystem.\n"
+        "Pay attention that according to the protocol, some options must be"
+        "provided through the options field.",
+        store=False,
+    )
+    options_properties = fields.Text(
+        string="Available properties",
+        compute="_compute_options_properties",
+        store=False,
     )
 
     def write(self, vals):
@@ -127,6 +148,47 @@ class StorageBackend(models.Model):
             except ImportError as e:
                 _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
         return protocol
+
+    @api.constrains("options")
+    def _check_options(self) -> None:
+        for rec in self:
+            try:
+                json.loads(rec.options or "{}")
+            except Exception as e:
+                raise ValidationError(_("The options must be a valid JSON")) from e
+
+    @api.depends("options")
+    def _compute_json_options(self) -> None:
+        for rec in self:
+            rec.json_options = json.loads(rec.options or "{}")
+
+    def _inverse_json_options(self) -> None:
+        for rec in self:
+            rec.options = json.dumps(rec.json_options)
+
+    @api.depends("protocol")
+    def _compute_protocol_descr(self) -> None:
+        for rec in self:
+            rec.protocol_descr = fsspec.get_filesystem_class(rec.protocol).__doc__
+
+    @api.model
+    def _get_options_protocol(self) -> List[tuple[str, str]]:
+        protocol = [("odoofs", "Odoo's Filesystem")]
+        for p in fsspec.available_protocols():
+            try:
+                fsspec.get_filesystem_class(p)
+                protocol.append((p, p))
+            except ImportError as e:
+                _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
+        return protocol
+
+    @api.depends("options_protocol")
+    def _compute_options_properties(self) -> None:
+        for rec in self:
+            cls = fsspec.get_filesystem_class(rec.options_protocol)
+            signature = inspect.signature(cls.__init__)
+            doc = inspect.getdoc(cls.__init__)
+            rec.options_properties = f"__init__{signature}\n{doc}"
 
     @property
     def fs(self) -> fsspec.AbstractFileSystem:
@@ -145,28 +207,6 @@ class StorageBackend(models.Model):
         self.ensure_one()
         return os.path.join(self.env["ir.attachment"]._filestore(), "storage")
 
-    def _get_path_validator(
-        self,
-    ) -> Callable[[fsspec.AbstractFileSystem, str, str], None] | None:
-        """
-        Get the function to validate the path.
-        """
-        self.ensure_one()
-        if self.protocol == "odoofs":
-            return _odoofs_path_validator
-        return None
-
-    def _get_rooted_filesystem(
-        self, fs: fsspec.AbstractFileSystem, root_path
-    ) -> fsspec.AbstractFileSystem:
-        """Get the fsspec filesystem for this backend.
-
-        This filesystem is rooted to the given path if provided.
-        """
-        self.ensure_one()
-        path_validator = self._get_path_validator()
-        return RootedFileSystem(fs, root_path, path_validator=path_validator)
-
     def _get_filesystem(self) -> fsspec.AbstractFileSystem:
         """Get the fsspec filesystem for this backend.
 
@@ -176,14 +216,15 @@ class StorageBackend(models.Model):
         :return: fsspec.AbstractFileSystem
         """
         self.ensure_one()
-        options = self.storage_options or {}
+        options = self.json_options
         protocol = self.protocol
         directory_path = self.directory_path
         if self.protocol == "odoofs":
-            protocol = "dir"
             options["path"] = self._get_filesystem_storage_path()
         fs = fsspec.filesystem(protocol, **options)
-        return self._get_rooted_filesystem(fs, directory_path)
+        if directory_path:
+            fs = fsspec.filesystem("rooted_dir", path=directory_path, fs=fs)
+        return fs
 
     @deprecated("Please use _get_filesystem() instead and the fsspec API directly.")
     def add(self, relative_path, data, binary=True, **kwargs) -> None:
@@ -242,7 +283,7 @@ class StorageBackend(models.Model):
             self.fs.move(
                 file_path,
                 self.fs.sep.join([destination_path, os.path.basename(file_path)]),
-                **kw
+                **kw,
             )
 
     @deprecated("Please use _get_filesystem() instead and the fsspec API directly.")

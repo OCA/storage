@@ -6,17 +6,25 @@ import warnings
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
+from ..models.storage_backend import StorageBackend
+
 
 class TestStorageBackend(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.backend = cls.env.ref("storage_backend.default_storage_backend")
+        cls.backend: StorageBackend = cls.env.ref(
+            "storage_backend.default_storage_backend"
+        )
         cls.filedata = base64.b64encode(b"This is a simple file")
         cls.filename = "test_file.txt"
         cls.case_with_subdirectory = "subdirectory/here"
         cls.demo_user = cls.env.ref("base.user_demo")
+
+    def _create_file(self, backend: StorageBackend, filename: str, filedata: str):
+        with backend.fs.open(filename, "wb") as f:
+            f.write(filedata)
 
     @mute_logger("py.warnings")
     def _test_deprecated_setting_and_getting_data(self):
@@ -82,3 +90,18 @@ class TestStorageBackend(TransactionCase):
         fs = None
         for rec in records:
             self.assertNotEqual(fs, rec.fs)
+
+    def test_relative_access(self):
+        self.backend.directory_path = self.case_with_subdirectory
+        self._create_file(self.backend, self.filename, self.filedata)
+        other_subdirectory = "other_subdirectory"
+        backend2 = self.backend.copy({"directory_path": other_subdirectory})
+        self._create_file(backend2, self.filename, self.filedata)
+        with self.assertRaises(PermissionError), self.env.cr.savepoint():
+            # check that we can't access outside the subdirectory
+            backend2.fs.ls("../")
+        with self.assertRaises(PermissionError), self.env.cr.savepoint():
+            # check that we can't access the file into another subdirectory
+            backend2.fs.ls(f"../{self.case_with_subdirectory}")
+        self.backend.fs.rm_file(self.filename)
+        backend2.fs.rm_file(self.filename)

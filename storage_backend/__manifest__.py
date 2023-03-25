@@ -12,7 +12,7 @@
     "license": "LGPL-3",
     "development_status": "Production/Stable",
     "installable": True,
-    "depends": ["base"],
+    "depends": ["base", "base_sparse_field"],
     "data": [
         "views/backend_storage_view.xml",
         "data/data.xml",
