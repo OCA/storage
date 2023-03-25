@@ -141,11 +141,11 @@ class StorageBackend(models.Model):
 
     @api.model
     def _get_protocols(self) -> List[tuple[str, str]]:
-        protocol = [("odoofs", "Odoo's Filesystem")]
+        protocol = [("odoofs", "Odoo's FileSystem")]
         for p in fsspec.available_protocols():
             try:
                 cls = fsspec.get_filesystem_class(p)
-                protocol.append((p, cls.__name__))
+                protocol.append((p, f"{p} ({cls.__name__})"))
             except ImportError as e:
                 _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
         return protocol
