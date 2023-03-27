@@ -24,6 +24,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: storage_backend_ftp
+#: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls_explicit
+msgid "Explicit FTP over TLS"
+msgstr ""
+
+#. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__backend_type__ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__ftp
 #: model_terms:ir.ui.view,arch_db:storage_backend_ftp.storage_backend_view_form
@@ -61,11 +66,6 @@ msgid "FTP Port"
 msgstr ""
 
 #. module: storage_backend_ftp
-#: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls
-msgid "FTP over TLS"
-msgstr ""
-
-#. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_security
 msgid "FTP security option"
 msgstr ""
@@ -73,6 +73,11 @@ msgstr ""
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__id
 msgid "ID"
+msgstr ""
+
+#. module: storage_backend_ftp
+#: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls
+msgid "Implicit FTP over TLS"
 msgstr ""
 
 #. module: storage_backend_ftp
