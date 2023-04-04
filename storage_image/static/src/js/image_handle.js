@@ -4,9 +4,18 @@ odoo.define("storage_image.image_handle", function(require) {
     var relational_fields = require("web.relational_fields");
 
     var FieldImageHandle = relational_fields.FieldOne2Many.extend({
+        init: function() {
+            this._super.apply(this, arguments);
+            this.dnd_events_added = false;
+        },
+
         _render: function() {
             var self = this;
-            if (!this.isReadonly && this.activeActions.create) {
+            if (
+                !this.isReadonly &&
+                this.activeActions.create &&
+                !self.dnd_events_added
+            ) {
                 this.$el.on("dragover dragenter", function(e) {
                     self.$el.addClass("is-dragover");
                     e.preventDefault();
@@ -22,6 +31,7 @@ odoo.define("storage_image.image_handle", function(require) {
                     e.stopPropagation();
                     self.upload_images(e.originalEvent.dataTransfer.files);
                 });
+                self.dnd_events_added = true;
             }
             return this._super();
         },
