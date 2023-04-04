@@ -1,1 +1,2 @@
 mock
+odoo-addon-server_environment @ git+https://github.com/OCA/server-env.git@refs/pull/152/head#subdirectory=setup/server_environment
