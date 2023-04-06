@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [storage_backend_sftp](storage_backend_sftp/) | 14.0.2.0.2 |  | Implement SFTP Storage
 [storage_file](storage_file/) | 14.0.2.3.0 |  | Storage file in storage backend
 [storage_image](storage_image/) | 14.0.2.2.0 |  | Store image and resized image in a storage backend
+[storage_image_backend_migration](storage_image_backend_migration/) | 14.0.1.0.0 |  | Migrate src backend to destination backend
 [storage_image_import](storage_image_import/) | 14.0.1.2.0 |  | Add the possibility to import image for csv base on url
 [storage_image_product](storage_image_product/) | 14.0.3.4.0 |  | Link images to products and categories
 [storage_image_product_brand](storage_image_product_brand/) | 14.0.2.0.0 |  | Link images to product brands
