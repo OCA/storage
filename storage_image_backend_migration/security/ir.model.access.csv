@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_storage_image_backend_migration_wizard,access_storage_image_backend_migration_wizard,model_storage_image_backend_migration_wizard,,1,1,1,1
