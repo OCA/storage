@@ -4,6 +4,7 @@
 
 import logging
 import os
+import shutil
 
 from odoo import _
 from odoo.exceptions import AccessError
@@ -63,3 +64,13 @@ class FileSystemStorageBackend(Component):
             os.remove(full_path)
         except FileNotFoundError:
             _logger.warning("File not found in %s", full_path)
+
+    def move_files(self, files, destination_path):
+        result = []
+        for file_path in files:
+            if not os.path.exists(destination_path):
+                os.makedirs(destination_path)
+            filename = os.path.basename(file_path)
+            destination_file = os.path.join(destination_path, filename)
+            result.append(shutil.move(file_path, destination_file))
+        return result
