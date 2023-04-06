@@ -14,6 +14,7 @@ setuptools.setup(
         'odoo14-addon-storage_backend_sftp',
         'odoo14-addon-storage_file',
         'odoo14-addon-storage_image',
+        'odoo14-addon-storage_image_backend_migration',
         'odoo14-addon-storage_image_import',
         'odoo14-addon-storage_image_product',
         'odoo14-addon-storage_image_product_brand',
