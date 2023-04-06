@@ -28,6 +28,7 @@ addon | version | maintainers | summary
 [storage_file](storage_file/) | 15.0.1.0.0 |  | Storage file in storage backend
 [storage_image](storage_image/) | 15.0.1.0.0 |  | Store image and resized image in a storage backend
 [storage_image_product](storage_image_product/) | 15.0.1.0.0 |  | Link images to products and categories
+[storage_import_image_advanced](storage_import_image_advanced/) | 15.0.1.0.0 |  | Import product images using CSV
 [storage_thumbnail](storage_thumbnail/) | 15.0.1.0.0 |  | Abstract module that add the possibility to have thumbnail
 
 [//]: # (end addons)
