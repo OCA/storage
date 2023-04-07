@@ -4,14 +4,14 @@
 
 {
     "name": "Base Attachment Object Store",
-    "summary": "Base module for the implementation of external object store.",
+    "summary": "Stora attachments on external object store",
     "version": "16.0.1.0.0",
-    "author": "Camptocamp,Odoo Community Association (OCA)",
+    "author": "Camptocamp, ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "category": "Knowledge Management",
-    "depends": ["base"],
-    "website": "http://www.camptocamp.com",
+    "depends": ["fs_storage"],
+    "website": "https://github.com/OCA/storage",
     "data": ["data/res_config_settings_data.xml"],
     "installable": True,
-    "auto_install": True,
+    "auto_install": False,
 }

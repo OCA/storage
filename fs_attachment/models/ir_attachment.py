@@ -1,20 +1,22 @@
-# Copyright 2017-2019 Camptocamp SA
+# Copyright 2017-2013 Camptocamp SA
+# Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-import inspect
+import io
 import logging
 import os
 import time
-from .strtobool import strtobool
-
-import psycopg2
-import odoo
-
 from contextlib import closing, contextmanager
-from odoo import api, exceptions, models, _
+
+import fsspec  # pylint: disable=missing-manifest-dependency
+import psycopg2
+
+import odoo
+from odoo import _, api, exceptions, models
 from odoo.osv.expression import AND, OR, normalize_domain
 from odoo.tools.safe_eval import const_eval
 
+from .strtobool import strtobool
 
 _logger = logging.getLogger(__name__)
 
@@ -54,33 +56,6 @@ class IrAttachment(models.Model):
         if is_disabled and log:
             _logger.warning(msg)
         return is_disabled
-
-    def _register_hook(self):
-        super()._register_hook()
-        location = self.env.context.get("storage_location") or self._storage()
-        # ignore if we are not using an object storage
-        if location not in self._get_stores():
-            return
-        curframe = inspect.currentframe()
-        calframe = inspect.getouterframes(curframe, 2)
-        # the caller of _register_hook is 'load_modules' in
-        # odoo/modules/loading.py
-        load_modules_frame = calframe[1][0]
-        # 'update_module' is an argument that 'load_modules' receives with a
-        # True-ish value meaning that an install or upgrade of addon has been
-        # done during the initialization. We need to move the attachments that
-        # could have been created or updated in other addons before this addon
-        # was loaded
-        update_module = load_modules_frame.f_locals.get("update_module")
-
-        # We need to call the migration on the loading of the model because
-        # when we are upgrading addons, some of them might add attachments.
-        # To be sure they are migrated to the storage we need to call the
-        # migration here.
-        # Typical example is images of ir.ui.menu which are updated in
-        # ir.attachment at every upgrade of the addons
-        if update_module:
-            self.env["ir.attachment"].sudo()._force_storage_to_object_storage()
 
     @property
     def _object_storage_default_force_db_config(self):
@@ -198,6 +173,7 @@ class IrAttachment(models.Model):
                 return values
         return super()._get_datas_related_values(data, mimetype)
 
+    # Odoo methods that we override to use the object storage
     @api.model
     def _file_read(self, fname):
         if self._is_file_from_a_store(fname):
@@ -205,23 +181,13 @@ class IrAttachment(models.Model):
         else:
             return super()._file_read(fname)
 
-    def _store_file_read(self, fname):
-        storage = fname.partition("://")[0]
-        raise NotImplementedError("No implementation for %s" % (storage,))
-
-    def _store_file_write(self, key, bin_data):
-        storage = self.storage()
-        raise NotImplementedError("No implementation for %s" % (storage,))
-
-    def _store_file_delete(self, fname):
-        storage = fname.partition("://")[0]
-        raise NotImplementedError("No implementation for %s" % (storage,))
-
     @api.model
     def _file_write(self, bin_data, checksum):
         location = self.env.context.get("storage_location") or self._storage()
         if location in self._get_stores():
-            key = self.env.context.get("force_storage_key")
+            key = self.env.context.get("storage_file_path") or self.env.context.get(
+                "force_storage_key"
+            )
             if not key:
                 key = self._compute_checksum(bin_data)
             filename = self._store_file_write(key, bin_data)
@@ -230,7 +196,7 @@ class IrAttachment(models.Model):
         return filename
 
     @api.model
-    def _file_delete(self, fname):
+    def _file_delete(self, fname) -> None:  # pylint: disable=missing-return
         if self._is_file_from_a_store(fname):
             cr = self.env.cr
             # using SQL to include files hidden through unlink or due to record
@@ -244,8 +210,51 @@ class IrAttachment(models.Model):
         else:
             super()._file_delete(fname)
 
+    # Internal methods to use the object storage
+    @api.model
+    def get_fs_storage_for_code(self, code) -> fsspec.AbstractFileSystem | None:
+        """Return the filesystem for the given storage code"""
+        fs = self.env["fs.storage"].get_fs_by_code(code)
+        if not fs:
+            raise SystemError(f"No Filesystem storage for code {code}")
+        return fs
+
+    @api.model
+    def get_fs_and_path(self, fname) -> tuple[fsspec.AbstractFileSystem, str]:
+        """Return the filesystem and the path for the given fname"""
+        partition = fname.partition("://")
+        storage = partition[0]
+        fs = self.get_fs_storage_for_code(storage)
+        fname = partition[2]
+        return fs, fname
+
+    @api.model
+    def _store_file_read(self, fname: str) -> bytes | None:
+        """Read the file from the filesystem storage"""
+        fs, fname = self.get_fs_and_path(fname)
+        with fs.open(fname, "rb") as fs:
+            return fs.read()
+
+    @api.model
+    def _store_file_write(self, path, bin_data: bytes) -> str:
+        """Write the file to the filesystem storage"""
+        storage = self.env.context.get("storage_location") or self._storage()
+        fs = self.get_fs_storage_for_code(storage)
+        fname = f"{storage}://{path}"
+        with fs.open(path, "wb") as fs:
+            fs.write(bin_data)
+        return fname
+
+    @api.model
+    def _store_file_delete(self, fname):
+        """Delete the file from the filesystem storage"""
+        fs, fname = self.get_fs_and_path(fname)
+        fs.rm(fname)
+
     @api.model
     def _is_file_from_a_store(self, fname):
+        if not fname:
+            return False
         for store_name in self._get_stores():
             if self.is_storage_disabled(store_name):
                 continue
@@ -253,6 +262,73 @@ class IrAttachment(models.Model):
             if fname.startswith(uri):
                 return True
         return False
+
+    def open(
+        self, mode="rb", block_size=None, cache_options=None, compression=None, **kwargs
+    ) -> io.IOBase:
+        """
+        Return a file-like object from the filesystem storage where the attachment
+        content is stored.
+
+        This method works for all attachments, even if the content is stored in the
+        database or into the odoo filestore. (parameters are ignored in the case
+        of the database storage).
+
+        The resultant instance must function correctly in a context ``with``
+        block.
+
+        Parameters
+        ----------
+        path: str
+            Target file
+        mode: str like 'rb', 'w'
+            See builtin ``open()``
+        block_size: int
+            Some indication of buffering - this is a value in bytes
+        cache_options : dict, optional
+            Extra arguments to pass through to the cache.
+        compression: string or None
+            If given, open file using compression codec. Can either be a compression
+            name (a key in ``fsspec.compression.compr``) or "infer" to guess the
+            compression from the filename suffix.
+        encoding, errors, newline: passed on to TextIOWrapper for text mode
+
+        Returns
+        -------
+        A file-like object
+
+        Caution: modifications to the file-like object are not transactional.
+        If you modify the file-like object and the current transaction is rolled
+        back, the changes will be saved to the file and not rolled back.
+        Moreover mofication to the content will not be reflected into the cache
+        and could lead to data mismatch when the data will be flush
+
+        TODO if open with 'w' in mode, we could use a buffered IO detecting that
+        the content is modified and invalidating the attachment cache...
+        """
+        self.ensure_one()
+        if self._is_file_from_a_store(self.store_fname):
+            fs, fname = self.get_fs_and_path(self.store_fname)
+            return fs.open(
+                fname,
+                mode=mode,
+                block_size=block_size,
+                cache_options=cache_options,
+                compression=compression,
+                **kwargs,
+            )
+        if self.store_fname:
+            return fsspec.filesystem("file").open(
+                self._full_path(self.store_fname),
+                mode=mode,
+                block_size=block_size,
+                cache_options=cache_options,
+                compression=compression,
+                **kwargs,
+            )
+        if "w" in mode:
+            raise SystemError("Write mode is not supported for data read from database")
+        return io.BytesIO(self.db_datas)
 
     @contextmanager
     def do_in_new_env(self, new_cr=False):
@@ -395,7 +471,8 @@ class IrAttachment(models.Model):
         # is required! It's because of an override of _search in ir.attachment
         # which adds ('res_field', '=', False) when the domain does not
         # contain 'res_field'.
-        # https://github.com/odoo/odoo/blob/9032617120138848c63b3cfa5d1913c5e5ad76db/odoo/addons/base/ir/ir_attachment.py#L344-L347
+        # https://github.com/odoo/odoo/blob/9032617120138848c63b3cfa5d1913c5e5ad76db/
+        # odoo/addons/base/ir/ir_attachment.py#L344-L347
         domain = [
             "!",
             ("store_fname", "=like", "{}://%".format(storage)),
@@ -449,4 +526,4 @@ class IrAttachment(models.Model):
 
     def _get_stores(self):
         """To get the list of stores activated in the system"""
-        return []
+        return self.env["fs.storage"].sudo().get_storage_codes()

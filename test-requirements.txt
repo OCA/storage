@@ -1,1 +1,2 @@
 mock
+odoo-addon-fs-storage @ git+https://github.com/OCA/storage.git@refs/pull/252/head#subdirectory=setup/fs_storage
