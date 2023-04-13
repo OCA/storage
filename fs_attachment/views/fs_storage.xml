@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="fs_storage_form_view">
+        <field name="name">fs.storage.form (in fs_attachment)</field>
+        <field name="model">fs.storage</field>
+        <field name="inherit_id" ref="fs_storage.fs_storage_form_view" />
+        <field name="arch" type="xml">
+            <field name="options" position="after">
+                <separator string="Attachment" />
+                <field name="optimizes_directory_path" />
+                <field name="autovacuum_gc" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

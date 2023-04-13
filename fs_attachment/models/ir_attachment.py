@@ -4,21 +4,27 @@
 
 import io
 import logging
+import mimetypes
 import os
+import re
 import time
 from contextlib import closing, contextmanager
 
 import fsspec  # pylint: disable=missing-manifest-dependency
 import psycopg2
+from slugify import slugify  # pylint: disable=missing-manifest-dependency
 
 import odoo
-from odoo import _, api, exceptions, models
+from odoo import _, api, exceptions, fields, models
 from odoo.osv.expression import AND, OR, normalize_domain
 from odoo.tools.safe_eval import const_eval
 
 from .strtobool import strtobool
 
 _logger = logging.getLogger(__name__)
+
+
+REGEX_SLUGIFY = r"[^-a-z0-9_]+"
 
 
 def is_true(strval):
@@ -45,8 +51,82 @@ def clean_fs(files):
 class IrAttachment(models.Model):
     _inherit = "ir.attachment"
 
+    fs_filename = fields.Char(
+        "File Name into the filesystem storage",
+        help="The name of the file in the filesystem storage."
+        "To preserve the mimetype and the meaning of the filename"
+        "the filename is computed from the name and the extension",
+        readonly=True,
+    )
+
+    internal_url = fields.Char(
+        "Internal URL",
+        compute="_compute_internal_url",
+        help="The URL to access the file from the server.",
+    )
+
+    fs_url = fields.Char(
+        "Filesystem URL",
+        compute="_compute_fs_url",
+        help="The URL to access the file from the filesystem storage.",
+        store=True,
+    )
+    fs_url_path = fields.Char(
+        "Filesystem URL Path",
+        compute="_compute_fs_url_path",
+        help="The path to access the file from the filesystem storage.",
+    )
+    fs_storage_code = fields.Char(
+        "Filesystem Storage Code",
+        related="fs_storage_id.code",
+        store=True,
+    )
+    fs_storage_id = fields.Many2one(
+        "fs.storage",
+        "Filesystem Storage",
+        compute="_compute_fs_storage_id",
+        help="The storage where the file is stored.",
+        store=True,
+        ondelete="restrict",
+    )
+
+    @api.depends("name")
+    def _compute_internal_url(self) -> None:
+        for rec in self:
+            filename, extension = os.path.splitext(rec.name)
+            if not extension:
+                extension = mimetypes.guess_extension(rec.mimetype)
+            rec.internal_url = f"/web/content/{rec.id}/{filename}{extension}"
+
+    @api.depends("fs_filename")
+    def _compute_fs_url(self) -> None:
+        for rec in self:
+            rec.fs_url = None
+            if rec.fs_filename:
+                rec.fs_url = self.env["fs.storage"]._get_url_for_attachment(rec)
+
+    @api.depends("fs_filename")
+    def _compute_fs_url_path(self) -> None:
+        for rec in self:
+            rec.fs_url_path = None
+            if rec.fs_filename:
+                rec.fs_url_path = self.env["fs.storage"]._get_url_for_attachment(
+                    rec, exclude_base_url=True
+                )
+
+    @api.depends("fs_filename")
+    def _compute_fs_storage_id(self):
+        for rec in self:
+            if rec.store_fname:
+                code = rec.store_fname.partition("://")[0]
+                fs_storage = self.env["fs.storage"].get_by_code(code)
+                if fs_storage != rec.fs_storage_id:
+                    rec.fs_storage_id = fs_storage
+            elif rec.fs_storage_id:
+                rec.fs_storage_id = None
+
     @staticmethod
-    def is_storage_disabled(storage=None, log=True):
+    def _is_storage_disabled(storage=None, log=True):
         msg = _("Storages are disabled (see environment configuration).")
         if storage:
             msg = _("Storage '%s' is disabled (see environment configuration).") % (
@@ -146,7 +226,7 @@ class IrAttachment(models.Model):
         ``_store_in_db_instead_of_object_storage_domain``.
 
         """
-        if self.is_storage_disabled():
+        if self._is_storage_disabled():
             return True
         storage_config = self._get_storage_force_db_config()
         for mimetype_key, limit in storage_config.items():
@@ -159,7 +239,7 @@ class IrAttachment(models.Model):
 
     def _get_datas_related_values(self, data, mimetype):
         storage = self.env.context.get("storage_location") or self._storage()
-        if data and storage in self._get_stores():
+        if data and storage in self._get_storage_codes():
             if self._store_in_db_instead_of_object_storage(data, mimetype):
                 # compute the fields that depend on datas
                 bin_data = data
@@ -173,95 +253,252 @@ class IrAttachment(models.Model):
                 return values
         return super()._get_datas_related_values(data, mimetype)
 
-    # Odoo methods that we override to use the object storage
+    ###########################################################
+    # Odoo methods that we override to use the object storage #
+    ###########################################################
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        attachments = super().create(vals_list)
+        attachments._enforce_meaningful_storage_filename()
+        return attachments
+
     @api.model
     def _file_read(self, fname):
-        if self._is_file_from_a_store(fname):
-            return self._store_file_read(fname)
+        if self._is_file_from_a_storage(fname):
+            return self._storage_file_read(fname)
         else:
             return super()._file_read(fname)
 
     @api.model
     def _file_write(self, bin_data, checksum):
         location = self.env.context.get("storage_location") or self._storage()
-        if location in self._get_stores():
-            key = self.env.context.get("storage_file_path") or self.env.context.get(
-                "force_storage_key"
-            )
-            if not key:
-                key = self._compute_checksum(bin_data)
-            filename = self._store_file_write(key, bin_data)
+        if location in self._get_storage_codes():
+            filename = self._storage_file_write(bin_data)
         else:
             filename = super()._file_write(bin_data, checksum)
         return filename
 
     @api.model
     def _file_delete(self, fname) -> None:  # pylint: disable=missing-return
-        if self._is_file_from_a_store(fname):
+        if self._is_file_from_a_storage(fname):
             cr = self.env.cr
             # using SQL to include files hidden through unlink or due to record
             # rules
             cr.execute(
-                "SELECT COUNT(*) FROM ir_attachment " "WHERE store_fname = %s", (fname,)
+                "SELECT COUNT(*) FROM ir_attachment WHERE store_fname = %s", (fname,)
             )
             count = cr.fetchone()[0]
             if not count:
-                self._store_file_delete(fname)
+                self._storage_file_delete(fname)
         else:
             super()._file_delete(fname)
 
-    # Internal methods to use the object storage
+    def _set_attachment_data(self, asbytes) -> None:  # pylint: disable=missing-return
+        super()._set_attachment_data(asbytes)
+        self._enforce_meaningful_storage_filename()
+
+    ##############################################
+    # Internal methods to use the object storage #
+    ##############################################
     @api.model
-    def get_fs_storage_for_code(self, code) -> fsspec.AbstractFileSystem | None:
+    def _storage_file_read(self, fname: str) -> bytes | None:
+        """Read the file from the filesystem storage"""
+        fs, _storage, fname = self._fs_parse_store_fname(fname, root=True)
+        with fs.open(fname, "rb") as fs:
+            return fs.read()
+
+    @api.model
+    def _storage_file_write(self, bin_data: bytes) -> str:
+        """Write the file to the filesystem storage"""
+        storage = self.env.context.get("storage_location") or self._storage()
+        fs = self._get_fs_storage_for_code(storage)
+        path = self._get_fs_path(storage, bin_data)
+        dirname = os.path.dirname(path)
+        if not fs.exists(dirname):
+            fs.makedirs(dirname)
+        fname = f"{storage}://{path}"
+        with fs.open(path, "wb") as fs:
+            fs.write(bin_data)
+        self._fs_mark_for_gc(fname)
+        return fname
+
+    @api.model
+    def _storage_file_delete(self, fname):
+        """Delete the file from the filesystem storage"""
+        self._fs_mark_for_gc(fname)
+
+    @api.model
+    def _get_fs_path(self, storage_code: str, bin_data: bytes) -> str:
+        """Compute the path to store the file in the filesystem storage"""
+        key = self.env.context.get("force_storage_key")
+        if not key:
+            key = self._compute_checksum(bin_data)
+        if self.env["fs.storage"]._must_optimize_directory_path(storage_code):
+            # Generate a unique directory path based on the file's hash
+            key = os.path.join(key[:2], key[2:4], key)
+        # Generate a unique directory path based on the file's hash
+        return key
+
+    def _build_fs_filename(self):
+        """Build the filename to store in the filesystem storage
+
+        The filename is computed from the name, the extension and a version
+        number. The version number is incremented each time we build a new
+        filename. To know if a filename has already been build, we check if
+        the fs_filename field is set. If it is set, we increment the version
+        number. The version number is taken from the computed filename.
+
+        The format of the filename is:
+        <slugified name>-<id>-<version>.<extension>
+        """
+        self.ensure_one()
+        filename, extension = os.path.splitext(self.name)
+        if not extension:
+            extension = mimetypes.guess_extension(self.mimetype)
+        version = 0
+        if self.fs_filename:
+            version = self._parse_fs_filename(self.fs_filename)[2] + 1
+        return "{}{}".format(
+            slugify(
+                "{}-{}-{}".format(filename, self.id, version),
+                regex_pattern=REGEX_SLUGIFY,
+            ),
+            extension,
+        )
+
+    def _enforce_meaningful_storage_filename(self) -> None:
+        """Enforce meaningful filename for files stored in the filesystem storage
+
+        The filename of the file in the filesystem storage is computed from
+        the mimetype and the name of the attachment. This method is called
+        when an attachment is created to ensure that the filename of the file
+        in the filesystem keeps the same meaning as the name of the attachment.
+
+        Keeping the same meaning and mimetype is important to also ease to provide
+        a meaningful and SEO friendly URL to the file in the filesystem storage.
+        """
+        for attachment in self:
+            if not self._is_file_from_a_storage(attachment.store_fname):
+                continue
+            fs, storage, filename = self._fs_parse_store_fname(attachment.store_fname)
+            if self._is_fs_filename_meaningful(filename):
+                continue
+            new_filename = attachment._build_fs_filename()
+            # we must keep the same full path as the original filename
+            new_filename = os.path.join(os.path.dirname(filename), new_filename)
+            fs.rename(filename, new_filename)
+            new_filename = fs.info(new_filename)["name"]
+            attachment.fs_filename = new_filename
+            # we need to update the store_fname with the new filename by
+            # calling the write method of the field since the write method
+            # of ir_attachment prevent normal write on store_fname
+            attachment._fields["store_fname"].write(
+                attachment, f"{storage}://{new_filename}"
+            )
+            self._fs_mark_for_gc(attachment.store_fname)
+
+    @api.model
+    def _get_fs_storage_for_code(
+        self, code: str, root: bool = False
+    ) -> fsspec.AbstractFileSystem | None:
         """Return the filesystem for the given storage code"""
-        fs = self.env["fs.storage"].get_fs_by_code(code)
+        fs = self.env["fs.storage"].get_fs_by_code(code, root=root)
         if not fs:
             raise SystemError(f"No Filesystem storage for code {code}")
         return fs
 
     @api.model
-    def get_fs_and_path(self, fname) -> tuple[fsspec.AbstractFileSystem, str]:
-        """Return the filesystem and the path for the given fname"""
+    def _fs_parse_store_fname(
+        self, fname: str, root: bool = False
+    ) -> tuple[fsspec.AbstractFileSystem, str, str]:
+        """Return the filesystem, the storage code and the path for the given fname
+
+        :param fname: the fname to parse
+        :param base: if True, return the base filesystem
+        """
         partition = fname.partition("://")
-        storage = partition[0]
-        fs = self.get_fs_storage_for_code(storage)
+        storage_code = partition[0]
+        fs = self._get_fs_storage_for_code(storage_code, root=root)
         fname = partition[2]
-        return fs, fname
+        return fs, storage_code, fname
 
     @api.model
-    def _store_file_read(self, fname: str) -> bytes | None:
-        """Read the file from the filesystem storage"""
-        fs, fname = self.get_fs_and_path(fname)
-        with fs.open(fname, "rb") as fs:
-            return fs.read()
+    def _is_fs_filename_meaningful(self, filename: str) -> bool:
+        """Return True if the filename is meaningful
+        A filename is meaningful if it's formatted as
+        """
+        if not filename:
+            return False
+        filename = os.path.basename(filename)
+        re_fs_filename_parser = re.compile(
+            r"^(?P<name>.+)-(?P<id>\d+)-(?P<version>\d+)(?P<extension>\..+)$"
+        )
+        match = re_fs_filename_parser.match(filename)
+        if not match:
+            return False
+        name, res_id, version, extension = match.groups()
+        return bool(name and res_id and version and extension)
 
     @api.model
-    def _store_file_write(self, path, bin_data: bytes) -> str:
-        """Write the file to the filesystem storage"""
-        storage = self.env.context.get("storage_location") or self._storage()
-        fs = self.get_fs_storage_for_code(storage)
-        fname = f"{storage}://{path}"
-        with fs.open(path, "wb") as fs:
-            fs.write(bin_data)
-        return fname
+    def _parse_fs_filename(self, filename: str) -> tuple[str, int, int, str] | None:
+        """Parse the filename and return the name, id, version and extension
+        <name-without-extension>-<id>-<version>.<extension>
+        """
+        if not filename:
+            return "", "", "", ""
+        filename = os.path.basename(filename)
+        re_fs_filename_parser = re.compile(
+            r"^(?P<name>.+)-(?P<id>\d+)-(?P<version>\d+)(?P<extension>\..+)$"
+        )
+        match = re_fs_filename_parser.match(filename)
+        if not match:
+            return None
+        name, res_id, version, extension = match.groups()
+        return name, int(res_id), int(version), extension
 
     @api.model
-    def _store_file_delete(self, fname):
-        """Delete the file from the filesystem storage"""
-        fs, fname = self.get_fs_and_path(fname)
-        fs.rm(fname)
-
-    @api.model
-    def _is_file_from_a_store(self, fname):
+    def _is_file_from_a_storage(self, fname):
         if not fname:
             return False
-        for store_name in self._get_stores():
-            if self.is_storage_disabled(store_name):
+        for storage_code in self._get_storage_codes():
+            if self._is_storage_disabled(storage_code):
                 continue
-            uri = "{}://".format(store_name)
+            uri = "{}://".format(storage_code)
             if fname.startswith(uri):
                 return True
         return False
+
+    @api.model
+    def _fs_mark_for_gc(self, fname):
+        """Mark the file for deletion
+
+        The file will be deleted by the garbage collector if it's no more
+        referenced by any attachment. We use a garbage collector to enforce
+        the transaction mechanism between Odoo and the filesystem storage.
+        Files are added to the garbage collector when:
+        - each time a file is created in the filesystem storage
+        - an attachment is deleted
+
+        Whatever the result of the current transaction, the information of files
+        marked for deletion is stored in the database.
+
+        When the garbage collector is called, it will check if the file is still
+        referenced by an attachment. If not, the file is physically deleted from
+        the filesystem storage.
+
+        If the creation of the attachment fails, since the file is marked for
+        deletion when it's written into the filesystem storage, it will be
+        deleted by the garbage collector.
+
+        If the content of the attachment is updated, we always create a new file.
+        This new file is marked for deletion and the old one too. If the transaction
+        succeeds, the old file is deleted by the garbage collector since it's no
+        more referenced by any attachment. If the transaction fails, the old file
+        is not deleted since it's still referenced by the attachment but the new
+        file is deleted since it's marked for deletion and not referenced.
+        """
+        self.env["fs.file.gc"]._mark_for_gc(fname)
 
     def open(
         self, mode="rb", block_size=None, cache_options=None, compression=None, **kwargs
@@ -307,8 +544,10 @@ class IrAttachment(models.Model):
         the content is modified and invalidating the attachment cache...
         """
         self.ensure_one()
-        if self._is_file_from_a_store(self.store_fname):
-            fs, fname = self.get_fs_and_path(self.store_fname)
+        if self._is_file_from_a_storage(self.store_fname):
+            fs, _storage, fname = self._fs_parse_store_fname(
+                self.store_fname, root=True
+            )
             return fs.open(
                 fname,
                 mode=mode,
@@ -331,34 +570,41 @@ class IrAttachment(models.Model):
         return io.BytesIO(self.db_datas)
 
     @contextmanager
-    def do_in_new_env(self, new_cr=False):
+    def _do_in_new_env(self, new_cr=False):
         """Context manager that yields a new environment
 
         Using a new Odoo Environment thus a new PG transaction.
         """
-        with api.Environment.manage():
-            if new_cr:
-                registry = odoo.modules.registry.Registry.new(self.env.cr.dbname)
-                with closing(registry.cursor()) as cr:
-                    try:
-                        yield self.env(cr=cr)
-                    except Exception:
-                        cr.rollback()
-                        raise
-                    else:
-                        # disable pylint error because this is a valid commit,
-                        # we are in a new env
-                        cr.commit()  # pylint: disable=invalid-commit
-            else:
-                # make a copy
-                yield self.env()
+        if new_cr:
+            registry = odoo.modules.registry.Registry.new(self.env.cr.dbname)
+            with closing(registry.cursor()) as cr:
+                try:
+                    yield self.env(cr=cr)
+                except Exception:
+                    cr.rollback()
+                    raise
+                else:
+                    # disable pylint error because this is a valid commit,
+                    # we are in a new env
+                    cr.commit()  # pylint: disable=invalid-commit
+        else:
+            # make a copy
+            yield self.env()
+
+    def _get_storage_codes(self):
+        """Get the list of filesystem storage active in the system"""
+        return self.env["fs.storage"].sudo().get_storage_codes()
+
+    ################################
+    # useful methods for migration #
+    ################################
 
     def _move_attachment_to_store(self):
         self.ensure_one()
         _logger.info("inspecting attachment %s (%d)", self.name, self.id)
         fname = self.store_fname
         storage = fname.partition("://")[0]
-        if self.is_storage_disabled(storage):
+        if self._is_storage_disabled(storage):
             fname = False
         if fname:
             # migrating from filesystem filestore
@@ -387,7 +633,7 @@ class IrAttachment(models.Model):
                 _("Only administrators can execute this action.")
             )
         location = self.env.context.get("storage_location") or self._storage()
-        if location not in self._get_stores():
+        if location not in self._get_storage_codes():
             return super().force_storage()
         self._force_storage_to_object_storage()
 
@@ -407,9 +653,9 @@ class IrAttachment(models.Model):
         It is not called anywhere, but can be called by RPC or scripts.
         """
         storage = self._storage()
-        if self.is_storage_disabled(storage):
+        if self._is_storage_disabled(storage):
             return
-        if storage not in self._get_stores():
+        if storage not in self._get_storage_codes():
             return
 
         domain = AND(
@@ -428,7 +674,7 @@ class IrAttachment(models.Model):
             )
         )
 
-        with self.do_in_new_env(new_cr=new_cr) as new_env:
+        with self._do_in_new_env(new_cr=new_cr) as new_env:
             model_env = new_env["ir.attachment"].with_context(prefetch_fields=False)
             attachment_ids = model_env.search(domain).ids
             if not attachment_ids:
@@ -465,7 +711,7 @@ class IrAttachment(models.Model):
     def _force_storage_to_object_storage(self, new_cr=False):
         _logger.info("migrating files to the object storage")
         storage = self.env.context.get("storage_location") or self._storage()
-        if self.is_storage_disabled(storage):
+        if self._is_storage_disabled(storage):
             return
         # The weird "res_field = False OR res_field != False" domain
         # is required! It's because of an override of _search in ir.attachment
@@ -484,7 +730,7 @@ class IrAttachment(models.Model):
         # below. We do not create a new cursor by default because it causes
         # serialization issues due to concurrent updates on attachments during
         # the installation
-        with self.do_in_new_env(new_cr=new_cr) as new_env:
+        with self._do_in_new_env(new_cr=new_cr) as new_env:
             model_env = new_env["ir.attachment"]
             ids = model_env.search(domain).ids
             files_to_clean = []
@@ -523,7 +769,3 @@ class IrAttachment(models.Model):
             if files_to_clean:
                 new_env.cr.commit()
                 clean_fs(files_to_clean)
-
-    def _get_stores(self):
-        """To get the list of stores activated in the system"""
-        return self.env["fs.storage"].sudo().get_storage_codes()

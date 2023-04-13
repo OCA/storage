@@ -11,7 +11,12 @@
     "category": "Knowledge Management",
     "depends": ["fs_storage"],
     "website": "https://github.com/OCA/storage",
-    "data": ["data/res_config_settings_data.xml"],
+    "data": [
+        "security/fs_file_gc.xml",
+        "views/fs_storage.xml",
+        "data/res_config_settings_data.xml",
+    ],
+    "external_dependencies": {"python": ["python_slugify"]},
     "installable": True,
     "auto_install": False,
 }
