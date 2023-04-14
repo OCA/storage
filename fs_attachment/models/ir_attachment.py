@@ -17,7 +17,6 @@ from slugify import slugify  # pylint: disable=missing-manifest-dependency
 import odoo
 from odoo import _, api, exceptions, fields, models
 from odoo.osv.expression import AND, OR, normalize_domain
-from odoo.tools.safe_eval import const_eval
 
 from .strtobool import strtobool
 
@@ -25,6 +24,10 @@ _logger = logging.getLogger(__name__)
 
 
 REGEX_SLUGIFY = r"[^-a-z0-9_]+"
+
+FS_FILENAME_RE_PARSER = re.compile(
+    r"^(?P<name>.+)-(?P<id>\d+)-(?P<version>\d+)(?P<extension>\..+)$"
+)
 
 
 def is_true(strval):
@@ -137,32 +140,10 @@ class IrAttachment(models.Model):
             _logger.warning(msg)
         return is_disabled
 
-    @property
-    def _object_storage_default_force_db_config(self):
-        return {"image/": 51200, "application/javascript": 0, "text/css": 0}
-
     def _get_storage_force_db_config(self):
-        param = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param(
-                "ir_attachment.storage.force.database",
-            )
+        return self.env["fs.storage"].get_force_db_for_default_attachment_rules(
+            self._storage()
         )
-        storage_config = None
-        if param:
-            try:
-                storage_config = const_eval(param)
-            except (SyntaxError, TypeError, ValueError):
-                _logger.exception(
-                    "Could not parse system parameter"
-                    " 'ir_attachment.storage.force.database', reverting to the"
-                    " default configuration."
-                )
-
-        if not storage_config:
-            storage_config = self._object_storage_default_force_db_config
-        return storage_config
 
     def _store_in_db_instead_of_object_storage_domain(self):
         """Return a domain for attachments that must be forced to DB
@@ -256,6 +237,14 @@ class IrAttachment(models.Model):
     ###########################################################
     # Odoo methods that we override to use the object storage #
     ###########################################################
+    @api.model
+    def _storage(self):
+        # We check if a filesystem storage is configured for attachments
+        storage = self.env["fs.storage"].get_default_storage_code_for_attachments()
+        if not storage:
+            # If not, we use the default storage configured into odoo
+            storage = super()._storage()
+        return storage
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -428,17 +417,11 @@ class IrAttachment(models.Model):
         """Return True if the filename is meaningful
         A filename is meaningful if it's formatted as
         """
-        if not filename:
+        parsed = self._parse_fs_filename(filename)
+        if not parsed:
             return False
-        filename = os.path.basename(filename)
-        re_fs_filename_parser = re.compile(
-            r"^(?P<name>.+)-(?P<id>\d+)-(?P<version>\d+)(?P<extension>\..+)$"
-        )
-        match = re_fs_filename_parser.match(filename)
-        if not match:
-            return False
-        name, res_id, version, extension = match.groups()
-        return bool(name and res_id and version and extension)
+        name, res_id, version, extension = parsed
+        return bool(name and res_id and version is not None and extension)
 
     @api.model
     def _parse_fs_filename(self, filename: str) -> tuple[str, int, int, str] | None:
@@ -446,12 +429,9 @@ class IrAttachment(models.Model):
         <name-without-extension>-<id>-<version>.<extension>
         """
         if not filename:
-            return "", "", "", ""
+            return None
         filename = os.path.basename(filename)
-        re_fs_filename_parser = re.compile(
-            r"^(?P<name>.+)-(?P<id>\d+)-(?P<version>\d+)(?P<extension>\..+)$"
-        )
-        match = re_fs_filename_parser.match(filename)
+        match = FS_FILENAME_RE_PARSER.match(filename)
         if not match:
             return None
         name, res_id, version, extension = match.groups()

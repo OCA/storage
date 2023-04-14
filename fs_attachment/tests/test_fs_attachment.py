@@ -210,9 +210,7 @@ class TestFSAttachment(TransactionCase):
         """In this test we check that if a rollback is done on a create
         The file is removed
         """
-        self.env["ir.config_parameter"].sudo().set_param(
-            "ir_attachment.location", "tmp_dir"
-        )
+        self.temp_backend.use_as_default_for_attachments = True
         content = b"Transactional create"
         try:
 
@@ -260,6 +258,26 @@ class TestFSAttachment(TransactionCase):
         self.assertNotIn(
             store_fname, self.gc_file_model.search([]).mapped("store_fname")
         )
+
+    def test_attachment_fs_url(self):
+        self.temp_backend.base_url = "https://acsone.eu/media"
+        self.env["ir.config_parameter"].sudo().set_param(
+            "ir_attachment.location", "tmp_dir"
+        )
+        content = b"Transactional update"
+        attachment = self.env["ir.attachment"].create(
+            {"name": "test.txt", "raw": content}
+        )
+        self.env.flush_all()
+        attachment_path = f"/test-{attachment.id}-0.txt"
+        self.assertEqual(attachment.fs_url, f"https://acsone.eu/media{attachment_path}")
+        self.assertEqual(attachment.fs_url_path, attachment_path)
+
+        self.temp_backend.is_directory_path_in_url = True
+        self.temp_backend.recompute_urls()
+        attachment_path = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+        self.assertEqual(attachment.fs_url, f"https://acsone.eu/media{attachment_path}")
+        self.assertEqual(attachment.fs_url_path, attachment_path)
 
 
 class MyException(Exception):
