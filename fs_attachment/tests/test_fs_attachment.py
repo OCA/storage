@@ -3,6 +3,7 @@
 import os
 import shutil
 import tempfile
+from unittest import mock
 
 from odoo.tests.common import TransactionCase
 
@@ -24,6 +25,7 @@ class TestFSAttachment(TransactionCase):
         )
         cls.temp_dir = temp_dir
         cls.gc_file_model = cls.env["fs.file.gc"]
+        cls.ir_attachment_model = cls.env["ir.attachment"]
 
         @cls.addClassCleanup
         def cleanup_tempdir():
@@ -49,6 +51,7 @@ class TestFSAttachment(TransactionCase):
         self.assertEqual(os.listdir(self.temp_dir), [f"test-{attachment.id}-0.txt"])
         self.assertEqual(attachment.raw, content)
         self.assertFalse(attachment.db_datas)
+        self.assertEqual(attachment.mimetype, "text/plain")
         with attachment.open("rb") as f:
             self.assertEqual(f.read(), content)
 
@@ -63,11 +66,12 @@ class TestFSAttachment(TransactionCase):
     def test_open_attachment_in_db(self):
         self.env["ir.config_parameter"].sudo().set_param("ir_attachment.location", "db")
         content = b"This is a test attachment in db"
-        attachment = self.env["ir.attachment"].create(
+        attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
         )
         self.assertFalse(attachment.store_fname)
         self.assertTrue(attachment.db_datas)
+        self.assertEqual(attachment.mimetype, "text/plain")
         with attachment.open("rb") as f:
             self.assertEqual(f.read(), content)
         with self.assertRaisesRegex(SystemError, "Write mode is not supported"):
@@ -78,7 +82,7 @@ class TestFSAttachment(TransactionCase):
             "ir_attachment.location", "file"
         )
         content = b"This is a test attachment in filestore"
-        attachment = self.env["ir.attachment"].create(
+        attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
         )
         self.assertTrue(attachment.store_fname)
@@ -95,16 +99,15 @@ class TestFSAttachment(TransactionCase):
         self.assertEqual(attachment.raw, b"new")
 
     def test_default_attachment_store_in_fs(self):
-        self.env["ir.config_parameter"].sudo().set_param(
-            "ir_attachment.location", "tmp_dir"
-        )
+        self.temp_backend.use_as_default_for_attachments = True
         content = b"This is a test attachment in filestore tmp_dir"
-        attachment = self.env["ir.attachment"].create(
+        attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
         self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
         initial_filename = f"test-{attachment.id}-0.txt"
@@ -129,6 +132,7 @@ class TestFSAttachment(TransactionCase):
         self.assertEqual(
             attachment.store_fname, f"tmp_dir://{self.temp_dir}/{new_filename}"
         )
+        self.assertEqual(attachment.mimetype, "text/plain")
 
         # the original file is to to be deleted by the GC
         self.assertEqual(
@@ -152,11 +156,9 @@ class TestFSAttachment(TransactionCase):
         """In this test we check that if a rollback is done on an update
         The original content is preserved
         """
-        self.env["ir.config_parameter"].sudo().set_param(
-            "ir_attachment.location", "tmp_dir"
-        )
+        self.temp_backend.use_as_default_for_attachments = True
         content = b"Transactional update"
-        attachment = self.env["ir.attachment"].create(
+        attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
         )
         self.env.flush_all()
@@ -191,6 +193,7 @@ class TestFSAttachment(TransactionCase):
         self.assertEqual(attachment.store_fname, f"tmp_dir://{initial_filename}")
         self.assertEqual(attachment.fs_filename, initial_filename)
         self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.mimetype, "text/plain")
         self.assertEqual(
             set(os.listdir(self.temp_dir)),
             {os.path.basename(initial_filename), os.path.basename(new_filename)},
@@ -215,7 +218,7 @@ class TestFSAttachment(TransactionCase):
         try:
 
             with self.env.cr.savepoint():
-                attachment = self.env["ir.attachment"].create(
+                attachment = self.ir_attachment_model.create(
                     {"name": "test.txt", "raw": content}
                 )
                 self.env.flush_all()
@@ -261,11 +264,9 @@ class TestFSAttachment(TransactionCase):
 
     def test_attachment_fs_url(self):
         self.temp_backend.base_url = "https://acsone.eu/media"
-        self.env["ir.config_parameter"].sudo().set_param(
-            "ir_attachment.location", "tmp_dir"
-        )
+        self.temp_backend.use_as_default_for_attachments = True
         content = b"Transactional update"
-        attachment = self.env["ir.attachment"].create(
+        attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
         )
         self.env.flush_all()
@@ -278,6 +279,58 @@ class TestFSAttachment(TransactionCase):
         attachment_path = f"{self.temp_dir}/test-{attachment.id}-0.txt"
         self.assertEqual(attachment.fs_url, f"https://acsone.eu/media{attachment_path}")
         self.assertEqual(attachment.fs_url_path, attachment_path)
+
+    def test_force_attachment_in_db_rules(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        # force storage in db for text/plain
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, b"content")
+        self.assertEqual(attachment.mimetype, "text/plain")
+
+    def test_force_storage_to_db(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        self.assertTrue(attachment.store_fname)
+        self.assertFalse(attachment.db_datas)
+        store_fname = attachment.store_fname
+        # we change the rules to force the storage in db for text/plain
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        attachment.force_storage_to_db_for_special_fields()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, b"content")
+        # we check that the file is marked for GC
+        gc_files = self.gc_file_model.search([]).mapped("store_fname")
+        self.assertIn(store_fname, gc_files)
+
+    def test_force_storage_to_fs(self):
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        fs_path = self.ir_attachment_model._filestore() + "/" + attachment.store_fname
+        self.assertTrue(os.path.exists(fs_path))
+        self.assertEqual(os.listdir(self.temp_dir), [])
+        # we decide to force the storage in the filestore
+        self.temp_backend.use_as_default_for_attachments = True
+        with mock.patch.object(self.env.cr, "commit"), mock.patch(
+            "odoo.addons.fs_attachment.models.ir_attachment.clean_fs"
+        ) as clean_fs:
+            self.ir_attachment_model.force_storage()
+            clean_fs.assert_called_once()
+        # files into the filestore must be moved to our filesystem storage
+        filename = f"test-{attachment.id}-0.txt"
+        self.assertEqual(
+            attachment.store_fname, f"tmp_dir://{self.temp_dir}/{filename}"
+        )
+        self.assertIn(filename, os.listdir(self.temp_dir))
 
 
 class MyException(Exception):

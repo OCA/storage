@@ -15,7 +15,8 @@ import psycopg2
 from slugify import slugify  # pylint: disable=missing-manifest-dependency
 
 import odoo
-from odoo import _, api, exceptions, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import AccessError, UserError
 from odoo.osv.expression import AND, OR, normalize_domain
 
 from .strtobool import strtobool
@@ -186,8 +187,8 @@ class IrAttachment(models.Model):
         * better portability of a database: when replicating a production
           instance for dev, the assets are included
 
-        The configuration can be modified in the ir.config_parameter
-        ``ir_attachment.storage.force.database``, as a dictionary, for
+        The configuration can be modified on the fs.storage record, in the
+        field ``force_db_for_default_attachment_rules``, as a dictionary, for
         instance::
 
             {"image/": 51200, "application/javascript": 0, "text/css": 0}
@@ -196,15 +197,12 @@ class IrAttachment(models.Model):
         value is the limit in size below which attachments are kept in DB.
         0 means no limit.
 
-        Default configuration means:
+        These limits are applied only if the storage is the default one for
+        attachments (see ``_storage``).
 
-        * images mimetypes (image/png, image/jpeg, ...) below 51200 bytes are
-          stored in database
-        * application/javascript are stored in database whatever their size
-        * text/css are stored in database whatever their size
-
-        The conditions must be inline with the domain in
-        ``_store_in_db_instead_of_object_storage_domain``.
+        The conditions are also applied into the domain of the method
+        ``_store_in_db_instead_of_object_storage_domain`` used to move records
+        from a filesystem storage to the database.
 
         """
         if self._is_storage_disabled():
@@ -251,6 +249,31 @@ class IrAttachment(models.Model):
         attachments = super().create(vals_list)
         attachments._enforce_meaningful_storage_filename()
         return attachments
+
+    def write(self, vals):
+        if ("datas" in vals or "raw" in vals) and not (
+            "name" in vals or "mimetype" in vals
+        ):
+            # When we write on an attachment, if the mimetype is not provided, it
+            # will be computed from the name. The problem is that if you assign a
+            # value to the field ``datas`` or ``raw``, the name is not provided
+            # nor the mimetype, so the mimetype will be set to ``application/octet-
+            # stream``.
+            # We want to avoid this, so we take the mimetype of the first attachment
+            # and we set it on all the attachments if they all have the same mimetype.
+            # If they don't have the same mimetype, we raise an error.
+            # OPW-3277070
+            mimetypes = self.mapped("mimetype")
+            if len(set(mimetypes)) == 1:
+                vals["mimetype"] = mimetypes[0]
+            else:
+                raise UserError(
+                    _(
+                        "You can't write on multiple attachments with different "
+                        "mimetypes at the same time."
+                    )
+                )
+        return super().write(vals)
 
     @api.model
     def _file_read(self, fname):
@@ -609,9 +632,7 @@ class IrAttachment(models.Model):
     @api.model
     def force_storage(self):
         if not self.env["res.users"].browse(self.env.uid)._is_admin():
-            raise exceptions.AccessError(
-                _("Only administrators can execute this action.")
-            )
+            raise AccessError(_("Only administrators can execute this action."))
         location = self.env.context.get("storage_location") or self._storage()
         if location not in self._get_storage_codes():
             return super().force_storage()
@@ -675,10 +696,12 @@ class IrAttachment(models.Model):
                 # this write will read the datas from the Object Storage and
                 # write them back in the DB (the logic for location to write is
                 # in the 'datas' inverse computed field)
+                # we need to write the mimetype too, otherwise it will be
+                # overwritten with 'application/octet-stream' on assets. On each
+                # write, the mimetype is recomputed if not given. If we don't
+                # pass it nor the name, the mimetype will be set to the default
+                # value 'application/octet-stream' on assets.
                 attachment.write({"datas": attachment.datas})
-                # as the file will potentially be dropped on the bucket,
-                # we should commit the changes here
-                new_env.cr.commit()
                 if current % 100 == 0 or total - current == 0:
                     _logger.info(
                         "attachment %s/%s after %.2fs",

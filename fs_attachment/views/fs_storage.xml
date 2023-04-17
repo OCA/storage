@@ -12,6 +12,13 @@
                 <separator string="Attachment" />
                 <field name="optimizes_directory_path" />
                 <field name="autovacuum_gc" />
+                <field name="use_as_default_for_attachments" />
+                <field
+                    name="force_db_for_default_attachment_rules"
+                    widget="ace"
+                    options="{'mode': 'python'}"
+                    attrs="{'invisible': [('use_as_default_for_attachments', '=', False)]}"
+                />
             </field>
         </field>
     </record>

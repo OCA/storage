@@ -89,12 +89,14 @@ class FsStorage(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if not vals.get("use_as_default_for_attachments"):
-                vals["force_db_for_default_attachment_rules"] = ""
+                vals["force_db_for_default_attachment_rules"] = None
         return super().create(vals_list)
 
     def write(self, vals):
-        if not vals.get("use_as_default_for_attachments"):
-            vals["force_db_for_default_attachment_rules"] = ""
+        if "use_as_default_for_attachments" in vals:
+            if not vals["use_as_default_for_attachments"]:
+                vals["force_db_for_default_attachment_rules"] = None
+            return super().write(vals)
         return super().write(vals)
 
     @api.constrains(
