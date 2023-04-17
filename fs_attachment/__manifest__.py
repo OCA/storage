@@ -14,7 +14,6 @@
     "data": [
         "security/fs_file_gc.xml",
         "views/fs_storage.xml",
-        "data/res_config_settings_data.xml",
     ],
     "external_dependencies": {"python": ["python_slugify"]},
     "installable": True,
