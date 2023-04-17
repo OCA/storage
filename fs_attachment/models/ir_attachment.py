@@ -337,7 +337,12 @@ class IrAttachment(models.Model):
 
     @api.model
     def _storage_file_delete(self, fname):
-        """Delete the file from the filesystem storage"""
+        """Delete the file from the filesystem storage
+
+        It's safe to use the fname (the store_fname) to delete the file because
+        even if it's the full path to the file, the gc will only delete the file
+        if they belong to the configured storage directory path.
+        """
         self._fs_mark_for_gc(fname)
 
     @api.model

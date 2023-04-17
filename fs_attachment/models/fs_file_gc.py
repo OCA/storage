@@ -147,13 +147,23 @@ class FsFileGC(models.Model):
             (tuple(codes),),
         )
         for code, store_fnames in self._cr.fetchall():
+            storage = self.env["fs.storage"].get_by_code(code)
             fs = self.env["fs.storage"].get_fs_by_code(code, root=True)
             for store_fname in store_fnames:
                 try:
                     file_path = store_fname.partition("://")[2]
+                    if storage.directory_path and not file_path.startswith(
+                        storage.directory_path
+                    ):
+                        _logger.debug(
+                            "File %s is not in the storage directory %s",
+                            store_fname,
+                            storage.directory_path,
+                        )
+                        continue
                     fs.rm(file_path)
                 except Exception:
-                    _logger.info("Failed to remove file %s", store_fname)
+                    _logger.debug("Failed to remove file %s", store_fname)
 
         # delete the records from the table fs_file_gc
         self._cr.execute(

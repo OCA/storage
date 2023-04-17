@@ -6,6 +6,7 @@ import tempfile
 from unittest import mock
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 class TestFSAttachment(TransactionCase):
@@ -247,6 +248,42 @@ class TestFSAttachment(TransactionCase):
         self.gc_file_model._gc_files_unsafe()
         self.assertEqual(os.listdir(self.temp_dir), [])
 
+    def test_fs_no_delete_if_not_in_current_directory_path(self):
+        """In this test we check that it's not possible to removes files
+        outside the current directory path even if they were created by the
+        current filesystem storage.
+        """
+        # normal delete
+        self.temp_backend.use_as_default_for_attachments = True
+        content = b"Transactional create"
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": content}
+        )
+        self.env.flush_all()
+        initial_filename = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+        self.assertEqual(
+            os.listdir(self.temp_dir), [os.path.basename(initial_filename)]
+        )
+        attachment.unlink()
+        self.gc_file_model._gc_files_unsafe()
+        self.assertEqual(os.listdir(self.temp_dir), [])
+        # delete outside the current directory path
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": content}
+        )
+        self.env.flush_all()
+        initial_filename = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+        self.assertEqual(
+            os.listdir(self.temp_dir), [os.path.basename(initial_filename)]
+        )
+        self.temp_backend.directory_path = "/dummy"
+        attachment.unlink()
+        self.gc_file_model._gc_files_unsafe()
+        # unlink is not physically done since the file is outside the current
+        self.assertEqual(
+            os.listdir(self.temp_dir), [os.path.basename(initial_filename)]
+        )
+
     def test_no_gc_if_disabled_on_storage(self):
         store_fname = "tmp_dir://dummy-0-0.txt"
         self.gc_file_model._mark_for_gc(store_fname)
@@ -310,6 +347,7 @@ class TestFSAttachment(TransactionCase):
         gc_files = self.gc_file_model.search([]).mapped("store_fname")
         self.assertIn(store_fname, gc_files)
 
+    @mute_logger("odoo.addons.fs_attachment.models.ir_attachment")
     def test_force_storage_to_fs(self):
         attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": b"content"}

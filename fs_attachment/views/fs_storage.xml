@@ -19,6 +19,10 @@
                     options="{'mode': 'python'}"
                     attrs="{'invisible': [('use_as_default_for_attachments', '=', False)]}"
                 />
+                <separator string="Attachment's Url" />
+                <field name="base_url" />
+                <field name="is_directory_path_in_url" />
+                <field name="backend_view_use_internal_url" />
             </field>
         </field>
     </record>
