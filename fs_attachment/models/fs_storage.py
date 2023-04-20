@@ -67,6 +67,15 @@ class FsStorage(models.Model):
         "* text/css are stored in database whatever their size",
         default=lambda self: self._default_force_db_for_default_attachment_rules,
     )
+    use_filename_obfuscation = fields.Boolean(
+        help="If checked, the filename will be obfuscated. This option is "
+        "useful to avoid to expose sensitive information trough the URL "
+        "or in the remote storage. The obfuscation is done using a hash "
+        "of the filename. The original filename is stored in the attachment "
+        "metadata. The obfusation is to avoid if the storage is used to store "
+        "files that are referenced by other systems (like a website) where "
+        "the filename is important for SEO.",
+    )
 
     _sql_constraints = [
         (
@@ -162,6 +171,13 @@ class FsStorage(models.Model):
     @tools.ormcache("code")
     def _must_autovacuum_gc(self, code):
         return bool(self.search([("code", "=", code), ("autovacuum_gc", "=", True)]))
+
+    @api.model
+    @tools.ormcache("code")
+    def _must_use_filename_obfuscation(self, code):
+        return bool(
+            self.search([("code", "=", code), ("use_filename_obfuscation", "=", True)])
+        )
 
     @api.depends("base_url", "is_directory_path_in_url")
     def _compute_base_url_for_files(self):
