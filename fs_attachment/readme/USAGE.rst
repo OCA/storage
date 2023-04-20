@@ -110,6 +110,13 @@ from URLs.
   see https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/ for more
   information.
 
+* ``Use Filename Obfuscation``: If checked, the filename used to store the content
+  into the filesystem storage will be obfuscated. This is useful to avoid to
+  expose the real filename of the attachments outside of the Odoo database.
+  The filename will be obfuscated by using the checksum of the content. This option
+  is to avoid when the content of your filestore is shared with other systems
+   (like your website) and you want to keep a meaningful filename to ensure
+   SEO. This option is disabled by default.
 
 Tips & Tricks
 ~~~~~~~~~~~~~

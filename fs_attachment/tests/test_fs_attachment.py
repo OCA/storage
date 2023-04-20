@@ -14,7 +14,6 @@ class TestFSAttachment(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.backend = cls.env.ref("fs_storage.default_fs_storage")
         temp_dir = tempfile.mkdtemp()
         cls.temp_backend = cls.env["fs.storage"].create(
             {
@@ -369,6 +368,20 @@ class TestFSAttachment(TransactionCase):
             attachment.store_fname, f"tmp_dir://{self.temp_dir}/{filename}"
         )
         self.assertIn(filename, os.listdir(self.temp_dir))
+
+    def test_storage_use_filename_obfuscation(self):
+        self.temp_backend.base_url = "https://acsone.eu/media"
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        self.assertTrue(attachment.store_fname)
+        self.assertEqual(attachment.name, "test.txt")
+        self.assertEqual(attachment.checksum, attachment.store_fname.split("/")[-1])
+        self.assertEqual(attachment.checksum, attachment.fs_url.split("/")[-1])
+        self.assertEqual(attachment.mimetype, "text/plain")
 
 
 class MyException(Exception):

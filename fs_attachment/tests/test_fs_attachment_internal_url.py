@@ -14,7 +14,6 @@ class TestFsAttachmentInternalUrl(HttpCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.backend = cls.env.ref("fs_storage.default_fs_storage")
         temp_dir = tempfile.mkdtemp()
         cls.temp_backend = cls.env["fs.storage"].create(
             {
