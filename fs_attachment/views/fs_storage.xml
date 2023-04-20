@@ -22,7 +22,7 @@
                 <separator string="Attachment's Url" />
                 <field name="base_url" />
                 <field name="is_directory_path_in_url" />
-                <field name="backend_view_use_internal_url" />
+                <field name="use_x_sendfile_to_serve_internal_url" />
             </field>
         </field>
     </record>

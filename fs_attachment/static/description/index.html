@@ -398,7 +398,12 @@ available when the attachment is stored in an external storage.
 Particular attention has been paid to limit as much as possible the consumption
 of resources necessary to serve via Odoo the content stored in an external
 filesystem. The implementation is based on an end-to-end streaming of content
-between the external filesystem and the Odoo client application.</p>
+between the external filesystem and the Odoo client application by default.
+Nevertheless, if your content is available via a URL on the external filesystem,
+you can configure the storage to use the x-sendfile mechanism to serve the
+content if it’s activated on your Odoo instance. In this case, the content
+served by Odoo at the internal URL will be proxied to the filesystem URL
+by nginx.</p>
 </div>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
@@ -492,11 +497,42 @@ as default for attachments.</p>
 </ul>
 <p>Another key feature of this module is the ability to get access to the attachments
 from URLs.</p>
-<ul class="simple">
-<li><tt class="docutils literal">Base URL</tt>: This is the base URL used to access the attachments from the
-filesystem storage itself.</li>
-<li><tt class="docutils literal">Is Directory Path In URL</tt>: Normally the directory patch configured on the storage
-is not included in the URL. If you want to include it, you can activate this option.</li>
+<ul>
+<li><p class="first"><tt class="docutils literal">Base URL</tt>: This is the base URL used to access the attachments from the
+filesystem storage itself. If your storage doesn’t provide a way to access
+the files from a URL, you can leave this field empty.</p>
+</li>
+<li><p class="first"><tt class="docutils literal">Is Directory Path In URL</tt>: Normally the directory patch configured on the storage
+is not included in the URL. If you want to include it, you can activate this option.</p>
+</li>
+<li><p class="first"><tt class="docutils literal">Use <span class="pre">X-Sendfile</span> To Serve Internal Url</tt>: If checked and odoo is behind a proxy
+that supports x-sendfile, the content served by the attachment’s internal URL
+will be served by the proxy using the filesystem url path if defined (This field
+is available on the attachment if the storage is configured with a base URL)
+If not, the file will be served by odoo that will stream the content read from
+the filesystem storage. This option is useful to avoid to serve files from odoo
+and therefore to avoid to load the odoo process.</p>
+<p>To be fully functional, this option requires the proxy to support x-sendfile
+(apache) or x-accel-redirect (nginx). You must also configure your proxy by
+adding for each storage a rule to redirect the url rooted at the ‘storagge code’
+to the server serving the files. For example, if you have a storage with the
+code ‘my_storage’ and a server serving the files at the url ‘<a class="reference external" href="http://myserver.com">http://myserver.com</a>’,
+you must add the following rule in your proxy configuration:</p>
+<pre class="code nginx literal-block">
+<span class="k">location</span><span class="w"> </span><span class="s">/my_storage/</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="kn">internal</span><span class="p">;</span><span class="w">
+    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://myserver.com</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>With this configuration a call to ‘/web/content/&lt;att.id&gt;/&lt;att.name&gt;&lt;att.extension&gt;”
+for a file stored in the ‘my_storage’ storage will generate a response by odoo
+with the URI
+<tt class="docutils literal"><span class="pre">/my_storage/&lt;paht_in_storage&gt;/&lt;att.name&gt;-&lt;att.id&gt;-&lt;version&gt;&lt;att.extension&gt;</span></tt>
+in the headers <tt class="docutils literal"><span class="pre">X-Accel-Redirect</span></tt> and <tt class="docutils literal"><span class="pre">X-Sendfile</span></tt> and the proxy will redirect to
+<tt class="docutils literal"><span class="pre">http://myserver.com/&lt;paht_in_storage&gt;/&lt;att.name&gt;-&lt;att.id&gt;-&lt;version&gt;&lt;att.extension&gt;</span></tt>.</p>
+<p>see <a class="reference external" href="https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/">https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/</a> for more
+information.</p>
+</li>
 </ul>
 </div>
 <div class="section" id="tips-tricks">

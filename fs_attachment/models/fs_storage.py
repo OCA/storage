@@ -38,10 +38,14 @@ class FsStorage(models.Model):
         "public URL.",
     )
     base_url_for_files = fields.Char(compute="_compute_base_url_for_files", store=True)
-    backend_view_use_internal_url = fields.Boolean(
-        help="Decide if Odoo backend views should use the external URL (usually a CDN) "
-        "or the internal url with direct access to the storage. "
-        "This could save you some money if you pay by CDN traffic."
+    use_x_sendfile_to_serve_internal_url = fields.Boolean(
+        string="Use X-Sendfile To Serve Internal Url",
+        help="If checked and odoo is behind a proxy that supports x-sendfile, "
+        "the content served by the attachment's internal URL will be served"
+        "by the proxy using the fs_url if defined. If not, the file will be "
+        "served by odoo that will stream the content read from the filesystem "
+        "storage. This option is useful to avoid to serve files from odoo "
+        "and therefore to avoid to load the odoo process. ",
     )
     use_as_default_for_attachments = fields.Boolean(
         help="If checked, this storage will be used to store all the attachments ",
@@ -186,7 +190,7 @@ class FsStorage(models.Model):
         if not base_url:
             return None
         if exclude_base_url:
-            base_url = base_url.replace(fs_storage.base_url, "") or "/"
+            base_url = base_url.replace(fs_storage.base_url.rstrip("/"), "") or "/"
         # always remove the directory_path from the fs_file_name
         # ony if it's at the start of the filename
         fs_filename = attachment.fs_filename
