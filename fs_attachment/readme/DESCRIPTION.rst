@@ -31,4 +31,9 @@ to retrieve the file content from a URL:
    Particular attention has been paid to limit as much as possible the consumption
    of resources necessary to serve via Odoo the content stored in an external
    filesystem. The implementation is based on an end-to-end streaming of content
-   between the external filesystem and the Odoo client application.
+   between the external filesystem and the Odoo client application by default.
+   Nevertheless, if your content is available via a URL on the external filesystem,
+   you can configure the storage to use the x-sendfile mechanism to serve the
+   content if it's activated on your Odoo instance. In this case, the content
+   served by Odoo at the internal URL will be proxied to the filesystem URL
+   by nginx.

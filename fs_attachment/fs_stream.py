@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from odoo.http import STATIC_CACHE_LONG, Response, Stream, request
+from odoo.tools import config
 
 from .models.ir_attachment import IrAttachment
 
@@ -20,14 +21,17 @@ class FsStream(Stream):
         attachment.ensure_one()
         if not attachment.fs_filename:
             raise ValueError("Attachment is not stored into a filesystem storage")
-        fs_info = attachment.fs_storage_id.root_fs.info(attachment.fs_filename)
+        size = 0
+        if cls._check_use_x_sendfile(attachment):
+            fs_info = attachment.fs_storage_id.root_fs.info(attachment.fs_filename)
+            size = fs_info["size"]
         return cls(
             mimetype=attachment.mimetype,
             download_name=attachment.name,
             conditional=True,
             etag=attachment.checksum,
             type="fs",
-            size=fs_info["size"],
+            size=size,
             last_modified=attachment["__last_update"],
             fs_attachment=attachment,
         )
@@ -59,9 +63,37 @@ class FsStream(Stream):
             "response_class": Response,
             **send_file_kwargs,
         }
+        use_x_sendfile = self._fs_use_x_sendfile
         # The file will be closed by werkzeug...
-        f = self.fs_attachment.open("rb")
-        res = _send_file(f, **send_file_kwargs)
+        send_file_kwargs["use_x_sendfile"] = use_x_sendfile
+        if not use_x_sendfile:
+            f = self.fs_attachment.open("rb")
+            res = _send_file(f, **send_file_kwargs)
+        else:
+            x_accel_redirect = (
+                f"/{self.fs_attachment.fs_storage_code}{self.fs_attachment.fs_url_path}"
+            )
+            send_file_kwargs["use_x_sendfile"] = True
+            res = _send_file("", **send_file_kwargs)
+            # nginx specific headers
+            res.headers["X-Accel-Redirect"] = x_accel_redirect
+            # apache specific headers
+            res.headers["X-Sendfile"] = x_accel_redirect
+            res.headers["Content-Length"] = 0
+
         if immutable and res.cache_control:
             res.cache_control["immutable"] = None
         return res
+
+    @classmethod
+    def _check_use_x_sendfile(cls, attachment: IrAttachment) -> bool:
+        return (
+            config["x_sendfile"]
+            and attachment.fs_url
+            and attachment.fs_storage_id.use_x_sendfile_to_serve_internal_url
+        )
+
+    @property
+    def _fs_use_x_sendfile(self) -> bool:
+        """Return True if x-sendfile should be used to serve the file"""
+        return self._check_use_x_sendfile(self.fs_attachment)

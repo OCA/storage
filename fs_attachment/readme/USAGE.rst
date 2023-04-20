@@ -74,9 +74,42 @@ Another key feature of this module is the ability to get access to the attachmen
 from URLs.
 
 * ``Base URL``: This is the base URL used to access the attachments from the
-  filesystem storage itself.
+  filesystem storage itself. If your storage doesn't provide a way to access
+  the files from a URL, you can leave this field empty.
 * ``Is Directory Path In URL``: Normally the directory patch configured on the storage
   is not included in the URL. If you want to include it, you can activate this option.
+* ``Use X-Sendfile To Serve Internal Url``: If checked and odoo is behind a proxy
+  that supports x-sendfile, the content served by the attachment's internal URL
+  will be served by the proxy using the filesystem url path if defined (This field
+  is available on the attachment if the storage is configured with a base URL)
+  If not, the file will be served by odoo that will stream the content read from
+  the filesystem storage. This option is useful to avoid to serve files from odoo
+  and therefore to avoid to load the odoo process.
+
+  To be fully functional, this option requires the proxy to support x-sendfile
+  (apache) or x-accel-redirect (nginx). You must also configure your proxy by
+  adding for each storage a rule to redirect the url rooted at the 'storagge code'
+  to the server serving the files. For example, if you have a storage with the
+  code 'my_storage' and a server serving the files at the url 'http://myserver.com',
+  you must add the following rule in your proxy configuration:
+
+  .. code-block:: nginx
+
+    location /my_storage/ {
+        internal;
+        proxy_pass http://myserver.com;
+    }
+
+  With this configuration a call to '/web/content/<att.id>/<att.name><att.extension>"
+  for a file stored in the 'my_storage' storage will generate a response by odoo
+  with the URI
+  ``/my_storage/<paht_in_storage>/<att.name>-<att.id>-<version><att.extension>``
+  in the headers ``X-Accel-Redirect`` and ``X-Sendfile`` and the proxy will redirect to
+  ``http://myserver.com/<paht_in_storage>/<att.name>-<att.id>-<version><att.extension>``.
+
+  see https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/ for more
+  information.
+
 
 Tips & Tricks
 ~~~~~~~~~~~~~
