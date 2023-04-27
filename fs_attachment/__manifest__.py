@@ -4,7 +4,7 @@
 
 {
     "name": "Base Attachment Object Store",
-    "summary": "Stora attachments on external object store",
+    "summary": "Store attachments on external object store",
     "version": "16.0.1.0.0",
     "author": "Camptocamp, ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "AGPL-3",
@@ -18,4 +18,5 @@
     "external_dependencies": {"python": ["python_slugify"]},
     "installable": True,
     "auto_install": False,
+    "maintainers": ["lmignon"],
 }
