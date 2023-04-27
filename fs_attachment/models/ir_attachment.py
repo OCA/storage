@@ -251,6 +251,8 @@ class IrAttachment(models.Model):
         return attachments
 
     def write(self, vals):
+        if not self:
+            return self
         if ("datas" in vals or "raw" in vals) and not (
             "name" in vals or "mimetype" in vals
         ):
