@@ -8,6 +8,7 @@
     "version": "16.0.1.0.0",
     "author": "Camptocamp, ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "AGPL-3",
+    "development_status": "Beta",
     "category": "Knowledge Management",
     "depends": ["fs_storage"],
     "website": "https://github.com/OCA/storage",
