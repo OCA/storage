@@ -16,7 +16,7 @@ into the filestore is the file content checksum). Concretely the filename
 is based on the pattern:
 '<name-without-extension>-<attachment-id>-<version>.<extension>'
 
-Last but not least, this addon adds on the attachments 2 new fields to use
+This addon also adds on the attachments 2 new fields to use
 to retrieve the file content from a URL:
 
 * ``Internal URL``: URL to retrieve the file content from the Odoo's
@@ -37,3 +37,9 @@ to retrieve the file content from a URL:
    content if it's activated on your Odoo instance. In this case, the content
    served by Odoo at the internal URL will be proxied to the filesystem URL
    by nginx.
+
+Last but not least, the addon adds a new method `open` on the attachment. This
+method allows you to open the attachment as a file. For attachments stored into
+the filestore or in an external filesystem, it allows you to directly read from
+and write to the file and therefore minimize the memory consumption since data
+are not kept into memory before being written into the database.
