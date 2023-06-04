@@ -1,42 +1,14 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import os
-import shutil
-import tempfile
 from unittest import mock
 
-from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
+from .common import MyException, TestFSAttachmentCommon
 
-class TestFSAttachment(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        temp_dir = tempfile.mkdtemp()
-        cls.temp_backend = cls.env["fs.storage"].create(
-            {
-                "name": "Temp FS Storage",
-                "protocol": "file",
-                "code": "tmp_dir",
-                "directory_path": temp_dir,
-            }
-        )
-        cls.temp_dir = temp_dir
-        cls.gc_file_model = cls.env["fs.file.gc"]
-        cls.ir_attachment_model = cls.env["ir.attachment"]
 
-        @cls.addClassCleanup
-        def cleanup_tempdir():
-            shutil.rmtree(temp_dir)
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        # empty the temp dir
-        for f in os.listdir(self.temp_dir):
-            os.remove(os.path.join(self.temp_dir, f))
-
+class TestFSAttachment(TestFSAttachmentCommon):
     def test_create_attachment_explicit_location(self):
         content = b"This is a test attachment"
         attachment = (
@@ -47,7 +19,6 @@ class TestFSAttachment(TransactionCase):
             )
             .create({"name": "test.txt", "raw": content})
         )
-        self.env.flush_all()
         self.assertEqual(os.listdir(self.temp_dir), [f"test-{attachment.id}-0.txt"])
         self.assertEqual(attachment.raw, content)
         self.assertFalse(attachment.db_datas)
@@ -57,10 +28,6 @@ class TestFSAttachment(TransactionCase):
 
         with attachment.open("wb") as f:
             f.write(b"new")
-        # refresh is required while we don't use a file-like object proxy
-        # that detect the modification of the content and invalidate the
-        # record's cache
-        attachment.invalidate_recordset()
         self.assertEqual(attachment.raw, b"new")
 
     def test_open_attachment_in_db(self):
@@ -74,8 +41,9 @@ class TestFSAttachment(TransactionCase):
         self.assertEqual(attachment.mimetype, "text/plain")
         with attachment.open("rb") as f:
             self.assertEqual(f.read(), content)
-        with self.assertRaisesRegex(SystemError, "Write mode is not supported"):
-            attachment.open("wb")
+        with attachment.open("wb") as f:
+            f.write(b"new")
+        self.assertEqual(attachment.raw, b"new")
 
     def test_attachment_open_in_filestore(self):
         self.env["ir.config_parameter"].sudo().set_param(
@@ -92,10 +60,6 @@ class TestFSAttachment(TransactionCase):
             self.assertEqual(f.read(), content)
         with attachment.open("wb") as f:
             f.write(b"new")
-        # refresh is required while we don't use a file-like object proxy
-        # that detect the modification of the content and invalidate the
-        # record's cache
-        attachment.invalidate_recordset()
         self.assertEqual(attachment.raw, b"new")
 
     def test_default_attachment_store_in_fs(self):
@@ -188,8 +152,6 @@ class TestFSAttachment(TransactionCase):
                 raise MyException("dummy exception")
         except MyException:
             ...
-        attachment.invalidate_recordset()
-        self.env.flush_all()
         self.assertEqual(attachment.store_fname, f"tmp_dir://{initial_filename}")
         self.assertEqual(attachment.fs_filename, initial_filename)
         self.assertEqual(attachment.raw, content)
@@ -382,8 +344,3 @@ class TestFSAttachment(TransactionCase):
         self.assertEqual(attachment.checksum, attachment.store_fname.split("/")[-1])
         self.assertEqual(attachment.checksum, attachment.fs_url.split("/")[-1])
         self.assertEqual(attachment.mimetype, "text/plain")
-
-
-class MyException(Exception):
-    """Exception to be raised into tests ensure that we trap only this
-    exception and not other exceptions raised by the test"""

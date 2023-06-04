@@ -115,8 +115,55 @@ from URLs.
   expose the real filename of the attachments outside of the Odoo database.
   The filename will be obfuscated by using the checksum of the content. This option
   is to avoid when the content of your filestore is shared with other systems
-   (like your website) and you want to keep a meaningful filename to ensure
-   SEO. This option is disabled by default.
+  (like your website) and you want to keep a meaningful filename to ensure
+  SEO. This option is disabled by default.
+
+
+Advanced usage: Using attachment as a file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `open` method on the attachment can be used to open manipulate the attachment
+as a file object. The object returned by the call to the method implements
+methods from ``io.IOBase``.  The method can ba called as any other python method.
+In such a case, it's your responsibility to close the file at the end of your
+process.
+
+.. code-block:: python
+
+    attachment = self.env.create({"name": "test.txt"})
+    the_file = attachment.open("wb")
+    try:
+      the_file.write(b"content")
+    finally:
+      the_file.close()
+
+The result of the call to `open` also works in a context ``with`` block. In such
+a case, when the code exit the block, the file is automatically closed.
+
+.. code-block:: python
+
+    attachment = self.env.create({"name": "test.txt"})
+    with attachment.open("wb") as the_file:
+      the_file.write(b"content")
+
+It's always safer to prefer the second approach.
+
+When your attachment is stored into the odoo filestore or into an external
+filesystem storage, each time you call the open method, a new file is created.
+This way of doing ensures that if the transaction is rollback the original content
+is preserve. Nevertheless you could have use cases where you would like to write
+to the existing file directly. For example you could create an empty attachment
+to store a csv report and then use the `open` method to write your content directly
+into the new file. To support this kind a use cases, the parameter `new_version`
+can be passed as `False` to avoid the creation of a new file.
+
+.. code-block:: python
+
+    attachment = self.env.create({"name": "test.txt"})
+    with attachment.open("w", new_version=False) as f:
+        writer = csv.writer(f, delimiter=";")
+        ....
+
 
 Tips & Tricks
 ~~~~~~~~~~~~~
