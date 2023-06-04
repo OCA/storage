@@ -43,7 +43,7 @@ into the filestore is the file content checksum). Concretely the filename
 is based on the pattern:
 '<name-without-extension>-<attachment-id>-<version>.<extension>'
 
-Last but not least, this addon adds on the attachments 2 new fields to use
+This addon also adds on the attachments 2 new fields to use
 to retrieve the file content from a URL:
 
 * ``Internal URL``: URL to retrieve the file content from the Odoo's
@@ -64,6 +64,12 @@ to retrieve the file content from a URL:
    content if it's activated on your Odoo instance. In this case, the content
    served by Odoo at the internal URL will be proxied to the filesystem URL
    by nginx.
+
+Last but not least, the addon adds a new method `open` on the attachment. This
+method allows you to open the attachment as a file. For attachments stored into
+the filestore or in an external filesystem, it allows you to directly read from
+and write to the file and therefore minimize the memory consumption since data
+are not kept into memory before being written into the database.
 
 **Table of contents**
 
@@ -185,6 +191,60 @@ from URLs.
   see https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/ for more
   information.
 
+* ``Use Filename Obfuscation``: If checked, the filename used to store the content
+  into the filesystem storage will be obfuscated. This is useful to avoid to
+  expose the real filename of the attachments outside of the Odoo database.
+  The filename will be obfuscated by using the checksum of the content. This option
+  is to avoid when the content of your filestore is shared with other systems
+  (like your website) and you want to keep a meaningful filename to ensure
+  SEO. This option is disabled by default.
+
+
+Advanced usage: Using attachment as a file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `open` method on the attachment can be used to open manipulate the attachment
+as a file object. The object returned by the call to the method implements
+methods from ``io.IOBase``.  The method can ba called as any other python method.
+In such a case, it's your responsibility to close the file at the end of your
+process.
+
+.. code-block:: python
+
+    attachment = self.env.create({"name": "test.txt"})
+    the_file = attachment.open("wb")
+    try:
+      the_file.write(b"content")
+    finally:
+      the_file.close()
+
+The result of the call to `open` also works in a context ``with`` block. In such
+a case, when the code exit the block, the file is automatically closed.
+
+.. code-block:: python
+
+    attachment = self.env.create({"name": "test.txt"})
+    with attachment.open("wb") as the_file:
+      the_file.write(b"content")
+
+It's always safer to prefer the second approach.
+
+When your attachment is stored into the odoo filestore or into an external
+filesystem storage, each time you call the open method, a new file is created.
+This way of doing ensures that if the transaction is rollback the original content
+is preserve. Nevertheless you could have use cases where you would like to write
+to the existing file directly. For example you could create an empty attachment
+to store a csv report and then use the `open` method to write your content directly
+into the new file. To support this kind a use cases, the parameter `new_version`
+can be passed as `False` to avoid the creation of a new file.
+
+.. code-block:: python
+
+    attachment = self.env.create({"name": "test.txt"})
+    with attachment.open("w", new_version=False) as f:
+        writer = csv.writer(f, delimiter=";")
+        ....
+
 
 Tips & Tricks
 ~~~~~~~~~~~~~
@@ -252,6 +312,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-lmignon| image:: https://github.com/lmignon.png?size=40px
+    :target: https://github.com/lmignon
+    :alt: lmignon
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-lmignon| 
 
 This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/16.0/fs_attachment>`_ project on GitHub.
 
