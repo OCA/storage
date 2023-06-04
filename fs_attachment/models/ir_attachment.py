@@ -415,10 +415,17 @@ class IrAttachment(models.Model):
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
             # of ir_attachment prevent normal write on store_fname
-            attachment._fields["store_fname"].write(
-                attachment, f"{storage}://{new_filename}"
-            )
+            attachment._force_write_store_fname(f"{storage}://{new_filename}")
             self._fs_mark_for_gc(attachment.store_fname)
+
+    def _force_write_store_fname(self, store_fname):
+        """Force the write of the store_fname field
+
+        The base implementation of the store_fname field prevent the write
+        of the store_fname field. This method bypass this limitation by
+        calling the write method of the field directly.
+        """
+        self._fields["store_fname"].write(self, store_fname)
 
     @api.model
     def _get_fs_storage_for_code(
@@ -514,18 +521,25 @@ class IrAttachment(models.Model):
         self.env["fs.file.gc"]._mark_for_gc(fname)
 
     def open(
-        self, mode="rb", block_size=None, cache_options=None, compression=None, **kwargs
+        self,
+        mode="rb",
+        block_size=None,
+        cache_options=None,
+        compression=None,
+        new_version=True,
+        **kwargs,
     ) -> io.IOBase:
         """
         Return a file-like object from the filesystem storage where the attachment
         content is stored.
 
-        This method works for all attachments, even if the content is stored in the
-        database or into the odoo filestore. (parameters are ignored in the case
-        of the database storage).
+        In read mode, this method works for all attachments, even if the content
+        is stored in the database or into the odoo filestore or a filesystem storage.
 
         The resultant instance must function correctly in a context ``with``
         block.
+
+        (parameters are ignored in the case of the database storage).
 
         Parameters
         ----------
@@ -541,46 +555,30 @@ class IrAttachment(models.Model):
             If given, open file using compression codec. Can either be a compression
             name (a key in ``fsspec.compression.compr``) or "infer" to guess the
             compression from the filename suffix.
+        new_version: bool
+            If True, and mode is 'w', create a new version of the file.
+            If False, and mode is 'w', overwrite the current version of the file.
+            This flag is True by default to avoid data loss and ensure transaction
+            mechanism between Odoo and the filesystem storage.
         encoding, errors, newline: passed on to TextIOWrapper for text mode
 
         Returns
         -------
         A file-like object
 
-        Caution: modifications to the file-like object are not transactional.
-        If you modify the file-like object and the current transaction is rolled
-        back, the changes will be saved to the file and not rolled back.
-        Moreover mofication to the content will not be reflected into the cache
-        and could lead to data mismatch when the data will be flush
-
         TODO if open with 'w' in mode, we could use a buffered IO detecting that
         the content is modified and invalidating the attachment cache...
         """
         self.ensure_one()
-        if self._is_file_from_a_storage(self.store_fname):
-            fs, _storage, fname = self._fs_parse_store_fname(
-                self.store_fname, root=True
-            )
-            return fs.open(
-                fname,
-                mode=mode,
-                block_size=block_size,
-                cache_options=cache_options,
-                compression=compression,
-                **kwargs,
-            )
-        if self.store_fname:
-            return fsspec.filesystem("file").open(
-                self._full_path(self.store_fname),
-                mode=mode,
-                block_size=block_size,
-                cache_options=cache_options,
-                compression=compression,
-                **kwargs,
-            )
-        if "w" in mode:
-            raise SystemError("Write mode is not supported for data read from database")
-        return io.BytesIO(self.db_datas)
+        return AttachmentFileLikeAdapter(
+            self,
+            mode=mode,
+            block_size=block_size,
+            cache_options=cache_options,
+            compression=compression,
+            new_version=new_version,
+            **kwargs,
+        )
 
     @contextmanager
     def _do_in_new_env(self, new_cr=False):
@@ -782,3 +780,292 @@ class IrAttachment(models.Model):
             if files_to_clean:
                 new_env.cr.commit()
                 clean_fs(files_to_clean)
+
+
+class AttachmentFileLikeAdapter(object):
+    """
+    This class is a wrapper class around the ir.attachment model. It is used to
+    open the ir.attachment as a file and to read/write data to it.
+
+    When the content of the file is stored into the odoo filestore or in a
+    filesystem storage, this object allows you to read/write the content from
+    the file in a direct way without having to read/write the whole file into
+    memory. When the content of the file is stored into database, this content
+    is read/written from/into a buffer in memory.
+
+    Parameters
+    ----------
+    attachment : ir.attachment
+        The attachment to open as a file.
+    mode: str like 'rb', 'w'
+            See builtin ``open()``
+    block_size: int
+        Some indication of buffering - this is a value in bytes
+    cache_options : dict, optional
+        Extra arguments to pass through to the cache.
+    compression: string or None
+        If given, open file using compression codec. Can either be a compression
+        name (a key in ``fsspec.compression.compr``) or "infer" to guess the
+        compression from the filename suffix.
+    new_version: bool
+        If True, and mode is 'w', create a new version of the file.
+        If False, and mode is 'w', overwrite the current version of the file.
+        This flag is True by default to avoid data loss and ensure transaction
+        mechanism between Odoo and the filesystem storage.
+    encoding, errors, newline: passed on to TextIOWrapper for text mode
+
+    You can use this class to adapt an attachment object as a file in 2 ways:
+     * as a context manager wrapping the attachment object as a file
+     * or as a nomral utility class
+
+    Examples
+
+    >>> with AttachmentFileLikeAdapter(attachment, mode="rb") as f:
+    ...     f.read()
+    b'Hello World'
+    # at the end of the context manager, the file is closed
+    >>> f = AttachmentFileLikeAdapter(attachment, mode="rb")
+    >>> f.read()
+    b'Hello World'
+    # you have to close the file manually
+    >>> f.close()
+
+    """
+
+    def __init__(
+        self,
+        attachment: IrAttachment,
+        mode: str = "rb",
+        block_size: int | None = None,
+        cache_options: dict | None = None,
+        compression: str | None = None,
+        new_version: bool = False,
+        **kwargs,
+    ):
+        self._attachment = attachment
+        self._mode = mode
+        self._block_size = block_size
+        self._cache_options = cache_options
+        self._compression = compression
+        self._new_version = new_version
+        self._kwargs = kwargs
+
+        # state attributes
+        self._file: io.IOBase | None = None
+        self._filesystem: fsspec.AbstractFileSystem | None = None
+        self._new_store_fname: str | None = None
+
+    @property
+    def attachment(self) -> IrAttachment:
+        """The attachment object the file is related to"""
+        return self._attachment
+
+    @property
+    def mode(self) -> str:
+        """The mode used to open the file"""
+        return self._mode
+
+    @property
+    def block_size(self) -> int | None:
+        """The block size used to open the file"""
+        return self._block_size
+
+    @property
+    def cache_options(self) -> dict | None:
+        """The cache options used to open the file"""
+        return self._cache_options
+
+    @property
+    def compression(self) -> str | None:
+        """The compression used to open the file"""
+        return self._compression
+
+    @property
+    def new_version(self) -> bool:
+        """Is the file open for a new version"""
+        return self._new_version
+
+    @property
+    def kwargs(self) -> dict:
+        """The kwargs passed when opening the file on the"""
+        return self._kwargs
+
+    @property
+    def _is_open_for_modify(self) -> bool:
+        """Is the file open for modification
+        A file is open for modification if it is open for writing or appending
+        """
+        return "w" in self.mode or "a" in self.mode
+
+    @property
+    def _is_open_for_read(self) -> bool:
+        """Is the file open for reading"""
+        return "r" in self.mode
+
+    @property
+    def _is_stored_in_db(self) -> bool:
+        """Is the file stored in database"""
+        return self.attachment._storage() == "db"
+
+    def __enter__(self) -> io.IOBase:
+        """Called when entering the context manager
+
+        Create the file object and return it.
+        """
+        # we call the attachment instance to get the file object
+        self._file_open()
+        return self._file
+
+    def _file_open(self) -> io.IOBase:
+        """Open the attachment content as a file-like object
+
+        This method will initialize the following attributes:
+
+        * _file: the file-like object.
+        * _filesystem: filesystem object.
+        * _new_store_fname: the new store_fname if the file is
+          opened for a new version.
+        """
+        new_store_fname = None
+        if (
+            self._is_open_for_read
+            or (self._is_open_for_modify and not self.new_version)
+            or self._is_stored_in_db
+        ):
+            if self.attachment._is_file_from_a_storage(self.attachment.store_fname):
+                fs, _storage, fname = self.attachment._fs_parse_store_fname(
+                    self.attachment.store_fname, root=True
+                )
+                filepath = fname
+                filesystem = fs
+            elif self.attachment.store_fname:
+                filepath = self.attachment._full_path(self.attachment.store_fname)
+                filesystem = fsspec.filesystem("file")
+            else:
+                filepath = f"{self.attachment.id}"
+                filesystem = fsspec.filesystem("memory")
+                if "a" in self.mode or self._is_open_for_read:
+                    filesystem.pipe_file(filepath, self.attachment.db_datas)
+            the_file = filesystem.open(
+                filepath,
+                mode=self.mode,
+                block_size=self.block_size,
+                cache_options=self.cache_options,
+                compression=self.compression,
+                **self.kwargs,
+            )
+        else:
+            # mode='w' and new_version=True and storage != 'db'
+            # We must create a new file with a new name. If we are in an
+            # append mode, we must copy the content of the old file (or create
+            # the new one by copy of the old one).
+            # to not break the storage plugin mechanism, we'll use the
+            # _file_write method to create the new empty file with a random
+            # content and checksum to avoid collision.
+            content = self._gen_random_content()
+            checksum = self.attachment._compute_checksum(content)
+            new_store_fname = self.attachment._file_write(content, checksum)
+            if self.attachment._is_file_from_a_storage(new_store_fname):
+                # the new store_fname is a path from the specified storage
+                # the store_fname into the attachement is expressed from the
+                # root filesystem. This is done on purpose to always read
+                # from the root filesystem and write to the specialized one
+                fs, _storage, fname = self.attachment._fs_parse_store_fname(
+                    new_store_fname, root=False
+                )
+                new_filepath = fs.info(fname)["name"]
+                root_fs, _storage, old_filepath = self.attachment._fs_parse_store_fname(
+                    self.attachment.store_fname, root=True
+                )
+                filesystem = root_fs
+            else:
+                new_filepath = self.attachment._full_path(new_store_fname)
+                old_filepath = self.attachment._full_path(self.attachment.store_fname)
+                filesystem = fsspec.filesystem("file")
+            if "a" in self.mode:
+                filesystem.cp_file(old_filepath, new_filepath)
+            the_file = filesystem.open(
+                new_filepath,
+                mode=self.mode,
+                block_size=self.block_size,
+                cache_options=self.cache_options,
+                compression=self.compression,
+                **self.kwargs,
+            )
+        self._filesystem = filesystem
+        self._new_store_fname = new_store_fname
+        self._file = the_file
+
+    def _gen_random_content(self, size=256):
+        """Generate a random content of size bytes"""
+        return os.urandom(size)
+
+    def _file_close(self):
+        """Close the file-like object opened by _file_open"""
+        if not self._file:
+            return
+        if not self._file.closed:
+            self._file.flush()
+            self._file.close()
+        if self._is_open_for_modify:
+            attachment_data = self._get_attachment_data()
+            if (
+                not (self.new_version and self._new_store_fname)
+                and self._is_stored_in_db
+            ):
+                attachment_data["raw"] = self._file.getvalue()
+            self.attachment.write(attachment_data)
+            if self.new_version and self._new_store_fname:
+                self.attachment._force_write_store_fname(self._new_store_fname)
+            self.attachment._enforce_meaningful_storage_filename()
+            self._ensure_cache_consistency()
+
+    def _get_attachment_data(self) -> dict:
+        ret = {}
+        if self._file:
+            ret["checksum"] = self._filesystem.checksum(self._file.path)
+            ret["file_size"] = self._filesystem.size(self._file.path)
+            # TODO index_content is too expensive to compute here or should be configurable
+            # data = self._file.read()
+            # ret["index_content"] = self.attachment._index_content(data,
+            #     self.attachment.mimetype, ret["checksum"])
+            ret["index_content"] = b""
+
+        return ret
+
+    def _ensure_cache_consistency(self):
+        """Ensure the cache consistency once the file is closed"""
+        if self._is_open_for_modify and not self._is_stored_in_db:
+            self.attachment.invalidate_recordset(fnames=["raw", "datas", "db_datas"])
+        if (
+            self.attachment.res_model
+            and self.attachment.res_id
+            and self.attachment.res_field
+        ):
+            self.attachment.env[self.attachment.res_model].browse(
+                self.attachment.res_id
+            ).invalidate_recordset(fnames=[self.attachment.res_field])
+
+    def __exit__(self, *args):
+        """Called when exiting the context manager.
+
+        Close the file if it is not already closed.
+        """
+        self._file_close()
+
+    def __getattr__(self, attr):
+        """
+        Forward all other attributes to the underlying file object.
+
+        This method is required to make the object behave like a file object
+        when the AttachmentFileLikeAdapter is used outside a context manager.
+
+        .. code-block:: python
+
+           f = AttachmentFileLikeAdapter(attachment)
+           f.read()
+
+        """
+        if not self._file:
+            self.__enter__()
+        return getattr(self._file, attr)

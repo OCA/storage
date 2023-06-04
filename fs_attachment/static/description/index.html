@@ -383,7 +383,7 @@ addon ensures that the filename keeps its meaning (In odoo the filename
 into the filestore is the file content checksum). Concretely the filename
 is based on the pattern:
 ‘&lt;name-without-extension&gt;-&lt;attachment-id&gt;-&lt;version&gt;.&lt;extension&gt;’</p>
-<p>Last but not least, this addon adds on the attachments 2 new fields to use
+<p>This addon also adds on the attachments 2 new fields to use
 to retrieve the file content from a URL:</p>
 <ul class="simple">
 <li><tt class="docutils literal">Internal URL</tt>: URL to retrieve the file content from the Odoo’s
@@ -405,19 +405,25 @@ content if it’s activated on your Odoo instance. In this case, the content
 served by Odoo at the internal URL will be proxied to the filesystem URL
 by nginx.</p>
 </div>
+<p>Last but not least, the addon adds a new method <cite>open</cite> on the attachment. This
+method allows you to open the attachment as a file. For attachments stored into
+the filestore or in an external filesystem, it allows you to directly read from
+and write to the file and therefore minimize the memory consumption since data
+are not kept into memory before being written into the database.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#usage" id="id1">Usage</a><ul>
 <li><a class="reference internal" href="#configuration" id="id2">Configuration</a></li>
-<li><a class="reference internal" href="#tips-tricks" id="id3">Tips &amp; Tricks</a></li>
+<li><a class="reference internal" href="#advanced-usage-using-attachment-as-a-file" id="id3">Advanced usage: Using attachment as a file</a></li>
+<li><a class="reference internal" href="#tips-tricks" id="id4">Tips &amp; Tricks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="id4">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="id5">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="id6">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="id7">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="id8">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="id5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="id6">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="id7">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="id8">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="id9">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -533,10 +539,56 @@ in the headers <tt class="docutils literal"><span class="pre">X-Accel-Redirect</
 <p>see <a class="reference external" href="https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/">https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/</a> for more
 information.</p>
 </li>
+<li><p class="first"><tt class="docutils literal">Use Filename Obfuscation</tt>: If checked, the filename used to store the content
+into the filesystem storage will be obfuscated. This is useful to avoid to
+expose the real filename of the attachments outside of the Odoo database.
+The filename will be obfuscated by using the checksum of the content. This option
+is to avoid when the content of your filestore is shared with other systems
+(like your website) and you want to keep a meaningful filename to ensure
+SEO. This option is disabled by default.</p>
+</li>
 </ul>
 </div>
+<div class="section" id="advanced-usage-using-attachment-as-a-file">
+<h2><a class="toc-backref" href="#id3">Advanced usage: Using attachment as a file</a></h2>
+<p>The <cite>open</cite> method on the attachment can be used to open manipulate the attachment
+as a file object. The object returned by the call to the method implements
+methods from <tt class="docutils literal">io.IOBase</tt>.  The method can ba called as any other python method.
+In such a case, it’s your responsibility to close the file at the end of your
+process.</p>
+<pre class="code python literal-block">
+<span class="n">attachment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">create</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;test.txt&quot;</span><span class="p">})</span>
+<span class="n">the_file</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">the_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;content&quot;</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+  <span class="n">the_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre>
+<p>The result of the call to <cite>open</cite> also works in a context <tt class="docutils literal">with</tt> block. In such
+a case, when the code exit the block, the file is automatically closed.</p>
+<pre class="code python literal-block">
+<span class="n">attachment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">create</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;test.txt&quot;</span><span class="p">})</span>
+<span class="k">with</span> <span class="n">attachment</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">the_file</span><span class="p">:</span>
+  <span class="n">the_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;content&quot;</span><span class="p">)</span>
+</pre>
+<p>It’s always safer to prefer the second approach.</p>
+<p>When your attachment is stored into the odoo filestore or into an external
+filesystem storage, each time you call the open method, a new file is created.
+This way of doing ensures that if the transaction is rollback the original content
+is preserve. Nevertheless you could have use cases where you would like to write
+to the existing file directly. For example you could create an empty attachment
+to store a csv report and then use the <cite>open</cite> method to write your content directly
+into the new file. To support this kind a use cases, the parameter <cite>new_version</cite>
+can be passed as <cite>False</cite> to avoid the creation of a new file.</p>
+<pre class="code python literal-block">
+<span class="n">attachment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">create</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;test.txt&quot;</span><span class="p">})</span>
+<span class="k">with</span> <span class="n">attachment</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">new_version</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+    <span class="o">....</span>
+</pre>
+</div>
 <div class="section" id="tips-tricks">
-<h2><a class="toc-backref" href="#id3">Tips &amp; Tricks</a></h2>
+<h2><a class="toc-backref" href="#id4">Tips &amp; Tricks</a></h2>
 <ul>
 <li><p class="first">When working in multi staging environments, the management of the attachments
 can be tricky. For example, if you have a production instance and a staging
@@ -558,7 +610,7 @@ path are removed.</p>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#id4">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#id5">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/storage/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
@@ -566,16 +618,16 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#id5">Credits</a></h1>
+<h1><a class="toc-backref" href="#id6">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#id6">Authors</a></h2>
+<h2><a class="toc-backref" href="#id7">Authors</a></h2>
 <ul class="simple">
 <li>Camptocamp</li>
 <li>ACSONE SA/NV</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#id7">Contributors</a></h2>
+<h2><a class="toc-backref" href="#id8">Contributors</a></h2>
 <p>Thierry Ducrest &lt;<a class="reference external" href="mailto:thierry.ducrest&#64;camptocamp.com">thierry.ducrest&#64;camptocamp.com</a>&gt;
 Guewen Baconnier &lt;<a class="reference external" href="mailto:guewen.baconnier&#64;camptocamp.com">guewen.baconnier&#64;camptocamp.com</a>&gt;
 Julien Coux &lt;<a class="reference external" href="mailto:julien.coux&#64;camptocamp.com">julien.coux&#64;camptocamp.com</a>&gt;
@@ -589,12 +641,14 @@ Stephane Mangin &lt;<a class="reference external" href="mailto:stephane.mangin&#
 Laurent Mignon &lt;<a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a>&gt;</p>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#id8">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#id9">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external" href="https://github.com/lmignon"><img alt="lmignon" src="https://github.com/lmignon.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/storage/tree/16.0/fs_attachment">OCA/storage</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
