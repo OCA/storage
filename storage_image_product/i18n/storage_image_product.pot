@@ -184,6 +184,11 @@ msgid "Product Template"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_product_template_attribute_line
+msgid "Product Template Attribute Line"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__product_tmpl_id
 msgid "Product Tmpl"
 msgstr ""
