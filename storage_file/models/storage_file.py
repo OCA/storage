@@ -44,7 +44,9 @@ class StorageFile(models.Model):
     slug = fields.Char(
         compute="_compute_slug", help="Slug-ified name with ID for URL", store=True
     )
-    relative_path = fields.Char(readonly=True, help="Relative location for backend")
+    relative_path = fields.Char(
+        readonly=True, help="Relative location for backend", copy=False
+    )
     file_size = fields.Integer("File Size")
     human_file_size = fields.Char(
         "Human File Size", compute="_compute_human_file_size", store=True
@@ -58,7 +60,11 @@ class StorageFile(models.Model):
     )
     mimetype = fields.Char("Mime Type", compute="_compute_extract_filename", store=True)
     data = fields.Binary(
-        help="Datas", inverse="_inverse_data", compute="_compute_data", store=False
+        help="Data",
+        inverse="_inverse_data",
+        compute="_compute_data",
+        store=False,
+        copy=True,
     )
     to_delete = fields.Boolean()
     active = fields.Boolean(default=True)
