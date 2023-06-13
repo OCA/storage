@@ -45,12 +45,8 @@ msgstr ""
 
 #. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__data
-msgid "Data"
-msgstr ""
-
-#. module: storage_thumbnail
 #: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__data
-msgid "Datas"
+msgid "Data"
 msgstr ""
 
 #. module: storage_thumbnail
