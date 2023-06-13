@@ -56,12 +56,8 @@ msgstr ""
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__data
-msgid "Data"
-msgstr ""
-
-#. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__data
-msgid "Datas"
+msgid "Data"
 msgstr ""
 
 #. module: storage_image
