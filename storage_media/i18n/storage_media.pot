@@ -52,12 +52,8 @@ msgstr ""
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__data
-msgid "Data"
-msgstr ""
-
-#. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__data
-msgid "Datas"
+msgid "Data"
 msgstr ""
 
 #. module: storage_media
