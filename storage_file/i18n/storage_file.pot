@@ -72,12 +72,8 @@ msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__data
-msgid "Data"
-msgstr ""
-
-#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__data
-msgid "Datas"
+msgid "Data"
 msgstr ""
 
 #. module: storage_file
