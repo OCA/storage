@@ -4,7 +4,6 @@ import logging
 import threading
 from contextlib import closing, contextmanager
 
-import odoo
 from odoo import api, fields, models
 from odoo.sql_db import Cursor
 
@@ -43,8 +42,7 @@ class FsFileGC(models.Model):
             yield self.env.cr
             return
 
-        registry = odoo.modules.registry.Registry.new(self.env.cr.dbname)
-        with closing(registry.cursor()) as cr:
+        with closing(self.env.registry.cursor()) as cr:
             try:
                 yield cr
             except Exception:
