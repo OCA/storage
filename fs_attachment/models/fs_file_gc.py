@@ -39,7 +39,7 @@ class FsFileGC(models.Model):
     @contextmanager
     def _in_new_cursor(self) -> Cursor:
         """Context manager to execute code in a new cursor"""
-        if self._is_test_mode():
+        if self._is_test_mode() or not self.env.registry.ready:
             yield self.env.cr
             return
 
@@ -149,20 +149,11 @@ class FsFileGC(models.Model):
             (tuple(codes),),
         )
         for code, store_fnames in self._cr.fetchall():
-            storage = self.env["fs.storage"].get_by_code(code)
-            fs = self.env["fs.storage"].get_fs_by_code(code, root=True)
+            self.env["fs.storage"].get_by_code(code)
+            fs = self.env["fs.storage"].get_fs_by_code(code)
             for store_fname in store_fnames:
                 try:
                     file_path = store_fname.partition("://")[2]
-                    if storage.directory_path and not file_path.startswith(
-                        storage.directory_path
-                    ):
-                        _logger.debug(
-                            "File %s is not in the storage directory %s",
-                            store_fname,
-                            storage.directory_path,
-                        )
-                        continue
                     fs.rm(file_path)
                 except Exception:
                     _logger.debug("Failed to remove file %s", store_fname)

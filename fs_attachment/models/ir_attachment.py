@@ -318,7 +318,7 @@ class IrAttachment(models.Model):
     @api.model
     def _storage_file_read(self, fname: str) -> bytes | None:
         """Read the file from the filesystem storage"""
-        fs, _storage, fname = self._fs_parse_store_fname(fname, root=True)
+        fs, _storage, fname = self._fs_parse_store_fname(fname)
         with fs.open(fname, "rb") as fs:
             return fs.read()
 
@@ -377,7 +377,9 @@ class IrAttachment(models.Model):
             extension = mimetypes.guess_extension(self.mimetype)
         version = 0
         if self.fs_filename:
-            version = self._parse_fs_filename(self.fs_filename)[2] + 1
+            parsed = self._parse_fs_filename(self.fs_filename)
+            if parsed:
+                version = parsed[2] + 1
         return "{}{}".format(
             slugify(
                 "{}-{}-{}".format(filename, self.id, version),
@@ -400,17 +402,19 @@ class IrAttachment(models.Model):
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
                 continue
-            fs, storage, filename = self._fs_parse_store_fname(attachment.store_fname)
+            fs, storage, filename = self._get_fs_parts()
+
             if self.env["fs.storage"]._must_use_filename_obfuscation(storage):
-                attachment.fs_filename = fs.info(filename)["name"]
+                attachment.fs_filename = filename
                 continue
             if self._is_fs_filename_meaningful(filename):
                 continue
             new_filename = attachment._build_fs_filename()
             # we must keep the same full path as the original filename
-            new_filename = os.path.join(os.path.dirname(filename), new_filename)
-            fs.rename(filename, new_filename)
-            new_filename = fs.info(new_filename)["name"]
+            new_filename_with_path = os.path.join(
+                os.path.dirname(filename), new_filename
+            )
+            fs.rename(filename, new_filename_with_path)
             attachment.fs_filename = new_filename
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
@@ -429,17 +433,18 @@ class IrAttachment(models.Model):
 
     @api.model
     def _get_fs_storage_for_code(
-        self, code: str, root: bool = False
+        self,
+        code: str,
     ) -> fsspec.AbstractFileSystem | None:
         """Return the filesystem for the given storage code"""
-        fs = self.env["fs.storage"].get_fs_by_code(code, root=root)
+        fs = self.env["fs.storage"].get_fs_by_code(code)
         if not fs:
             raise SystemError(f"No Filesystem storage for code {code}")
         return fs
 
     @api.model
     def _fs_parse_store_fname(
-        self, fname: str, root: bool = False
+        self, fname: str
     ) -> tuple[fsspec.AbstractFileSystem, str, str]:
         """Return the filesystem, the storage code and the path for the given fname
 
@@ -448,7 +453,7 @@ class IrAttachment(models.Model):
         """
         partition = fname.partition("://")
         storage_code = partition[0]
-        fs = self._get_fs_storage_for_code(storage_code, root=root)
+        fs = self._get_fs_storage_for_code(storage_code)
         fname = partition[2]
         return fs, storage_code, fname
 
@@ -519,6 +524,14 @@ class IrAttachment(models.Model):
         file is deleted since it's marked for deletion and not referenced.
         """
         self.env["fs.file.gc"]._mark_for_gc(fname)
+
+    def _get_fs_parts(
+        self,
+    ) -> tuple[fsspec.AbstractFileSystem, str, str] | tuple[None, None, None]:
+        """Return the filesystem, the storage code and the path for the current attachment"""
+        if not self.store_fname:
+            return None, None, None
+        return self._fs_parse_store_fname(self.store_fname)
 
     def open(
         self,
@@ -933,9 +946,7 @@ class AttachmentFileLikeAdapter(object):
             or self._is_stored_in_db
         ):
             if self.attachment._is_file_from_a_storage(self.attachment.store_fname):
-                fs, _storage, fname = self.attachment._fs_parse_store_fname(
-                    self.attachment.store_fname, root=True
-                )
+                fs, _storage, fname = self.attachment._get_fs_parts()
                 filepath = fname
                 filesystem = fs
             elif self.attachment.store_fname:
@@ -966,18 +977,12 @@ class AttachmentFileLikeAdapter(object):
             checksum = self.attachment._compute_checksum(content)
             new_store_fname = self.attachment._file_write(content, checksum)
             if self.attachment._is_file_from_a_storage(new_store_fname):
-                # the new store_fname is a path from the specified storage
-                # the store_fname into the attachement is expressed from the
-                # root filesystem. This is done on purpose to always read
-                # from the root filesystem and write to the specialized one
-                fs, _storage, fname = self.attachment._fs_parse_store_fname(
-                    new_store_fname, root=False
-                )
-                new_filepath = fs.info(fname)["name"]
-                root_fs, _storage, old_filepath = self.attachment._fs_parse_store_fname(
-                    self.attachment.store_fname, root=True
-                )
-                filesystem = root_fs
+                (
+                    filesystem,
+                    _storage,
+                    new_filepath,
+                ) = self.attachment._fs_parse_store_fname(new_store_fname)
+                _fs, _storage, old_filepath = self.attachment._get_fs_parts()
             else:
                 new_filepath = self.attachment._full_path(new_store_fname)
                 old_filepath = self.attachment._full_path(self.attachment.store_fname)
@@ -1023,8 +1028,12 @@ class AttachmentFileLikeAdapter(object):
     def _get_attachment_data(self) -> dict:
         ret = {}
         if self._file:
-            ret["checksum"] = self._filesystem.checksum(self._file.path)
-            ret["file_size"] = self._filesystem.size(self._file.path)
+            file_path = self._file.path
+            if hasattr(self._filesystem, "path"):
+                file_path = file_path.replace(self._filesystem.path, "")
+                file_path = file_path.lstrip("/")
+            ret["checksum"] = self._filesystem.checksum(file_path)
+            ret["file_size"] = self._filesystem.size(file_path)
             # TODO index_content is too expensive to compute here or should be configurable
             # data = self._file.read()
             # ret["index_content"] = self.attachment._index_content(data,
