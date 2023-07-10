@@ -176,7 +176,7 @@ class FsStorage(models.Model):
         and the value is the limit in size below which attachments are kept in DB.
         0 means no limit.
         """
-        storage = self.search([("code", "=", code)], limit=1)
+        storage = self.get_by_code(code)
         if storage and storage.force_db_for_default_attachment_rules:
             return const_eval(storage.force_db_for_default_attachment_rules)
         return {}
@@ -224,8 +224,8 @@ class FsStorage(models.Model):
             return None
         if exclude_base_url:
             base_url = base_url.replace(fs_storage.base_url.rstrip("/"), "") or "/"
-        # always remove the directory_path from the fs_file_name
-        # ony if it's at the start of the filename
+        # always remove the directory_path from the fs_filename
+        # only if it's at the start of the filename
         fs_filename = attachment.fs_filename
         if fs_filename.startswith(fs_storage.directory_path):
             fs_filename = fs_filename.replace(fs_storage.directory_path, "")

@@ -201,13 +201,9 @@ Tips & Tricks
   the attachments shared between the two instances BUT you don't want to have
   one instance removing or modifying the attachments of the other instance.
 
-  To do so, you can configure the same filesystem storage on both instances and
-  use a different directory path. (For S3 storage, directory path is the bucket
-  name). When a file is written in the filesystem storage, it's always written into
-  the directory path configured on the storage and full path of the file is stored
-  in the database. When reading a file, it's always read from the full path stored
-  in the database. So if you have two instances using the same storage with different
-  directory paths, files written in each instance will be stored in different
-  directories but be accessible from the other instance. A check is also done when
-  an attachment is removed to ensure that only files stored in the current directory
-  path are removed.
+  To do so, you can add on your staging instances a new storage and declare it
+  as the default storage to use for attachments. This way, all the new attachments
+  will be stored in this new storage but the attachments created on the production
+  instance will still be read from the production storage. Be careful to adapt the
+  configuration of your storage to the production environment to make it read only.
+  (The use of server environment files is a good way to do so).
