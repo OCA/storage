@@ -15,7 +15,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             self.env["ir.attachment"]
             .with_context(
                 storage_location=self.temp_backend.code,
-                storage_file_path="test.txt",
+                force_storage_key="test.txt",
             )
             .create({"name": "test.txt", "raw": content})
         )
@@ -93,9 +93,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         with open(os.path.join(self.temp_dir, new_filename), "rb") as f:
             self.assertEqual(f.read(), b"new")
         self.assertEqual(attachment.raw, b"new")
-        self.assertEqual(
-            attachment.store_fname, f"tmp_dir://{self.temp_dir}/{new_filename}"
-        )
+        self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
         self.assertEqual(attachment.mimetype, "text/plain")
 
         # the original file is to to be deleted by the GC
@@ -128,7 +126,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.env.flush_all()
         self.assertEqual(attachment.raw, content)
 
-        initial_filename = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+        initial_filename = f"test-{attachment.id}-0.txt"
 
         self.assertEqual(attachment.store_fname, f"tmp_dir://{initial_filename}")
         self.assertEqual(attachment.fs_filename, initial_filename)
@@ -140,7 +138,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         try:
             with self.env.cr.savepoint():
                 attachment.raw = b"updated"
-                new_filename = f"{self.temp_dir}/test-{attachment.id}-1.txt"
+                new_filename = f"test-{attachment.id}-1.txt"
                 new_store_fname = f"tmp_dir://{new_filename}"
                 self.assertEqual(attachment.store_fname, new_store_fname)
                 self.assertEqual(attachment.fs_filename, new_filename)
@@ -185,7 +183,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
                 )
                 self.env.flush_all()
                 self.assertEqual(attachment.raw, content)
-                initial_filename = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+                initial_filename = f"test-{attachment.id}-0.txt"
                 self.assertEqual(
                     attachment.store_fname, f"tmp_dir://{initial_filename}"
                 )
@@ -221,7 +219,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             {"name": "test.txt", "raw": content}
         )
         self.env.flush_all()
-        initial_filename = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+        initial_filename = f"test-{attachment.id}-0.txt"
         self.assertEqual(
             os.listdir(self.temp_dir), [os.path.basename(initial_filename)]
         )
@@ -233,7 +231,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             {"name": "test.txt", "raw": content}
         )
         self.env.flush_all()
-        initial_filename = f"{self.temp_dir}/test-{attachment.id}-0.txt"
+        initial_filename = f"test-{attachment.id}-0.txt"
         self.assertEqual(
             os.listdir(self.temp_dir), [os.path.basename(initial_filename)]
         )
@@ -326,9 +324,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             clean_fs.assert_called_once()
         # files into the filestore must be moved to our filesystem storage
         filename = f"test-{attachment.id}-0.txt"
-        self.assertEqual(
-            attachment.store_fname, f"tmp_dir://{self.temp_dir}/{filename}"
-        )
+        self.assertEqual(attachment.store_fname, f"tmp_dir://{filename}")
         self.assertIn(filename, os.listdir(self.temp_dir))
 
     def test_storage_use_filename_obfuscation(self):
