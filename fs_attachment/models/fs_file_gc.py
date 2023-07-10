@@ -123,8 +123,10 @@ class FsFileGC(models.Model):
     def _gc_files_unsafe(self) -> None:
         # get the list of fs.storage codes that must be autovacuumed
         codes = (
-            self.env["fs.storage"].search([("autovacuum_gc", "=", True)]).mapped("code")
+            self.env["fs.storage"].search([]).filtered("autovacuum_gc").mapped("code")
         )
+        if not codes:
+            return
         # we process by batch of storage codes.
         self._cr.execute(
             """
