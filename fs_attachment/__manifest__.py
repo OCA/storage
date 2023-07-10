@@ -20,4 +20,5 @@
     "installable": True,
     "auto_install": False,
     "maintainers": ["lmignon"],
+    "pre_init_hook": "pre_init_hook",
 }
