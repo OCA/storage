@@ -40,6 +40,19 @@ class TestFsAttachmentInternalUrl(HttpCase):
         def cleanup_tempdir():
             shutil.rmtree(temp_dir)
 
+    def setUp(self):
+        super().setUp()
+        # enforce temp_backend field since it seems that they are reset on
+        # savepoint rollback when managed by server_environment -> TO Be investigated
+        self.temp_backend.write(
+            {
+                "protocol": "file",
+                "code": "tmp_dir",
+                "directory_path": self.temp_dir,
+                "base_url": "http://my.public.files/",
+            }
+        )
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()

@@ -415,15 +415,16 @@ are not kept into memory before being written into the database.</p>
 <ul class="simple">
 <li><a class="reference internal" href="#usage" id="id1">Usage</a><ul>
 <li><a class="reference internal" href="#configuration" id="id2">Configuration</a></li>
-<li><a class="reference internal" href="#advanced-usage-using-attachment-as-a-file" id="id3">Advanced usage: Using attachment as a file</a></li>
-<li><a class="reference internal" href="#tips-tricks" id="id4">Tips &amp; Tricks</a></li>
+<li><a class="reference internal" href="#server-environment" id="id3">Server Environment</a></li>
+<li><a class="reference internal" href="#advanced-usage-using-attachment-as-a-file" id="id4">Advanced usage: Using attachment as a file</a></li>
+<li><a class="reference internal" href="#tips-tricks" id="id5">Tips &amp; Tricks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="id5">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="id6">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="id7">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="id8">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="id9">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="id6">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="id7">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="id8">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="id9">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="id10">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -549,8 +550,33 @@ SEO. This option is disabled by default.</p>
 </li>
 </ul>
 </div>
+<div class="section" id="server-environment">
+<h2><a class="toc-backref" href="#id3">Server Environment</a></h2>
+<p>When you configure a storage through the use of server environment file, you can
+provide values for the following keys:</p>
+<ul class="simple">
+<li><tt class="docutils literal">optimizes_directory_path</tt></li>
+<li><tt class="docutils literal">autovacuum_gc</tt></li>
+<li><tt class="docutils literal">base_url</tt></li>
+<li><tt class="docutils literal">is_directory_path_in_url</tt></li>
+<li><tt class="docutils literal">use_x_sendfile_to_serve_internal_url</tt></li>
+<li><tt class="docutils literal">use_as_default_for_attachments</tt></li>
+<li><tt class="docutils literal">force_db_for_default_attachment_rules</tt></li>
+<li><tt class="docutils literal">use_filename_obfuscation</tt></li>
+</ul>
+<p>For example, the configuration of my storage with code <cite>fsprod</cite> used to store
+the attachments by default could be:</p>
+<pre class="code ini literal-block">
+<span class="k">[fs_storage.fsprod]</span><span class="w">
+</span><span class="na">protocol</span><span class="o">=</span><span class="s">s3</span><span class="w">
+</span><span class="na">options</span><span class="o">=</span><span class="s">{&quot;endpoint_url&quot;: &quot;https://my_s3_server/&quot;, &quot;key&quot;: &quot;KEY&quot;, &quot;secret&quot;: &quot;SECRET&quot;}</span><span class="w">
+</span><span class="na">directory_path</span><span class="o">=</span><span class="s">my_bucket</span><span class="w">
+</span><span class="na">use_as_default_for_attachments</span><span class="o">=</span><span class="s">True</span><span class="w">
+</span><span class="na">use_filename_obfuscation</span><span class="o">=</span><span class="s">True</span>
+</pre>
+</div>
 <div class="section" id="advanced-usage-using-attachment-as-a-file">
-<h2><a class="toc-backref" href="#id3">Advanced usage: Using attachment as a file</a></h2>
+<h2><a class="toc-backref" href="#id4">Advanced usage: Using attachment as a file</a></h2>
 <p>The <cite>open</cite> method on the attachment can be used to open manipulate the attachment
 as a file object. The object returned by the call to the method implements
 methods from <tt class="docutils literal">io.IOBase</tt>.  The method can ba called as any other python method.
@@ -618,16 +644,16 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#id6">Credits</a></h1>
+<h1><a class="toc-backref" href="#id7">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#id7">Authors</a></h2>
+<h2><a class="toc-backref" href="#id8">Authors</a></h2>
 <ul class="simple">
 <li>Camptocamp</li>
 <li>ACSONE SA/NV</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#id8">Contributors</a></h2>
+<h2><a class="toc-backref" href="#id9">Contributors</a></h2>
 <p>Thierry Ducrest &lt;<a class="reference external" href="mailto:thierry.ducrest&#64;camptocamp.com">thierry.ducrest&#64;camptocamp.com</a>&gt;
 Guewen Baconnier &lt;<a class="reference external" href="mailto:guewen.baconnier&#64;camptocamp.com">guewen.baconnier&#64;camptocamp.com</a>&gt;
 Julien Coux &lt;<a class="reference external" href="mailto:julien.coux&#64;camptocamp.com">julien.coux&#64;camptocamp.com</a>&gt;
@@ -641,7 +667,7 @@ Stephane Mangin &lt;<a class="reference external" href="mailto:stephane.mangin&#
 Laurent Mignon &lt;<a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a>&gt;</p>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#id9">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#id10">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose

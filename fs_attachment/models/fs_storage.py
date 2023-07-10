@@ -77,13 +77,32 @@ class FsStorage(models.Model):
         "the filename is important for SEO.",
     )
 
-    _sql_constraints = [
-        (
-            "use_as_default_for_attachments_unique",
-            "unique(use_as_default_for_attachments)",
-            "Only one storage can be used as default for attachments",
+    @api.constrains("use_as_default_for_attachments")
+    def _check_use_as_default_for_attachments(self):
+        # constrains are checked in python since values can be provided by
+        # the server environment
+        defaults = self.search([]).filtered("use_as_default_for_attachments")
+        if len(defaults) > 1:
+            raise ValidationError(
+                _("Only one storage can be used as default for attachments")
+            )
+
+    @property
+    def _server_env_fields(self):
+        env_fields = super()._server_env_fields
+        env_fields.update(
+            {
+                "optimizes_directory_path": {},
+                "autovacuum_gc": {},
+                "base_url": {},
+                "is_directory_path_in_url": {},
+                "use_x_sendfile_to_serve_internal_url": {},
+                "use_as_default_for_attachments": {},
+                "force_db_for_default_attachment_rules": {},
+                "use_filename_obfuscation": {},
+            }
         )
-    ]
+        return env_fields
 
     @property
     def _default_force_db_for_default_attachment_rules(self) -> str:
@@ -140,9 +159,11 @@ class FsStorage(models.Model):
     @tools.ormcache()
     def get_default_storage_code_for_attachments(self):
         """Return the code of the storage to use to store by default the attachments"""
-        storage = self.search([("use_as_default_for_attachments", "=", True)], limit=1)
-        if storage:
-            return storage.code
+        storages = self.search([]).filtered_domain(
+            [("use_as_default_for_attachments", "=", True)]
+        )
+        if storages:
+            return storages[0].code
         return None
 
     @api.model
@@ -163,21 +184,17 @@ class FsStorage(models.Model):
     @api.model
     @tools.ormcache("code")
     def _must_optimize_directory_path(self, code):
-        return bool(
-            self.search([("code", "=", code), ("optimizes_directory_path", "=", True)])
-        )
+        return self.get_by_code(code).optimizes_directory_path
 
     @api.model
     @tools.ormcache("code")
     def _must_autovacuum_gc(self, code):
-        return bool(self.search([("code", "=", code), ("autovacuum_gc", "=", True)]))
+        return self.get_by_code(code).autovacuum_gc
 
     @api.model
     @tools.ormcache("code")
     def _must_use_filename_obfuscation(self, code):
-        return bool(
-            self.search([("code", "=", code), ("use_filename_obfuscation", "=", True)])
-        )
+        return self.get_by_code(code).use_filename_obfuscation
 
     @api.depends("base_url", "is_directory_path_in_url")
     def _compute_base_url_for_files(self):

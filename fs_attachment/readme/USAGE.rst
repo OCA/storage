@@ -119,6 +119,33 @@ from URLs.
   SEO. This option is disabled by default.
 
 
+Server Environment
+~~~~~~~~~~~~~~~~~~
+
+When you configure a storage through the use of server environment file, you can
+provide values for the following keys:
+
+* ``optimizes_directory_path``
+* ``autovacuum_gc``
+* ``base_url``
+* ``is_directory_path_in_url``
+* ``use_x_sendfile_to_serve_internal_url``
+* ``use_as_default_for_attachments``
+* ``force_db_for_default_attachment_rules``
+* ``use_filename_obfuscation``
+
+For example, the configuration of my storage with code `fsprod` used to store
+the attachments by default could be:
+
+.. code-block:: ini
+
+    [fs_storage.fsprod]
+    protocol=s3
+    options={"endpoint_url": "https://my_s3_server/", "key": "KEY", "secret": "SECRET"}
+    directory_path=my_bucket
+    use_as_default_for_attachments=True
+    use_filename_obfuscation=True
+
 Advanced usage: Using attachment as a file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
