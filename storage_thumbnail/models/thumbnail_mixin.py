@@ -88,7 +88,7 @@ class ThumbnailMixing(models.AbstractModel):
             url_key = slugify(url_key)
         return url_key
 
-    def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
+    def get_existing_thumbnail(self, size_x, size_y, url_key=None):
         self.ensure_one()
         url_key = self._get_url_key(url_key)
         thumbnail = self.env["storage.thumbnail"].browse()
@@ -98,6 +98,10 @@ class ThumbnailMixing(models.AbstractModel):
                     continue
                 thumbnail = th
                 break
+        return thumbnail
+
+    def get_or_create_thumbnail(self, size_x, size_y, url_key=None):
+        thumbnail = self.get_existing_thumbnail(size_x, size_y, url_key=url_key)
         if not thumbnail and self.data:
             vals = self.env["storage.thumbnail"]._prepare_thumbnail(
                 self, size_x, size_y, url_key
