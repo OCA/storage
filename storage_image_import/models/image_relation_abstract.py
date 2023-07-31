@@ -5,6 +5,7 @@
 import ast
 import base64
 import logging
+import mimetypes
 import os
 import re
 import urllib
@@ -34,7 +35,14 @@ class ImageRelationAbstract(models.AbstractModel):
         if fname:
             return fname
         else:
-            return os.path.basename(urlparse(url).path)
+            fname = os.path.basename(urlparse(url).path)
+            if not mimetypes.guess_type(fname)[0]:
+                # If the fname do not content the extension
+                # try add it based on potential Content-Type
+                extention = mimetypes.guess_extension(headers["Content-Type"] or "")
+                if extention:
+                    fname += extention
+            return fname
 
     def _get_download_header(self):
         headers = self.env["ir.config_parameter"].get_param(
