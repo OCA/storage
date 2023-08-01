@@ -9,6 +9,18 @@
         <field name="inherit_id" ref="fs_storage.fs_storage_form_view" />
         <field name="arch" type="xml">
             <field name="options" position="after">
+                <field name="model_ids" widget="many2many">
+                    <tree>
+                        <field name="name" />
+                        <field name="model" />
+                    </tree>
+                </field>
+                <field name="field_ids" widget="many2many">
+                    <tree>
+                        <field name="name" />
+                        <field name="model" />
+                    </tree>
+                </field>
                 <separator string="Attachment" />
                 <field name="optimizes_directory_path" />
                 <field name="autovacuum_gc" />

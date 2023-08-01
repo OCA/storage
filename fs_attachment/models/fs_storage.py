@@ -76,6 +76,36 @@ class FsStorage(models.Model):
         "files that are referenced by other systems (like a website) where "
         "the filename is important for SEO.",
     )
+    model_xmlids = fields.Char(
+        help="List of models xml ids such as attachments linked to one of "
+        "these models will be stored in this storage."
+    )
+    model_ids = fields.One2many(
+        "ir.model",
+        "storage_id",
+        help="List of models such as attachments linked to one of these "
+        "models will be stored in this storage.",
+        compute="_compute_model_ids",
+        inverse="_inverse_model_ids",
+    )
+    field_xmlids = fields.Char(
+        help="List of fields xml ids such as attachments linked to one of "
+        "these fields will be stored in this storage. NB: If the attachment "
+        "is linked to a field that is in one FS storage, and the related "
+        "model is in another FS storage, we will store it into"
+        " the storage linked to the resource field."
+    )
+    field_ids = fields.One2many(
+        "ir.model.fields",
+        "storage_id",
+        help="List of fields such as attachments linked to one of these "
+        "fields will be stored in this storage. NB: If the attachment "
+        "is linked to a field that is in one FS storage, and the related "
+        "model is in another FS storage, we will store it into"
+        " the storage linked to the resource field.",
+        compute="_compute_field_ids",
+        inverse="_inverse_field_ids",
+    )
 
     @api.constrains("use_as_default_for_attachments")
     def _check_use_as_default_for_attachments(self):
@@ -86,6 +116,64 @@ class FsStorage(models.Model):
             raise ValidationError(
                 _("Only one storage can be used as default for attachments")
             )
+
+    @api.constrains("model_xmlids")
+    def _check_model_xmlid_storage_unique(self):
+        """
+        A given model can be stored in only 1 storage.
+        As model_ids is a non stored field, we must implement a Python
+        constraint on the XML ids list.
+        """
+        for rec in self.filtered("model_xmlids"):
+            xmlids = rec.model_xmlids.split(",")
+            for xmlid in xmlids:
+                other_storages = (
+                    self.env["fs.storage"]
+                    .search([])
+                    .filtered_domain(
+                        [
+                            ("id", "!=", rec.id),
+                            ("model_xmlids", "ilike", xmlid),
+                        ]
+                    )
+                )
+                if other_storages:
+                    raise ValidationError(
+                        _(
+                            "Model %(model)s already stored in another "
+                            "FS storage ('%(other_storage)s')"
+                        )
+                        % {"model": xmlid, "other_storage": other_storages[0].name}
+                    )
+
+    @api.constrains("field_xmlids")
+    def _check_field_xmlid_storage_unique(self):
+        """
+        A given field can be stored in only 1 storage.
+        As field_ids is a non stored field, we must implement a Python
+        constraint on the XML ids list.
+        """
+        for rec in self.filtered("field_xmlids"):
+            xmlids = rec.field_xmlids.split(",")
+            for xmlid in xmlids:
+                other_storages = (
+                    self.env["fs.storage"]
+                    .search([])
+                    .filtered_domain(
+                        [
+                            ("id", "!=", rec.id),
+                            ("field_xmlids", "ilike", xmlid),
+                        ]
+                    )
+                )
+                if other_storages:
+                    raise ValidationError(
+                        _(
+                            "Field %(field)s already stored in another "
+                            "FS storage ('%(other_storage)s')"
+                        )
+                        % {"field": xmlid, "other_storage": other_storages[0].name}
+                    )
 
     @property
     def _server_env_fields(self):
@@ -100,6 +188,8 @@ class FsStorage(models.Model):
                 "use_as_default_for_attachments": {},
                 "force_db_for_default_attachment_rules": {},
                 "use_filename_obfuscation": {},
+                "model_xmlids": {},
+                "field_xmlids": {},
             }
         )
         return env_fields
@@ -116,6 +206,58 @@ class FsStorage(models.Model):
             self.force_db_for_default_attachment_rules = (
                 self._default_force_db_for_default_attachment_rules
             )
+
+    @api.depends("model_xmlids")
+    def _compute_model_ids(self):
+        """
+        Use the char field (containing all model xmlids) to fulfill the o2m field.
+        """
+        for rec in self:
+            xmlids = (
+                rec.model_xmlids.split(",") if isinstance(rec.model_xmlids, str) else []
+            )
+            model_ids = []
+            for xmlid in xmlids:
+                # Method returns False if no model is found for this xmlid
+                model_id = self.env["ir.model.data"]._xmlid_to_res_id(xmlid)
+                if model_id:
+                    model_ids.append(model_id)
+            rec.model_ids = [(6, 0, model_ids)]
+
+    def _inverse_model_ids(self):
+        """
+        When the model_ids o2m field is updated, re-compute the char list
+        of model XML ids.
+        """
+        for rec in self:
+            xmlids = models.Model.get_external_id(rec.model_ids).values()
+            rec.model_xmlids = ",".join(xmlids)
+
+    @api.depends("field_xmlids")
+    def _compute_field_ids(self):
+        """
+        Use the char field (containing all field xmlids) to fulfill the o2m field.
+        """
+        for rec in self:
+            xmlids = (
+                rec.field_xmlids.split(",") if isinstance(rec.field_xmlids, str) else []
+            )
+            field_ids = []
+            for xmlid in xmlids:
+                # Method returns False if no field is found for this xmlid
+                field_id = self.env["ir.model.data"]._xmlid_to_res_id(xmlid)
+                if field_id:
+                    field_ids.append(field_id)
+            rec.field_ids = [(6, 0, field_ids)]
+
+    def _inverse_field_ids(self):
+        """
+        When the field_ids o2m field is updated, re-compute the char list
+        of field XML ids.
+        """
+        for rec in self:
+            xmlids = models.Model.get_external_id(rec.field_ids).values()
+            rec.field_xmlids = ",".join(xmlids)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -156,9 +298,38 @@ class FsStorage(models.Model):
                 ) from e
 
     @api.model
-    @tools.ormcache()
+    @tools.ormcache_context(keys=["attachment_res_field", "attachment_res_model"])
     def get_default_storage_code_for_attachments(self):
-        """Return the code of the storage to use to store by default the attachments"""
+        """Return the code of the storage to use to store the attachments.
+        If the resource field is linked to a particular storage, return this one.
+        Otherwise if the resource model is linked to a particular storage,
+        return it.
+        Finally return the code of the storage to use by default."""
+        res_field = self.env.context.get("attachment_res_field")
+        res_model = self.env.context.get("attachment_res_model")
+        if res_field and res_model:
+            field = self.env["ir.model.fields"].search(
+                [("model", "=", res_model), ("name", "=", res_field)], limit=1
+            )
+            if field:
+                storage = (
+                    self.env["fs.storage"]
+                    .search([])
+                    .filtered_domain([("field_ids", "in", [field.id])])
+                )
+                if storage:
+                    return storage.code
+        if res_model:
+            model = self.env["ir.model"].search([("model", "=", res_model)], limit=1)
+            if model:
+                storage = (
+                    self.env["fs.storage"]
+                    .search([])
+                    .filtered_domain([("model_ids", "in", [model.id])])
+                )
+                if storage:
+                    return storage.code
+
         storages = self.search([]).filtered_domain(
             [("use_as_default_for_attachments", "=", True)]
         )
