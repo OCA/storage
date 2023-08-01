@@ -246,7 +246,29 @@ class IrAttachment(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        attachments = super().create(vals_list)
+        """
+        Storage may depend on resource field, but the method calling _storage
+        (_get_datas_related_values) does not take all vals, just the mimetype.
+        The only way to give res_field and res_model to _storage method
+        is to pass them into the context, and perform 1 create call per record
+        to create.
+        """
+        vals_list_no_model = []
+        attachments = self.env["ir.attachment"]
+        for vals in vals_list:
+            if vals.get("res_model"):
+                attachment = super(
+                    IrAttachment,
+                    self.with_context(
+                        attachment_res_model=vals.get("res_model"),
+                        attachment_res_field=vals.get("res_field"),
+                    ),
+                ).create(vals)
+                attachments += attachment
+            else:
+                vals_list_no_model.append(vals)
+        atts = super().create(vals_list_no_model)
+        attachments |= atts
         attachments._enforce_meaningful_storage_filename()
         return attachments
 
@@ -275,7 +297,19 @@ class IrAttachment(models.Model):
                         "mimetypes at the same time."
                     )
                 )
-        return super().write(vals)
+        for rec in self:
+            # As when creating a new attachment, we must pass the res_field
+            # and res_model into the context hence sadly we must perform 1 call
+            # for each attachment
+            super(
+                IrAttachment,
+                rec.with_context(
+                    attachment_res_model=vals.get("res_model") or rec.res_model,
+                    attachment_res_field=vals.get("res_field") or rec.res_field,
+                ),
+            ).write(vals)
+
+        return True
 
     @api.model
     def _file_read(self, fname):
@@ -975,7 +1009,10 @@ class AttachmentFileLikeAdapter(object):
             # content and checksum to avoid collision.
             content = self._gen_random_content()
             checksum = self.attachment._compute_checksum(content)
-            new_store_fname = self.attachment._file_write(content, checksum)
+            new_store_fname = self.attachment.with_context(
+                attachment_res_model=self.attachment.res_model,
+                attachment_res_field=self.attachment.res_field,
+            )._file_write(content, checksum)
             if self.attachment._is_file_from_a_storage(new_store_fname):
                 (
                     filesystem,

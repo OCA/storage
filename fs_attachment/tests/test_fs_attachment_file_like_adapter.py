@@ -27,7 +27,7 @@ class TestFSAttachmentFileLikeAdapterMixin:
         )
 
     def test_read(self):
-        with self.open(model="rf") as f:
+        with self.open(mode="rb") as f:
             self.assertEqual(f.read(), self.initial_content)
 
     def test_write(self):
@@ -148,3 +148,86 @@ class TestAttachmentInFileFileLikeAdapter(
         return cls.env["ir.attachment"].create(
             {"name": "test.txt", "raw": cls.initial_content}
         )
+
+
+class TestAttachmentInFileSystemDependingModelFileLikeAdapter(
+    TestFSAttachmentCommon, TestFSAttachmentFileLikeAdapterMixin
+):
+    """
+    Configure the temp backend to store only attachments linked to
+    res.partner model.
+
+    Check that opening/updating the file does not change the storage type.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        res = super().setUpClass()
+        cls.temp_backend.model_xmlids = "base.model_res_partner"
+        cls.prepareClass()
+        return res
+
+    def setUp(self):
+        super().setUp()
+        super().prepare()
+
+    @classmethod
+    def _create_attachment(cls):
+        return (
+            cls.env["ir.attachment"]
+            .with_context(
+                storage_file_path="test.txt",
+            )
+            .create(
+                {
+                    "name": "test.txt",
+                    "raw": cls.initial_content,
+                    "res_model": "res.partner",
+                }
+            )
+        )
+
+    def test_storage_location(self):
+        self.assertEqual(self.attachment.fs_storage_id, self.temp_backend)
+
+
+class TestAttachmentInFileSystemDependingFieldFileLikeAdapter(
+    TestFSAttachmentCommon, TestFSAttachmentFileLikeAdapterMixin
+):
+    """
+    Configure the temp backend to store only attachments linked to
+    res.country ID field.
+
+    Check that opening/updating the file does not change the storage type.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        res = super().setUpClass()
+        cls.temp_backend.field_xmlids = "base.field_res_country__id"
+        cls.prepareClass()
+        return res
+
+    def setUp(self):
+        super().setUp()
+        super().prepare()
+
+    @classmethod
+    def _create_attachment(cls):
+        return (
+            cls.env["ir.attachment"]
+            .with_context(
+                storage_file_path="test.txt",
+            )
+            .create(
+                {
+                    "name": "test.txt",
+                    "raw": cls.initial_content,
+                    "res_model": "res.country",
+                    "res_field": "id",
+                }
+            )
+        )
+
+    def test_storage_location(self):
+        self.assertEqual(self.attachment.fs_storage_id, self.temp_backend)
