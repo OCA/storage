@@ -70,6 +70,21 @@ attachments will be stored in the filesystem.
   This option is only available on the filesystem storage that is used
   as default for attachments.
 
+It is also possible to use different FS storages for attachments linked to
+different resource fields/models. You can configure it either on the ``fs.storage``
+directly, or in a server environment file:
+
+* From the ``fs.storage``: Fields `model_ids` and `field_ids` will encode for which
+  models/fields use this storage as default storage for attachments having these resource
+  model/field. Note that if an attachment has both resource model and field, it will
+  first take the FS storage where the field is explicitely linked, then is not found,
+  the one where the model is explicitely linked.
+
+* From a server environment file: In this case you just have to provide a comma-
+  separated list of models (under the `model_xmlids` key) or fields (under the
+  `field_xmlids` key). To do so, use the model/field XML ids provided by Odoo.
+  See the Server Environment section for a concrete example.
+
 Another key feature of this module is the ability to get access to the attachments
 from URLs.
 
@@ -133,6 +148,8 @@ provide values for the following keys:
 * ``use_as_default_for_attachments``
 * ``force_db_for_default_attachment_rules``
 * ``use_filename_obfuscation``
+* ``model_xmlids``
+* ``field_xmlids``
 
 For example, the configuration of my storage with code `fsprod` used to store
 the attachments by default could be:
@@ -145,6 +162,8 @@ the attachments by default could be:
     directory_path=my_bucket
     use_as_default_for_attachments=True
     use_filename_obfuscation=True
+    model_xmlids=base.model_res_lang,base.model_res_country
+    field_xmlids=base.field_res_partner__image_128
 
 Advanced usage: Using attachment as a file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,8 +196,8 @@ It's always safer to prefer the second approach.
 
 When your attachment is stored into the odoo filestore or into an external
 filesystem storage, each time you call the open method, a new file is created.
-This way of doing ensures that if the transaction is rollback the original content
-is preserve. Nevertheless you could have use cases where you would like to write
+This way of doing ensures that if the transaction is rolled back the original content
+is preserved. Nevertheless you could have use cases where you would like to write
 to the existing file directly. For example you could create an empty attachment
 to store a csv report and then use the `open` method to write your content directly
 into the new file. To support this kind a use cases, the parameter `new_version`
