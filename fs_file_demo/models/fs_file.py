@@ -12,6 +12,4 @@ class FsFile(models.Model):
     _description = "Fs File"
 
     name = fields.Char()
-    file = fs_fields.FSFile(
-        string="File", storage_code="odoofs"
-    )  # TODO: remove storage_code
+    file = fs_fields.FSFile(string="File")

@@ -11,7 +11,7 @@ from odoo.tests.common import TransactionCase
 
 from odoo.addons.fs_storage.models.fs_storage import FSStorage
 
-from ..io import FSFileBytesIO
+from ..fields import FSFileValue
 
 
 class TestFsFile(TransactionCase):
@@ -54,19 +54,21 @@ class TestFsFile(TransactionCase):
     def _test_create(self, fs_file_value):
         model = self.env["test.model"]
         instance = model.create({"fs_file": fs_file_value})
-        self.assertTrue(isinstance(instance.fs_file, FSFileBytesIO))
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
         self.assertEqual(instance.fs_file.name, self.filename)
 
-    def _test_write(self, fs_file_value):
-        instance = self.env["test.model"].create({"fs_file": fs_file_value})
+    def _test_write(self, fs_file_value, **ctx):
+        instance = self.env["test.model"].create({})
+        if ctx:
+            instance = instance.with_context(**ctx)
         instance.fs_file = fs_file_value
         self.assertEqual(instance.fs_file.getvalue(), self.write_content)
         self.assertEqual(instance.fs_file.name, self.filename)
 
     def test_read(self):
         instance = self.env["test.model"].create(
-            {"fs_file": FSFileBytesIO(name=self.filename, value=self.create_content)}
+            {"fs_file": FSFileValue(name=self.filename, value=self.create_content)}
         )
         info = instance.read(["fs_file"])[0]
         self.assertDictEqual(
@@ -80,7 +82,7 @@ class TestFsFile(TransactionCase):
         )
 
     def test_create_with_fsfilebytesio(self):
-        self._test_create(FSFileBytesIO(name=self.filename, value=self.create_content))
+        self._test_create(FSFileValue(name=self.filename, value=self.create_content))
 
     def test_create_with_dict(self):
         self._test_create(
@@ -106,25 +108,25 @@ class TestFsFile(TransactionCase):
         instance = self.env["test.model"].create(
             {"fs_file": base64.b64encode(self.create_content)}
         )
-        self.assertTrue(isinstance(instance.fs_file, FSFileBytesIO))
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
 
     def test_write_in_b64(self):
         instance = self.env["test.model"].create({"fs_file": b"test"})
         instance.write({"fs_file": base64.b64encode(self.create_content)})
-        self.assertTrue(isinstance(instance.fs_file, FSFileBytesIO))
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
 
     def test_write_in_b64_with_specified_filename(self):
         self._test_write(
-            base64.b64encode(self.write_content), {"fs_filename": self.filename}
+            base64.b64encode(self.write_content), fs_filename=self.filename
         )
 
     def test_create_with_io(self):
         instance = self.env["test.model"].create(
             {"fs_file": io.BytesIO(self.create_content)}
         )
-        self.assertTrue(isinstance(instance.fs_file, FSFileBytesIO))
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
 
     def test_write_with_io(self):
@@ -132,19 +134,20 @@ class TestFsFile(TransactionCase):
             {"fs_file": io.BytesIO(self.create_content)}
         )
         instance.write({"fs_file": io.BytesIO(b"test3")})
-        self.assertTrue(isinstance(instance.fs_file, io.IOBase))
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), b"test3")
 
     def test_modify_fsfilebytesio(self):
-        """If you modify the content of the FSFileBytesIO using the write
-        method on the FSFileBytesIO object, the changes will be directly applied
-         and a new file in the storage must be created for the new content.
+        """If you modify the content of the FSFileValue,
+        the changes will be directly applied
+        and a new file in the storage must be created for the new content.
         """
         instance = self.env["test.model"].create(
-            {"fs_file": FSFileBytesIO(name=self.filename, value=self.create_content)}
+            {"fs_file": FSFileValue(name=self.filename, value=self.create_content)}
         )
         initial_store_fname = instance.fs_file.attachment.store_fname
-        instance.fs_file.write(b"new_content")
+        with instance.fs_file.open(mode="wb") as f:
+            f.write(b"new_content")
         self.assertNotEqual(
             instance.fs_file.attachment.store_fname, initial_store_fname
         )
