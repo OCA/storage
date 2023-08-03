@@ -27,7 +27,7 @@ Concretely, this design allows you to write code like this:
       _name = 'my.model'
 
       name = fields.Char()
-      file = FSFile(field_name='filename', storage_code="my_storage")
+      file = FSFile()
 
   # Create a new record with a raw content
   my_model = MyModel.create({

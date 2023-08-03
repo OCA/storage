@@ -3,11 +3,159 @@
 # pylint: disable=method-required-super
 import base64
 import itertools
-from io import IOBase
+import os.path
+from io import BytesIO, IOBase
 
 from odoo import fields
 
-from .io import FSFileBytesIO
+from odoo.addons.fs_attachment.models.ir_attachment import IrAttachment
+
+
+class FSFileValue:
+    def __init__(
+        self,
+        attachment: IrAttachment = None,
+        name: str = None,
+        value: bytes | IOBase = None,
+    ) -> None:
+        """
+        This class holds the information related to FSFile field. It can be
+        used to assign a value to a FSFile field. In such a case, you can pass
+        the name and the file content as parameters.
+
+        When
+
+        :param attachment: the attachment to use to store the file.
+        :param name: the name of the file. If not provided, the name will be
+            taken from the attachment or the io.IOBase.
+        :param value: the content of the file. It can be bytes or an io.IOBase.
+        """
+        self._is_new: bool = attachment is None
+        self._buffer: IOBase = None
+        self._attachment: IrAttachment = attachment
+        if name and attachment:
+            raise ValueError("Cannot set name and attachment at the same time")
+        if value:
+            if isinstance(value, IOBase):
+                self._buffer = value
+                if not hasattr(value, "name") and name:
+                    self._buffer.name = name
+                elif not name:
+                    raise ValueError(
+                        "name must be set when value is an io.IOBase "
+                        "and is not provided by the io.IOBase"
+                    )
+            elif isinstance(value, bytes):
+                self._buffer = BytesIO(value)
+                if not name:
+                    raise ValueError("name must be set when value is bytes")
+                self._buffer.name = name
+            else:
+                raise ValueError("value must be bytes or io.BytesIO")
+
+    @property
+    def write_buffer(self) -> BytesIO:
+        if self._buffer is None:
+            name = self._attachment.name if self._attachment else None
+            self._buffer = BytesIO()
+            self._buffer.name = name
+        return self._buffer
+
+    @property
+    def name(self) -> str | None:
+        name = (
+            self._attachment.name
+            if self._attachment
+            else self._buffer.name
+            if self._buffer
+            else None
+        )
+        if name:
+            return os.path.basename(name)
+        return None
+
+    @name.setter
+    def name(self, value: str) -> None:
+        # the name should only be updatable while the file is not yet stored
+        # TODO, we could also allow to update the name of the file and rename
+        # the file in the external file system
+        if self._is_new:
+            self.write_buffer.name = value
+        else:
+            raise ValueError(
+                "The name of the file can only be updated while the file is not "
+                "yet stored"
+            )
+
+    @property
+    def mimetype(self) -> str | None:
+        return self._attachment.mimetype if self._attachment else None
+
+    @property
+    def size(self) -> int:
+        return self._attachment.file_size if self._attachment else len(self._buffer)
+
+    @property
+    def url(self) -> str | None:
+        return self._attachment.url if self._attachment else None
+
+    @property
+    def internal_url(self) -> str | None:
+        return self._attachment.internal_url if self._attachment else None
+
+    @property
+    def attachment(self) -> IrAttachment | None:
+        return self._attachment
+
+    @attachment.setter
+    def attachment(self, value: IrAttachment) -> None:
+        self._attachment = value
+        self._buffer = None
+
+    @property
+    def read_buffer(self) -> BytesIO:
+        if self._buffer is None:
+            content = b""
+            name = None
+            if self._attachment:
+                content = self._attachment.raw
+                name = self._attachment.name
+            self._buffer = BytesIO(content)
+            self._buffer.name = name
+        return self._buffer
+
+    def getvalue(self) -> bytes:
+        buffer = self.read_buffer
+        current_pos = buffer.tell()
+        buffer.seek(0)
+        value = buffer.read()
+        buffer.seek(current_pos)
+        return value
+
+    def open(
+        self,
+        mode="rb",
+        block_size=None,
+        cache_options=None,
+        compression=None,
+        new_version=True,
+        **kwargs
+    ) -> IOBase:
+        """
+        Return a file-like object that can be used to read and write the file content.
+        See the documentation of open() into the ir.attachment model from the
+        fs_attachment module for more information.
+        """
+        if not self._attachment:
+            raise ValueError("Cannot open a file that is not stored")
+        return self._attachment.open(
+            mode=mode,
+            block_size=block_size,
+            cache_options=cache_options,
+            compression=compression,
+            new_version=new_version,
+            **kwargs,
+        )
 
 
 class FSFile(fields.Binary):
@@ -19,7 +167,7 @@ class FSFile(fields.Binary):
     is not encoded in base64 but is a bytes object.
 
     Moreover, the field is designed to always return an instance of
-    :class:`FSFileBytesIO` when reading the value. This class is a file-like
+    :class:`FSFileValue` when reading the value. This class is a file-like
     object that can be used to read the file content and to get information
     about the file (filename, mimetype, url, ...).
 
@@ -29,7 +177,7 @@ class FSFile(fields.Binary):
     - a dict with the following keys:
       - ``filename``: the filename of the file
       - ``content``: the content of the file encoded in base64
-    - a FSFileBytesIO instance
+    - a FSFileValue instance
     - a file-like object (e.g. an instance of :class:`io.BytesIO`)
 
     When the value is provided is a bytes object the filename is set to the
@@ -60,10 +208,8 @@ class FSFile(fields.Binary):
     type = "fs_file"
 
     attachment: bool = True
-    storage_code: str = None
 
-    def __init__(self, storage_code: str = None, **kwargs):
-        self.storage_code = storage_code
+    def __init__(self, **kwargs):
         kwargs["attachment"] = True
         super().__init__(**kwargs)
 
@@ -74,7 +220,7 @@ class FSFile(fields.Binary):
             ("res_id", "in", records.ids),
         ]
         data = {
-            att.res_id: FSFileBytesIO(attachment=att)
+            att.res_id: FSFileValue(attachment=att)
             for att in records.env["ir.attachment"].sudo().search(domain)
         }
         records.env.cache.insert_missing(records, self, map(data.get, records._ids))
@@ -88,7 +234,6 @@ class FSFile(fields.Binary):
                 env["ir.attachment"]
                 .sudo()
                 .with_context(
-                    storage_code=self.storage_code,
                     binary_field_real_user=env.user,
                 )
             )
@@ -108,7 +253,7 @@ class FSFile(fields.Binary):
                     record.env.cache.update(
                         record,
                         self,
-                        [FSFileBytesIO(attachment=attachment)],
+                        [FSFileValue(attachment=attachment)],
                         dirty=False,
                     )
 
@@ -117,8 +262,6 @@ class FSFile(fields.Binary):
         # with the following changes:
         # - the value is not encoded in base64 and we therefore write on
         #  ir.attachment.raw instead of ir.attachment.datas
-        # - we use the storage_code to store the attachment in the right
-        #  filesystem storage
 
         # discard recomputation of self on records
         records.env.remove_to_compute(self, records)
@@ -141,7 +284,6 @@ class FSFile(fields.Binary):
                 records.env["ir.attachment"]
                 .sudo()
                 .with_context(
-                    storage_code=self.storage_code,
                     binary_field_real_user=records.env.user,
                 )
             )
@@ -178,7 +320,7 @@ class FSFile(fields.Binary):
                     for att in created:
                         record = records.browse(att.res_id)
                         record.env.cache.update(
-                            record, self, [FSFileBytesIO(attachment=att)], dirty=False
+                            record, self, [FSFileValue(attachment=att)], dirty=False
                         )
             else:
                 atts.unlink()
@@ -191,19 +333,19 @@ class FSFile(fields.Binary):
     def convert_to_cache(self, value, record, validate=True):
         if value is None or value is False:
             return None
-        if isinstance(value, FSFileBytesIO):
+        if isinstance(value, FSFileValue):
             return value
         if isinstance(value, dict):
-            return FSFileBytesIO(
+            return FSFileValue(
                 name=value["filename"], value=base64.b64decode(value["content"])
             )
         if isinstance(value, IOBase):
             name = getattr(value, "name", None)
             if name is None:
                 name = self._get_filename(record)
-            return FSFileBytesIO(name=name, value=value)
+            return FSFileValue(name=name, value=value)
         if isinstance(value, bytes):
-            return FSFileBytesIO(
+            return FSFileValue(
                 name=self._get_filename(record), value=base64.b64decode(value)
             )
         raise ValueError(
@@ -238,7 +380,7 @@ class FSFile(fields.Binary):
         if isinstance(value, IOBase):
             return value
         if isinstance(value, bytes):
-            return FSFileBytesIO(value=value)
+            return FSFileValue(value=value)
         raise ValueError(
             "Invalid value for %s: %r\n"
             "Should be base64 encoded bytes or a file-like object" % (self, value)
@@ -247,7 +389,7 @@ class FSFile(fields.Binary):
     def convert_to_read(self, value, record, use_name_get=True):
         if value is None or value is False:
             return None
-        if isinstance(value, FSFileBytesIO):
+        if isinstance(value, FSFileValue):
             return {
                 "filename": value.name,
                 "url": value.internal_url,
