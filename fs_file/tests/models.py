@@ -9,6 +9,7 @@ from ..fields import FSFile
 class TestModel(models.Model):
 
     _name = "test.model"
+    _description = "Test Model"
     _log_access = False
 
-    fs_file = FSFile(storage_code="mem_dir")
+    fs_file = FSFile()
