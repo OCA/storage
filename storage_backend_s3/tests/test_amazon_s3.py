@@ -17,6 +17,24 @@ _logger = logging.getLogger(__name__)
 
 
 class AmazonS3Case(VCRMixin, CommonCase, BackendStorageTestMixin):
+    @classmethod
+    def setUpClass(cls):
+        super(AmazonS3Case, cls).setUpClass()
+        cls.backend = cls.env.ref("storage_backend.default_storage_backend")
+        cls.backend.write(
+            {
+                "backend_type": "amazon_s3",
+                "aws_bucket": os.environ.get("AWS_BUCKET", "test-storage-backend"),
+                "aws_access_key_id": os.environ.get(
+                    "AWS_ACCESS_KEY_ID", "test-access-key"
+                ),
+                "aws_secret_access_key": os.environ.get(
+                    "AWS_SECRET_ACCESS_KEY", "test-secret-access-key"
+                ),
+                "aws_host": os.environ.get("AWS_HOST", "https://sos-ch-dk-2.exo.io"),
+            }
+        )
+
     def _get_vcr_kwargs(self, **kwargs):
         return {
             "record_mode": "once",
@@ -24,18 +42,6 @@ class AmazonS3Case(VCRMixin, CommonCase, BackendStorageTestMixin):
             "filter_headers": ["Authorization"],
             "decode_compressed_response": True,
         }
-
-    def setUp(self):
-        super(AmazonS3Case, self).setUp()
-        self.backend.write(
-            {
-                "backend_type": "amazon_s3",
-                "aws_bucket": os.environ.get("AWS_BUCKET", "test-storage-backend"),
-                "aws_access_key_id": os.environ.get("AWS_ACCESS_KEY_ID", ""),
-                "aws_secret_access_key": os.environ.get("AWS_SECRET_ACCESS_KEY", ""),
-                "aws_host": os.environ.get("AWS_HOST", "https://sos-ch-dk-2.exo.io"),
-            }
-        )
 
     def test_setting_and_getting_data_from_root(self):
         self._test_setting_and_getting_data_from_root()
