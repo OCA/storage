@@ -56,7 +56,7 @@ class StorageThumbnail(models.Model):
         if image_resize_server and image.backend_id.served_by != "odoo":
             values = {"url": image.url, "width": size_x, "height": size_y, "fmt": fmt}
             url = image_resize_server.format(**values)
-            return base64.encodebytes(requests.get(url).content)
+            return base64.encodebytes(requests.get(url, timeout=10).content)
         image_process = ImageProcess(image.data)
         return image_process.resize(max_width=size_x, max_height=size_y).image_base64()
 
