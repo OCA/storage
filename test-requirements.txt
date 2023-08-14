@@ -1,2 +1,4 @@
 mock
 odoo-test-helper
+
+odoo-addon-storage-file @ git+https://github.com/OCA/storage.git@refs/pull/238/head#subdirectory=setup/storage_file
