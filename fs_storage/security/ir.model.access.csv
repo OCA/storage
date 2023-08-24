@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fs_storage_edit,fs_storage edit,model_fs_storage,base.group_system,1,1,1,1
