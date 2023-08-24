@@ -15,6 +15,7 @@
     "external_dependencies": {"python": [], "bin": []},
     "depends": ["storage_file", "storage_thumbnail"],
     "data": [
+        "wizards/replace_file.xml",
         "views/storage_media_view.xml",
         "data/ir_parameter.xml",
         "security/res_group.xml",
