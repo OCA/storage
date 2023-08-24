@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Camptocamp SA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="storage_file_replace_view_form" model="ir.ui.view">
+      <field name="name">storage.file.replace.form</field>
+      <field name="model">storage.file.replace</field>
+      <field name="arch" type="xml">
+        <form string="Replace File" version="7.0">
+          <sheet>
+              <field name="file_id" invisible="1" />
+              <field name="media_id" invisible="1" />
+              <group string="Media" name="media">
+                  <field name="data" filename="file_name" />
+              </group>
+              <group string="Name" name="name">
+                  <field name="file_name" />
+              </group>
+              <footer>
+                  <button name="confirm" string="Confirm" type="object" />
+                <button special="cancel" string="Cancel" class="btn-default" />
+              </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="storage_replace_file_action" model="ir.actions.act_window">
+      <field name="name">Replace File</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">storage.file.replace</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="storage_file_replace_view_form" />
+      <field name="context">{"withControlPanel": False, "no_breadcrumbs": True}</field>
+    </record>
+
+
+</odoo>

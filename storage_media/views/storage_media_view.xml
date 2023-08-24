@@ -15,6 +15,14 @@
     <field name="model">storage.media</field>
     <field name="arch" type="xml">
         <form string="Storage Media">
+            <header>
+                <button
+                        id="button_storage_replace_file"
+                        string="Replace File"
+                        name="%(storage_media.storage_replace_file_action)d"
+                        type="action"
+                    />
+            </header>
             <group>
                 <field name="id" invisible="True" />
                 <field
