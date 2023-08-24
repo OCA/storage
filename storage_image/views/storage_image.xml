@@ -15,6 +15,14 @@
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
             <form string="Image">
+                <header>
+                    <button
+                        id="button_storage_replace_file"
+                        string="Replace File"
+                        name="%(storage_image.storage_replace_file_action)d"
+                        type="action"
+                    />
+                </header>
                 <group string="Image" name="image">
                     <field
                         name="data"

@@ -16,6 +16,7 @@
         "security/res_group.xml",
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
+        "wizards/replace_file.xml",
         "views/assets.xml",
         "views/storage_image.xml",
         "views/storage_image_relation_abstract.xml",
