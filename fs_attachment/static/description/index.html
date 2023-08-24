@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.15.1: http://docutils.sourceforge.net/" />
 <title>Base Attachment Object Store</title>
 <style type="text/css">
 
@@ -502,6 +502,20 @@ stored in database</li>
 as default for attachments.</p>
 </li>
 </ul>
+<p>It is also possible to use different FS storages for attachments linked to
+different resource fields/models. You can configure it either on the <tt class="docutils literal">fs.storage</tt>
+directly, or in a server environment file:</p>
+<ul class="simple">
+<li>From the <tt class="docutils literal">fs.storage</tt>: Fields <cite>model_ids</cite> and <cite>field_ids</cite> will encode for which
+models/fields use this storage as default storage for attachments having these resource
+model/field. Note that if an attachment has both resource model and field, it will
+first take the FS storage where the field is explicitely linked, then is not found,
+the one where the model is explicitely linked.</li>
+<li>From a server environment file: In this case you just have to provide a comma-
+separated list of models (under the <cite>model_xmlids</cite> key) or fields (under the
+<cite>field_xmlids</cite> key). To do so, use the model/field XML ids provided by Odoo.
+See the Server Environment section for a concrete example.</li>
+</ul>
 <p>Another key feature of this module is the ability to get access to the attachments
 from URLs.</p>
 <ul>
@@ -526,10 +540,10 @@ to the server serving the files. For example, if you have a storage with the
 code ‘my_storage’ and a server serving the files at the url ‘<a class="reference external" href="http://myserver.com">http://myserver.com</a>’,
 you must add the following rule in your proxy configuration:</p>
 <pre class="code nginx literal-block">
-<span class="k">location</span><span class="w"> </span><span class="s">/my_storage/</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kn">internal</span><span class="p">;</span><span class="w">
-    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://myserver.com</span><span class="p">;</span><span class="w">
-</span><span class="p">}</span>
+<span class="k">location</span> <span class="s">/my_storage/</span> <span class="p">{</span>
+    <span class="kn">internal</span><span class="p">;</span>
+    <span class="kn">proxy_pass</span> <span class="s">http://myserver.com</span><span class="p">;</span>
+<span class="p">}</span>
 </pre>
 <p>With this configuration a call to ‘/web/content/&lt;att.id&gt;/&lt;att.name&gt;&lt;att.extension&gt;”
 for a file stored in the ‘my_storage’ storage will generate a response by odoo
@@ -563,16 +577,20 @@ provide values for the following keys:</p>
 <li><tt class="docutils literal">use_as_default_for_attachments</tt></li>
 <li><tt class="docutils literal">force_db_for_default_attachment_rules</tt></li>
 <li><tt class="docutils literal">use_filename_obfuscation</tt></li>
+<li><tt class="docutils literal">model_xmlids</tt></li>
+<li><tt class="docutils literal">field_xmlids</tt></li>
 </ul>
 <p>For example, the configuration of my storage with code <cite>fsprod</cite> used to store
 the attachments by default could be:</p>
 <pre class="code ini literal-block">
-<span class="k">[fs_storage.fsprod]</span><span class="w">
-</span><span class="na">protocol</span><span class="o">=</span><span class="s">s3</span><span class="w">
-</span><span class="na">options</span><span class="o">=</span><span class="s">{&quot;endpoint_url&quot;: &quot;https://my_s3_server/&quot;, &quot;key&quot;: &quot;KEY&quot;, &quot;secret&quot;: &quot;SECRET&quot;}</span><span class="w">
-</span><span class="na">directory_path</span><span class="o">=</span><span class="s">my_bucket</span><span class="w">
-</span><span class="na">use_as_default_for_attachments</span><span class="o">=</span><span class="s">True</span><span class="w">
-</span><span class="na">use_filename_obfuscation</span><span class="o">=</span><span class="s">True</span>
+<span class="k">[fs_storage.fsprod]</span>
+<span class="na">protocol</span><span class="o">=</span><span class="s">s3</span>
+<span class="na">options</span><span class="o">=</span><span class="s">{&quot;endpoint_url&quot;: &quot;https://my_s3_server/&quot;, &quot;key&quot;: &quot;KEY&quot;, &quot;secret&quot;: &quot;SECRET&quot;}</span>
+<span class="na">directory_path</span><span class="o">=</span><span class="s">my_bucket</span>
+<span class="na">use_as_default_for_attachments</span><span class="o">=</span><span class="s">True</span>
+<span class="na">use_filename_obfuscation</span><span class="o">=</span><span class="s">True</span>
+<span class="na">model_xmlids</span><span class="o">=</span><span class="s">base.model_res_lang,base.model_res_country</span>
+<span class="na">field_xmlids</span><span class="o">=</span><span class="s">base.field_res_partner__image_128</span>
 </pre>
 </div>
 <div class="section" id="advanced-usage-using-attachment-as-a-file">
@@ -600,8 +618,8 @@ a case, when the code exit the block, the file is automatically closed.</p>
 <p>It’s always safer to prefer the second approach.</p>
 <p>When your attachment is stored into the odoo filestore or into an external
 filesystem storage, each time you call the open method, a new file is created.
-This way of doing ensures that if the transaction is rollback the original content
-is preserve. Nevertheless you could have use cases where you would like to write
+This way of doing ensures that if the transaction is rolled back the original content
+is preserved. Nevertheless you could have use cases where you would like to write
 to the existing file directly. For example you could create an empty attachment
 to store a csv report and then use the <cite>open</cite> method to write your content directly
 into the new file. To support this kind a use cases, the parameter <cite>new_version</cite>
@@ -660,7 +678,8 @@ Denis Leemann &lt;<a class="reference external" href="mailto:denis.leemann&#64;c
 Patrick Tombez &lt;<a class="reference external" href="mailto:patrick.tombez&#64;camptocamp.com">patrick.tombez&#64;camptocamp.com</a>&gt;
 Don Kendall &lt;<a class="reference external" href="mailto:kendall&#64;donkendall.com">kendall&#64;donkendall.com</a>&gt;
 Stephane Mangin &lt;<a class="reference external" href="mailto:stephane.mangin&#64;camptocamp.com">stephane.mangin&#64;camptocamp.com</a>&gt;
-Laurent Mignon &lt;<a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a>&gt;</p>
+Laurent Mignon &lt;<a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a>&gt;
+Marie Lejeune &lt;<a class="reference external" href="mailto:marie.lejeune&#64;acsone.eu">marie.lejeune&#64;acsone.eu</a>&gt;</p>
 </div>
 <div class="section" id="maintainers">
 <h2><a class="toc-backref" href="#id10">Maintainers</a></h2>
