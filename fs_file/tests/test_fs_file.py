@@ -1,0 +1,154 @@
+# Copyright 2023 ACSONE SA/NV
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+import base64
+import io
+import os
+import tempfile
+
+from odoo_test_helper import FakeModelLoader
+
+from odoo.tests.common import TransactionCase
+
+from odoo.addons.fs_storage.models.fs_storage import FSStorage
+
+from ..fields import FSFileValue
+
+
+class TestFsFile(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.loader = FakeModelLoader(cls.env, cls.__module__)
+        cls.loader.backup_registry()
+        from .models import TestModel
+
+        cls.loader.update_registry((TestModel,))
+
+        cls.create_content = b"content"
+        cls.write_content = b"new content"
+        cls.tmpfile_path = tempfile.mkstemp(suffix=".txt")[1]
+        with open(cls.tmpfile_path, "wb") as f:
+            f.write(cls.create_content)
+        cls.filename = os.path.basename(cls.tmpfile_path)
+
+    def setUp(self):
+        super().setUp()
+        self.temp_dir: FSStorage = self.env["fs.storage"].create(
+            {
+                "name": "Temp FS Storage",
+                "protocol": "memory",
+                "code": "mem_dir",
+                "directory_path": "/tmp/",
+                "model_xmlids": "fs_file.model_test_model",
+            }
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists(cls.tmpfile_path):
+            os.remove(cls.tmpfile_path)
+        cls.loader.restore_registry()
+        return super().tearDownClass()
+
+    def _test_create(self, fs_file_value):
+        model = self.env["test.model"]
+        instance = model.create({"fs_file": fs_file_value})
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
+        self.assertEqual(instance.fs_file.getvalue(), self.create_content)
+        self.assertEqual(instance.fs_file.name, self.filename)
+
+    def _test_write(self, fs_file_value, **ctx):
+        instance = self.env["test.model"].create({})
+        if ctx:
+            instance = instance.with_context(**ctx)
+        instance.fs_file = fs_file_value
+        self.assertEqual(instance.fs_file.getvalue(), self.write_content)
+        self.assertEqual(instance.fs_file.name, self.filename)
+
+    def test_read(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": FSFileValue(name=self.filename, value=self.create_content)}
+        )
+        info = instance.read(["fs_file"])[0]
+        self.assertDictEqual(
+            info["fs_file"],
+            {
+                "filename": self.filename,
+                "mimetype": "text/plain",
+                "size": 7,
+                "url": instance.fs_file.internal_url,
+            },
+        )
+
+    def test_create_with_fsfilebytesio(self):
+        self._test_create(FSFileValue(name=self.filename, value=self.create_content))
+
+    def test_create_with_dict(self):
+        self._test_create(
+            {
+                "filename": self.filename,
+                "content": base64.b64encode(self.create_content),
+            }
+        )
+
+    def test_write_with_dict(self):
+        self._test_write(
+            {
+                "filename": self.filename,
+                "content": base64.b64encode(self.write_content),
+            }
+        )
+
+    def test_create_with_file_like(self):
+        with open(self.tmpfile_path, "rb") as f:
+            self._test_create(f)
+
+    def test_create_in_b64(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": base64.b64encode(self.create_content)}
+        )
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
+        self.assertEqual(instance.fs_file.getvalue(), self.create_content)
+
+    def test_write_in_b64(self):
+        instance = self.env["test.model"].create({"fs_file": b"test"})
+        instance.write({"fs_file": base64.b64encode(self.create_content)})
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
+        self.assertEqual(instance.fs_file.getvalue(), self.create_content)
+
+    def test_write_in_b64_with_specified_filename(self):
+        self._test_write(
+            base64.b64encode(self.write_content), fs_filename=self.filename
+        )
+
+    def test_create_with_io(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": io.BytesIO(self.create_content)}
+        )
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
+        self.assertEqual(instance.fs_file.getvalue(), self.create_content)
+
+    def test_write_with_io(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": io.BytesIO(self.create_content)}
+        )
+        instance.write({"fs_file": io.BytesIO(b"test3")})
+        self.assertTrue(isinstance(instance.fs_file, FSFileValue))
+        self.assertEqual(instance.fs_file.getvalue(), b"test3")
+
+    def test_modify_fsfilebytesio(self):
+        """If you modify the content of the FSFileValue,
+        the changes will be directly applied
+        and a new file in the storage must be created for the new content.
+        """
+        instance = self.env["test.model"].create(
+            {"fs_file": FSFileValue(name=self.filename, value=self.create_content)}
+        )
+        initial_store_fname = instance.fs_file.attachment.store_fname
+        with instance.fs_file.open(mode="wb") as f:
+            f.write(b"new_content")
+        self.assertNotEqual(
+            instance.fs_file.attachment.store_fname, initial_store_fname
+        )
+        self.assertEqual(instance.fs_file.getvalue(), b"new_content")
