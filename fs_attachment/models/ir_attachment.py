@@ -436,7 +436,7 @@ class IrAttachment(models.Model):
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
                 continue
-            fs, storage, filename = self._get_fs_parts()
+            fs, storage, filename = attachment._get_fs_parts()
 
             if self.env["fs.storage"]._must_use_filename_obfuscation(storage):
                 attachment.fs_filename = filename
