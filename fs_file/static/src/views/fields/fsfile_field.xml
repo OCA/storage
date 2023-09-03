@@ -2,39 +2,41 @@
 <templates xml:space="preserve">
 
     <t t-name="fs_file.FSFileField" owl="1">
-        <t t-if="state.isUploading">Uploading...</t>
         <t t-if="!props.readonly">
             <div class="w-100 d-inline-flex">
-                <t t-if="props.value">
-                    <a
-                        class="o_form_uri fs_file_link"
-                        t-att-href="state.url + '?download=1'"
-                    >
-                        <span class="fa fa-download me-2" />
-                        <t t-if="state.filename" t-esc="state.filename" />
-                    </a>
-                     <button
-                        class="btn btn-secondary fa fa-pencil o_select_file_button py-0"
-                        data-tooltip="Edit"
-                        aria-label="Edit"
-                        t-on-click="() => this.edit({})"
-                    />
+                <FileUploader
+                    acceptedFileExtensions="props.acceptedFileExtensions"
+                    t-key="props.record.resId"
+                    onUploaded.bind="onFileUploaded"
+                >
+                    <t t-if="props.value">
+                        <t t-if="state.url">
+                        <a
+                                class="o_form_uri fs_file_link"
+                                t-att-href="state.url + '?download=1'"
+                            >
+                            <span class="fa fa-download me-2" />
+                            <t t-if="state.filename" t-esc="state.filename" />
+                        </a>
+                        </t>
+                        <t t-else="">
+                            <t t-if="state.filename" t-esc="state.filename" />
+                        </t>
+                    </t>
+                    <t t-set-slot="toggler">
+                         <button
+                            class="btn btn-secondary fa fa-pencil o_select_file_button py-0"
+                            data-tooltip="Edit"
+                            aria-label="Edit"
+                        />
+                    </t>
                     <button
                         class="btn btn-secondary fa fa-trash o_clear_file_button py-0"
                         data-tooltip="Clear"
                         aria-label="Clear"
-                        t-on-click="() => this.clear({})"
+                        t-on-click="onFileRemove"
                     />
-                </t>
-                <t t-else="">
-                    <button
-                        class="btn btn btn-primary fa fa-pencil o_select_file_button"
-                        data-tooltip="Upload your file"
-                        aria-label="Upload your file"
-                        t-on-click="() => this.edit({})"
-                    >Upload your file</button>
-                </t>
-
+                </FileUploader>
             </div>
         </t>
         <t t-elif="props.value">
