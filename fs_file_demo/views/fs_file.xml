@@ -10,12 +10,16 @@
             <form>
                 <header />
                 <sheet>
+                    <field
+                        name="fs_image_1920"
+                        class="oe_avatar"
+                        options="{'preview_image': 'fs_image_128', 'zoom': true}"
+                    />
                     <group>
                         <field name="name" />
                         <field name="file" />
                     </group>
                 </sheet>
-                <div class="oe_chatter" />
             </form>
         </field>
     </record>
