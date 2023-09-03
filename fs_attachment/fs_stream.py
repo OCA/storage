@@ -21,18 +21,13 @@ class FsStream(Stream):
         attachment.ensure_one()
         if not attachment.fs_filename:
             raise ValueError("Attachment is not stored into a filesystem storage")
-        size = 0
-        if cls._check_use_x_sendfile(attachment):
-            fs, _storage, fname = attachment._get_fs_parts()
-            fs_info = fs.info(fname)
-            size = fs_info["size"]
         return cls(
             mimetype=attachment.mimetype,
             download_name=attachment.name,
             conditional=True,
             etag=attachment.checksum,
             type="fs",
-            size=size,
+            size=attachment.file_size,
             last_modified=attachment["__last_update"],
             fs_attachment=attachment,
         )
