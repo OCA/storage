@@ -3,10 +3,12 @@
 # pylint: disable=method-required-super
 import base64
 import itertools
+import mimetypes
 import os.path
 from io import BytesIO, IOBase
 
 from odoo import fields
+from odoo.tools.mimetypes import guess_mimetype
 
 from odoo.addons.fs_attachment.models.ir_attachment import IrAttachment
 
@@ -93,7 +95,13 @@ class FSFileValue:
 
     @property
     def mimetype(self) -> str | None:
-        return self._attachment.mimetype if self._attachment else None
+        # get mimetype from name
+        mimetype = None
+        if self._attachment:
+            mimetype = self._attachment.mimetype
+        elif self.name:
+            mimetype = guess_mimetype(self.name)
+        return mimetype or "application/octet-stream"
 
     @property
     def size(self) -> int:
@@ -127,6 +135,15 @@ class FSFileValue:
     def attachment(self, value: IrAttachment) -> None:
         self._attachment = value
         self._buffer = None
+
+    @property
+    def extension(self) -> str | None:
+        # get extension from mimetype
+        ext = os.path.splitext(self.name)[1]
+        if not ext:
+            ext = mimetypes.guess_extension(self.mimetype)
+            ext = ext and ext[1:]
+        return ext
 
     @property
     def read_buffer(self) -> BytesIO:
