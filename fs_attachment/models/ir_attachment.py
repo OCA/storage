@@ -98,9 +98,14 @@ class IrAttachment(models.Model):
     def _compute_internal_url(self) -> None:
         for rec in self:
             filename, extension = os.path.splitext(rec.name)
+            # determine if the file is an image
+            pfx = "/web/content"
+            if rec.mimetype and rec.mimetype.startswith("image/"):
+                pfx = "/web/image"
+
             if not extension:
                 extension = mimetypes.guess_extension(rec.mimetype)
-            rec.internal_url = f"/web/content/{rec.id}/{filename}{extension}"
+            rec.internal_url = f"{pfx}/{rec.id}/{filename}{extension}"
 
     @api.depends("fs_filename")
     def _compute_fs_url(self) -> None:
