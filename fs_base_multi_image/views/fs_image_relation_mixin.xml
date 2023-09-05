@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="fs_image_relation_mixin_form_view">
+        <field name="name">fs.image.relation.mixin.form</field>
+        <field name="model">fs.image.relation.mixin</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                     <field
+                        name="image"
+                        class="oe_avatar"
+                        options="{'preview_image': 'image_medium', 'zoom': true}"
+                        readonly="1"
+                        attrs="{'invisible': [('link_existing', '=', False)]}"
+                    />
+                    <field
+                        name="specific_image"
+                        class="oe_avatar"
+                        options="{'preview_image': 'image_medium', 'zoom': true}"
+                        attrs="{'invisible': [('link_existing', '=', True)]}"
+                    />
+                    <group>
+                        <field name="link_existing" />
+                        <field name="name" />
+                        <field name="sequence" />
+                        <field
+                            name="image_id"
+                            attrs="{'invisible': [('link_existing', '=', False)]}"
+                        />
+                    </group>
+                    <group name="extra">
+                            <!-- Add here custom relation fields -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
