@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="fs_media_relation_mixin_form_view">
+        <field name="name">fs.media.relation.mixin.form</field>
+        <field name="model">fs.media.relation.mixin</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="link_existing" />
+                        <field
+                            name="file"
+                            attrs="{'invisible': [('link_existing', '=', False)]}"
+                        />
+                        <field
+                            name="media_type_id"
+                            attrs="{'invisible': [('link_existing', '=', False)]}"
+                        />
+                        <field
+                            name="specific_file"
+                            attrs="{'invisible': [('link_existing', '=', True)]}"
+                        />
+                        <field
+                            name="specific_media_type_id"
+                            attrs="{'invisible': [('link_existing', '=', True)]}"
+                        />
+                        <field name="sequence" />
+                        <field
+                            name="media_id"
+                            attrs="{'invisible': [('link_existing', '=', False)]}"
+                        />
+                    </group>
+                    <group name="extra">
+                            <!-- Add here custom relation fields -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fs_media_relation_mixin_tree_view">
+        <field name="name">fs.media.relation.mixin.tree</field>
+        <field name="model">fs.media.relation.mixin</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>
