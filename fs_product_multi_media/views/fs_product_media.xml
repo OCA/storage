@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+     <record model="ir.ui.view" id="fs_product_media_form_view">
+        <field name="name">fs.product.media.form</field>
+        <field name="model">fs.product.media</field>
+         <field
+            name="inherit_id"
+            ref="fs_base_multi_media.fs_media_relation_mixin_form_view"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <group name="extra" position="inside">
+                <field
+                    name="available_attribute_value_ids"
+                    widget="many2many_tags"
+                    invisible="1"
+                />
+                <field
+                    name="attribute_value_ids"
+                    widget="many2many_tags"
+                    domain="[('id', 'in', available_attribute_value_ids)]"
+                    attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
+                />
+            </group>
+        </field>
+    </record>
+
+</odoo>
