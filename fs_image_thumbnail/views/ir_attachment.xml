@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="ir_attachment_form_view">
+        <field name="name">ir.attachment.form (in fs_image_thumbnail)</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form" />
+        <field name="arch" type="xml">
+            <group name="description_group" position="after">
+                <group name="thumbnails" string="Thumbnails" colspan="4">
+                    <field name="thumbnail_ids" nolabel="1" colspan="2" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
