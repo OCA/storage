@@ -22,29 +22,14 @@ msgstr ""
 
 #. module: fs_file
 #. odoo-javascript
+#: code:addons/fs_file/static/src/views/fields/fsfile_field.esm.js:0
+#, python-format
+msgid "Could not display the selected image"
+msgstr ""
+
+#. module: fs_file
+#. odoo-javascript
 #: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
 #, python-format
 msgid "Edit"
-msgstr ""
-
-#. module: fs_file
-#. odoo-javascript
-#: code:addons/fs_file/static/src/views/fields/fsfile_field.esm.js:0
-#, python-format
-msgid "The file size exceeds the maximum allowed size of %s MB."
-msgstr ""
-
-#. module: fs_file
-#. odoo-javascript
-#: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
-#: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
-#, python-format
-msgid "Upload your file"
-msgstr ""
-
-#. module: fs_file
-#. odoo-javascript
-#: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
-#, python-format
-msgid "Uploading..."
 msgstr ""
