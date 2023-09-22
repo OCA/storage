@@ -3,10 +3,12 @@
 # pylint: disable=method-required-super
 import base64
 import itertools
+import mimetypes
 import os.path
 from io import BytesIO, IOBase
 
 from odoo import fields
+from odoo.tools.mimetypes import guess_mimetype
 
 from odoo.addons.fs_attachment.models.ir_attachment import IrAttachment
 
@@ -88,12 +90,34 @@ class FSFileValue:
             )
 
     @property
+    def is_new(self) -> bool:
+        return self._is_new
+
+    @property
     def mimetype(self) -> str | None:
-        return self._attachment.mimetype if self._attachment else None
+        # get mimetype from name
+        mimetype = None
+        if self._attachment:
+            mimetype = self._attachment.mimetype
+        elif self.name:
+            mimetype = guess_mimetype(self.name)
+        return mimetype or "application/octet-stream"
 
     @property
     def size(self) -> int:
-        return self._attachment.file_size if self._attachment else len(self._buffer)
+        if self._attachment:
+            return self._attachment.file_size
+        # check if the object supports len
+        try:
+            return len(self._buffer)
+        except TypeError:  # pylint: disable=except-pass
+            # the object does not support len
+            pass
+        # if we are on a BytesIO, we can get the size from the buffer
+        if isinstance(self._buffer, BytesIO):
+            return self._buffer.getbuffer().nbytes
+        # we cannot get the size
+        return 0
 
     @property
     def url(self) -> str | None:
@@ -111,6 +135,15 @@ class FSFileValue:
     def attachment(self, value: IrAttachment) -> None:
         self._attachment = value
         self._buffer = None
+
+    @property
+    def extension(self) -> str | None:
+        # get extension from mimetype
+        ext = os.path.splitext(self.name)[1]
+        if not ext:
+            ext = mimetypes.guess_extension(self.mimetype)
+            ext = ext and ext[1:]
+        return ext
 
     @property
     def read_buffer(self) -> BytesIO:
@@ -209,9 +242,9 @@ class FSFile(fields.Binary):
 
     attachment: bool = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         kwargs["attachment"] = True
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
     def read(self, records):
         domain = [
@@ -220,7 +253,7 @@ class FSFile(fields.Binary):
             ("res_id", "in", records.ids),
         ]
         data = {
-            att.res_id: FSFileValue(attachment=att)
+            att.res_id: self._convert_attachment_to_cache(att)
             for att in records.env["ir.attachment"].sudo().search(domain)
         }
         records.env.cache.insert_missing(records, self, map(data.get, records._ids))
@@ -230,32 +263,38 @@ class FSFile(fields.Binary):
             return
         env = record_values[0][0].env
         with env.norecompute():
-            ir_attachment = (
-                env["ir.attachment"]
-                .sudo()
-                .with_context(
-                    binary_field_real_user=env.user,
-                )
-            )
             for record, value in record_values:
                 if value:
                     cache_value = self.convert_to_cache(value, record)
-                    attachment = ir_attachment.create(
-                        {
-                            "name": cache_value.name,
-                            "raw": cache_value.getvalue(),
-                            "res_model": record._name,
-                            "res_field": self.name,
-                            "res_id": record.id,
-                            "type": "binary",
-                        }
-                    )
+                    attachment = self._create_attachment(record, cache_value)
+                    cache_value = self._convert_attachment_to_cache(attachment)
                     record.env.cache.update(
                         record,
                         self,
-                        [FSFileValue(attachment=attachment)],
+                        [cache_value],
                         dirty=False,
                     )
+
+    def _create_attachment(self, record, cache_value: FSFileValue):
+        ir_attachment = (
+            record.env["ir.attachment"]
+            .sudo()
+            .with_context(
+                binary_field_real_user=record.env.user,
+            )
+        )
+        create_value = self._prepare_attachment_create_values(record, cache_value)
+        return ir_attachment.create(create_value)
+
+    def _prepare_attachment_create_values(self, record, cache_value: FSFileValue):
+        return {
+            "name": cache_value.name,
+            "raw": cache_value.getvalue(),
+            "res_model": record._name,
+            "res_field": self.name,
+            "res_id": record.id,
+            "type": "binary",
+        }
 
     def write(self, records, value):
         # the code is copied from the standard Odoo Binary field
@@ -304,28 +343,22 @@ class FSFile(fields.Binary):
                 # create the missing attachments
                 missing = real_records - atts_records
                 if missing:
-                    create_vals = []
+                    created = atts.browse()
                     for record in missing:
-                        create_vals.append(
-                            {
-                                "name": filename,
-                                "res_model": record._name,
-                                "res_field": self.name,
-                                "res_id": record.id,
-                                "type": "binary",
-                                "raw": content,
-                            }
-                        )
-                    created = atts.create(create_vals)
+                        created |= self._create_attachment(record, cache_value)
                     for att in created:
                         record = records.browse(att.res_id)
+                        new_cache_value = self._convert_attachment_to_cache(att)
                         record.env.cache.update(
-                            record, self, [FSFileValue(attachment=att)], dirty=False
+                            record, self, [new_cache_value], dirty=False
                         )
             else:
                 atts.unlink()
 
         return records
+
+    def _convert_attachment_to_cache(self, attachment: IrAttachment) -> FSFileValue:
+        return FSFileValue(attachment=attachment)
 
     def _get_filename(self, record):
         return record.env.context.get("fs_filename", self.name)
@@ -336,6 +369,12 @@ class FSFile(fields.Binary):
         if isinstance(value, FSFileValue):
             return value
         if isinstance(value, dict):
+            if "content" not in value and value.get("url"):
+                # we come from an onchange
+                # The id is the third element of the url
+                att_id = value["url"].split("/")[3]
+                attachment = record.env["ir.attachment"].browse(int(att_id))
+                return self._convert_attachment_to_cache(attachment)
             return FSFileValue(
                 name=value["filename"], value=base64.b64decode(value["content"])
             )
@@ -356,46 +395,20 @@ class FSFile(fields.Binary):
     def convert_to_write(self, value, record):
         return self.convert_to_cache(value, record)
 
-    def __convert_to_column(self, value, record, values=None, validate=True):
-        if value is None or value is False:
-            return None
-        if isinstance(value, IOBase):
-            if hasattr(value, "getvalue"):
-                value = value.getvalue()
-            else:
-                v = value.read()
-                value.seek(0)
-                value = v
-            return value
-        if isinstance(value, bytes):
-            return base64.b64decode(value)
-        raise ValueError(
-            "Invalid value for %s: %r\n"
-            "Should be base64 encoded bytes or a file-like object" % (self, value)
-        )
-
-    def __convert_to_record(self, value, record):
-        if value is None or value is False:
-            return None
-        if isinstance(value, IOBase):
-            return value
-        if isinstance(value, bytes):
-            return FSFileValue(value=value)
-        raise ValueError(
-            "Invalid value for %s: %r\n"
-            "Should be base64 encoded bytes or a file-like object" % (self, value)
-        )
-
     def convert_to_read(self, value, record, use_name_get=True):
         if value is None or value is False:
             return None
         if isinstance(value, FSFileValue):
-            return {
+            res = {
                 "filename": value.name,
-                "url": value.internal_url,
                 "size": value.size,
                 "mimetype": value.mimetype,
             }
+            if value.attachment:
+                res["url"] = value.internal_url
+            else:
+                res["content"] = base64.b64encode(value.getvalue()).decode("ascii")
+            return res
         raise ValueError(
             "Invalid value for %s: %r\n"
             "Should be base64 encoded bytes or a file-like object" % (self, value)

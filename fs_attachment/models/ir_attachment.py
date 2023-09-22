@@ -98,9 +98,14 @@ class IrAttachment(models.Model):
     def _compute_internal_url(self) -> None:
         for rec in self:
             filename, extension = os.path.splitext(rec.name)
+            # determine if the file is an image
+            pfx = "/web/content"
+            if rec.mimetype and rec.mimetype.startswith("image/"):
+                pfx = "/web/image"
+
             if not extension:
                 extension = mimetypes.guess_extension(rec.mimetype)
-            rec.internal_url = f"/web/content/{rec.id}/{filename}{extension}"
+            rec.internal_url = f"{pfx}/{rec.id}/{filename}{extension}"
 
     @api.depends("fs_filename")
     def _compute_fs_url(self) -> None:
@@ -441,8 +446,6 @@ class IrAttachment(models.Model):
             if self.env["fs.storage"]._must_use_filename_obfuscation(storage):
                 attachment.fs_filename = filename
                 continue
-            if self._is_fs_filename_meaningful(filename):
-                continue
             new_filename = attachment._build_fs_filename()
             # we must keep the same full path as the original filename
             new_filename_with_path = os.path.join(
@@ -490,17 +493,6 @@ class IrAttachment(models.Model):
         fs = self._get_fs_storage_for_code(storage_code)
         fname = partition[2]
         return fs, storage_code, fname
-
-    @api.model
-    def _is_fs_filename_meaningful(self, filename: str) -> bool:
-        """Return True if the filename is meaningful
-        A filename is meaningful if it's formatted as
-        """
-        parsed = self._parse_fs_filename(filename)
-        if not parsed:
-            return False
-        name, res_id, version, extension = parsed
-        return bool(name and res_id and version is not None and extension)
 
     @api.model
     def _parse_fs_filename(self, filename: str) -> tuple[str, int, int, str] | None:

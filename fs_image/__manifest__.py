@@ -2,20 +2,21 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Fs File Demo",
-    "summary": """Demo addon for fs_file and fs_image""",
+    "name": "Fs Image",
+    "summary": """
+        Field to store images into filesystem storages""",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
-    "depends": [
-        "fs_file",
-        "fs_image",
-    ],
-    "data": [
-        "security/fs_file.xml",
-        "views/fs_file.xml",
-    ],
+    "depends": ["fs_file"],
+    "data": [],
     "demo": [],
+    "maintainers": ["lmignon"],
     "development_status": "Alpha",
+    "assets": {
+        "web.assets_backend": [
+            "fs_image/static/src/**/*",
+        ],
+    },
 }
