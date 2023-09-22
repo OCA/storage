@@ -46,6 +46,12 @@ msgid "ID"
 msgstr ""
 
 #. module: fs_file_demo
+#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_128
+#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_1920
+msgid "Image"
+msgstr ""
+
+#. module: fs_file_demo
 #: model:ir.model.fields,field_description:fs_file_demo.field_fs_file____last_update
 msgid "Last Modified on"
 msgstr ""
