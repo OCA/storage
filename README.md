@@ -23,7 +23,8 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [fs_attachment](fs_attachment/) | 16.0.1.0.1 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Store attachments on external object store
 [fs_file](fs_file/) | 16.0.1.0.0 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Field to store files into filesystem storages
-[fs_file_demo](fs_file_demo/) | 16.0.1.0.0 |  | Demo addon for fs_file
+[fs_file_demo](fs_file_demo/) | 16.0.1.0.0 |  | Demo addon for fs_file and fs_image
+[fs_image](fs_image/) | 16.0.1.0.0 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Field to store images into filesystem storages
 [fs_storage](fs_storage/) | 16.0.1.0.1 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend](storage_backend/) | 16.0.1.0.1 |  | Implement the concept of Storage with amazon S3, sftp...
 
