@@ -41,7 +41,6 @@ msgstr ""
 #. module: image_tag
 #: model:ir.actions.act_window,name:image_tag.act_open_image_tag_view
 #: model:ir.model,name:image_tag.model_image_tag
-#: model:ir.ui.menu,name:image_tag.menu_image_tag
 #: model_terms:ir.ui.view,arch_db:image_tag.image_tag_view_search
 msgid "Image Tag"
 msgstr ""
