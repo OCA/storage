@@ -46,6 +46,9 @@ class TestFsProductMultiImage(TransactionCase):
                 }
             }
         )
+        cls.is_sale_addon_installed = cls.env["ir.module.module"].search(
+            [("name", "=", "sale"), ("state", "=", "installed")]
+        )
 
     def setUp(self):
         super().setUp()
@@ -71,7 +74,10 @@ class TestFsProductMultiImage(TransactionCase):
         # The template have already 5 attribute values
         # see demo data of ipad
         image = self.env["fs.product.image"].new({"product_tmpl_id": self.template.id})
-        self.assertEqual(len(image.available_attribute_value_ids), 5)
+        expected = 4
+        if self.is_sale_addon_installed:
+            expected += 1
+        self.assertEqual(len(image.available_attribute_value_ids), expected)
 
     def test_add_image_for_all_variant(self):
         self.assertEqual(len(self.product_a.variant_image_ids), 0)
