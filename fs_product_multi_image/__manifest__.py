@@ -12,10 +12,11 @@
     "depends": ["fs_base_multi_image", "product", "sales_team", "image_tag"],
     "data": [
         "security/fs_product_category_image.xml",
-        "views/fs_product_category_image.xml",
-        "views/product_category.xml",
         "security/fs_product_image.xml",
+        "views/fs_product_category_image.xml",
         "views/fs_product_image.xml",
+        "views/image_tag.xml",
+        "views/product_category.xml",
         "views/product_product.xml",
         "views/product_template.xml",
     ],

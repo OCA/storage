@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <menuitem
+        id="menu_image_tag"
+        parent="fs_storage.menu_storage"
+        sequence="10"
+        action="image_tag.act_open_image_tag_view"
+    />
+</odoo>
