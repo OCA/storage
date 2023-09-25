@@ -54,6 +54,9 @@ class TestFsProductMultiMedia(TransactionCase):
                 "media_type_id": cls.media_type_b.id,
             }
         )
+        cls.is_sale_addon_installed = cls.env["ir.module.module"].search(
+            [("name", "=", "sale"), ("state", "=", "installed")]
+        )
 
     def setUp(self):
         super().setUp()
@@ -72,7 +75,10 @@ class TestFsProductMultiMedia(TransactionCase):
         # The template have already 5 attribute values
         # see demo data of ipad
         media = self.env["fs.product.media"].new({"product_tmpl_id": self.template.id})
-        self.assertEqual(len(media.available_attribute_value_ids), 4)
+        expected = 4
+        if self.is_sale_addon_installed:
+            expected += 1
+        self.assertEqual(len(media.available_attribute_value_ids), expected)
 
     def test_add_image_for_all_variant(self):
         self.assertEqual(len(self.product_a.variant_media_ids), 0)
