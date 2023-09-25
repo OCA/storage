@@ -34,10 +34,4 @@
         <field name="view_mode">tree</field>
         <field name="view_id" ref="image_tag_view_tree" />
     </record>
-    <menuitem
-        id="menu_image_tag"
-        parent="sale.prod_config_main"
-        sequence="10"
-        action="act_open_image_tag_view"
-    />
 </odoo>
