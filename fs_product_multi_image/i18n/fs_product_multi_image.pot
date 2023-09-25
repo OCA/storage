@@ -82,6 +82,7 @@ msgstr ""
 
 #. module: fs_product_multi_image
 #: model:ir.model,name:fs_product_multi_image.model_image_tag
+#: model:ir.ui.menu,name:fs_product_multi_image.menu_image_tag
 msgid "Image Tag"
 msgstr ""
 
