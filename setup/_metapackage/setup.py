@@ -14,6 +14,7 @@ setuptools.setup(
         'odoo-addon-fs_file_demo>=16.0dev,<16.1dev',
         'odoo-addon-fs_image>=16.0dev,<16.1dev',
         'odoo-addon-fs_image_thumbnail>=16.0dev,<16.1dev',
+        'odoo-addon-fs_product_brand_multi_image>=16.0dev,<16.1dev',
         'odoo-addon-fs_product_multi_image>=16.0dev,<16.1dev',
         'odoo-addon-fs_storage>=16.0dev,<16.1dev',
         'odoo-addon-image_tag>=16.0dev,<16.1dev',
