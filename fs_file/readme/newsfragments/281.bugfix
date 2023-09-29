@@ -1,5 +1,0 @@
-The *url_path*, *url* and *internal_url* properties on the *FSFileValue*
-object return *None* if the information is not available (instead of *False*).
-
-The *url* property on the *FSFileValue* object returns the filesystem url nor
-the url field of the attachment.
