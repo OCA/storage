@@ -121,11 +121,11 @@ class FSFileValue:
 
     @property
     def url(self) -> str | None:
-        return self._attachment.url if self._attachment else None
+        return self._attachment.url or None if self._attachment else None
 
     @property
     def internal_url(self) -> str | None:
-        return self._attachment.internal_url if self._attachment else None
+        return self._attachment.internal_url or None if self._attachment else None
 
     @property
     def url_path(self) -> str | None:
