@@ -1,0 +1,2 @@
+The *url_path*, *url* and *internal_url* properties on the *FSFileValue*
+object return *None* if the information is not available (instead of *False*).
