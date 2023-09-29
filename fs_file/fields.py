@@ -128,6 +128,10 @@ class FSFileValue:
         return self._attachment.internal_url if self._attachment else None
 
     @property
+    def url_path(self) -> str | None:
+        return self._attachment.fs_url_path or None if self._attachment else None
+
+    @property
     def attachment(self) -> IrAttachment | None:
         return self._attachment
 
