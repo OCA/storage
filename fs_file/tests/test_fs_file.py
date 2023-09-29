@@ -57,6 +57,8 @@ class TestFsFile(TransactionCase):
         self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
         self.assertEqual(instance.fs_file.name, self.filename)
+        self.assertEqual(instance.fs_file.url_path, None)
+        self.assertEqual(instance.fs_file.url, None)
 
     def _test_write(self, fs_file_value, **ctx):
         instance = self.env["test.model"].create({})
