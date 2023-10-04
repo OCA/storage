@@ -25,14 +25,10 @@ class ProductProduct(models.Model):
     )
     def _compute_variant_media_ids(self):
         for variant in self:
-            media_relations = set()
-            # Not sure sorting is needed here
-            sorted_media_relations = variant.media_ids.sorted(
-                key=lambda i: (i.sequence, i.id)
+            variant_media_ids = variant.media_ids.filtered(
+                lambda i: i._match_variant(variant)
             )
-            for media_rel in sorted_media_relations:
-                if media_rel._match_variant(variant):
-                    media_relations.add(media_rel.id)
-            variant.variant_media_ids = (
-                list(media_relations) if media_relations else False
+            variant_media_ids = variant_media_ids.sorted(
+                key=lambda i: (i.sequence, i.name)
             )
+            variant.variant_media_ids = variant_media_ids
