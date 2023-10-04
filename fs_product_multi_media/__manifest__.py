@@ -5,7 +5,7 @@
     "name": "Fs Product Multi Media",
     "summary": """
         Link media to products and categories""",
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.2",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
