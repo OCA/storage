@@ -8,7 +8,6 @@ import os.path
 from io import BytesIO, IOBase
 
 from odoo import fields
-from odoo.tools.mimetypes import guess_mimetype
 
 from odoo.addons.fs_attachment.models.ir_attachment import IrAttachment
 
@@ -100,7 +99,7 @@ class FSFileValue:
         if self._attachment:
             mimetype = self._attachment.mimetype
         elif self.name:
-            mimetype = guess_mimetype(self.name)
+            mimetype = mimetypes.guess_type(self.name)[0]
         return mimetype or "application/octet-stream"
 
     @property
