@@ -161,6 +161,23 @@ class TestFsProductMultiMedia(TransactionCase):
         # Black product should have the media_b and the media_c
         self.assertEqual(self.product_b.variant_media_ids, media_b + media_c)
 
+    def test_media_variant_sequence(self):
+        media_c, media_a, media_b = self._create_multiple_medias()
+        # White product should have the media_a and the media_c
+        self.assertEqual(self.product_a.variant_media_ids, media_a + media_c)
+        # white product should have medias sorted by sequence
+        self.assertListEqual(
+            self.product_a.variant_media_ids.mapped("sequence"),
+            [media_a.sequence, media_c.sequence],
+        )
+        # change sequence
+        media_c.sequence = 10
+        media_a.sequence = 20
+        self.assertListEqual(
+            self.product_a.variant_media_ids.mapped("sequence"),
+            [media_c.sequence, media_a.sequence],
+        )
+
     def test_drop_template_attribute_value_propagation_to_media(self):
         media_content_b = self.env["fs.product.media"].create(
             {
