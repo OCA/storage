@@ -160,6 +160,23 @@ class TestFsProductMultiImage(TransactionCase):
         # Black product should have the black image and the logo
         self.assertEqual(self.product_b.variant_image_ids, image_bk + logo)
 
+    def test_image_variant_sequence(self):
+        logo, image_wh, image_bk = self._create_multiple_images()
+        # White product should have the white image and the logo
+        self.assertEqual(self.product_a.variant_image_ids, image_wh + logo)
+        # white product should have images sorted by sequence
+        self.assertListEqual(
+            self.product_a.variant_image_ids.mapped("sequence"),
+            [image_wh.sequence, logo.sequence],
+        )
+        # change sequence
+        image_wh.sequence = 20
+        logo.sequence = 10
+        self.assertListEqual(
+            self.product_a.variant_image_ids.mapped("sequence"),
+            [logo.sequence, image_wh.sequence],
+        )
+
     def _test_main_images(self, expected):
         for image, products in expected:
             for prod in products:
