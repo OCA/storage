@@ -1,0 +1,2 @@
+Ensures the variant_image_ids are sorted by sequence and name. Before this
+change, the order was random and could change between runs.

@@ -38,15 +38,13 @@ class ProductProduct(models.Model):
     )
     def _compute_variant_image_ids(self):
         for variant in self:
-            img_relations = set()
-            # Not sure sorting is needed here
-            sorted_image_relations = variant.image_ids.sorted(
-                key=lambda i: (i.sequence, i.id)
+            variant_image_ids = variant.image_ids.filtered(
+                lambda i: i._match_variant(variant)
             )
-            for image_rel in sorted_image_relations:
-                if image_rel._match_variant(variant):
-                    img_relations.add(image_rel.id)
-            variant.variant_image_ids = list(img_relations) if img_relations else False
+            variant_image_ids = variant_image_ids.sorted(
+                key=lambda i: (i.sequence, i.name)
+            )
+            variant.variant_image_ids = variant_image_ids
 
     @api.depends("variant_image_ids", "variant_image_ids.sequence")
     def _compute_main_image_id(self):
