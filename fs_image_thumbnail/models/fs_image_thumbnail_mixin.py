@@ -1,6 +1,8 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from collections import OrderedDict
+
 from slugify import slugify
 
 from odoo import _, api, fields, models
@@ -186,7 +188,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
         *images: tuple[FSImageValue],
         sizes: list[tuple[int, int]],
         base_name: str = ""
-    ) -> list["FsImageThumbnailMixin"]:
+    ) -> OrderedDict[FSImageValue, list["FsImageThumbnailMixin"]]:
         """Get or create a thumbnail images from the given image.
 
         :param images: the list of images we want to get or create thumbnails
@@ -194,13 +196,14 @@ class FsImageThumbnailMixin(models.AbstractModel):
             (list of tuple (size_x, size_y))
         :param base_name: the base name of the thumbnail image (without extension)
             The base name must be set when multiple images are given.
-        :return: a dictionary where the key is the original image and the value is
-            a recordset of thumbnail images
+        :return: an ordered dictionary where the key is the original image and
+            the value is a recordset of thumbnail images. The order of the dict
+            is the order of the images passed to the method.
         """
         base_name = self._get_slugified_base_name(*images, base_name=base_name)
         thumbnails = self.get_thumbnails(*images, base_name=base_name)
         thumbnails_by_attachment_id = thumbnails.partition("attachment_id")
-        ret = {}
+        ret = OrderedDict[FSImageValue, list["FsImageThumbnailMixin"]]()
         for image in images:
             thumbnails_by_size = {
                 (thumbnail.size_x, thumbnail.size_y): thumbnail
