@@ -314,6 +314,13 @@ class FSStorage(models.Model):
         options = self.json_options
         if self.protocol == "odoofs":
             options["odoo_storage_path"] = self._odoo_storage_path
+        # Webdav protocol handler does need the auth to be a tuple not a list !
+        if (
+            self.protocol == "webdav"
+            and "auth" in options
+            and isinstance(options["auth"], list)
+        ):
+            options["auth"] = tuple(options["auth"])
         options = self._recursive_add_odoo_storage_path(options)
         fs = fsspec.filesystem(self.protocol, **options)
         directory_path = self.directory_path
