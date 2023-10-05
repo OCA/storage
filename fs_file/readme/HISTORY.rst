@@ -1,3 +1,18 @@
+16.0.1.0.3 (2023-10-05)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Fix the *mimetype* property on *FSFileValue* objects.
+
+  The *mimetype* value is computed as follow:
+
+  * If an attachment is set, the mimetype is taken from the attachment.
+  * If no attachment is set, the mimetype is guessed from the name of the file.
+  * If the mimetype cannot be guessed from the name, the mimetype is guessed from
+    the content of the file. (`#284 <https://github.com/OCA/storage/issues/284>`_)
+
+
 16.0.1.0.1 (2023-09-29)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
