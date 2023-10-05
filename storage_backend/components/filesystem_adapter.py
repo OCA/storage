@@ -2,12 +2,16 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import logging
 import os
+import shutil
 
 from odoo import _
 from odoo.exceptions import AccessError
 
 from odoo.addons.component.core import Component
+
+_logger = logging.getLogger(__name__)
 
 
 def is_safe_path(basedir, path):
@@ -56,4 +60,17 @@ class FileSystemStorageBackend(Component):
 
     def delete(self, relative_path):
         full_path = self._fullpath(relative_path)
-        os.remove(full_path)
+        try:
+            os.remove(full_path)
+        except FileNotFoundError:
+            _logger.warning("File not found in %s", full_path)
+
+    def move_files(self, files, destination_path):
+        result = []
+        for file_path in files:
+            if not os.path.exists(destination_path):
+                os.makedirs(destination_path)
+            filename = os.path.basename(file_path)
+            destination_file = os.path.join(destination_path, filename)
+            result.append(shutil.move(file_path, destination_file))
+        return result
