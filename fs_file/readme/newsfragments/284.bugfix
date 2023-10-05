@@ -1,8 +1,0 @@
-Fix the *mimetype* property on *FSFileValue* objects.
-
-The *mimetype* value is computed as follow:
-
-* If an attachment is set, the mimetype is taken from the attachment.
-* If no attachment is set, the mimetype is guessed from the name of the file.
-* If the mimetype cannot be guessed from the name, the mimetype is guessed from
-  the content of the file.
