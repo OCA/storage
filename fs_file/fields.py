@@ -8,6 +8,7 @@ import os.path
 from io import BytesIO, IOBase
 
 from odoo import fields
+from odoo.tools.mimetypes import guess_mimetype
 
 from odoo.addons.fs_attachment.models.ir_attachment import IrAttachment
 
@@ -39,13 +40,14 @@ class FSFileValue:
         if value:
             if isinstance(value, IOBase):
                 self._buffer = value
-                if not hasattr(value, "name") and name:
-                    self._buffer.name = name
-                elif not name:
-                    raise ValueError(
-                        "name must be set when value is an io.IOBase "
-                        "and is not provided by the io.IOBase"
-                    )
+                if not hasattr(value, "name"):
+                    if name:
+                        self._buffer.name = name
+                    else:
+                        raise ValueError(
+                            "name must be set when value is an io.IOBase "
+                            "and is not provided by the io.IOBase"
+                        )
             elif isinstance(value, bytes):
                 self._buffer = BytesIO(value)
                 if not name:
@@ -94,13 +96,21 @@ class FSFileValue:
 
     @property
     def mimetype(self) -> str | None:
-        # get mimetype from name
+        """Return the mimetype of the file.
+
+        If an attachment is set, the mimetype is taken from the attachment.
+        If no attachment is set, the mimetype is guessed from the name of the
+        file.
+        If no name is set or if the mimetype cannot be guessed from the name,
+        the mimetype is guessed from the content of the file.
+        """
         mimetype = None
         if self._attachment:
             mimetype = self._attachment.mimetype
         elif self.name:
             mimetype = mimetypes.guess_type(self.name)[0]
-        return mimetype or "application/octet-stream"
+        # at last, try to guess the mimetype from the content
+        return mimetype or guess_mimetype(self.getvalue())
 
     @property
     def size(self) -> int:
