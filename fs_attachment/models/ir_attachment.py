@@ -458,6 +458,19 @@ class IrAttachment(models.Model):
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
             # of ir_attachment prevent normal write on store_fname
+
+            # rooted_dir path computation...
+            # done by @lmignon - Laurent Mignon (ACSONE)
+            # there could be a nested rooted dir in the fs path - we do compute it here
+            # and remove it from the new_filename if it does exists
+            rooted_paths = []
+            rooted_dir_fs = fs
+            while rooted_dir_fs and hasattr(rooted_dir_fs, "path"):
+                rooted_paths.append(rooted_dir_fs.path)
+                rooted_dir_fs = getattr(rooted_dir_fs, "fs", None)
+            rooted_paths.reverse()
+            rooted_path = "/".join(rooted_paths)
+            new_filename = new_filename_with_path.replace(rooted_path, "")
             attachment._force_write_store_fname(f"{storage}://{new_filename}")
             self._fs_mark_for_gc(attachment.store_fname)
 
