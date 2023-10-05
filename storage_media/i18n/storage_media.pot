@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,11 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: storage_media
-#: model:ir.model.fields,help:storage_media.field_storage_media__url_path
-msgid "Accessible path, no base URL"
-msgstr ""
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__active
@@ -61,7 +56,6 @@ msgid "Datas"
 msgstr ""
 
 #. module: storage_media
-#: model:ir.model.fields,field_description:storage_media.field_storage_file__display_name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__display_name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__display_name
 msgid "Display Name"
@@ -111,7 +105,6 @@ msgid "Human File Size"
 msgstr ""
 
 #. module: storage_media
-#: model:ir.model.fields,field_description:storage_media.field_storage_file__id
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__id
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__id
 msgid "ID"
@@ -123,7 +116,6 @@ msgid "Internal Url"
 msgstr ""
 
 #. module: storage_media
-#: model:ir.model.fields,field_description:storage_media.field_storage_file____last_update
 #: model:ir.model.fields,field_description:storage_media.field_storage_media____last_update
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type____last_update
 msgid "Last Modified on"
@@ -197,7 +189,6 @@ msgstr ""
 #: model:ir.model,name:storage_media.model_storage_media
 #: model:ir.ui.menu,name:storage_media.storage_media_menu
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_tree
 msgid "Storage Media"
 msgstr ""
 
@@ -212,7 +203,6 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_media.menu_storage_media_type
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_search
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_tree
 msgid "Storage Media Type"
 msgstr ""
 
@@ -224,9 +214,4 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__url
 msgid "Url"
-msgstr ""
-
-#. module: storage_media
-#: model:ir.model.fields,field_description:storage_media.field_storage_media__url_path
-msgid "Url Path"
 msgstr ""
