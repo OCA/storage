@@ -4,8 +4,10 @@ import base64
 import io
 import os
 import tempfile
+from io import BytesIO
 
 from odoo_test_helper import FakeModelLoader
+from PIL import Image
 
 from odoo.tests.common import TransactionCase
 
@@ -31,6 +33,10 @@ class TestFsFile(TransactionCase):
         with open(cls.tmpfile_path, "wb") as f:
             f.write(cls.create_content)
         cls.filename = os.path.basename(cls.tmpfile_path)
+        f = BytesIO()
+        Image.new("RGB", (1, 1), color="red").save(f, "PNG")
+        f.seek(0)
+        cls.png_content = f
 
     def setUp(self):
         super().setUp()
@@ -154,3 +160,18 @@ class TestFsFile(TransactionCase):
             instance.fs_file.attachment.store_fname, initial_store_fname
         )
         self.assertEqual(instance.fs_file.getvalue(), b"new_content")
+
+    def test_fs_value_mimetype(self):
+        """Test that the mimetype is correctly computed on a FSFileValue"""
+        value = FSFileValue(name="test.png", value=self.create_content)
+        # in this case, the mimetype is not computed from the filename
+        self.assertEqual(value.mimetype, "image/png")
+
+        value = FSFileValue(value=open(self.tmpfile_path, "rb"))
+        # in this case, the mimetype is not computed from the content
+        self.assertEqual(value.mimetype, "text/plain")
+
+        # if the mimetype is not found into the name, it should be computed
+        # from the content
+        value = FSFileValue(name="test", value=self.png_content)
+        self.assertEqual(value.mimetype, "image/png")
