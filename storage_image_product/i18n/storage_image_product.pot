@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__product_categ_count
+msgid "# of Categories"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__product_tmpl_count
+msgid "# of Products"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_alt_name
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_alt_name
 msgid "Alt Image name"
@@ -36,6 +46,7 @@ msgstr ""
 
 #. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_storage_image__category_relation_ids
+#: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image_product.storage_image_view_form
 msgid "Categories"
 msgstr ""
@@ -49,6 +60,11 @@ msgstr ""
 #. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_category_image_relation
 msgid "Category Image Relation"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__categ_img_rel_ids
+msgid "Category Image Relations"
 msgstr ""
 
 #. module: storage_image_product
@@ -95,6 +111,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:storage_image_product.act_open_image_tag_view
 #: model:ir.model,name:storage_image_product.model_image_tag
 #: model:ir.ui.menu,name:storage_image_product.menu_image_tag
+#: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_search
 msgid "Image Tag"
 msgstr ""
@@ -169,6 +186,12 @@ msgid "Product"
 msgstr ""
 
 #. module: storage_image_product
+#: code:addons/storage_image_product/models/image_tag.py:0
+#, python-format
+msgid "Product Categories"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_product_category
 msgid "Product Category"
 msgstr ""
@@ -176,6 +199,11 @@ msgstr ""
 #. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_product_image_relation
 msgid "Product Image Relation"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__product_img_rel_ids
+msgid "Product Image Relations"
 msgstr ""
 
 #. module: storage_image_product
@@ -194,8 +222,11 @@ msgid "Product Tmpl"
 msgstr ""
 
 #. module: storage_image_product
+#: code:addons/storage_image_product/models/image_tag.py:0
 #: model:ir.model.fields,field_description:storage_image_product.field_storage_image__product_relation_ids
+#: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image_product.storage_image_view_form
+#, python-format
 msgid "Products"
 msgstr ""
 
