@@ -1,6 +1,8 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from __future__ import annotations
+
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import const_eval
