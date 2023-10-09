@@ -1,6 +1,8 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from __future__ import annotations
+
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import const_eval
@@ -348,7 +350,11 @@ class FsStorage(models.Model):
         0 means no limit.
         """
         storage = self.get_by_code(code)
-        if storage and storage.force_db_for_default_attachment_rules:
+        if (
+            storage
+            and storage.use_as_default_for_attachments
+            and storage.force_db_for_default_attachment_rules
+        ):
             return const_eval(storage.force_db_for_default_attachment_rules)
         return {}
 
