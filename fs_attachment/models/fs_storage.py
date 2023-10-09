@@ -348,7 +348,11 @@ class FsStorage(models.Model):
         0 means no limit.
         """
         storage = self.get_by_code(code)
-        if storage and storage.force_db_for_default_attachment_rules:
+        if (
+            storage
+            and storage.use_as_default_for_attachments
+            and storage.force_db_for_default_attachment_rules
+        ):
             return const_eval(storage.force_db_for_default_attachment_rules)
         return {}
 
