@@ -10,3 +10,4 @@ Don Kendall <kendall@donkendall.com>
 Stephane Mangin <stephane.mangin@camptocamp.com>
 Laurent Mignon <laurent.mignon@acsone.eu>
 Marie Lejeune <marie.lejeune@acsone.eu>
+Wolfgang Pichler <wpichler@callino.at>
