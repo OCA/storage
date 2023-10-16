@@ -163,7 +163,7 @@ class FSStorage(models.Model):
     @tools.ormcache()
     def get_id_by_code_map(self):
         """Return a dictionary with the code as key and the id as value."""
-        return {rec.code: rec.id for rec in self.search([])}
+        return {rec.code: rec.id for rec in self.sudo().search([])}
 
     @api.model
     def get_id_by_code(self, code):
