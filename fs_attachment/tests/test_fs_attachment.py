@@ -340,3 +340,40 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment.checksum, attachment.store_fname.split("/")[-1])
         self.assertEqual(attachment.checksum, attachment.fs_url.split("/")[-1])
         self.assertEqual(attachment.mimetype, "text/plain")
+
+    def test_create_attachments_basic_user(self):
+        demo_user = self.env.ref("base.user_demo")
+        demo_partner = self.env.ref("base.partner_demo")
+        self.temp_backend.use_as_default_for_attachments = True
+        # Ensure basic access
+        group_user = self.env.ref("base.group_user")
+        group_partner_manager = self.env.ref("base.group_partner_manager")
+        demo_user.write(
+            {"groups_id": [(6, 0, [group_user.id, group_partner_manager.id])]}
+        )
+        # Create basic attachment
+        self.ir_attachment_model.with_user(demo_user).create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        # Create attachment related to model
+        self.ir_attachment_model.with_user(demo_user).create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_model": "res.partner",
+                "res_id": demo_partner.id,
+            }
+        )
+        # Create attachment related to field
+        partner_image_field = self.env["ir.model.fields"].search(
+            [("model", "=", "res.partner"), ("name", "=", "image1920")]
+        )
+        self.ir_attachment_model.with_user(demo_user).create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_model": "res.partner",
+                "res_id": demo_partner.id,
+                "res_field": partner_image_field.name,
+            }
+        )

@@ -310,30 +310,38 @@ class FsStorage(models.Model):
         res_field = self.env.context.get("attachment_res_field")
         res_model = self.env.context.get("attachment_res_model")
         if res_field and res_model:
-            field = self.env["ir.model.fields"].search(
-                [("model", "=", res_model), ("name", "=", res_field)], limit=1
+            field = (
+                self.env["ir.model.fields"]
+                .sudo()
+                .search([("model", "=", res_model), ("name", "=", res_field)], limit=1)
             )
             if field:
                 storage = (
                     self.env["fs.storage"]
+                    .sudo()
                     .search([])
                     .filtered_domain([("field_ids", "in", [field.id])])
                 )
                 if storage:
                     return storage.code
         if res_model:
-            model = self.env["ir.model"].search([("model", "=", res_model)], limit=1)
+            model = (
+                self.env["ir.model"].sudo().search([("model", "=", res_model)], limit=1)
+            )
             if model:
                 storage = (
                     self.env["fs.storage"]
+                    .sudo()
                     .search([])
                     .filtered_domain([("model_ids", "in", [model.id])])
                 )
                 if storage:
                     return storage.code
 
-        storages = self.search([]).filtered_domain(
-            [("use_as_default_for_attachments", "=", True)]
+        storages = (
+            self.sudo()
+            .search([])
+            .filtered_domain([("use_as_default_for_attachments", "=", True)])
         )
         if storages:
             return storages[0].code
