@@ -386,7 +386,7 @@ class FSFile(fields.Binary):
                 # we come from an onchange
                 # The id is the third element of the url
                 att_id = value["url"].split("/")[3]
-                attachment = record.env["ir.attachment"].browse(int(att_id))
+                attachment = record.env["ir.attachment"].sudo().browse(int(att_id))
                 return self._convert_attachment_to_cache(attachment)
             return FSFileValue(
                 name=value["filename"], value=base64.b64decode(value["content"])
