@@ -1,3 +1,11 @@
+16.0.1.0.3 (2023-10-17)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Fix access to technical models to be able to upload attachments for users with basic access (`#289 <https://github.com/OCA/storage/issues/289>`_)
+
+
 16.0.1.0.2 (2023-10-09)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
