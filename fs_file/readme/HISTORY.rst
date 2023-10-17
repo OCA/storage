@@ -1,3 +1,16 @@
+16.0.1.0.4 (2023-10-17)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Browse attachment with sudo() to avoid read access errors
+
+  In models that have a multi fs image relation, a new line
+  in form will trigger onchanges and will call the fs.file model
+  'convert_to_cache()' method that will try to browse the attachment
+  with user profile that could have no read rights on attachment model. (`#288 <https://github.com/OCA/storage/issues/288>`_)
+
+
 16.0.1.0.3 (2023-10-05)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
