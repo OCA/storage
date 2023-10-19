@@ -1,0 +1,88 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* attachment_db_by_checksum
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: attachment_db_by_checksum
+#: model:ir.model,name:attachment_db_by_checksum.model_ir_attachment
+msgid "Attachment"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model,name:attachment_db_by_checksum.model_ir_attachment_content
+msgid "Attachment content by hash"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,help:attachment_db_by_checksum.field_ir_attachment_content__checksum
+msgid "Checksum in the shape 2a/2a...\n"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__checksum
+msgid "Checksum/SHA1"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__db_datas
+msgid "Database Data"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment__id
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__id
+msgid "ID"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment____last_update
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.fields,field_description:attachment_db_by_checksum.field_ir_attachment_content__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: code:addons/attachment_db_by_checksum/models/ir_attachment.py:0
+#, python-format
+msgid "Only administrators can execute this action."
+msgstr ""
+
+#. module: attachment_db_by_checksum
+#: model:ir.model.constraint,message:attachment_db_by_checksum.constraint_ir_attachment_content_checksum_uniq
+msgid "The checksum of the file must be unique!"
+msgstr ""
