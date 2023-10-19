@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-storage Odoo addons",
     version=version,
     install_requires=[
+        'odoo14-addon-attachment_db_by_checksum',
         'odoo14-addon-storage_backend',
         'odoo14-addon-storage_backend_ftp',
         'odoo14-addon-storage_backend_s3',
