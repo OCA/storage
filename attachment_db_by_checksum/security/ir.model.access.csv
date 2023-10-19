@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_ir_attachment_all","Everyone can read Attachment Contents","model_ir_attachment_content",,1,0,0,0
+"access_ir_attachment_group_user","Internal Users can manage Attachment Contents","model_ir_attachment_content","base.group_user",1,1,1,1
+"access_ir_attachment_portal","Portal Users can read and create Attachment Contents","model_ir_attachment_content","base.group_portal",1,0,1,0
