@@ -327,8 +327,16 @@ class FSFile(fields.Binary):
             # determine records that are known to be not null
             not_null = cache.get_records_different_from(records, self, None)
 
-        cache.update(records, self, itertools.repeat(cache_value))
-
+        if self.store:
+            # Be sure to invalidate the cache for the modified records since
+            # the value of the field has changed and the new value will be linked
+            # to the attachment record used to store the file in the storage.
+            cache.remove(records, self)
+        else:
+            # if the field is not stored and a value is set, we need to
+            # set the value in the cache since the value (the case for computed
+            # fields)
+            cache.update(records, self, itertools.repeat(cache_value))
         # retrieve the attachments that store the values, and adapt them
         if self.store and any(records._ids):
             real_records = records.filtered("id")
@@ -353,6 +361,14 @@ class FSFile(fields.Binary):
                 # update the existing attachments
                 atts.write({"raw": content, "name": filename})
                 atts_records = records.browse(atts.mapped("res_id"))
+                # set new value in the cache since we have the reference to the
+                # attachment record and a new access to the field will nomore
+                # require to load the attachment record
+                for record in atts_records:
+                    new_cache_value = self._convert_attachment_to_cache(
+                        atts.filtered(lambda att: att.res_id == record.id)
+                    )
+                    cache.update(record, self, [new_cache_value], dirty=False)
                 # create the missing attachments
                 missing = real_records - atts_records
                 if missing:
