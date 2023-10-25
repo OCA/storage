@@ -18,9 +18,10 @@ class ModelTest(models.TransientModel):
             self.env["ir.config_parameter"].get_param("storage.thumbnail.backend_id")
         )
 
-    @api.model
-    def create(self, vals):
-        vals["file_type"] = "thumbnail"
-        if "backend_id" not in vals:
-            vals.update({"backend_id": self._get_backend_id()})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals["file_type"] = "thumbnail"
+            if "backend_id" not in vals:
+                vals.update({"backend_id": self._get_backend_id()})
+        return super().create(vals_list)

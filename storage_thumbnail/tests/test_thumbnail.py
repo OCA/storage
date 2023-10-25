@@ -103,7 +103,7 @@ class TestStorageThumbnail(TransactionComponentCase):
         self.assertRecordValues(images, expected)
         # Unless we enforce it
         image1.backend_id.backend_view_use_internal_url = True
-        images.invalidate_cache()
+        images.invalidate_recordset()
         expected = [
             {
                 "url": f"{cdn}/akretion-logo-{image1.file_id.id}.png",
