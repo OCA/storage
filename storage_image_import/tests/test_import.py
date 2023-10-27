@@ -25,7 +25,9 @@ class ImportImageCase(StorageImageCommonCase):
 
         cls.loader.update_registry((FakeImageRelation,))
         # Create some permissions for our fake model
-        model = cls.env["ir.model"].search([("model", "=", "fake.image.relation")])
+        model = (
+            cls.env["ir.model"].sudo().search([("model", "=", "fake.image.relation")])
+        )
         cls.env["ir.model.access"].sudo().create(
             {
                 "name": "access.tester",

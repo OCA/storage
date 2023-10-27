@@ -33,7 +33,7 @@ class ImageRelationAbstract(models.AbstractModel):
             _logger.error(e)
             raise ValidationError(
                 _("Fail to import image {} check if the url is valid").format(url)
-            )
+            ) from e
 
     def _get_existing_image_from_url(self, url):
         return self.env["storage.image"].search([("imported_from_url", "=", url)])
