@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-10-29 00:15+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: fs_image_thumbnail
 #: model:ir.model,name:fs_image_thumbnail.model_ir_attachment
@@ -20,129 +22,129 @@ msgstr ""
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__attachment_id
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.fs_image_thumbnail_mixin_search_view
 msgid "Attachment"
-msgstr ""
+msgstr "Archivo Adjunto"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,help:fs_image_thumbnail.field_fs_image_thumbnail_mixin__attachment_id
 #: model:ir.model.fields,help:fs_image_thumbnail.field_fs_thumbnail__attachment_id
 msgid "Attachment containing the original image"
-msgstr ""
+msgstr "Archivo adjunto con la imagen original"
 
 #. module: fs_image_thumbnail
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.fs_image_thumbnail_mixin_search_view
 msgid "Base Name"
-msgstr ""
+msgstr "Nombre de la Base"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__create_uid
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.fs_thumbnail_search_view
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado el"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Mostrar Nombre"
 
 #. module: fs_image_thumbnail
 #: model:ir.model,name:fs_image_thumbnail.model_fs_image_thumbnail_mixin
 msgid "Fs Image Thumbnail Mixin"
-msgstr ""
+msgstr "Mezcla de Miniaturas de imágenes Fs"
 
 #. module: fs_image_thumbnail
 #: model:ir.ui.menu,name:fs_image_thumbnail.fs_thumbnail_menu
 msgid "Fs Image Thumbnails"
-msgstr ""
+msgstr "Miniaturas de imágenes Fs"
 
 #. module: fs_image_thumbnail
 #: model:ir.actions.act_window,name:fs_image_thumbnail.fs_thumbnail_act_window
 msgid "Fs Thumbnail"
-msgstr ""
+msgstr "Miniatura Fs"
 
 #. module: fs_image_thumbnail
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.fs_image_thumbnail_mixin_search_view
 msgid "Group By"
-msgstr ""
+msgstr "Agrupado Por"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__id
 msgid "ID"
-msgstr ""
+msgstr "ID (identificación)"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__image
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__image
 msgid "Image"
-msgstr ""
+msgstr "Imagen"
 
 #. module: fs_image_thumbnail
 #: model:ir.model,name:fs_image_thumbnail.model_fs_thumbnail
 msgid "Image Thumbnail"
-msgstr ""
+msgstr "Imagen en Miniatura"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificación el"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última Actualización por"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última Actualización el"
 
 #. module: fs_image_thumbnail
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.fs_image_thumbnail_mixin_search_view
 msgid "MimeType"
-msgstr ""
+msgstr "Tipo Mimo"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__mimetype
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__mimetype
 msgid "Mimetype"
-msgstr ""
+msgstr "Tipo Mimo"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__name
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__name
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.fs_image_thumbnail_mixin_search_view
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__original_image
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__original_image
 msgid "Original Image"
-msgstr ""
+msgstr "Imagen Original"
 
 #. module: fs_image_thumbnail
 #. odoo-python
 #: code:addons/fs_image_thumbnail/models/fs_image_thumbnail_mixin.py:0
 #, python-format
 msgid "The base name must be set when multiple images are given"
-msgstr ""
+msgstr "El nombre base debe establecerse cuando se dan varias imágenes"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__base_name
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__base_name
 msgid "The base name of the thumbnail image (without extension)"
-msgstr ""
+msgstr "El nombre base de la imagen en miniatura (sin extensión)"
 
 #. module: fs_image_thumbnail
 #. odoo-python
 #: code:addons/fs_image_thumbnail/models/fs_image_thumbnail_mixin.py:0
 #, python-format
 msgid "The image %(name)s must be attached to an attachment"
-msgstr ""
+msgstr "La imagen %(name)s debe adjuntarse a un archivo adjunto"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,help:fs_image_thumbnail.field_fs_image_thumbnail_mixin__base_name
@@ -151,21 +153,26 @@ msgid ""
 "The thumbnail image will be named as base_name + _ + size_x + _ + size_y + . + extension.\n"
 "If not set, the base name will be the name of the original image.This base name is used to find all existing thumbnail of an image generated for the same base name."
 msgstr ""
+"La imagen en miniatura se denominará como nombre_base + _ + tamaño_x + _ + "
+"tamaño_y + . + extensión.\n"
+"Si no se establece, el nombre base será el nombre de la imagen original. "
+"Este nombre base se utiliza para encontrar todas las miniaturas existentes "
+"de una imagen generada para el mismo nombre base."
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_ir_attachment__thumbnail_ids
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.ir_attachment_form_view
 msgid "Thumbnails"
-msgstr ""
+msgstr "Miniaturas"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__size_x
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__size_x
 msgid "X size"
-msgstr ""
+msgstr "Tamaño X"
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_image_thumbnail_mixin__size_y
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__size_y
 msgid "Y size"
-msgstr ""
+msgstr "Talla Y"
