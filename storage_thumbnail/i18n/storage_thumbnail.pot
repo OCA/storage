@@ -223,11 +223,6 @@ msgid "Thumbnails"
 msgstr ""
 
 #. module: storage_thumbnail
-#: model_terms:ir.ui.view,arch_db:storage_thumbnail.view_thumbnail_tree
-msgid "Thumgnail"
-msgstr ""
-
-#. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__to_delete
 msgid "To Delete"
 msgstr ""
