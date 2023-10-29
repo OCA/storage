@@ -123,7 +123,6 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_image_product.menu_image_tag
 #: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_search
-#: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_tree
 msgid "Image Tag"
 msgstr ""
 
