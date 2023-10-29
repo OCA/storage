@@ -40,7 +40,7 @@
     <record id="product_media_relation_tree" model="ir.ui.view">
         <field name="model">product.media.relation</field>
         <field name="arch" type="xml">
-            <tree string="Association">
+            <tree>
                 <field name="media_id" />
                 <field name="media_type_id" readonly="True" />
             </tree>

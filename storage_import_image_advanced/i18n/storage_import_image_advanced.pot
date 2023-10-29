@@ -158,7 +158,6 @@ msgstr ""
 
 #. module: storage_import_image_advanced
 #: model_terms:ir.ui.view,arch_db:storage_import_image_advanced.product_import_image_form_view
-#: model_terms:ir.ui.view,arch_db:storage_import_image_advanced.product_import_image_tree_view
 msgid "Import storage product images"
 msgstr ""
 

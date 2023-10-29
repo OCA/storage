@@ -103,7 +103,6 @@
         <field name="model">storage.import.product_image</field>
         <field name="arch" type="xml">
             <tree
-                string="Import storage product images"
                 decoration-warning="state == 'scheduled'"
                 decoration-success="state == 'done'"
             >

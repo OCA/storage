@@ -3,7 +3,7 @@
     <record id="storage_file_view_tree" model="ir.ui.view">
         <field name="model">storage.file</field>
         <field name="arch" type="xml">
-            <tree string="File">
+            <tree>
                 <field name="name" />
                 <field name="backend_id" />
                 <field name="file_size" />

@@ -20,7 +20,6 @@ msgstr ""
 
 #. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
-#: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_tree
 msgid "Association"
 msgstr ""
 

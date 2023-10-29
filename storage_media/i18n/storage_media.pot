@@ -193,7 +193,6 @@ msgstr ""
 #: model:ir.model,name:storage_media.model_storage_media
 #: model:ir.ui.menu,name:storage_media.storage_media_menu
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_tree
 msgid "Storage Media"
 msgstr ""
 
@@ -208,7 +207,6 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_media.menu_storage_media_type
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_search
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_tree
 msgid "Storage Media Type"
 msgstr ""
 

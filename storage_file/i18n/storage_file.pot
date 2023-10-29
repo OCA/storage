@@ -114,7 +114,6 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_file.menu_storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_form
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
-#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_tree
 msgid "File"
 msgstr ""
 
