@@ -4,7 +4,7 @@
 {
     "name": "Storage Image Product Public Category",
     "summary": "Link images to products and categories",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " ForgeFlow, Odoo Community Association (OCA)",
@@ -13,8 +13,6 @@
     "installable": True,
     "depends": [
         "storage_image",
-        "product",
-        "sale",
         "website_sale",
     ],
     "data": [
