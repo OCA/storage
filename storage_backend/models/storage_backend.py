@@ -71,6 +71,13 @@ class StorageBackend(models.Model):
 
     def _compute_has_validation(self):
         for rec in self:
+            if not rec.backend_type:
+                # with server_env
+                # this code can be triggered
+                # before a backend_type has been set
+                # get_adapter() can't work without backend_type
+                rec.has_validation = False
+                continue
             adapter = rec._get_adapter()
             rec.has_validation = hasattr(adapter, "validate_config")
 
