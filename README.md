@@ -21,7 +21,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [attachment_db_by_checksum](attachment_db_by_checksum/) | 14.0.1.0.0 | [![eLBati](https://github.com/eLBati.png?size=30px)](https://github.com/eLBati) | Allow to identify database attachments through their hash, avoiding duplicates
-[storage_backend](storage_backend/) | 14.0.2.0.5 |  | Implement the concept of Storage with amazon S3, sftp...
+[storage_backend](storage_backend/) | 14.0.2.0.6 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_ftp](storage_backend_ftp/) | 14.0.1.1.0 |  | Implement FTP Storage
 [storage_backend_s3](storage_backend_s3/) | 14.0.2.1.0 |  | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 14.0.2.0.3 |  | Implement SFTP Storage
