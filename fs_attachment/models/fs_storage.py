@@ -412,7 +412,9 @@ class FsStorage(models.Model):
         # always remove the directory_path from the fs_filename
         # only if it's at the start of the filename
         fs_filename = attachment.fs_filename
-        if fs_filename.startswith(fs_storage.directory_path):
+        if fs_storage.directory_path and fs_filename.startswith(
+            fs_storage.directory_path
+        ):
             fs_filename = fs_filename.replace(fs_storage.directory_path, "")
         parts = [base_url, fs_filename]
         return self._normalize_url("/".join(parts))
