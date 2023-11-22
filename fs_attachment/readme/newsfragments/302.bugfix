@@ -1,1 +1,0 @@
-Fix error when an url is computed for an attachment in a storage configure wihtout directory path.
