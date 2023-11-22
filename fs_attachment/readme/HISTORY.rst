@@ -1,3 +1,11 @@
+16.0.1.0.4 (2023-11-22)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Fix error when an url is computed for an attachment in a storage configure wihtout directory path. (`#302 <https://github.com/OCA/storage/issues/302>`_)
+
+
 16.0.1.0.3 (2023-10-17)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
