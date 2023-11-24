@@ -15,6 +15,8 @@ When you create a new backend, you must specify the following:
 * The protocol options. These are the options that will be passed to the
   fsspec python package when creating the filesystem. These options depend
   on the protocol used and are described in the fsspec documentation.
+* Resolve env vars. This options resolves the protocol options values starting 
+  with $ from environment variables
 
 Some protocols defined in the fsspec package are wrappers around other
 protocols. For example, the SimpleCacheFileSystem protocol is a wrapper

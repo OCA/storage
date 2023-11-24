@@ -116,6 +116,12 @@ class FSStorage(models.Model):
         compute="_compute_json_options",
         inverse="_inverse_json_options",
     )
+
+    eval_options_from_env = fields.Boolean(
+        string="Resolve env vars",
+        help="Resolve options values starting with $ from environment variables",
+    )
+
     directory_path = fields.Char(
         help="Relative path to the directory to store the file"
     )
@@ -302,6 +308,32 @@ class FSStorage(models.Model):
             self._recursive_add_odoo_storage_path(target_options)
         return options
 
+    def _eval_options_from_env(self, options):
+        values = {}
+        for key, value in options.items():
+            if isinstance(value, dict):
+                values[key] = self._eval_options_from_env(value)
+            elif isinstance(value, str) and value.startswith("$"):
+                env_variable_name = value[1:]
+                env_variable_value = os.getenv(env_variable_name)
+                if env_variable_value is not None:
+                    values[key] = env_variable_value
+                else:
+                    values[key] = value
+                    _logger.warning(
+                        f"Environment variable {env_variable_name} is not set for "
+                        f"fs_storage {self.display_name}."
+                    )
+            else:
+                values[key] = value
+        return values
+
+    def _get_fs_options(self):
+        options = self.json_options
+        if not self.eval_options_from_env:
+            return options
+        return self._eval_options_from_env(self.json_options)
+
     def _get_filesystem(self) -> fsspec.AbstractFileSystem:
         """Get the fsspec filesystem for this backend.
 
@@ -311,7 +343,7 @@ class FSStorage(models.Model):
         :return: fsspec.AbstractFileSystem
         """
         self.ensure_one()
-        options = self.json_options
+        options = self._get_fs_options()
         if self.protocol == "odoofs":
             options["odoo_storage_path"] = self._odoo_storage_path
         # Webdav protocol handler does need the auth to be a tuple not a list !
