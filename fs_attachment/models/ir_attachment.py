@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import inspect
 import io
 import logging
 import mimetypes
@@ -13,7 +14,6 @@ import time
 from contextlib import closing, contextmanager
 
 import fsspec  # pylint: disable=missing-manifest-dependency
-import psycopg2
 from slugify import slugify  # pylint: disable=missing-manifest-dependency
 
 import odoo
@@ -35,23 +35,6 @@ FS_FILENAME_RE_PARSER = re.compile(
 
 def is_true(strval):
     return bool(strtobool(strval or "0"))
-
-
-def clean_fs(files):
-    _logger.info("cleaning old files from filestore")
-    for full_path in files:
-        if os.path.exists(full_path):
-            try:
-                os.unlink(full_path)
-            except OSError:
-                _logger.info(
-                    "_file_delete could not unlink %s", full_path, exc_info=True
-                )
-            except IOError:
-                # Harmless and needed for race conditions
-                _logger.info(
-                    "_file_delete could not unlink %s", full_path, exc_info=True
-                )
 
 
 class IrAttachment(models.Model):
@@ -95,6 +78,46 @@ class IrAttachment(models.Model):
         store=True,
         ondelete="restrict",
     )
+
+    def init(self):
+        res = super().init()
+        # This partial index is used by the register hook to find attachments
+        # to migrate from the odoo filestore to a fs storage
+        query = """
+            CREATE INDEX IF NOT EXISTS
+            ir_attachment_no_fs_storage_code
+            ON ir_attachment (fs_storage_code)
+            WHERE fs_storage_code IS NULL;
+        """
+        self.env.cr.execute(query)
+        return res
+
+    def _register_hook(self):
+        super()._register_hook()
+        fs_storage_codes = self._get_storage_codes()
+        # ignore if we are not using an object storages
+        if not fs_storage_codes:
+            return
+        curframe = inspect.currentframe()
+        calframe = inspect.getouterframes(curframe, 2)
+        # the caller of _register_hook is 'load_modules' in
+        # odoo/modules/loading.py
+        load_modules_frame = calframe[1][0]
+        # 'update_module' is an argument that 'load_modules' receives with a
+        # True-ish value meaning that an install or upgrade of addon has been
+        # done during the initialization. We need to move the attachments that
+        # could have been created or updated in other addons before this addon
+        # was loaded
+        update_module = load_modules_frame.f_locals.get("update_module")
+
+        # We need to call the migration on the loading of the model because
+        # when we are upgrading addons, some of them might add attachments.
+        # To be sure they are migrated to the storage we need to call the
+        # migration here.
+        # Typical example is images of ir.ui.menu which are updated in
+        # ir.attachment at every upgrade of the addons
+        if update_module:
+            self.sudo()._force_storage_to_object_storage()
 
     @api.depends("name")
     def _compute_internal_url(self) -> None:
@@ -673,7 +696,7 @@ class IrAttachment(models.Model):
                 }
             )
             _logger.info("moved %s on the object storage", fname)
-            return self._full_path(fname)
+            self._mark_for_gc(fname)
         elif self.db_datas:
             _logger.info("moving on the object storage from database")
             self.write({"datas": self.datas})
@@ -760,67 +783,73 @@ class IrAttachment(models.Model):
                     )
 
     @api.model
-    def _force_storage_to_object_storage(self, new_cr=False):
+    def _force_storage_to_object_storage(self):
         _logger.info("migrating files to the object storage")
-        storage = self.env.context.get("storage_location") or self._storage()
-        if self._is_storage_disabled(storage):
+        is_disabled = is_true(os.environ.get("DISABLE_ATTACHMENT_STORAGE"))
+        if is_disabled:
             return
-        # The weird "res_field = False OR res_field != False" domain
-        # is required! It's because of an override of _search in ir.attachment
-        # which adds ('res_field', '=', False) when the domain does not
-        # contain 'res_field'.
-        # https://github.com/odoo/odoo/blob/9032617120138848c63b3cfa5d1913c5e5ad76db/
-        # odoo/addons/base/ir/ir_attachment.py#L344-L347
-        domain = [
-            "!",
-            ("store_fname", "=like", "{}://%".format(storage)),
+        all_storages = self.env["fs.storage"].search([])
+        self._force_storage_for_specific_fields(all_storages)
+        self._force_storage_for_specific_models(all_storages)
+        self._force_storage_for_attachments(all_storages)
+
+    @property
+    def _default_domain_for_force_storage(self):
+        return [
+            ("fs_storage_code", "=", False),
+            ("store_fname", "!=", False),
             "|",
             ("res_field", "=", False),
             ("res_field", "!=", False),
         ]
-        # We do a copy of the environment so we can workaround the cache issue
-        # below. We do not create a new cursor by default because it causes
-        # serialization issues due to concurrent updates on attachments during
-        # the installation
-        with self._do_in_new_env(new_cr=new_cr) as new_env:
-            model_env = new_env["ir.attachment"]
-            ids = model_env.search(domain).ids
-            files_to_clean = []
-            for attachment_id in ids:
-                try:
-                    with new_env.cr.savepoint():
-                        # check that no other transaction has
-                        # locked the row, don't send a file to storage
-                        # in that case
-                        self.env.cr.execute(
-                            "SELECT id "
-                            "FROM ir_attachment "
-                            "WHERE id = %s "
-                            "FOR UPDATE NOWAIT",
-                            (attachment_id,),
-                            log_exceptions=False,
-                        )
 
-                        # This is a trick to avoid having the 'datas'
-                        # function fields computed for every attachment on
-                        # each iteration of the loop. The former issue
-                        # being that it reads the content of the file of
-                        # ALL the attachments on each loop.
-                        new_env.clear()
-                        attachment = model_env.browse(attachment_id)
-                        path = attachment._move_attachment_to_store()
-                        if path:
-                            files_to_clean.append(path)
-                except psycopg2.OperationalError:
-                    _logger.error(
-                        "Could not migrate attachment %s to S3", attachment_id
-                    )
+    @api.model
+    def _force_storage_for_specific_fields(self, fs_storages):
+        """Migrate attachments linked to model's fields for which a fs storage
+        is configured and no fs_storage_code is set on the attachment
+        """
+        domain = self._default_domain_for_force_storage
+        fields = fs_storages.mapped("field_ids")
+        fields_domain = []
+        for field in fields:
+            fields_domain.append(
+                [("res_field", "=", field.name), ("res_model", "=", field.model_name)]
+            )
+        domain = AND([domain, OR(fields_domain)])
+        for attachment in self.search(domain):
+            attachment._move_attachment_to_store()
 
-            # delete the files from the filesystem once we know the changes
-            # have been committed in ir.attachment
-            if files_to_clean:
-                new_env.cr.commit()
-                clean_fs(files_to_clean)
+    @api.model
+    def _force_storage_for_specific_models(self, fs_storages):
+        """Migrate attachments linked to models for which a fs storage
+        is configured and no fs_storage_code is set on the attachment.
+        This method MUST be called after _force_storage_for_specific_fields
+        to be sure that all the attachments linked to fields are migrated
+        before migrating the attachments linked to models otherwise we
+        will move some attachment with specific fs storage defined for
+        its field to the default fs storage defined for its model.
+        """
+        domain = self._default_domain_for_force_storage
+        model_names = fs_storages.mapped("model_ids.model")
+        domain = AND([domain, [("res_model", "in", model_names)]])
+        for attachment in self.search(domain):
+            attachment._move_attachment_to_store()
+
+    @api.model
+    def _force_storage_for_attachments(self, fs_storages):
+        """Migrate attachments not stored into a filesystem storage if a
+        filesystem storage is configured for attachments.
+
+        This method MUST be called after _force_storage_for_specific_fields
+        and _force_storage_for_specific_models
+
+        """
+        if not self.env["fs.storage"].get_default_storage_code_for_attachments():
+            # no default storage configured for attachments
+            return
+        domain = self._default_domain_for_force_storage
+        for attachment in self.search(domain):
+            attachment._move_attachment_to_store()
 
 
 class AttachmentFileLikeAdapter(object):

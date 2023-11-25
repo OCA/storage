@@ -1,0 +1,33 @@
+Fix attachments stored in Odoo after an addon upgrade.
+
+Prerequisites:
+
+* The fs_attachment addon is installed, and specific filesystem storage is
+  configured.
+* All the attachments are already stored in the appropriate filesystem storage.
+  (We assume that if you've installed the addon on an existing database,
+  you'vealready migrated the existing attachments appropriately.
+
+Context:
+
+* You run an upgrade command on your Odoo server.
+
+Problem:
+
+Some attachments could be created during the upgrade process before the load of
+the fs_attachment module or the configuration of the filesystem storage backends.
+This is especially true for the attachments created by addons to store the app
+icons or even attachments from XML data files. As a result, you end up with
+attachments that could not be found by some Odoo instances if, for example, you have
+multiple Odoo instances running on different servers since these attachments are stored
+in the odoo filestore of the server that created them.
+
+Solution:
+
+A solution to this problem is to hook the end of the upgrade process through the
+implementation of the *_register_hook* method on our *ir.attachment* model. Since
+this method is called after the completion of the upgrade process and the full
+initialization of the odoo registry, we can safely expect that all the information
+we need to know where to store the attachments are available.
+From there, we can simply search for all the attachments that are not linked to
+any specific storage and store them in the appropriate storage.
