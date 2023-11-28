@@ -6,132 +6,134 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-11-28 14:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: storage_backend
 #. odoo-python
 #: code:addons/storage_backend/components/filesystem_adapter.py:0
 #, python-format
 msgid "Access to %s is forbidden"
-msgstr ""
+msgstr "L'accesso a %s è vietato"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type
 msgid "Backend Type"
-msgstr ""
+msgstr "Tipo backend"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
 msgid "Backend Type Env Default"
-msgstr ""
+msgstr "Tipo backend ambiene predefinito"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_is_editable
 msgid "Backend Type Env Is Editable"
-msgstr ""
+msgstr "Il tipo backend ambiente è modificabile"
 
 #. module: storage_backend
 #. odoo-python
 #: code:addons/storage_backend/models/storage_backend.py:0
 #, python-format
 msgid "Connection Test Failed!"
-msgstr ""
+msgstr "Test connessione fallito!"
 
 #. module: storage_backend
 #. odoo-python
 #: code:addons/storage_backend/models/storage_backend.py:0
 #, python-format
 msgid "Connection Test Succeeded!"
-msgstr ""
+msgstr "Test connessione avvenuto con successo!"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path
 msgid "Directory Path"
-msgstr ""
+msgstr "Percorso cartella"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
 msgid "Directory Path Env Default"
-msgstr ""
+msgstr "Percorso cartella ambiente predefinito"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_is_editable
 msgid "Directory Path Env Is Editable"
-msgstr ""
+msgstr "Percorso cartella ambiente è modificabile"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: storage_backend
 #. odoo-python
 #: code:addons/storage_backend/models/storage_backend.py:0
 #, python-format
 msgid "Everything seems properly set up!"
-msgstr ""
+msgstr "Tutto sembra impostato correttamente!"
 
 #. module: storage_backend
 #: model:ir.model.fields.selection,name:storage_backend.selection__storage_backend__backend_type__filesystem
 msgid "Filesystem"
-msgstr ""
+msgstr "Filesystem"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__has_validation
 msgid "Has Validation"
-msgstr ""
+msgstr "Ha validazione"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: storage_backend
 #: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path
 #: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path_env_default
 msgid "Relative path to the directory to store the file"
-msgstr ""
+msgstr "Percorso relativo alla cartella per archiviare il file"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
 msgid "Server Env Defaults"
-msgstr ""
+msgstr "Server ambiente predefinito"
 
 #. module: storage_backend
 #: model:ir.actions.act_window,name:storage_backend.act_open_storage_backend_view
@@ -141,9 +143,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_search
 msgid "Storage Backend"
-msgstr ""
+msgstr "Backend deposito"
 
 #. module: storage_backend
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
 msgid "Test connection"
-msgstr ""
+msgstr "Prova connessione"
