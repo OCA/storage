@@ -6,64 +6,66 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-11-29 20:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_ir_attachment
 #: model_terms:ir.ui.view,arch_db:fs_attachment.fs_storage_form_view
 msgid "Attachment"
-msgstr ""
+msgstr "Allegato"
 
 #. module: fs_attachment
 #: model_terms:ir.ui.view,arch_db:fs_attachment.fs_storage_form_view
 msgid "Attachment's Url"
-msgstr ""
+msgstr "URL allegato"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__autovacuum_gc
 msgid "Autovacuum Garbage Collection"
-msgstr ""
+msgstr "Raccolta rifiuti con aspirazione automatica"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__base_url
 msgid "Base Url"
-msgstr ""
+msgstr "URL base"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__base_url_for_files
 msgid "Base Url For Files"
-msgstr ""
+msgstr "URL base per i file"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_fs_storage
 msgid "FS Storage"
-msgstr ""
+msgstr "Deposito FS"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_ids
 msgid "Field"
-msgstr ""
+msgstr "Campo"
 
 #. module: fs_attachment
 #. odoo-python
@@ -72,61 +74,63 @@ msgstr ""
 msgid ""
 "Field %(field)s already stored in another FS storage ('%(other_storage)s')"
 msgstr ""
+"Il campo %(field)s è già archiviato in un altro deposito FS "
+"('%(other_storage)s')"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_xmlids
 msgid "Field Xmlids"
-msgstr ""
+msgstr "ID file XML"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_ir_model_fields
 msgid "Fields"
-msgstr ""
+msgstr "Campi"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
 msgid "File Name into the filesystem storage"
-msgstr ""
+msgstr "Nome del file nel filesystem del deposito"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_ir_binary
 msgid "File streaming helper model for controllers"
-msgstr ""
+msgstr "Modello aiuto streaming file per controller"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_id
 msgid "Filesystem Storage"
-msgstr ""
+msgstr "Deposito filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_code
 msgid "Filesystem Storage Code"
-msgstr ""
+msgstr "Codice deposito filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url
 msgid "Filesystem URL"
-msgstr ""
+msgstr "URL filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url_path
 msgid "Filesystem URL Path"
-msgstr ""
+msgstr "Percorso URL filesystem"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_fs_file_gc
 msgid "Filesystem storage file garbage collector"
-msgstr ""
+msgstr "Cestino file deposito filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__force_db_for_default_attachment_rules
 msgid "Force Db For Default Attachment Rules"
-msgstr ""
+msgstr "Forza DB per regole allegati predefinite"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__use_x_sendfile_to_serve_internal_url
@@ -138,6 +142,12 @@ msgid ""
 "avoid to serve files from odoo and therefore to avoid to load the odoo "
 "process. "
 msgstr ""
+"Se selezionata e Odoo è dietro unproxy che supporta x-sendfile, il contenuto "
+"fornito dall'URL interno dell'allegato verrà fornito dal proxy utilizzando "
+"il fs_url se definito. Altrimenti, il file verrà fornito da Odoo che "
+"trasmettarà il contenuto letto dal deposito del filesystem. Questa opzione è "
+"utile per evitare di servire file da Odoo e quindi per evitare di caricare i "
+"processi Odoo. "
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__autovacuum_gc
@@ -148,6 +158,11 @@ msgid ""
 "systems (like a website). In such case, records in the fs.file.gc table must"
 " be manually processed."
 msgstr ""
+"Se selezionata, l'aspiratore automatico del cestino verrà eseguito "
+"automaticamente quando il deposito è utilizzato per archiviare allegati. "
+"Alcune volte, l'aspiratore automatico è da evitare quando i file nel "
+"deposito sono riferiti da altri sistemi (come un sito web). In tal caso, i "
+"record nella tabella fs.file.gc devono essere elaborati manualmente."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__optimizes_directory_path
