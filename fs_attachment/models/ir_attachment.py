@@ -360,8 +360,8 @@ class IrAttachment(models.Model):
     def _storage_file_read(self, fname: str) -> bytes | None:
         """Read the file from the filesystem storage"""
         fs, _storage, fname = self._fs_parse_store_fname(fname)
-        with fs.open(fname, "rb") as fs:
-            return fs.read()
+        with fs.open(fname, "rb") as f:
+            return f.read()
 
     @api.model
     def _storage_file_write(self, bin_data: bytes) -> str:
@@ -373,8 +373,8 @@ class IrAttachment(models.Model):
         if not fs.exists(dirname):
             fs.makedirs(dirname)
         fname = f"{storage}://{path}"
-        with fs.open(path, "wb") as fs:
-            fs.write(bin_data)
+        with fs.open(path, "wb") as f:
+            f.write(bin_data)
         self._fs_mark_for_gc(fname)
         return fname
 
