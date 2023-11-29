@@ -6,89 +6,91 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-11-29 20:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__attribute_value_ids
 msgid "Attributes"
-msgstr ""
+msgstr "Attributi"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__available_attribute_value_ids
 msgid "Available Attributes"
-msgstr ""
+msgstr "Attributi disponibili"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__create_uid
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__create_date
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__display_name
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__id
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media____last_update
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__write_uid
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__write_date
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__link_existing
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__link_existing
 msgid "Link existing media"
-msgstr ""
+msgstr "Collega media esistente"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__media_id
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__media_id
 msgid "Linked media"
-msgstr ""
+msgstr "Media collegato"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__file
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__file
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__media_type_id
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__media_type_id
 msgid "Media Type"
-msgstr ""
+msgstr "Tipo media"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_product_category__media_ids
@@ -98,75 +100,75 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:fs_product_multi_media.product_normal_form_view
 #: model_terms:ir.ui.view,arch_db:fs_product_multi_media.product_template_only_form_view
 msgid "Medias"
-msgstr ""
+msgstr "Media"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__mimetype
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__mimetype
 msgid "Mimetype"
-msgstr ""
+msgstr "Tipo MIME"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__name
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: fs_product_multi_media
 #: model:ir.model,name:fs_product_multi_media.model_product_template
 msgid "Product"
-msgstr ""
+msgstr "Prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model,name:fs_product_multi_media.model_product_category
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__product_categ_id
 msgid "Product Category"
-msgstr ""
+msgstr "Categoria prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model,name:fs_product_multi_media.model_fs_product_category_media
 msgid "Product Category Media"
-msgstr ""
+msgstr "Media categoria prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model,name:fs_product_multi_media.model_fs_product_media
 msgid "Product Media"
-msgstr ""
+msgstr "Media prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__product_tmpl_id
 msgid "Product Template"
-msgstr ""
+msgstr "Modello prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model,name:fs_product_multi_media.model_product_template_attribute_line
 msgid "Product Template Attribute Line"
-msgstr ""
+msgstr "Riga attributo modello prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model,name:fs_product_multi_media.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variante prodotto"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__sequence
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequenza"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__specific_file
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__specific_file
 msgid "Specific Media"
-msgstr ""
+msgstr "Media specifico"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__specific_media_type_id
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__specific_media_type_id
 msgid "Specific Media Type"
-msgstr ""
+msgstr "Tipo media specifico"
 
 #. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_product_product__variant_media_ids
 msgid "Variant Medias"
-msgstr ""
+msgstr "Media variante"
