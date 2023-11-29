@@ -1,3 +1,15 @@
+16.0.1.0.5 (2023-11-29)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- When manipulating the file system api through a local variable named *fs*,
+  we observed some strange behavior when it was wrongly redefined in an
+  enclosing scope as in the following example: *with fs.open(...) as fs*.
+  This commit fixes this issue by renaming the local variable and therefore
+  avoiding the name clash. (`#306 <https://github.com/OCA/storage/issues/306>`_)
+
+
 16.0.1.0.4 (2023-11-22)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
