@@ -6,89 +6,91 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-11-29 20:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Available options"
-msgstr ""
+msgstr "Opzioni disponibili"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_properties
 msgid "Available properties"
-msgstr ""
+msgstr "Proprietà disponibili"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__code
 msgid "Code"
-msgstr ""
+msgstr "Codice"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Connection Test Failed!"
-msgstr ""
+msgstr "Test connessione fallito!"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Connection Test Succeeded!"
-msgstr ""
+msgstr "Test connessione avvenuto con successo!"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_protocol
 msgid "Describes Protocol"
-msgstr ""
+msgstr "Descrive protocollo"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path
 msgid "Directory Path"
-msgstr ""
+msgstr "Percorso cartella"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_default
 msgid "Directory Path Env Default"
-msgstr ""
+msgstr "Percorso cartella ambiente predefinito"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_is_editable
 msgid "Directory Path Env Is Editable"
-msgstr ""
+msgstr "Percorso cartella ambiente è modificabile"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Enter you fsspec options here."
-msgstr ""
+msgstr "Inserire qui le opzioni FSspec."
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Everything seems properly set up!"
-msgstr ""
+msgstr "Tutto sembra impostato correttamente!"
 
 #. module: fs_storage
 #: model:ir.actions.act_window,name:fs_storage.act_open_fs_storage_view
@@ -98,84 +100,84 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_search_view
 msgid "FS Storage"
-msgstr ""
+msgstr "Deposito FS"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__json_options
 msgid "Json Options"
-msgstr ""
+msgstr "Opzioni JSON"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options
 msgid "Options"
-msgstr ""
+msgstr "Opzioni"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_default
 msgid "Options Env Default"
-msgstr ""
+msgstr "Opzioni ambiente predefinite"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_is_editable
 msgid "Options Env Is Editable"
-msgstr ""
+msgstr "Opzioni ambiente sono modificabili"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
-msgstr ""
+msgstr "Protcollo"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_descr
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Protocol Descr"
-msgstr ""
+msgstr "Descrizione protocollo"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_default
 msgid "Protocol Env Default"
-msgstr ""
+msgstr "Protocollo ambiene predefinito"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_is_editable
 msgid "Protocol Env Is Editable"
-msgstr ""
+msgstr "Protocollo ambiente è modificabile"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path_env_default
 msgid "Relative path to the directory to store the file"
-msgstr ""
+msgstr "Percorso relativo alla cartella per archiviare il file"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
 msgid "Server Env Defaults"
-msgstr ""
+msgstr "Server ambiente predefinito"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__code
@@ -186,28 +188,33 @@ msgid ""
 "'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
 "installed."
 msgstr ""
+"Codice tecnico usato per identificare il backend deposito nel codice. Questo "
+"codice deve essere univoco. Questo codice è utilizzato per esempio per "
+"definire il backend deposito dove depositare gli allegati attraverso il "
+"parametro configurazione 'ir_attachment.storage.force.database' quando il "
+"modulo 'fs_attachment' è installato."
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Test connection"
-msgstr ""
+msgstr "Prova connessione"
 
 #. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
 msgid "The code must be unique"
-msgstr ""
+msgstr "Il codice deve essere univoco"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "The options must be a valid JSON"
-msgstr ""
+msgstr "L'opzione deve essere un JSON valido"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__json_options
 msgid "The options used to initialize the filesystem.\n"
-msgstr ""
+msgstr "Le opzioni per inizializzare il filesystem.\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
@@ -227,6 +234,20 @@ msgid ""
 "For more information, please refer to the fsspec documentation:\n"
 "https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations"
 msgstr ""
+"Le opzioni utilizzate per inizializzare il filesystem.\n"
+"Questo è uncampo JSON che dipende dal protocollo utilizzato.\n"
+"Per esempio, per il protocollo SFTP, si può fornire il seguente:\n"
+"{\n"
+"    'host': 'my.sftp.server',\n"
+"    'ssh_kwrags': {\n"
+"        'username': 'myuser',\n"
+"        'password': 'mypassword',\n"
+"        'port': 22,\n"
+"    }\n"
+"}\n"
+"Per ulteriori informazioni, fare riferimento alla documentazione FSspec:\n"
+"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-"
+"implementations"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
@@ -237,3 +258,9 @@ msgid ""
 "This list is the one supported by the fsspec library (see https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocolis added by default and refers to the odoo local filesystem.\n"
 "Pay attention that according to the protocol, some options must beprovided through the options field."
 msgstr ""
+"Il protocollo è utilizzato per accedere al contenuto del filesystem.\n"
+"Questo elenco è quello supportato dalla libreria FSspec (vedere https"
+"://filesystem-spec.readthedocs.io/en/latest). Un protocollo filesystem è "
+"aggiunto in modo predefinito e fa riferimento al filesystem locale Odoo.\n"
+"Fare attenzione che in accordo con il protocollo, alcune opzioni devono "
+"essere fonrite attraverso il campo opzioni."
