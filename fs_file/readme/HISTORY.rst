@@ -1,3 +1,14 @@
+16.0.1.0.5 (2023-11-30)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Ensure the cache is properly set when a new value is assigned to a FSFile field.
+  If the field is stored the value to the cache must be a FSFileValue object
+  linked to the attachment record used to store the file. Otherwise the value
+  must be one given since it could be the result of a compute method. (`#290 <https://github.com/OCA/storage/issues/290>`_)
+
+
 16.0.1.0.4 (2023-10-17)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
