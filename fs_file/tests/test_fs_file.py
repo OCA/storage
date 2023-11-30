@@ -175,3 +175,17 @@ class TestFsFile(TransactionCase):
         # from the content
         value = FSFileValue(name="test", value=self.png_content)
         self.assertEqual(value.mimetype, "image/png")
+
+    def test_cache_invalidation(self):
+        """Test that the cache is invalidated when the FSFileValue is modified
+        When we assign a FSFileValue to a field, the value in the cache  must
+        be invalidated and the new value must be computed. This is required
+        because the FSFileValue from the cache should always be linked to the
+        attachment record used to store the file in the storage.
+        """
+        value = FSFileValue(name="test.png", value=self.create_content)
+        instance = self.env["test.model"].create({"fs_file": value})
+        self.assertNotEqual(instance.fs_file, value)
+        value = FSFileValue(name="test.png", value=self.write_content)
+        instance.write({"fs_file": value})
+        self.assertNotEqual(instance.fs_file, value)
