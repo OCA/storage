@@ -23,7 +23,13 @@ class FSImageValue(FSFileValue):
         alt_text: str = None,
     ) -> None:
         super().__init__(attachment, name, value)
-        self.alt_text = alt_text
+        if self._attachment and alt_text is not None:
+            raise ValueError(
+                "FSImageValue cannot be initialized with an attachment and an"
+                " alt_text at the same time. When initializing with an attachment,"
+                " you can't pass any other argument."
+            )
+        self._alt_text = alt_text
 
     @property
     def alt_text(self) -> str:
@@ -41,17 +47,12 @@ class FSImageValue(FSFileValue):
     def from_fs_file_value(cls, fs_file_value: FSFileValue) -> "FSImageValue":
         if isinstance(fs_file_value, FSImageValue):
             return fs_file_value
-        alt_text = (
-            fs_file_value.attachment.alt_text if fs_file_value.attachment else None
-        )
-        alt_text = alt_text or None
         return cls(
             attachment=fs_file_value.attachment,
             name=fs_file_value.name if not fs_file_value.attachment else None,
             value=fs_file_value._buffer
             if not fs_file_value.attachment
             else fs_file_value._buffer,
-            alt_text=alt_text,
         )
 
     def image_process(
@@ -167,7 +168,8 @@ class FSImage(FSFile):
         attachment = super()._create_attachment(record, cache_value)
         # odoo filter out additional fields in create method on ir.attachment
         # so we need to write the alt_text after the creation
-        attachment.alt_text = cache_value.alt_text
+        if cache_value.alt_text:
+            attachment.alt_text = cache_value.alt_text
         return attachment
 
     def _convert_attachment_to_cache(self, attachment: IrAttachment) -> FSImageValue:
