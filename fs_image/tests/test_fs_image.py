@@ -9,7 +9,7 @@ from odoo_test_helper import FakeModelLoader
 from PIL import Image
 
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, users, warmup
 
 from odoo.addons.fs_storage.models.fs_storage import FSStorage
 
@@ -220,3 +220,20 @@ class TestFsImage(TransactionCase):
         instance = self.env["test.image.model"].create({})
         with self.assertRaisesRegex(UserError, "Cannot set alt_text on empty image"):
             instance.write({"fs_image": {"alt_text": "test"}})
+
+    @users("__system__")
+    @warmup
+    def test_generated_sql_commands(self):
+        # The following tests will never fail, but they will output a warning
+        # if the number of SQL queries changes into the logs. They
+        # are to help us keep track of the number of SQL queries generated
+        # by the module.
+        with self.assertQueryCount(__system__=3):
+            instance = self.env["test.image.model"].create(
+                {"fs_image": FSImageValue(name=self.filename, value=self.image_w)}
+            )
+
+        instance.invalidate_recordset()
+        with self.assertQueryCount(__system__=1):
+            self.assertEqual(instance.fs_image.getvalue(), self.image_w)
+            self.env.flush_all()
