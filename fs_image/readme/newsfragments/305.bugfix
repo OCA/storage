@@ -1,6 +1,0 @@
-Fix view crash when uploading an image
-
-The rawCacheKey is appropriately managed by the base class and reflects the
-record's last update datetime (write_date).
-Since it lacks a setter, attempting to invalidate its value results in a view crash.
-Nevertheless, the value will automatically be updated upon saving the record.
