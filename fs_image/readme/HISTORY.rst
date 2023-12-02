@@ -1,3 +1,16 @@
+16.0.1.0.2 (2023-12-02)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Fix view crash when uploading an image
+
+  The rawCacheKey is appropriately managed by the base class and reflects the
+  record's last update datetime (write_date).
+  Since it lacks a setter, attempting to invalidate its value results in a view crash.
+  Nevertheless, the value will automatically be updated upon saving the record. (`#305 <https://github.com/OCA/storage/issues/305>`_)
+
+
 16.0.1.0.1 (2023-12-02)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
