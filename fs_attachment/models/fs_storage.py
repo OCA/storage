@@ -357,7 +357,7 @@ class FsStorage(models.Model):
         and the value is the limit in size below which attachments are kept in DB.
         0 means no limit.
         """
-        storage = self.get_by_code(code)
+        storage = self.sudo().get_by_code(code)
         if (
             storage
             and storage.use_as_default_for_attachments
@@ -369,17 +369,17 @@ class FsStorage(models.Model):
     @api.model
     @tools.ormcache("code")
     def _must_optimize_directory_path(self, code):
-        return self.get_by_code(code).optimizes_directory_path
+        return self.sudo().get_by_code(code).optimizes_directory_path
 
     @api.model
     @tools.ormcache("code")
     def _must_autovacuum_gc(self, code):
-        return self.get_by_code(code).autovacuum_gc
+        return self.sudo().get_by_code(code).autovacuum_gc
 
     @api.model
     @tools.ormcache("code")
     def _must_use_filename_obfuscation(self, code):
-        return self.get_by_code(code).use_filename_obfuscation
+        return self.sudo().get_by_code(code).use_filename_obfuscation
 
     @api.depends("base_url", "is_directory_path_in_url")
     def _compute_base_url_for_files(self):
@@ -401,7 +401,7 @@ class FsStorage(models.Model):
         :param attachment: an attachment record
         :return: the URL to access the attachment
         """
-        fs_storage = self.get_by_code(attachment.fs_storage_code)
+        fs_storage = self.sudo().get_by_code(attachment.fs_storage_code)
         if not fs_storage:
             return None
         base_url = fs_storage.base_url_for_files
