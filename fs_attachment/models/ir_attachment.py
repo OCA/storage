@@ -135,7 +135,7 @@ class IrAttachment(models.Model):
         for rec in self:
             if rec.store_fname:
                 code = rec.store_fname.partition("://")[0]
-                fs_storage = self.env["fs.storage"].get_by_code(code)
+                fs_storage = self.env["fs.storage"].sudo().get_by_code(code)
                 if fs_storage != rec.fs_storage_id:
                     rec.fs_storage_id = fs_storage
             elif rec.fs_storage_id:
