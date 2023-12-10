@@ -30,6 +30,51 @@ class TestFSAttachment(TestFSAttachmentCommon):
             f.write(b"new")
         self.assertEqual(attachment.raw, b"new")
 
+    def test_create_attachment_with_meaningful_name(self):
+        """In this test we use a backend with 'optimizes_directory_path',
+        which rewrites the filename to be a meaningful name.
+        We ensure that the rewritten path is consistently used,
+        meaning we can read the file after.
+        """
+        content = b"This is a test attachment"
+        attachment = (
+            self.env["ir.attachment"]
+            .with_context(
+                storage_location=self.backend_optimized.code,
+                force_storage_key="test.txt",
+            )
+            .create({"name": "test.txt", "raw": content})
+        )
+        # the expected store_fname is made of the storage code,
+        # a random middle part, and the filename
+        # example: tmp_opt://te/st/test-198-0.txt
+        # The storage root is NOT part of the store_fname
+        self.assertFalse("tmp/" in attachment.store_fname)
+
+        # remove protocol and file name to keep the middle part
+        sub_path = os.path.dirname(attachment.store_fname.split("://")[1])
+        # the subpath is consistently 'te/st' because the file storage key is forced
+        # if it's arbitrary we might get a random name (3fbc5er....txt), in which case
+        # the middle part would also be 'random', in our example 3f/bc
+        self.assertEqual(sub_path, "te/st")
+
+        # we can read the file, so storage finds it correctly
+        with attachment.open("rb") as f:
+            self.assertEqual(f.read(), content)
+
+        new_content = b"new content"
+        with attachment.open("wb") as f:
+            f.write(new_content)
+
+        # the store fname should have changed, as its version number has increased
+        # e.g. tmp_opt://te/st/test-1766-0.txt to tmp_opt://te/st/test-1766-1.txt
+        # but the protocol and sub path should be the same
+        new_sub_path = os.path.dirname(attachment.store_fname.split("://")[1])
+        self.assertEqual(sub_path, new_sub_path)
+
+        with attachment.open("rb") as f:
+            self.assertEqual(f.read(), new_content)
+
     def test_open_attachment_in_db(self):
         self.env["ir.config_parameter"].sudo().set_param("ir_attachment.location", "db")
         content = b"This is a test attachment in db"
