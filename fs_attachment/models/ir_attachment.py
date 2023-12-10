@@ -463,7 +463,7 @@ class IrAttachment(models.Model):
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
             # of ir_attachment prevent normal write on store_fname
-            attachment._force_write_store_fname(f"{storage}://{new_filename}")
+            attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
 
     def _force_write_store_fname(self, store_fname):
