@@ -6,6 +6,7 @@ import tempfile
 import warnings
 from unittest import mock
 
+from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
@@ -151,3 +152,17 @@ class TestFSStorage(TransactionCase):
             .get("target_options")
             .get("odoo_storage_path"),
         )
+
+    def test_interface_values(self):
+        protocol = "file"  # should be available by default in the list of protocols
+        with Form(self.env["fs.storage"]) as new_storage:
+            new_storage.name = "Test storage"
+            new_storage.code = "code"
+            new_storage.protocol = protocol
+            self.assertEqual(new_storage.protocol, protocol)
+            # the options should follow the protocol
+            self.assertEqual(new_storage.options_protocol, protocol)
+            description = new_storage.protocol_descr
+            self.assertTrue("Interface to files on local storage" in description)
+        # this is still true after saving
+        self.assertEqual(new_storage.options_protocol, protocol)
