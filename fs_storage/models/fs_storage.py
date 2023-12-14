@@ -125,14 +125,13 @@ class FSStorage(models.Model):
     options_protocol = fields.Selection(
         string="Describes Protocol",
         selection="_get_options_protocol",
-        default="odoofs",
+        compute="_compute_protocol_descr",
         help="The protocol used to access the content of filesystem.\n"
         "This list is the one supported by the fsspec library (see "
         "https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocol"
         "is added by default and refers to the odoo local filesystem.\n"
         "Pay attention that according to the protocol, some options must be"
         "provided through the options field.",
-        store=False,
     )
     options_properties = fields.Text(
         string="Available properties",
@@ -236,6 +235,7 @@ class FSStorage(models.Model):
     def _compute_protocol_descr(self) -> None:
         for rec in self:
             rec.protocol_descr = fsspec.get_filesystem_class(rec.protocol).__doc__
+            rec.options_protocol = rec.protocol
 
     @api.model
     def _get_options_protocol(self) -> list[tuple[str, str]]:
