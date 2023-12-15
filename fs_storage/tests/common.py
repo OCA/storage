@@ -1,6 +1,7 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 import base64
+import os
 import shutil
 import tempfile
 from unittest import mock
@@ -21,6 +22,7 @@ class TestFSStorageCase(TransactionCase):
         cls.filename = "test_file.txt"
         cls.case_with_subdirectory = "subdirectory/here"
         cls.demo_user = cls.env.ref("base.user_demo")
+        cls.temp_dir = tempfile.mkdtemp()
 
     def setUp(self):
         super().setUp()
@@ -28,15 +30,16 @@ class TestFSStorageCase(TransactionCase):
             self.backend.__class__, "_get_filesystem_storage_path"
         )
         mocked_get_filesystem_storage_path = mocked_backend.start()
-        tempdir = tempfile.mkdtemp()
-        mocked_get_filesystem_storage_path.return_value = tempdir
+        mocked_get_filesystem_storage_path.return_value = self.temp_dir
+        self.backend.write({"directory_path": self.temp_dir})
 
         # pylint: disable=unused-variable
         @self.addCleanup
         def stop_mock():
             mocked_backend.stop()
             # recursively delete the tempdir
-            shutil.rmtree(tempdir)
+            if os.path.exists(self.temp_dir):
+                shutil.rmtree(self.temp_dir)
 
     def _create_file(self, backend: FSStorage, filename: str, filedata: str):
         with backend.fs.open(filename, "wb") as f:
