@@ -5,12 +5,12 @@
 {
     "name": "Storage Thumbnail",
     "summary": "Abstract module that add the possibility to have thumbnail",
-    "version": "12.0.2.0.0",
+    "version": "12.0.2.0.1",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "development_status": "Stable/Production",
+    "development_status": "Production/Stable",
     "installable": True,
     "depends": ["storage_file"],
     "data": [
