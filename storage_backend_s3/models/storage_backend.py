@@ -28,8 +28,7 @@ class StorageBackend(models.Model):
     aws_bucket = fields.Char(string="Bucket")
     aws_access_key_id = fields.Char(string="Access Key ID")
     aws_secret_access_key = fields.Char(string="Secret Access Key")
-    aws_region = fields.Char(string="Region",
-        help="Can be empty for some providers")
+    aws_region = fields.Char(string="Region", help="Can be empty for some providers")
     aws_cache_control = fields.Char(default="max-age=31536000, public")
     aws_file_acl = fields.Selection(selection=[
         ('', ''),
