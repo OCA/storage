@@ -1,3 +1,11 @@
+16.0.1.0.8 (2023-12-20)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Fix the error retrieving attachment files when the storage is set to optimize directory paths. (`#312 <https://github.com/OCA/storage/issues/312>`_)
+
+
 16.0.1.0.6 (2023-12-02)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
