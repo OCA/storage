@@ -21,6 +21,15 @@ class TestFSAttachmentCommon(TransactionCase):
                 "directory_path": temp_dir,
             }
         )
+        cls.backend_optimized = cls.env["fs.storage"].create(
+            {
+                "name": "Temp Optimized FS Storage",
+                "protocol": "file",
+                "code": "tmp_opt",
+                "directory_path": temp_dir,
+                "optimizes_directory_path": True,
+            }
+        )
         cls.temp_dir = temp_dir
         cls.gc_file_model = cls.env["fs.file.gc"]
         cls.ir_attachment_model = cls.env["ir.attachment"]
@@ -40,12 +49,24 @@ class TestFSAttachmentCommon(TransactionCase):
                 "directory_path": self.temp_dir,
             }
         )
+        self.backend_optimized.write(
+            {
+                "protocol": "file",
+                "code": "tmp_opt",
+                "directory_path": self.temp_dir,
+                "optimizes_directory_path": True,
+            }
+        )
 
     def tearDown(self) -> None:
         super().tearDown()
         # empty the temp dir
         for f in os.listdir(self.temp_dir):
-            os.remove(os.path.join(self.temp_dir, f))
+            full_path = os.path.join(self.temp_dir, f)
+            if os.path.isfile(full_path):
+                os.remove(full_path)
+            else:  # using optimizes_directory_path, we'll have a directory
+                shutil.rmtree(full_path)
 
 
 class MyException(Exception):

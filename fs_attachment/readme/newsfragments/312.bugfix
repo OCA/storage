@@ -1,0 +1,1 @@
+Fix the error retrieving attachment files when the storage is set to optimize directory paths.
