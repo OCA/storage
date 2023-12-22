@@ -172,6 +172,16 @@ msgid "Relative path to the directory to store the file"
 msgstr ""
 
 #. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env
+msgid "Resolve env vars"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
+msgid "Resolve options values starting with $ from environment variables"
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
 msgid "Server Env Defaults"
 msgstr ""
