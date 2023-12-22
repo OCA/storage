@@ -175,6 +175,16 @@ msgid "Relative path to the directory to store the file"
 msgstr "Ruta relativa al directorio para almacenar el archivo"
 
 #. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env
+msgid "Resolve env vars"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
+msgid "Resolve options values starting with $ from environment variables"
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
 msgid "Server Env Defaults"
 msgstr "Valores por defecto del Entorno de Servidor"
@@ -184,15 +194,14 @@ msgstr "Valores por defecto del Entorno de Servidor"
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter "
-"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
-"installed."
+"to store the attachments via the configuration parameter 'ir_attachment."
+"storage.force.database' when the module 'fs_attachment' is installed."
 msgstr ""
 "Código técnico utilizado para identificar el servidor de almacenamiento en "
 "el código. Este código debe ser único. Este código se utiliza, por ejemplo, "
 "para definir el servidor de almacenamiento para guardar los archivos "
-"adjuntos mediante el parámetro de configuración \"ir_attachment.storage.force"
-".database\" cuando se instala el módulo \"fs_attachment\"."
+"adjuntos mediante el parámetro de configuración \"ir_attachment.storage."
+"force.database\" cuando se instala el módulo \"fs_attachment\"."
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
@@ -232,7 +241,8 @@ msgid ""
 "    }\n"
 "}\n"
 "For more information, please refer to the fsspec documentation:\n"
-"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations"
+"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-"
+"implementations"
 msgstr ""
 "Las opciones utilizadas para inicializar el sistema de ficheros.\n"
 "Este es un campo JSON que depende del protocolo utilizado.\n"
@@ -255,8 +265,11 @@ msgstr ""
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
-"This list is the one supported by the fsspec library (see https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocolis added by default and refers to the odoo local filesystem.\n"
-"Pay attention that according to the protocol, some options must beprovided through the options field."
+"This list is the one supported by the fsspec library (see https://filesystem-"
+"spec.readthedocs.io/en/latest). A filesystem protocolis added by default and "
+"refers to the odoo local filesystem.\n"
+"Pay attention that according to the protocol, some options must beprovided "
+"through the options field."
 msgstr ""
 "El protocolo utilizado para acceder al contenido del sistema de ficheros.\n"
 "Esta lista es la soportada por la librería fsspec (ver https://filesystem-"
