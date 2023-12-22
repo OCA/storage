@@ -32,16 +32,17 @@
                     </div>
                     <group name="config">
                         <group>
-                        <field name="code" />
-                        <field name="protocol" />
-                        <field name="directory_path" />
-                        <field
+                            <field name="code" />
+                            <field name="protocol" />
+                            <field name="directory_path" />
+                            <field name="eval_options_from_env" />
+                            <field
                                 name="options"
                                 widget="ace"
                                 options="{'mode': 'python'}"
                                 placeholder="Enter you fsspec options here."
                             />
-                            </group>
+                        </group>
                         <group>
                             <notebook colspan="2">
                                 <page string="Protocol Descr" colspan="2">
