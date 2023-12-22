@@ -119,7 +119,11 @@ class FSStorage(models.Model):
 
     eval_options_from_env = fields.Boolean(
         string="Resolve env vars",
-        help="Resolve options values starting with $ from environment variables",
+        help="""Resolve options values starting with $ from environment variables. e.g
+            {
+                "endpoint_url": "$AWS_ENDPOINT_URL",
+            }
+            """,
     )
 
     directory_path = fields.Char(
@@ -321,8 +325,9 @@ class FSStorage(models.Model):
                 else:
                     values[key] = value
                     _logger.warning(
-                        f"Environment variable {env_variable_name} is not set for "
-                        f"fs_storage {self.display_name}."
+                        "Environment variable %s is not set for fs_storage %s.",
+                        env_variable_name,
+                        self.display_name,
                     )
             else:
                 values[key] = value
