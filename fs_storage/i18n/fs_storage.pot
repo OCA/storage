@@ -178,7 +178,12 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
-msgid "Resolve options values starting with $ from environment variables"
+msgid ""
+"Resolve options values starting with $ from environment variables. e.g\n"
+"            {\n"
+"                \"endpoint_url\": \"$AWS_ENDPOINT_URL\",\n"
+"            }\n"
+"            "
 msgstr ""
 
 #. module: fs_storage
