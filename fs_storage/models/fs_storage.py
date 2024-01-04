@@ -427,7 +427,8 @@ class FSStorage(models.Model):
             return []
         regex = re.compile(pattern)
         for file_path in self.fs.ls(relative_path, detail=False):
-            if regex.match(file_path):
+            # fs.ls returns a relative path
+            if regex.match(os.path.basename(file_path)):
                 result.append(file_path)
         return result
 
