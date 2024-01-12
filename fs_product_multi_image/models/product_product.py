@@ -25,9 +25,14 @@ class ProductProduct(models.Model):
         # Store it to improve perfs
         store=True,
     )
-    image = FSImage(related="main_image_id.image", readonly=True, store=False)
+    image = FSImage(
+        related="main_image_id.image", readonly=True, store=False, string="Public Image"
+    )
     image_medium = FSImage(
-        related="main_image_id.image_medium", readonly=True, store=False
+        related="main_image_id.image_medium",
+        readonly=True,
+        store=False,
+        string="Public Image Medium",
     )
 
     @api.depends(
