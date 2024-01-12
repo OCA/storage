@@ -264,12 +264,33 @@ class FSStorage(models.Model):
             doc = inspect.getdoc(cls.__init__)
             rec.options_properties = f"__init__{signature}\n{doc}"
 
+    def _get_marker_file_name(self):
+        return ".odoo_fs_storage_%s.marker" % self.id
+
+    def _check_connection(self, fs):
+        marker_file_name = self._get_marker_file_name()
+        try:
+            marker_file = fs.ls(marker_file_name, detail=False)
+            if not marker_file:
+                fs.touch(marker_file_name)
+        except FileNotFoundError:
+            fs.touch(marker_file_name)
+        return True
+
     @property
     def fs(self) -> fsspec.AbstractFileSystem:
         """Get the fsspec filesystem for this backend."""
         self.ensure_one()
         if not self.__fs:
             self.__fs = self._get_filesystem()
+        if not tools.config["test_enable"]:
+            # Check whether we need to invalidate FS cache or not.
+            # Use a marker file to limit the scope of the LS command for performance.
+            try:
+                self._check_connection(self.__fs)
+            except Exception as e:
+                self.__fs.clear_instance_cache()
+                raise e
         return self.__fs
 
     def _get_filesystem_storage_path(self) -> str:
@@ -431,7 +452,7 @@ class FSStorage(models.Model):
 
     def action_test_config(self) -> None:
         try:
-            self.fs.ls("", detail=False)
+            self._check_connection(self.__fs)
             title = _("Connection Test Succeeded!")
             message = _("Everything seems properly set up!")
             msg_type = "success"
