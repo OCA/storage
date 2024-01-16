@@ -164,7 +164,7 @@ class FSStorage(models.Model):
 
     def write(self, vals):
         self.__fs = None
-        self.clear_caches()
+        self.env.registry.clear_cache()
         return super().write(vals)
 
     @api.model
