@@ -34,7 +34,7 @@ class OdooFileSystem(RootedDirFileSystem):
         fs=None,
         target_protocol=None,
         target_options=None,
-        **storage_options
+        **storage_options,
     ):
         if not odoo_storage_path:
             raise ValueError("odoo_storage_path is required")
@@ -43,7 +43,7 @@ class OdooFileSystem(RootedDirFileSystem):
             fs=fs,
             target_protocol=target_protocol,
             target_options=target_options,
-            **storage_options
+            **storage_options,
         )
 
 

@@ -38,7 +38,6 @@ def deprecated(reason):
     """
 
     def decorator(func1):
-
         if inspect.isclass(func1):
             fmt1 = "Call to deprecated class {name} ({reason})."
         else:
@@ -210,7 +209,7 @@ class FSStorage(models.Model):
     def copy(self, default=None):
         default = default or {}
         if "code" not in default:
-            default["code"] = "{}_copy".format(self.code)
+            default["code"] = f"{self.code}_copy"
         return super().copy(default)
 
     @api.model

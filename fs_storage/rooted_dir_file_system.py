@@ -29,7 +29,7 @@ class RootedDirFileSystem(DirFileSystem):
         root_posix = os.path.normpath(make_path_posix(self.path))
         if not path_posix.startswith(root_posix):
             raise PermissionError(
-                "Path %s is not a subpath of the root path %s" % (path, self.path)
+                f"Path {path} is not a subpath of the root path {self.path}"
             )
         return path
 
