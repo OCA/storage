@@ -16,7 +16,7 @@ class TestFSStorageCase(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.backend: FSStorage = cls.env.ref("fs_storage.default_fs_storage")
+        cls.backend: FSStorage = cls.env.ref("fs_storage.fs_storage_demo")
         cls.backend.json_options = {"target_options": {"auto_mkdir": "True"}}
         cls.filedata = base64.b64encode(b"This is a simple file")
         cls.filename = "test_file.txt"
