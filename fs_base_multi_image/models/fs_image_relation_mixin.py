@@ -22,7 +22,7 @@ class FsImageRelationMixin(models.AbstractModel):
     specific_image = fs_fields.FSImage("Specific Image")
     # resized fields stored (as attachment) for performance
     specific_image_medium = fs_fields.FSImage(
-        "Specific Image 128",
+        "Specific Image (128)",
         related="specific_image",
         max_width=128,
         max_height=128,
@@ -31,11 +31,14 @@ class FsImageRelationMixin(models.AbstractModel):
     link_existing = fields.Boolean(default=False)
 
     image = fs_fields.FSImage(
-        "Image", compute="_compute_image", inverse="_inverse_image", store=False
+        "Image (original)",
+        compute="_compute_image",
+        inverse="_inverse_image",
+        store=False,
     )
     # resized fields stored (as attachment) for performance
     image_medium = fs_fields.FSImage(
-        "Image 128", compute="_compute_image_medium", store=False
+        "Image (128)", compute="_compute_image_medium", store=False
     )
 
     name = fields.Char(compute="_compute_name", store=True, index=True)
