@@ -59,13 +59,18 @@ msgstr ""
 #. module: fs_base_multi_image
 #: model:ir.model,name:fs_base_multi_image.model_fs_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__image
-#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_form_view
 msgid "Image"
 msgstr ""
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image_medium
-msgid "Image 128"
+msgid "Image (128)"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image
+msgid "Image (original)"
 msgstr ""
 
 #. module: fs_base_multi_image
@@ -138,7 +143,7 @@ msgstr ""
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image_medium
-msgid "Specific Image 128"
+msgid "Specific Image (128)"
 msgstr ""
 
 #. module: fs_base_multi_image
