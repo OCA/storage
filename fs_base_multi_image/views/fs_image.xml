@@ -15,7 +15,7 @@
                     </h1>
                     <group>
                         <group>
-                            <field name="image" />
+                            <field name="image" string="Image" />
                         </group>
                     </group>
                 </sheet>
