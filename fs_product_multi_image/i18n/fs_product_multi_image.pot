@@ -63,11 +63,7 @@ msgid "If you need to edit the images, do it from the product template."
 msgstr ""
 
 #. module: fs_product_multi_image
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__image
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__image
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_category__image
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_template_only_form_view
 msgid "Image"
 msgstr ""
 
@@ -77,7 +73,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_category__image_medium
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image_medium
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image_medium
-msgid "Image 128"
+msgid "Image (128)"
+msgstr ""
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_category__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image
+msgid "Image (original)"
 msgstr ""
 
 #. module: fs_product_multi_image
@@ -196,7 +201,7 @@ msgstr ""
 #. module: fs_product_multi_image
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__specific_image_medium
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__specific_image_medium
-msgid "Specific Image 128"
+msgid "Specific Image (128)"
 msgstr ""
 
 #. module: fs_product_multi_image
