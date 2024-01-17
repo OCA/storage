@@ -13,6 +13,7 @@
             <field name="image_1920" position="after">
                 <field
                     name="image"
+                    string="Image"
                     class="oe_avatar"
                     options="{'preview_image': 'image_medium', 'zoom': true}"
                 />
