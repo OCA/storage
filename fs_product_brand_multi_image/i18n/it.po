@@ -48,16 +48,16 @@ msgid "ID"
 msgstr "ID"
 
 #. module: fs_product_brand_multi_image
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image
-msgid "Image"
-msgstr "Immagine"
-
-#. module: fs_product_brand_multi_image
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image_medium
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image_medium
-msgid "Image 128"
-msgstr "Immagine 128"
+msgid "Image (128)"
+msgstr ""
+
+#. module: fs_product_brand_multi_image
+#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image
+#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image
+msgid "Image (original)"
+msgstr ""
 
 #. module: fs_product_brand_multi_image
 #: model:ir.model,name:fs_product_brand_multi_image.model_image_tag
@@ -127,10 +127,19 @@ msgstr "Immagine specifica"
 
 #. module: fs_product_brand_multi_image
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__specific_image_medium
-msgid "Specific Image 128"
-msgstr "Immagine specifica 128"
+msgid "Specific Image (128)"
+msgstr ""
 
 #. module: fs_product_brand_multi_image
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__tag_id
 msgid "tag"
 msgstr "etichetta"
+
+#~ msgid "Image"
+#~ msgstr "Immagine"
+
+#~ msgid "Image 128"
+#~ msgstr "Immagine 128"
+
+#~ msgid "Specific Image 128"
+#~ msgstr "Immagine specifica 128"
