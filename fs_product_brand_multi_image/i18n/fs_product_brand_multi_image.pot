@@ -45,15 +45,15 @@ msgid "ID"
 msgstr ""
 
 #. module: fs_product_brand_multi_image
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image
-msgid "Image"
+#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image_medium
+#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image_medium
+msgid "Image (128)"
 msgstr ""
 
 #. module: fs_product_brand_multi_image
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image_medium
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image_medium
-msgid "Image 128"
+#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__image
+#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_product_brand__image
+msgid "Image (original)"
 msgstr ""
 
 #. module: fs_product_brand_multi_image
@@ -124,7 +124,7 @@ msgstr ""
 
 #. module: fs_product_brand_multi_image
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__specific_image_medium
-msgid "Specific Image 128"
+msgid "Specific Image (128)"
 msgstr ""
 
 #. module: fs_product_brand_multi_image
