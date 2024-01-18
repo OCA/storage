@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-28 14:33+0000\n"
+"PO-Revision-Date: 2024-01-18 11:33+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -69,12 +69,12 @@ msgstr "Immagine"
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image_medium
 msgid "Image (128)"
-msgstr ""
+msgstr "Immagine 128"
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image
 msgid "Image (original)"
-msgstr ""
+msgstr "Immagine (originale)"
 
 #. module: fs_base_multi_image
 #: model:res.groups,name:fs_base_multi_image.group_image_manager
@@ -147,7 +147,7 @@ msgstr "Immagine specifica"
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image_medium
 msgid "Specific Image (128)"
-msgstr ""
+msgstr "Immagine specifica (128)"
 
 #. module: fs_base_multi_image
 #. odoo-python
