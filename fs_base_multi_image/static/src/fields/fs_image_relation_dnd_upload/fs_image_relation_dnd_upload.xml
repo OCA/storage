@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name="web.FsImageRelationDndUploadField"
+        t-inherit="web.X2ManyField"
+        t-inherit-mode="primary"
+        owl="1"
+    >
+        <xpath expr="//div[hasclass('o_x2m_control_panel')]" position="before">
+            <div
+                t-attf-class="dnd-zone {{state.dragging ? 'dragging-inside' : ''}}"
+                t-on-drop="ev => this.onDrop(ev)"
+                t-on-dragenter="ev => this.onDragEnter(ev)"
+                t-on-dragover="ev => this.onDragEnter(ev)"
+                t-on-dragleave="ev => this.onDragLeave(ev)"
+            >
+                <span>
+                You can drag and drop images to create new records or <a
+                        href="#"
+                        t-on-click="onClickSelectDocuments"
+                    >click here</a> to select image files.
+                </span>
+
+                <input
+                    t-ref="fileInput"
+                    type="file"
+                    name="files"
+                    multiple="true"
+                    t-on-change="onFilesSelected"
+                    accept="image/*"
+                />
+            </div>
+        </xpath>
+    </t>
+
+</templates>
