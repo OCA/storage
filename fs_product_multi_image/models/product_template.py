@@ -28,5 +28,7 @@ class ProductTemplate(models.Model):
     @api.depends("image_ids", "image_ids.sequence")
     def _compute_main_image_id(self):
         for record in self:
-            image_ids = record.image_ids.sorted(key=lambda i: (i.sequence, i.id))
+            image_ids = record.image_ids.sorted(
+                key=lambda i: f"{i.sequence},{str(i.id)}"
+            )
             record.main_image_id = image_ids and image_ids[0] or None
