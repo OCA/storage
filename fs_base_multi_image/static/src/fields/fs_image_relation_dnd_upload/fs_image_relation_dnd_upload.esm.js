@@ -1,5 +1,6 @@
 /** @odoo-module **/
 
+import {blockUI, unblockUI} from "web.framework";
 import {onWillRender, useRef, useState} from "@odoo/owl";
 
 import {X2ManyField} from "@web/views/fields/x2many/x2many_field";
@@ -103,7 +104,21 @@ export class FsImageRelationDndUploadField extends X2ManyField {
             })
             .then(() => {
                 self.createFieldRelationRecords(createValues);
+            })
+            .catch(() => {
+                self.displayUploadError();
             });
+    }
+
+    displayUploadError() {
+        unblockUI();
+        this.env.services.notification.add(
+            this.env._t("An error occurred during the images upload."),
+            {
+                type: "danger",
+                sticky: true,
+            }
+        );
     }
 
     getFsImageRelationValues(fsImageId) {
@@ -139,15 +154,24 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     async createFieldRelationRecords(createValues) {
         const self = this;
         const model = self.env.model;
-        model.orm.call(self.activeField.relation, "create", [createValues]).then(() => {
-            model.root.load();
-            model.root.save();
-        });
+        model.orm
+            .call(self.activeField.relation, "create", [createValues])
+            .then(() => {
+                model.root.load();
+                model.root.save();
+            })
+            .then(() => {
+                unblockUI();
+            })
+            .catch(() => {
+                self.displayUploadError();
+            });
     }
 
     async uploadImages(files) {
         const self = this;
         const promises = [];
+        blockUI();
         _.each(files, function (file) {
             if (!file.type.includes("image")) {
                 return;
@@ -168,13 +192,19 @@ export class FsImageRelationDndUploadField extends X2ManyField {
             _.each(fileContents, function (fileContent) {
                 imagesDesc.push(self.getFileImageDesc(fileContent));
             });
-            switch (self.targetImage) {
-                case "fs_image":
-                    self.uploadFsImage(imagesDesc);
-                    break;
-                case "specific":
-                    self.uploadSpecificImage(imagesDesc);
-                    break;
+            if (imagesDesc.length > 0) {
+                switch (self.targetImage) {
+                    case "fs_image":
+                        self.uploadFsImage(imagesDesc);
+                        break;
+                    case "specific":
+                        self.uploadSpecificImage(imagesDesc);
+                        break;
+                    default:
+                        unblockUI();
+                }
+            } else {
+                unblockUI();
             }
         });
     }
