@@ -15,10 +15,20 @@
             outline-offset: -10px;
         }
 
-        span {
-            vertical-align: middle;
-            display: table-cell;
-            text-align: center;
+        .row {
+            display: table-row;
+
+            div {
+                vertical-align: middle;
+                display: table-cell;
+                text-align: center;
+
+                select[name="fs_image_target"] {
+                    display: inline-block;
+                    width: fit-content;
+                    color: #01666b;
+                }
+            }
         }
 
         input[name="files"] {
