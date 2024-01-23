@@ -78,9 +78,7 @@ class FsImageRelationMixin(models.AbstractModel):
 
     def _inverse_image(self):
         for record in self:
-            if record.link_existing:
-                raise ValueError(_("Cannot set image on a linked image"))
-            else:
+            if not record.link_existing:
                 record.specific_image = record.image
 
     @api.model
