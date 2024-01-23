@@ -29,4 +29,33 @@
         </field>
     </record>
 
+     <record model="ir.ui.view" id="fs_product_image_kanban_view">
+        <field name="name">fs.product.image.kanban</field>
+        <field name="model">fs.product.image</field>
+         <field
+            name="inherit_id"
+            ref="fs_base_multi_image.fs_image_relation_mixin_kanban_view"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='name']">
+                <field name="tag_id" />
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_image')]" position="inside">
+                <div class="o_kanban_image me-1">
+                    <img
+                        t-att-src="kanban_image('fs.product.image', 'image_medium', record.id.raw_value)"
+                        alt="Image"
+                        class="o_image_64_contain"
+                    />
+                </div>
+            </xpath>
+            <xpath expr="//div[@name='extra']" position="after">
+                <div name="image_tag" class="mt-1">
+                    <field name="tag_id" class="badge rounded-pill o_field_badge" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
