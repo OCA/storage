@@ -18,6 +18,16 @@
         "views/fs_image.xml",
         "views/fs_image_relation_mixin.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "fs_base_multi_image/static/src/fields/"
+            "fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.esm.js",
+            "fs_base_multi_image/static/src/fields/"
+            "fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.scss",
+            "fs_base_multi_image/static/src/fields/"
+            "fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml",
+        ],
+    },
     "demo": [],
     "maintainers": ["lmignon"],
     "development_status": "Alpha",
