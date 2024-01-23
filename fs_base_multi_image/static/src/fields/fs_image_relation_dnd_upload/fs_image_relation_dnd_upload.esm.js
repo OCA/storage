@@ -9,10 +9,11 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     setup() {
         super.setup();
         this.options = this.activeField.options;
-        this.target = this.options.target || "fs_image";
         this.relationField = this.field.relation_field;
+        this.defaultTarget = this.options.target || "specific";
         this.state = useState({
             dragging: false,
+            target: this.defaultTarget,
         });
         this.fileInput = useRef("fileInput");
         this.defaultSequence = 0;
@@ -20,6 +21,18 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         onWillRender(() => {
             this.initDefaultSequence();
         });
+    }
+
+    get targetImage() {
+        return this.state.target;
+    }
+
+    get displayDndZone() {
+        const activeActions = this.activeActions;
+        return (
+            ("link" in activeActions ? activeActions.link : activeActions.create) &&
+            !this.props.readonly
+        );
     }
 
     initDefaultSequence() {
@@ -70,6 +83,10 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     onFilesSelected(ev) {
         ev.preventDefault();
         this.uploadImages(ev.target.files);
+    }
+
+    onChangeImageTarget(ev) {
+        this.state.target = ev.target.value;
     }
 
     async uploadFsImage(imagesDesc) {
@@ -151,7 +168,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
             _.each(fileContents, function (fileContent) {
                 imagesDesc.push(self.getFileImageDesc(fileContent));
             });
-            switch (self.target) {
+            switch (self.targetImage) {
                 case "fs_image":
                     self.uploadFsImage(imagesDesc);
                     break;
