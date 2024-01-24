@@ -286,29 +286,33 @@ class IrAttachment(models.Model):
 
     def write(self, vals):
         if not self:
-            return self
+            return super().write(vals)
         if ("datas" in vals or "raw" in vals) and not (
             "name" in vals or "mimetype" in vals
         ):
-            # When we write on an attachment, if the mimetype is not provided, it
-            # will be computed from the name. The problem is that if you assign a
-            # value to the field ``datas`` or ``raw``, the name is not provided
-            # nor the mimetype, so the mimetype will be set to ``application/octet-
-            # stream``.
-            # We want to avoid this, so we take the mimetype of the first attachment
-            # and we set it on all the attachments if they all have the same mimetype.
-            # If they don't have the same mimetype, we raise an error.
-            # OPW-3277070
-            mimetypes = self.mapped("mimetype")
-            if len(set(mimetypes)) == 1:
-                vals["mimetype"] = mimetypes[0]
+            mimetype = self._compute_mimetype(vals)
+            if mimetype and mimetype != "application/octet-stream":
+                vals["mimetype"] = mimetype
             else:
-                raise UserError(
-                    _(
-                        "You can't write on multiple attachments with different "
-                        "mimetypes at the same time."
+                # When we write on an attachment, if the mimetype is not provided, it
+                # will be computed from the name. The problem is that if you assign a
+                # value to the field ``datas`` or ``raw``, the name is not provided
+                # nor the mimetype, so the mimetype will be set to ``application/octet-
+                # stream``.
+                # We want to avoid this, so we take the mimetype of the first attachment
+                # and we set it on all the attachments if they all have the same mimetype.
+                # If they don't have the same mimetype, we raise an error.
+                # OPW-3277070
+                mimetypes = self.mapped("mimetype")
+                if len(set(mimetypes)) == 1:
+                    vals["mimetype"] = mimetypes[0]
+                else:
+                    raise UserError(
+                        _(
+                            "You can't write on multiple attachments with different "
+                            "mimetypes at the same time."
+                        )
                     )
-                )
         for rec in self:
             # As when creating a new attachment, we must pass the res_field
             # and res_model into the context hence sadly we must perform 1 call

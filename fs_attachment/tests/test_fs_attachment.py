@@ -422,3 +422,37 @@ class TestFSAttachment(TestFSAttachmentCommon):
                 "res_field": partner_image_field.name,
             }
         )
+
+    def test_update_png_to_svg(self):
+        b64_data_png = (
+            b"iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAIAAAD73QTtAAAAA3NCSVQICAjb4U/gAA"
+            b"AAP0lEQVRYhe3OMQGAMBAAsVL/nh8FDDfxQ6Igz8ycle7fgU9mnVln1pl1Zp1ZZ9aZd"
+            b"WadWWfWmXVmnVln1u2dvfL/Az+TRcv4AAAAAElFTkSuQmCC"
+        )
+
+        attachment = self.ir_attachment_model.create(
+            {
+                "name": "test.png",
+                "datas": b64_data_png,
+            }
+        )
+        self.assertEqual(attachment.mimetype, "image/png")
+
+        b64_data_svg = (
+            b"PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEU"
+            b"gc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodH"
+            b"RwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2Zz"
+            b"EwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5"
+            b"vcmcvMjAwMC9zdmciCiB3aWR0aD0iNTEuMDAwMDAwcHQiIGhlaWdodD0iMzMuMDAw"
+            b"MDAwcHQiIHZpZXdCb3g9IjAgMCA1MS4wMDAwMDAgMzMuMDAwMDAwIgogcHJlc2Vydm"
+            b"VBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCI+Cgo8ZyB0cmFuc2Zvcm09InRyYW5z"
+            b"bGF0ZSgwLjAwMDAwMCwzMy4wMDAwMDApIHNjYWxlKDAuMTAwMDAwLC0wLjEwMDAwMCk"
+            b"iCmZpbGw9IiMwMDAwMDAiIHN0cm9rZT0ibm9uZSI+CjwvZz4KPC9zdmc+Cg=="
+        )
+        attachment.write(
+            {
+                "datas": b64_data_svg,
+            }
+        )
+
+        self.assertEqual(attachment.mimetype, "image/svg+xml")
