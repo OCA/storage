@@ -20,7 +20,7 @@
             </field>
             <page name="sales" position="after">
                 <page name="images" string="Images">
-                    <field name="image_ids">
+                    <field name="image_ids" widget="fs_image_relation_dnd_upload">
                         <tree>
                             <field name="sequence" widget="handle" />
                             <field name="name" />

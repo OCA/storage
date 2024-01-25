@@ -1,0 +1,38 @@
+.o_field_x2many {
+    .dnd-zone {
+        display: table;
+        padding: 10px;
+        width: 90%;
+        margin: auto;
+        margin-top: 5px;
+        min-height: 100px;
+        border: 1px solid transparent;
+        border-color: var(--notebook-link-border-color, transparent);
+        text-align: center;
+
+        &.dragging-inside {
+            outline: 2px dashed #a096be;
+            outline-offset: -10px;
+        }
+
+        .row {
+            display: table-row;
+
+            div {
+                vertical-align: middle;
+                display: table-cell;
+                text-align: center;
+
+                select[name="fs_image_target"] {
+                    display: inline-block;
+                    width: fit-content;
+                    color: #01666b;
+                }
+            }
+        }
+
+        input[name="files"] {
+            display: none;
+        }
+    }
+}

@@ -39,4 +39,37 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="fs_image_relation_mixin_kanban_view">
+        <field name="name">fs.image.relation.mixin.kanban</field>
+        <field name="model">fs.image.relation.mixin</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="image" />
+                <field name="name" />
+                <field name="sequence" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <a
+                                type="delete"
+                                style="position: absolute; right: 0; padding: 4px; display: inline-block"
+                            >X</a>
+                            <div class="o_kanban_image me-1" />
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top mb-0">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name" />
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div name="extra" class="mt-1" />
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
 </odoo>

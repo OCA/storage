@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name="web.FsImageRelationDndUploadField"
+        t-inherit="web.X2ManyField"
+        t-inherit-mode="primary"
+        owl="1"
+    >
+        <xpath expr="//div[hasclass('o_x2m_control_panel')]" position="before">
+            <t t-if="displayDndZone">
+                <div
+                    t-attf-class="dnd-zone {{state.dragging ? 'dragging-inside' : ''}}"
+                    t-on-drop="ev => this.onDrop(ev)"
+                    t-on-dragenter="ev => this.onDragEnter(ev)"
+                    t-on-dragover="ev => this.onDragEnter(ev)"
+                    t-on-dragleave="ev => this.onDragLeave(ev)"
+                >
+                    <div class="row">
+                        <div>
+                            You can drag and drop images to create new records or <a
+                                href="#"
+                                t-on-click="onClickSelectDocuments"
+                            >click here</a> to select image files.
+                        </div>
+                    </div>
+
+                    <div class="row" name="target_selection">
+                        <div>
+                            Choose how you want to store the new images:
+                            <select
+                                name="fs_image_target"
+                                t-on-change="onChangeImageTarget"
+                                class="o_input pe-3"
+                            >
+                                <option
+                                    value="fs_image"
+                                    t-att-selected="state.target == 'fs_image'"
+                                >Reusable images</option>
+                                <option
+                                    value="specific"
+                                    t-att-selected="state.target == 'specific'"
+                                >Specific</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input
+                        t-ref="fileInput"
+                        type="file"
+                        name="files"
+                        multiple="true"
+                        t-on-change="onFilesSelected"
+                        accept="image/*"
+                    />
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+</templates>
