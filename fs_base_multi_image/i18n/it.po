@@ -17,11 +17,18 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: fs_base_multi_image
-#. odoo-python
-#: code:addons/fs_base_multi_image/models/fs_image_relation_mixin.py:0
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.esm.js:0
 #, python-format
-msgid "Cannot set image on a linked image"
-msgstr "Non si può impostare una immagin in una immagine collegata"
+msgid "An error occurred during the images upload."
+msgstr ""
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "Choose how you want to store the new images:"
+msgstr ""
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__create_uid
@@ -135,9 +142,23 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "Reusable images"
+msgstr ""
+
+#. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__sequence
 msgid "Sequence"
 msgstr "Sequenza"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "Specific"
+msgstr ""
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image
@@ -150,11 +171,36 @@ msgid "Specific Image (128)"
 msgstr "Immagine specifica (128)"
 
 #. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "You can drag and drop images to create new records or"
+msgstr ""
+
+#. module: fs_base_multi_image
 #. odoo-python
 #: code:addons/fs_base_multi_image/models/fs_image_relation_mixin.py:0
 #, python-format
 msgid "You must set an image"
 msgstr "Bisogna impostare una immagine"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "click here"
+msgstr ""
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "to select image files."
+msgstr ""
+
+#, python-format
+#~ msgid "Cannot set image on a linked image"
+#~ msgstr "Non si può impostare una immagin in una immagine collegata"
 
 #~ msgid "Image 128"
 #~ msgstr "Immagine 128"
