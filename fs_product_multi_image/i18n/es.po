@@ -67,6 +67,7 @@ msgstr ""
 "Si necesita editar las imágenes, hágalo desde la plantilla del producto."
 
 #. module: fs_product_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.fs_product_image_kanban_view
 #: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_template_only_form_view
 msgid "Image"
 msgstr "Imagen"

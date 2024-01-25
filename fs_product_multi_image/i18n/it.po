@@ -66,6 +66,7 @@ msgid "If you need to edit the images, do it from the product template."
 msgstr "Se è necessario modificare le immagini, farlo dal modello prodotto."
 
 #. module: fs_product_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.fs_product_image_kanban_view
 #: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_template_only_form_view
 msgid "Image"
 msgstr "Immagine"
