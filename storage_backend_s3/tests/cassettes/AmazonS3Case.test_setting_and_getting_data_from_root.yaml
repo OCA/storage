@@ -1,0 +1,510 @@
+interactions:
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ3Wg==
+      method: HEAD
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:47 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 29a34678-f089-4df0-82be-6ea48fa074fc
+        x-amz-request-id:
+          - 29a34678-f089-4df0-82be-6ea48fa074fc
+        x-amz-requestid:
+          - 29a34678-f089-4df0-82be-6ea48fa074fc
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ3Wg==
+      method: GET
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend?encoding-type=url&prefix=
+    response:
+      body:
+        string:
+          <?xml version="1.0" encoding="UTF-8"?><ListBucketResult
+          xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated></ListBucketResult>
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "283"
+        Content-Type:
+          - application/xml
+        Date:
+          - Sat, 02 Nov 2019 14:42:47 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 1dab5d2a-721c-44bb-b98b-c4bee9abd720
+        x-amz-request-id:
+          - 1dab5d2a-721c-44bb-b98b-c4bee9abd720
+        x-amzn-requestid:
+          - 1dab5d2a-721c-44bb-b98b-c4bee9abd720
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ3Wg==
+      method: HEAD
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:47 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 4be173e4-123b-497c-9a9c-c4acf4d0dcfd
+        x-amz-request-id:
+          - 4be173e4-123b-497c-9a9c-c4acf4d0dcfd
+        x-amz-requestid:
+          - 4be173e4-123b-497c-9a9c-c4acf4d0dcfd
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: !!python/object/new:_io.BytesIO
+        state: !!python/tuple
+          - !!binary |
+            VGhpcyBpcyBhIHNpbXBsZSBmaWxl
+          - 0
+          - null
+      headers:
+        Cache-Control:
+          - !!binary |
+            bWF4LWFnZT0zMTUzNjAwMCwgcHVibGlj
+        Content-Length:
+          - "21"
+        Content-MD5:
+          - !!binary |
+            R1FxakVYc1JxclB5eGZUbDk5bmtBZz09
+        Content-Type:
+          - !!binary |
+            dGV4dC9wbGFpbg==
+        Expect:
+          - !!binary |
+            MTAwLWNvbnRpbnVl
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            VU5TSUdORUQtUEFZTE9BRA==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ3Wg==
+      method: PUT
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend/test_file.txt
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        etag:
+          - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 6b3a20b8-79de-4146-89e3-6014ac70a811
+        x-amz-request-id:
+          - 6b3a20b8-79de-4146-89e3-6014ac70a811
+        x-amz-requestid:
+          - 6b3a20b8-79de-4146-89e3-6014ac70a811
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: HEAD
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - efeeb2fc-f22c-4afe-80c4-ac5b4fa2aa33
+        x-amz-request-id:
+          - efeeb2fc-f22c-4afe-80c4-ac5b4fa2aa33
+        x-amz-requestid:
+          - efeeb2fc-f22c-4afe-80c4-ac5b4fa2aa33
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: GET
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend?encoding-type=url&prefix=
+    response:
+      body:
+        string:
+          <?xml version="1.0" encoding="UTF-8"?><ListBucketResult
+          xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>test_file.txt</Key><LastModified>2019-11-02T14:42:48.041Z</LastModified><ETag>"190aa3117b11aab3f2c5f4e5f7d9e402"</ETag><Size>21</Size><Owner><ID>odoo-plateforme</ID><DisplayName>odoo-plateforme</DisplayName></Owner><StorageClass>Standard</StorageClass></Contents></ListBucketResult>
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "561"
+        Content-Type:
+          - application/xml
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 313f3b01-a1d5-40ae-8ae8-87eaf491b38e
+        x-amz-request-id:
+          - 313f3b01-a1d5-40ae-8ae8-87eaf491b38e
+        x-amzn-requestid:
+          - 313f3b01-a1d5-40ae-8ae8-87eaf491b38e
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: HEAD
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - a095635b-ac42-489e-bf67-f87c30ce4dfd
+        x-amz-request-id:
+          - a095635b-ac42-489e-bf67-f87c30ce4dfd
+        x-amz-requestid:
+          - a095635b-ac42-489e-bf67-f87c30ce4dfd
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: GET
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend/test_file.txt
+    response:
+      body:
+        string: This is a simple file
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "21"
+        Content-Type:
+          - text/plain
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        cache-control:
+          - max-age=31536000, public
+        etag:
+          - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+        last-modified:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 9d6ba5a1-90d6-4106-81f4-40ba427cb124
+        x-amz-request-id:
+          - 9d6ba5a1-90d6-4106-81f4-40ba427cb124
+        x-amzn-requestid:
+          - 9d6ba5a1-90d6-4106-81f4-40ba427cb124
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: HEAD
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - b5f09cc0-4e00-4ce4-826e-72295237ab45
+        x-amz-request-id:
+          - b5f09cc0-4e00-4ce4-826e-72295237ab45
+        x-amz-requestid:
+          - b5f09cc0-4e00-4ce4-826e-72295237ab45
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        Content-Length:
+          - "0"
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: DELETE
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend/test_file.txt
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Date:
+          - Sat, 02 Nov 2019 14:42:48 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - bc2092e4-173a-465f-b87b-64a63fc18d17
+        x-amz-request-id:
+          - bc2092e4-173a-465f-b87b-64a63fc18d17
+        x-amz-requestid:
+          - bc2092e4-173a-465f-b87b-64a63fc18d17
+      status:
+        code: 204
+        message: No Content
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ4Wg==
+      method: HEAD
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend
+    response:
+      body:
+        string: ""
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "0"
+        Date:
+          - Sat, 02 Nov 2019 14:42:49 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - 70d48c9e-b13b-4b16-abd2-4c853ca55855
+        x-amz-request-id:
+          - 70d48c9e-b13b-4b16-abd2-4c853ca55855
+        x-amz-requestid:
+          - 70d48c9e-b13b-4b16-abd2-4c853ca55855
+      status:
+        code: 200
+        message: OK
+  - request:
+      body: null
+      headers:
+        User-Agent:
+          - !!binary |
+            Qm90bzMvMS45LjEwMiBQeXRob24vMy41LjMgTGludXgvNC4xNS4wLTU0LWdlbmVyaWMgQm90b2Nv
+            cmUvMS4xMi4yNTMgUmVzb3VyY2U=
+        X-Amz-Content-SHA256:
+          - !!binary |
+            ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+            ODUyYjg1NQ==
+        X-Amz-Date:
+          - !!binary |
+            MjAxOTExMDJUMTQ0MjQ5Wg==
+      method: GET
+      uri: https://sos-ch-dk-2.exo.io/test-storage-backend?encoding-type=url&prefix=
+    response:
+      body:
+        string:
+          <?xml version="1.0" encoding="UTF-8"?><ListBucketResult
+          xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated></ListBucketResult>
+      headers:
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "283"
+        Content-Type:
+          - application/xml
+        Date:
+          - Sat, 02 Nov 2019 14:42:49 GMT
+        Server:
+          - nginx
+        x-amz-bucket-region:
+          - ch-dk-2
+        x-amz-id-2:
+          - f6a89089-3bda-45da-ad7b-9645679252c2
+        x-amz-request-id:
+          - f6a89089-3bda-45da-ad7b-9645679252c2
+        x-amzn-requestid:
+          - f6a89089-3bda-45da-ad7b-9645679252c2
+      status:
+        code: 200
+        message: OK
+version: 1

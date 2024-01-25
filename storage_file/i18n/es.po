@@ -1,0 +1,368 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* storage_file
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-10-29 00:15+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__backend_view_use_internal_url
+msgid "Backend View Use Internal Url"
+msgstr "Vista del Servidor Usar Url Interna"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid "Base URL used for files"
+msgstr "URL base utilizada para los archivos"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__base_url
+msgid "Base Url"
+msgstr "Url Base"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__base_url_for_files
+msgid "Base Url For Files"
+msgstr "Url base Para Archivos"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__checksum
+msgid "Checksum/SHA1"
+msgstr "Verificación de suma/SHA1"
+
+#. module: storage_file
+#: model:ir.actions.server,name:storage_file.ir_cron_clean_storage_file_ir_actions_server
+#: model:ir.cron,cron_name:storage_file.ir_cron_clean_storage_file
+msgid "Clean Storage File"
+msgstr "Archivo de almacenamiento limpio"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__company_id
+msgid "Company"
+msgstr "Companía"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__data
+msgid "Data"
+msgstr "Datos"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__data
+msgid "Datas"
+msgstr "Datos"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_backend__backend_view_use_internal_url
+msgid ""
+"Decide if Odoo backend views should use the external URL (usually a CDN) or "
+"the internal url with direct access to the storage. This could save you some"
+" money if you pay by CDN traffic."
+msgstr ""
+"Decida si las vistas del servidor de Odoo deben usar la URL externa ("
+"usualmente un CDN) o la URL interna con acceso directo al almacenamiento. "
+"Esto podría ahorrarte algo de dinero si pagas por tráfico CDN."
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_backend__is_public
+msgid ""
+"Define if every files stored into this backend are public or not. Examples:\n"
+"Private: your file/image can not be displayed is the user is not logged (not available on other website);\n"
+"Public: your file/image can be displayed if nobody is logged (useful to display files on external websites)"
+msgstr ""
+"Define si todos los archivos almacenados en este servidor son públicos o no. "
+"Ejemplos:\n"
+"Privado: su archivo/imagen no puede mostrarse si el usuario no está "
+"registrado (no disponible en otros sitios web);\n"
+"Público: su archivo/imagen puede mostrarse si nadie ha iniciado sesión (útil "
+"para mostrar archivos en sitios web externos)"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__extension
+msgid "Extension"
+msgstr "Extensión"
+
+#. module: storage_file
+#: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__served_by__external
+msgid "External"
+msgstr "Externo"
+
+#. module: storage_file
+#: model:ir.actions.act_window,name:storage_file.act_open_storage_file_view
+#: model:ir.ui.menu,name:storage_file.menu_storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_form
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "File"
+msgstr "Fichero"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__file_size
+msgid "File Size"
+msgstr "Tamaño del Archivo"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__file_type
+msgid "File Type"
+msgstr "Tipo de Archivo"
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+#, python-format
+msgid "File can not be updated, remove it and create a new one"
+msgstr "El archivo no se puede actualizar, elimínelo y cree uno nuevo"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__filename_strategy
+msgid "Filename Strategy"
+msgstr "Estrategia de Archivos"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__filename
+msgid "Filename without extension"
+msgstr "Nombre de archivo sin extensión"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__internal_url
+msgid "HTTP URL to load the file directly from storage."
+msgstr "URL HTTP para cargar el archivo directamente desde el almacenamiento."
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__url
+msgid "HTTP accessible path to the file"
+msgstr "Ruta de acceso HTTP al archivo"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__human_file_size
+msgid "Human File Size"
+msgstr "Tamaño del Archivo Humano"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid ""
+"If you have changed parameters via server env settings the URL might look "
+"outdated."
+msgstr ""
+"Si ha cambiado los parámetros a través de la configuración del entorno del "
+"servidor, la URL puede parecer obsoleta."
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__internal_url
+msgid "Internal Url"
+msgstr "Url Interna"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__is_public
+msgid "Is Public"
+msgstr "Es Público"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file____last_update
+msgid "Last Modified on"
+msgstr "Última Modificación el"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__write_date
+msgid "Last Updated on"
+msgstr "Última Actualización el"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__mimetype
+msgid "Mime Type"
+msgstr "Tipo Mimo"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: storage_file
+#: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__filename_strategy__name_with_id
+msgid "Name and ID"
+msgstr "Nombre e ID"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_backend__url_include_directory_path
+msgid ""
+"Normally the directory_path it's for internal usage. If this flag is enabled"
+" the path will be used to compute the public URL."
+msgstr ""
+"Normalmente el directory_path es para uso interno. Si se activa esta opción, "
+"la ruta se utilizará para calcular la URL pública."
+
+#. module: storage_file
+#: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__served_by__odoo
+msgid "Odoo"
+msgstr "Odoo"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid "Recompute base URL for files"
+msgstr "Recalcular la URL base de los archivos"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__relative_path
+msgid "Relative Path"
+msgstr "Trayectoria Relativa"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__relative_path
+msgid "Relative location for backend"
+msgstr "Ubicación relativa del servidor"
+
+#. module: storage_file
+#: model:ir.model,name:storage_file.model_ir_actions_report
+msgid "Report Action"
+msgstr "Informar Acción"
+
+#. module: storage_file
+#: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__filename_strategy__hash
+msgid "SHA hash"
+msgstr "Clave SHA"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__served_by
+msgid "Served By"
+msgstr "Servido Por"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid ""
+"Served by Odoo option will use `web.base.url` as the base URL.\n"
+"                    <br/>Make sure this parameter is properly configured and accessible\n"
+"                    from everwhere you want to access the service."
+msgstr ""
+"La opción servida por Odoo utilizará `web.base.url` como URL base.\n"
+"                    <br/>Asegúrese de que este parámetro esté configurado "
+"correctamente y sea accesible\n"
+"                    desde cualquier lugar que desee acceder al servicio."
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__slug
+msgid "Slug"
+msgstr "Babosa"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__slug
+msgid "Slug-ified name with ID for URL"
+msgstr "Nombre slug-ificado con ID para URL"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__backend_id
+msgid "Storage"
+msgstr "Almacenamiento"
+
+#. module: storage_file
+#: model:ir.model,name:storage_file.model_storage_backend
+msgid "Storage Backend"
+msgstr "Servidor de Almacenamiento"
+
+#. module: storage_file
+#: model:ir.model,name:storage_file.model_storage_file
+msgid "Storage File"
+msgstr "Fichero de Almacenamiento"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_backend__filename_strategy
+msgid ""
+"Strategy to build the name of the file to be stored.\n"
+"Name and ID: will store the file with its name + its id.\n"
+"SHA Hash: will use the hash of the file as filename (same method as the native attachment storage)"
+msgstr ""
+"Estrategia para construir el nombre del fichero a almacenar.\n"
+"Nombre e ID: almacenará el fichero con su nombre + su id.\n"
+"SHA Hash: utilizará el hash del archivo como nombre de archivo (mismo método "
+"que el almacenamiento nativo de archivos adjuntos)"
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+#, python-format
+msgid ""
+"The filename strategy is empty for the backend %s.\n"
+"Please configure it"
+msgstr ""
+"La estrategia de nombre de archivo está vacía para el servidor %s.\n"
+"Por favor, configúrela"
+
+#. module: storage_file
+#: model:ir.model.constraint,message:storage_file.constraint_storage_file_path_uniq
+msgid "The private path must be uniq per backend"
+msgstr "La ruta privada debe ser única por servidor"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__to_delete
+msgid "To Delete"
+msgstr "Para Eliminar"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__url
+msgid "Url"
+msgstr "Url"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_backend__url_include_directory_path
+msgid "Url Include Directory Path"
+msgstr "Url Incluir Ruta Directorio"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid ""
+"When served by external service you might have special environment configuration\n"
+"                    for building final files URLs.\n"
+"                    <br/>For performance reasons, the base URL is computed and stored.\n"
+"                    If you change some parameters (eg: in local dev environment or special instances)\n"
+"                    and you still want to see the images you might need to refresh this URL\n"
+"                    to make sure images and/or files are loaded correctly."
+msgstr ""
+"Cuando el servicio es atendido por un servicio externo, es posible que tenga "
+"una configuración de entorno especial.\n"
+"                    para crear URLs de archivos finales.\n"
+"                    <br/>Por motivos de rendimiento, la URL base se calcula "
+"y almacena.\n"
+"                    Si cambia algunos parámetros (por ejemplo: en el entorno "
+"de desarrollo local o en instancias especiales)\n"
+"                    y aún desea ver las imágenes, es posible que necesite "
+"actualizar esta URL\n"
+"                    para asegurarse de que las imágenes y/o archivos se "
+"carguen correctamente."
