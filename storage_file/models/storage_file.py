@@ -75,7 +75,7 @@ class StorageFile(models.Model):
                     raise UserError(
                         _("File can not be updated, remove it and create a new one")
                     )
-        return super(StorageFile, self).write(vals)
+        return super().write(vals)
 
     @api.depends("file_size")
     def _compute_human_file_size(self):
@@ -172,7 +172,7 @@ class StorageFile(models.Model):
 
     def unlink(self):
         if self._context.get("cleanning_storage_file"):
-            super(StorageFile, self).unlink()
+            super().unlink()
         else:
             self.write({"to_delete": True, "active": False})
         return True

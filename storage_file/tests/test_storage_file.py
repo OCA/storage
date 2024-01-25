@@ -206,9 +206,12 @@ class StorageFileCase(TransactionComponentCase):
             # BUG OR NOT with_user doesn't invalidate the cache...
             # force cache invalidation
             self.env.cache.invalidate()
-            self.env[storage_file._name].with_user(public_user).browse(
-                storage_file.ids
-            ).name
+            _name = (
+                self.env[storage_file._name]
+                .with_user(public_user)
+                .browse(storage_file.ids)
+                .name
+            )
         return True
 
     def test_public_access2(self):
