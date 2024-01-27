@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-29 00:15+0000\n"
+"PO-Revision-Date: 2024-01-27 14:36+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -21,14 +21,14 @@ msgstr ""
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.esm.js:0
 #, python-format
 msgid "An error occurred during the images upload."
-msgstr ""
+msgstr "Se ha producido un error durante la carga de imágenes."
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "Choose how you want to store the new images:"
-msgstr ""
+msgstr "Elige cómo quieres almacenar las nuevas imágenes:"
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__create_uid
@@ -76,12 +76,12 @@ msgstr "Imagen"
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image_medium
 msgid "Image (128)"
-msgstr ""
+msgstr "Imagen (128)"
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image
 msgid "Image (original)"
-msgstr ""
+msgstr "Imagen (original)"
 
 #. module: fs_base_multi_image
 #: model:res.groups,name:fs_base_multi_image.group_image_manager
@@ -146,7 +146,7 @@ msgstr "Nombre"
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "Reusable images"
-msgstr ""
+msgstr "Imágenes reutilizables"
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__sequence
@@ -158,7 +158,7 @@ msgstr "Secuencia"
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "Specific"
-msgstr ""
+msgstr "Específico"
 
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image
@@ -168,14 +168,14 @@ msgstr "Imagen Específica"
 #. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image_medium
 msgid "Specific Image (128)"
-msgstr ""
+msgstr "Imagen Específica (128)"
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "You can drag and drop images to create new records or"
-msgstr ""
+msgstr "Puede arrastrar y soltar imágenes para crear nuevos registros o"
 
 #. module: fs_base_multi_image
 #. odoo-python
@@ -189,14 +189,14 @@ msgstr "Usted debe establecer una imagen"
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "click here"
-msgstr ""
+msgstr "pulse aquí"
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "to select image files."
-msgstr ""
+msgstr "para seleccionar archivos de imagen."
 
 #, python-format
 #~ msgid "Cannot set image on a linked image"
