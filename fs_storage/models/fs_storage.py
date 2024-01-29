@@ -28,7 +28,7 @@ try:
     SSH_PKEYS = {
         "DSS": paramiko.DSSKey,
         "RSA": paramiko.RSAKey,
-        "ECDSA": paramiko.ECDSAKey,
+        "EC": paramiko.ECDSAKey,
         "OPENSSH": paramiko.Ed25519Key,
     }
 except ImportError:  # pragma: no cover
