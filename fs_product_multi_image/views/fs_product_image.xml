@@ -38,7 +38,7 @@
         />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <xpath expr="//kanban/field[@name='name']">
+            <xpath expr="//kanban/field[@name='image']">
                 <field name="tag_id" />
             </xpath>
             <xpath expr="//div[hasclass('o_kanban_image')]" position="inside">
