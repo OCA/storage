@@ -381,7 +381,9 @@ class FSStorage(models.Model):
             # paramiko.pkey.PKey object
             pkey_file = io.StringIO(options["pkey"])
             pkey = self._get_ssh_private_key(
-                pkey_file, passphrase=options.get("passphrase")
+                pkey_file,
+                pkey_type=options.pop("pkey_type", None),  # Remove extra parameter
+                passphrase=options.get("passphrase"),
             )
             options["pkey"] = pkey
         options = self._recursive_add_odoo_storage_path(options)
@@ -411,12 +413,13 @@ class FSStorage(models.Model):
         if keytype:
             return keytype
 
-    def _get_ssh_private_key(self, pkey_file, passphrase=None):
+    def _get_ssh_private_key(self, pkey_file, pkey_type=None, passphrase=None):
         """Build the expected `paramiko.pkey.PKey` object."""
-        keytype = self._detect_ssh_private_key_type(pkey_file)
-        if not keytype:
+        if not pkey_type:
+            pkey_type = self._detect_ssh_private_key_type(pkey_file)
+        if not pkey_type:
             raise paramiko.SSHException("not a valid private key file")
-        return SSH_PKEYS[keytype].from_private_key(pkey_file, password=passphrase)
+        return SSH_PKEYS[pkey_type].from_private_key(pkey_file, password=passphrase)
 
     # Deprecated methods used to ease the migration from the storage_backend addons
     # to the fs_storage addons. These methods will be removed in the future (Odoo 18)
