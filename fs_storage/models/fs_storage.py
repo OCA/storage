@@ -382,7 +382,6 @@ class FSStorage(models.Model):
             pkey_file = io.StringIO(options["pkey"])
             pkey = self._get_ssh_private_key(
                 pkey_file,
-                pkey_type=options.pop("pkey_type", None),  # Remove extra parameter
                 passphrase=options.get("passphrase"),
             )
             options["pkey"] = pkey
@@ -413,10 +412,9 @@ class FSStorage(models.Model):
         if keytype:
             return keytype
 
-    def _get_ssh_private_key(self, pkey_file, pkey_type=None, passphrase=None):
+    def _get_ssh_private_key(self, pkey_file, passphrase=None):
         """Build the expected `paramiko.pkey.PKey` object."""
-        if not pkey_type:
-            pkey_type = self._detect_ssh_private_key_type(pkey_file)
+        pkey_type = self._detect_ssh_private_key_type(pkey_file)
         if not pkey_type:
             raise paramiko.SSHException("not a valid private key file")
         return SSH_PKEYS[pkey_type].from_private_key(pkey_file, password=passphrase)
