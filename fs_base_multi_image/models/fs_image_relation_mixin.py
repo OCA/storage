@@ -82,12 +82,14 @@ class FsImageRelationMixin(models.AbstractModel):
 
     @api.model
     def _cleanup_vals(self, vals):
-        if (
-            "link_existing" in vals
-            and vals["link_existing"]
-            and "specific_image" in vals
-        ):
-            vals["specific_image"] = False
+        link_existing = vals.get("link_existing")
+        if link_existing:
+            if "specific_image" in vals:
+                vals.pop("specific_image")
+            if "image" in vals:
+                # image is set when using the kanban renderer so it
+                # prevents the name field to be computed well
+                vals.pop("image")
         return vals
 
     @api.model_create_multi
