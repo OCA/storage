@@ -5,6 +5,7 @@ from __future__ import annotations
 import base64
 import functools
 import inspect
+import io
 import json
 import logging
 import os.path
@@ -20,6 +21,19 @@ from odoo.exceptions import ValidationError
 from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
+
+try:
+    import paramiko
+
+    SSH_PKEYS = {
+        "DSS": paramiko.DSSKey,
+        "RSA": paramiko.RSAKey,
+        "ECDSA": paramiko.ECDSAKey,
+        "OPENSSH": paramiko.Ed25519Key,
+    }
+except ImportError:  # pragma: no cover
+    _logger.debug("Cannot `import paramiko`.")
+    SSH_PKEYS = {}
 
 
 # TODO: useful for the whole OCA?
@@ -358,12 +372,51 @@ class FSStorage(models.Model):
             and isinstance(options["auth"], list)
         ):
             options["auth"] = tuple(options["auth"])
+        if (
+            self.protocol in ("sftp", "ssh")
+            and "pkey" in options
+            and isinstance(options["pkey"], str)
+        ):
+            # Handle SSH private keys by replacing 'pkey' parameter by a
+            # paramiko.pkey.PKey object
+            pkey_file = io.StringIO(options["pkey"])
+            pkey = self._get_ssh_private_key(
+                pkey_file, passphrase=options.get("passphrase")
+            )
+            options["pkey"] = pkey
         options = self._recursive_add_odoo_storage_path(options)
         fs = fsspec.filesystem(self.protocol, **options)
         directory_path = self.directory_path
         if directory_path:
             fs = fsspec.filesystem("rooted_dir", path=directory_path, fs=fs)
         return fs
+
+    def _detect_ssh_private_key_type(self, pkey_file):
+        """Detect SSH private key type (RSA, DSS...)."""
+        # Code copied and adapted from 'paramiko.pkey.PKey._read_private_key' method
+        # https://github.com/paramiko/paramiko/blob/main/paramiko/pkey.py#L498C9-L498C26
+        pkey_file.seek(0)
+        lines = pkey_file.readlines()
+        pkey_file.seek(0)
+        if not lines:
+            raise paramiko.SSHException("no lines in private key file")
+        start = 0
+        m = paramiko.pkey.PKey.BEGIN_TAG.match(lines[start])
+        line_range = len(lines) - 1
+        while start < line_range and not m:
+            start += 1
+            m = paramiko.pkey.PKey.BEGIN_TAG.match(lines[start])
+        start += 1
+        keytype = m.group(1) if m else None
+        if keytype:
+            return keytype
+
+    def _get_ssh_private_key(self, pkey_file, passphrase=None):
+        """Build the expected `paramiko.pkey.PKey` object."""
+        keytype = self._detect_ssh_private_key_type(pkey_file)
+        if not keytype:
+            raise paramiko.SSHException("not a valid private key file")
+        return SSH_PKEYS[keytype].from_private_key(pkey_file, password=passphrase)
 
     # Deprecated methods used to ease the migration from the storage_backend addons
     # to the fs_storage addons. These methods will be removed in the future (Odoo 18)
