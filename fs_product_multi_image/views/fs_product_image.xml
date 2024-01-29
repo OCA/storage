@@ -45,6 +45,7 @@
                 <div class="o_kanban_image me-1">
                     <img
                         t-att-src="kanban_image('fs.product.image', 'image_medium', record.id.raw_value)"
+                        t-if="record.id"
                         alt="Image"
                         class="o_image_64_contain"
                     />
