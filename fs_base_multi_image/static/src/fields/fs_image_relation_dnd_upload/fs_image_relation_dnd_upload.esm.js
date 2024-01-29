@@ -28,9 +28,14 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         return this.state.target;
     }
 
+    get relationRecordId() {
+        return this.props.record.data.id;
+    }
+
     get displayDndZone() {
         const activeActions = this.activeActions;
         return (
+            this.relationRecordId &&
             ("link" in activeActions ? activeActions.link : activeActions.create) &&
             !this.props.readonly
         );
@@ -147,7 +152,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         const values = {
             sequence: this.getNewSequence(),
         };
-        values[this.relationField] = this.props.record.data.id;
+        values[this.relationField] = this.relationRecordId;
         return values;
     }
 
