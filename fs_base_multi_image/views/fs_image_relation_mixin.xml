@@ -42,8 +42,10 @@
         <field name="arch" type="xml">
             <kanban>
                 <field name="image" />
-                <field name="name" />
                 <field name="sequence" />
+                <field name="image_id" />
+                <field name="specific_image" />
+                <field name="link_existing" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click">
