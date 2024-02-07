@@ -451,7 +451,8 @@ class FSStorage(models.Model):
 
     def action_test_config(self) -> None:
         try:
-            self._check_connection(self.__fs)
+            # pylint: disable=W0104
+            self.fs
             title = _("Connection Test Succeeded!")
             message = _("Everything seems properly set up!")
             msg_type = "success"
