@@ -270,9 +270,7 @@ class FSStorage(models.Model):
     def _check_connection(self, fs):
         marker_file_name = self._get_marker_file_name()
         try:
-            marker_file = fs.ls(marker_file_name, detail=False)
-            if not marker_file:
-                fs.touch(marker_file_name)
+            fs.info(marker_file_name)
         except FileNotFoundError:
             fs.touch(marker_file_name)
         return True
