@@ -292,6 +292,7 @@ class FSStorage(models.Model):
                 self._check_connection(self.__fs)
             except Exception as e:
                 self.__fs.clear_instance_cache()
+                self.__fs = None
                 raise e
         return self.__fs
 
@@ -454,6 +455,7 @@ class FSStorage(models.Model):
 
     def action_test_config(self) -> None:
         try:
+            # Accessing the property will check the connection
             # pylint: disable=W0104
             self.fs
             title = _("Connection Test Succeeded!")
