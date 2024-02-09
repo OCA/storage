@@ -34,6 +34,7 @@ addon | version | maintainers | summary
 [fs_storage](fs_storage/) | 16.0.1.2.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [image_tag](image_tag/) | 16.0.1.0.1 |  | Image tag model
 [storage_backend](storage_backend/) | 16.0.1.0.1 |  | Implement the concept of Storage with amazon S3, sftp...
+[storage_backend_sftp](storage_backend_sftp/) | 16.0.1.0.0 |  | Implement SFTP Storage
 [storage_file](storage_file/) | 16.0.1.0.0 |  | Storage file in storage backend
 
 [//]: # (end addons)
