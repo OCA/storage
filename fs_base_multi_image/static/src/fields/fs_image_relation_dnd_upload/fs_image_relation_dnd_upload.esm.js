@@ -159,11 +159,12 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     async createFieldRelationRecords(createValues) {
         const self = this;
         const model = self.env.model;
+        const record = model.root;
+        record.save();
         model.orm
             .call(self.activeField.relation, "create", [createValues])
             .then(() => {
-                model.root.load();
-                model.root.save();
+                record.load();
             })
             .then(() => {
                 unblockUI();
