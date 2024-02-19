@@ -39,6 +39,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
         string="Attachment",
         help="Attachment containing the original image",
         required=True,
+        ondelete="cascade",
     )
     name = fields.Char(
         compute="_compute_name",
