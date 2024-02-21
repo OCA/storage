@@ -29,7 +29,7 @@ addon | version | maintainers | summary
 [fs_image](fs_image/) | 16.0.1.0.2 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Field to store images into filesystem storages
 [fs_image_thumbnail](fs_image_thumbnail/) | 16.0.1.0.2 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Generate and store thumbnail for images
 [fs_product_brand_multi_image](fs_product_brand_multi_image/) | 16.0.1.0.0 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Link images to product brands
-[fs_product_multi_image](fs_product_multi_image/) | 16.0.1.1.0 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Manage multi images from extenal file system on product
+[fs_product_multi_image](fs_product_multi_image/) | 16.0.1.1.1 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Manage multi images from extenal file system on product
 [fs_product_multi_media](fs_product_multi_media/) | 16.0.1.0.2 | [![lmignon](https://github.com/lmignon.png?size=30px)](https://github.com/lmignon) | Link media to products and categories
 [fs_storage](fs_storage/) | 16.0.1.2.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [image_tag](image_tag/) | 16.0.1.0.1 |  | Image tag model
