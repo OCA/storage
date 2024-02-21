@@ -145,6 +145,21 @@ class TestFsFile(TransactionCase):
         self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), b"test3")
 
+    def test_create_with_empty_value(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": FSFileValue(name=self.filename, value=b"")}
+        )
+        self.assertEqual(instance.fs_file.getvalue(), b"")
+        self.assertEqual(instance.fs_file.name, self.filename)
+
+    def test_write_with_empty_value(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": FSFileValue(name=self.filename, value=self.create_content)}
+        )
+        instance.write({"fs_file": FSFileValue(name=self.filename, value=b"")})
+        self.assertEqual(instance.fs_file.getvalue(), b"")
+        self.assertEqual(instance.fs_file.name, self.filename)
+
     def test_modify_fsfilebytesio(self):
         """If you modify the content of the FSFileValue,
         the changes will be directly applied
