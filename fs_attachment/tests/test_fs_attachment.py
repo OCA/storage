@@ -221,7 +221,6 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.temp_backend.use_as_default_for_attachments = True
         content = b"Transactional create"
         try:
-
             with self.env.cr.savepoint():
                 attachment = self.ir_attachment_model.create(
                     {"name": "test.txt", "raw": content}

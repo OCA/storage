@@ -14,7 +14,6 @@ _logger = logging.getLogger(__name__)
 
 
 class IrBinary(models.AbstractModel):
-
     _inherit = "ir.binary"
 
     def _record_to_stream(self, record, field_name):

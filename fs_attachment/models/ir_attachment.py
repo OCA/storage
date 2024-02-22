@@ -47,7 +47,7 @@ def clean_fs(files):
                 _logger.info(
                     "_file_delete could not unlink %s", full_path, exc_info=True
                 )
-            except IOError:
+            except OSError:
                 # Harmless and needed for race conditions
                 _logger.info(
                     "_file_delete could not unlink %s", full_path, exc_info=True
@@ -173,7 +173,7 @@ class IrAttachment(models.Model):
         domain = []
         storage_config = self._get_storage_force_db_config()
         for mimetype_key, limit in storage_config.items():
-            part = [("mimetype", "=like", "{}%".format(mimetype_key))]
+            part = [("mimetype", "=like", f"{mimetype_key}%")]
             if limit:
                 part = AND([part, [("file_size", "<=", limit)]])
             domain = OR([domain, part])
@@ -432,7 +432,7 @@ class IrAttachment(models.Model):
                 version = parsed[2] + 1
         return "{}{}".format(
             slugify(
-                "{}-{}-{}".format(filename, self.id, version),
+                f"{filename}-{self.id}-{version}",
                 regex_pattern=REGEX_SLUGIFY,
             ),
             extension,
@@ -526,7 +526,7 @@ class IrAttachment(models.Model):
         for storage_code in self._get_storage_codes():
             if self._is_storage_disabled(storage_code):
                 continue
-            uri = "{}://".format(storage_code)
+            uri = f"{storage_code}://"
             if fname.startswith(uri):
                 return True
         return False
@@ -721,7 +721,7 @@ class IrAttachment(models.Model):
             (
                 normalize_domain(
                     [
-                        ("store_fname", "=like", "{}://%".format(storage)),
+                        ("store_fname", "=like", f"{storage}://%"),
                         # for res_field, see comment in
                         # _force_storage_to_object_storage
                         "|",
@@ -782,7 +782,7 @@ class IrAttachment(models.Model):
         # odoo/addons/base/ir/ir_attachment.py#L344-L347
         domain = [
             "!",
-            ("store_fname", "=like", "{}://%".format(storage)),
+            ("store_fname", "=like", f"{storage}://%"),
             "|",
             ("res_field", "=", False),
             ("res_field", "!=", False),
@@ -832,7 +832,7 @@ class IrAttachment(models.Model):
                 clean_fs(files_to_clean)
 
 
-class AttachmentFileLikeAdapter(object):
+class AttachmentFileLikeAdapter:
     """
     This class is a wrapper class around the ir.attachment model. It is used to
     open the ir.attachment as a file and to read/write data to it.
