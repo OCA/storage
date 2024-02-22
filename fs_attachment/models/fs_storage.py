@@ -11,7 +11,6 @@ from .ir_attachment import IrAttachment
 
 
 class FsStorage(models.Model):
-
     _inherit = "fs.storage"
 
     optimizes_directory_path = fields.Boolean(
