@@ -188,7 +188,7 @@ class FSFileValue:
         cache_options=None,
         compression=None,
         new_version=True,
-        **kwargs
+        **kwargs,
     ) -> IOBase:
         """
         Return a file-like object that can be used to read and write the file content.
