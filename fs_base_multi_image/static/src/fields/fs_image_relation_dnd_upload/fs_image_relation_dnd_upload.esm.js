@@ -28,9 +28,14 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         return this.state.target;
     }
 
+    get relationRecordId() {
+        return this.props.record.data.id;
+    }
+
     get displayDndZone() {
         const activeActions = this.activeActions;
         return (
+            this.relationRecordId &&
             ("link" in activeActions ? activeActions.link : activeActions.create) &&
             !this.props.readonly
         );
@@ -147,18 +152,19 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         const values = {
             sequence: this.getNewSequence(),
         };
-        values[this.relationField] = this.props.record.data.id;
+        values[this.relationField] = this.relationRecordId;
         return values;
     }
 
     async createFieldRelationRecords(createValues) {
         const self = this;
         const model = self.env.model;
+        const record = model.root;
+        record.save();
         model.orm
             .call(self.activeField.relation, "create", [createValues])
             .then(() => {
-                model.root.load();
-                model.root.save();
+                record.load();
             })
             .then(() => {
                 unblockUI();
