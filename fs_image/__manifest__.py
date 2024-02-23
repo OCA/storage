@@ -5,7 +5,7 @@
     "name": "Fs Image",
     "summary": """
         Field to store images into filesystem storages""",
-    "version": "16.0.1.0.2",
+    "version": "16.0.1.0.3",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
