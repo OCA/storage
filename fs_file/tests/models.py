@@ -7,7 +7,6 @@ from ..fields import FSFile
 
 
 class TestModel(models.Model):
-
     _name = "test.model"
     _description = "Test Model"
     _log_access = False
