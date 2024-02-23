@@ -1,2 +1,3 @@
 mock
 odoo-test-helper
+vcrpy_unittest
