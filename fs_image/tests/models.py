@@ -7,7 +7,6 @@ from ..fields import FSImage
 
 
 class TestImageModel(models.Model):
-
     _name = "test.image.model"
     _description = "Test Model"
     _log_access = False
@@ -17,7 +16,6 @@ class TestImageModel(models.Model):
 
 
 class TestRelatedImageModel(models.Model):
-
     _name = "test.related.image.model"
     _description = "Test Related Image Model"
     _log_access = False
