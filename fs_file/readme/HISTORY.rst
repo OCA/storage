@@ -1,3 +1,17 @@
+16.0.1.0.6 (2024-02-23)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Fixes the creation of empty files.
+
+  Before this change, the creation of empty files resulted in a constraint
+  violation error. This was due to the fact that even if a name was given
+  to the file it was not preserved into the FSFileValue object if no content
+  was given. As result, when the corresponding ir.attachment was created in
+  the database, the name was not set and the 'required' constraint was violated. (`#341 <https://github.com/OCA/storage/issues/341>`_)
+
+
 16.0.1.0.5 (2023-11-30)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
