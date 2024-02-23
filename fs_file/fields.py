@@ -55,6 +55,9 @@ class FSFileValue:
                 self._buffer.name = name
             else:
                 raise ValueError("value must be bytes or io.BytesIO")
+        elif name:
+            self._buffer = BytesIO(b"")
+            self._buffer.name = name
 
     @property
     def write_buffer(self) -> BytesIO:
@@ -164,7 +167,7 @@ class FSFileValue:
             content = b""
             name = None
             if self._attachment:
-                content = self._attachment.raw
+                content = self._attachment.raw or b""
                 name = self._attachment.name
             self._buffer = BytesIO(content)
             self._buffer.name = name
