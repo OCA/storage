@@ -8,7 +8,6 @@ from odoo.addons.fs_image import fields as fs_image_fields
 
 
 class FsFile(models.Model):
-
     _name = "fs.file"
     _description = "Fs File"
 
