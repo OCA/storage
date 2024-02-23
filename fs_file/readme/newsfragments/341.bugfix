@@ -1,7 +1,0 @@
-Fixes the creation of empty files.
-
-Before this change, the creation of empty files resulted in a constraint
-violation error. This was due to the fact that even if a name was given
-to the file it was not preserved into the FSFileValue object if no content
-was given. As result, when the corresponding ir.attachment was created in
-the database, the name was not set and the 'required' constraint was violated.
