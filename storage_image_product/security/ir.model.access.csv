@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_image_edit,product_image edit,model_product_image_relation,storage_image.group_image_manager,1,1,1,1
+access_product_image_read,product_image read,model_product_image_relation,base.group_user,1,0,0,0
+access_category_image_edit,category_image edit,model_category_image_relation,storage_image.group_image_manager,1,1,1,1
+access_category_image_read,category_image read,model_category_image_relation,base.group_user,1,0,0,0
+access_image_tag_edit,image_tag edit,model_image_tag,base.group_erp_manager,1,1,1,1
+access_image_tag_read,image_tag read,model_image_tag,base.group_user,1,0,0,0
