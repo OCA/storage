@@ -13,8 +13,6 @@ This module uses the
 [fs_image](https://github.com/oca/storage/blob/16.0/fs_image/README.rst)
 module to store the thumbnails in a filesystem storage.
 
-The [shopinvader_product_image
-\<https://github.com/shopinvader/odoo-shopinvader/
-blob/16.0/shopinvader_product_image\>]() addon uses this module to
-generate and store the thumbnails of the images of the products and
-categories to be accessible by the website.
+The [shopinvader_product_image](https://github.com/shopinvader/odoo-shopinvader/blob/16.0/shopinvader_product_image) addon uses this module to generate and store
+the thumbnails of the images of the products and categories to be
+accessible by the website.

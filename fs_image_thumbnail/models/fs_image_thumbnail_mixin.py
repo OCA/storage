@@ -102,7 +102,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
         return fmt or image.extension
 
     @api.model
-    def _prepare_tumbnail(
+    def _prepare_thumbnail(
         self, image: FSImage, size_x: int, size_y: int, base_name: str
     ) -> dict:
         """Prepare the values to create a thumbnail image from the given image.
@@ -121,7 +121,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
             extension = "." + extension
         new_image = FSImageValue(
             value=self._resize(image, size_x, size_y, fmt),
-            name="%s_%s_%s%s" % (base_name, size_x, size_y, extension),
+            name=f"{base_name}_{size_x}_{size_y}{extension}",
             alt_text=image.alt_text,
         )
         return {
@@ -214,7 +214,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
             for size_x, size_y in sizes:
                 thumbnail = thumbnails_by_size.get((size_x, size_y))
                 if not thumbnail:
-                    values = self._prepare_tumbnail(image, size_x, size_y, base_name)
+                    values = self._prepare_thumbnail(image, size_x, size_y, base_name)
                     # no creation possible outside of this method -> sudo() is
                     # required since no access rights defined on create
                     thumbnail = self.sudo().create(values)
