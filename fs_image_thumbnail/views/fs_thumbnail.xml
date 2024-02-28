@@ -40,7 +40,7 @@
                  defined for the mixin
             -->
             <field name="base_name" position="after">
-                <field name="id" invisible="1" />
+                <field name="id" column_invisible="1" />
             </field>
         </field>
     </record>
