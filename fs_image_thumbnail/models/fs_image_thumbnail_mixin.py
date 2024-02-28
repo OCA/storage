@@ -188,7 +188,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
         self,
         *images: tuple[FSImageValue],
         sizes: list[tuple[int, int]],
-        base_name: str = ""
+        base_name: str = "",
     ) -> OrderedDict[FSImageValue, list["FsImageThumbnailMixin"]]:
         """Get or create a thumbnail images from the given image.
 
