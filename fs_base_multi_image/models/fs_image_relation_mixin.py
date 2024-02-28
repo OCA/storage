@@ -8,7 +8,6 @@ from odoo.addons.fs_image import fields as fs_fields
 
 
 class FsImageRelationMixin(models.AbstractModel):
-
     _name = "fs.image.relation.mixin"
     _description = "Image Relation"
     _order = "sequence, name"
