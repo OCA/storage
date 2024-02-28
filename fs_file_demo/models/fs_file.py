@@ -18,7 +18,7 @@ class FsFile(models.Model):
         string="Image", max_width=1920, max_height=1920
     )
     fs_image_128 = fs_image_fields.FSImage(
-        string="Image",
+        string="Image 128",
         max_width=128,
         max_height=128,
         related="fs_image_1920",
