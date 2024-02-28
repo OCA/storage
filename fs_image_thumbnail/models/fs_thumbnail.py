@@ -5,7 +5,6 @@ from odoo import models
 
 
 class FsThumbnail(models.Model):
-
     _name = "fs.thumbnail"
     _inherit = "fs.image.thumbnail.mixin"
     _description = "Image Thumbnail"
