@@ -63,7 +63,8 @@ class TestFsImageThumbnail(TransactionCase):
 
         self.assertEqual(self.image_attachment.thumbnail_ids, thumbnails)
 
-        # if we call the method again for the same size, we should get the same thumbnail
+        # if we call the method again for the same size, we should get the same
+        # thumbnail
         new_thumbnails = self.fs_thumbnail_model.get_or_create_thumbnails(
             self.fs_image_value, sizes=[(16, 16), (8, 8)], base_name="My super test"
         )[self.fs_image_value]
