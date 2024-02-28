@@ -1,2 +1,4 @@
-Laurent Mignon \<<laurent.mignon@acsone.eu>\> Marie Lejeune
-\<<marie.lejeune@acsone.eu>\> Hugues Damry \<<hughes.damry@acsone.eu>\>
+- Laurent Mignon \<<laurent.mignon@acsone.eu>\>
+- Marie Lejeune \<<marie.lejeune@acsone.eu>\>
+- Hugues Damry \<<hughes.damry@acsone.eu>\>
+- Nguyen Minh Chien \<<chien@trobz.com>\>

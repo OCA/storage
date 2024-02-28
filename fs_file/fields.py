@@ -277,19 +277,17 @@ class FSFile(fields.Binary):
     def create(self, record_values):
         if not record_values:
             return
-        env = record_values[0][0].env
-        with env.norecompute():
-            for record, value in record_values:
-                if value:
-                    cache_value = self.convert_to_cache(value, record)
-                    attachment = self._create_attachment(record, cache_value)
-                    cache_value = self._convert_attachment_to_cache(attachment)
-                    record.env.cache.update(
-                        record,
-                        self,
-                        [cache_value],
-                        dirty=False,
-                    )
+        for record, value in record_values:
+            if value:
+                cache_value = self.convert_to_cache(value, record)
+                attachment = self._create_attachment(record, cache_value)
+                cache_value = self._convert_attachment_to_cache(attachment)
+                record.env.cache.update(
+                    record,
+                    self,
+                    [cache_value],
+                    dirty=False,
+                )
 
     def _create_attachment(self, record, cache_value: FSFileValue):
         ir_attachment = (
@@ -369,7 +367,7 @@ class FSFile(fields.Binary):
                 # require to load the attachment record
                 for record in atts_records:
                     new_cache_value = self._convert_attachment_to_cache(
-                        atts.filtered(lambda att: att.res_id == record.id)
+                        atts.filtered(lambda att, rec=record: att.res_id == rec.id)
                     )
                     cache.update(record, self, [new_cache_value], dirty=False)
                 # create the missing attachments
@@ -420,8 +418,8 @@ class FSFile(fields.Binary):
                 name=self._get_filename(record), value=base64.b64decode(value)
             )
         raise ValueError(
-            "Invalid value for %s: %r\n"
-            "Should be base64 encoded bytes or a file-like object" % (self, value)
+            f"Invalid value for {self}: {value}\n"
+            "Should be base64 encoded bytes or a file-like object"
         )
 
     def convert_to_write(self, value, record):
@@ -442,6 +440,6 @@ class FSFile(fields.Binary):
                 res["content"] = base64.b64encode(value.getvalue()).decode("ascii")
             return res
         raise ValueError(
-            "Invalid value for %s: %r\n"
-            "Should be base64 encoded bytes or a file-like object" % (self, value)
+            f"Invalid value for {self}: {value}\n"
+            "Should be base64 encoded bytes or a file-like object"
         )
