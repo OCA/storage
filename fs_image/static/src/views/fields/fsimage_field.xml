@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
 
-    <t t-name="fs_image.FSImageField" owl="1">
+    <t t-name="fs_image.FSImageField">
         <div class="d-inline-block position-relative opacity-trigger-hover">
             <div
                 t-attf-class="position-absolute d-flex justify-content-between w-100 bottom-0 opacity-0 opacity-100-hover {{isMobile ? 'o_mobile_controls' : ''}}"
@@ -13,7 +13,6 @@
                         acceptedFileExtensions="props.acceptedFileExtensions"
                         t-key="props.record.resId"
                         onUploaded.bind="onFileUploaded"
-                        type="'image'"
                     >
                         <t t-set-slot="toggler">
                             <button
@@ -25,8 +24,8 @@
                             </button>
                         </t>
                         <button
-                            t-if="props.value and state.isValid"
-                            class="o_clear_file_button btn btn-light border-0 rounded-circle m-1 p-1"
+                            t-if="props.record.data[props.name] and state.isValid"
+                            class="o_add_alter_text_button btn btn-light border-0 rounded-circle m-1 p-1"
                             data-tooltip="Alt Text"
                             aria-label="Set Alt Text"
                             t-on-click="onAltTextEdit"
@@ -34,7 +33,7 @@
                             <i class="fa fa-blind fa-fw" />
                         </button>
                         <button
-                            t-if="props.value and state.isValid"
+                            t-if="props.record.data[props.name] and state.isValid"
                             class="o_clear_file_button btn btn-light border-0 rounded-circle m-1 p-1"
                             data-tooltip="Clear"
                             aria-label="Clear"
@@ -46,7 +45,8 @@
                 </t>
             </div>
             <img
-                class="img img-fluid w-100"
+                loading="lazy"
+                class="img img-fluid"
                 alt="Binary file"
                 t-att-src="this.getUrl(props.previewImage or props.name)"
                 t-att-name="props.name"
@@ -55,7 +55,7 @@
                 t-att-style="sizeStyle"
                 t-att-alt="props.alt"
                 t-on-error.stop="onLoadFailed"
-                t-att-data-tooltip-template="hasTooltip and tooltipAttributes.template"
+                t-att-data-tooltip-template="hasTooltip and tooltipAttributes.template or ''"
                 t-att-data-tooltip-info="hasTooltip and tooltipAttributes.info"
                 t-att-data-tooltip-delay="hasTooltip and props.zoomDelay"
             />
