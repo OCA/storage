@@ -1,0 +1,2 @@
+odoo-addon-fs-storage @ git+https://github.com/OCA/storage.git@refs/pull/323/head#subdirectory=fs_storage
+odoo-addon-fs-attachment @ git+https://github.com/OCA/storage.git@refs/pull/343/head#subdirectory=fs_attachment
