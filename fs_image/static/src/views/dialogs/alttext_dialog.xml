@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="fs_image.AltTextDialog" owl="1">
+    <t t-name="fs_image.AltTextDialog">
         <Dialog size="'md'" title="props.title">
             <div class="form-group row">
                 <t t-if="props.readonly">
@@ -16,7 +16,7 @@
                     />
                 </div>
             </div>
-            <t t-set-slot="footer" owl="1">
+            <t t-set-slot="footer">
                 <button
                     class="btn btn-primary"
                     t-ref="btn-confirm"
