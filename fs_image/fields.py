@@ -202,7 +202,7 @@ class FSImage(FSFile):
         finally:
             self._image_process_mode = False
 
-    def _process_related(self, value: FSImageValue):
+    def _process_related(self, value: FSImageValue, env):
         """Override to resize the related value before saving it on self."""
         if not value:
             return None
@@ -210,7 +210,7 @@ class FSImage(FSFile):
             # no need to process images for computed fields, or related fields
             # without max_width/max_height
             return value
-        value = super()._process_related(value)
+        value = super()._process_related(value, env)
         new_value = BytesIO(self._image_process(value))
         return FSImageValue(value=new_value, alt_text=value.alt_text, name=value.name)
 
