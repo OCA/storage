@@ -7,7 +7,6 @@ from odoo.addons.fs_image import fields as fs_fields
 
 
 class FsImage(models.Model):
-
     _name = "fs.image"
     _inherit = "fs.image.mixin"
     _description = "Image"
