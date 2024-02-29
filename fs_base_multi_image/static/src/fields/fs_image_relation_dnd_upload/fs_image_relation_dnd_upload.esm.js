@@ -1,17 +1,14 @@
 /** @odoo-module **/
 
-import {blockUI, unblockUI} from "web.framework";
+import {X2ManyField, x2ManyField} from "@web/views/fields/x2many/x2many_field";
 import {onWillRender, useRef, useState} from "@odoo/owl";
-
-import {X2ManyField} from "@web/views/fields/x2many/x2many_field";
 import {registry} from "@web/core/registry";
 
 export class FsImageRelationDndUploadField extends X2ManyField {
     setup() {
         super.setup();
-        this.options = this.activeField.options;
         this.relationField = this.field.relation_field;
-        this.defaultTarget = this.options.target || "specific";
+        this.defaultTarget = this.props.crudOptions.target || "specific";
         this.state = useState({
             dragging: false,
             target: this.defaultTarget,
@@ -38,7 +35,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
 
     initDefaultSequence() {
         let sequence = 0;
-        _.each(this.props.value.records, (record) => {
+        $.each(this.props.record.data[this.props.name].records, (i, record) => {
             sequence = record.data.sequence;
             if (sequence >= this.defaultSequence) {
                 this.defaultSequence = sequence + 1;
@@ -97,7 +94,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
             .call("fs.image", "create", [imagesDesc])
             .then((fsImageIds) => {
                 let values = {};
-                _.each(fsImageIds, (fsImageId) => {
+                $.each(fsImageIds, (i, fsImageId) => {
                     values = self.getFsImageRelationValues(fsImageId);
                     createValues.push(values);
                 });
@@ -111,7 +108,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     }
 
     displayUploadError() {
-        unblockUI();
+        this.env.services.ui.unblock();
         this.env.services.notification.add(
             this.env._t("An error occurred during the images upload."),
             {
@@ -133,7 +130,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     async uploadSpecificImage(imagesDesc) {
         const self = this;
         const createValues = [];
-        _.each(imagesDesc, (imageDesc) => {
+        $.each(imagesDesc, (i, imageDesc) => {
             createValues.push(self.getSpecificImageRelationValues(imageDesc));
         });
         self.createFieldRelationRecords(createValues);
@@ -155,13 +152,13 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         const self = this;
         const model = self.env.model;
         model.orm
-            .call(self.activeField.relation, "create", [createValues])
+            .call(self.field.relation, "create", [createValues])
             .then(() => {
                 model.root.load();
                 model.root.save();
             })
             .then(() => {
-                unblockUI();
+                self.env.services.ui.unblock();
             })
             .catch(() => {
                 self.displayUploadError();
@@ -171,8 +168,8 @@ export class FsImageRelationDndUploadField extends X2ManyField {
     async uploadImages(files) {
         const self = this;
         const promises = [];
-        blockUI();
-        _.each(files, function (file) {
+        this.env.services.ui.block();
+        $.each(files, function (i, file) {
             if (!file.type.includes("image")) {
                 return;
             }
@@ -189,7 +186,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         });
         return Promise.all(promises).then(function (fileContents) {
             const imagesDesc = [];
-            _.each(fileContents, function (fileContent) {
+            $.each(fileContents, function (i, fileContent) {
                 imagesDesc.push(self.getFileImageDesc(fileContent));
             });
             if (imagesDesc.length > 0) {
@@ -201,10 +198,10 @@ export class FsImageRelationDndUploadField extends X2ManyField {
                         self.uploadSpecificImage(imagesDesc);
                         break;
                     default:
-                        unblockUI();
+                        self.env.services.ui.unblock();
                 }
             } else {
-                unblockUI();
+                self.env.services.ui.unblock();
             }
         });
     }
@@ -221,6 +218,11 @@ export class FsImageRelationDndUploadField extends X2ManyField {
 
 FsImageRelationDndUploadField.template = "web.FsImageRelationDndUploadField";
 
+export const fsImageRelationDndUploadField = {
+    ...x2ManyField,
+    component: FsImageRelationDndUploadField,
+};
+
 registry
     .category("fields")
-    .add("fs_image_relation_dnd_upload", FsImageRelationDndUploadField);
+    .add("fs_image_relation_dnd_upload", fsImageRelationDndUploadField);
