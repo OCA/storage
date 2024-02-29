@@ -5,7 +5,6 @@
         t-name="web.FsImageRelationDndUploadField"
         t-inherit="web.X2ManyField"
         t-inherit-mode="primary"
-        owl="1"
     >
         <xpath expr="//div[hasclass('o_x2m_control_panel')]" position="before">
             <t t-if="displayDndZone">

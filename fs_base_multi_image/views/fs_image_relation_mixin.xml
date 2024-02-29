@@ -14,22 +14,19 @@
                         class="oe_avatar"
                         options="{'preview_image': 'image_medium', 'zoom': true}"
                         readonly="1"
-                        attrs="{'invisible': [('link_existing', '=', False)]}"
+                        invisible="not link_existing"
                     />
                     <field
                         name="specific_image"
                         class="oe_avatar"
                         options="{'preview_image': 'image_medium', 'zoom': true}"
-                        attrs="{'invisible': [('link_existing', '=', True)]}"
+                        invisible="link_existing"
                     />
                     <group>
                         <field name="link_existing" />
                         <field name="name" />
                         <field name="sequence" />
-                        <field
-                            name="image_id"
-                            attrs="{'invisible': [('link_existing', '=', False)]}"
-                        />
+                        <field name="image_id" invisible="not link_existing" />
                     </group>
                     <group name="extra">
                             <!-- Add here custom relation fields -->
