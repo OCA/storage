@@ -7,7 +7,6 @@ from odoo.addons.fs_image.fields import FSImage
 
 
 class ProductTemplate(models.Model):
-
     _inherit = "product.template"
 
     image_ids = fields.One2many(
