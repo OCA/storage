@@ -20,17 +20,26 @@
             </field>
             <page name="sales" position="after">
                 <page name="images" string="Images">
-                    <field name="image_ids" widget="fs_image_relation_dnd_upload">
-                        <tree>
-                            <field name="sequence" widget="handle" />
-                            <field name="name" />
-                        </tree>
-                    </field>
-                    <!-- field
-                        name="image_ids"
-                        mode="kanban"
-                        widget="storage_image_handle"
-                    / -->
+                    <group>
+                        <group colspan="12">
+                            <field
+                                name="image_ids"
+                                widget="fs_image_relation_dnd_upload"
+                                nolabel="1"
+                                colspan="2"
+                            >
+                                <tree>
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                </tree>
+                            </field>
+                        </group>
+                        <!-- field
+                            name="image_ids"
+                            mode="kanban"
+                            widget="storage_image_handle"
+                        / -->
+                    </group>
                 </page>
             </page>
         </field>
