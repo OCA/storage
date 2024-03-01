@@ -123,7 +123,7 @@ class StorageBackend(models.Model):
         return self.list_files(relative_path, pattern=pattern)
 
     def find_files(self, pattern, relative_path="", **kw):
-        return self._forward("find_files", pattern, relative_path=relative_path)
+        return self._forward("find_files", pattern, relative_path=relative_path, **kw)
 
     @deprecated("Use `find_files`")
     def _find_files(self, pattern, relative_path="", **kw):
