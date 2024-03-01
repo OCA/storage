@@ -7,7 +7,6 @@ from odoo.addons.fs_file import fields as fs_fields
 
 
 class FsMediaRelationMixin(models.AbstractModel):
-
     _name = "fs.media.relation.mixin"
     _description = "Media Relation"
     _order = "sequence, name"
