@@ -7,8 +7,10 @@
 import errno
 import logging
 import os
+import re
 from contextlib import contextmanager
 from io import StringIO
+from stat import S_ISDIR, S_ISREG
 
 from odoo.addons.component.core import Component
 
@@ -99,6 +101,41 @@ class SFTPStorageBackendAdapter(Component):
                     return []
                 else:
                     raise  # pragma: no cover
+
+    def find_files(self, pattern, relative_path="", **kwargs):
+        """Find files matching given pattern.
+
+        :param pattern: regex expression
+        :param relative_path: optional relative path containing files
+        :keyword include_regular_files: include regular files in the result
+        :keyword include_folders: include folders in the result
+        :keyword include_other_files: include other files in the result
+        :return: list of file paths as full paths from the root
+        """
+        regex = re.compile(pattern)
+
+        include_regular_files = kwargs.get("include_regular_files", True)
+        include_folders = kwargs.get("include_folders", True)
+        include_other_files = kwargs.get("include_other_files", True)
+
+        full_path = self._fullpath(relative_path)
+        filelist = []
+        with sftp(self.collection) as client:
+            file_attrs = client.listdir_attr(full_path)
+
+            for entry in file_attrs:
+                mode = entry.st_mode
+                if S_ISDIR(mode) and include_folders:
+                    filelist.append(entry.filename)
+                elif S_ISREG(mode) and include_regular_files:
+                    filelist.append(entry.filename)
+                elif include_other_files:
+                    filelist.append(entry.filename)
+
+        files_matching = [
+            regex.match(file_).group() for file_ in filelist if regex.match(file_)
+        ]
+        return files_matching
 
     def move_files(self, files, destination_path):
         _logger.debug("mv %s %s", files, destination_path)
