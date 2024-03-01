@@ -104,6 +104,8 @@ Contributors
 
    -  Iván Todorovich <ivan.todorovich@gmail.com>
 
+-  Nguyen Minh Chien <chien@trobz.com>
+
 Maintainers
 -----------
 
