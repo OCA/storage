@@ -5,7 +5,6 @@ from odoo import fields, models
 
 
 class ProductCategory(models.Model):
-
     _inherit = "product.category"
 
     media_ids = fields.One2many(
