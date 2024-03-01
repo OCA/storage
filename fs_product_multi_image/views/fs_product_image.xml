@@ -23,7 +23,7 @@
                     name="attribute_value_ids"
                     widget="many2many_tags"
                     domain="[('id', 'in', available_attribute_value_ids)]"
-                    attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
+                    invisible="not available_attribute_value_ids"
                 />
             </group>
         </field>
