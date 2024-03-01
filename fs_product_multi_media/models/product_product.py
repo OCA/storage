@@ -26,7 +26,7 @@ class ProductProduct(models.Model):
     def _compute_variant_media_ids(self):
         for variant in self:
             variant_media_ids = variant.media_ids.filtered(
-                lambda i: i._match_variant(variant)
+                lambda i, v=variant: i._match_variant(v)
             )
             variant_media_ids = variant_media_ids.sorted(
                 key=lambda i: (i.sequence, i.name)

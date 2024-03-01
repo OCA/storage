@@ -66,8 +66,8 @@ class TestFsProductMultiMedia(TransactionCase):
                 "protocol": "memory",
                 "code": "mem_dir",
                 "directory_path": "/tmp/",
-                "model_xmlids": "fs_product_multi_media.model_fs_product_category_media,"
-                "fs_product_multi_media.model_fs_product_media",
+                "model_xmlids": "fs_product_multi_media.model_fs_product_category_media"
+                ",fs_product_multi_media.model_fs_product_media",
             }
         )
 
