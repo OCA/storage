@@ -11,27 +11,15 @@
                 <sheet>
                     <group>
                         <field name="link_existing" />
-                        <field
-                            name="file"
-                            attrs="{'invisible': [('link_existing', '=', False)]}"
-                        />
-                        <field
-                            name="media_type_id"
-                            attrs="{'invisible': [('link_existing', '=', False)]}"
-                        />
-                        <field
-                            name="specific_file"
-                            attrs="{'invisible': [('link_existing', '=', True)]}"
-                        />
+                        <field name="file" invisible="not link_existing" />
+                        <field name="media_type_id" invisible="not link_existing" />
+                        <field name="specific_file" invisible="link_existing" />
                         <field
                             name="specific_media_type_id"
-                            attrs="{'invisible': [('link_existing', '=', True)]}"
+                            invisible="link_existing"
                         />
                         <field name="sequence" />
-                        <field
-                            name="media_id"
-                            attrs="{'invisible': [('link_existing', '=', False)]}"
-                        />
+                        <field name="media_id" invisible="not link_existing" />
                     </group>
                     <group name="extra">
                             <!-- Add here custom relation fields -->
