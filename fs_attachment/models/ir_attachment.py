@@ -465,7 +465,9 @@ class IrAttachment(models.Model):
             # rename on S3 is a copy with an rm
             # and rename do not transfert acl correctly
             # so we need to add a chmod after the rename
-            if fs.fs.s3_additional_kwargs.get("acl"):
+            if hasattr(
+                fs.fs, "s3_additional_kwargs"
+            ) and fs.fs.s3_additional_kwargs.get("acl"):
                 fs.fs.chmod(
                     "/".join([fs.path, new_filename]),
                     acl=fs.fs.s3_additional_kwargs.get("acl"),
