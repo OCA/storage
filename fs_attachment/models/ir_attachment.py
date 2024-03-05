@@ -460,6 +460,16 @@ class IrAttachment(models.Model):
             )
             fs.rename(filename, new_filename_with_path)
             attachment.fs_filename = new_filename
+
+            # TODO FIXME S3 hack
+            # rename on S3 is a copy with an rm
+            # and rename do not transfert acl correctly
+            # so we need to add a chmod after the rename
+            if fs.fs.s3_additional_kwargs.get("acl"):
+                fs.fs.chmod(
+                    "/".join([fs.path, new_filename]),
+                    acl=fs.fs.s3_additional_kwargs.get("acl"),
+                )
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
             # of ir_attachment prevent normal write on store_fname
