@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="product_category_form_view">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[last()]" position="after">
+                <group name="medias" string="Medias">
+                    <field
+                        name="media_ids"
+                        context="{'tree_view_ref':'fs_base_multi_media.fs_media_relation_mixin_tree_view'}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

@@ -1,0 +1,174 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fs_product_multi_media
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-10-29 00:15+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__attribute_value_ids
+msgid "Attributes"
+msgstr "Atributos"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__available_attribute_value_ids
+msgid "Available Attributes"
+msgstr "Atributos Disponibles"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__create_uid
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__create_date
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__display_name
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__id
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media____last_update
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media____last_update
+msgid "Last Modified on"
+msgstr "Última Modificación el"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__write_uid
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por Última vez por"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__write_date
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__write_date
+msgid "Last Updated on"
+msgstr "Última Actualización el"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__link_existing
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__link_existing
+msgid "Link existing media"
+msgstr "Vincular los medios existentes"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__media_id
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__media_id
+msgid "Linked media"
+msgstr "Medios vinculados"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__file
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__file
+msgid "Media"
+msgstr "Medios de comunicación"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__media_type_id
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__media_type_id
+msgid "Media Type"
+msgstr "Tipo de Medio"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_product_category__media_ids
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_product_product__media_ids
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_product_template__media_ids
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_media.product_category_form_view
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_media.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_media.product_template_only_form_view
+msgid "Medias"
+msgstr "Medios"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__mimetype
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__mimetype
+msgid "Mimetype"
+msgstr "Tipo Mimo"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__name
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: fs_product_multi_media
+#: model:ir.model,name:fs_product_multi_media.model_product_template
+msgid "Product"
+msgstr "Producto"
+
+#. module: fs_product_multi_media
+#: model:ir.model,name:fs_product_multi_media.model_product_category
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__product_categ_id
+msgid "Product Category"
+msgstr "Categoría de Producto"
+
+#. module: fs_product_multi_media
+#: model:ir.model,name:fs_product_multi_media.model_fs_product_category_media
+msgid "Product Category Media"
+msgstr "Categoría de productos Medios de Comunicación"
+
+#. module: fs_product_multi_media
+#: model:ir.model,name:fs_product_multi_media.model_fs_product_media
+msgid "Product Media"
+msgstr "Medios del Producto"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__product_tmpl_id
+msgid "Product Template"
+msgstr "Plantilla del Producto"
+
+#. module: fs_product_multi_media
+#: model:ir.model,name:fs_product_multi_media.model_product_template_attribute_line
+msgid "Product Template Attribute Line"
+msgstr "Plantilla de Línea de Atributo de Producto"
+
+#. module: fs_product_multi_media
+#: model:ir.model,name:fs_product_multi_media.model_product_product
+msgid "Product Variant"
+msgstr "Variante de Producto"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__sequence
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__specific_file
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__specific_file
+msgid "Specific Media"
+msgstr "Medios Específicos"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__specific_media_type_id
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__specific_media_type_id
+msgid "Specific Media Type"
+msgstr "Tipo de Medio Específico"
+
+#. module: fs_product_multi_media
+#: model:ir.model.fields,field_description:fs_product_multi_media.field_product_product__variant_media_ids
+msgid "Variant Medias"
+msgstr "Medios Variantes"
