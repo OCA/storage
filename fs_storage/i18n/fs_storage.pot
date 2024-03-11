@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -63,13 +63,8 @@ msgid "Directory Path"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_default
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Directory Path Env Default"
-msgstr ""
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_is_editable
-msgid "Directory Path Env Is Editable"
 msgstr ""
 
 #. module: fs_storage
@@ -110,11 +105,6 @@ msgid "Json Options"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -135,13 +125,8 @@ msgid "Options"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_default
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_default
 msgid "Options Env Default"
-msgstr ""
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_is_editable
-msgid "Options Env Is Editable"
 msgstr ""
 
 #. module: fs_storage
@@ -156,18 +141,13 @@ msgid "Protocol Descr"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_default
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_default
 msgid "Protocol Env Default"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_is_editable
-msgid "Protocol Env Is Editable"
-msgstr ""
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path_env_default
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr ""
 
@@ -225,7 +205,7 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__options_env_default
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -245,9 +225,24 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol_env_default
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
 "This list is the one supported by the fsspec library (see https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocolis added by default and refers to the odoo local filesystem.\n"
 "Pay attention that according to the protocol, some options must beprovided through the options field."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
+msgid "X Directory Path Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
+msgid "X Options Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
+msgid "X Protocol Env Is Editable"
 msgstr ""
