@@ -66,14 +66,9 @@ msgid "Directory Path"
 msgstr "Percorso cartella"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_default
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Directory Path Env Default"
 msgstr "Percorso cartella ambiente predefinito"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_is_editable
-msgid "Directory Path Env Is Editable"
-msgstr "Percorso cartella ambiente è modificabile"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
@@ -113,11 +108,6 @@ msgid "Json Options"
 msgstr "Opzioni JSON"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -138,14 +128,9 @@ msgid "Options"
 msgstr "Opzioni"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_default
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_default
 msgid "Options Env Default"
 msgstr "Opzioni ambiente predefinite"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_is_editable
-msgid "Options Env Is Editable"
-msgstr "Opzioni ambiente sono modificabili"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
@@ -159,18 +144,13 @@ msgid "Protocol Descr"
 msgstr "Descrizione protocollo"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_default
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_default
 msgid "Protocol Env Default"
 msgstr "Protocollo ambiene predefinito"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_is_editable
-msgid "Protocol Env Is Editable"
-msgstr "Protocollo ambiente è modificabile"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path_env_default
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr "Percorso relativo alla cartella per archiviare il file"
 
@@ -237,7 +217,7 @@ msgstr "Le opzioni per inizializzare il filesystem.\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__options_env_default
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -272,7 +252,7 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol_env_default
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
 "This list is the one supported by the fsspec library (see https://filesystem-"
@@ -287,3 +267,30 @@ msgstr ""
 "aggiunto in modo predefinito e fa riferimento al filesystem locale Odoo.\n"
 "Fare attenzione che in accordo con il protocollo, alcune opzioni devono "
 "essere fonrite attraverso il campo opzioni."
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
+msgid "X Directory Path Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
+msgid "X Options Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
+msgid "X Protocol Env Is Editable"
+msgstr ""
+
+#~ msgid "Directory Path Env Is Editable"
+#~ msgstr "Percorso cartella ambiente è modificabile"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
+
+#~ msgid "Options Env Is Editable"
+#~ msgstr "Opzioni ambiente sono modificabili"
+
+#~ msgid "Protocol Env Is Editable"
+#~ msgstr "Protocollo ambiente è modificabile"
