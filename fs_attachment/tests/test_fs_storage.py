@@ -11,7 +11,7 @@ class TestFsStorage(TestFSAttachmentCommon):
     @classmethod
     def setUpClass(cls):
         res = super().setUpClass()
-        cls.default_backend = cls.env.ref("fs_storage.default_fs_storage")
+        cls.default_backend = cls.env.ref("fs_storage.fs_storage_demo")
         return res
 
     def test_compute_model_ids(self):
@@ -81,7 +81,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         self.temp_backend.model_xmlids = (
             "base.model_res_partner,base.model_ir_attachment"
         )
-        self.env.ref("fs_storage.default_fs_storage")
+        self.env.ref("fs_storage.fs_storage_demo")
         with self.assertRaises(ValidationError):
             self.default_backend.model_xmlids = "base.model_res_partner"
 

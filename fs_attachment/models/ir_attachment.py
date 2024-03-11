@@ -47,11 +47,6 @@ def clean_fs(files):
                 _logger.info(
                     "_file_delete could not unlink %s", full_path, exc_info=True
                 )
-            except OSError:
-                # Harmless and needed for race conditions
-                _logger.info(
-                    "_file_delete could not unlink %s", full_path, exc_info=True
-                )
 
 
 class IrAttachment(models.Model):
