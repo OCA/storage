@@ -29,7 +29,7 @@
                     name="force_db_for_default_attachment_rules"
                     widget="ace"
                     options="{'mode': 'python'}"
-                    attrs="{'invisible': [('use_as_default_for_attachments', '=', False)]}"
+                    invisible="not use_as_default_for_attachments"
                 />
                 <separator string="Attachment's Url" />
                 <field name="base_url" />

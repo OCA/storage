@@ -28,7 +28,7 @@ class FsStream(Stream):
             etag=attachment.checksum,
             type="fs",
             size=attachment.file_size,
-            last_modified=attachment["__last_update"],
+            last_modified=attachment["write_date"],
             fs_attachment=attachment,
         )
 
