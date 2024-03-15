@@ -83,7 +83,6 @@ class FSStorage(models.Model):
     protocol = fields.Selection(
         selection="_get_protocols",
         required=True,
-        default="odoofs",
         help="The protocol used to access the content of filesystem.\n"
         "This list is the one supported by the fsspec library (see "
         "https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocol"
