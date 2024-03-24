@@ -1,0 +1,2 @@
+- Laurent Mignon \<<laurent.mignon@acsone.eu>\>
+- Nguyen Minh Chien \<<chien@trobz.com>\>
