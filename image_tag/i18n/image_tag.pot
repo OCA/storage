@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -48,11 +48,6 @@ msgstr ""
 #. module: image_tag
 #: model:res.groups,name:image_tag.group_image_tag_manager
 msgid "Image Tag Manager"
-msgstr ""
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: image_tag
