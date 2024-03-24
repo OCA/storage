@@ -1,0 +1,85 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* image_tag
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-10-29 00:15+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__apply_on
+msgid "Apply On"
+msgstr "Aplicar En"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: image_tag
+#: model:ir.actions.act_window,name:image_tag.act_open_image_tag_view
+#: model:ir.model,name:image_tag.model_image_tag
+#: model_terms:ir.ui.view,arch_db:image_tag.image_tag_view_search
+msgid "Image Tag"
+msgstr "Etiqueta de Imagen"
+
+#. module: image_tag
+#: model:res.groups,name:image_tag.group_image_tag_manager
+msgid "Image Tag Manager"
+msgstr "Gestor de Etiquetas de Imagen"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag____last_update
+msgid "Last Modified on"
+msgstr "Última Modifiación el"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por Última vez por"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__write_date
+msgid "Last Updated on"
+msgstr "Última Actualización el"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__tech_name
+msgid "Tech Name"
+msgstr "Nombre Técnico"
+
+#. module: image_tag
+#: model:ir.model.fields,help:image_tag.field_image_tag__tech_name
+msgid "Unique name for technical purposes. Eg: server env keys."
+msgstr ""
+"Nombre único con fines técnicos. Por ejemplo: claves de ent del servidor."
