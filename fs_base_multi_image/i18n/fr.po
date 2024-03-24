@@ -1,0 +1,201 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fs_base_multi_image
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-02-19 10:34+0000\n"
+"Last-Translator: \"Benjamin Willig (ACSONE)\" <benjamin.willig@acsone.eu>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.esm.js:0
+#, python-format
+msgid "An error occurred during the images upload."
+msgstr "Une erreur est apparue lors de l'upload des images."
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "Choose how you want to store the new images:"
+msgstr "Choisissez où les images seront stockées :"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__create_uid
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_search_view
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__create_date
+msgid "Created on"
+msgstr "Crée le"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: fs_base_multi_image
+#: model:ir.actions.act_window,name:fs_base_multi_image.fs_image_act_window
+msgid "Fs Image"
+msgstr "Image FS"
+
+#. module: fs_base_multi_image
+#: model:ir.ui.menu,name:fs_base_multi_image.fs_image_menu
+msgid "Fs Images"
+msgstr "Images FS"
+
+#. module: fs_base_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_search_view
+msgid "Group By"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__id
+msgid "ID"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model,name:fs_base_multi_image.model_fs_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__image
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_form_view
+msgid "Image"
+msgstr "Image"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image_medium
+msgid "Image (128)"
+msgstr "Image (128)"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image
+msgid "Image (original)"
+msgstr "Image (originale)"
+
+#. module: fs_base_multi_image
+#: model:res.groups,name:fs_base_multi_image.group_image_manager
+msgid "Image Manager"
+msgstr "Gestionnaire des images"
+
+#. module: fs_base_multi_image
+#: model:ir.model,name:fs_base_multi_image.model_fs_image_relation_mixin
+msgid "Image Relation"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__image_medium
+msgid "Image medium"
+msgstr "Image moyenne"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__link_existing
+msgid "Link Existing"
+msgstr "Lier une image existante"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__image_id
+msgid "Linked image"
+msgstr "Image liée"
+
+#. module: fs_base_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_search_view
+msgid "MimeType"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__mimetype
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__mimetype
+msgid "Mimetype"
+msgstr ""
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__name
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__name
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_search_view
+msgid "Name"
+msgstr "Nom"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "Reusable images"
+msgstr "Images réutilisables"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "Specific"
+msgstr "Spécifique"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image
+msgid "Specific Image"
+msgstr "Image Spécifique"
+
+#. module: fs_base_multi_image
+#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image_relation_mixin__specific_image_medium
+msgid "Specific Image (128)"
+msgstr "Image spécifique (128)"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "You can drag and drop images to create new records or"
+msgstr ""
+"Vous pouvez glisser/déposer des images pour créer des nouveaux "
+"enregistrements où"
+
+#. module: fs_base_multi_image
+#. odoo-python
+#: code:addons/fs_base_multi_image/models/fs_image_relation_mixin.py:0
+#, python-format
+msgid "You must set an image"
+msgstr "Vous devez définir une image"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "click here"
+msgstr "cliquez ici"
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "to select image files."
+msgstr "pour sélectionner des fichiers."

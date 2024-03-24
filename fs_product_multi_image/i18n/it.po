@@ -1,0 +1,226 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fs_product_multi_image
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-01-18 11:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_image_tag__apply_on
+msgid "Apply On"
+msgstr "Applica a"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__attribute_value_ids
+msgid "Attributes"
+msgstr "Attributi"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__available_attribute_value_ids
+msgid "Available Attributes"
+msgstr "Attributi disponibili"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields.selection,name:fs_product_multi_image.selection__image_tag__apply_on__category
+msgid "Category"
+msgstr "Categoria"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__create_uid
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__create_date
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__display_name
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__id
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__id
+msgid "ID"
+msgstr "ID"
+
+#. module: fs_product_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_normal_form_view
+msgid "If you need to edit the images, do it from the product template."
+msgstr "Se è necessario modificare le immagini, farlo dal modello prodotto."
+
+#. module: fs_product_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.fs_product_image_kanban_view
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_template_only_form_view
+msgid "Image"
+msgstr "Immagine"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__image_medium
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__image_medium
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_category__image_medium
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image_medium
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image_medium
+msgid "Image (128)"
+msgstr "Immagine 128"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_category__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image
+msgid "Image (original)"
+msgstr "Immagine (originale)"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_image_tag
+#: model:ir.ui.menu,name:fs_product_multi_image.menu_image_tag
+msgid "Image Tag"
+msgstr "Etichetta immagine"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_category__image_ids
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image_ids
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image_ids
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_category_form_view
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.product_template_only_form_view
+msgid "Images"
+msgstr "Immagini"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image____last_update
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__write_uid
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__write_date
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__link_existing
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__link_existing
+msgid "Link Existing"
+msgstr "Collegamento esistente"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__image_id
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__image_id
+msgid "Linked image"
+msgstr "Immagine collegata"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__main_image_id
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__main_image_id
+msgid "Main Image"
+msgstr "Immagine principale"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__mimetype
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__mimetype
+msgid "Mimetype"
+msgstr "Tipo MIME"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__name
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_product_template
+#: model:ir.model.fields.selection,name:fs_product_multi_image.selection__image_tag__apply_on__product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_product_category
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__product_categ_id
+msgid "Product Category"
+msgstr "Categoria prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_fs_product_category_image
+msgid "Product Category Image"
+msgstr "Immagine categoria prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_fs_product_image
+msgid "Product Image"
+msgstr "Immagine prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__product_tmpl_id
+msgid "Product Template"
+msgstr "Modello prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_product_template_attribute_line
+msgid "Product Template Attribute Line"
+msgstr "Riga attributo modello prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model,name:fs_product_multi_image.model_product_product
+msgid "Product Variant"
+msgstr "Variante prodotto"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__sequence
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__sequence
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__specific_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__specific_image
+msgid "Specific Image"
+msgstr "Immagine specifica"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__specific_image_medium
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__specific_image_medium
+msgid "Specific Image (128)"
+msgstr "Immagine specifica (128)"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__tag_id
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__tag_id
+msgid "Tag"
+msgstr "Etichetta"
+
+#. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__variant_image_ids
+msgid "Variant Images"
+msgstr "Immagine variante"
+
+#~ msgid "Image 128"
+#~ msgstr "Immagine 128"
+
+#~ msgid "Specific Image 128"
+#~ msgstr "Immagine specifica 128"

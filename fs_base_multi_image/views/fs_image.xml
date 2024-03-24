@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="fs_image_form_view">
+        <field name="name">fs.image.form (in fs_base_multi_image)</field>
+        <field name="model">fs.image</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name" />
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="image" string="Image" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fs_image_search_view">
+        <field name="name">fs.image.search (in fs_base_multi_image)</field>
+        <field name="model">fs.image</field>
+        <field name="arch" type="xml">
+            <search>
+                <field
+                    name="name"
+                    filter_domain="[('name','ilike',self)]"
+                    string="Name"
+                />
+                <separator />
+                <field name="create_uid" string="Created by" />
+                <field name="mimetype" />
+                <group expand="0" string="Group By">
+                    <filter
+                        string="MimeType"
+                        name="mimetype"
+                        domain="[]"
+                        context="{'group_by':'mimetype'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fs_image_tree_view">
+        <field name="name">fs.image.tree (in fs_base_multi_image)</field>
+        <field name="model">fs.image</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="create_uid" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="fs_image_act_window">
+        <field name="name">Fs Image</field>
+        <field name="res_model">fs.image</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="fs_image_menu">
+        <field name="name">Fs Images</field>
+        <field name="parent_id" ref="fs_storage.menu_storage" />
+        <field name="action" ref="fs_image_act_window" />
+    </record>
+
+</odoo>

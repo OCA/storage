@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="product_kanban_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_kanban_view" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
+                <attribute
+                    name="t-att-src"
+                >kanban_image('product.product', 'image_medium', record.id.raw_value)</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
+                <field
+                    name="image"
+                    class="oe_avatar"
+                    options="{'preview_image': 'image_medium', 'zoom': true}"
+                />
+            </field>
+            <page name="sales" position="after">
+                <page name="images" string="Images">
+                    <p class="oe_grey">
+                        If you need to edit the images, do it from the product template.
+                    </p>
+                    <field name="variant_image_ids" />
+                </page>
+            </page>
+        </field>
+    </record>
+    <record id="product_variant_easy_edit_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+        <field name="arch" type="xml">
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
+                <field
+                    name="image"
+                    class="oe_avatar"
+                    options="{'preview_image': 'image_medium', 'zoom': true}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
