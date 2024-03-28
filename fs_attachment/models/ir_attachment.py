@@ -242,7 +242,9 @@ class IrAttachment(models.Model):
                     "db_datas": data,
                 }
                 return values
-        return super()._get_datas_related_values(data, mimetype)
+        return super(
+            IrAttachment, self.with_context(mimetype=mimetype)
+        )._get_datas_related_values(data, mimetype)
 
     ###########################################################
     # Odoo methods that we override to use the object storage #
@@ -368,6 +370,13 @@ class IrAttachment(models.Model):
         with fs.open(fname, "rb") as f:
             return f.read()
 
+    def _storage_write_option(self, fs):
+        if hasattr(fs.fs, "s3"):
+            # For S3 storage the mimetype should be pass in the kwargs
+            return {"ContentType": self._context["mimetype"]}
+        else:
+            return {}
+
     @api.model
     def _storage_file_write(self, bin_data: bytes) -> str:
         """Write the file to the filesystem storage"""
@@ -378,7 +387,8 @@ class IrAttachment(models.Model):
         if not fs.exists(dirname):
             fs.makedirs(dirname)
         fname = f"{storage}://{path}"
-        with fs.open(path, "wb") as f:
+        kwargs = self._storage_write_option(fs)
+        with fs.open(path, "wb", **kwargs) as f:
             f.write(bin_data)
         self._fs_mark_for_gc(fname)
         return fname
