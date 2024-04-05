@@ -16,6 +16,7 @@
     "data": [
         "views/fs_storage_view.xml",
         "security/ir.model.access.csv",
+        "wizards/fs_test_connection.xml",
     ],
     "demo": ["demo/fs_storage_demo.xml"],
     "external_dependencies": {"python": ["fsspec>=2024.5.0"]},
