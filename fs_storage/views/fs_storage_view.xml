@@ -42,6 +42,7 @@
                                 options="{'mode': 'python'}"
                                 placeholder="Enter you fsspec options here."
                             />
+                            <field name="check_connection_method" />
                         </group>
                         <group>
                             <notebook colspan="2">
