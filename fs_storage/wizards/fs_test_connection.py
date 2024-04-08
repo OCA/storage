@@ -23,6 +23,4 @@ class FSTestConnection(models.TransientModel):
         return res
 
     def action_test_config(self):
-        return self.storage_id.with_context(
-            force_connection_method=self.check_connection_method
-        )._test_config()
+        return self.storage_id._test_config(self.check_connection_method)
