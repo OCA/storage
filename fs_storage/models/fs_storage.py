@@ -293,18 +293,12 @@ class FSStorage(models.Model):
     def _ls_check_connection(self, fs):
         fs.ls("", detail=False)
 
-    def _check_connection_with_method(self, fs, check_connection_method):
+    def _check_connection(self, fs, check_connection_method):
         if check_connection_method == "marker_file":
             self._marker_file_check_connection(fs)
         elif check_connection_method == "ls":
             self._ls_check_connection(fs)
         return True
-
-    def _check_connection(self, fs):
-        check_connection_method = self.check_connection_method or self.env.context.get(
-            "force_connection_method", ""
-        )
-        return self._check_connection_with_method(fs, check_connection_method)
 
     @property
     def fs(self) -> fsspec.AbstractFileSystem:
@@ -316,7 +310,7 @@ class FSStorage(models.Model):
             # Check whether we need to invalidate FS cache or not.
             # Use a marker file to limit the scope of the LS command for performance.
             try:
-                self._check_connection(self.__fs)
+                self._check_connection(self.__fs, self.check_connection_method)
             except Exception as e:
                 self.__fs.clear_instance_cache()
                 self.__fs = None
@@ -484,7 +478,7 @@ class FSStorage(models.Model):
     def action_test_config(self):
         self.ensure_one()
         if self.check_connection_method:
-            return self._test_config()
+            return self._test_config(self.check_connection_method)
         else:
             action = self.env["ir.actions.actions"]._for_xml_id(
                 "fs_storage.act_open_fs_test_connection_view"
@@ -492,11 +486,9 @@ class FSStorage(models.Model):
             action["context"] = {"active_model": "fs.storage", "active_id": self.id}
             return action
 
-    def _test_config(self):
+    def _test_config(self, connection_method):
         try:
-            # Accessing the property will check the connection
-            # pylint: disable=W0104
-            self.fs
+            self._check_connection(self.fs, connection_method)
             title = _("Connection Test Succeeded!")
             message = _("Everything seems properly set up!")
             msg_type = "success"
