@@ -7,4 +7,6 @@ fsspec[s3]
 msgraphfs
 paramiko
 pyftpdlib
+python-magic
 python_slugify
+validators
