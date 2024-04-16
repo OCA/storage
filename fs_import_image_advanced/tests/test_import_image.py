@@ -5,19 +5,31 @@
 import base64
 import os
 
+import fsspec
 import mock
 
 from odoo.exceptions import UserError
 from odoo.tools import mute_logger
 
-from odoo.addons.storage_image_product.tests.common import ProductImageCommonCase
+from odoo.addons.fs_product_multi_image.tests.test_fs_product_multi_image import (
+    TestFsProductMultiImage,
+)
 
 
-class TestStorageImportImageCase(ProductImageCommonCase):
+class TestStorageImportImageCase(TestFsProductMultiImage):
+    @staticmethod
+    def _get_file_content(name, base_path=None, as_binary=False):
+        path = base_path or os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(path, "fixture", name), "rb") as f:
+            data = f.read()
+        if as_binary:
+            return data
+        return base64.b64encode(data)
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.storage_backend = cls.env.ref("storage_backend.default_storage_backend")
+        cls.temp_storage = cls.env.ref("fs_storage.default_fs_storage")
         cls.base_path = os.path.dirname(os.path.abspath(__file__))
         cls.file_csv_content = cls._get_file_content(
             "image_import_test.csv", base_path=cls.base_path
@@ -34,7 +46,6 @@ class TestStorageImportImageCase(ProductImageCommonCase):
 
     def _get_wizard(self, **kw):
         vals = {
-            "storage_backend_id": self.storage_backend.id,
             "product_model": "product.template",
             "file_csv": self.file_csv_content,
             "source_zipfile": self.file_zip_content,
@@ -62,9 +73,7 @@ class TestStorageImportImage(TestStorageImportImageCase):
             "image_import_test_1.csv", base_path=self.base_path
         )
         self.wiz.file_csv = file_csv_content
-        with mute_logger(
-            "odoo.addons.storage_import_image_advanced.models.import_image"
-        ):
+        with mute_logger("odoo.addons.fs_import_image_advanced.models.import_image"):
             with self.assertRaises(UserError):
                 self.wiz._get_lines()
 
@@ -174,15 +183,13 @@ class TestStorageImportImage(TestStorageImportImageCase):
     def test_import_with_storage(self):
         wiz = self._get_wizard(
             source_type="external_storage",
-            source_storage_backend_id=self.storage_backend.id,
+            source_fs_storage_id=self.temp_storage.id,
             create_missing_tags=True,
         )
         fake_image_binary = self._get_file_content(
             "A001.jpg", base_path=self.base_path, as_binary=True
         )
-        with mock.patch.object(
-            self.storage_backend.__class__, "_get_bin_data"
-        ) as mocked:
+        with mock.patch.object(fsspec.AbstractFileSystem, "open") as mocked:
             mocked.return_value = fake_image_binary
             wiz.do_import()
         self.assertEqual(

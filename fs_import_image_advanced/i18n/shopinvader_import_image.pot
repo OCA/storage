@@ -235,12 +235,12 @@ msgid "Source type"
 msgstr ""
 
 #. module: shopinvader_import_image
-#: model:ir.model.fields,field_description:shopinvader_import_image.field_shopinvader_import_product_image__storage_backend_id
+#: model:ir.model.fields,field_description:shopinvader_import_image.field_shopinvader_import_product_image__fs_storage_id
 msgid "Storage Backend"
 msgstr ""
 
 #. module: shopinvader_import_image
-#: model:ir.model.fields,field_description:shopinvader_import_image.field_shopinvader_import_product_image__source_storage_backend_id
+#: model:ir.model.fields,field_description:shopinvader_import_image.field_shopinvader_import_product_image__source_fs_storage_id
 msgid "Storage Backend with images"
 msgstr ""
 

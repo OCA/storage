@@ -6,14 +6,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     "name": "Import Storage product image",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "summary": "Import product images using CSV",
     "author": "Akretion, Camptocamp, Odoo Community Association (OCA)",
     "company": "Akretion",
     "maintainer": "Akretion",
     "website": "https://github.com/OCA/storage",
     "category": "Product",
-    "depends": ["storage_image_product", "queue_job"],
+    "development_status": "Alpha",
+    "depends": ["fs_product_multi_image", "sale", "queue_job"],
     "external_dependencies": {
         "python": ["python-magic", "validators"],
         "deb": ["libmagic1"],

@@ -57,9 +57,6 @@ class ProductImageImportWizard(models.Model):
         flds = [product_identifier, "tag", "path"]
         return ",".join(flds)
 
-    storage_backend_id = fields.Many2one(
-        "storage.backend", "Storage Backend", required=True
-    )
     product_model = fields.Selection(
         [
             ("product.template", "Product template"),
@@ -104,9 +101,7 @@ class ProductImageImportWizard(models.Model):
     )
     csv_delimiter = fields.Char(string="CSV file delimiter", default=",", required=True)
     source_zipfile = fields.Binary("ZIP with images", required=False)
-    source_storage_backend_id = fields.Many2one(
-        "storage.backend", "Storage Backend with images"
-    )
+    source_fs_storage_id = fields.Many2one("fs.storage", "FS Storage with images")
     external_csv_path = fields.Char(
         string="Path to CSV file",
         help="Relative path of the CSV file located in the external storage",
@@ -133,7 +128,7 @@ class ProductImageImportWizard(models.Model):
     @api.depends("report")
     def _compute_report_html(self):
         # TODO: add tests
-        tmpl = self.env.ref("storage_import_image_advanced.report_html")
+        tmpl = self.env.ref("fs_import_image_advanced.report_html")
         for record in self:
             if not record.report:
                 record.report_html = ""
@@ -154,7 +149,7 @@ class ProductImageImportWizard(models.Model):
 
     def _read_from_url(self, file_path):
         if validators.url(file_path):
-            return urlopen(file_path).read()
+            return urlopen(file_path, timeout=120).read()
         return None
 
     def _read_from_zip_file(self, file_path):
@@ -170,15 +165,15 @@ class ProductImageImportWizard(models.Model):
                     return None
 
     def _read_from_external_storage(self, file_path):
-        if not self.source_storage_backend_id:
+        if not self.source_fs_storage_id:
             raise exceptions.UserError(_("No storage backend provided!"))
-        return self.source_storage_backend_id._get_bin_data(file_path)
+        return self.source_fs_storage_id._get_filesystem().open(file_path)
 
     def _read_csv(self):
         if self.file_csv:
             return base64.b64decode(self.file_csv)
         elif self.external_csv_path:
-            return self.source_storage_backend_id._get_bin_data(self.external_csv_path)
+            return self.source_fs_storage_id._get_bin_data(self.external_csv_path)
 
     def _get_lines(self):
         lines = []
@@ -258,8 +253,8 @@ class ProductImageImportWizard(models.Model):
 
     def _do_import(self, lines, product_model, options=None):
         tag_obj = self.env["image.tag"]
-        image_obj = self.env["storage.image"]
-        relation_obj = self.env["product.image.relation"]
+        image_obj = self.env["fs.image"]
+        relation_obj = self.env["fs.product.image"]
         product_identifier_field = self._get_product_identifier_field()
         report = {
             "created": set(),
@@ -305,8 +300,6 @@ class ProductImageImportWizard(models.Model):
             if not file_vals:
                 report["file_not_found"].add(prod[product_identifier_field])
                 continue
-            file_vals.update({"name": file_vals["name"], "alt_name": file_vals["name"]})
-            # storage_file = file_obj.create(file_vals)
             tag_id = tag_by_name.get(line["tag_name"])
 
             if product_model == "product.template":
@@ -344,7 +337,6 @@ class ProductImageImportWizard(models.Model):
                     )
                 ]
             relation_obj.create(img_relation_values)
-            image._compute_main_thumbs()
             report["created"].add(prod[product_identifier_field])
         report["created"] = sorted(report["created"])
         report["file_not_found"] = sorted(report["file_not_found"])
@@ -356,11 +348,10 @@ class ProductImageImportWizard(models.Model):
         if not file_data:
             return {}
         vals = {
-            "data": file_data["b64"],
-            "name": name,
-            "file_type": filetype,
-            "mimetype": file_data["mimetype"],
-            "backend_id": self.storage_backend_id.id,
+            "image": {
+                "filename": name,
+                "content": file_data["b64"],
+            },
         }
         return vals
 

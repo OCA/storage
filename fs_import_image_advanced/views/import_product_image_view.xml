@@ -56,7 +56,7 @@
                                     }"
                             />
                             <field
-                                name="source_storage_backend_id"
+                                name="source_fs_storage_id"
                                 attrs="{
                                         'required': [('source_type', '=', 'external_storage')],
                                         'invisible': [('source_type', '!=', 'external_storage')],
@@ -72,7 +72,6 @@
                             <field name="csv_delimiter" />
                         </group>
                         <group name="destination" string="Destination">
-                            <field name="storage_backend_id" />
                             <field name="product_model" />
                         </group>
                         <group name="mapping" string="Column Mapping">
@@ -106,7 +105,6 @@
                 decoration-warning="state == 'scheduled'"
                 decoration-success="state == 'done'"
             >
-                <field name="storage_backend_id" />
                 <field name="product_model" />
                 <field name="source_type" />
                 <field name="state" />
