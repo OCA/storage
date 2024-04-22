@@ -1,0 +1,1 @@
+from . import test_fs_import_image_advanced_thumbnail

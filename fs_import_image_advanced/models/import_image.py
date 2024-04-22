@@ -251,6 +251,10 @@ class ProductImageImportWizard(models.Model):
             product["product_template_attribute_value_ids"]
         )
 
+    @api.model
+    def _post_process_image(self, image):
+        pass
+
     def _do_import(self, lines, product_model, options=None):
         tag_obj = self.env["image.tag"]
         image_obj = self.env["fs.image"]
@@ -309,6 +313,7 @@ class ProductImageImportWizard(models.Model):
                 tmpl_id = prod["product_tmpl_id"][0]
 
             image = image_obj.create(file_vals)
+            self._post_process_image(image)
             if options.get("overwrite"):
                 domain = [
                     ("image_id.name", "=", image.name),
