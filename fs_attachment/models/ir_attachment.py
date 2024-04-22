@@ -368,8 +368,14 @@ class IrAttachment(models.Model):
     def _storage_file_read(self, fname: str) -> bytes | None:
         """Read the file from the filesystem storage"""
         fs, _storage, fname = self._fs_parse_store_fname(fname)
-        with fs.open(fname, "rb") as f:
-            return f.read()
+        try:
+            with fs.open(fname, "rb") as f:
+                return f.read()
+        except IOError:
+            _logger.info(
+                "Error reading %s on storage %s", fname, _storage, exc_info=True
+            )
+        return b""
 
     @api.model
     def _storage_file_write(self, bin_data: bytes) -> str:
