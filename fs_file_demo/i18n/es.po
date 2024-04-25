@@ -49,15 +49,14 @@ msgid "ID"
 msgstr "ID (identificación)"
 
 #. module: fs_file_demo
-#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_128
 #: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_1920
 msgid "Image"
 msgstr "Imagen"
 
 #. module: fs_file_demo
-#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file____last_update
-msgid "Last Modified on"
-msgstr "Última Modificación el"
+#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_128
+msgid "Image 128"
+msgstr ""
 
 #. module: fs_file_demo
 #: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__write_uid
@@ -73,3 +72,6 @@ msgstr "Última Actualización el"
 #: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__name
 msgid "Name"
 msgstr "Nombre"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificación el"
