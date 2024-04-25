@@ -25,14 +25,18 @@ msgstr "Limpiar"
 
 #. module: fs_file
 #. odoo-javascript
-#: code:addons/fs_file/static/src/views/fields/fsfile_field.esm.js:0
+#: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
 #, python-format
-msgid "Could not display the selected image"
-msgstr "No se ha podido mostrar la imagen seleccionada"
+msgid "Edit"
+msgstr "Editar"
 
 #. module: fs_file
 #. odoo-javascript
 #: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
 #, python-format
-msgid "Edit"
-msgstr "Editar"
+msgid "Upload your file"
+msgstr ""
+
+#, python-format
+#~ msgid "Could not display the selected image"
+#~ msgstr "No se ha podido mostrar la imagen seleccionada"

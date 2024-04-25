@@ -25,14 +25,18 @@ msgstr "Pulisci"
 
 #. module: fs_file
 #. odoo-javascript
-#: code:addons/fs_file/static/src/views/fields/fsfile_field.esm.js:0
+#: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
 #, python-format
-msgid "Could not display the selected image"
-msgstr "Impossibile visualizzare l'immagine selezionata"
+msgid "Edit"
+msgstr "Modifica"
 
 #. module: fs_file
 #. odoo-javascript
 #: code:addons/fs_file/static/src/views/fields/fsfile_field.xml:0
 #, python-format
-msgid "Edit"
-msgstr "Modifica"
+msgid "Upload your file"
+msgstr ""
+
+#, python-format
+#~ msgid "Could not display the selected image"
+#~ msgstr "Impossibile visualizzare l'immagine selezionata"
