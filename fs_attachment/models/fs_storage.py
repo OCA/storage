@@ -265,19 +265,43 @@ class FsStorage(models.Model):
         for vals in vals_list:
             if not vals.get("use_as_default_for_attachments"):
                 vals["force_db_for_default_attachment_rules"] = None
-        return super().create(vals_list)
+        res = super().create(vals_list)
+        res._create_write_check_constraints(vals)
+        return res
 
     def write(self, vals):
         if "use_as_default_for_attachments" in vals:
             if not vals["use_as_default_for_attachments"]:
                 vals["force_db_for_default_attachment_rules"] = None
-            return super().write(vals)
-        return super().write(vals)
+        res = super().write(vals)
+        self._create_write_check_constraints(vals)
+        return res
 
-    @api.constrains(
-        "force_db_for_default_attachment_rules", "use_as_default_for_attachments"
-    )
+    def _create_write_check_constraints(self, vals):
+        """
+        Container for all checks performed during creation/writing.
+
+        Args:
+            vals (dict): Dictionary of values being written.
+
+        This method is meant to contain checks executed during the creation
+        or writing of records.
+        """
+        if (
+            "use_as_default_for_attachments" in vals
+            or "force_db_for_default_attachment_rules" in vals
+        ):
+            self._check_force_db_for_default_attachment_rules()
+
     def _check_force_db_for_default_attachment_rules(self):
+        """
+        Validate 'force_db_for_default_attachment_rules' field.
+
+        This method doesn't work properly with a constraints() decorator because
+        the field use_as_default_for_attachments is a computed field, not stored
+        in the database. The presence of computed fields in this method is a
+        result of inheriting this model from "server.env.mixin".
+        """
         for rec in self:
             if not rec.force_db_for_default_attachment_rules:
                 continue
