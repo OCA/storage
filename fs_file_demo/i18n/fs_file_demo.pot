@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,14 +46,13 @@ msgid "ID"
 msgstr ""
 
 #. module: fs_file_demo
-#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_128
 #: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_1920
 msgid "Image"
 msgstr ""
 
 #. module: fs_file_demo
-#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:fs_file_demo.field_fs_file__fs_image_128
+msgid "Image 128"
 msgstr ""
 
 #. module: fs_file_demo
