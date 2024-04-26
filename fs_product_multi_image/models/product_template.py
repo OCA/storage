@@ -24,6 +24,11 @@ class ProductTemplate(models.Model):
     image_medium = FSImage(
         related="main_image_id.image_medium", readonly=True, store=False
     )
+    related_image_ids = fields.One2many(
+        comodel_name="fs.product.image",
+        related="image_ids",
+        help="Used to display 2 views of the same fields",
+    )
 
     @api.depends("image_ids", "image_ids.sequence")
     def _compute_main_image_id(self):
