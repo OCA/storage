@@ -455,3 +455,14 @@ class TestFSAttachment(TestFSAttachmentCommon):
         )
 
         self.assertEqual(attachment.mimetype, "image/svg+xml")
+
+    def test_write_name(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "file.bin", "datas": b"aGVsbG8gd29ybGQK"}
+        )
+        self.assertTrue(attachment.fs_filename.startswith("file-"))
+        self.assertTrue(attachment.fs_filename.endswith(".bin"))
+        attachment.write({"name": "file2.txt"})
+        self.assertTrue(attachment.fs_filename.startswith("file2-"))
+        self.assertTrue(attachment.fs_filename.endswith(".txt"))
