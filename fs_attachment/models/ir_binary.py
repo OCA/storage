@@ -43,6 +43,34 @@ class IrBinary(models.AbstractModel):
             return FsStream.from_fs_attachment(fs_attachment)
         return super()._record_to_stream(record, field_name)
 
+    def _get_stream_from(
+        self,
+        record,
+        field_name="raw",
+        filename=None,
+        filename_field="name",
+        mimetype=None,
+        default_mimetype="application/octet-stream",
+    ):
+        stream = super()._get_stream_from(
+            record,
+            field_name=field_name,
+            filename=filename,
+            filename_field=filename_field,
+            mimetype=mimetype,
+            default_mimetype=default_mimetype,
+        )
+
+        if stream.type == "fs":
+            if mimetype:
+                stream.mimetype = mimetype
+            if filename:
+                stream.download_name = filename
+            elif record and filename_field in record:
+                stream.download_name = record[filename_field] or stream.download_name
+
+        return stream
+
     def _get_image_stream_from(
         self,
         record,

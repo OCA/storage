@@ -108,6 +108,17 @@ class TestStream(HttpCase):
             },
             assert_content=self.content,
         )
+        url = f"/web/content/{self.attachment_binary.id}/?filename=test2.txt&mimetype=text/csv"
+        self.assertDownload(
+            url,
+            headers={},
+            assert_status_code=200,
+            assert_headers={
+                "Content-Type": "text/csv; charset=utf-8",
+                "Content-Disposition": "inline; filename=test2.txt",
+            },
+            assert_content=self.content,
+        )
 
     def test_image_url(self):
         self.authenticate("admin", "admin")
