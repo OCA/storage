@@ -219,7 +219,8 @@ class FSImage(FSFile):
             if not record[self.name]:
                 raise UserError(
                     _(
-                        "Cannot set alt_text on empty image (record %(record)s.%(field_name)s)",
+                        "Cannot set alt_text on empty image "
+                        "(record %(record)s.%(field_name)s)",
                         record=record,
                         field_name=self.name,
                     )
