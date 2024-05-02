@@ -295,7 +295,8 @@ class IrAttachment(models.Model):
                 # nor the mimetype, so the mimetype will be set to ``application/octet-
                 # stream``.
                 # We want to avoid this, so we take the mimetype of the first attachment
-                # and we set it on all the attachments if they all have the same mimetype.
+                # and we set it on all the attachments if they all have the same
+                # mimetype.
                 # If they don't have the same mimetype, we raise an error.
                 # OPW-3277070
                 mimetypes = self.mapped("mimetype")
@@ -560,7 +561,9 @@ class IrAttachment(models.Model):
     def _get_fs_parts(
         self,
     ) -> tuple[fsspec.AbstractFileSystem, str, str] | tuple[None, None, None]:
-        """Return the filesystem, the storage code and the path for the current attachment"""
+        """Return the filesystem, the storage code and the path for the
+        current attachment
+        """
         if not self.store_fname:
             return None, None, None
         return self._fs_parse_store_fname(self.store_fname)
@@ -1069,7 +1072,8 @@ class AttachmentFileLikeAdapter:
                 file_path = file_path.lstrip("/")
             ret["checksum"] = self._filesystem.checksum(file_path)
             ret["file_size"] = self._filesystem.size(file_path)
-            # TODO index_content is too expensive to compute here or should be configurable
+            # TODO index_content is too expensive to compute here or should be
+            # configurable
             # data = self._file.read()
             # ret["index_content"] = self.attachment._index_content(data,
             #     self.attachment.mimetype, ret["checksum"])
