@@ -19,17 +19,20 @@ msgstr ""
 #. module: fs_image
 #. odoo-javascript
 #: code:addons/fs_image/static/src/views/fields/fsimage_field.esm.js:0
+#: code:addons/fs_image/static/src/views/fields/fsimage_field.xml:0
 #, python-format
 msgid "Alt Text"
 msgstr ""
 
 #. module: fs_image
 #: model:ir.model.fields,field_description:fs_image.field_ir_attachment__alt_text
+#: model:ir.model.fields,field_description:fs_image.field_product_document__alt_text
 msgid "Alternative Text"
 msgstr "Texte alternatif"
 
 #. module: fs_image
 #: model:ir.model.fields,help:fs_image.field_ir_attachment__alt_text
+#: model:ir.model.fields,help:fs_image.field_product_document__alt_text
 msgid "Alternative text for the image. Only used for images on a website."
 msgstr ""
 "Texte alternatif pour une image. Utilisé seulement pour les images sur un "
@@ -60,8 +63,8 @@ msgstr "Annuler"
 #, python-format
 msgid "Cannot set alt_text on empty image (record %(record)s.%(field_name)s)"
 msgstr ""
-"Impossible d'appliquer un texte alternatif sur une image vide ("
-"enregistrement %(record)s.%(field_name)s)"
+"Impossible d'appliquer un texte alternatif sur une image vide "
+"(enregistrement %(record)s.%(field_name)s)"
 
 #. module: fs_image
 #. odoo-javascript

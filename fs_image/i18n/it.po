@@ -19,17 +19,20 @@ msgstr ""
 #. module: fs_image
 #. odoo-javascript
 #: code:addons/fs_image/static/src/views/fields/fsimage_field.esm.js:0
+#: code:addons/fs_image/static/src/views/fields/fsimage_field.xml:0
 #, python-format
 msgid "Alt Text"
 msgstr "Testo alternativo"
 
 #. module: fs_image
 #: model:ir.model.fields,field_description:fs_image.field_ir_attachment__alt_text
+#: model:ir.model.fields,field_description:fs_image.field_product_document__alt_text
 msgid "Alternative Text"
 msgstr "Testo alternativo"
 
 #. module: fs_image
 #: model:ir.model.fields,help:fs_image.field_ir_attachment__alt_text
+#: model:ir.model.fields,help:fs_image.field_product_document__alt_text
 msgid "Alternative text for the image. Only used for images on a website."
 msgstr ""
 "Testo alternativo per l'immagine. Utilizzato solo per le immagini nel sito "
