@@ -89,6 +89,7 @@ msgstr "Campi"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
+#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr "Nome del file nel filesystem del deposito"
 
@@ -99,21 +100,25 @@ msgstr "Modello aiuto streaming file per controller"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_id
+#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_storage_id
 msgid "Filesystem Storage"
 msgstr "Deposito filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_code
+#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_storage_code
 msgid "Filesystem Storage Code"
 msgstr "Codice deposito filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url
+#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_url
 msgid "Filesystem URL"
 msgstr "URL filesystem"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url_path
+#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_url_path
 msgid "Filesystem URL Path"
 msgstr "Percorso URL filesystem"
 
@@ -226,6 +231,7 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
+#: model:ir.model.fields,field_description:fs_attachment.field_product_document__internal_url
 msgid "Internal URL"
 msgstr "URL interno"
 
@@ -373,6 +379,7 @@ msgstr "Nome file memorizzato"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_code
+#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_storage_code
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
@@ -387,11 +394,13 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url
+#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_url
 msgid "The URL to access the file from the filesystem storage."
 msgstr "L'URL per accedere al file dal deposito del filesystem."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__internal_url
+#: model:ir.model.fields,help:fs_attachment.field_product_document__internal_url
 msgid "The URL to access the file from the server."
 msgstr "L'URL per accedere al file dal server."
 
@@ -416,6 +425,7 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_filename
+#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_filename
 msgid ""
 "The name of the file in the filesystem storage.To preserve the mimetype and "
 "the meaning of the filenamethe filename is computed from the name and the "
@@ -427,11 +437,13 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url_path
+#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_url_path
 msgid "The path to access the file from the filesystem storage."
 msgstr "Il percorso per accedere al file dal deposito del filesystem."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_id
+#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_storage_id
 msgid "The storage where the file is stored."
 msgstr "Il deposito dove è archiviato il file."
 
