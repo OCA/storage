@@ -106,12 +106,6 @@ msgid "Images"
 msgstr "Immagini"
 
 #. module: fs_product_multi_image
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image____last_update
-#: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: fs_product_multi_image
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_category_image__write_uid
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_fs_product_image__write_uid
 msgid "Last Updated by"
@@ -218,6 +212,9 @@ msgstr "Etichetta"
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__variant_image_ids
 msgid "Variant Images"
 msgstr "Immagine variante"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
 
 #~ msgid "Image 128"
 #~ msgstr "Immagine 128"
