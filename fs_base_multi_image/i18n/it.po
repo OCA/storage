@@ -99,11 +99,6 @@ msgid "Image medium"
 msgstr "Immagine media"
 
 #. module: fs_base_multi_image
-#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -195,8 +190,25 @@ msgstr "fare clic qui"
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
+msgid "fs_image"
+msgstr ""
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "specific"
+msgstr ""
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
 msgid "to select image files."
 msgstr "per selezionare file immagine."
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
 
 #, python-format
 #~ msgid "Cannot set image on a linked image"
