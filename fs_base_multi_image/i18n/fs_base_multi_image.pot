@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -96,11 +96,6 @@ msgid "Image medium"
 msgstr ""
 
 #. module: fs_base_multi_image
-#: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: fs_base_multi_image
 #: model:ir.model.fields,field_description:fs_base_multi_image.field_fs_image__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -186,6 +181,20 @@ msgstr ""
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "click here"
+msgstr ""
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "fs_image"
+msgstr ""
+
+#. module: fs_base_multi_image
+#. odoo-javascript
+#: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
+#, python-format
+msgid "specific"
 msgstr ""
 
 #. module: fs_base_multi_image
