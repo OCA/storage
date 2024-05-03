@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-01 07:22+0000\n"
+"PO-Revision-Date: 2024-05-03 16:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -191,14 +191,14 @@ msgstr "fare clic qui"
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "fs_image"
-msgstr ""
+msgstr "fs_image"
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
 #, python-format
 msgid "specific"
-msgstr ""
+msgstr "specifica"
 
 #. module: fs_base_multi_image
 #. odoo-javascript
