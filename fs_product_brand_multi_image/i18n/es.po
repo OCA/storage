@@ -71,11 +71,6 @@ msgid "Images"
 msgstr "Imágenes"
 
 #. module: fs_product_brand_multi_image
-#: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image____last_update
-msgid "Last Modified on"
-msgstr "Última Modificación el"
-
-#. module: fs_product_brand_multi_image
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__write_uid
 msgid "Last Updated by"
 msgstr "Actualizado por Última vez por"
@@ -134,6 +129,9 @@ msgstr "Imagen Específica (128)"
 #: model:ir.model.fields,field_description:fs_product_brand_multi_image.field_fs_product_brand_image__tag_id
 msgid "tag"
 msgstr "etiqueta"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificación el"
 
 #~ msgid "Image"
 #~ msgstr "Imagen"
