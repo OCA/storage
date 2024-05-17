@@ -25,7 +25,7 @@ class RootedDirFileSystem(DirFileSystem):
         # any relative paths.
         # Since the path separator is not always the same on all systems,
         # we need to normalize the path separator.
-        path_posix = os.path.normpath(make_path_posix(path, self.sep))
+        path_posix = os.path.normpath(make_path_posix(path))
         root_posix = os.path.normpath(make_path_posix(self.path))
         if not path_posix.startswith(root_posix):
             raise PermissionError(

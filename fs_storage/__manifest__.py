@@ -18,5 +18,5 @@
         "security/ir.model.access.csv",
     ],
     "demo": ["demo/fs_storage_demo.xml"],
-    "external_dependencies": {"python": ["fsspec"]},
+    "external_dependencies": {"python": ["fsspec>=2024.5.0"]},
 }
