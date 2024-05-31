@@ -51,12 +51,6 @@ msgid "ID"
 msgstr "ID (identificación)"
 
 #. module: fs_product_multi_media
-#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media____last_update
-#: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media____last_update
-msgid "Last Modified on"
-msgstr "Última Modificación el"
-
-#. module: fs_product_multi_media
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_category_media__write_uid
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_fs_product_media__write_uid
 msgid "Last Updated by"
@@ -172,3 +166,6 @@ msgstr "Tipo de Medio Específico"
 #: model:ir.model.fields,field_description:fs_product_multi_media.field_product_product__variant_media_ids
 msgid "Variant Medias"
 msgstr "Medios Variantes"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificación el"
