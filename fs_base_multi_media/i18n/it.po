@@ -68,12 +68,6 @@ msgid "ID"
 msgstr "ID"
 
 #. module: fs_base_multi_media
-#: model:ir.model.fields,field_description:fs_base_multi_media.field_fs_media____last_update
-#: model:ir.model.fields,field_description:fs_base_multi_media.field_fs_media_type____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: fs_base_multi_media
 #: model:ir.model.fields,field_description:fs_base_multi_media.field_fs_media__write_uid
 #: model:ir.model.fields,field_description:fs_base_multi_media.field_fs_media_type__write_uid
 msgid "Last Updated by"
@@ -157,3 +151,6 @@ msgstr "Gestore deposito media"
 #: model_terms:ir.ui.view,arch_db:fs_base_multi_media.fs_media_search_view
 msgid "Type"
 msgstr "Tipo"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
