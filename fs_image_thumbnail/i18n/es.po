@@ -88,11 +88,6 @@ msgid "Image Thumbnail"
 msgstr "Imagen en Miniatura"
 
 #. module: fs_image_thumbnail
-#: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail____last_update
-msgid "Last Modified on"
-msgstr "Última Modificación el"
-
-#. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__write_uid
 msgid "Last Updated by"
 msgstr "Última Actualización por"
@@ -150,8 +145,11 @@ msgstr "La imagen %(name)s debe adjuntarse a un archivo adjunto"
 #: model:ir.model.fields,help:fs_image_thumbnail.field_fs_image_thumbnail_mixin__base_name
 #: model:ir.model.fields,help:fs_image_thumbnail.field_fs_thumbnail__base_name
 msgid ""
-"The thumbnail image will be named as base_name + _ + size_x + _ + size_y + . + extension.\n"
-"If not set, the base name will be the name of the original image.This base name is used to find all existing thumbnail of an image generated for the same base name."
+"The thumbnail image will be named as base_name + _ + size_x + _ + size_y + . "
+"+ extension.\n"
+"If not set, the base name will be the name of the original image.This base "
+"name is used to find all existing thumbnail of an image generated for the "
+"same base name."
 msgstr ""
 "La imagen en miniatura se denominará como nombre_base + _ + tamaño_x + _ + "
 "tamaño_y + . + extensión.\n"
@@ -161,6 +159,7 @@ msgstr ""
 
 #. module: fs_image_thumbnail
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_ir_attachment__thumbnail_ids
+#: model:ir.model.fields,field_description:fs_image_thumbnail.field_product_document__thumbnail_ids
 #: model_terms:ir.ui.view,arch_db:fs_image_thumbnail.ir_attachment_form_view
 msgid "Thumbnails"
 msgstr "Miniaturas"
@@ -176,3 +175,6 @@ msgstr "Tamaño X"
 #: model:ir.model.fields,field_description:fs_image_thumbnail.field_fs_thumbnail__size_y
 msgid "Y size"
 msgstr "Talla Y"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificación el"
