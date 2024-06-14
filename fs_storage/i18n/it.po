@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-27 15:35+0000\n"
+"PO-Revision-Date: 2024-06-14 16:37+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -270,21 +270,18 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
-#, fuzzy
 msgid "X Directory Path Env Is Editable"
-msgstr "Esecuzione percorso ambiente cartella è modificabile"
+msgstr "Il percorso ambiente cartella X è modificabile"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
-#, fuzzy
 msgid "X Options Env Is Editable"
-msgstr "Opzioni esecuzione ambiente sono modificabili"
+msgstr "Opzioni X ambiente sono modificabili"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
-#, fuzzy
 msgid "X Protocol Env Is Editable"
-msgstr "Protocollo esecuzione ambiente è modificabile"
+msgstr "Protocollo X ambiente è modificabile"
 
 #~ msgid "Directory Path Env Is Editable"
 #~ msgstr "Percorso cartella ambiente è modificabile"
