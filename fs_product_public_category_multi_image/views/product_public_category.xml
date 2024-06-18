@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_public_category_form_view" model="ir.ui.view">
+        <field name="model">product.public.category</field>
+        <field name="inherit_id" ref="website_sale.product_public_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_left')]" position="after">
+                <div class="oe_right">
+                    <group>
+                        <group name="images" string="Images">
+                            <field
+                                name="image_ids"
+                                mode="kanban"
+                                widget="storage_image_handle"
+                            />
+                        </group>
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
