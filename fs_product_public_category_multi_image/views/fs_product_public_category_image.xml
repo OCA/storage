@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="fs_product_public_category_image_form_view">
+        <field name="name">product.public.category.fs.image.form</field>
+        <field name="model">fs.product.public.category.image</field>
+        <field
+            name="inherit_id"
+            ref="fs_base_multi_image.fs_image_relation_mixin_form_view"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <group name="extra" position="inside">
+                <field
+                    name="tag_id"
+                    context="{'default_apply_on': 'public.category'}"
+                />
+            </group>
+        </field>
+    </record>
+
+</odoo>
