@@ -305,7 +305,7 @@ class FSStorage(models.Model):
         """Get the fsspec filesystem for this backend."""
         self.ensure_one()
         if not self.__fs:
-            self.__fs = self._get_filesystem()
+            self.__fs = self.sudo()._get_filesystem()
         if not tools.config["test_enable"]:
             # Check whether we need to invalidate FS cache or not.
             # Use a marker file to limit the scope of the LS command for performance.
