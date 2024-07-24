@@ -323,3 +323,52 @@ class TestFsStorage(TestFSAttachmentCommon):
         self.env.flush_all()
 
         self.assertFalse(attachment.fs_storage_code)
+
+    def test_recompute_urls(self):
+        """
+        Mark temp_backend as default and set its base_url.
+        Create one attachment in temp_backend that is linked to a field and one that is not.
+        * Check that after updating the base_url for the backend, executing recompute_urls
+        updates fs_url for both attachments, whether they are linked to a field or not
+        """
+        self.temp_backend.base_url = "https://acsone.eu/media"
+        self.temp_backend.use_as_default_for_attachments = True
+        self.ir_attachment_model.create(
+            {
+                "name": "field.txt",
+                "raw": "Attachment linked to a field",
+                "res_model": "res.partner",
+                "res_field": "name",
+            }
+        )
+        self.ir_attachment_model.create(
+            {
+                "name": "no_field.txt",
+                "raw": "Attachment not linked to a field",
+            }
+        )
+        self.env.flush_all()
+
+        self.env.cr.execute(
+            f"""
+            SELECT COUNT(*)
+            FROM ir_attachment
+            WHERE fs_storage_id = {self.temp_backend.id}
+                AND fs_url LIKE '{self.temp_backend.base_url}%'
+        """
+        )
+        self.assertEqual(self.env.cr.dictfetchall()[0].get("count"), 2)
+
+        self.temp_backend.base_url = "https://forgeflow.com/media"
+        self.temp_backend.recompute_urls()
+        self.env.flush_all()
+
+        self.env.cr.execute(
+            f"""
+            SELECT COUNT(*)
+            FROM ir_attachment
+            WHERE fs_storage_id = {self.temp_backend.id}
+                AND fs_url LIKE '{self.temp_backend.base_url}%'
+        """
+        )
+        self.assertEqual(self.env.cr.dictfetchall()[0].get("count"), 2)
