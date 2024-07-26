@@ -805,49 +805,58 @@ class IrAttachment(models.Model):
             ("res_field", "=", False),
             ("res_field", "!=", False),
         ]
+        limit = 100  # Set the limit of records per batch
+        offset = 0  # Initialize the offset
         # We do a copy of the environment so we can workaround the cache issue
         # below. We do not create a new cursor by default because it causes
         # serialization issues due to concurrent updates on attachments during
         # the installation
-        with self._do_in_new_env(new_cr=new_cr) as new_env:
-            model_env = new_env["ir.attachment"]
-            ids = model_env.search(domain).ids
-            files_to_clean = []
-            for attachment_id in ids:
-                try:
-                    with new_env.cr.savepoint():
-                        # check that no other transaction has
-                        # locked the row, don't send a file to storage
-                        # in that case
-                        self.env.cr.execute(
-                            "SELECT id "
-                            "FROM ir_attachment "
-                            "WHERE id = %s "
-                            "FOR UPDATE NOWAIT",
-                            (attachment_id,),
-                            log_exceptions=False,
+        while True:
+            with self._do_in_new_env(new_cr=new_cr) as new_env:
+                model_env = new_env["ir.attachment"]
+                ids = model_env.search(
+                    domain, limit=limit, offset=offset, order="file_size DESC"
+                ).ids
+                if not ids:
+                    break
+
+                files_to_clean = []
+                for attachment_id in ids:
+                    try:
+                        with new_env.cr.savepoint():
+                            # check that no other transaction has
+                            # locked the row, don't send a file to storage
+                            # in that case
+                            self.env.cr.execute(
+                                "SELECT id "
+                                "FROM ir_attachment "
+                                "WHERE id = %s "
+                                "FOR UPDATE NOWAIT",
+                                (attachment_id,),
+                                log_exceptions=False,
+                            )
+
+                            # This is a trick to avoid having the 'datas'
+                            # function fields computed for every attachment on
+                            # each iteration of the loop. The former issue
+                            # being that it reads the content of the file of
+                            # ALL the attachments on each loop.
+                            new_env.clear()
+                            attachment = model_env.browse(attachment_id)
+                            path = attachment._move_attachment_to_store()
+                            if path:
+                                files_to_clean.append(path)
+                    except psycopg2.OperationalError:
+                        _logger.error(
+                            "Could not migrate attachment %s to S3", attachment_id
                         )
 
-                        # This is a trick to avoid having the 'datas'
-                        # function fields computed for every attachment on
-                        # each iteration of the loop. The former issue
-                        # being that it reads the content of the file of
-                        # ALL the attachments on each loop.
-                        new_env.clear()
-                        attachment = model_env.browse(attachment_id)
-                        path = attachment._move_attachment_to_store()
-                        if path:
-                            files_to_clean.append(path)
-                except psycopg2.OperationalError:
-                    _logger.error(
-                        "Could not migrate attachment %s to S3", attachment_id
-                    )
-
-            # delete the files from the filesystem once we know the changes
-            # have been committed in ir.attachment
-            if files_to_clean:
-                new_env.cr.commit()
-                clean_fs(files_to_clean)
+                # delete the files from the filesystem once we know the changes
+                # have been committed in ir.attachment
+                if files_to_clean:
+                    new_env.cr.commit()
+                    clean_fs(files_to_clean)
+            offset += limit
 
 
 class AttachmentFileLikeAdapter:
