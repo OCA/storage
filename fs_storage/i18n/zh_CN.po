@@ -6,84 +6,86 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2024-08-26 08:06+0000\n"
+"Last-Translator: xtanuiha <feihu.zhang@live.com>\n"
 "Language-Team: none\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Available options"
-msgstr ""
+msgstr "可用选项"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_properties
 msgid "Available properties"
-msgstr ""
+msgstr "可用属性"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__code
 msgid "Code"
-msgstr ""
+msgstr "代码"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Connection Test Failed!"
-msgstr ""
+msgstr "连接测试失败！"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Connection Test Succeeded!"
-msgstr ""
+msgstr "连接测试成功！"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "创建者"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__create_date
 msgid "Created on"
-msgstr ""
+msgstr "创建于"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_protocol
 msgid "Describes Protocol"
-msgstr ""
+msgstr "描述协议"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path
 msgid "Directory Path"
-msgstr ""
+msgstr "目录路径"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Directory Path Env Default"
-msgstr ""
+msgstr "目录路径环境默认值"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "目录路径环境默认值"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Enter you fsspec options here."
-msgstr ""
+msgstr "在这里输入你的fsspec选项。"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Everything seems properly set up!"
-msgstr ""
+msgstr "一切看起来都设置得当！"
 
 #. module: fs_storage
 #: model:ir.actions.act_window,name:fs_storage.act_open_fs_storage_view
@@ -93,69 +95,69 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_search_view
 msgid "FS Storage"
-msgstr ""
+msgstr "文件系统存储"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__json_options
 msgid "Json Options"
-msgstr ""
+msgstr "JSON选项"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "最后更新者"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "最后更新于"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__name
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_default
 msgid "Options Env Default"
-msgstr ""
+msgstr "选项环境默认值"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
-msgstr ""
+msgstr "协议"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_descr
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Protocol Descr"
-msgstr ""
+msgstr "协议描述"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_default
 msgid "Protocol Env Default"
-msgstr ""
+msgstr "协议环境默认值"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
-msgstr ""
+msgstr "存储文件的目录的相对路径"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env
 msgid "Resolve env vars"
-msgstr ""
+msgstr "解析环境变量"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
@@ -166,11 +168,16 @@ msgid ""
 "            }\n"
 "            "
 msgstr ""
+"从环境变量解析以$开头的选项值。例如：\n"
+"{\n"
+"  \"endpoint_url\": \"$AWS_ENDPOINT_URL\"\n"
+"}\n"
+"            "
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
 msgid "Server Env Defaults"
-msgstr ""
+msgstr "服务器环境默认值"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__code
@@ -181,28 +188,31 @@ msgid ""
 "'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
 "installed."
 msgstr ""
+"用于在代码中标识存储后端的技术代码。此代码必须是唯一的。例如，当安装'fs_attac"
+"hment'模块时，此代码用于通过配置参数'ir_attachment.storage.force."
+"database'定义存储附件的存储后端。"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Test connection"
-msgstr ""
+msgstr "测试连接"
 
 #. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
 msgid "The code must be unique"
-msgstr ""
+msgstr "代码必须是唯一的"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "The options must be a valid JSON"
-msgstr ""
+msgstr "选项必须是有效的JSON"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__json_options
 msgid "The options used to initialize the filesystem.\n"
-msgstr ""
+msgstr "用于初始化文件系统的选项。\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
@@ -222,6 +232,20 @@ msgid ""
 "For more information, please refer to the fsspec documentation:\n"
 "https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations"
 msgstr ""
+"用于初始化文件系统的选项。\n"
+"这是一个依赖于所使用的协议的JSON字段。\n"
+"例如，对于sftp协议，您可以提供以下内容：\n"
+"{\n"
+"    'host': 'my.sftp.server',\n"
+"    'ssh_kwrags': {\n"
+"        'username': 'myuser',\n"
+"        'password': 'mypassword',\n"
+"        'port': 22,\n"
+"    }\n"
+"}\n"
+"有关更多信息，请参考fsspec文档：\n"
+"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-"
+"implementations"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
@@ -232,18 +256,22 @@ msgid ""
 "This list is the one supported by the fsspec library (see https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocolis added by default and refers to the odoo local filesystem.\n"
 "Pay attention that according to the protocol, some options must beprovided through the options field."
 msgstr ""
+"用于访问文件系统内容的协议。\n"
+"此列表是fsspec库支持的（见 https://filesystem-spec.readthedocs.io/en/"
+"latest）。默认添加了一个文件系统协议，指的是Odoo本地文件系统。\n"
+"请注意，根据协议，某些选项必须通过选项字段提供。"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
 msgid "X Directory Path Env Is Editable"
-msgstr ""
+msgstr "X目录路径环境可编辑"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
 msgid "X Options Env Is Editable"
-msgstr ""
+msgstr "X选项环境可编辑"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
 msgid "X Protocol Env Is Editable"
-msgstr ""
+msgstr "X协议环境可编辑"
