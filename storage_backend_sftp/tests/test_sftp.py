@@ -11,8 +11,7 @@
 import errno
 import logging
 import os
-
-import mock
+from unittest import mock
 
 from odoo.addons.storage_backend.tests.common import BackendStorageTestMixin, CommonCase
 
