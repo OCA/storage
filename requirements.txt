@@ -1,2 +1,3 @@
 # generated from manifests external_dependencies
 fsspec>=2024.5.0
+python_slugify

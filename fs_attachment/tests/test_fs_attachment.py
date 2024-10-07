@@ -361,9 +361,12 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(os.listdir(self.temp_dir), [])
         # we decide to force the storage in the filestore
         self.temp_backend.use_as_default_for_attachments = True
-        with mock.patch.object(self.env.cr, "commit"), mock.patch(
-            "odoo.addons.fs_attachment.models.ir_attachment.clean_fs"
-        ) as clean_fs:
+        with (
+            mock.patch.object(self.env.cr, "commit"),
+            mock.patch(
+                "odoo.addons.fs_attachment.models.ir_attachment.clean_fs"
+            ) as clean_fs,
+        ):
             self.ir_attachment_model.force_storage()
             clean_fs.assert_called_once()
         # files into the filestore must be moved to our filesystem storage
