@@ -369,7 +369,7 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:6e7abac468ff2942178ac2df68774f75820b618173acf8c7b76f51fbdbe3b7bc
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/storage/tree/17.0/fs_storage"><img alt="OCA/storage" src="https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/storage-17-0/storage-17-0-fs_storage"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/storage&amp;target_branch=17.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/storage/tree/18.0/fs_storage"><img alt="OCA/storage" src="https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/storage-18-0/storage-18-0-fs_storage"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/storage&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>This addon is a technical addon that allows you to define filesystem
 like storage for your data. It’s used by other addons to store their
 data in a transparent way into different kind of storages.</p>
@@ -478,6 +478,18 @@ depend on the protocol used and are described in the fsspec
 documentation.</li>
 <li>Resolve env vars. This options resolves the protocol options values
 starting with $ from environment variables</li>
+<li>Check Connection Method. If set, Odoo will always check the
+connection before using a storage and it will remove the fs
+connection from the cache if the check fails.<ul>
+<li><tt class="docutils literal">Create Marker file</tt>: create a hidden file on remote and then
+check it exists with Use it if you have write access to the remote
+and if it is not an issue to leave the marker file in the root
+directory.</li>
+<li><tt class="docutils literal">List file</tt>: list all files from the root directory. You can use
+it if the directory path does not contain a big list of files (for
+performance reasons)</li>
+</ul>
+</li>
 </ul>
 <p>Some protocols defined in the fsspec package are wrappers around other
 protocols. For example, the SimpleCacheFileSystem protocol is a wrapper
@@ -599,7 +611,7 @@ is into the confix.
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/storage/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/storage/issues/new?body=module:%20fs_storage%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/storage/issues/new?body=module:%20fs_storage%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -626,7 +638,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/storage/tree/17.0/fs_storage">OCA/storage</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/storage/tree/18.0/fs_storage">OCA/storage</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>

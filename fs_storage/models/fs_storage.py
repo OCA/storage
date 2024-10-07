@@ -281,7 +281,7 @@ class FSStorage(models.Model):
             rec.options_properties = f"__init__{signature}\n{doc}"
 
     def _get_marker_file_name(self):
-        return ".odoo_fs_storage_%s.marker" % self.id
+        return f".odoo_fs_storage_{self.id}.marker"
 
     def _marker_file_check_connection(self, fs):
         marker_file_name = self._get_marker_file_name()

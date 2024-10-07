@@ -17,13 +17,13 @@ Filesystem Storage Backend
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
-    :target: https://github.com/OCA/storage/tree/17.0/fs_storage
+    :target: https://github.com/OCA/storage/tree/18.0/fs_storage
     :alt: OCA/storage
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/storage-17-0/storage-17-0-fs_storage
+    :target: https://translation.odoo-community.org/projects/storage-18-0/storage-18-0-fs_storage
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=17.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -108,20 +108,37 @@ When you create a new backend, you must specify the following:
 
 -  The name of the backend. This is the name that will be used to
    identify the backend into Odoo
+
 -  The code of the backend. This code will identify the backend into the
    store_fname field of the ir.attachment model. This code must be
    unique. It will be used as scheme. example of the store_fname field:
    ``odoofs://abs34Tg11``.
+
 -  The protocol used by the backend. The protocol refers to the
    supported protocols of the fsspec python package.
+
 -  A directory path. This is a root directory from which the filesystem
    will be mounted. This directory must exist.
+
 -  The protocol options. These are the options that will be passed to
    the fsspec python package when creating the filesystem. These options
    depend on the protocol used and are described in the fsspec
    documentation.
+
 -  Resolve env vars. This options resolves the protocol options values
    starting with $ from environment variables
+
+-  Check Connection Method. If set, Odoo will always check the
+   connection before using a storage and it will remove the fs
+   connection from the cache if the check fails.
+
+   -  ``Create Marker file``: create a hidden file on remote and then
+      check it exists with Use it if you have write access to the remote
+      and if it is not an issue to leave the marker file in the root
+      directory.
+   -  ``List file``: list all files from the root directory. You can use
+      it if the directory path does not contain a big list of files (for
+      performance reasons)
 
 Some protocols defined in the fsspec package are wrappers around other
 protocols. For example, the SimpleCacheFileSystem protocol is a wrapper
@@ -248,7 +265,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/storage/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/storage/issues/new?body=module:%20fs_storage%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/storage/issues/new?body=module:%20fs_storage%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -279,6 +296,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/17.0/fs_storage>`_ project on GitHub.
+This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/18.0/fs_storage>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
