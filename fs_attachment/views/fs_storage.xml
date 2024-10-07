@@ -10,16 +10,16 @@
         <field name="arch" type="xml">
             <field name="options" position="after">
                 <field name="model_ids" widget="many2many">
-                    <tree>
+                    <list>
                         <field name="name" />
                         <field name="model" />
-                    </tree>
+                    </list>
                 </field>
                 <field name="field_ids" widget="many2many">
-                    <tree>
+                    <list>
                         <field name="name" />
                         <field name="model" />
-                    </tree>
+                    </list>
                 </field>
                 <separator string="Attachment" />
                 <field name="optimizes_directory_path" />
