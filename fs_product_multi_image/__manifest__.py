@@ -20,6 +20,11 @@
         "views/product_product.xml",
         "views/product_template.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "fs_product_multi_image/static/src/scss/fs_product_image.scss",
+        ]
+    },
     "demo": [],
     "maintainers": ["lmignon"],
     "development_status": "Alpha",

@@ -28,17 +28,25 @@
                                 nolabel="1"
                                 colspan="2"
                             >
-                                <tree>
-                                    <field name="sequence" widget="handle" />
-                                    <field name="name" />
-                                </tree>
+                            <kanban>
+                                <field name="name" />
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div
+                                                class="oe_kanban_content o_kanban_grouped oe_kanban_global_click"
+                                            >
+                                            <img
+                                                    t-att-src="kanban_image('fs.product.image', 'image_medium', record.id.raw_value)"
+                                                    alt="Image"
+                                                    class="o_image_fs me-2"
+                                                />
+                                            <field name="name" />
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
                             </field>
                         </group>
-                        <!-- field
-                            name="image_ids"
-                            mode="kanban"
-                            widget="storage_image_handle"
-                        / -->
                     </group>
                 </page>
             </page>
