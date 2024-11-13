@@ -35,6 +35,26 @@ class FsProductImage(models.Model):
         domain=[("apply_on", "=", "product")],
         index=True,
     )
+    image_url = fields.Char(compute="_compute_image_url")
+
+    @api.depends("image")
+    def _compute_image_url(self):
+        for record in self:
+            record.image_url = False
+            if record.image:
+                record.image_url = self._get_url()
+
+    def _get_url(self):
+        product_id = False
+        if "params" in self.env.context:
+            id = self.env.context["params"]["id"]
+            product_id = self.env["product.product"].browse(id)
+        name = product_id.barcode if product_id else self.product_tmpl_id.name
+        return f"/web/image/fs.product.image/{self.id}/image?download=true&filename={name}.jpg"
+
+    def download_image_url(self):
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        return f"{base_url}{self._get_url()}"
 
     @api.depends("product_tmpl_id.attribute_line_ids.value_ids")
     def _compute_available_attribute(self):

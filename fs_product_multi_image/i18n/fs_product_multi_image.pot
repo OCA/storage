@@ -52,6 +52,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: fs_product_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_product_multi_image.fs_product_image_form_view
+msgid "Download image"
+msgstr ""
+
+#. module: fs_product_multi_image
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image_medium
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image_medium
 msgid "FS Image Medium"

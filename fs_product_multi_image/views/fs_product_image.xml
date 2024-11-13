@@ -25,6 +25,12 @@
                     domain="[('id', 'in', available_attribute_value_ids)]"
                     attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
                 />
+                <field
+                    name="image_url"
+                    text="Download image"
+                    widget="url"
+                    nolabel="1"
+                />
             </group>
         </field>
     </record>
