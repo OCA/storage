@@ -11,6 +11,7 @@ import {
 } from "@web/views/fields/image/image_field";
 import {AltTextDialog} from "../dialogs/alttext_dialog.esm";
 import {_t} from "@web/core/l10n/translation";
+import {download, downloadFile} from "@web/core/network/download";
 import {registry} from "@web/core/registry";
 import {useService} from "@web/core/utils/hooks";
 import {url as utilUrl} from "@web/core/utils/urls";
@@ -79,6 +80,27 @@ export class FSImageField extends ImageField {
             },
         };
         this.dialogService.add(AltTextDialog, dialogProps);
+    }
+    async onFileDownload() {
+        if (this.props.value.content) {
+            const magic = fileTypeMagicWordMap[this.props.value.content[0]] || "png";
+            await downloadFile(
+                `data:image/${magic};base64,${this.props.value.content}`,
+                this.state.filename,
+                `image/${magic}`
+            );
+        } else {
+            await download({
+                data: {
+                    model: this.props.record.resModel,
+                    id: this.props.record.resId,
+                    field: this.props.name,
+                    filename: this.state.filename || "download",
+                    download: true,
+                },
+                url: "/web/image",
+            });
+        }
     }
 }
 
