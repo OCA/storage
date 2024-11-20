@@ -5,7 +5,6 @@
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <!--
         These views are not meant to be used directly, as we're dealing with
         an abstract class.
@@ -89,7 +88,9 @@
                             </div>
                             <div class="card-body p-0">
                                 <h4 class="card-title p-2 m-0 bg-200">
-                                    <small><field name="image_name" /></small>
+                                    <small>
+                                        <field name="image_name" />
+                                    </small>
                                 </h4>
                             </div>
                         </div>
@@ -98,5 +99,4 @@
             </kanban>
         </field>
     </record>
-
 </odoo>

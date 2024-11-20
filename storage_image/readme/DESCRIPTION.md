@@ -2,8 +2,8 @@ External image management depending on Storage File module.
 
 It include these features:
 
-* image resizing: thumbnail, etc.
-* store metadata like: checksum, mimetype
+- image resizing: thumbnail, etc.
+- store metadata like: checksum, mimetype
 
 Use cases:
 

@@ -35,8 +35,8 @@ class StorageImage(models.Model):
         for record in self:
             if record.name:
                 filename, extension = os.path.splitext(record.name)
-                record.name = "{}{}".format(
-                    slugify(filename, regex_pattern=REGEX_SLUGIFY), extension
+                record.name = (
+                    f"{slugify(filename, regex_pattern=REGEX_SLUGIFY)}{extension}"
                 )
                 record.alt_name = filename
                 for char in ["-", "_"]:
