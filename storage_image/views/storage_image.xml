@@ -3,12 +3,12 @@
     <record id="storage_image_view_tree" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="write_date" />
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="human_file_size" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="storage_image_view_form" model="ir.ui.view">
@@ -57,24 +57,25 @@
                 <field name="alt_name" />
                 <field name="image_small_url" />
                 <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_vignette oe_semantic_html_override">
-                            <a type="open">
-                                <img
-                                    t-att-src="record.image_small_url.value"
-                                    class="oe_kanban_image"
-                                    t-att-alt="record.alt_name"
-                                />
-                            </a>
-                            <div class="oe_kanban_details">
-                                <h4>
-                                    <a type="open">
-                                         <field name="name" />
-                                         (<field name="alt_name" />)
-                                    </a>
-                                </h4>
+                    <t t-name="card" class="row g-0">
+                        <aside class="col-4">
+                            <field
+                                name="image_small_url"
+                                widget="image_url"
+                                alt="alt_name"
+                            />
+                        </aside>
+                        <main class="col-4 pe-2">
+                            <div
+                                class="text-nowrap overflow-hidden"
+                                style="width: 150%; text-overflow: ellipsis;"
+                            >
+                                    <field name="name" />
+                            (
+                                    <field name="alt_name" />)
+
                             </div>
-                        </div>
+                        </main>
                     </t>
                 </templates>
             </kanban>
@@ -92,7 +93,7 @@
         <field name="name">Image</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">storage.image</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
         <field name="search_view_id" ref="storage_image_view_search" />
         <field name="domain">[]</field>
         <field name="context">{}</field>
@@ -106,7 +107,7 @@
     <record model="ir.actions.act_window.view" id="act_open_storage_image_view_tree">
         <field name="act_window_id" ref="act_open_storage_image_view" />
         <field name="sequence" eval="10" />
-        <field name="view_mode">tree</field>
+        <field name="view_mode">list</field>
         <field name="view_id" ref="storage_image_view_tree" />
     </record>
     <menuitem

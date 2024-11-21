@@ -106,12 +106,12 @@ class StorageImageCase(StorageImageCommonCase):
             self.assertEqual(len(m.request_history), 2)
             urls = [x.url for x in m.request_history]
             self.assertIn(
-                "http://pilbox:8888/?url=test/akretion-logo-%s.png"
-                "&w=128&h=128&mode=fill&fmt=webp" % image.file_id.id,
+                f"http://pilbox:8888/?url=test/akretion-logo-{image.file_id.id}.png"
+                "&w=128&h=128&mode=fill&fmt=webp",
                 urls,
             )
             self.assertIn(
-                "http://pilbox:8888/?url=test/akretion-logo-%s.png"
-                "&w=64&h=64&mode=fill&fmt=webp" % image.file_id.id,
+                f"http://pilbox:8888/?url=test/akretion-logo-{image.file_id.id}.png"
+                "&w=64&h=64&mode=fill&fmt=webp",
                 urls,
             )

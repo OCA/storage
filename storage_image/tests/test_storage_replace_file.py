@@ -3,7 +3,7 @@
 
 import base64
 
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 from .common import StorageImageCommonCase
 
@@ -25,7 +25,7 @@ class TestStorageReplaceFile(StorageImageCommonCase):
         image = self._create_storage_image(self.filename_1, self.filedata_1)
         wiz_form = Form(
             self.env["storage.file.replace"].with_context(
-                {"active_model": "storage.image", "active_id": image.id}
+                **{"active_model": "storage.image", "active_id": image.id}
             ),
             view="storage_image.storage_file_replace_view_form",
         )
@@ -47,13 +47,13 @@ class TestStorageReplaceFile(StorageImageCommonCase):
         # Now, do revert the change
         wiz_form = Form(
             self.env["storage.file.replace"].with_context(
-                {"active_model": "storage.image", "active_id": image.id}
+                **{"active_model": "storage.image", "active_id": image.id}
             )
         )
         wiz_form.file_name = self.filename_1
         wiz_form.data = self.filedata_1
         wiz = wiz_form.save()
-        wiz.confirm()
+        wiz.sudo().confirm()
         # And ensure that the new file
         self.assertEqual(image.file_id.name, self.filename_1)
         self.assertEqual(image.file_id.data, self.filedata_1)

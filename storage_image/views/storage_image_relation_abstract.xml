@@ -70,8 +70,15 @@
                 <field name="image_alt_name" />
                 <field name="sequence" widget="handle" />
                 <templates>
-                    <t t-name="kanban-box">
-                        <div class="card oe_kanban_global_click p-0">
+                    <t t-name="card" class="row g-0">
+                        <aside class="col-3">
+                            <field
+                                name="image_url"
+                                widget="image_url"
+                                alt="image_alt_name"
+                            />
+                        </aside>
+                        <main class="col-4 pe-2">
                             <a
                                 t-if="! read_only_mode"
                                 type="delete"
@@ -79,21 +86,16 @@
                             >
                                 <i class="fa fa-times" title="Unlink" />
                             </a>
-                            <div class="o_squared_image">
-                                <img
-                                    class="card-img-top"
-                                    t-att-src="record.image_url.value"
-                                    t-att-alt="record.image_alt_name.value"
-                                />
+                            <div
+                                class="text-nowrap overflow-hidden"
+                                style="width: 150%; text-overflow: ellipsis;"
+                            >
+                                <span>
+                                    <span class="mr4">Name: </span>
+                                    <field name="image_name" />
+                                </span>
                             </div>
-                            <div class="card-body p-0">
-                                <h4 class="card-title p-2 m-0 bg-200">
-                                    <small>
-                                        <field name="image_name" />
-                                    </small>
-                                </h4>
-                            </div>
-                        </div>
+                        </main>
                     </t>
                 </templates>
             </kanban>

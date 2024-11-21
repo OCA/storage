@@ -3,12 +3,7 @@
     @author Iván Todorovich <ivan.todorovich@gmail.com>
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 */
-.o_field_storage_image_handle {
-    &.drop-zone {
-        outline: 2px dashed $o-enterprise-primary-color;
-        outline-offset: +2px;
-    }
-
+.o_group_draggable {
     .o_kanban_view.o_kanban_ungrouped {
         width: auto;
 
