@@ -27,11 +27,12 @@
         <field name="inherit_id" ref="product.product_template_kanban_view" />
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
-            <field name="id" position="after">
+            <field name="categ_id" position="after">
                 <field name="image_small_url" />
             </field>
-            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
-                <attribute name="t-att-src">record.image_small_url.value</attribute>
+            <xpath expr="//aside/field[@name='image_128']" position="attributes">
+                <attribute name="name">image_small_url</attribute>
+                <attribute name="widget">image_url</attribute>
             </xpath>
         </field>
     </record>

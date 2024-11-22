@@ -31,13 +31,11 @@ class ImageTag(models.Model):
         comodel_name="product.image.relation",
         inverse_name="tag_id",
         string="Product Image Relations",
-        readonly=True,
     )
     categ_img_rel_ids = fields.One2many(
         comodel_name="category.image.relation",
         inverse_name="tag_id",
         string="Category Image Relations",
-        readonly=True,
     )
     product_tmpl_count = fields.Integer(
         string="# of Products", compute="_compute_product_tmpl_count"

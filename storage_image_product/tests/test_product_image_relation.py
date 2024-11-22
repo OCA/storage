@@ -108,7 +108,7 @@ class ProductImageCase(StorageImageCommonCase):
                     self.assertEqual(prod[prod_fname], image[fname])
 
     def test_main_image_and_urls(self):
-        logo, image_wh, image_bk = self._create_multiple_images()
+        logo, image_wh, _ = self._create_multiple_images()
         # Template should have the one w/ lower sequence
         expected = ((self.black_image, self.template),)
         self._test_main_images_and_urls(expected)

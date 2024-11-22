@@ -11,15 +11,9 @@
                     context="{'active_model': context.get('active_model')}"
                 />
                 <field
-                    name="available_attribute_value_ids"
-                    widget="many2many_tags"
-                    invisible="1"
-                />
-                <field
                     name="attribute_value_ids"
                     widget="many2many_tags"
-                    domain="[('id', 'in', available_attribute_value_ids)]"
-                    attrs="{'invisible': [('available_attribute_value_ids', '=', [])]}"
+                    invisible="not available_attribute_value_ids"
                 />
             </group>
         </field>
@@ -39,15 +33,15 @@
             <field name="sequence" position="before">
                 <field name="attribute_value_ids" />
             </field>
-            <div class="card-body p-0" position="after">
-                <div class="o_kanban_tags_section">
-                    <field name="tag_id" />
-                    <field
-                        name="attribute_value_ids"
-                        widget="many2many_tags"
-                        groups="product.group_product_variant"
-                    />
-                </div>
+            <div class="text-nowrap overflow-hidden" position="after">
+                <field name="tag_id" />
+                <span>
+                        Attributes: <field
+                    name="attribute_value_ids"
+                    widget="many2many_tags"
+                    groups="product.group_product_variant"
+                />
+                    </span>
             </div>
         </field>
     </record>

@@ -6,13 +6,13 @@
         <field name="arch" type="xml">
             <page name="info" position="before">
                 <page name="products" string="Products">
-                    <field name="product_relation_ids" mode="tree,form,kanban">
-                        <tree>
+                    <field name="product_relation_ids" mode="list,form,kanban">
+                        <list>
                             <field name="product_tmpl_id" />
                             <field name="available_attribute_value_ids" invisible="1" />
                             <field name="attribute_value_ids" widget="many2many_tags" />
                             <field name="tag_id" />
-                        </tree>
+                        </list>
                         <form>
                             <group>
                                 <field name="product_tmpl_id" />
@@ -26,11 +26,11 @@
                     </field>
                 </page>
                 <page name="categories" string="Categories">
-                    <field name="category_relation_ids" mode="tree,form,kanban">
-                        <tree>
+                    <field name="category_relation_ids" mode="list,form,kanban">
+                        <list>
                             <field name="category_id" />
                             <field name="tag_id" />
-                        </tree>
+                        </list>
                         <form>
                             <group>
                                 <field name="category_id" />
