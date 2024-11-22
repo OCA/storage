@@ -2,7 +2,6 @@ from odoo import models
 
 
 class ProductTemplateAttributeLine(models.Model):
-
     _inherit = "product.template.attribute.line"
 
     def write(self, values):

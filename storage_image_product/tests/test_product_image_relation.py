@@ -102,7 +102,7 @@ class ProductImageCase(StorageImageCommonCase):
             for prod in products:
                 self.assertEqual(prod.main_image_id, image)
                 for size in ("small", "medium"):
-                    prod_fname = fname = "image_{}_url".format(size)
+                    prod_fname = fname = f"image_{size}_url"
                     if prod._name == "product.product":
                         prod_fname = "variant_" + fname
                     self.assertEqual(prod[prod_fname], image[fname])

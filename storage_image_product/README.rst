@@ -17,13 +17,13 @@ Storage Image Product
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
-    :target: https://github.com/OCA/storage/tree/15.0/storage_image_product
+    :target: https://github.com/OCA/storage/tree/18.0/storage_image_product
     :alt: OCA/storage
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/storage-15-0/storage-15-0-storage_image_product
+    :target: https://translation.odoo-community.org/projects/storage-18-0/storage-18-0-storage_image_product
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -35,18 +35,23 @@ Attach images to products and categories
 .. contents::
    :local:
 
+Configuration
+=============
+
+
+
 Usage
 =====
 
-A) Categories
+1) Categories
 
-   Go to Sales > Configuration > Products > Product Categories.
-   A new field Image is available to upload or use an existing image.
+   Go to Sales > Configuration > Products > Product Categories. A new
+   field Image is available to upload or use an existing image.
 
-B) Products
+2) Products
 
-   Go to Sales > Products. In variants tab, after the attributes selection, you will find the images.
-
+   Go to Sales > Products. In variants tab, after the attributes
+   selection, you will find the images.
 
 For uploading and managing the images see the module storage_image.
 
@@ -56,7 +61,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/storage/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/storage/issues/new?body=module:%20storage_image_product%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/storage/issues/new?body=module:%20storage_image_product%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -64,22 +69,22 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Raphaël Reverdy <raphael.reverdy@akretion.com>
-* Denis Roussel <denis.roussel@acsone.eu>
-* Quentin Groulard <quentin.groulard@acsone.eu>
-* `Camptocamp <https://www.camptocamp.com>`_
+-  Raphaël Reverdy <raphael.reverdy@akretion.com>
+-  Denis Roussel <denis.roussel@acsone.eu>
+-  Quentin Groulard <quentin.groulard@acsone.eu>
+-  `Camptocamp <https://www.camptocamp.com>`__
 
-  * Iván Todorovich <ivan.todorovich@gmail.com>
+   -  Iván Todorovich <ivan.todorovich@gmail.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -91,6 +96,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/15.0/storage_image_product>`_ project on GitHub.
+This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/18.0/storage_image_product>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
