@@ -6,14 +6,11 @@
 
 import logging
 
+import boto3
+
 from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
-
-try:
-    import boto3
-except ImportError as err:  # pragma: no cover
-    _logger.debug(err)
 
 
 def _load_aws_regions():

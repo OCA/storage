@@ -26,7 +26,7 @@ class AmazonS3Case(VCRMixin, CommonCase, BackendStorageTestMixin):
         }
 
     def setUp(self):
-        super(AmazonS3Case, self).setUp()
+        super().setUp()
         self.backend.write(
             {
                 "backend_type": "amazon_s3",

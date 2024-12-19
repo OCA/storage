@@ -8,21 +8,22 @@
                 <group
                     name="Amazon S3"
                     string="Amazon S3"
-                    attrs="{'invisible': [('backend_type', '!=', 'amazon_s3')]}"
+                    invisible="backend_type != 'amazon_s3'"
                 >
                     <group>
                         <field name="aws_host" />
                         <field
                             name="aws_access_key_id"
-                            attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"
+                            required="backend_type == 'amazon_s3'"
                         />
                         <field
                             name="aws_secret_access_key"
-                            attrs="{'required': [('backend_type', '=', 'amazon_s3')], 'readonly':[('backend_type', '!=', 'amazon_s3')]}"
+                            required="backend_type == 'amazon_s3'"
+                            readonly="backend_type != 'amazon_s3'"
                         />
                         <field
                             name="aws_bucket"
-                            attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"
+                            required="backend_type == 'amazon_s3'"
                         />
                         <field name="aws_cache_control" />
                         <field name="aws_file_acl" />
@@ -31,11 +32,11 @@
                         <field
                             name="aws_region"
                             widget="radio"
-                            attrs="{'required': [('backend_type', '=', 'amazon_s3')]}"
+                            required="backend_type == 'amazon_s3'"
                         />
                         <field
                             name="aws_other_region"
-                            attrs="{'invisible': [('aws_region', '!=', 'other')]}"
+                            invisible="aws_region != 'other'"
                         />
                     </group>
                 </group>

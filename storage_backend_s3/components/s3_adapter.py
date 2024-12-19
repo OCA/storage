@@ -7,7 +7,7 @@
 import io
 import logging
 
-from odoo import _, exceptions
+from odoo import exceptions
 
 from odoo.addons.component.core import Component
 
@@ -87,9 +87,9 @@ class S3StorageAdapter(Component):
                 s3object.upload_fileobj(fileobj, **file_params)
             except ClientError as error:
                 # log verbose error from s3, return short message for user
-                _logger.exception("Error during storage of the file %s" % relative_path)
+                _logger.exception(f"Error during storage of the file {relative_path}")
                 raise exceptions.UserError(
-                    _("The file could not be stored: %s") % str(error)
+                    self.env._(f"The file could not be stored: {str(error)}")
                 ) from error
 
     def _aws_upload_fileobj_params(self, mimetype=None, **kw):
