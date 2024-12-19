@@ -3,10 +3,10 @@
     <record id="storage_media_view_tree" model="ir.ui.view">
         <field name="model">storage.media</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="media_type_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -23,18 +23,8 @@
                     />
                 </header>
                 <group>
-                    <field name="id" invisible="True" />
-                    <field
-                        name="data"
-                        filename="name"
-                        attrs="{'invisible': [('id', '!=', False)]}"
-                    />
-                    <field
-                        name="url"
-                        readonly="True"
-                        attrs="{'invisible': [('id', '=', False)]}"
-                        widget="url"
-                    />
+                    <field name="data" filename="name" />
+                    <field name="url" readonly="True" widget="url" />
                     <field name="name" />
                     <field name="media_type_id" />
                 </group>
@@ -45,10 +35,10 @@
     <record id="storage_media_type_view_tree" model="ir.ui.view">
         <field name="model">storage.media.type</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="code" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -78,7 +68,7 @@
         <field name="name">Storage Media Type</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">storage.media.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="storage_media_type_view_search" />
         <field name="domain">[]</field>
         <field name="context">{}</field>
@@ -100,7 +90,7 @@
     >
         <field name="act_window_id" ref="act_open_storage_media_type_view" />
         <field name="sequence" eval="10" />
-        <field name="view_mode">tree</field>
+        <field name="view_mode">list</field>
         <field name="view_id" ref="storage_media_type_view_tree" />
     </record>
 
@@ -114,7 +104,7 @@
     <record id="storage_media_action" model="ir.actions.act_window">
         <field name="name">Storage Media</field>
         <field name="res_model">storage.media</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

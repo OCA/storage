@@ -8,8 +8,6 @@
         <field name="arch" type="xml">
             <form string="Replace File" version="7.0">
                 <sheet>
-                    <field name="file_id" invisible="1" />
-                    <field name="media_id" invisible="1" />
                     <group string="Media" name="media">
                         <field name="data" filename="file_name" />
                     </group>

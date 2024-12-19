@@ -6,10 +6,11 @@ from odoo.addons.component.tests.common import TransactionComponentCase
 
 
 class StorageMediaCase(TransactionComponentCase):
-    def setUp(self):
-        super(StorageMediaCase, self).setUp()
-        self.backend = self.env.ref("storage_backend.default_storage_backend")
-        self.filename = "test of my_file.txt"
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.backend = cls.env.ref("storage_backend.default_storage_backend")
+        cls.filename = "test of my_file.txt"
 
     def test_onchange_name(self):
         media = self.env["storage.media"].create(

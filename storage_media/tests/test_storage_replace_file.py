@@ -3,7 +3,7 @@
 
 import base64
 
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 from odoo.addons.component.tests.common import TransactionComponentCase
 
@@ -26,13 +26,10 @@ class TestX(TransactionComponentCase):
         )
         wiz_form = Form(
             self.env["storage.file.replace"].with_context(
-                {"active_model": "storage.media", "active_id": media.id}
+                **{"active_model": "storage.media", "active_id": media.id}
             ),
             view="storage_media.storage_file_replace_view_form",
         )
-        # Check default_get
-        self.assertEqual(wiz_form.media_id, media)
-        self.assertEqual(wiz_form.media_id.file_id, media.file_id)
         # Write file name first, as when the file widget is used,
         # a default file name is retrieved from the media that has been picked.
         # We don't have that here.
@@ -48,7 +45,7 @@ class TestX(TransactionComponentCase):
         # Now, do revert the change
         wiz_form = Form(
             self.env["storage.file.replace"].with_context(
-                {"active_model": "storage.media", "active_id": media.id}
+                **{"active_model": "storage.media", "active_id": media.id}
             )
         )
         wiz_form.file_name = self.filename_1

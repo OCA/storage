@@ -9,11 +9,6 @@ from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from slugify import slugify
-except ImportError:  # pragma: no cover
-    _logger.debug("Cannot `import slugify`.")
-
 
 class StorageMedia(models.Model):
     _name = "storage.media"
@@ -29,14 +24,15 @@ class StorageMedia(models.Model):
         for record in self:
             if record.name:
                 filename, extension = os.path.splitext(record.name)
-                record.name = f"{slugify(filename)}{extension}"
+                record.name = f"{self.env['ir.http']._slugify(filename)}{extension}"
 
-    @api.model
-    def create(self, vals):
-        vals["file_type"] = self._default_file_type
-        if "backend_id" not in vals:
-            vals["backend_id"] = self._get_default_backend_id()
-        return super(StorageMedia, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals["file_type"] = self._default_file_type
+            if "backend_id" not in vals:
+                vals["backend_id"] = self._get_default_backend_id()
+        return super().create(vals_list)
 
     def _get_default_backend_id(self):
         return self.env["storage.backend"]._get_backend_id_from_param(
