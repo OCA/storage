@@ -29,7 +29,7 @@ class StorageMedia(models.Model):
         for record in self:
             if record.name:
                 filename, extension = os.path.splitext(record.name)
-                record.name = "{}{}".format(slugify(filename), extension)
+                record.name = f"{slugify(filename)}{extension}"
 
     @api.model
     def create(self, vals):
