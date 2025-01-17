@@ -512,3 +512,11 @@ class FSStorage(models.Model):
                 "sticky": False,
             },
         }
+
+    def _get_root_filesystem(self, fs=None):
+        if not fs:
+            self.ensure_one()
+            fs = self.fs
+        while hasattr(fs, "fs"):
+            fs = fs.fs
+        return fs
