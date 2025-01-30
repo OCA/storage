@@ -128,6 +128,12 @@ msgid "Images"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__import_from_url
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__import_from_url
+msgid "Imported From Url"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation____last_update
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag____last_update
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation____last_update
