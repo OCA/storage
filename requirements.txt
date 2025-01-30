@@ -5,4 +5,5 @@ paramiko
 pyftpdlib
 python-magic
 python_slugify
+unicodecsv
 validators
