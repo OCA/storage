@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.model.access" id="product_brand_image_relation_access_read">
+        <field name="name">product.brand.image.relation access read</field>
+        <field name="model_id" ref="model_product_brand_image_relation" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+    <record model="ir.model.access" id="product_brand_image_relation_access_edit">
+        <field name="name">product.brand.image.relation access edit</field>
+        <field name="model_id" ref="model_product_brand_image_relation" />
+        <field name="group_id" ref="storage_image.group_image_manager" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+</odoo>
