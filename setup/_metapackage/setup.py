@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo-addon-storage_file>=15.0dev,<15.1dev',
         'odoo-addon-storage_image>=15.0dev,<15.1dev',
         'odoo-addon-storage_image_backend_migration>=15.0dev,<15.1dev',
+        'odoo-addon-storage_image_import>=15.0dev,<15.1dev',
         'odoo-addon-storage_image_product>=15.0dev,<15.1dev',
         'odoo-addon-storage_import_image_advanced>=15.0dev,<15.1dev',
         'odoo-addon-storage_media>=15.0dev,<15.1dev',
