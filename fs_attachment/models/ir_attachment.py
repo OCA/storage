@@ -373,14 +373,29 @@ class IrAttachment(models.Model):
     @api.model
     def _storage_file_read(self, fname: str) -> bytes | None:
         """Read the file from the filesystem storage"""
-        fs, _storage, fname = self._fs_parse_store_fname(fname)
-        try:
-            with fs.open(fname, "rb") as f:
-                return f.read()
-        except IOError:
-            _logger.info(
-                "Error reading %s on storage %s", fname, _storage, exc_info=True
-            )
+        fs, storage_code, fname = self._fs_parse_store_fname(fname)
+
+        read_retry_attempts, read_retry_delay = (
+            self.env["fs.storage"].sudo().get_read_retry_config(storage_code)
+            if storage_code
+            else (0, 0.0)
+        )
+        for attempt in range(read_retry_attempts + 1):
+            try:
+                with fs.open(fname, "rb") as f:
+                    return f.read()
+            except FileNotFoundError:
+                _logger.info(
+                    "File not found %s on storage %s (attempt %d)",
+                    fname,
+                    storage_code,
+                    attempt + 1,
+                )
+                time.sleep(read_retry_delay)
+            except IOError:
+                _logger.info(
+                    "Error reading %s on storage %s", fname, storage_code, exc_info=True
+                )
         return b""
 
     def _storage_write_option(self, fs):

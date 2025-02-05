@@ -108,6 +108,16 @@ class FsStorage(models.Model):
         compute="_compute_field_ids",
         inverse="_inverse_field_ids",
     )
+    read_retry_attempts = fields.Integer(
+        default=0,
+        help="Number of times to retry reading a file before failing. "
+        "It can apply to certain file storage backends like S3.",
+    )
+    read_retry_delay = fields.Float(
+        string="Retry Delay (seconds)",
+        default=0.0,
+        help="Seconds to wait between retries when reading a file.",
+    )
 
     @api.constrains("use_as_default_for_attachments")
     def _check_use_as_default_for_attachments(self):
@@ -501,3 +511,13 @@ class FsStorage(models.Model):
         attachments = self.env["ir.attachment"].search(domain)
         attachments._compute_fs_url()
         attachments._compute_fs_url_path()
+
+    @api.model
+    @tools.ormcache("code")
+    def get_read_retry_config(self, code):
+        """Return (retry_attempts, retry_delay) for a given storage code."""
+        storage = self.get_by_code(code)
+        return (
+            max(storage.read_retry_attempts, 0) if storage else 0,
+            max(storage.read_retry_delay, 0.0) if storage else 0.0,
+        )

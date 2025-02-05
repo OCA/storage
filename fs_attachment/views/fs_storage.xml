@@ -36,6 +36,9 @@
                 <field name="is_directory_path_in_url" />
                 <field name="use_filename_obfuscation" />
                 <field name="use_x_sendfile_to_serve_internal_url" />
+                <separator string="Read Failure Parameters" />
+                <field name="read_retry_attempts" />
+                <field name="read_retry_delay" />
             </field>
         </field>
     </record>
