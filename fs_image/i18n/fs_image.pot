@@ -72,6 +72,14 @@ msgstr ""
 #: code:addons/fs_image/static/src/views/fields/fsimage_field.xml:0
 #: code:addons/fs_image/static/src/views/fields/fsimage_field.xml:0
 #, python-format
+msgid "Download"
+msgstr ""
+
+#. module: fs_image
+#. odoo-javascript
+#: code:addons/fs_image/static/src/views/fields/fsimage_field.xml:0
+#: code:addons/fs_image/static/src/views/fields/fsimage_field.xml:0
+#, python-format
 msgid "Edit"
 msgstr ""
 
