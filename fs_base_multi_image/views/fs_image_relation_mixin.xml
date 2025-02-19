@@ -46,7 +46,7 @@
                 <field name="specific_image" />
                 <field name="link_existing" />
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_card oe_kanban_global_click">
                             <a
                                 type="delete"

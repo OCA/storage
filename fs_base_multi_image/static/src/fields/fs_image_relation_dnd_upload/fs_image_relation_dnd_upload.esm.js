@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import {X2ManyField, x2ManyField} from "@web/views/fields/x2many/x2many_field";
 import {onWillRender, useRef, useState} from "@odoo/owl";
 import {registry} from "@web/core/registry";
@@ -181,6 +179,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
                 return;
             }
             const filePromise = new Promise(function (resolve) {
+                /* global FileReader */
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = function (upload) {

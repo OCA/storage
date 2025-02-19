@@ -51,11 +51,11 @@
         <field name="name">fs.image.tree (in fs_base_multi_image)</field>
         <field name="model">fs.image</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="create_uid" />
                 <field name="create_date" />
-            </tree>
+            </list>
         </field>
     </record>
 
