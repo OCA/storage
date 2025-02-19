@@ -4,7 +4,7 @@
         <Dialog size="'md'" title="props.title">
             <div class="form-group row">
                 <t t-if="props.readonly">
-                    <span t-esc="props.value or ''" />
+                    <span t-out="props.value or ''" />
                 </t>
                 <div class="col-sm-12 o_field_widget o_field_text">
                     <input

@@ -4,7 +4,6 @@
 from contextlib import contextmanager
 from io import BytesIO, IOBase
 
-from odoo import _
 from odoo.exceptions import UserError
 from odoo.tools.image import image_process
 
@@ -218,7 +217,7 @@ class FSImage(FSFile):
         for record in records:
             if not record[self.name]:
                 raise UserError(
-                    _(
+                    record.env._(
                         "Cannot set alt_text on empty image "
                         "(record %(record)s.%(field_name)s)",
                         record=record,

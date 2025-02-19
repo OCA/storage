@@ -1,12 +1,10 @@
-/** @odoo-module */
-
 /**
  * Copyright 2023 ACSONE SA/NV
  */
 
 import {Dialog} from "@web/core/dialog/dialog";
 
-const {Component, useRef} = owl;
+import {Component, useRef} from "@odoo/owl";
 
 export class AltTextDialog extends Component {
     setup() {
