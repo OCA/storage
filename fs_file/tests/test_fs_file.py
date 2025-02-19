@@ -119,8 +119,32 @@ class TestFsFile(TransactionCase):
         self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
 
+    def test_create_in_b64_check_size(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": base64.b64encode(self.create_content)}
+        )
+        self.assertEqual(7, instance.fs_file.size)
+
+    def test_create_in_b64_check_extension(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": base64.b64encode(self.create_content)}
+        )
+        self.assertEqual("txt", instance.fs_file.extension)
+
+    def test_create_in_b64_name_set(self):
+        instance = self.env["test.model"].create(
+            {"fs_file": base64.b64encode(self.create_content)}
+        )
+        with self.assertRaises(ValueError) as raise_exception:
+            instance.fs_file.name = "fs_file_test"
+        self.assertEqual(
+            "The name of the file can only be updated while the file is not yet stored",
+            raise_exception.exception.args[0],
+        )
+
     def test_write_in_b64(self):
         instance = self.env["test.model"].create({"fs_file": b"test"})
+        self.assertEqual("fs_file", instance.fs_file.write_buffer.name)
         instance.write({"fs_file": base64.b64encode(self.create_content)})
         self.assertTrue(isinstance(instance.fs_file, FSFileValue))
         self.assertEqual(instance.fs_file.getvalue(), self.create_content)
@@ -190,6 +214,13 @@ class TestFsFile(TransactionCase):
         # from the content
         value = FSFileValue(name="test", value=self.png_content)
         self.assertEqual(value.mimetype, "image/png")
+
+    def test_fs_value_no_name(self):
+        with self.assertRaises(ValueError) as raise_exception:
+            FSFileValue(value=self.create_content)
+        self.assertEqual(
+            "name must be set when value is bytes", raise_exception.exception.args[0]
+        )
 
     def test_cache_invalidation(self):
         """Test that the cache is invalidated when the FSFileValue is modified
