@@ -18,9 +18,9 @@
                     <div class="row">
                         <div>
                             You can drag and drop images to create new records or <a
-                                href="#"
-                                t-on-click="onClickSelectDocuments"
-                            >click here</a> to select image files.
+                            href="#"
+                            t-on-click="onClickSelectDocuments"
+                        >click here</a> to select image files.
                         </div>
                     </div>
 
@@ -28,19 +28,19 @@
                         <div>
                             Choose how you want to store the new images:
                             <select
-                                name="fs_image_target"
-                                t-on-change="onChangeImageTarget"
-                                class="o_input pe-3"
-                            >
-                                <option
-                                    value="fs_image"
-                                    t-att-selected="state.target == 'fs_image'"
-                                >Reusable images</option>
-                                <option
-                                    value="specific"
-                                    t-att-selected="state.target == 'specific'"
-                                >Specific</option>
-                            </select>
+                            name="fs_image_target"
+                            t-on-change="onChangeImageTarget"
+                            class="o_input pe-3"
+                        >
+                            <option
+                                value="fs_image"
+                                t-att-selected="state.target == 'fs_image'"
+                            >Reusable images</option>
+                            <option
+                                value="specific"
+                                t-att-selected="state.target == 'specific'"
+                            >Specific</option>
+                        </select>
                         </div>
                     </div>
                     <input
