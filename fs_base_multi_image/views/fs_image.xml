@@ -48,21 +48,21 @@
     </record>
 
     <record model="ir.ui.view" id="fs_image_tree_view">
-        <field name="name">fs.image.tree (in fs_base_multi_image)</field>
+        <field name="name">fs.image.list (in fs_base_multi_image)</field>
         <field name="model">fs.image</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="create_uid" />
                 <field name="create_date" />
-            </tree>
+            </list>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="fs_image_act_window">
         <field name="name">Fs Image</field>
         <field name="res_model">fs.image</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
