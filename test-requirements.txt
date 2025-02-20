@@ -1,0 +1,6 @@
+odoo_test_helper
+
+odoo-addon-fs-file @ git+https://github.com/OCA/storage.git@refs/pull/445/head#subdirectory=fs_file
+odoo-addon-fs-image @ git+https://github.com/OCA/storage.git@refs/pull/446/head#subdirectory=fs_image
+odoo-addon-fs-base-multi-image @ git+https://github.com/OCA/storage.git@refs/pull/447/head#subdirectory=fs_base_multi_image
+odoo-addon-image-tag @ git+https://github.com/OCA/storage.git@refs/pull/448/head#subdirectory=image_tag
