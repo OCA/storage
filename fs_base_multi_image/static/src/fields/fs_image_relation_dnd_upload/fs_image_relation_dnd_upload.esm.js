@@ -49,7 +49,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
 
     initDefaultSequence() {
         let sequence = 0;
-        $.each(this.props.record.data[this.props.name].records, (i, record) => {
+        this.props.record.data[this.props.name].records?.forEach((record) => {
             sequence = record.data.sequence;
             if (sequence >= this.defaultSequence) {
                 this.defaultSequence = sequence + 1;
@@ -107,7 +107,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
             .call("fs.image", "create", [imagesDesc])
             .then((fsImageIds) => {
                 let values = {};
-                $.each(fsImageIds, (i, fsImageId) => {
+                fsImageIds?.forEach((fsImageId) => {
                     values = self.getFsImageRelationValues(fsImageId);
                     self.createFieldRelationRecords(values);
                 });
@@ -140,7 +140,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
 
     async uploadSpecificImage(imagesDesc) {
         const self = this;
-        $.each(imagesDesc, (i, imageDesc) => {
+        imagesDesc?.forEach((imageDesc) => {
             self.createFieldRelationRecords(
                 self.getSpecificImageRelationValues(imageDesc)
             );
@@ -174,7 +174,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         const self = this;
         const promises = [];
         this.env.services.ui.block();
-        $.each(files, function (i, file) {
+        Array.from(files).forEach((file) => {
             if (!file.type.includes("image")) {
                 return;
             }
@@ -192,7 +192,7 @@ export class FsImageRelationDndUploadField extends X2ManyField {
         });
         return Promise.all(promises).then(function (fileContents) {
             const imagesDesc = [];
-            $.each(fileContents, function (i, fileContent) {
+            fileContents?.forEach((fileContent) => {
                 imagesDesc.push(self.getFileImageDesc(fileContent));
             });
             if (imagesDesc.length > 0) {
