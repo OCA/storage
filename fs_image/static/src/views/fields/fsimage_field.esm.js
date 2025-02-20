@@ -6,7 +6,6 @@
 import {
     ImageField,
     fileTypeMagicWordMap,
-    imageCacheKey,
     imageField,
 } from "@web/views/fields/image/image_field";
 import {AltTextDialog} from "../dialogs/alttext_dialog.esm";
@@ -51,7 +50,7 @@ export class FSImageField extends ImageField {
                 const filename = this.props.record.data[this.props.name].filename;
                 base_url = `/web/image/${model}/${id}/${field}/${filename}`;
             }
-            return utilUrl(base_url, {unique: imageCacheKey(this.rawCacheKey)});
+            return utilUrl(base_url, {unique: this.rawCacheKey});
         }
         return placeholder;
     }
