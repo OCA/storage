@@ -5,7 +5,7 @@
     "name": "Image Tag",
     "summary": """
         Image tag model""",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
@@ -15,5 +15,4 @@
         "security/image_tag.xml",
         "views/image_tag.xml",
     ],
-    "demo": [],
 }
