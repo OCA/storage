@@ -13,6 +13,7 @@
             <field name="image_1920" position="after">
                 <field
                     name="image"
+                    widget="fs_image"
                     string="Image"
                     class="oe_avatar"
                     options="{'preview_image': 'image_medium', 'zoom': true}"
@@ -25,14 +26,14 @@
                         widget="fs_image_relation_dnd_upload"
                         mode="kanban"
                     >
-                        <tree>
+                        <list>
                             <field name="sequence" widget="handle" />
                             <field name="name" />
                             <field name="link_existing" invisible="1" />
                             <field name="image_id" invisible="1" />
                             <field name="image" invisible="1" />
                             <field name="specific_image" invisible="1" />
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </page>
@@ -43,11 +44,12 @@
         <field name="inherit_id" ref="product.product_template_kanban_view" />
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
-                <attribute
-                    name="t-att-src"
-                >kanban_image('product.template', 'image_medium', record.id.raw_value)</attribute>
-            </xpath>
+            <field name="image_128" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_128" position="after">
+                <field name="image_medium" widget="fs_image" alt="Product" />
+            </field>
         </field>
     </record>
 </odoo>

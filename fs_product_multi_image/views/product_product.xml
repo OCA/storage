@@ -7,11 +7,17 @@
         <field name="inherit_id" ref="product.product_kanban_view" />
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
-                <attribute
-                    name="t-att-src"
-                >kanban_image('product.product', 'image_medium', record.id.raw_value)</attribute>
-            </xpath>
+            <field name="image_128" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_128" position="after">
+                <field
+                    name="image_medium"
+                    widget="fs_image"
+                    options="{'img_class': 'o_image_64_contain mw-100'}"
+                    alt="Product"
+                />
+            </field>
         </field>
     </record>
     <record id="product_normal_form_view" model="ir.ui.view">
@@ -24,6 +30,7 @@
             <field name="image_1920" position="after">
                 <field
                     name="image"
+                    widget="fs_image"
                     class="oe_avatar"
                     options="{'preview_image': 'image_medium', 'zoom': true}"
                 />
@@ -48,6 +55,7 @@
             <field name="image_1920" position="after">
                 <field
                     name="image"
+                    widget="fs_image"
                     class="oe_avatar"
                     options="{'preview_image': 'image_medium', 'zoom': true}"
                 />

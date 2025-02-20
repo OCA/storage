@@ -17,10 +17,10 @@
             <xpath expr="//group[last()]" position="after">
                 <group name="images" string="Images">
                     <field name="image_ids">
-                        <tree>
+                        <list>
                             <field name="sequence" widget="handle" />
                             <field name="name" />
-                        </tree>
+                        </list>
                     </field>
                     <!-- mode="kanban"
                         widget="storage_image_handle" -->
