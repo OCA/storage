@@ -55,7 +55,7 @@ class FsImageRelationMixin(models.AbstractModel):
             record.name = record.image.name if record.image else None
 
     @api.depends("image")
-    def _compute_mimetypes(self):
+    def _compute_mimetype(self):
         for record in self:
             record.mimetype = record.image.mimetype if record.image else None
 
