@@ -8,7 +8,7 @@ from unittest import mock
 from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class BackendStorageTestMixin(object):
+class BackendStorageTestMixin:
     def _test_setting_and_getting_data(self):
         # Check that the directory is empty
         files = self.backend.list_files()
