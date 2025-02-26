@@ -23,7 +23,7 @@ except ImportError as err:  # pragma: no cover
 def sftp_mkdirs(client, path, mode=511):
     try:
         client.mkdir(path, mode)
-    except IOError as e:
+    except OSError as e:
         if e.errno == errno.ENOENT and path:
             sftp_mkdirs(client, os.path.dirname(path), mode=mode)
             client.mkdir(path, mode)
@@ -71,7 +71,7 @@ class SFTPStorageBackendAdapter(Component):
             if dirname:
                 try:
                     client.stat(dirname)
-                except IOError as e:
+                except OSError as e:
                     if e.errno == errno.ENOENT:
                         sftp_mkdirs(client, dirname)
                     else:
@@ -93,7 +93,7 @@ class SFTPStorageBackendAdapter(Component):
         with sftp(self.collection) as client:
             try:
                 return client.listdir(full_path)
-            except IOError as e:
+            except OSError as e:
                 if e.errno == errno.ENOENT:
                     # The path do not exist return an empty list
                     return []
