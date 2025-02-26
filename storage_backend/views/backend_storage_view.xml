@@ -19,7 +19,7 @@
                         type="object"
                         name="action_test_config"
                         string="Test connection"
-                        attrs="{'invisible': [('has_validation', '=', False)]}"
+                        invisible="not has_validation"
                     />
                 </header>
                 <sheet>
