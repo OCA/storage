@@ -43,7 +43,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
     def test_add(self, mocked_paramiko, mocked_mkdirs):
         client = mocked_paramiko.SFTPClient.from_transport()
         # simulate errors
-        exc = IOError()
+        exc = OSError()
         # general
         client.stat.side_effect = exc
         with self.assertRaises(IOError):
@@ -58,7 +58,7 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         mocked_mkdirs.assert_called()
         # file has been written and closed
         self.assertTrue(fakefile.closed)
-        with open("/tmp/fakefile.txt", "r") as thefile:
+        with open("/tmp/fakefile.txt") as thefile:
             self.assertEqual(thefile.read(), "fake data")
 
     @mock.patch(PARAMIKO_PATH)
@@ -66,14 +66,14 @@ class SftpCase(CommonCase, BackendStorageTestMixin):
         client = mocked_paramiko.SFTPClient.from_transport()
         with open("/tmp/fakefile2.txt", "w+b") as fakefile:
             fakefile.write(b"filecontent")
-        client.open.return_value = open("/tmp/fakefile2.txt", "r")
+        client.open.return_value = open("/tmp/fakefile2.txt")
         self.assertEqual(self.backend.get("fake/path"), "filecontent")
 
     @mock.patch(PARAMIKO_PATH)
     def test_list(self, mocked_paramiko):
         client = mocked_paramiko.SFTPClient.from_transport()
         # simulate errors
-        exc = IOError()
+        exc = OSError()
         # general
         client.listdir.side_effect = exc
         with self.assertRaises(IOError):
