@@ -5,7 +5,7 @@
 {
     "name": "Storage Backend SFTP",
     "summary": "Implement SFTP Storage",
-    "version": "16.0.1.0.1",
+    "version": "17.0.1.0.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion,Odoo Community Association (OCA)",
