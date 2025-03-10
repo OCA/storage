@@ -1,4 +1,4 @@
 # generated from manifests external_dependencies
-fsspec>=2024.5.0
+fsspec>=2024.5.0,<2025.3.0
 paramiko
 python_slugify
