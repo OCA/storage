@@ -17,10 +17,11 @@ _logger = logging.getLogger(__name__)
 try:
     import paramiko
 except ImportError as err:  # pragma: no cover
-    _logger.debug(err)
+    _logger.debug("Paramiko not installed: %s", err)
 
 
-def sftp_mkdirs(client, path, mode=511):
+def sftp_mkdirs(client, path, mode=0o777):
+    """Recursively create directories on the SFTP server."""
     try:
         client.mkdir(path, mode)
     except IOError as e:
@@ -28,10 +29,11 @@ def sftp_mkdirs(client, path, mode=511):
             sftp_mkdirs(client, os.path.dirname(path), mode=mode)
             client.mkdir(path, mode)
         else:
-            raise  # pragma: no cover
+            raise
 
 
 def load_ssh_key(ssh_key_buffer):
+    """Load SSH key from buffer and return the key object."""
     for pkey_class in (
         paramiko.RSAKey,
         paramiko.DSSKey,
@@ -40,23 +42,35 @@ def load_ssh_key(ssh_key_buffer):
     ):
         try:
             return pkey_class.from_private_key(ssh_key_buffer)
-        except paramiko.SSHException:
-            ssh_key_buffer.seek(0)  # reset the buffer "file"
-    raise Exception("Invalid ssh private key")
+        except paramiko.SSHException as err:
+            ssh_key_buffer.seek(0)  # Reset buffer
+            raise ValueError("Invalid SSH private key provided") from err
 
 
 @contextmanager
 def sftp(backend):
+    """SFTP connection manager ensuring proper closure."""
     transport = paramiko.Transport((backend.sftp_server, backend.sftp_port))
-    if backend.sftp_auth_method == "pwd":
-        transport.connect(username=backend.sftp_login, password=backend.sftp_password)
-    elif backend.sftp_auth_method == "ssh_key":
-        ssh_key_buffer = StringIO(backend.sftp_ssh_private_key)
-        private_key = load_ssh_key(ssh_key_buffer)
-        transport.connect(username=backend.sftp_login, pkey=private_key)
-    client = paramiko.SFTPClient.from_transport(transport)
-    yield client
-    transport.close()
+    try:
+        if backend.sftp_auth_method == "pwd":
+            transport.connect(
+                username=backend.sftp_login, password=backend.sftp_password
+            )
+        elif backend.sftp_auth_method == "ssh_key":
+            (ssh_key_buffer) = StringIO(backend.sftp_ssh_private_key)
+            private_key = load_ssh_key(ssh_key_buffer)
+            transport.connect(username=backend.sftp_login, pkey=private_key)
+        client = paramiko.SFTPClient.from_transport(transport)
+        yield client
+    finally:
+        try:
+            client.close()
+        except Exception:
+            _logger.warning("Failed to close SFTP client")
+        try:
+            transport.close()
+        except Exception:
+            _logger.warning("Failed to close SFTP transport")
 
 
 class SFTPStorageBackendAdapter(Component):
@@ -65,6 +79,7 @@ class SFTPStorageBackendAdapter(Component):
     _usage = "sftp"
 
     def add(self, relative_path, data, **kwargs):
+        """Upload a file to the SFTP server."""
         with sftp(self.collection) as client:
             full_path = self._fullpath(relative_path)
             dirname = os.path.dirname(full_path)
@@ -75,55 +90,50 @@ class SFTPStorageBackendAdapter(Component):
                     if e.errno == errno.ENOENT:
                         sftp_mkdirs(client, dirname)
                     else:
-                        raise  # pragma: no cover
-            remote_file = client.open(full_path, "w")
-            remote_file.write(data)
-            remote_file.close()
+                        raise
+            with client.open(full_path, "w+b") as remote_file:
+                remote_file.write(data)
 
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
-            file_data = client.open(full_path, "r")
-            data = file_data.read()
-            # TODO: shouldn't we close the file?
-        return data
+            with client.open(full_path, "rb") as file_data:
+                return file_data.read()
 
     def list(self, relative_path):
+        """List files in the specified directory on the SFTP server."""
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
             try:
                 return client.listdir(full_path)
             except IOError as e:
                 if e.errno == errno.ENOENT:
-                    # The path do not exist return an empty list
-                    return []
-                else:
-                    raise  # pragma: no cover
+                    return []  # Directory does not exist
+                raise
 
     def move_files(self, files, destination_path):
-        _logger.debug("mv %s %s", files, destination_path)
+        """Move files to a new location on the SFTP server."""
+        _logger.debug("Moving files: %s -> %s", files, destination_path)
         fp = self._fullpath
         with sftp(self.collection) as client:
             for sftp_file in files:
                 dest_file_path = os.path.join(
                     destination_path, os.path.basename(sftp_file)
                 )
-                # Remove existing file at the destination path (an error is raised
-                # otherwise)
                 try:
                     client.lstat(dest_file_path)
-                except FileNotFoundError:
-                    _logger.debug("destination %s is free", dest_file_path)
-                else:
                     client.unlink(dest_file_path)
-                # Move the file using absolute filepaths
+                except FileNotFoundError:
+                    _logger.debug("Destination %s is available", dest_file_path)
                 client.rename(fp(sftp_file), fp(dest_file_path))
 
     def delete(self, relative_path):
+        """Delete a file from the SFTP server."""
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
-            return client.remove(full_path)
+            client.remove(full_path)
 
     def validate_config(self):
+        """Validate the SFTP connection by listing files in the root directory."""
         with sftp(self.collection) as client:
-            client.listdir()
+            client.listdir("/")
