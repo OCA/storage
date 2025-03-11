@@ -239,7 +239,7 @@ class FSStorage(models.Model):
             try:
                 cls = fsspec.get_filesystem_class(p)
                 protocol.append((p, f"{p} ({cls.__name__})"))
-            except ImportError as e:
+            except Exception as e:
                 _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
         return protocol
 
@@ -273,7 +273,7 @@ class FSStorage(models.Model):
             try:
                 fsspec.get_filesystem_class(p)
                 protocol.append((p, p))
-            except ImportError as e:
+            except Exception as e:
                 _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
         return protocol
 
