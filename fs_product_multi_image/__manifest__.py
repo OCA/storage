@@ -21,5 +21,4 @@
         "views/product_template.xml",
     ],
     "maintainers": ["lmignon"],
-    "development_status": "Alpha",
 }
