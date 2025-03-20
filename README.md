@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [storage_backend](storage_backend/) | 18.0.1.0.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_sftp](storage_backend_sftp/) | 18.0.1.0.0 |  | Implement SFTP Storage
 [storage_file](storage_file/) | 18.0.1.0.0 |  | Storage file in storage backend
+[storage_thumbnail](storage_thumbnail/) | 18.0.1.0.0 |  | Abstract module that add the possibility to have thumbnail
 
 [//]: # (end addons)
 
