@@ -21,6 +21,8 @@ from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
 
+LS_NON_EXISTING_FILE = ".NON_EXISTING_FILE"
+
 
 # TODO: useful for the whole OCA?
 def deprecated(reason):
@@ -296,7 +298,14 @@ class FSStorage(models.Model):
             fs.touch(marker_file_name)
 
     def _ls_check_connection(self, fs):
-        fs.ls("", detail=False)
+        # NOTE: run 'ls' on a non existing file to get better perf on FS
+        # having a huge amount of files in root folder.
+        # Getting a 'FileNotFoundError' means that the connection is working well.
+        try:
+            fs.ls(LS_NON_EXISTING_FILE, detail=False)
+        # pylint: disable=except-pass
+        except FileNotFoundError:
+            pass
 
     def _check_connection(self, fs, check_connection_method):
         if check_connection_method == "marker_file":
