@@ -1,0 +1,21 @@
+# Copyright 2025 ACSONE SA/NV
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+{
+    "name": "Fs Field",
+    "summary": """A set of specialized fields to reference and manage content stored"
+    " into external filesystems.""",
+    "version": "18.0.1.0.0",
+    "license": "AGPL-3",
+    "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/fs-content",
+    "depends": [
+        "fs_storage",
+    ],
+    "data": [
+        "views/fs_storage.xml",
+    ],
+    "demo": [],
+    "installable": True,
+    "maintainers": ["lmignon"],
+}
