@@ -21,7 +21,7 @@ from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
 
-LS_NON_EXISTING_FILE = ".NON_EXISTING_FILE"
+LS_NON_EXISTING_FILE = "/.NON_EXISTING_FILE/a"
 
 
 # TODO: useful for the whole OCA?
