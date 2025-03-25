@@ -13,9 +13,15 @@ class FsContentValue:
     def __init__(
         self, stored_value: str | None, field: fields.Field, record: models.BaseModel
     ):
-        self._stored_value = stored_value
-        self._field = field
-        self._record = record
+        self._stored_value: str = stored_value
+        self._field: fields.Field = field
+        self._record: models.BaseModel = record
+        self._fs: fsspec.AbstractFileSystem | Sentinel = SENTINEL
+        self._env = record.env
+        self._value_adapter = record.env["fs.folder.field.value.adapter"]
+        self._ref, self._storage_code = self._value_adapter._parse_fs_folder_value(
+            self._stored_value, self, self._record
+        )
 
     @property
     def stored_value(self):
@@ -23,23 +29,21 @@ class FsContentValue:
 
     @property
     def ref(self):
-        if not self._stored_value:
-            return None
-        partition = self._stored_value.partition("://")
-        return partition[2]
+        return self._ref
+
+    @property
+    def storage_code(self):
+        return self._storage_code
 
     @property
     def fs(self) -> fsspec.AbstractFileSystem:
-        if self._stored_value:
-            partition = self._stored_value.partition("://")
-            storage_code = partition[0]
-        else:
-            storage_code = self._record.env[
-                "fs.storage"
-            ].get_default_storage_code_for_fs_content(
-                self._record._name, self._field.name
-            )
-        return self._record.env["fs.storage"].get_fs_by_code(storage_code)
+        if self._fs is SENTINEL:
+            self._fs = self._value_adapter._get_fs_for_fs_folder_field(self)
+        return self._fs
+
+    @property
+    def protocol(self):
+        return self._record.env["fs.storage"]._get_root_filesystem(self.fs).protocol
 
     def initialize(self):
         """This method is called to initialize the field value if it is not already set.
@@ -106,8 +110,8 @@ class AbstractFsContentField(fields.Field):
         if isinstance(value, self._value_type):
             return {
                 "ref": value.ref,
-                "fs_code": value.fs.code,
-                "fs_protocol": value.fs.protocol,
+                "storage_code": value.storage_code,
+                "protocol": value.protocol,
             }
         raise ValueError(
             f"Invalid value for {self.name}: {repr(value)}\n"
@@ -179,6 +183,7 @@ class FsFolder(AbstractFsContentField):
         names = self.get_create_names(records, fs)
         parents = self.get_create_parents(records, fs)
         additional_kwargs = self.get_create_additional_kwargs(records, fs)
+        value_adapter = records.env["fs.folder.field.value.adapter"]
         for record in records:
             storage_code = records.env[
                 "fs.storage"
@@ -188,7 +193,9 @@ class FsFolder(AbstractFsContentField):
             kwargs = additional_kwargs[record.id]
             path = fs.sep.join([parent.lstrip("/"), name.lstrip("/")])
             fs.mkdir(path, **kwargs)
-            record[self.name] = f"{storage_code}://{path.lstrip('/')}"
+            record[self.name] = value_adapter._created_folder_name_to_stored_value(
+                path, storage_code, fs
+            )
         return [record[self.name] for record in records]
 
     def get_create_names(

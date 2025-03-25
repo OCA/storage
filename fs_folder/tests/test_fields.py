@@ -2,58 +2,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import os
 import shutil
-import tempfile
 from unittest import mock
 
-from odoo_test_helper import FakeModelLoader
+from odoo.addons.fs_storage.rooted_dir_file_system import RootedDirFileSystem
 
-from odoo.addons.base.tests.common import BaseCommon
+from .common import FsFieldTestCase
 
 
-class TestFields(BaseCommon):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.loader = FakeModelLoader(cls.env, cls.__module__)
-        cls.loader.backup_registry()
-        cls.addClassCleanup(cls.loader.restore_registry)
-        from .models import FsTestModel, FsTestModelInherits, FsTestModelRelated
-
-        cls.loader.update_registry(
-            (FsTestModel, FsTestModelInherits, FsTestModelRelated)
-        )
-        cls.fs_test_model = cls.env[FsTestModel._name]
-        cls.fs_test_model_inherits = cls.env[FsTestModelInherits._name]
-        cls.fs_test_model_related = cls.env[FsTestModelRelated._name]
-
-        cls.temp_dir = tempfile.mkdtemp()
-        cls.temp_backend = cls.env["fs.storage"].create(
-            {
-                "name": "Temp FS Storage",
-                "protocol": "file",
-                "code": "tmp_dir",
-                "directory_path": cls.temp_dir,
-                "use_as_default_for_fs_contents": True,
-            }
-        )
-
-        @cls.addClassCleanup
-        def cleanup_tempdir():
-            shutil.rmtree(cls.temp_dir)
-
-    def setUp(self):
-        super().setUp()
-        # enforce temp_backend field since it seems that they are reset on
-        # savepoint rollback when managed by server_environment -> TO Be investigated
-        self.temp_backend.write(
-            {
-                "protocol": "file",
-                "code": "tmp_dir",
-                "directory_path": self.temp_dir,
-                "use_as_default_for_fs_contents": True,
-            }
-        )
-
+class TestFields(FsFieldTestCase):
     def tearDown(self) -> None:
         super().tearDown()
         # empty the temp dir
@@ -68,14 +24,15 @@ class TestFields(BaseCommon):
         record = self.fs_test_model.create({"name": "test"})
         self.assertEqual(record.fs_folder, None)
         self.assertFalse(record.fs_folder)
+        self.assertEqual(record.fs_folder.fs, None)
         record.fs_folder.initialize()
         self.assertEqual(record.fs_folder.ref, record.name)
-        self.assertEqual(record.fs_folder.fs, self.temp_backend.fs)
+        self.assertIsInstance(record.fs_folder.fs, RootedDirFileSystem)
         self.assertEqual(record.fs_folder.stored_value, f"tmp_dir://{record.name}")
 
     def test_create_hooks(self):
         record = self.fs_test_model.create({"name": "test"})
-        with mock.patch.object(record.fs_folder1.fs.__class__, "mkdir") as mocked_mkdir:
+        with mock.patch.object(self.temp_backend.fs.__class__, "mkdir") as mocked_mkdir:
             record.fs_folder1.initialize()
             mocked_mkdir.assert_called_once_with(
                 "custom_parent/custom_name", key="value"
@@ -87,7 +44,7 @@ class TestFields(BaseCommon):
         # parent, the name and the properties to use to create a folder
         # are property called.
         record = self.fs_test_model_inherits.create({"name": "folder_name"})
-        with mock.patch.object(record.fs_folder1.fs.__class__, "mkdir") as mocked_mkdir:
+        with mock.patch.object(self.temp_backend.fs.__class__, "mkdir") as mocked_mkdir:
             record.fs_folder1.initialize()
             mocked_mkdir.assert_called_once_with(
                 "custom_parent/custom_name", key="value"
@@ -115,7 +72,7 @@ class TestFields(BaseCommon):
         record = self.fs_test_model_related.create(
             {"name": "folder_name", "fs_test_model_id": parent.id}
         )
-        with mock.patch.object(record.fs_folder1.fs.__class__, "mkdir") as mocked_mkdir:
+        with mock.patch.object(self.temp_backend.fs.__class__, "mkdir") as mocked_mkdir:
             record.fs_folder1.initialize()
             mocked_mkdir.assert_called_once_with(
                 "custom_parent/custom_name", key="value"
@@ -141,3 +98,19 @@ class TestFields(BaseCommon):
         record.fs_folder.initialize()
         record_copy = record.copy()
         self.assertEqual(record_copy.fs_folder, None)
+
+    def test_fs_folder_read(self):
+        record = self.fs_test_model.create({"name": "folder_name1"})
+        record.fs_folder.initialize()
+        values = self.fs_test_model.browse(record.id).read(["fs_folder"])[0]
+        self.assertDictEqual(
+            values["fs_folder"],
+            {
+                "ref": "folder_name1",
+                "storage_code": "tmp_dir",
+                "protocol": ("file", "local"),
+            },
+        )
+        record = self.fs_test_model.create({"name": "folder_name2"})
+        values = self.fs_test_model.browse(record.id).read(["fs_folder"])[0]
+        self.assertFalse(values["fs_folder"])
