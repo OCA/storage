@@ -13,6 +13,8 @@ from odoo.tools.sql import pg_varchar
 
 from odoo.addons.fs_storage.rooted_dir_file_system import RootedDirFileSystem
 
+from .models.fs_storage import FsStorage
+
 
 class FsContentValue:
     def __init__(
@@ -237,11 +239,14 @@ class FsFolder(AbstractFsContentField):
         the "create_name_get", "create_parent_get" and "create_additional_kwargs_get"
         method hooks are ignored. This method must assign the value to the field
         on the records.
-    :param create_parent_get: a method to call to get the parent of the folder to
-        create. This method is called with the recordset and the filesystem as
+    :param create_parent_get: a method to call to get the list of parents of the folder
+        to create. This method is called with the recordset and the filesystem as
         arguments. The method should return a dict with the following structure::
 
-            {record.id: parent_path}
+            {record.id: ['path_part1', 'path_part2', ...]}
+
+        The path parts are joined with the separator of the filesystem to create the
+        full path of the folder.
         If this method is not provided the default parent is the root of the
         filesystem.
     :param create_name_get: a method to call to get the name of the folder to create.
@@ -321,10 +326,20 @@ class FsFolder(AbstractFsContentField):
             storage_code = records.env[
                 "fs.storage"
             ].get_default_storage_code_for_fs_content(records._name, self.name)
-            name = names[record.id]
-            parent = parents[record.id]
+            storage = records.env["fs.storage"].get_by_code(storage_code)
+            path_parts = [names[record.id]]
+            parent_path_parts = parents[record.id]
+            if parent_path_parts:
+                path_parts = parent_path_parts + path_parts
             kwargs = additional_kwargs[record.id]
-            path = fs.sep.join([parent.lstrip("/"), name.lstrip("/")])
+            # ensure the path is valid
+            if storage.sanitize_fs_name:
+                path_parts = storage.sanitize_fs_item_names(path_parts)
+            else:
+                storage.is_fs_names_valid(path_parts, raise_if_invalid=True)
+
+            path = fs.sep.join(path_parts)
+
             fs.mkdir(path, **kwargs)
 
             def clean_up_folder(path, storage_code, dbname):
@@ -347,11 +362,15 @@ class FsFolder(AbstractFsContentField):
                     ),
                 )
 
-                return path if path.startswith("/") else "/" + path
             record[self.name] = value_adapter._created_folder_name_to_stored_value(
                 path, storage_code, fs
             )
         return [record[self.name] for record in records]
+
+    def _sanitize_path(self, path: str, separator: str, storage: FsStorage) -> str:
+        parts = path.split(separator)
+        sanitized_parts = storage.sanitize_fs_item_names(parts)
+        return separator.join(sanitized_parts)
 
     def get_create_names(
         self, records: models.BaseModel, fs: fsspec.AbstractFileSystem
@@ -386,7 +405,7 @@ class FsFolder(AbstractFsContentField):
             if not callable(fct):
                 fct = getattr(records, fct)
             return fct(self, fs)
-        return dict.fromkeys(records.ids, "/")
+        return dict.fromkeys(records.ids, [""])
 
     def get_create_properties(self, records, backend):
         """Return the properties to use to created the folder into the CMIS

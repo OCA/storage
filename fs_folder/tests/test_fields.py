@@ -114,3 +114,14 @@ class TestFields(FsFieldTestCase):
         record = self.fs_test_model.create({"name": "folder_name2"})
         values = self.fs_test_model.browse(record.id).read(["fs_folder"])[0]
         self.assertFalse(values["fs_folder"])
+
+    def test_fs_folder_name_sanitiez(self):
+        record = self.fs_test_model.create({"name": "folder/name"})
+        with mock.patch.object(record.__class__, "_get_parent") as mocked_get_parent:
+            mocked_get_parent.return_value = dict.fromkeys(
+                record.ids, ["*parent*", "ti/ti"]
+            )
+            record.fs_folder1.initialize()
+            self.assertEqual(record.fs_folder1.ref, "_parent_/ti_ti/custom_name")
+        record.fs_folder.initialize()
+        self.assertEqual(record.fs_folder.ref, "folder_name")

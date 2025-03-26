@@ -139,13 +139,15 @@ path where the folder will be created.
        def get_folder_path(self, fs: fsspec.AbstractFileSystem) -> dict[int, str]:
            result = {}
            for record in self:
-               result[record.id] = 'my/subfolder'
+               result[record.id] = ['my', 'subfolder']
            return result
 
 In this example, the ``get_folder_path`` method will be called to get
 the path where the folder will be created. The method must return a
-dictionary where the key is the record id and the value is the path
-where the folder will be created.
+dictionary where the key is the record id and the value is a list of
+strings representing the path where the folder will be created. (The
+list of strings will be joined with the approprisate separator defined
+by the specific filesystem used to create the folder).
 
 In the same way, you can define a method to get the folder name (by
 default the folder name is the record display name).
@@ -265,17 +267,39 @@ from the abstract model 'fs.folder.field.web.api'.
    api = self.env['fs.folder.field.web.api']
    url = api.get_url_for_download(record.id,  record._name, "fs_folder_field", 'my/subfolder/myfile.txt')
 
-.. code:: python
+Customizing the field behavior
+------------------------------
 
+As specified above, you can define some methods to customize the field
+behavior. During the process of creating a directory in a filesystem, 1
+additional mechanism comes into play to guarantee the conformity of the
+directory created.
 
-   ## Customizing the field behavior
+Folder name conformity
+~~~~~~~~~~~~~~~~~~~~~~
 
-   As specified above, you can define some methods to customize the field behavior. In addition you can:
-   * override the adapter that will be used to convert the field value to a stored value and vice versa. The adapter is a model that must extend the 'fs.folder.field.value.adapter' abstract model.
+When it comes to creating a folder in the filesystem, we must prevent
+the use of special characters that could cause problems. This is done by
+default by the field when creating the folder by replacing the
+characters that are not allowed by the filesystem by an underscore. You
+can control this behavior on the 'fs.storage' form view. A field is
+available to disable this behavior and another one to define the
+character to use as a replacement. If the behavior is disabled, the
+field will raise an error if the folder name is not conform. (This
+applies to the full path of the folder).
 
-   * extend/override the api model used by the widget to interact with the filesystem. The api model must extend the 'fs.folder.field.web.api' abstract model.
+Other customizations
+~~~~~~~~~~~~~~~~~~~~
 
-   * extend/override the widget itself
+In addition you can:
+
+- override the adapter that will be used to convert the field value to a
+  stored value and vice versa. The adapter is a model that must extend
+  the 'fs.folder.field.value.adapter' abstract model.
+- extend/override the api model used by the widget to interact with the
+  filesystem. The api model must extend the 'fs.folder.field.web.api'
+  abstract model.
+- extend/override the widget itself
 
 Known issues / Roadmap
 ======================

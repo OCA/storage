@@ -17,7 +17,7 @@ class FsTestModel(models.Model):
         return dict.fromkeys(self.ids, "custom_name")
 
     def _get_parent(self, field, fs):
-        return dict.fromkeys(self.ids, "custom_parent")
+        return dict.fromkeys(self.ids, ["custom_parent"])
 
     def _get_properties(self, field, fs):
         return dict.fromkeys(self.ids, {"key": "value"})

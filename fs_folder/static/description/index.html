@@ -385,15 +385,20 @@ from the model form view, this module is for you.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#interacting-with-the-filesystem" id="toc-entry-7">Interacting with the filesystem</a></li>
+<li><a class="reference internal" href="#customizing-the-field-behavior" id="toc-entry-8">Customizing the field behavior</a><ul>
+<li><a class="reference internal" href="#folder-name-conformity" id="toc-entry-9">Folder name conformity</a></li>
+<li><a class="reference internal" href="#other-customizations" id="toc-entry-10">Other customizations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-8">Known issues / Roadmap</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-9">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-10">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-11">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-12">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="toc-entry-13">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-14">Maintainers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-11">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-12">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-13">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-14">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-15">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-16">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-17">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -484,13 +489,15 @@ path where the folder will be created.</p>
 </span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_folder_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span><span class="w">
 </span>        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span><span class="w">
 </span>        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span><span class="w">
-</span>            <span class="n">result</span><span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'my/subfolder'</span><span class="w">
+</span>            <span class="n">result</span><span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'my'</span><span class="p">,</span> <span class="s1">'subfolder'</span><span class="p">]</span><span class="w">
 </span>        <span class="k">return</span> <span class="n">result</span>
 </pre>
 <p>In this example, the <tt class="docutils literal">get_folder_path</tt> method will be called to get
 the path where the folder will be created. The method must return a
-dictionary where the key is the record id and the value is the path
-where the folder will be created.</p>
+dictionary where the key is the record id and the value is a list of
+strings representing the path where the folder will be created. (The
+list of strings will be joined with the approprisate separator defined
+by the specific filesystem used to create the folder).</p>
 <p>In the same way, you can define a method to get the folder name (by
 default the folder name is the record display name).</p>
 <pre class="code python literal-block">
@@ -595,26 +602,48 @@ from the abstract model ‘fs.folder.field.web.api’.</p>
 <span class="n">api</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">'fs.folder.field.web.api'</span><span class="p">]</span><span class="w">
 </span><span class="n">url</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_url_for_download</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>  <span class="n">record</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">&quot;fs_folder_field&quot;</span><span class="p">,</span> <span class="s1">'my/subfolder/myfile.txt'</span><span class="p">)</span>
 </pre>
-<pre class="code python literal-block">
-<span class="c1">## Customizing the field behavior</span><span class="w">
-
-</span><span class="n">As</span> <span class="n">specified</span> <span class="n">above</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">define</span> <span class="n">some</span> <span class="n">methods</span> <span class="n">to</span> <span class="n">customize</span> <span class="n">the</span> <span class="n">field</span> <span class="n">behavior</span><span class="o">.</span> <span class="n">In</span> <span class="n">addition</span> <span class="n">you</span> <span class="n">can</span><span class="p">:</span><span class="w">
-</span><span class="o">*</span> <span class="n">override</span> <span class="n">the</span> <span class="n">adapter</span> <span class="n">that</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">the</span> <span class="n">field</span> <span class="n">value</span> <span class="n">to</span> <span class="n">a</span> <span class="n">stored</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">vice</span> <span class="n">versa</span><span class="o">.</span> <span class="n">The</span> <span class="n">adapter</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">model</span> <span class="n">that</span> <span class="n">must</span> <span class="n">extend</span> <span class="n">the</span> <span class="s1">'fs.folder.field.value.adapter'</span> <span class="n">abstract</span> <span class="n">model</span><span class="o">.</span><span class="w">
-
-</span><span class="o">*</span> <span class="n">extend</span><span class="o">/</span><span class="n">override</span> <span class="n">the</span> <span class="n">api</span> <span class="n">model</span> <span class="n">used</span> <span class="n">by</span> <span class="n">the</span> <span class="n">widget</span> <span class="n">to</span> <span class="n">interact</span> <span class="k">with</span> <span class="n">the</span> <span class="n">filesystem</span><span class="o">.</span> <span class="n">The</span> <span class="n">api</span> <span class="n">model</span> <span class="n">must</span> <span class="n">extend</span> <span class="n">the</span> <span class="s1">'fs.folder.field.web.api'</span> <span class="n">abstract</span> <span class="n">model</span><span class="o">.</span><span class="w">
-
-</span><span class="o">*</span> <span class="n">extend</span><span class="o">/</span><span class="n">override</span> <span class="n">the</span> <span class="n">widget</span> <span class="n">itself</span>
-</pre>
+</div>
+<div class="section" id="customizing-the-field-behavior">
+<h2><a class="toc-backref" href="#toc-entry-8">Customizing the field behavior</a></h2>
+<p>As specified above, you can define some methods to customize the field
+behavior. During the process of creating a directory in a filesystem, 1
+additional mechanism comes into play to guarantee the conformity of the
+directory created.</p>
+<div class="section" id="folder-name-conformity">
+<h3><a class="toc-backref" href="#toc-entry-9">Folder name conformity</a></h3>
+<p>When it comes to creating a folder in the filesystem, we must prevent
+the use of special characters that could cause problems. This is done by
+default by the field when creating the folder by replacing the
+characters that are not allowed by the filesystem by an underscore. You
+can control this behavior on the ‘fs.storage’ form view. A field is
+available to disable this behavior and another one to define the
+character to use as a replacement. If the behavior is disabled, the
+field will raise an error if the folder name is not conform. (This
+applies to the full path of the folder).</p>
+</div>
+<div class="section" id="other-customizations">
+<h3><a class="toc-backref" href="#toc-entry-10">Other customizations</a></h3>
+<p>In addition you can:</p>
+<ul class="simple">
+<li>override the adapter that will be used to convert the field value to a
+stored value and vice versa. The adapter is a model that must extend
+the ‘fs.folder.field.value.adapter’ abstract model.</li>
+<li>extend/override the api model used by the widget to interact with the
+filesystem. The api model must extend the ‘fs.folder.field.web.api’
+abstract model.</li>
+<li>extend/override the widget itself</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="known-issues-roadmap">
-<h1><a class="toc-backref" href="#toc-entry-8">Known issues / Roadmap</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-11">Known issues / Roadmap</a></h1>
 <ul class="simple">
 <li>Add a dedicated field to reference a specific Document</li>
 </ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-9">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-12">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/fs-content/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -622,21 +651,21 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-10">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-13">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-11">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-14">Authors</a></h2>
 <ul class="simple">
 <li>ACSONE SA/NV</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-12">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-15">Contributors</a></h2>
 <ul class="simple">
 <li>Laurent Mignon <a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a></li>
 </ul>
 </div>
 <div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#toc-entry-13">Other credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Other credits</a></h2>
 <p>The development of this module has been financially supported by:</p>
 <ul class="simple">
 <li>ACSONE SA/NV</li>
@@ -644,7 +673,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-14">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
