@@ -1,10 +1,13 @@
 # Copyright 2024 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+import threading
+import time
 import typing
+from functools import partial
 
 import fsspec
 
-from odoo import fields, models
+from odoo import SUPERUSER_ID, api, fields, models, registry
 from odoo.tools.misc import SENTINEL, Sentinel
 from odoo.tools.sql import pg_varchar
 
@@ -323,6 +326,28 @@ class FsFolder(AbstractFsContentField):
             kwargs = additional_kwargs[record.id]
             path = fs.sep.join([parent.lstrip("/"), name.lstrip("/")])
             fs.mkdir(path, **kwargs)
+
+            def clean_up_folder(path, storage_code, dbname):
+                db_registry = registry(dbname)
+                with db_registry.cursor() as cr:
+                    env = api.Environment(cr, SUPERUSER_ID, {})
+                    fs = env["fs.storage"].get_fs_by_code(storage_code)
+                    time.sleep(0.5)  # wait creation into the filesystem
+                    fs.rm(path, recursive=True)
+                # remove created resource in case of rollback
+
+            test_mode = getattr(threading.current_thread(), "testing", False)
+            if not test_mode:
+                record.env.cr.postrollback.add(
+                    partial(
+                        clean_up_folder,
+                        path,
+                        storage_code,
+                        record.env.cr.dbname,
+                    ),
+                )
+
+                return path if path.startswith("/") else "/" + path
             record[self.name] = value_adapter._created_folder_name_to_stored_value(
                 path, storage_code, fs
             )
