@@ -41,8 +41,8 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         cls.record.flush_recordset()
         cls.api = cls.env["fs.folder.field.web.api"]
 
-    def _get_common_args(self):
-        return (self.record.id, self.record._name, "fs_folder")
+    def _get_common_args(self, field_name="fs_folder"):
+        return (self.record.id, self.record._name, field_name)
 
     def tearDown(self):
         self.fs.rm("nested", recursive=True)
@@ -69,6 +69,11 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         # case where the  model is unknown
         with self.assertRaises(ValueError):
             self.api._get_fs(self.record.id, "wrong", field_name="fs_folder")
+
+    def test_initilize(self):
+        self.assertFalse(self.record.fs_folder1)
+        self.api.initialize_field_value(*self._get_common_args("fs_folder1"))
+        self.assertTrue(self.record.fs_folder1)
 
     def test_get_root(self):
         root_info = self.api.get_root(*self._get_common_args())
@@ -119,6 +124,29 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children, [{"name": "file1"}, {"name": "file2"}, {"name": "nested3"}]
         )
+
+    def test_create_folder(self):
+        self.api.create_folder(*self._get_common_args(), path="nested3")
+        children = self.api.get_children(*self._get_common_args(), path="")
+        children = self._filter_info_list(children, "name")
+        self.assertEqual(
+            children,
+            [
+                {"name": "file1"},
+                {"name": "file2"},
+                {"name": "nested2"},
+                {"name": "nested3"},
+            ],
+        )
+        self.api.create_folder(*self._get_common_args(), path="nested3/nested/nested")
+        children = self.api.get_children(*self._get_common_args(), path="nested3")
+        children = self._filter_info_list(children, "name")
+        self.assertEqual(children, [{"name": "nested3/nested"}])
+        children = self.api.get_children(
+            *self._get_common_args(), path="nested3/nested"
+        )
+        children = self._filter_info_list(children, "name")
+        self.assertEqual(children, [{"name": "nested3/nested/nested"}])
 
     def test_move_file(self):
         self.api.rename(*self._get_common_args(), "nested2/file2", "file3")

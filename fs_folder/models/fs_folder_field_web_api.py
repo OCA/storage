@@ -4,6 +4,7 @@ import base64
 import logging
 import urllib
 
+import fsspec
 from werkzeug import Response
 
 from odoo import _, api, models
@@ -37,14 +38,14 @@ class FsFolderFieldWebApi(models.AbstractModel):
         record.check_access(access)
 
     @api.model
-    def _get_fs(self, res_id, res_model, field_name, **kwargs):
+    def _get_field_and_record(self, res_id, res_model, field_name, **kwargs):
         """
-        Return the filesystem of the given item.
+        Return the field and the record containing the field.
 
         :param res_id: the id of the record containing the field
         :param res_model: the model of the record containing the field
         :param field_name: the name of the field
-        :return: the filesystem
+        :return: the field
         """
         try:
             record = self.env[res_model].browse(res_id)
@@ -56,6 +57,21 @@ class FsFolderFieldWebApi(models.AbstractModel):
                 res_model,
             )
             raise ValueError("The field is not an external filesystem field.") from err
+        return field, record
+
+    @api.model
+    def _get_fs(
+        self, res_id, res_model, field_name, **kwargs
+    ) -> fsspec.AbstractFileSystem:
+        """
+        Return the filesystem of the given item.
+
+        :param res_id: the id of the record containing the field
+        :param res_model: the model of the record containing the field
+        :param field_name: the name of the field
+        :return: the filesystem
+        """
+        field, record = self._get_field_and_record(res_id, res_model, field_name)
         fs = None
         if field.type == "fs_folder":
             fs = record[field_name].fs
@@ -64,7 +80,15 @@ class FsFolderFieldWebApi(models.AbstractModel):
         return fs
 
     @api.model
-    def get_children(self, res_id, res_model, field_name, path, **kwargs):
+    def initialize_field_value(self, res_id, res_model, field_name, **kwargs) -> None:
+        """
+        Initialize the value of the field.
+        """
+        _field, record = self._get_field_and_record(res_id, res_model, field_name)
+        record[field_name].initialize()
+
+    @api.model
+    def get_children(self, res_id, res_model, field_name, path, **kwargs) -> list[dict]:
         """
         Return the children of the given item.
 
@@ -79,7 +103,7 @@ class FsFolderFieldWebApi(models.AbstractModel):
         return fs.ls(path, detail=True)
 
     @api.model
-    def get_root(self, res_id, res_model, field_name, **kwargs):
+    def get_root(self, res_id, res_model, field_name, **kwargs) -> dict:
         """
         Return the root of the filesystem.
 
@@ -106,6 +130,20 @@ class FsFolderFieldWebApi(models.AbstractModel):
         self._check_field_access(res_id, res_model, field_name, "write")
         fs = self._get_fs(res_id, res_model, field_name)
         fs.rename(path, new_path)
+
+    @api.model
+    def create_folder(self, res_id, res_model, field_name, path, **kwargs) -> None:
+        """
+        Create a folder at the given path.
+
+        :param res_id: the id of the record containing the field
+        :param res_model: the model of the record containing the field
+        :param field_name: the name of the field
+        :param path: the path of the folder to create
+        """
+        self._check_field_access(res_id, res_model, field_name, "write")
+        fs = self._get_fs(res_id, res_model, field_name)
+        fs.mkdir(path)
 
     @api.model
     def upload_file(
