@@ -52,7 +52,8 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
     def _filter_info(self, data, *keys):
         return {k: data[k] for k in keys}
 
-    def _filter_info_list(self, data, *keys):
+    def _filter_info_list(self, data, *keys, sort_key="name"):
+        data = sorted(data, key=lambda x: x[sort_key])
         return [self._filter_info(item, *keys) for item in data]
 
     @mute_logger("odoo.addons.fs_field.models.fs_folder_field_web_api")
@@ -84,9 +85,9 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "nested2", "type": "directory"},
-                {"name": "file2", "type": "file"},
                 {"name": "file1", "type": "file"},
+                {"name": "file2", "type": "file"},
+                {"name": "nested2", "type": "directory"},
             ],
         )
 
@@ -95,8 +96,8 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "nested2/file2", "type": "file"},
                 {"name": "nested2/file1", "type": "file"},
+                {"name": "nested2/file2", "type": "file"},
             ],
         )
 
@@ -116,7 +117,7 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         children = self.api.get_children(*self._get_common_args(), path="")
         children = self._filter_info_list(children, "name")
         self.assertEqual(
-            children, [{"name": "nested3"}, {"name": "file2"}, {"name": "file1"}]
+            children, [{"name": "file1"}, {"name": "file2"}, {"name": "nested3"}]
         )
 
     def test_move_file(self):
@@ -126,10 +127,10 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "nested2"},
-                {"name": "file2"},
                 {"name": "file1"},
+                {"name": "file2"},
                 {"name": "file3"},
+                {"name": "nested2"},
             ],
         )
 
@@ -145,8 +146,8 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "nested2/file2"},
                 {"name": "nested2/file1"},
+                {"name": "nested2/file2"},
                 {"name": "nested2/test.txt"},
             ],
         )
@@ -175,10 +176,10 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "file1_copy"},
-                {"name": "nested2"},
-                {"name": "file2"},
                 {"name": "file1"},
+                {"name": "file1_copy"},
+                {"name": "file2"},
+                {"name": "nested2"},
             ],
         )
 
@@ -194,9 +195,9 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "nested2"},
-                {"name": "file2"},
                 {"name": "file1"},
+                {"name": "file2"},
+                {"name": "nested2"},
                 {"name": "nested2_copy"},
             ],
         )
@@ -205,8 +206,8 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.assertEqual(
             children,
             [
-                {"name": "nested2_copy/file2"},
                 {"name": "nested2_copy/file1"},
+                {"name": "nested2_copy/file2"},
             ],
         )
 
@@ -214,10 +215,10 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         self.api.delete(*self._get_common_args(), path="file1")
         children = self.api.get_children(*self._get_common_args(), path="")
         children = self._filter_info_list(children, "name")
-        self.assertEqual(children, [{"name": "nested2"}, {"name": "file2"}])
+        self.assertEqual(children, [{"name": "file2"}, {"name": "nested2"}])
 
     def test_delete_folder(self):
         self.api.delete(*self._get_common_args(), path="nested2", recursive=True)
         children = self.api.get_children(*self._get_common_args(), path="")
         children = self._filter_info_list(children, "name")
-        self.assertEqual(children, [{"name": "file2"}, {"name": "file1"}])
+        self.assertEqual(children, [{"name": "file1"}, {"name": "file2"}])
