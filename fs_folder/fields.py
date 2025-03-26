@@ -397,7 +397,7 @@ class FsFolder(AbstractFsContentField):
         :return: a dictionay with an entry for each record with the following
         structure ::
 
-            {record.id: 'cmis:objectId'}
+            {record.id: ['path_part1', 'path_part2', ...]}
 
         """
         if self.create_parent_get:
