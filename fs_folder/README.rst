@@ -28,15 +28,9 @@ Fs Field
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-[ This file must be max 2-3 paragraphs, and is required.
-
-The goal of this document is to explain quickly the features of this
-module: “what” this module does and “what” it is for. ]
-
-Example:
-
-This module extends the functionality of ... to support ... and to allow
-users to ...
+If you need to link some specific models to a specific folder into an
+external filesystem and be able to manage the content of this folder
+from the model form view, this module is for you.
 
 **Table of contents**
 
@@ -46,116 +40,247 @@ users to ...
 Use Cases / Context
 ===================
 
-[ This file is optional but strongly suggested to allow end-users to
-evaluate the module's usefulness in their context. ]
-
-BUSINESS NEED: It should explain the “why” of the module:
-
-- what is the business requirement that generated the need to develop
-  this module
-- in which context or use cases this module can be useful (practical
-  examples are welcome!).
-
-APPROACH: It could also explain the approach to address the mentioned
-need.
-
-USEFUL INFORMATION: It can also inform on related modules:
-
-- modules it depends on and their features
-- other modules that can work well together with this one
-- suggested setups where the module is useful (eg: multicompany,
-  multi-website)
-
-Installation
-============
-
-[ This file must only be present if there are very specific installation
-instructions, such as installing non-python dependencies. The audience
-is systems administrators. ]
-
-To install this module, you need to:
-
-1. Do this ...
-
-Configuration
-=============
-
-[ This file is not always required; it should explain **how to configure
-the module before using it**; it is aimed at users with administration
-privileges.
-
-Please be detailed on the path to configuration (eg: do you need to
-activate developer mode?), describe step by step configurations and the
-use of screenshots is strongly recommended.]
-
-To configure this module, you need to:
-
-- Go to *App* > Menu > Menu item
-- Activate boolean… > save
-- …
+Some organizations have a need to manage documents in an external
+filesystem next to odoo records. This module provides a generic way to
+do it through the use a specialized field type that can be used in any
+Odoo model.
 
 Usage
 =====
 
-[ This file is required and contains the instructions on **“how”** to
-use the module for end-users.
+The module is a technical module providing a new field type to Odoo. It
+is not intended to be used directly by end-users. It is intended to be
+used by developers to create new modules that need to manage files in an
+external filesystem.
 
-If the module does not have a visible impact on the user interface, just
-add the following sentence:
+The **FsFolder** field type is a specialized field type that can be used
+in any Odoo model. When an Odoo developer declares a field of this type
+on a model and the related form view, the field will display a
+specialized widget that allows the user to interact with a folder in an
+external filesystem.
 
-   This module does not impact the user interface.
+The field is linked to a filesystem backend that must be configured in
+Odoo. The backend configuration is available in the 'Settings' ->
+'Technical' -> 'FS Storage' menu. It is possible to define a default
+backend for all the fields of this type in the Odoo configuration or to
+define a specific backend for each model or field.
 
-If that’s not the case, please make sure that every usage step is
-covered and remember that images speak more than words!]
+In the following documentation, we will see:
 
-To use this module, you need to:
+- how to declare a field of this type in a model
+- how the security is managed
+- how you can interact with the filesystem
+- how you can customize the field behavior
 
-- Go to *App* > Menu > Menu item
+Field declaration
+-----------------
 
-  *insert screenshot!*
+To declare a field of this type in a model, you need to import the field
+type and declare it in the model definition. By default, the field
+declaration requires no parampeters.
 
-- In “Contact” form, add a value to field *xyz* > save
+.. code:: python
 
-  *insert screenshot!*
+   from odoo import models
+   from odoo.addons.fs_field import fields as fs_fields
 
-- The value of *xyz* is now displayed in the list view.
+   class MyModel(models.Model):
+       _name = 'my.model'
 
-  *insert screenshot!*
+       fs_folder_field = fs_fields.FsFolder()
+
+The new field type comes with a specific way to initialize the field.
+Even if the field is not yet initialized, the value of the field will be
+an instance of the ``FsFolderValue`` class. But as for empty recordsets
+in Odoo, the value will be considered as ``False`` in a boolean context
+or ``None`` in a null context.
+
+.. code:: python
+
+
+   from odoo.addons.fs_field.fields import FsFolderValue
+
+   record = self.env['my.model'].create({})
+   assert isinstance(record.fs_folder_field, FsFolderValue)
+   assert not record.fs_folder_field
+   assert record.fs_folder_field is None
+
+To initialize the field, you can call the ``initialize`` method on the
+field value. This method will create the folder in the filesystem if it
+does not exist yet.
+
+.. code:: python
+
+
+   record.fs_folder_field.initialize()
+
+The creation of the folder in the filesystem requires 2 informations:
+
+- The path where the folder will be created
+- The name of the folder
+
+By default, the path is the root folder of the filesystem. In some cases
+you may want to create the folder in a specific subfolder of the
+filesystem depending on the record data (or not). In this case, you can
+define into the field definition a method that will be called to get the
+path where the folder will be created.
+
+.. code:: python
+
+   import fsspec
+
+   class MyModel(models.Model):
+       _name = 'my.model'
+
+       fs_folder_field = fs_fields.FsFolder(
+           create_parent_get='get_folder_path',
+       )
+
+       def get_folder_path(self, fs: fsspec.AbstractFileSystem) -> dict[int, str]:
+           result = {}
+           for record in self:
+               result[record.id] = 'my/subfolder'
+           return result
+
+In this example, the ``get_folder_path`` method will be called to get
+the path where the folder will be created. The method must return a
+dictionary where the key is the record id and the value is the path
+where the folder will be created.
+
+In the same way, you can define a method to get the folder name (by
+default the folder name is the record display name).
+
+.. code:: python
+
+
+   class MyModel(models.Model):
+       _name = 'my.model'
+
+       reference = fields.Char(required=True)
+
+       fs_folder_field = fs_fields.FsFolder(
+           create_name_get='get_folder_name',
+       )
+
+       def get_folder_name(self, fs: fsspec.AbstractFileSystem) -> dict[int, str]:
+           result = {}
+           for record in self:
+               result[record.id] = record.reference
+           return result
+
+In this example, the ``get_folder_name`` method will be called to get
+the folder name. The method must return a dictionary where the key is
+the record id and the value is the folder name.
+
+For advanced use cases, you can also define the method that will encure
+the creation of the folder in the filesystem and assign the value to the
+field. This method must return a list of ``FsFolderValue``.
+
+.. code:: python
+
+
+   class MyModel(models.Model):
+       _name = 'my.model'
+
+       reference = fields.Char(required=True)
+
+       fs_folder_field = fs_fields.FsFolder(
+           create_get='create_folder',
+       )
+
+       def create_folder(self, fs: fsspec.AbstractFileSystem) -> list[FsFolderValue]:
+           result = []
+           value_adapter = self.env["fs.folder.field.value.adapter"]
+           storage_code = self.env[
+                   "fs.storage"
+               ].get_default_storage_code_for_fs_content(self._name, 'fs_folder_field')
+           for record in self:
+               path = f'my/subfolder/{record.reference}'
+               fs.mkdir(path)
+               record.fs_folder_field = value_adapter._created_folder_name_to_stored_value(
+                   path, storage_code, fs
+               )
+               result.append(record.fs_folder_field)
+           return result
+
+Last but not least, 2 additional method hooks are available to customize
+the behavior of the field:
+
+- create_additional_kwargs_get: This method will be called to get
+  additional keyword arguments to pass to the ``fs.mkdir`` method when
+  creating the folder.
+- create_post_process: This method will be called after the folder
+  creation to do some additional processing.
+
+Security
+--------
+
+   **Important:** The security of the field should be managed by the
+   filesystem backend.
+
+Into the python code
+~~~~~~~~~~~~~~~~~~~~
+
+The initilization of the field value is only allowed if the user has the
+write access to the record. From the field value, the user can get
+access to the filesystem client and interact with the filesystem. The
+filesystem is rooted in the folder itself. The user can only interact
+with the folder and its children without being able to go up in the
+filesystem.
+
+Into the form view through widget
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The addon comes with a specific widget that will be used to display the
+field in the form view. The widget will display the folder content and
+allow the user to interact with it. The user can create, delete, rename,
+download and upload files and folders. The user can also navigate into
+the filesystem. All theses operations are made available by methods
+provided by the abstract model 'fs.folder.field.web.api'. A first level
+of security is provided by this API. Any operation modifying the
+filesystem will allowed only if the user has the write access to the
+record and any operation reading the filesystem will be allowed only if
+the user has the read access to the record.
+
+Interacting with the filesystem
+-------------------------------
+
+To interact with the filesystem you can simply use the filesystem client
+provided by the field value.
+
+.. code:: python
+
+
+   record.fs_folder_field.fs.mkdir('my/subfolder')
+   with record.fs_folder_field.fs.open('my/subfolder/myfile.txt', 'w') as f:
+       f.write('Hello, world!')
+
+The api also provides higl-level methods to interact with the filesystem
+and ease the access to the files. For example, if you need to provide a
+download link to a file, you can use the ``get_url_for_download`` method
+from the abstract model 'fs.folder.field.web.api'.
+
+.. code:: python
+
+   api = self.env['fs.folder.field.web.api']
+   url = api.get_url_for_download(record.id,  record._name, "fs_folder_field", 'my/subfolder/myfile.txt')
+
+.. code:: python
+
+
+   ## Customizing the field behavior
+
+   As specified above, you can define some methods to customize the field behavior. In addition you can:
+   * override the adapter that will be used to convert the field value to a stored value and vice versa. The adapter is a model that must extend the 'fs.folder.field.value.adapter' abstract model.
+
+   * extend/override the api model used by the widget to interact with the filesystem. The api model must extend the 'fs.folder.field.web.api' abstract model.
+
+   * extend/override the widget itself
 
 Known issues / Roadmap
 ======================
 
-[ Enumerate known caveats and future potential improvements. It is
-mostly intended for end-users, and can also help potential new
-contributors discovering new features to implement. ]
-
-- ...
-
-Changelog
-=========
-
-[ The change log. The goal of this file is to help readers understand
-changes between version. The primary audience is end users and
-integrators. Purely technical changes such as code refactoring must not
-be mentioned here.
-
-This file may contain ONE level of section titles, underlined with the ~
-(tilde) character. Other section markers are forbidden and will likely
-break the structure of the README.rst or other documents where this
-fragment is included. ]
-
-11.0.x.y.z (YYYY-MM-DD)
------------------------
-
-- [BREAKING] Breaking changes come first.
-  (`#70 <https://github.com/OCA/repo/issues/70>`__)
-- [ADD] New feature. (`#74 <https://github.com/OCA/repo/issues/74>`__)
-- [FIX] Correct this. (`#71 <https://github.com/OCA/repo/issues/71>`__)
-
-11.0.x.y.z (YYYY-MM-DD)
------------------------
-
-- ...
+- Add a dedicated field to reference a specific Document
 
 Bug Tracker
 ===========
@@ -178,20 +303,15 @@ Authors
 Contributors
 ------------
 
-- Firstname Lastname email.address@example.org (optional company website
-  url)
-- Second Person second.person@example.org (optional company website url)
+- Laurent Mignon laurent.mignon@acsone.eu
 
 Other credits
 -------------
 
-[ This file is optional and contains additional credits, other than
-authors, contributors, and maintainers. ]
-
 The development of this module has been financially supported by:
 
-- Company 1 name
-- Company 2 name
+- ACSONE SA/NV
+- BRUGEL (Brussels Regional Public Service for Energy)
 
 Maintainers
 -----------

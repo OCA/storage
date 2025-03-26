@@ -8,6 +8,8 @@ from odoo import fields, models
 from odoo.tools.misc import SENTINEL, Sentinel
 from odoo.tools.sql import pg_varchar
 
+from odoo.addons.fs_storage.rooted_dir_file_system import RootedDirFileSystem
+
 
 class FsContentValue:
     def __init__(
@@ -25,24 +27,66 @@ class FsContentValue:
 
     @property
     def stored_value(self):
+        """
+        The value stored in the database.
+        """
         return self._stored_value
 
     @property
     def ref(self):
+        """
+        The reference of the folder in the filesystem.
+
+        Bu default this is the full path of the folder in the filesystem.
+        Nevertheless this can be customized by the value adapter to store
+        an immutable reference if the fileystem used does not support
+        immutable references. (In such a case, the fs.folder.field.value.adapter
+        would be overriden to ensure a proper mapping between the reference
+        and the full path if needed).
+        """
         return self._ref
 
     @property
     def storage_code(self):
+        """
+        The storage code of the folder in the filesystem.
+        """
         return self._storage_code
 
     @property
-    def fs(self) -> fsspec.AbstractFileSystem:
+    def fs(self) -> RootedDirFileSystem | None:
+        """
+        The RootedDirFileSystem instance for the folder.
+
+        This is an instance of RootedDirFileSystem for the folder.
+        This ensure that only content of the folder can be accessed. (e.g.
+        if the folder is stored in a subdirectory of a s3 bucket only the
+        content of the folder can be accessed and any attempt to access
+        the parent directory will raise an error).
+
+        All the content of the folder can be accessed through this filesystem
+        and the path of the items in the folder start from the root of the
+        folder. (e.g. A folder is stored into a directory
+        "/my_odoo/my_model/my_folder" of a filesystem. The fs instance
+        will be created with the path "/my_odoo/my_model/my_folder" and
+        the path of the items in the folder will start from "/item1", "/item2", ...
+        instead of "/my_odoo/my_model/my_folder/item1",
+        "/my_odoo/my_model/my_folder/item2", ...).
+        """
         if self._fs is SENTINEL:
             self._fs = self._value_adapter._get_fs_for_fs_folder_field(self)
-        return self._fs
+        return self._fs or None
 
     @property
     def protocol(self):
+        """
+        The root protocol of the filesystem. (e.g. file, s3, ...).
+
+        This is the protocol of the root filesystem of the filesystem
+        where the folder is stored even if the filesystem is a sub filesystem
+        of a root filesystem. (e.g. if the folder is stored in a subdirectory
+        of a s3 bucket the protocol is still s3).
+        """
         return self._record.env["fs.storage"]._get_root_filesystem(self.fs).protocol
 
     def initialize(self):
@@ -75,6 +119,12 @@ class FsContentValue:
 
 
 class FsFolderValue(FsContentValue):
+    """
+    Value for a fs_folder field.
+
+    This class is used to represent the value of a fs_folder field.
+    """
+
     pass
 
 
@@ -82,14 +132,20 @@ class AbstractFsContentField(fields.Field):
     _column_type = ("varchar", pg_varchar())
     _value_type: FsContentValue | None = None
     create_method: typing.Callable | str | None = None
+    create_post_process: typing.Callable | str | None = None
     copy = False
 
     def __call__(
         self,
         string: str | Sentinel = SENTINEL,
         create_method: typing.Callable | str | Sentinel = SENTINEL,
+        create_post_process: typing.Callable | str | Sentinel = SENTINEL,
     ) -> FsContentValue:
-        return super().__call__(string=string, create_method=create_method)
+        return super().__call__(
+            string=string,
+            create_method=create_method,
+            create_post_process=create_post_process,
+        )
 
     def convert_to_cache(self, value, record, validate=True):
         if value is None or value is False:
@@ -136,8 +192,15 @@ class AbstractFsContentField(fields.Field):
             fct = self.create_method
             if not callable(fct):
                 fct = getattr(records, fct)
-            return fct(self, self.get_fs(records))
-        return self.create_value_in_fs(records)
+            vals = fct(self, self.get_fs(records))
+        else:
+            vals = self.create_value_in_fs(records)
+        if self.create_post_process:
+            fct = self.create_post_process
+            if not callable(fct):
+                fct = getattr(records, fct)
+            vals = fct(self, vals)
+        return vals
 
     def _create_value_related(self, records: models.BaseModel) -> list[FsContentValue]:
         others = records.sudo() if self.compute_sudo else records
@@ -153,6 +216,73 @@ class AbstractFsContentField(fields.Field):
 
 
 class FsFolder(AbstractFsContentField):
+    """Field to store a folder in a filesystem.
+
+    This field is used to store a folder in a filesystem. The folder is
+    represented by a reference (by default the name) in the filesystem.
+    The value stored in the databse is by default the reference of the folder
+    and the storage code in the following format::
+
+        {storage_code}://{ref}
+
+    This provides different method hooks to customize the way the folder is
+    created in the filesystem.
+
+    :param create_method: a method to call to create the folder in the filesystem.
+        This method is called with the recordset and the filesystem as arguments.
+        The method should return a list of FsFolderValue. If this method is provided
+        the "create_name_get", "create_parent_get" and "create_additional_kwargs_get"
+        method hooks are ignored. This method must assign the value to the field
+        on the records.
+    :param create_parent_get: a method to call to get the parent of the folder to
+        create. This method is called with the recordset and the filesystem as
+        arguments. The method should return a dict with the following structure::
+
+            {record.id: parent_path}
+        If this method is not provided the default parent is the root of the
+        filesystem.
+    :param create_name_get: a method to call to get the name of the folder to create.
+        This method is called with the recordset and the filesystem as arguments.
+        The method should return a dict with the following structure::
+
+            {record.id: folder_name}
+        If this method is not provided the default name is the display_name of the
+        record.
+    :param create_additional_kwargs_get: a method to call to get additional kwargs to
+        pass to the mkdir method of the filesystem. This method is called with the
+        recordset and the filesystem as arguments. The method should return a dict
+        with the following structure::
+
+            {record.id: {kwarg1: val1, ...}}
+        If this method is not provided the default is an empty dict.
+
+    :param create_post_process: a method to call after the folder is created in the
+        filesystem. This method is called with the list of FsFolderValue created.
+        This method can be used to do additional processing on the created folders.
+
+
+    If you need to customize the value stored in the database you can inherit
+    from the abstrate model "fs.folder.field.value.adapter" and override the
+    methods as needed. (see the documentation of the model for more details).
+
+    The value returned by the field is an instance of FsFolderValue. You can
+    assign a string to the field or an instance of FsFolderValue. If you
+    assign a string be careful to ensure that the string is in the correct
+    format to be parsed as an FsFolderValue. Even if no value is set the field
+    will return an instance of FsFolderValue comparable to None or False. This
+    is usefull since this instance provides the "initialize" method to create
+    the folder in the filesystem.
+
+    When the field is read the value is returned as a dict with the following
+    structure::
+
+        {
+            "ref": "folder_name",
+            "storage_code": "tmp_dir",
+            "protocol": "file"
+        }
+    """
+
     type = "fs_folder"
     _value_type = FsFolderValue
     create_parent_get: typing.Callable | str | None = None

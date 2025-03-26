@@ -370,25 +370,24 @@ ul.auto-toc {
 !! source digest: sha256:ce8b400ad1ea0c6ec268537df4156bfe763b51b577f26693015356e7fea3b1bc
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/fs-content/tree/18.0/fs_field"><img alt="OCA/fs-content" src="https://img.shields.io/badge/github-OCA%2Ffs--content-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/fs-content-18-0/fs-content-18-0-fs_field"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/fs-content&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>[ This file must be max 2-3 paragraphs, and is required.</p>
-<p>The goal of this document is to explain quickly the features of this
-module: “what” this module does and “what” it is for. ]</p>
-<p>Example:</p>
-<p>This module extends the functionality of … to support … and to allow
-users to …</p>
+<p>If you need to link some specific models to a specific folder into an
+external filesystem and be able to manage the content of this folder
+from the model form view, this module is for you.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#use-cases-context" id="toc-entry-1">Use Cases / Context</a></li>
-<li><a class="reference internal" href="#installation" id="toc-entry-2">Installation</a></li>
-<li><a class="reference internal" href="#configuration" id="toc-entry-3">Configuration</a></li>
-<li><a class="reference internal" href="#usage" id="toc-entry-4">Usage</a></li>
-<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-5">Known issues / Roadmap</a></li>
-<li><a class="reference internal" href="#changelog" id="toc-entry-6">Changelog</a><ul>
-<li><a class="reference internal" href="#x-y-z-yyyy-mm-dd" id="toc-entry-7">11.0.x.y.z (YYYY-MM-DD)</a></li>
-<li><a class="reference internal" href="#x-y-z-yyyy-mm-dd-1" id="toc-entry-8">11.0.x.y.z (YYYY-MM-DD)</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a><ul>
+<li><a class="reference internal" href="#field-declaration" id="toc-entry-3">Field declaration</a></li>
+<li><a class="reference internal" href="#security" id="toc-entry-4">Security</a><ul>
+<li><a class="reference internal" href="#into-the-python-code" id="toc-entry-5">Into the python code</a></li>
+<li><a class="reference internal" href="#into-the-form-view-through-widget" id="toc-entry-6">Into the form view through widget</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#interacting-with-the-filesystem" id="toc-entry-7">Interacting with the filesystem</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-8">Known issues / Roadmap</a></li>
 <li><a class="reference internal" href="#bug-tracker" id="toc-entry-9">Bug Tracker</a></li>
 <li><a class="reference internal" href="#credits" id="toc-entry-10">Credits</a><ul>
 <li><a class="reference internal" href="#authors" id="toc-entry-11">Authors</a></li>
@@ -401,107 +400,218 @@ users to …</p>
 </div>
 <div class="section" id="use-cases-context">
 <h1><a class="toc-backref" href="#toc-entry-1">Use Cases / Context</a></h1>
-<p>[ This file is optional but strongly suggested to allow end-users to
-evaluate the module’s usefulness in their context. ]</p>
-<p>BUSINESS NEED: It should explain the “why” of the module:</p>
-<ul class="simple">
-<li>what is the business requirement that generated the need to develop
-this module</li>
-<li>in which context or use cases this module can be useful (practical
-examples are welcome!).</li>
-</ul>
-<p>APPROACH: It could also explain the approach to address the mentioned
-need.</p>
-<p>USEFUL INFORMATION: It can also inform on related modules:</p>
-<ul class="simple">
-<li>modules it depends on and their features</li>
-<li>other modules that can work well together with this one</li>
-<li>suggested setups where the module is useful (eg: multicompany,
-multi-website)</li>
-</ul>
-</div>
-<div class="section" id="installation">
-<h1><a class="toc-backref" href="#toc-entry-2">Installation</a></h1>
-<p>[ This file must only be present if there are very specific installation
-instructions, such as installing non-python dependencies. The audience
-is systems administrators. ]</p>
-<p>To install this module, you need to:</p>
-<ol class="arabic simple">
-<li>Do this …</li>
-</ol>
-</div>
-<div class="section" id="configuration">
-<h1><a class="toc-backref" href="#toc-entry-3">Configuration</a></h1>
-<p>[ This file is not always required; it should explain <strong>how to configure
-the module before using it</strong>; it is aimed at users with administration
-privileges.</p>
-<p>Please be detailed on the path to configuration (eg: do you need to
-activate developer mode?), describe step by step configurations and the
-use of screenshots is strongly recommended.]</p>
-<p>To configure this module, you need to:</p>
-<ul class="simple">
-<li>Go to <em>App</em> &gt; Menu &gt; Menu item</li>
-<li>Activate boolean… &gt; save</li>
-<li>…</li>
-</ul>
+<p>Some organizations have a need to manage documents in an external
+filesystem next to odoo records. This module provides a generic way to
+do it through the use a specialized field type that can be used in any
+Odoo model.</p>
 </div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-4">Usage</a></h1>
-<p>[ This file is required and contains the instructions on <strong>“how”</strong> to
-use the module for end-users.</p>
-<p>If the module does not have a visible impact on the user interface, just
-add the following sentence:</p>
-<blockquote>
-This module does not impact the user interface.</blockquote>
-<p>If that’s not the case, please make sure that every usage step is
-covered and remember that images speak more than words!]</p>
-<p>To use this module, you need to:</p>
-<ul>
-<li><p class="first">Go to <em>App</em> &gt; Menu &gt; Menu item</p>
-<p><em>insert screenshot!</em></p>
-</li>
-<li><p class="first">In “Contact” form, add a value to field <em>xyz</em> &gt; save</p>
-<p><em>insert screenshot!</em></p>
-</li>
-<li><p class="first">The value of <em>xyz</em> is now displayed in the list view.</p>
-<p><em>insert screenshot!</em></p>
-</li>
+<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
+<p>The module is a technical module providing a new field type to Odoo. It
+is not intended to be used directly by end-users. It is intended to be
+used by developers to create new modules that need to manage files in an
+external filesystem.</p>
+<p>The <strong>FsFolder</strong> field type is a specialized field type that can be used
+in any Odoo model. When an Odoo developer declares a field of this type
+on a model and the related form view, the field will display a
+specialized widget that allows the user to interact with a folder in an
+external filesystem.</p>
+<p>The field is linked to a filesystem backend that must be configured in
+Odoo. The backend configuration is available in the ‘Settings’ -&gt;
+‘Technical’ -&gt; ‘FS Storage’ menu. It is possible to define a default
+backend for all the fields of this type in the Odoo configuration or to
+define a specific backend for each model or field.</p>
+<p>In the following documentation, we will see:</p>
+<ul class="simple">
+<li>how to declare a field of this type in a model</li>
+<li>how the security is managed</li>
+<li>how you can interact with the filesystem</li>
+<li>how you can customize the field behavior</li>
 </ul>
+<div class="section" id="field-declaration">
+<h2><a class="toc-backref" href="#toc-entry-3">Field declaration</a></h2>
+<p>To declare a field of this type in a model, you need to import the field
+type and declare it in the model definition. By default, the field
+declaration requires no parampeters.</p>
+<pre class="code python literal-block">
+<span class="kn">from</span><span class="w"> </span><span class="nn">odoo</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span><span class="w">
+</span><span class="kn">from</span><span class="w"> </span><span class="nn">odoo.addons.fs_field</span><span class="w"> </span><span class="kn">import</span> <span class="n">fields</span> <span class="k">as</span> <span class="n">fs_fields</span><span class="w">
+
+</span><span class="k">class</span><span class="w"> </span><span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span><span class="w">
+</span>    <span class="n">_name</span> <span class="o">=</span> <span class="s1">'my.model'</span><span class="w">
+
+</span>    <span class="n">fs_folder_field</span> <span class="o">=</span> <span class="n">fs_fields</span><span class="o">.</span><span class="n">FsFolder</span><span class="p">()</span>
+</pre>
+<p>The new field type comes with a specific way to initialize the field.
+Even if the field is not yet initialized, the value of the field will be
+an instance of the <tt class="docutils literal">FsFolderValue</tt> class. But as for empty recordsets
+in Odoo, the value will be considered as <tt class="docutils literal">False</tt> in a boolean context
+or <tt class="docutils literal">None</tt> in a null context.</p>
+<pre class="code python literal-block">
+<span class="kn">from</span><span class="w"> </span><span class="nn">odoo.addons.fs_field.fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">FsFolderValue</span><span class="w">
+
+</span><span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">'my.model'</span><span class="p">]</span><span class="o">.</span><span class="n">create</span><span class="p">({})</span><span class="w">
+</span><span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span><span class="p">,</span> <span class="n">FsFolderValue</span><span class="p">)</span><span class="w">
+</span><span class="k">assert</span> <span class="ow">not</span> <span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span><span class="w">
+</span><span class="k">assert</span> <span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span> <span class="ow">is</span> <span class="kc">None</span>
+</pre>
+<p>To initialize the field, you can call the <tt class="docutils literal">initialize</tt> method on the
+field value. This method will create the folder in the filesystem if it
+does not exist yet.</p>
+<pre class="code python literal-block">
+<span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</pre>
+<p>The creation of the folder in the filesystem requires 2 informations:</p>
+<ul class="simple">
+<li>The path where the folder will be created</li>
+<li>The name of the folder</li>
+</ul>
+<p>By default, the path is the root folder of the filesystem. In some cases
+you may want to create the folder in a specific subfolder of the
+filesystem depending on the record data (or not). In this case, you can
+define into the field definition a method that will be called to get the
+path where the folder will be created.</p>
+<pre class="code python literal-block">
+<span class="kn">import</span><span class="w"> </span><span class="nn">fsspec</span><span class="w">
+
+</span><span class="k">class</span><span class="w"> </span><span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span><span class="w">
+</span>    <span class="n">_name</span> <span class="o">=</span> <span class="s1">'my.model'</span><span class="w">
+
+</span>    <span class="n">fs_folder_field</span> <span class="o">=</span> <span class="n">fs_fields</span><span class="o">.</span><span class="n">FsFolder</span><span class="p">(</span><span class="w">
+</span>        <span class="n">create_parent_get</span><span class="o">=</span><span class="s1">'get_folder_path'</span><span class="p">,</span><span class="w">
+</span>    <span class="p">)</span><span class="w">
+
+</span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_folder_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span><span class="w">
+</span>        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span><span class="w">
+</span>        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span><span class="w">
+</span>            <span class="n">result</span><span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'my/subfolder'</span><span class="w">
+</span>        <span class="k">return</span> <span class="n">result</span>
+</pre>
+<p>In this example, the <tt class="docutils literal">get_folder_path</tt> method will be called to get
+the path where the folder will be created. The method must return a
+dictionary where the key is the record id and the value is the path
+where the folder will be created.</p>
+<p>In the same way, you can define a method to get the folder name (by
+default the folder name is the record display name).</p>
+<pre class="code python literal-block">
+<span class="k">class</span><span class="w"> </span><span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span><span class="w">
+</span>    <span class="n">_name</span> <span class="o">=</span> <span class="s1">'my.model'</span><span class="w">
+
+</span>    <span class="n">reference</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="w">
+
+</span>    <span class="n">fs_folder_field</span> <span class="o">=</span> <span class="n">fs_fields</span><span class="o">.</span><span class="n">FsFolder</span><span class="p">(</span><span class="w">
+</span>        <span class="n">create_name_get</span><span class="o">=</span><span class="s1">'get_folder_name'</span><span class="p">,</span><span class="w">
+</span>    <span class="p">)</span><span class="w">
+
+</span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_folder_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span><span class="w">
+</span>        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span><span class="w">
+</span>        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span><span class="w">
+</span>            <span class="n">result</span><span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">reference</span><span class="w">
+</span>        <span class="k">return</span> <span class="n">result</span>
+</pre>
+<p>In this example, the <tt class="docutils literal">get_folder_name</tt> method will be called to get
+the folder name. The method must return a dictionary where the key is
+the record id and the value is the folder name.</p>
+<p>For advanced use cases, you can also define the method that will encure
+the creation of the folder in the filesystem and assign the value to the
+field. This method must return a list of <tt class="docutils literal">FsFolderValue</tt>.</p>
+<pre class="code python literal-block">
+<span class="k">class</span><span class="w"> </span><span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span><span class="w">
+</span>    <span class="n">_name</span> <span class="o">=</span> <span class="s1">'my.model'</span><span class="w">
+
+</span>    <span class="n">reference</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Char</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="w">
+
+</span>    <span class="n">fs_folder_field</span> <span class="o">=</span> <span class="n">fs_fields</span><span class="o">.</span><span class="n">FsFolder</span><span class="p">(</span><span class="w">
+</span>        <span class="n">create_get</span><span class="o">=</span><span class="s1">'create_folder'</span><span class="p">,</span><span class="w">
+</span>    <span class="p">)</span><span class="w">
+
+</span>    <span class="k">def</span><span class="w"> </span><span class="nf">create_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FsFolderValue</span><span class="p">]:</span><span class="w">
+</span>        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span><span class="w">
+</span>        <span class="n">value_adapter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s2">&quot;fs.folder.field.value.adapter&quot;</span><span class="p">]</span><span class="w">
+</span>        <span class="n">storage_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="w">
+</span>                <span class="s2">&quot;fs.storage&quot;</span><span class="w">
+</span>            <span class="p">]</span><span class="o">.</span><span class="n">get_default_storage_code_for_fs_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s1">'fs_folder_field'</span><span class="p">)</span><span class="w">
+</span>        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span><span class="w">
+</span>            <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'my/subfolder/</span><span class="si">{</span><span class="n">record</span><span class="o">.</span><span class="n">reference</span><span class="si">}</span><span class="s1">'</span><span class="w">
+</span>            <span class="n">fs</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="w">
+</span>            <span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span> <span class="o">=</span> <span class="n">value_adapter</span><span class="o">.</span><span class="n">_created_folder_name_to_stored_value</span><span class="p">(</span><span class="w">
+</span>                <span class="n">path</span><span class="p">,</span> <span class="n">storage_code</span><span class="p">,</span> <span class="n">fs</span><span class="w">
+</span>            <span class="p">)</span><span class="w">
+</span>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span><span class="p">)</span><span class="w">
+</span>        <span class="k">return</span> <span class="n">result</span>
+</pre>
+<p>Last but not least, 2 additional method hooks are available to customize
+the behavior of the field:</p>
+<ul class="simple">
+<li>create_additional_kwargs_get: This method will be called to get
+additional keyword arguments to pass to the <tt class="docutils literal">fs.mkdir</tt> method when
+creating the folder.</li>
+<li>create_post_process: This method will be called after the folder
+creation to do some additional processing.</li>
+</ul>
+</div>
+<div class="section" id="security">
+<h2><a class="toc-backref" href="#toc-entry-4">Security</a></h2>
+<blockquote>
+<strong>Important:</strong> The security of the field should be managed by the
+filesystem backend.</blockquote>
+<div class="section" id="into-the-python-code">
+<h3><a class="toc-backref" href="#toc-entry-5">Into the python code</a></h3>
+<p>The initilization of the field value is only allowed if the user has the
+write access to the record. From the field value, the user can get
+access to the filesystem client and interact with the filesystem. The
+filesystem is rooted in the folder itself. The user can only interact
+with the folder and its children without being able to go up in the
+filesystem.</p>
+</div>
+<div class="section" id="into-the-form-view-through-widget">
+<h3><a class="toc-backref" href="#toc-entry-6">Into the form view through widget</a></h3>
+<p>The addon comes with a specific widget that will be used to display the
+field in the form view. The widget will display the folder content and
+allow the user to interact with it. The user can create, delete, rename,
+download and upload files and folders. The user can also navigate into
+the filesystem. All theses operations are made available by methods
+provided by the abstract model ‘fs.folder.field.web.api’. A first level
+of security is provided by this API. Any operation modifying the
+filesystem will allowed only if the user has the write access to the
+record and any operation reading the filesystem will be allowed only if
+the user has the read access to the record.</p>
+</div>
+</div>
+<div class="section" id="interacting-with-the-filesystem">
+<h2><a class="toc-backref" href="#toc-entry-7">Interacting with the filesystem</a></h2>
+<p>To interact with the filesystem you can simply use the filesystem client
+provided by the field value.</p>
+<pre class="code python literal-block">
+<span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">'my/subfolder'</span><span class="p">)</span><span class="w">
+</span><span class="k">with</span> <span class="n">record</span><span class="o">.</span><span class="n">fs_folder_field</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'my/subfolder/myfile.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span><span class="w">
+</span>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'Hello, world!'</span><span class="p">)</span>
+</pre>
+<p>The api also provides higl-level methods to interact with the filesystem
+and ease the access to the files. For example, if you need to provide a
+download link to a file, you can use the <tt class="docutils literal">get_url_for_download</tt> method
+from the abstract model ‘fs.folder.field.web.api’.</p>
+<pre class="code python literal-block">
+<span class="n">api</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s1">'fs.folder.field.web.api'</span><span class="p">]</span><span class="w">
+</span><span class="n">url</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_url_for_download</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>  <span class="n">record</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">&quot;fs_folder_field&quot;</span><span class="p">,</span> <span class="s1">'my/subfolder/myfile.txt'</span><span class="p">)</span>
+</pre>
+<pre class="code python literal-block">
+<span class="c1">## Customizing the field behavior</span><span class="w">
+
+</span><span class="n">As</span> <span class="n">specified</span> <span class="n">above</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">define</span> <span class="n">some</span> <span class="n">methods</span> <span class="n">to</span> <span class="n">customize</span> <span class="n">the</span> <span class="n">field</span> <span class="n">behavior</span><span class="o">.</span> <span class="n">In</span> <span class="n">addition</span> <span class="n">you</span> <span class="n">can</span><span class="p">:</span><span class="w">
+</span><span class="o">*</span> <span class="n">override</span> <span class="n">the</span> <span class="n">adapter</span> <span class="n">that</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">the</span> <span class="n">field</span> <span class="n">value</span> <span class="n">to</span> <span class="n">a</span> <span class="n">stored</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">vice</span> <span class="n">versa</span><span class="o">.</span> <span class="n">The</span> <span class="n">adapter</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">model</span> <span class="n">that</span> <span class="n">must</span> <span class="n">extend</span> <span class="n">the</span> <span class="s1">'fs.folder.field.value.adapter'</span> <span class="n">abstract</span> <span class="n">model</span><span class="o">.</span><span class="w">
+
+</span><span class="o">*</span> <span class="n">extend</span><span class="o">/</span><span class="n">override</span> <span class="n">the</span> <span class="n">api</span> <span class="n">model</span> <span class="n">used</span> <span class="n">by</span> <span class="n">the</span> <span class="n">widget</span> <span class="n">to</span> <span class="n">interact</span> <span class="k">with</span> <span class="n">the</span> <span class="n">filesystem</span><span class="o">.</span> <span class="n">The</span> <span class="n">api</span> <span class="n">model</span> <span class="n">must</span> <span class="n">extend</span> <span class="n">the</span> <span class="s1">'fs.folder.field.web.api'</span> <span class="n">abstract</span> <span class="n">model</span><span class="o">.</span><span class="w">
+
+</span><span class="o">*</span> <span class="n">extend</span><span class="o">/</span><span class="n">override</span> <span class="n">the</span> <span class="n">widget</span> <span class="n">itself</span>
+</pre>
+</div>
 </div>
 <div class="section" id="known-issues-roadmap">
-<h1><a class="toc-backref" href="#toc-entry-5">Known issues / Roadmap</a></h1>
-<p>[ Enumerate known caveats and future potential improvements. It is
-mostly intended for end-users, and can also help potential new
-contributors discovering new features to implement. ]</p>
+<h1><a class="toc-backref" href="#toc-entry-8">Known issues / Roadmap</a></h1>
 <ul class="simple">
-<li>…</li>
+<li>Add a dedicated field to reference a specific Document</li>
 </ul>
-</div>
-<div class="section" id="changelog">
-<h1><a class="toc-backref" href="#toc-entry-6">Changelog</a></h1>
-<p>[ The change log. The goal of this file is to help readers understand
-changes between version. The primary audience is end users and
-integrators. Purely technical changes such as code refactoring must not
-be mentioned here.</p>
-<p>This file may contain ONE level of section titles, underlined with the ~
-(tilde) character. Other section markers are forbidden and will likely
-break the structure of the README.rst or other documents where this
-fragment is included. ]</p>
-<div class="section" id="x-y-z-yyyy-mm-dd">
-<h2><a class="toc-backref" href="#toc-entry-7">11.0.x.y.z (YYYY-MM-DD)</a></h2>
-<ul class="simple">
-<li>[BREAKING] Breaking changes come first.
-(<a class="reference external" href="https://github.com/OCA/repo/issues/70">#70</a>)</li>
-<li>[ADD] New feature. (<a class="reference external" href="https://github.com/OCA/repo/issues/74">#74</a>)</li>
-<li>[FIX] Correct this. (<a class="reference external" href="https://github.com/OCA/repo/issues/71">#71</a>)</li>
-</ul>
-</div>
-<div class="section" id="x-y-z-yyyy-mm-dd-1">
-<h2><a class="toc-backref" href="#toc-entry-8">11.0.x.y.z (YYYY-MM-DD)</a></h2>
-<ul class="simple">
-<li>…</li>
-</ul>
-</div>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-9">Bug Tracker</a></h1>
@@ -522,19 +632,15 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="contributors">
 <h2><a class="toc-backref" href="#toc-entry-12">Contributors</a></h2>
 <ul class="simple">
-<li>Firstname Lastname <a class="reference external" href="mailto:email.address&#64;example.org">email.address&#64;example.org</a> (optional company website
-url)</li>
-<li>Second Person <a class="reference external" href="mailto:second.person&#64;example.org">second.person&#64;example.org</a> (optional company website url)</li>
+<li>Laurent Mignon <a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a></li>
 </ul>
 </div>
 <div class="section" id="other-credits">
 <h2><a class="toc-backref" href="#toc-entry-13">Other credits</a></h2>
-<p>[ This file is optional and contains additional credits, other than
-authors, contributors, and maintainers. ]</p>
 <p>The development of this module has been financially supported by:</p>
 <ul class="simple">
-<li>Company 1 name</li>
-<li>Company 2 name</li>
+<li>ACSONE SA/NV</li>
+<li>BRUGEL (Brussels Regional Public Service for Energy)</li>
 </ul>
 </div>
 <div class="section" id="maintainers">

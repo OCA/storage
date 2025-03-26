@@ -16,6 +16,17 @@ _logger = logging.getLogger(__name__)
 
 
 class FsFolderFielValueAdapter(models.AbstractModel):
+    """Folder field value adapter
+
+    This class provides utility methods to handle the value of a fs_folder field.
+    It's used by the fs_folder field to convert the value of the field to a stored value
+    and vice versa. It also provides utility methods to access the content of the
+    folder.
+
+    This class has been designed to be inherited by other classes to provide custom
+    behavior for the fs_folder field value.
+    """
+
     _name = "fs.folder.field.value.adapter"
     _description = "Folder field value adapter"
 
