@@ -125,10 +125,51 @@ msgid "FS Test Connection Wizard"
 msgstr ""
 
 #. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__field_ids
+msgid "Field"
+msgstr ""
+
+#. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid ""
+"Field %(field)s already stored in another FS storage ('%(other_storage)s')"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__field_xmlids
+msgid "Field Xmlids"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_field_xmlids_env_default
+msgid "Field Xmlids Env Default"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model,name:fs_storage.model_ir_model_fields
+msgid "Fields"
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__id
 msgid "ID"
 msgstr "ID"
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_ir_model_fields__storage_id
+msgid ""
+"If specified, all attachments linked to this field will be stored in the "
+"provided storage."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_ir_model__storage_id
+msgid ""
+"If specified, all attachments linked to this model will be stored in the "
+"provided storage."
+msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__json_options
@@ -151,6 +192,67 @@ msgstr "最后更新于"
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 msgid "List File"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__field_ids
+msgid ""
+"List of fields such as attachments linked to one of these fields will be "
+"stored in this storage. NB: If the attachment is linked to a field that is "
+"in one FS storage, and the related model is in another FS storage, we will "
+"store it into the storage linked to the resource field."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__field_xmlids
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_field_xmlids_env_default
+msgid ""
+"List of fields xml ids such as attachments linked to one of these fields "
+"will be stored in this storage. NB: If the attachment is linked to a field "
+"that is in one FS storage, and the related model is in another FS storage, "
+"we will store it into the storage linked to the resource field."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__model_ids
+msgid ""
+"List of models such as attachments linked to one of these models will be "
+"stored in this storage."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__model_xmlids
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_model_xmlids_env_default
+msgid ""
+"List of models xml ids such as attachments linked to one of these models "
+"will be stored in this storage."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__model_ids
+msgid "Model"
+msgstr ""
+
+#. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid ""
+"Model %(model)s already stored in another FS storage ('%(other_storage)s')"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__model_xmlids
+msgid "Model Xmlids"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_model_xmlids_env_default
+msgid "Model Xmlids Env Default"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model,name:fs_storage.model_ir_model
+msgid "Models"
 msgstr ""
 
 #. module: fs_storage
@@ -233,6 +335,8 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__storage_id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__storage_id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__storage_id
 msgid "Storage"
 msgstr ""
 
@@ -334,6 +438,16 @@ msgstr "X目录路径环境可编辑"
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_is_editable
 msgid "X Eval Options From Env Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_field_xmlids_env_is_editable
+msgid "X Field Xmlids Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_model_xmlids_env_is_editable
+msgid "X Model Xmlids Env Is Editable"
 msgstr ""
 
 #. module: fs_storage
