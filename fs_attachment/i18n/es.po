@@ -63,28 +63,6 @@ msgid "FS Storage"
 msgstr "Almacenamiento FS"
 
 #. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_ids
-msgid "Field"
-msgstr "Campo"
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Field %(field)s already stored in another FS storage ('%(other_storage)s')"
-msgstr "Campo %(field)s ya almacenado en otro FS storage ('%(other_storage)s')"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_xmlids
-msgid "Field Xmlids"
-msgstr "Campo Xmlids"
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model_fields
-msgid "Fields"
-msgstr "Campos"
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr "Nombre de archivo en el almacenamiento del sistema de archivos"
@@ -205,24 +183,6 @@ msgstr ""
 "adjuntos "
 
 #. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model_fields__storage_id
-msgid ""
-"If specified, all attachments linked to this field will be stored in the "
-"provided storage."
-msgstr ""
-"Si se especifica, todos los adjuntos vinculados a este campo se guardarán en "
-"el almacenamiento proporcionado."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model__storage_id
-msgid ""
-"If specified, all attachments linked to this model will be stored in the "
-"provided storage."
-msgstr ""
-"Si se especifica, todos los archivos adjuntos vinculados a este modelo se "
-"almacenarán en el almacenamiento proporcionado."
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
 msgid "Internal URL"
 msgstr "URL Interna"
@@ -241,75 +201,6 @@ msgstr "Última Actualización por"
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__write_date
 msgid "Last Updated on"
 msgstr "Última Actualización el"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_ids
-msgid ""
-"List of fields such as attachments linked to one of these fields will be "
-"stored in this storage. NB: If the attachment is linked to a field that is "
-"in one FS storage, and the related model is in another FS storage, we will "
-"store it into the storage linked to the resource field."
-msgstr ""
-"La lista de campos, como los anexos vinculados a uno de estos campos, se "
-"almacenará en este almacén. Nota: Si el anexo está vinculado a un campo que "
-"se encuentra en un almacén FS, y el modelo relacionado se encuentra en otro "
-"almacén FS, lo almacenaremos en el almacén vinculado al campo de recurso."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_xmlids
-msgid ""
-"List of fields xml ids such as attachments linked to one of these fields "
-"will be stored in this storage. NB: If the attachment is linked to a field "
-"that is in one FS storage, and the related model is in another FS storage, "
-"we will store it into the storage linked to the resource field."
-msgstr ""
-"Lista de campos xml ids como los anexos vinculados a uno de estos campos se "
-"almacenarán en este almacenamiento. NB: Si el anexo está vinculado a un "
-"campo que se encuentra en un almacenamiento FS, y el modelo relacionado se "
-"encuentra en otro almacenamiento FS, lo almacenaremos en el almacenamiento "
-"vinculado al campo de recurso."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_ids
-msgid ""
-"List of models such as attachments linked to one of these models will be "
-"stored in this storage."
-msgstr ""
-"La lista de modelos, así como los anexos vinculados a uno de estos modelos, "
-"se almacenarán en este almacén."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_xmlids
-msgid ""
-"List of models xml ids such as attachments linked to one of these models "
-"will be stored in this storage."
-msgstr ""
-"Lista de modelos xml ids como los archivos adjuntos vinculados a uno de "
-"estos modelos se almacenarán en este almacenamiento."
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_ids
-msgid "Model"
-msgstr "Modelo"
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Model %(model)s already stored in another FS storage ('%(other_storage)s')"
-msgstr ""
-"El modelo %(model)s ya está almacenado en otro almacén FS "
-"('%(other_storage)s')"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_xmlids
-msgid "Model Xmlids"
-msgstr "Modelo Xmlids"
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model
-msgid "Models"
-msgstr "Modelos"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__is_directory_path_in_url
@@ -338,12 +229,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__optimizes_directory_path
 msgid "Optimizes Directory Path"
 msgstr "Optimiza la Ruta del Directorio"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model__storage_id
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model_fields__storage_id
-msgid "Storage"
-msgstr "Almacenamiento"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__fs_storage_code
@@ -482,6 +367,90 @@ msgid ""
 msgstr ""
 "No se puede escribir en varios archivos adjuntos con diferentes tipos de "
 "mimo tipos al mismo tiempo."
+
+#~ msgid "Field"
+#~ msgstr "Campo"
+
+#~ msgid ""
+#~ "Field %(field)s already stored in another FS storage ('%(other_storage)s')"
+#~ msgstr ""
+#~ "Campo %(field)s ya almacenado en otro FS storage ('%(other_storage)s')"
+
+#~ msgid "Field Xmlids"
+#~ msgstr "Campo Xmlids"
+
+#~ msgid "Fields"
+#~ msgstr "Campos"
+
+#~ msgid ""
+#~ "If specified, all attachments linked to this field will be stored in the "
+#~ "provided storage."
+#~ msgstr ""
+#~ "Si se especifica, todos los adjuntos vinculados a este campo se guardarán "
+#~ "en el almacenamiento proporcionado."
+
+#~ msgid ""
+#~ "If specified, all attachments linked to this model will be stored in the "
+#~ "provided storage."
+#~ msgstr ""
+#~ "Si se especifica, todos los archivos adjuntos vinculados a este modelo se "
+#~ "almacenarán en el almacenamiento proporcionado."
+
+#~ msgid ""
+#~ "List of fields such as attachments linked to one of these fields will be "
+#~ "stored in this storage. NB: If the attachment is linked to a field that "
+#~ "is in one FS storage, and the related model is in another FS storage, we "
+#~ "will store it into the storage linked to the resource field."
+#~ msgstr ""
+#~ "La lista de campos, como los anexos vinculados a uno de estos campos, se "
+#~ "almacenará en este almacén. Nota: Si el anexo está vinculado a un campo "
+#~ "que se encuentra en un almacén FS, y el modelo relacionado se encuentra "
+#~ "en otro almacén FS, lo almacenaremos en el almacén vinculado al campo de "
+#~ "recurso."
+
+#~ msgid ""
+#~ "List of fields xml ids such as attachments linked to one of these fields "
+#~ "will be stored in this storage. NB: If the attachment is linked to a "
+#~ "field that is in one FS storage, and the related model is in another FS "
+#~ "storage, we will store it into the storage linked to the resource field."
+#~ msgstr ""
+#~ "Lista de campos xml ids como los anexos vinculados a uno de estos campos "
+#~ "se almacenarán en este almacenamiento. NB: Si el anexo está vinculado a "
+#~ "un campo que se encuentra en un almacenamiento FS, y el modelo "
+#~ "relacionado se encuentra en otro almacenamiento FS, lo almacenaremos en "
+#~ "el almacenamiento vinculado al campo de recurso."
+
+#~ msgid ""
+#~ "List of models such as attachments linked to one of these models will be "
+#~ "stored in this storage."
+#~ msgstr ""
+#~ "La lista de modelos, así como los anexos vinculados a uno de estos "
+#~ "modelos, se almacenarán en este almacén."
+
+#~ msgid ""
+#~ "List of models xml ids such as attachments linked to one of these models "
+#~ "will be stored in this storage."
+#~ msgstr ""
+#~ "Lista de modelos xml ids como los archivos adjuntos vinculados a uno de "
+#~ "estos modelos se almacenarán en este almacenamiento."
+
+#~ msgid "Model"
+#~ msgstr "Modelo"
+
+#~ msgid ""
+#~ "Model %(model)s already stored in another FS storage ('%(other_storage)s')"
+#~ msgstr ""
+#~ "El modelo %(model)s ya está almacenado en otro almacén FS "
+#~ "('%(other_storage)s')"
+
+#~ msgid "Model Xmlids"
+#~ msgstr "Modelo Xmlids"
+
+#~ msgid "Models"
+#~ msgstr "Modelos"
+
+#~ msgid "Storage"
+#~ msgstr "Almacenamiento"
 
 #, python-format
 #~ msgid "Storage '%s' is disabled (see environment configuration)."

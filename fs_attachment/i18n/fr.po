@@ -61,28 +61,6 @@ msgid "FS Storage"
 msgstr ""
 
 #. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_ids
-msgid "Field"
-msgstr ""
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Field %(field)s already stored in another FS storage ('%(other_storage)s')"
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_xmlids
-msgid "Field Xmlids"
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model_fields
-msgid "Fields"
-msgstr ""
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr ""
@@ -175,20 +153,6 @@ msgid "If checked, this storage will be used to store all the attachments "
 msgstr ""
 
 #. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model_fields__storage_id
-msgid ""
-"If specified, all attachments linked to this field will be stored in the "
-"provided storage."
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model__storage_id
-msgid ""
-"If specified, all attachments linked to this model will be stored in the "
-"provided storage."
-msgstr ""
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
 msgid "Internal URL"
 msgstr ""
@@ -206,60 +170,6 @@ msgstr ""
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_ids
-msgid ""
-"List of fields such as attachments linked to one of these fields will be "
-"stored in this storage. NB: If the attachment is linked to a field that is "
-"in one FS storage, and the related model is in another FS storage, we will "
-"store it into the storage linked to the resource field."
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_xmlids
-msgid ""
-"List of fields xml ids such as attachments linked to one of these fields "
-"will be stored in this storage. NB: If the attachment is linked to a field "
-"that is in one FS storage, and the related model is in another FS storage, "
-"we will store it into the storage linked to the resource field."
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_ids
-msgid ""
-"List of models such as attachments linked to one of these models will be "
-"stored in this storage."
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_xmlids
-msgid ""
-"List of models xml ids such as attachments linked to one of these models "
-"will be stored in this storage."
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_ids
-msgid "Model"
-msgstr ""
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Model %(model)s already stored in another FS storage ('%(other_storage)s')"
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_xmlids
-msgid "Model Xmlids"
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model
-msgid "Models"
 msgstr ""
 
 #. module: fs_attachment
@@ -284,12 +194,6 @@ msgstr ""
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__optimizes_directory_path
 msgid "Optimizes Directory Path"
-msgstr ""
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model__storage_id
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model_fields__storage_id
-msgid "Storage"
 msgstr ""
 
 #. module: fs_attachment

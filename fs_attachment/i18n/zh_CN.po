@@ -63,28 +63,6 @@ msgid "FS Storage"
 msgstr "文件系统存储"
 
 #. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_ids
-msgid "Field"
-msgstr "字段"
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Field %(field)s already stored in another FS storage ('%(other_storage)s')"
-msgstr "字段 %(field)s 已经在另一个文件系统存储中存储 ('%(other_storage)s')"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_xmlids
-msgid "Field Xmlids"
-msgstr "字段Xmlids"
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model_fields
-msgid "Fields"
-msgstr "字段"
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr "文件系统存储中的文件名"
@@ -192,20 +170,6 @@ msgid "If checked, this storage will be used to store all the attachments "
 msgstr "如果选中，此存储将被用于存放所有附件 "
 
 #. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model_fields__storage_id
-msgid ""
-"If specified, all attachments linked to this field will be stored in the "
-"provided storage."
-msgstr "如果指定了存储，与此字段关联的所有附件都将存储在所提供的存储中。"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model__storage_id
-msgid ""
-"If specified, all attachments linked to this model will be stored in the "
-"provided storage."
-msgstr "如果指定了存储，与该模型关联的所有附件都将存储在所提供的存储中。"
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
 msgid "Internal URL"
 msgstr "内部URL"
@@ -224,66 +188,6 @@ msgstr "最后更新者"
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__write_date
 msgid "Last Updated on"
 msgstr "最后更新于"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_ids
-msgid ""
-"List of fields such as attachments linked to one of these fields will be "
-"stored in this storage. NB: If the attachment is linked to a field that is "
-"in one FS storage, and the related model is in another FS storage, we will "
-"store it into the storage linked to the resource field."
-msgstr ""
-"字段列表，比如附件如果链接到这些字段之一，将存储在此存储中。注意：如果附件链"
-"接到一个在某个文件系统存储中的字段，并且相关模型在另一个文件系统存储中，我们"
-"将把它存储在与资源字段链接的存储中。"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_xmlids
-msgid ""
-"List of fields xml ids such as attachments linked to one of these fields "
-"will be stored in this storage. NB: If the attachment is linked to a field "
-"that is in one FS storage, and the related model is in another FS storage, "
-"we will store it into the storage linked to the resource field."
-msgstr ""
-"字段的XML ID列表，比如附件如果链接到这些字段之一，将存储在此存储中。注意：如"
-"果附件链接到一个在某个文件系统存储中的字段，并且相关模型在另一个文件系统存储"
-"中，我们将把它存储在与资源字段链接的存储中。"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_ids
-msgid ""
-"List of models such as attachments linked to one of these models will be "
-"stored in this storage."
-msgstr "模型列表，比如附件如果链接到这些模型之一，将存储在此存储中。"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_xmlids
-msgid ""
-"List of models xml ids such as attachments linked to one of these models "
-"will be stored in this storage."
-msgstr "模型的XML ID列表，比如附件如果链接到这些模型之一，将存储在此存储中。"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_ids
-msgid "Model"
-msgstr "模型"
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Model %(model)s already stored in another FS storage ('%(other_storage)s')"
-msgstr "模型 %(model)s 已经存储在另一个文件系统存储中 ('%(other_storage)s')"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_xmlids
-msgid "Model Xmlids"
-msgstr "模型XML ID"
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model
-msgid "Models"
-msgstr "模型"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__is_directory_path_in_url
@@ -308,12 +212,6 @@ msgstr "只有一个存储可以被用作附件的默认存储"
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__optimizes_directory_path
 msgid "Optimizes Directory Path"
 msgstr "优化目录路径"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model__storage_id
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model_fields__storage_id
-msgid "Storage"
-msgstr "存储"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__fs_storage_code
@@ -437,6 +335,76 @@ msgid ""
 "You can't write on multiple attachments with different mimetypes at the same "
 "time."
 msgstr "你不能同时在具有不同mimetype的多个附件上进行写操作。"
+
+#~ msgid "Field"
+#~ msgstr "字段"
+
+#~ msgid ""
+#~ "Field %(field)s already stored in another FS storage ('%(other_storage)s')"
+#~ msgstr "字段 %(field)s 已经在另一个文件系统存储中存储 ('%(other_storage)s')"
+
+#~ msgid "Field Xmlids"
+#~ msgstr "字段Xmlids"
+
+#~ msgid "Fields"
+#~ msgstr "字段"
+
+#~ msgid ""
+#~ "If specified, all attachments linked to this field will be stored in the "
+#~ "provided storage."
+#~ msgstr "如果指定了存储，与此字段关联的所有附件都将存储在所提供的存储中。"
+
+#~ msgid ""
+#~ "If specified, all attachments linked to this model will be stored in the "
+#~ "provided storage."
+#~ msgstr "如果指定了存储，与该模型关联的所有附件都将存储在所提供的存储中。"
+
+#~ msgid ""
+#~ "List of fields such as attachments linked to one of these fields will be "
+#~ "stored in this storage. NB: If the attachment is linked to a field that "
+#~ "is in one FS storage, and the related model is in another FS storage, we "
+#~ "will store it into the storage linked to the resource field."
+#~ msgstr ""
+#~ "字段列表，比如附件如果链接到这些字段之一，将存储在此存储中。注意：如果附件"
+#~ "链接到一个在某个文件系统存储中的字段，并且相关模型在另一个文件系统存储中，"
+#~ "我们将把它存储在与资源字段链接的存储中。"
+
+#~ msgid ""
+#~ "List of fields xml ids such as attachments linked to one of these fields "
+#~ "will be stored in this storage. NB: If the attachment is linked to a "
+#~ "field that is in one FS storage, and the related model is in another FS "
+#~ "storage, we will store it into the storage linked to the resource field."
+#~ msgstr ""
+#~ "字段的XML ID列表，比如附件如果链接到这些字段之一，将存储在此存储中。注意："
+#~ "如果附件链接到一个在某个文件系统存储中的字段，并且相关模型在另一个文件系统"
+#~ "存储中，我们将把它存储在与资源字段链接的存储中。"
+
+#~ msgid ""
+#~ "List of models such as attachments linked to one of these models will be "
+#~ "stored in this storage."
+#~ msgstr "模型列表，比如附件如果链接到这些模型之一，将存储在此存储中。"
+
+#~ msgid ""
+#~ "List of models xml ids such as attachments linked to one of these models "
+#~ "will be stored in this storage."
+#~ msgstr ""
+#~ "模型的XML ID列表，比如附件如果链接到这些模型之一，将存储在此存储中。"
+
+#~ msgid "Model"
+#~ msgstr "模型"
+
+#~ msgid ""
+#~ "Model %(model)s already stored in another FS storage ('%(other_storage)s')"
+#~ msgstr "模型 %(model)s 已经存储在另一个文件系统存储中 ('%(other_storage)s')"
+
+#~ msgid "Model Xmlids"
+#~ msgstr "模型XML ID"
+
+#~ msgid "Models"
+#~ msgstr "模型"
+
+#~ msgid "Storage"
+#~ msgstr "存储"
 
 #, python-format
 #~ msgid "Storage '%s' is disabled (see environment configuration)."

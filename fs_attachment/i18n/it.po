@@ -63,30 +63,6 @@ msgid "FS Storage"
 msgstr "Deposito FS"
 
 #. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_ids
-msgid "Field"
-msgstr "Campo"
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Field %(field)s already stored in another FS storage ('%(other_storage)s')"
-msgstr ""
-"Il campo %(field)s è già archiviato in un altro deposito FS "
-"('%(other_storage)s')"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__field_xmlids
-msgid "Field Xmlids"
-msgstr "ID file XML"
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model_fields
-msgid "Fields"
-msgstr "Campi"
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr "Nome del file nel filesystem del deposito"
@@ -206,24 +182,6 @@ msgstr ""
 "allegati "
 
 #. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model_fields__storage_id
-msgid ""
-"If specified, all attachments linked to this field will be stored in the "
-"provided storage."
-msgstr ""
-"Se specificato, tutti gli allegati collegati a questo file verranno salvati "
-"nel deposito indicato."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_ir_model__storage_id
-msgid ""
-"If specified, all attachments linked to this model will be stored in the "
-"provided storage."
-msgstr ""
-"Se specificato, tutti gli allegati collegati a questo modello verranno "
-"archiviati nel deposito indicato."
-
-#. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
 msgid "Internal URL"
 msgstr "URL interno"
@@ -242,74 +200,6 @@ msgstr "Ultimo aggiornamento di"
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__write_date
 msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_ids
-msgid ""
-"List of fields such as attachments linked to one of these fields will be "
-"stored in this storage. NB: If the attachment is linked to a field that is "
-"in one FS storage, and the related model is in another FS storage, we will "
-"store it into the storage linked to the resource field."
-msgstr ""
-"Elenco dei campi come gli allegati collegati ad uno di questi campi verranno "
-"archiviati in questo deposito. NB: se l'allegato è collegato ad un file che "
-"è in un deposito FS, e il relativo modello è in un altro deposito FS, "
-"verranno archiviati nel deposito collegato al campo risorsa."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__field_xmlids
-msgid ""
-"List of fields xml ids such as attachments linked to one of these fields "
-"will be stored in this storage. NB: If the attachment is linked to a field "
-"that is in one FS storage, and the related model is in another FS storage, "
-"we will store it into the storage linked to the resource field."
-msgstr ""
-"Elenco dei campi id XML come gli allegati collegati ad uno di questi campi "
-"verranno archiviati in questo deposito. NB: se l'allegato è collegato ad un "
-"file che è in un deposito FS, e il relativo modello è in un altro deposito "
-"FS, verranno archiviati nel deposito collegato al campo risorsa."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_ids
-msgid ""
-"List of models such as attachments linked to one of these models will be "
-"stored in this storage."
-msgstr ""
-"Elenco di modelli come gli allegati collegati ad uno di questi modelli "
-"verranno archiviati in questo deposito."
-
-#. module: fs_attachment
-#: model:ir.model.fields,help:fs_attachment.field_fs_storage__model_xmlids
-msgid ""
-"List of models xml ids such as attachments linked to one of these models "
-"will be stored in this storage."
-msgstr ""
-"Elenco di modelli id XML come gli allegati collegati ad uno di questi "
-"modelli verranno archiviati in questo deposito."
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_ids
-msgid "Model"
-msgstr "Modello"
-
-#. module: fs_attachment
-#. odoo-python
-#: code:addons/fs_attachment/models/fs_storage.py:0
-msgid ""
-"Model %(model)s already stored in another FS storage ('%(other_storage)s')"
-msgstr ""
-"Il modello %(model)s è già archiviato in un altro deposito FS "
-"('%(other_storage)s')"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__model_xmlids
-msgid "Model Xmlids"
-msgstr "Modello Xmlids"
-
-#. module: fs_attachment
-#: model:ir.model,name:fs_attachment.model_ir_model
-msgid "Models"
-msgstr "Modelli"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__is_directory_path_in_url
@@ -336,12 +226,6 @@ msgstr "Solo un deposito può essere usato come predefinito per gli allegati"
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__optimizes_directory_path
 msgid "Optimizes Directory Path"
 msgstr "Ottimizza percorso cartella"
-
-#. module: fs_attachment
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model__storage_id
-#: model:ir.model.fields,field_description:fs_attachment.field_ir_model_fields__storage_id
-msgid "Storage"
-msgstr "Deposito"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__fs_storage_code
@@ -477,6 +361,90 @@ msgid ""
 msgstr ""
 "Non si può scrivere su allegati multipli con tipi MIME differenti "
 "contemporaneamente."
+
+#~ msgid "Field"
+#~ msgstr "Campo"
+
+#~ msgid ""
+#~ "Field %(field)s already stored in another FS storage ('%(other_storage)s')"
+#~ msgstr ""
+#~ "Il campo %(field)s è già archiviato in un altro deposito FS "
+#~ "('%(other_storage)s')"
+
+#~ msgid "Field Xmlids"
+#~ msgstr "ID file XML"
+
+#~ msgid "Fields"
+#~ msgstr "Campi"
+
+#~ msgid ""
+#~ "If specified, all attachments linked to this field will be stored in the "
+#~ "provided storage."
+#~ msgstr ""
+#~ "Se specificato, tutti gli allegati collegati a questo file verranno "
+#~ "salvati nel deposito indicato."
+
+#~ msgid ""
+#~ "If specified, all attachments linked to this model will be stored in the "
+#~ "provided storage."
+#~ msgstr ""
+#~ "Se specificato, tutti gli allegati collegati a questo modello verranno "
+#~ "archiviati nel deposito indicato."
+
+#~ msgid ""
+#~ "List of fields such as attachments linked to one of these fields will be "
+#~ "stored in this storage. NB: If the attachment is linked to a field that "
+#~ "is in one FS storage, and the related model is in another FS storage, we "
+#~ "will store it into the storage linked to the resource field."
+#~ msgstr ""
+#~ "Elenco dei campi come gli allegati collegati ad uno di questi campi "
+#~ "verranno archiviati in questo deposito. NB: se l'allegato è collegato ad "
+#~ "un file che è in un deposito FS, e il relativo modello è in un altro "
+#~ "deposito FS, verranno archiviati nel deposito collegato al campo risorsa."
+
+#~ msgid ""
+#~ "List of fields xml ids such as attachments linked to one of these fields "
+#~ "will be stored in this storage. NB: If the attachment is linked to a "
+#~ "field that is in one FS storage, and the related model is in another FS "
+#~ "storage, we will store it into the storage linked to the resource field."
+#~ msgstr ""
+#~ "Elenco dei campi id XML come gli allegati collegati ad uno di questi "
+#~ "campi verranno archiviati in questo deposito. NB: se l'allegato è "
+#~ "collegato ad un file che è in un deposito FS, e il relativo modello è in "
+#~ "un altro deposito FS, verranno archiviati nel deposito collegato al campo "
+#~ "risorsa."
+
+#~ msgid ""
+#~ "List of models such as attachments linked to one of these models will be "
+#~ "stored in this storage."
+#~ msgstr ""
+#~ "Elenco di modelli come gli allegati collegati ad uno di questi modelli "
+#~ "verranno archiviati in questo deposito."
+
+#~ msgid ""
+#~ "List of models xml ids such as attachments linked to one of these models "
+#~ "will be stored in this storage."
+#~ msgstr ""
+#~ "Elenco di modelli id XML come gli allegati collegati ad uno di questi "
+#~ "modelli verranno archiviati in questo deposito."
+
+#~ msgid "Model"
+#~ msgstr "Modello"
+
+#~ msgid ""
+#~ "Model %(model)s already stored in another FS storage ('%(other_storage)s')"
+#~ msgstr ""
+#~ "Il modello %(model)s è già archiviato in un altro deposito FS "
+#~ "('%(other_storage)s')"
+
+#~ msgid "Model Xmlids"
+#~ msgstr "Modello Xmlids"
+
+#~ msgid "Models"
+#~ msgstr "Modelli"
+
+#~ msgid "Storage"
+#~ msgstr "Deposito"
 
 #, python-format
 #~ msgid "Storage '%s' is disabled (see environment configuration)."
