@@ -1,2 +1,3 @@
 - Laurent Mignon \<<laurent.mignon@acsone.eu>\>
 - Sébastien BEAU \<<sebastien.beau@akretion.com>\>
+- Marie Lejeune \<<marie.lejeune@acsone.eu>\>

@@ -130,6 +130,37 @@ class FSStorage(models.Model):
         help="Relative path to the directory to store the file"
     )
 
+    model_xmlids = fields.Char(
+        help="List of models xml ids such as attachments linked to one of "
+        "these models will be stored in this storage."
+    )
+    model_ids = fields.One2many(
+        "ir.model",
+        "storage_id",
+        help="List of models such as attachments linked to one of these "
+        "models will be stored in this storage.",
+        compute="_compute_model_ids",
+        inverse="_inverse_model_ids",
+    )
+    field_xmlids = fields.Char(
+        help="List of fields xml ids such as attachments linked to one of "
+        "these fields will be stored in this storage. NB: If the attachment "
+        "is linked to a field that is in one FS storage, and the related "
+        "model is in another FS storage, we will store it into"
+        " the storage linked to the resource field."
+    )
+    field_ids = fields.One2many(
+        "ir.model.fields",
+        "storage_id",
+        help="List of fields such as attachments linked to one of these "
+        "fields will be stored in this storage. NB: If the attachment "
+        "is linked to a field that is in one FS storage, and the related "
+        "model is in another FS storage, we will store it into"
+        " the storage linked to the resource field.",
+        compute="_compute_field_ids",
+        inverse="_inverse_field_ids",
+    )
+
     # the next fields are used to display documentation to help the user
     # to configure the backend
     options_protocol = fields.Selection(
@@ -168,6 +199,64 @@ class FSStorage(models.Model):
 
     _server_env_section_name_field = "code"
 
+    @api.constrains("model_xmlids")
+    def _check_model_xmlid_storage_unique(self):
+        """
+        A given model can be stored in only 1 storage.
+        As model_ids is a non stored field, we must implement a Python
+        constraint on the XML ids list.
+        """
+        for rec in self.filtered("model_xmlids"):
+            xmlids = rec.model_xmlids.split(",")
+            for xmlid in xmlids:
+                other_storages = (
+                    self.env["fs.storage"]
+                    .search([])
+                    .filtered_domain(
+                        [
+                            ("id", "!=", rec.id),
+                            ("model_xmlids", "ilike", xmlid),
+                        ]
+                    )
+                )
+                if other_storages:
+                    raise ValidationError(
+                        _(
+                            "Model %(model)s already stored in another "
+                            "FS storage ('%(other_storage)s')"
+                        )
+                        % {"model": xmlid, "other_storage": other_storages[0].name}
+                    )
+
+    @api.constrains("field_xmlids")
+    def _check_field_xmlid_storage_unique(self):
+        """
+        A given field can be stored in only 1 storage.
+        As field_ids is a non stored field, we must implement a Python
+        constraint on the XML ids list.
+        """
+        for rec in self.filtered("field_xmlids"):
+            xmlids = rec.field_xmlids.split(",")
+            for xmlid in xmlids:
+                other_storages = (
+                    self.env["fs.storage"]
+                    .search([])
+                    .filtered_domain(
+                        [
+                            ("id", "!=", rec.id),
+                            ("field_xmlids", "ilike", xmlid),
+                        ]
+                    )
+                )
+                if other_storages:
+                    raise ValidationError(
+                        _(
+                            "Field %(field)s already stored in another "
+                            "FS storage ('%(other_storage)s')"
+                        )
+                        % {"field": xmlid, "other_storage": other_storages[0].name}
+                    )
+
     @api.model
     def _get_check_connection_method_selection(self):
         return [
@@ -182,6 +271,8 @@ class FSStorage(models.Model):
             "options": {},
             "directory_path": {},
             "eval_options_from_env": {},
+            "model_xmlids": {},
+            "field_xmlids": {},
         }
 
     def write(self, vals):
@@ -227,6 +318,62 @@ class FSStorage(models.Model):
         if fs_storage:
             fs = fs_storage.fs
         return fs
+
+    @api.model
+    @tools.ormcache("model_name", "field_name")
+    def get_storage_code_by_model_field(self, model_name, field_name=None):
+        """Return the storage backend associated to the given model and field.
+
+        :param model_name: the name of the model
+        :param field_name (optionnal): the name of the field
+        """
+        if field_name and model_name:
+            field = (
+                self.env["ir.model.fields"]
+                .sudo()
+                .search(
+                    [("model", "=", model_name), ("name", "=", field_name)], limit=1
+                )
+            )
+            if field:
+                storage = (
+                    self.env["fs.storage"]
+                    .sudo()
+                    .search([])
+                    .filtered_domain([("field_ids", "in", [field.id])])
+                )
+                if storage:
+                    return storage.code
+        if model_name:
+            model = (
+                self.env["ir.model"]
+                .sudo()
+                .search([("model", "=", model_name)], limit=1)
+            )
+            if model:
+                storage = (
+                    self.env["fs.storage"]
+                    .sudo()
+                    .search([])
+                    .filtered_domain([("model_ids", "in", [model.id])])
+                )
+                if storage:
+                    return storage.code
+        return None
+
+    @api.model
+    def _get_fs_by_model_field(self, model_name, field_name=None):
+        """Return the filesystem associated to the given model and field.
+
+        :param model_name: the name of the model
+        :param field_name (optionnal): the name of the field
+        """
+        code = self.get_storage_code_by_model_field(model_name, field_name)
+        if not code:
+            raise ValueError(
+                f"No storage found for model {model_name} and field {field_name}"
+            )
+        return self.get_fs_by_code(code)
 
     def copy(self, default=None):
         default = default or {}
@@ -286,6 +433,58 @@ class FSStorage(models.Model):
             signature = inspect.signature(cls.__init__)
             doc = inspect.getdoc(cls.__init__)
             rec.options_properties = f"__init__{signature}\n{doc}"
+
+    @api.depends("model_xmlids")
+    def _compute_model_ids(self):
+        """
+        Use the char field (containing all model xmlids) to fulfill the o2m field.
+        """
+        for rec in self:
+            xmlids = (
+                rec.model_xmlids.split(",") if isinstance(rec.model_xmlids, str) else []
+            )
+            model_ids = []
+            for xmlid in xmlids:
+                # Method returns False if no model is found for this xmlid
+                model_id = self.env["ir.model.data"]._xmlid_to_res_id(xmlid)
+                if model_id:
+                    model_ids.append(model_id)
+            rec.model_ids = [(6, 0, model_ids)]
+
+    def _inverse_model_ids(self):
+        """
+        When the model_ids o2m field is updated, re-compute the char list
+        of model XML ids.
+        """
+        for rec in self:
+            xmlids = models.Model.get_external_id(rec.model_ids).values()
+            rec.model_xmlids = ",".join(xmlids)
+
+    @api.depends("field_xmlids")
+    def _compute_field_ids(self):
+        """
+        Use the char field (containing all field xmlids) to fulfill the o2m field.
+        """
+        for rec in self:
+            xmlids = (
+                rec.field_xmlids.split(",") if isinstance(rec.field_xmlids, str) else []
+            )
+            field_ids = []
+            for xmlid in xmlids:
+                # Method returns False if no field is found for this xmlid
+                field_id = self.env["ir.model.data"]._xmlid_to_res_id(xmlid)
+                if field_id:
+                    field_ids.append(field_id)
+            rec.field_ids = [(6, 0, field_ids)]
+
+    def _inverse_field_ids(self):
+        """
+        When the field_ids o2m field is updated, re-compute the char list
+        of field XML ids.
+        """
+        for rec in self:
+            xmlids = models.Model.get_external_id(rec.field_ids).values()
+            rec.field_xmlids = ",".join(xmlids)
 
     def _get_marker_file_name(self):
         return f".odoo_fs_storage_{self.id}.marker"
