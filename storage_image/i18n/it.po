@@ -6,132 +6,134 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-04-01 20:06+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.2\n"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
 msgid "<i class=\"fa fa-times\" title=\"Unlink\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-times\" title=\"Scollega\"/>"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
 msgid "<span class=\"mr4\">Name: </span>"
-msgstr ""
+msgstr "<span class=\"mr4\">Nome: </span>"
 
 #. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__url_path
 msgid "Accessible path, no base URL"
-msgstr ""
+msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__active
 msgid "Active"
-msgstr ""
+msgstr "Attiva"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_alt_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__alt_name
 msgid "Alt Image name"
-msgstr ""
+msgstr "Nome alternativo immagine"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__checksum
 msgid "Checksum/SHA1"
-msgstr ""
+msgstr "Checksum/SHA1"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__company_id
 msgid "Company"
-msgstr ""
+msgstr "Azienda"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__data
 #: model:ir.model.fields,help:storage_image.field_storage_image__data
 msgid "Data"
-msgstr ""
+msgstr "Dati"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__extension
 msgid "Extension"
-msgstr ""
+msgstr "Estensione"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__file_id
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "File Informations"
-msgstr ""
+msgstr "Informazioni file"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__file_size
 msgid "File Size"
-msgstr ""
+msgstr "Dimensione file"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_file__file_type
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__file_type
 #: model:ir.model.fields,field_description:storage_image.field_storage_thumbnail__file_type
 msgid "File Type"
-msgstr ""
+msgstr "Tipo file"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__filename
 msgid "Filename without extension"
-msgstr ""
+msgstr "Nome file senza estensione"
 
 #. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__internal_url
 msgid "HTTP URL to load the file directly from storage."
-msgstr ""
+msgstr "URL HTTP per caricare il file direttamente dal deposito."
 
 #. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__url
 msgid "HTTP accessible path to the file"
-msgstr ""
+msgstr "Percorso HTTP al file accessibile"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__human_file_size
 msgid "Human File Size"
-msgstr ""
+msgstr "Dimensione file umana"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: storage_image
 #: model:ir.actions.act_window,name:storage_image.act_open_storage_image_view
@@ -143,43 +145,43 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
 msgid "Image"
-msgstr ""
+msgstr "Immagine"
 
 #. module: storage_image
 #: model:res.groups,name:storage_image.group_image_manager
 msgid "Image Manager"
-msgstr ""
+msgstr "Gestore immagine"
 
 #. module: storage_image
 #: model:ir.model,name:storage_image.model_image_relation_abstract
 msgid "Image Relation Abstract"
-msgstr ""
+msgstr "Sintesi relazione immagine"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__internal_url
 msgid "Internal Url"
-msgstr ""
+msgstr "URL interno"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_url
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__image_medium_url
 msgid "Medium thumb URL"
-msgstr ""
+msgstr "URL anteprima media"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__mimetype
 msgid "Mime Type"
-msgstr ""
+msgstr "Tipo MIME"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_name
@@ -187,107 +189,107 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: storage_image
 #. odoo-javascript
 #: code:addons/storage_image/static/src/js/StorageImageHandle.esm.js:0
 msgid "Records have been successfully rearranged."
-msgstr ""
+msgstr "I record sono stati riorganizzati con successo."
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__relative_path
 msgid "Relative Path"
-msgstr ""
+msgstr "Percorso relativo"
 
 #. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__relative_path
 msgid "Relative location for backend"
-msgstr ""
+msgstr "Posizione relativa per il backend"
 
 #. module: storage_image
 #: model:ir.actions.act_window,name:storage_image.storage_replace_file_action
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Replace File"
-msgstr ""
+msgstr "Sostituisci file"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequenza"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__slug
 msgid "Slug"
-msgstr ""
+msgstr "Frazione"
 
 #. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__slug
 msgid "Slug-ified name with ID for URL"
-msgstr ""
+msgstr "Nome frazionato con ID per URL"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__image_small_url
 msgid "Small thumb URL"
-msgstr ""
+msgstr "URL anteprima piccola"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__backend_id
 msgid "Storage"
-msgstr ""
+msgstr "Deposito"
 
 #. module: storage_image
 #: model:ir.model,name:storage_image.model_storage_file
 msgid "Storage File"
-msgstr ""
+msgstr "File deposito"
 
 #. module: storage_image
 #: model:ir.model,name:storage_image.model_storage_image
 msgid "Storage Image"
-msgstr ""
+msgstr "Immagine deposito"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__thumb_medium_id
 msgid "Thumb Medium"
-msgstr ""
+msgstr "Anteprima media"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__thumb_small_id
 msgid "Thumb Small"
-msgstr ""
+msgstr "Anteprima piccola"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__thumbnail_ids
 msgid "Thumbnails"
-msgstr ""
+msgstr "Anteprime"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__to_delete
 msgid "To Delete"
-msgstr ""
+msgstr "Da cancellare"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__url
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__url_path
 msgid "Url Path"
-msgstr ""
+msgstr "Percorso URL"
 
 #. module: storage_image
 #: model:ir.model,name:storage_image.model_storage_file_replace
 msgid "Wizard template allowing to replace a storage.file"
-msgstr ""
+msgstr "Modello procedura guidata che consente di sostituire un storage.file"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_kanban
 msgid "alt_name"
-msgstr ""
+msgstr "alt_name"
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
 msgid "image_alt_name"
-msgstr ""
+msgstr "image_alt_name"
