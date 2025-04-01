@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,8 +14,18 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media__url_path
+msgid "Accessible path, no base URL"
+msgstr ""
+
+#. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__active
 msgid "Active"
+msgstr ""
+
+#. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
+msgid "Cancel"
 msgstr ""
 
 #. module: storage_media
@@ -34,6 +44,11 @@ msgid "Company"
 msgstr ""
 
 #. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
+msgid "Confirm"
+msgstr ""
+
+#. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__create_uid
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__create_uid
 msgid "Created by"
@@ -47,12 +62,8 @@ msgstr ""
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__data
-msgid "Data"
-msgstr ""
-
-#. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__data
-msgid "Datas"
+msgid "Data"
 msgstr ""
 
 #. module: storage_media
@@ -116,12 +127,6 @@ msgid "Internal Url"
 msgstr ""
 
 #. module: storage_media
-#: model:ir.model.fields,field_description:storage_media.field_storage_media____last_update
-#: model:ir.model.fields,field_description:storage_media.field_storage_media_type____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__write_uid
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__write_uid
 msgid "Last Updated by"
@@ -134,7 +139,9 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_file_replace__media_id
 #: model:ir.model.fields.selection,name:storage_media.selection__storage_file__file_type__media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Media"
 msgstr ""
 
@@ -151,6 +158,7 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__name
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Name"
 msgstr ""
 
@@ -162,6 +170,13 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__relative_path
 msgid "Relative location for backend"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.actions.act_window,name:storage_media.storage_replace_file_action
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
+msgid "Replace File"
 msgstr ""
 
 #. module: storage_media
@@ -214,4 +229,14 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__url
 msgid "Url"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media__url_path
+msgid "Url Path"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model,name:storage_media.model_storage_file_replace
+msgid "Wizard template allowing to replace a storage.file"
 msgstr ""
