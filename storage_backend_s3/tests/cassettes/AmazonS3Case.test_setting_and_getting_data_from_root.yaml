@@ -1,0 +1,932 @@
+interactions:
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI1Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MGM2ZjdhMDgtOGFlYi00NjAwLWEzZGYtNTkxZGNmMTA5MGJm
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:25 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - r+g6tPwU214RusxFoP0UH4uFMlq2qCNsAQNZ60OKsHQHdtjgvdh+sj0l3mwfKCmZL4Wuk6PRXCw=
+      x-amz-request-id:
+      - DYNEM5JRYT6SZGPY
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI2Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MGM2ZjdhMDgtOGFlYi00NjAwLWEzZGYtNTkxZGNmMTA5MGJm
+      amz-sdk-request:
+      - !!binary |
+        dHRsPTIwMjUwNDAxVDEyMzgyNVo7IGF0dGVtcHQ9MjsgbWF4PTU=
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:27 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-access-point-alias:
+      - 'false'
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - qE3QZw8lsL7CNs734L6lmtbDNFnKtgnM7MxwT8/kp75mBDVr6nSJlJQ1BnrosJqdY3xmt5NyJcz2sBh9Kkn3MDRjL3fKfO8gewZx0zk2lqM=
+      x-amz-request-id:
+      - DYN78JTKSC81A28M
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIG0vQyBjZmcvcmV0cnktbW9kZSNsZWdhY3kgQm90b2NvcmUvMS4zNy4yNCBS
+        ZXNvdXJjZQ==
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI2Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MmY3NTg3OWItYjJjOC00YzYyLWFkZGEtY2E3NTliNTg2ZDE0
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: GET
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/?prefix=&encoding-type=url
+  response:
+    body:
+      string: '<?xml version="1.0" encoding="UTF-8"?>
+
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated></ListBucketResult>'
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:27 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - XOfEiwDxp4U5LAdfefazjp0AsVy2YdO0SiBHtrDcHu5WfNPP/b+JlZZvq2JULiHHLRVVzjbWAaw1/XbYFgXbL9xy+2uvlmepel6Ub/m+wlw=
+      x-amz-request-id:
+      - DYN8CT6ATC5YDDND
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI2Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        Yjc5NDRhMzAtYTVlYi00ZmRmLWE0OGEtZmE3NDM2ODkwZWM5
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:26 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - /8jjK0fm88XJFuMMmBSrnlJ+adUryij0R3QOttMuErxCX1e+4PmUQFRotDqhzNo3X7WyrIidkEc=
+      x-amz-request-id:
+      - DYN85BE37VSGSV1C
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI2Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        Yjc5NDRhMzAtYTVlYi00ZmRmLWE0OGEtZmE3NDM2ODkwZWM5
+      amz-sdk-request:
+      - !!binary |
+        dHRsPTIwMjUwNDAxVDEyMzgyNlo7IGF0dGVtcHQ9MjsgbWF4PTU=
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:27 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-access-point-alias:
+      - 'false'
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - srQDx1XjKsUajtEB0HxiZ5qYHYHGaiIjJ+KgdrEwmBCL6HBkRfxX+CY+2uB54JbnaxobHD2PShUnNjq/jUWTmq1w31r3bxAxNP22apLIJLg=
+      x-amz-request-id:
+      - DYN9DF6DA4WSH5TP
+    status:
+      code: 200
+      message: OK
+- request:
+    body: !!python/object/new:_io.BytesIO
+      state: !!python/tuple
+      - !!binary |
+        MTUNClRoaXMgaXMgYSBzaW1wbGUgZmlsZQ0KMA0KeC1hbXotY2hlY2tzdW0tY3JjMzI6SVBYRm53
+        PT0NCg0K
+      - 0
+      - null
+    headers:
+      Content-Encoding:
+      - !!binary |
+        YXdzLWNodW5rZWQ=
+      Content-Type:
+      - !!binary |
+        dGV4dC9wbGFpbg==
+      Expect:
+      - !!binary |
+        MTAwLWNvbnRpbnVl
+      Transfer-Encoding:
+      - !!binary |
+        Y2h1bmtlZA==
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIG0vRyBjZmcvcmV0cnktbW9kZSNsZWdhY3kgQm90b2NvcmUvMS4zNy4yNCBS
+        ZXNvdXJjZQ==
+      X-Amz-Content-SHA256:
+      - !!binary |
+        U1RSRUFNSU5HLVVOU0lHTkVELVBBWUxPQUQtVFJBSUxFUg==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI2Wg==
+      X-Amz-Decoded-Content-Length:
+      - !!binary |
+        MjE=
+      X-Amz-Trailer:
+      - !!binary |
+        eC1hbXotY2hlY2tzdW0tY3JjMzI=
+      amz-sdk-invocation-id:
+      - !!binary |
+        Yjk3OWNmNTctNzg0Ny00NGNjLTgzNTgtNjhjOTg2MDFjMjAx
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+      x-amz-sdk-checksum-algorithm:
+      - !!binary |
+        Q1JDMzI=
+    method: PUT
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/test_file.txt
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Length:
+      - '0'
+      Date:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      ETag:
+      - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+      Server:
+      - AmazonS3
+      x-amz-checksum-crc32:
+      - IPXFnw==
+      x-amz-checksum-type:
+      - FULL_OBJECT
+      x-amz-id-2:
+      - KB5mHSdPysFRvHD8CrBK8zGni8utrrvG7ErPzF8I6H15pHyXm66VBvjjKQlozBAd02BiGA2tzscSQ9WExb0eXeh8pn2/iOlmSFaG5rGt7cg=
+      x-amz-request-id:
+      - SYQGX5JQCFVHH9N1
+      x-amz-server-side-encryption:
+      - AES256
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI3Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MTEwNjBiNjYtMzY1Yy00OTI2LTliMTItOTZkMDk4NTFhYjQy
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:26 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - WWDvbEdqSYWz0YtjY4/Ewi2dne7bIaBrtx9L7/nIG6MchG+1vs4KdLasn+QZcqULBzX+SeodBCY=
+      x-amz-request-id:
+      - SYQW7QRVDR4A0T9C
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI3Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MTEwNjBiNjYtMzY1Yy00OTI2LTliMTItOTZkMDk4NTFhYjQy
+      amz-sdk-request:
+      - !!binary |
+        dHRsPTIwMjUwNDAxVDEyMzgyNlo7IGF0dGVtcHQ9MjsgbWF4PTU=
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-access-point-alias:
+      - 'false'
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - uyY8pkcct4UGYrRVJ2zwb2Jln+oljvT7UcWS0Mm20USlNMvnoR9lVO65HCM2XGC5agEs68ue2Nz4D16zoaw2kmjPGB/XrLt7jzEGHXopm8k=
+      x-amz-request-id:
+      - SYQWSTC16V5VWK2Q
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIG0vQyBjZmcvcmV0cnktbW9kZSNsZWdhY3kgQm90b2NvcmUvMS4zNy4yNCBS
+        ZXNvdXJjZQ==
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI3Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MzU1YjY5ODEtOTA5Yy00ZTBjLTgwY2UtNGNmNTQ4MWM2ZjBk
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: GET
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/?prefix=&encoding-type=url
+  response:
+    body:
+      string: '<?xml version="1.0" encoding="UTF-8"?>
+
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>test_file.txt</Key><LastModified>2025-04-01T12:37:28.000Z</LastModified><ETag>&quot;190aa3117b11aab3f2c5f4e5f7d9e402&quot;</ETag><ChecksumAlgorithm>CRC32</ChecksumAlgorithm><ChecksumType>FULL_OBJECT</ChecksumType><Size>21</Size><Owner><ID>11dffaa7549a53de7a009200f8a1def3cb720e61ee61bc3b6617dd5be15b9ad9</ID></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>'
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - OsbAyrJXZP+jJMyDAowdEKWRFU8M3W29sPTSni29lMm0yGz7CRkh+DCxPE85oedsMvrXRvjT9Kp/ixoeTe8Sw/lcDXQ+TYtUX9xIIGV85E0=
+      x-amz-request-id:
+      - SYQJP2GFW4BXVHY5
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI3Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        ZjJhYjUyOTQtYTAyYS00NGQyLTkyM2ItM2MzMWY2YTgxZGQ5
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:27 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - oddwKWi89vpcuAP8cfkWubJ/qxcn74IOe1tOgpdn8n7FfyVt4W664rGxlZ2clHbzBslSDQIsDxw=
+      x-amz-request-id:
+      - SYQV694Y3GGS0N8K
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI3Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        ZjJhYjUyOTQtYTAyYS00NGQyLTkyM2ItM2MzMWY2YTgxZGQ5
+      amz-sdk-request:
+      - !!binary |
+        dHRsPTIwMjUwNDAxVDEyMzgyN1o7IGF0dGVtcHQ9MjsgbWF4PTU=
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:29 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-access-point-alias:
+      - 'false'
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - b3IMzBMaVddW0o1kZD1LA2UPMprhxLPTT7lcpgIsD1JHkr5XGYLF02ynYTFFTwBt5vmK6fdV92ADmu6PxbCj2ZI7YuX8MXcoYN955vbpzf0=
+      x-amz-request-id:
+      - SPP3V5PDKF87J0TD
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI4Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        MGVhYzIwMmMtZTI1MC00ZTJjLTgwMmEtZGYwMTU2OWFlYmUw
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+      x-amz-checksum-mode:
+      - !!binary |
+        RU5BQkxFRA==
+    method: GET
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/test_file.txt
+  response:
+    body:
+      string: This is a simple file
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '21'
+      Content-Type:
+      - text/plain
+      Date:
+      - Tue, 01 Apr 2025 12:37:29 GMT
+      ETag:
+      - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+      Last-Modified:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      Server:
+      - AmazonS3
+      x-amz-checksum-crc32:
+      - IPXFnw==
+      x-amz-checksum-type:
+      - FULL_OBJECT
+      x-amz-id-2:
+      - j6AHPstM98fMi9SElqqLcvLu6jlDAvQcVQ03HAHDUNNXYrFxidt2ORrCnmq8+mrF6BzEEHkGnzFL5hheTaP2xk6sYviRcQOuqW1Gk/9vINs=
+      x-amz-request-id:
+      - SPP0YHV0Z0KC4XAG
+      x-amz-server-side-encryption:
+      - AES256
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI4Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        OTAxZGZhZGUtMTVjYi00MjNkLTlkMTgtZTk5NTFiMThlMGYx
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - zwvBD5CYRNNJVOCjFj2ha37+7f1dv0QPYaevqanYjLknh+v3l5XFA1AFtrTU0/9MJCNkeD/AM68=
+      x-amz-request-id:
+      - SPPDWZQADB3J0QMW
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI4Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        OTAxZGZhZGUtMTVjYi00MjNkLTlkMTgtZTk5NTFiMThlMGYx
+      amz-sdk-request:
+      - !!binary |
+        dHRsPTIwMjUwNDAxVDEyMzgyOFo7IGF0dGVtcHQ9MjsgbWF4PTU=
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:29 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-access-point-alias:
+      - 'false'
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - keg4zK/iYgJeK5P/uPdaxTh/TWXq5BdtfYTE5XpjPdJTFUJJstUQiwR5BDGHOjqTrJtzspavPh2G6NiT8reseGWRebWY8NMcfphlz1c1Inw=
+      x-amz-request-id:
+      - SPP9SVDCV0YT94H5
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI4Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        YTViMzVhYTMtNjIyZC00MzlmLWExMzItYjBmYWMxZjFmMjAz
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/test_file.txt
+  response:
+    body:
+      string: ''
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '21'
+      Content-Type:
+      - text/plain
+      Date:
+      - Tue, 01 Apr 2025 12:37:29 GMT
+      ETag:
+      - '"190aa3117b11aab3f2c5f4e5f7d9e402"'
+      Last-Modified:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      Server:
+      - AmazonS3
+      x-amz-id-2:
+      - SrQ1apQL0Swf5AdbXWT6q0E+YFsntttiAwaIyaMUPvu/wBDJ/IRgvaZwEshukcm7t65oeDqpbI8ZxOfsyc6ZD8Y3dWPyPZ1prM5uwVPilB8=
+      x-amz-request-id:
+      - SPP4CKEZEFSEPV5C
+      x-amz-server-side-encryption:
+      - AES256
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Content-Length:
+      - '0'
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI4Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        NzcyZDBhMzAtNjQyZS00NGVhLWJlMGQtMWFjMTBhNGRlNTU0
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: DELETE
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/test_file.txt
+  response:
+    body:
+      string: ''
+    headers:
+      Date:
+      - Tue, 01 Apr 2025 12:37:30 GMT
+      Server:
+      - AmazonS3
+      x-amz-id-2:
+      - BEABJ8LeRdn4qzGU7kZn9vkm+WanVEG9TCsNE4PNbVegQaG9p1mMukMQ+Y/JDUebEo+x2gP6a/NRc180rVwUTNpjEaB/IzaHAcBKcE+zrG8=
+      x-amz-request-id:
+      - PDCSQY0CH07RPW2V
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI5Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        ZjJkZTQzZjAtMWVkNS00Y2I0LTgwZjItMzYxODQwNWUxOWQ2
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: HEAD
+    uri: https://test-storage-backend.s3.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:28 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - M1bOw5p5Q+hCkkOxR7mAXFg8N4hDwOiZJk1eumk9APb7kzHyOQtvx58r6OzV+RqXNpxFOKLJZLU=
+      x-amz-request-id:
+      - PDCM78QGKAQCD71P
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIGNmZy9yZXRyeS1tb2RlI2xlZ2FjeSBCb3RvY29yZS8xLjM3LjI0IFJlc291
+        cmNl
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI5Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        ZjJkZTQzZjAtMWVkNS00Y2I0LTgwZjItMzYxODQwNWUxOWQ2
+      amz-sdk-request:
+      - !!binary |
+        dHRsPTIwMjUwNDAxVDEyMzgyOFo7IGF0dGVtcHQ9MjsgbWF4PTU=
+    method: HEAD
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/
+  response:
+    body:
+      string: ''
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:30 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-access-point-alias:
+      - 'false'
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - PyK8CS290QPrAFH4icMh40lirWJLz8LKK3Ou3jmcrL7XRWAmtXNdrJF+7zk+q0yl7OjkYFgFg+YgjHcv3ra32Wh91BsbCQq4/PcCjHSEB5U=
+      x-amz-request-id:
+      - PDCZFD8M3R3GJGWQ
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      User-Agent:
+      - !!binary |
+        Qm90bzMvMS4zNy4yNCBtZC9Cb3RvY29yZSMxLjM3LjI0IHVhLzIuMSBvcy9saW51eCM2LjEyLjEw
+        LTc2MDYxMjAzLWdlbmVyaWMgbWQvYXJjaCN4ODZfNjQgbGFuZy9weXRob24jMy4xMi4wIG1kL3B5
+        aW1wbCNDUHl0aG9uIG0vQyBjZmcvcmV0cnktbW9kZSNsZWdhY3kgQm90b2NvcmUvMS4zNy4yNCBS
+        ZXNvdXJjZQ==
+      X-Amz-Content-SHA256:
+      - !!binary |
+        ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3
+        ODUyYjg1NQ==
+      X-Amz-Date:
+      - !!binary |
+        MjAyNTA0MDFUMTIzNzI5Wg==
+      amz-sdk-invocation-id:
+      - !!binary |
+        NjgyZGZiY2MtNjUwNy00NzI5LThiOTctODk4NWQ3NTdiNzEx
+      amz-sdk-request:
+      - !!binary |
+        YXR0ZW1wdD0x
+    method: GET
+    uri: https://test-storage-backend.s3.eu-central-1.amazonaws.com/?prefix=&encoding-type=url
+  response:
+    body:
+      string: '<?xml version="1.0" encoding="UTF-8"?>
+
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>test-storage-backend</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated></ListBucketResult>'
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Tue, 01 Apr 2025 12:37:30 GMT
+      Server:
+      - AmazonS3
+      Transfer-Encoding:
+      - chunked
+      x-amz-bucket-region:
+      - eu-central-1
+      x-amz-id-2:
+      - hM4PCDgv3HS/joBHR3JTPTISyNDdxzeESyTA63X9Bk/hgoPCipj9FBJ8l1HvuAcyBhuBRiT+XCLqxdnk0ZB7YkTZM1rR7sGEdqpRJjpl3nw=
+      x-amz-request-id:
+      - PDCK8M1A3T0C1FEX
+    status:
+      code: 200
+      message: OK
+version: 1
