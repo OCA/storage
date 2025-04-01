@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_template_only_form_view" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="priority" eval="32" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="media" string="Media">
+                    <field name="media_ids" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_media_relation_form" model="ir.ui.view">
+        <field name="model">product.media.relation</field>
+        <field name="arch" type="xml">
+            <form string="Association">
+                <group>
+                    <field name="description" />
+                    <field name="media_id" />
+                    <field
+                        name="attribute_value_ids"
+                        domain="[('id', 'in', available_attribute_value_ids)]"
+                        widget="many2many_tags"
+                        invisible="not available_attribute_value_ids"
+                    />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_media_relation_tree" model="ir.ui.view">
+        <field name="model">product.media.relation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="media_id" />
+                <field name="media_type_id" readonly="True" />
+            </list>
+        </field>
+    </record>
+
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="media" string="Media">
+                    <field name="variant_media_ids" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
