@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_kanban_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_kanban_view" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name="activity_state" position="after">
+                <field name="variant_image_small_url" />
+            </field>
+            <xpath expr="//aside/field[@name='image_128']" position="attributes">
+                <attribute name="name">variant_image_small_url</attribute>
+                <attribute name="widget">image_url</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
+                <field
+                    name="variant_image_medium_url"
+                    widget="image_url"
+                    class="oe_avatar"
+                />
+            </field>
+            <page name="sales" position="after">
+                <page name="images" string="Images">
+                    <p class="oe_grey">
+                        If you need to edit the images, do it from the product template.
+                    </p>
+                    <field
+                        name="variant_image_ids"
+                        mode="kanban"
+                        widget="storage_image_handle"
+                    />
+                </page>
+            </page>
+        </field>
+    </record>
+    <record id="product_variant_easy_edit_view" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+        <field name="arch" type="xml">
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
+                <field
+                    name="variant_image_medium_url"
+                    widget="image_url"
+                    class="oe_avatar"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
