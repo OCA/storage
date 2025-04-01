@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="storage_image_view_tree" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="write_date" />
+                <field name="name" />
+                <field name="alt_name" />
+                <field name="human_file_size" />
+            </list>
+        </field>
+    </record>
+    <record id="storage_image_view_form" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <form string="Image">
+                <header>
+                    <button
+                        id="button_storage_replace_file"
+                        string="Replace File"
+                        name="%(storage_image.storage_replace_file_action)d"
+                        type="action"
+                    />
+                </header>
+                <group string="Image" name="image">
+                    <field
+                        name="data"
+                        widget="image"
+                        filename="name"
+                        nolabel="1"
+                        options="{'size':(128,128)}"
+                    />
+                </group>
+                <group string="Name" name="name">
+                    <field name="name" />
+                    <field name="alt_name" />
+                </group>
+                <notebook>
+                    <page name="info" string="File Informations">
+                        <group name="info">
+                            <field name="file_id" readonly="True" required="False" />
+                            <field name="thumb_medium_id" />
+                            <field name="thumb_small_id" />
+                            <field name="thumbnail_ids" readonly="True" />
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+    <record id="storage_image_view_kanban" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name" />
+                <field name="alt_name" />
+                <field name="image_small_url" />
+                <templates>
+                    <t t-name="card" class="row g-0">
+                        <aside class="col-4">
+                            <field
+                                name="image_small_url"
+                                widget="image_url"
+                                alt="alt_name"
+                            />
+                        </aside>
+                        <main class="col-4 pe-2">
+                            <div
+                                class="text-nowrap overflow-hidden"
+                                style="width: 150%; text-overflow: ellipsis;"
+                            >
+                                    <field name="name" />
+                            (
+                                    <field name="alt_name" />)
+
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="storage_image_view_search" model="ir.ui.view">
+        <field name="model">storage.image</field>
+        <field name="arch" type="xml">
+            <search string="Image">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="act_open_storage_image_view">
+        <field name="name">Image</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">storage.image</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="storage_image_view_search" />
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="act_open_storage_image_view_form">
+        <field name="act_window_id" ref="act_open_storage_image_view" />
+        <field name="sequence" eval="20" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="storage_image_view_form" />
+    </record>
+    <record model="ir.actions.act_window.view" id="act_open_storage_image_view_tree">
+        <field name="act_window_id" ref="act_open_storage_image_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="storage_image_view_tree" />
+    </record>
+    <menuitem
+        id="menu_storage_image"
+        parent="storage_backend.menu_storage"
+        sequence="30"
+        action="act_open_storage_image_view"
+    />
+</odoo>

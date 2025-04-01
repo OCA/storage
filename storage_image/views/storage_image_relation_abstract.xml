@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2021 Camptocamp (http://www.camptocamp.com).
+    @author Iván Todorovich <ivan.todorovich@gmail.com>
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <!--
+        These views are not meant to be used directly, as we're dealing with
+        an abstract class.
+
+        They are, however, meant to be used as a base for other primary views.
+
+        Example:
+
+        <record id="view_custom_image_relation_form" model="ir.ui.view">
+            <field name="model">custom.image.relation</field>
+            <field name="inherit_id" ref="storage_image.view_storage_image_abstract_form" />
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="extra" position="inside">
+                    <field name="custom_field" />
+                </group>
+            </field>
+        </record>
+
+        <record id="view_custom_image_relation_kanban" model="ir.ui.view">
+            <field name="model">custom.image.relation</field>
+            <field name="inherit_id" ref="storage_image.view_storage_image_abstract_kanban" />
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <kanban position="attributes">
+                    <attribute name="string">Images</attribute>
+                </kanban>
+            </field>
+        </record>
+
+        NOTE: Views can't be empty, even if they're inheriting from others as primary views,
+        for this reason the kanban string attribute is added as a dummy view content.
+    -->
+
+    <record id="view_storage_image_abstract_form" model="ir.ui.view">
+        <field name="model">image.relation.abstract</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="row o_storage_image_relation">
+                    <div class="col-md-6 col-xs-5">
+                        <group name="image">
+                            <field name="image_id" />
+                        </group>
+                        <group name="extra">
+                            <!-- Add here custom relation fields -->
+                        </group>
+                    </div>
+                    <div class="col-md-6 col-xs-7 text-center">
+                        <field name="image_url" widget="image_url" />
+                    </div>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_storage_image_abstract_kanban" model="ir.ui.view">
+        <field name="model">image.relation.abstract</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="image_id" invisible="1" />
+                <field name="image_url" />
+                <field name="image_name" />
+                <field name="image_alt_name" />
+                <field name="sequence" widget="handle" />
+                <templates>
+                    <t t-name="card" class="row g-0">
+                        <aside class="col-3">
+                            <field
+                                name="image_url"
+                                widget="image_url"
+                                alt="image_alt_name"
+                            />
+                        </aside>
+                        <main class="col-4 pe-2">
+                            <a
+                                t-if="! read_only_mode"
+                                type="delete"
+                                style="position: absolute; right: 0; padding: 4px; diplay: inline-block"
+                            >
+                                <i class="fa fa-times" title="Unlink" />
+                            </a>
+                            <div
+                                class="text-nowrap overflow-hidden"
+                                style="width: 150%; text-overflow: ellipsis;"
+                            >
+                                <span>
+                                    <span class="mr4">Name: </span>
+                                    <field name="image_name" />
+                                </span>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>
