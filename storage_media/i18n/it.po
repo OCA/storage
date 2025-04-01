@@ -6,87 +6,89 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-04-01 17:08+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.2\n"
 
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__url_path
 msgid "Accessible path, no base URL"
-msgstr ""
+msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__active
 msgid "Active"
-msgstr ""
+msgstr "Attivo"
 
 #. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__checksum
 msgid "Checksum/SHA1"
-msgstr ""
+msgstr "Checksum/SHA1"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__code
 msgid "Code"
-msgstr ""
+msgstr "Codice"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__company_id
 msgid "Company"
-msgstr ""
+msgstr "Azienda"
 
 #. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__create_uid
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__create_date
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__data
 #: model:ir.model.fields,help:storage_media.field_storage_media__data
 msgid "Data"
-msgstr ""
+msgstr "Dati"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__display_name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__extension
 msgid "Extension"
-msgstr ""
+msgstr "Estensione"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__file_id
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__file_size
 msgid "File Size"
-msgstr ""
+msgstr "Dimensione file"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_file__file_type
@@ -94,111 +96,111 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__file_type
 #: model:ir.model.fields,field_description:storage_media.field_storage_thumbnail__file_type
 msgid "File Type"
-msgstr ""
+msgstr "Tipo file"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__filename
 msgid "Filename without extension"
-msgstr ""
+msgstr "Nome file senza estensione"
 
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__internal_url
 msgid "HTTP URL to load the file directly from storage."
-msgstr ""
+msgstr "URL HTTP per caricare il file direttamente dal deposito."
 
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__url
 msgid "HTTP accessible path to the file"
-msgstr ""
+msgstr "Percorso HTTP al file accessibile"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__human_file_size
 msgid "Human File Size"
-msgstr ""
+msgstr "Dimensione file umana"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__id
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__internal_url
 msgid "Internal Url"
-msgstr ""
+msgstr "URL interno"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__write_uid
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__write_date
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_file_replace__media_id
 #: model:ir.model.fields.selection,name:storage_media.selection__storage_file__file_type__media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__media_type_id
 msgid "Media Type"
-msgstr ""
+msgstr "Tipo media"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__mimetype
 msgid "Mime Type"
-msgstr ""
+msgstr "Tipo MIME"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__name
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__relative_path
 msgid "Relative Path"
-msgstr ""
+msgstr "Percorso relativo"
 
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__relative_path
 msgid "Relative location for backend"
-msgstr ""
+msgstr "Posizione relativa per il backend"
 
 #. module: storage_media
 #: model:ir.actions.act_window,name:storage_media.storage_replace_file_action
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
 msgid "Replace File"
-msgstr ""
+msgstr "Sostituisci file"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__slug
 msgid "Slug"
-msgstr ""
+msgstr "Frazione"
 
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__slug
 msgid "Slug-ified name with ID for URL"
-msgstr ""
+msgstr "Nome frazionato con ID per URL"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__backend_id
 msgid "Storage"
-msgstr ""
+msgstr "Deposito"
 
 #. module: storage_media
 #: model:ir.model,name:storage_media.model_storage_file
 msgid "Storage File"
-msgstr ""
+msgstr "File deposito"
 
 #. module: storage_media
 #: model:ir.actions.act_window,name:storage_media.storage_media_action
@@ -206,12 +208,12 @@ msgstr ""
 #: model:ir.ui.menu,name:storage_media.storage_media_menu
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
 msgid "Storage Media"
-msgstr ""
+msgstr "Media deposito"
 
 #. module: storage_media
 #: model:res.groups,name:storage_media.group_media_manager
 msgid "Storage Media Manager"
-msgstr ""
+msgstr "Gestore deposito media"
 
 #. module: storage_media
 #: model:ir.actions.act_window,name:storage_media.act_open_storage_media_type_view
@@ -220,24 +222,24 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_type_view_search
 msgid "Storage Media Type"
-msgstr ""
+msgstr "Tipo media deposito"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__to_delete
 msgid "To Delete"
-msgstr ""
+msgstr "Da cancellare"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__url
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__url_path
 msgid "Url Path"
-msgstr ""
+msgstr "Percorso URL"
 
 #. module: storage_media
 #: model:ir.model,name:storage_media.model_storage_file_replace
 msgid "Wizard template allowing to replace a storage.file"
-msgstr ""
+msgstr "Modello procedura guidata che consente di sostituire un storage.file"
