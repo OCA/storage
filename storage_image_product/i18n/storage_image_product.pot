@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -37,6 +37,11 @@ msgstr ""
 #. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__attribute_value_ids
 msgid "Attributes"
+msgstr ""
+
+#. module: storage_image_product
+#: model_terms:ir.ui.view,arch_db:storage_image_product.product_image_relation_kanban
+msgid "Attributes:"
 msgstr ""
 
 #. module: storage_image_product
@@ -128,13 +133,6 @@ msgid "Images"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation____last_update
-#: model:ir.model.fields,field_description:storage_image_product.field_image_tag____last_update
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__write_uid
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag__write_uid
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__write_uid
@@ -180,14 +178,14 @@ msgid "Name"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model,name:storage_image_product.model_product_product
+#: model:ir.model,name:storage_image_product.model_product_template
 #: model:ir.model.fields.selection,name:storage_image_product.selection__image_tag__apply_on__product
 msgid "Product"
 msgstr ""
 
 #. module: storage_image_product
+#. odoo-python
 #: code:addons/storage_image_product/models/image_tag.py:0
-#, python-format
 msgid "Product Categories"
 msgstr ""
 
@@ -207,11 +205,6 @@ msgid "Product Image Relations"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model,name:storage_image_product.model_product_template
-msgid "Product Template"
-msgstr ""
-
-#. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_product_template_attribute_line
 msgid "Product Template Attribute Line"
 msgstr ""
@@ -222,11 +215,16 @@ msgid "Product Tmpl"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: storage_image_product
+#. odoo-python
 #: code:addons/storage_image_product/models/image_tag.py:0
 #: model:ir.model.fields,field_description:storage_image_product.field_storage_image__product_relation_ids
 #: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image_product.storage_image_view_form
-#, python-format
 msgid "Products"
 msgstr ""
 
