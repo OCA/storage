@@ -6,106 +6,108 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-04-02 08:06+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.2\n"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_host
 msgid "AWS Host"
-msgstr ""
+msgstr "Host AWS"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_access_key_id
 msgid "Access Key ID"
-msgstr ""
+msgstr "ID chiave accesso"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__backend_type__amazon_s3
 #: model_terms:ir.ui.view,arch_db:storage_backend_s3.storage_backend_view_form
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_cache_control
 msgid "Aws Cache Control"
-msgstr ""
+msgstr "Controllo cache AWS"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_file_acl
 msgid "Aws File Acl"
-msgstr ""
+msgstr "ACL file AWS"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__backend_type
 msgid "Backend Type"
-msgstr ""
+msgstr "Tipo backend"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_bucket
 msgid "Bucket"
-msgstr ""
+msgstr "Bucket"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,help:storage_backend_s3.field_storage_backend__aws_host
 msgid "If you are using a different host than standard AWS ones, eg: Exoscale"
-msgstr ""
+msgstr "Se si sta usando un host diverso dallo standard AWS, es: Exoscale"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_other_region
 msgid "Other region"
-msgstr ""
+msgstr "Altra regione"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_region
 msgid "Region"
-msgstr ""
+msgstr "Regione"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_secret_access_key
 msgid "Secret Access Key"
-msgstr ""
+msgstr "Chiave accesso segreta"
 
 #. module: storage_backend_s3
 #: model:ir.model,name:storage_backend_s3.model_storage_backend
 msgid "Storage Backend"
-msgstr ""
+msgstr "Backend deposito"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__authenticated-read
 msgid "authenticated-read"
-msgstr ""
+msgstr "authenticated-read"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__aws-exec-read
 msgid "aws-exec-read"
-msgstr ""
+msgstr "aws-exec-read"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__bucket-owner-full-control
 msgid "bucket-owner-full-control"
-msgstr ""
+msgstr "bucket-owner-full-control"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__bucket-owner-read
 msgid "bucket-owner-read"
-msgstr ""
+msgstr "bucket-owner-read"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__private
 msgid "private"
-msgstr ""
+msgstr "private"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__public-read
 msgid "public-read"
-msgstr ""
+msgstr "public-read"
 
 #. module: storage_backend_s3
 #: model:ir.model.fields.selection,name:storage_backend_s3.selection__storage_backend__aws_file_acl__public-read-write
 msgid "public-read-write"
-msgstr ""
+msgstr "public-read-write"
