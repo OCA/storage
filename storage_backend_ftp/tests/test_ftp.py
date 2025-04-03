@@ -106,8 +106,9 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         )
 
     # Do not patch the entire ftplib otherwise the error_perm Exception
-    # become also a mock and then a traceback is generated on the "except ftplib.error_perm"
-    # because this ftplib.error_perm is not really an Exception (but a mock)!
+    # become also a mock and then a traceback is generated on the
+    # "except ftplib.error_perm" because this ftplib.error_perm
+    # is not really an Exception (but a mock)!
     @mock.patch(FTP_LIB_PATH + ".FTP")
     def test_move_files(self, mocked_ftplib):
         client = mocked_ftplib().__enter__()

@@ -6,19 +6,12 @@
         <field name="priority" eval="90" />
         <field name="arch" type="xml">
             <group name="config" position="after">
-                <group
-                    name="ftp"
-                    string="FTP"
-                    attrs="{'invisible': [('backend_type', '!=', 'ftp')]}"
-                >
+                <group name="ftp" string="FTP" invisible="backend_type != 'ftp'">
                     <field name="ftp_server" />
                     <field name="ftp_port" />
                     <field name="ftp_encryption" />
                     <field name="ftp_passive" />
-                    <field
-                        name="ftp_security"
-                        attrs="{'invisible': [('ftp_encryption', '=', 'ftp')]}"
-                    />
+                    <field name="ftp_security" invisible="ftp_encryption == 'ftp'" />
                     <field name="ftp_login" />
                     <field name="ftp_password" password="True" />
                 </group>

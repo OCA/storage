@@ -42,7 +42,10 @@ def ftp_mkdirs(client, path):
 
 
 class ImplicitFTPTLS(ftplib.FTP_TLS):
-    """FTP_TLS subclass that automatically wraps sockets in SSL to support implicit FTPS."""
+    """
+    FTP_TLS subclass that automatically wraps sockets in SSL
+    to support implicit FTPS.
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -67,17 +70,17 @@ def ftp(backend):
     prot_p = False
     if backend.ftp_encryption in ["ftp", "tls", "tls_explicit"]:
         if backend.ftp_encryption == "ftp":
-            _ftp = ftplib.FTP()
+            _ftp = ftplib.FTP(timeout=30)
         elif backend.ftp_encryption == "tls":
             _ftp = ImplicitFTPTLS()
-            # Due to a bug into between ftplib and ssl, this part (about ssl) might not work!
-            # https://bugs.python.org/issue31727
+            # Due to a bug between ftplib and ssl, this part (about ssl)
+            # might not work! See: https://bugs.python.org/issue31727
             security = FTP_SECURITY_TO_PROTOCOL.get(backend.ftp_security, None)
             prot_p = True
             if isinstance(security, str):
                 raise UserError(security)
         elif backend.ftp_encryption == "tls_explicit":
-            _ftp = ftplib.FTP_TLS()
+            _ftp = ftplib.FTP_TLS(timeout=30)
             prot_p = True
         with _ftp as client:
             if security:
@@ -112,9 +115,9 @@ class FTPStorageBackendAdapter(Component):
                 try:
                     client.storbinary("STOR " + full_path, tmp_file)
                 except ftplib.Error as e:
-                    raise ValueError(repr(e))
+                    raise ValueError(repr(e)) from e
                 except OSError as e:
-                    raise ValueError(repr(e))
+                    raise ValueError(repr(e)) from e
 
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
@@ -123,7 +126,7 @@ class FTPStorageBackendAdapter(Component):
                 client.retrbinary("RETR " + full_path, buff.write)
                 data = buff.getvalue()
             except ftplib.Error as e:
-                raise FileNotFoundError(repr(e))
+                raise FileNotFoundError(repr(e)) from e
         return data
 
     def list(self, relative_path):
