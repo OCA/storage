@@ -20,6 +20,7 @@ setuptools.setup(
         'odoo-addon-fs_product_multi_media>=16.0dev,<16.1dev',
         'odoo-addon-fs_product_public_category_multi_image>=16.0dev,<16.1dev',
         'odoo-addon-fs_storage>=16.0dev,<16.1dev',
+        'odoo-addon-fs_storage_backup>=16.0dev,<16.1dev',
         'odoo-addon-image_tag>=16.0dev,<16.1dev',
         'odoo-addon-storage_backend>=16.0dev,<16.1dev',
         'odoo-addon-storage_backend_sftp>=16.0dev,<16.1dev',
