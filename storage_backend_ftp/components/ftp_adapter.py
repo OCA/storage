@@ -33,7 +33,7 @@ FTP_SECURITY_TO_PROTOCOL = {
 def ftp_mkdirs(client, path):
     try:
         client.mkd(path)
-    except IOError as e:
+    except OSError as e:
         if e.errno == errno.ENOENT and path:
             ftp_mkdirs(client, os.path.dirname(path))
             client.mkd(path)
@@ -103,7 +103,7 @@ class FTPStorageBackendAdapter(Component):
             if dirname:
                 try:
                     client.cwd(dirname)
-                except IOError as e:
+                except OSError as e:
                     if e.errno == errno.ENOENT:
                         ftp_mkdirs(client, dirname)
                     else:
@@ -131,7 +131,7 @@ class FTPStorageBackendAdapter(Component):
         with ftp(self.collection) as client:
             try:
                 return client.nlst(full_path)
-            except IOError as e:
+            except OSError as e:
                 if e.errno == errno.ENOENT:
                     # The path do not exist return an empty list
                     return []

@@ -9,8 +9,7 @@ import errno
 import ftplib
 import logging
 import os
-
-import mock
+from unittest import mock
 
 from odoo.addons.storage_backend.tests.common import BackendStorageTestMixin, CommonCase
 
@@ -43,7 +42,7 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
     def test_add(self, mocked_ftplib, mocked_mkdirs):
         client = mocked_ftplib.FTP().__enter__()
         # simulate errors
-        exc = IOError()
+        exc = OSError()
         # general
         client.cwd.side_effect = exc
         with self.assertRaises(IOError):
@@ -85,7 +84,7 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
     def test_list(self, mocked_ftplib):
         client = mocked_ftplib.FTP().__enter__()
         # simulate errors
-        exc = IOError()
+        exc = OSError()
         # general
         client.nlst.side_effect = exc
         with self.assertRaises(IOError):
@@ -153,7 +152,7 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
     def test_mkd(self, mocked_ftplib):
         client = mocked_ftplib.FTP().__enter__()
         # simulate errors
-        exc = IOError()
+        exc = OSError()
         exc.errno = errno.ENOENT
         # general
         client.cwd.side_effect = exc
