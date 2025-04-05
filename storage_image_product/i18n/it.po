@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-04-02 08:06+0000\n"
+"PO-Revision-Date: 2025-04-05 11:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -195,7 +195,7 @@ msgstr "Categorie prodotto"
 #. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_product_category
 msgid "Product Category"
-msgstr "Categoria Prodotto"
+msgstr "Categoria prodotto"
 
 #. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_product_image_relation
