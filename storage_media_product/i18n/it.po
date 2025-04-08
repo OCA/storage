@@ -6,68 +6,70 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-04-08 06:29+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
 msgid "Association"
-msgstr ""
+msgstr "Associazione"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__attribute_value_ids
 msgid "Attributes"
-msgstr ""
+msgstr "Attributi"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__available_attribute_value_ids
 msgid "Available attributes"
-msgstr ""
+msgstr "Attributi disponibili"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__description
 msgid "Description"
-msgstr ""
+msgstr "Descrizione"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: storage_media_product
 #: model:ir.model.fields,help:storage_media_product.field_product_media_relation__url
 msgid "HTTP accessible path to the file"
-msgstr ""
+msgstr "Percorso HTTP al file accessibile"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_category__media_ids
@@ -78,54 +80,54 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_normal_form_view
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_template_only_form_view
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__media_type_id
 msgid "Media Type"
-msgstr ""
+msgstr "Tipo media"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: storage_media_product
 #: model:ir.model,name:storage_media_product.model_product_template
 msgid "Product"
-msgstr ""
+msgstr "Prodotto"
 
 #. module: storage_media_product
 #: model:ir.model,name:storage_media_product.model_product_category
 msgid "Product Category"
-msgstr ""
+msgstr "Categoria prodotto"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__product_tmpl_id
 msgid "Product Tmpl"
-msgstr ""
+msgstr "Modello prodotto"
 
 #. module: storage_media_product
 #: model:ir.model,name:storage_media_product.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variante prodotto"
 
 #. module: storage_media_product
 #: model:ir.model,name:storage_media_product.model_product_media_relation
 msgid "Products and storage media relation"
-msgstr ""
+msgstr "Relazione prodotti e media deposito"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequenza"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__url
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_product__variant_media_ids
 msgid "Variant Media"
-msgstr ""
+msgstr "Media variante"
