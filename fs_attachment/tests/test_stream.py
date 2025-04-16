@@ -189,3 +189,50 @@ class TestStream(HttpCase):
             },
         )
         self.assertEqual(Image.open(io.BytesIO(avatar_res.content)).size, (128, 128))
+
+    def test_image_url_name_with_newline(self):
+        """Test downloading a file with a newline in the name.
+
+        This test simulates the scenario that causes the Werkzeug error:
+        `ValueError: Detected newline in header value`.
+
+        It verifies that:
+        1. An `ir.attachment` record is created with a newline character
+           (`\n`) explicitly included in its `name` field ("tes\nt.png").
+        2. Accessing this attachment via the `/web/image/{attachment_id}` URL
+           succeeds with an HTTP 200 status code.
+        3. Crucially, the `Content-Disposition` header returned in the response
+           contains a *sanitized* filename ("tes_t.png"). The newline character
+           has been replaced (typically with an underscore by `secure_filename`).
+
+        This confirms that the filename sanitization implemented (likely in the
+        streaming logic, e.g., `FsStream.get_response` using `secure_filename`)
+        correctly processes the unsafe filename before passing it to Werkzeug,
+        thus preventing the original `ValueError` and ensuring safe header values.
+        """
+        attachment_image = (
+            self.env["ir.attachment"]
+            .with_context(
+                storage_location=self.temp_backend.code,
+                storage_file_path="test.png",
+            )
+            .create(
+                {"name": "tes\nt.png", "raw": self.image}
+            )  # newline in the filename
+        )
+        # Ensure the name IS stored with the newline before sanitization happens on download
+        self.assertIn("\n", attachment_image.name)
+
+        self.authenticate("admin", "admin")
+        url = f"/web/image/{attachment_image.id}"
+        self.assertDownload(
+            url,
+            headers={},
+            assert_status_code=200,
+            assert_headers={
+                "Content-Type": "image/png",
+                # Assert that the filename in the header IS sanitized
+                "Content-Disposition": "inline; filename=tes_t.png",
+            },
+            assert_content=self.image,
+        )
