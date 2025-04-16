@@ -8,7 +8,7 @@ from odoo.tools import config
 from .models.ir_attachment import IrAttachment
 
 try:
-    from werkzeug.utils import send_file as _send_file
+    from werkzeug.utils import secure_filename, send_file as _send_file
 except ImportError:
     from odoo.tools._vendor.send_file import send_file as _send_file
 
@@ -53,10 +53,12 @@ class FsStream(Stream):
             as_attachment = self.as_attachment
         if immutable is None:
             immutable = self.immutable
+        # Sanitize the download_name before passing it
+        safe_download_name = secure_filename(self.download_name or "")
         send_file_kwargs = {
             "mimetype": self.mimetype,
             "as_attachment": as_attachment,
-            "download_name": self.download_name,
+            "download_name": safe_download_name,
             "conditional": self.conditional,
             "etag": self.etag,
             "last_modified": self.last_modified,
