@@ -2,12 +2,11 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_thumbnail_form_view">
         <field name="name">fs.thumbnail.form</field>
         <field name="model">fs.thumbnail</field>
         <field name="inherit_id" ref="fs_image_thumbnail_mixin_form_view" />
-         <field name="mode">primary</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <!-- add a hidden field to be able to extend the base view
                  defined for the mixin
@@ -58,5 +57,4 @@
         <field name="parent_id" ref="fs_storage.menu_storage" />
         <field name="action" ref="fs_thumbnail_act_window" />
     </record>
-
 </odoo>

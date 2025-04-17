@@ -2,14 +2,12 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_image_thumbnail_mixin_form_view">
         <field name="name">fs.image.thumbnail.mixin.form (in fs_image_thumbnail)</field>
         <field name="model">fs.image.thumbnail.mixin</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                </header>
+                <header />
                 <sheet>
                     <label for="name" />
                     <h1>
@@ -42,7 +40,8 @@
                     name="name"
                     filter_domain="[('name','ilike',self)]"
                     string="Name"
-                /><field
+                />
+                <field
                     name="base_name"
                     filter_domain="[('base_name','ilike',self)]"
                     string="Base Name"
@@ -80,5 +79,4 @@
             </tree>
         </field>
     </record>
-
 </odoo>
