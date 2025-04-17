@@ -11,5 +11,4 @@ class IrAttachment(models.Model):
         comodel_name="fs.thumbnail",
         inverse_name="attachment_id",
         string="Thumbnails",
-        readonly=True,
     )

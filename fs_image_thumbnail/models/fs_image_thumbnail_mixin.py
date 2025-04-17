@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from slugify import slugify
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.fs_image.fields import FSImage, FSImageValue
@@ -158,7 +158,7 @@ class FsImageThumbnailMixin(models.AbstractModel):
                 attachment_ids.append(image.attachment.id)
             else:
                 raise UserError(
-                    _(
+                    self.env._(
                         "The image %(name)s must be attached to an attachment",
                         name=image.name,
                     )
@@ -236,7 +236,9 @@ class FsImageThumbnailMixin(models.AbstractModel):
         if not base_name:
             if len(images) > 1:
                 raise UserError(
-                    _("The base name must be set when multiple images are given")
+                    self.env._(
+                        "The base name must be set when multiple images are given"
+                    )
                 )
             base_name = images[0].name
         return self._slugify_base_name(base_name)

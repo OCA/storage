@@ -5,16 +5,17 @@ import io
 
 from PIL import Image
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
 
+from odoo.addons.base.tests.common import BaseCommon
 from odoo.addons.fs_image.fields import FSImageValue
 
 
-class TestFsImageThumbnail(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestFsImageThumbnail(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.white_image = cls._create_image(32, 32, color="#FFFFFF")
 
         cls.image_attachment = cls.env["ir.attachment"].create(
@@ -28,9 +29,7 @@ class TestFsImageThumbnail(TransactionCase):
         cls.fs_image_value = FSImageValue(attachment=cls.image_attachment)
         cls.fs_thumbnail_model = cls.env["fs.thumbnail"]
 
-    def setUp(self):
-        super().setUp()
-        self.temp_dir = self.env["fs.storage"].create(
+        cls.temp_dir = cls.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
                 "protocol": "memory",
