@@ -4,9 +4,9 @@
 
 import base64
 import os
+from unittest import mock
 
 import fsspec
-import mock
 
 from odoo.exceptions import UserError
 from odoo.tools import mute_logger

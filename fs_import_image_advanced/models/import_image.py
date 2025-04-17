@@ -26,7 +26,7 @@ _logger = logging.getLogger(__name__)
 try:
     import magic
     import validators
-except (ImportError, IOError) as err:
+except (OSError, ImportError) as err:
     _logger.debug(err)
 
 

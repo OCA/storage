@@ -27,8 +27,7 @@
                         class="oe_button_box"
                         name="active_button_box"
                         attrs="{'invisible': [('id','=',False)]}"
-                    >
-                    </div>
+                    />
                     <field name="id" invisible="1" />
                     <group name="main">
                         <group name="file" string="Source">
@@ -128,5 +127,4 @@
         action="import_image_action"
         sequence="999"
     />
-
 </odoo>
