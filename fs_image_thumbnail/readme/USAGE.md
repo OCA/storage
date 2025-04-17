@@ -30,8 +30,7 @@ attachment = self.env['ir.attachment'].create({
 image_value = FSImageValue(attachment)
 
 # get or create the thumbnails
-thumbnails = self.env['fs.thumbnail'].get_or_create_thumbnails(
-    image_value, [(800,600), (400, 200)], 'my base name')
+thumbnails = self.env['fs.thumbnail'].get_or_create_thumbnails(image_value, sizes=[(800,600), (400, 200)], base_name='my base name')
 ```
 
 If you've a model with a *FSImage* field, the call to
@@ -52,5 +51,5 @@ my_record = cls.env['my.model'].create({
 
 # get or create the thumbnails
 thumbnails = record.image.get_or_create_thumbnails(my_record.image,
-    [(800,600), (400, 200)], 'my base name')
+    sizes=[(800,600), (400, 200)], base_name='my base name')
 ```

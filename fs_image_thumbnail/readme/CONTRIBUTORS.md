@@ -1,1 +1,2 @@
 - Laurent Mignon \<<laurent.mignon@acsone.eu>\> (<https://acsone.eu>)
+- Do Anh Duy \<<duyda@trobz.com>\> (<https://trobz.com>)

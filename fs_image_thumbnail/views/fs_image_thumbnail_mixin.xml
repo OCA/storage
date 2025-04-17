@@ -67,16 +67,16 @@
     </record>
 
     <record model="ir.ui.view" id="fs_image_thumbnail_mixin_tree_view">
-        <field name="name">fs.image.thumbnail.mixin.tree (in fs_image_thumbnail)</field>
+        <field name="name">fs.image.thumbnail.mixin.list (in fs_image_thumbnail)</field>
         <field name="model">fs.image.thumbnail.mixin</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="base_name" />
                 <field name="size_x" />
                 <field name="size_y" />
                 <field name="mimetype" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>
