@@ -4,9 +4,6 @@ from odoo.addons.fs_import_image_advanced.tests.test_import_image import (
 
 
 class TestStorageImportImageThumbnail(TestStorageImportImage):
-    def setUp(self):
-        super().setUp()
-
     def test_thumbnail_creation(self):
         wiz = self._get_wizard()
         wiz.do_import()
