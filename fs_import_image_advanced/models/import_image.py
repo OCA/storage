@@ -16,7 +16,7 @@ from contextlib import closing
 from urllib.request import urlopen
 from zipfile import ZipFile
 
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 from odoo.tools import date_utils
 
 from odoo.addons.base_sparse_field.models.fields import Serialized
@@ -99,7 +99,6 @@ class ProductImageImportWizard(models.Model):
         default="path",
         required=True,
     )
-    csv_delimiter = fields.Char(string="CSV file delimiter", default=",", required=True)
     source_zipfile = fields.Binary("ZIP with images", required=False)
     source_fs_storage_id = fields.Many2one("fs.storage", "FS Storage with images")
     external_csv_path = fields.Char(
@@ -128,12 +127,13 @@ class ProductImageImportWizard(models.Model):
     @api.depends("report")
     def _compute_report_html(self):
         # TODO: add tests
-        tmpl = self.env.ref("fs_import_image_advanced.report_html")
         for record in self:
             if not record.report:
                 record.report_html = ""
                 continue
-            report_html = tmpl._render({"record": record})
+            report_html = self.env["ir.qweb"]._render(
+                "fs_import_image_advanced.report_html", {"record": record}
+            )
             record.report_html = report_html
 
     @api.model
@@ -154,7 +154,7 @@ class ProductImageImportWizard(models.Model):
 
     def _read_from_zip_file(self, file_path):
         if not self.source_zipfile:
-            raise exceptions.UserError(_("No zip file provided!"))
+            raise exceptions.UserError(self.env._("No zip file provided!"))
         file_content = base64.b64decode(self.source_zipfile)
         with closing(io.BytesIO(file_content)) as zip_file:
             with ZipFile(zip_file, "r") as z:
@@ -166,7 +166,7 @@ class ProductImageImportWizard(models.Model):
 
     def _read_from_external_storage(self, file_path):
         if not self.source_fs_storage_id:
-            raise exceptions.UserError(_("No storage backend provided!"))
+            raise exceptions.UserError(self.env._("No storage backend provided!"))
         return self.source_fs_storage_id._get_filesystem().open(file_path)
 
     def _read_csv(self):
@@ -192,7 +192,9 @@ class ProductImageImportWizard(models.Model):
                     line = {key: row[column] for key, column in mapping.items()}
                 except KeyError as e:
                     _logger.error(e)
-                    raise exceptions.UserError(_("CSV Schema Incompatible")) from e
+                    raise exceptions.UserError(
+                        self.env._("CSV Schema Incompatible")
+                    ) from e
                 lines.append(line)
         return lines
 
@@ -230,7 +232,7 @@ class ProductImageImportWizard(models.Model):
                 report[k] = sorted(set(prev_report[k] + v))
 
         # Lock as writing can come from several jobs
-        sql = "SELECT id FROM %s WHERE ID IN %%s FOR UPDATE" % self._table
+        sql = f"SELECT id FROM {self._table} WHERE ID IN %s FOR UPDATE"
         self.env.cr.execute(sql, (tuple(self.ids),), log_exceptions=False)
         self.write(
             {
@@ -370,9 +372,9 @@ class ProductImageImportWizard(models.Model):
 
     def _report_label_for(self, key):
         labels = {
-            "created": _("Created"),
-            "file_not_found": _("Image file not found"),
-            "missing": _("Product not found"),
-            "missing_tags": _("Tags not found"),
+            "created": self.env._("Created"),
+            "file_not_found": self.env._("Image file not found"),
+            "missing": self.env._("Product not found"),
+            "missing_tags": self.env._("Tags not found"),
         }
         return labels.get(key, key)

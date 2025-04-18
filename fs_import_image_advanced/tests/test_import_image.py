@@ -29,7 +29,7 @@ class TestStorageImportImageCase(TestFsProductMultiImage):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.temp_storage = cls.env.ref("fs_storage.default_fs_storage")
+        cls.temp_storage = cls.env.ref("fs_storage.fs_storage_demo")
         cls.base_path = os.path.dirname(os.path.abspath(__file__))
         cls.file_csv_content = cls._get_file_content(
             "image_import_test.csv", base_path=cls.base_path

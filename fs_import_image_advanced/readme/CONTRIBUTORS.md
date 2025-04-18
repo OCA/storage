@@ -2,3 +2,4 @@
 - Saritha \<<saritha@cybrosys.in>\>
 - Simone Orsi \<<simone.orsi@camptoamp.com>\>
 - Héctor Villarreal \<<hector.villarreal@forgeflow.com>\>
+- Do Anh Duy \<<duyda@trobz.com>\>
