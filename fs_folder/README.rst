@@ -136,7 +136,7 @@ path where the folder will be created.
            create_parent_get='get_folder_path',
        )
 
-       def get_folder_path(self, fs: fsspec.AbstractFileSystem) -> dict[int, str]:
+       def get_folder_path(self, fs: fsspec.AbstractFileSystem) -> dict[int, list[str]]:
            result = {}
            for record in self:
                result[record.id] = ['my', 'subfolder']
@@ -174,7 +174,7 @@ In this example, the ``get_folder_name`` method will be called to get
 the folder name. The method must return a dictionary where the key is
 the record id and the value is the folder name.
 
-For advanced use cases, you can also define the method that will encure
+For advanced use cases, you can also define the method that will ensure
 the creation of the folder in the filesystem and assign the value to the
 field. This method must return a list of ``FsFolderValue``.
 
@@ -220,18 +220,18 @@ Security
    **Important:** The security of the field should be managed by the
    filesystem backend.
 
-Into the python code
-~~~~~~~~~~~~~~~~~~~~
+In the python code
+~~~~~~~~~~~~~~~~~~
 
-The initilization of the field value is only allowed if the user has the
+The initialization of the field value is only allowed if the user has
 write access to the record. From the field value, the user can get
 access to the filesystem client and interact with the filesystem. The
 filesystem is rooted in the folder itself. The user can only interact
 with the folder and its children without being able to go up in the
 filesystem.
 
-Into the form view through widget
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In the form view through widget
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The addon comes with a specific widget that will be used to display the
 field in the form view. The widget will display the folder content and
@@ -240,9 +240,9 @@ download and upload files and folders. The user can also navigate into
 the filesystem. All theses operations are made available by methods
 provided by the abstract model 'fs.folder.field.web.api'. A first level
 of security is provided by this API. Any operation modifying the
-filesystem will allowed only if the user has the write access to the
-record and any operation reading the filesystem will be allowed only if
-the user has the read access to the record.
+filesystem will allowed only if the user has write access to the record
+and any operation reading the filesystem will be allowed only if the
+user has read access to the record.
 
 Interacting with the filesystem
 -------------------------------

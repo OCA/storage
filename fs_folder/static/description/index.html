@@ -380,8 +380,8 @@ from the model form view, this module is for you.</p>
 <li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a><ul>
 <li><a class="reference internal" href="#field-declaration" id="toc-entry-3">Field declaration</a></li>
 <li><a class="reference internal" href="#security" id="toc-entry-4">Security</a><ul>
-<li><a class="reference internal" href="#into-the-python-code" id="toc-entry-5">Into the python code</a></li>
-<li><a class="reference internal" href="#into-the-form-view-through-widget" id="toc-entry-6">Into the form view through widget</a></li>
+<li><a class="reference internal" href="#in-the-python-code" id="toc-entry-5">In the python code</a></li>
+<li><a class="reference internal" href="#in-the-form-view-through-widget" id="toc-entry-6">In the form view through widget</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#interacting-with-the-filesystem" id="toc-entry-7">Interacting with the filesystem</a></li>
@@ -486,7 +486,7 @@ path where the folder will be created.</p>
 </span>        <span class="n">create_parent_get</span><span class="o">=</span><span class="s1">'get_folder_path'</span><span class="p">,</span><span class="w">
 </span>    <span class="p">)</span><span class="w">
 
-</span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_folder_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span><span class="w">
+</span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_folder_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">AbstractFileSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span><span class="w">
 </span>        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span><span class="w">
 </span>        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span><span class="w">
 </span>            <span class="n">result</span><span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'my'</span><span class="p">,</span> <span class="s1">'subfolder'</span><span class="p">]</span><span class="w">
@@ -519,7 +519,7 @@ default the folder name is the record display name).</p>
 <p>In this example, the <tt class="docutils literal">get_folder_name</tt> method will be called to get
 the folder name. The method must return a dictionary where the key is
 the record id and the value is the folder name.</p>
-<p>For advanced use cases, you can also define the method that will encure
+<p>For advanced use cases, you can also define the method that will ensure
 the creation of the folder in the filesystem and assign the value to the
 field. This method must return a list of <tt class="docutils literal">FsFolderValue</tt>.</p>
 <pre class="code python literal-block">
@@ -562,17 +562,17 @@ creation to do some additional processing.</li>
 <blockquote>
 <strong>Important:</strong> The security of the field should be managed by the
 filesystem backend.</blockquote>
-<div class="section" id="into-the-python-code">
-<h3><a class="toc-backref" href="#toc-entry-5">Into the python code</a></h3>
-<p>The initilization of the field value is only allowed if the user has the
+<div class="section" id="in-the-python-code">
+<h3><a class="toc-backref" href="#toc-entry-5">In the python code</a></h3>
+<p>The initialization of the field value is only allowed if the user has
 write access to the record. From the field value, the user can get
 access to the filesystem client and interact with the filesystem. The
 filesystem is rooted in the folder itself. The user can only interact
 with the folder and its children without being able to go up in the
 filesystem.</p>
 </div>
-<div class="section" id="into-the-form-view-through-widget">
-<h3><a class="toc-backref" href="#toc-entry-6">Into the form view through widget</a></h3>
+<div class="section" id="in-the-form-view-through-widget">
+<h3><a class="toc-backref" href="#toc-entry-6">In the form view through widget</a></h3>
 <p>The addon comes with a specific widget that will be used to display the
 field in the form view. The widget will display the folder content and
 allow the user to interact with it. The user can create, delete, rename,
@@ -580,9 +580,9 @@ download and upload files and folders. The user can also navigate into
 the filesystem. All theses operations are made available by methods
 provided by the abstract model ‘fs.folder.field.web.api’. A first level
 of security is provided by this API. Any operation modifying the
-filesystem will allowed only if the user has the write access to the
-record and any operation reading the filesystem will be allowed only if
-the user has the read access to the record.</p>
+filesystem will allowed only if the user has write access to the record
+and any operation reading the filesystem will be allowed only if the
+user has read access to the record.</p>
 </div>
 </div>
 <div class="section" id="interacting-with-the-filesystem">
