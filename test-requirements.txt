@@ -2,3 +2,5 @@ odoo_test_helper
 requests_mock
 vcrpy-unittest
 s3fs>=2025.3.0
+odoo-addon-fs_image @ git+https://github.com/OCA/storage.git@refs/pull/446/head#subdirectory=fs_image
+odoo-addon-fs_base_multi_image @ git+https://github.com/xaviedoanhduy/storage.git@refs/pull/4/head#subdirectory=fs_base_multi_image
