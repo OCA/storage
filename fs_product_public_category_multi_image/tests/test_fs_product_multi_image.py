@@ -7,14 +7,13 @@ import io
 
 from PIL import Image
 
-from odoo.tests.common import TransactionCase
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestFsProductMultiImage(TransactionCase):
+class TestFsProductMultiImage(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.white_image = cls._create_image(16, 16, color="#FFFFFF")
         cls.logo_image = cls._create_image(16, 16, color="#FFA500")
         cls.product_public_category = cls.env["product.public.category"].create(
@@ -44,17 +43,17 @@ class TestFsProductMultiImage(TransactionCase):
                 "apply_on": "public.category",
             }
         )
-
-    def setUp(self):
-        super().setUp()
-        self.temp_dir = self.env["fs.storage"].create(
+        model_xmlids = """
+        fs_product_multi_image.model_fs_product_category_image,
+        fs_product_multi_image.model_fs_product_image
+        """
+        cls.temp_dir = cls.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
                 "protocol": "memory",
                 "code": "mem_dir",
                 "directory_path": "/tmp/",
-                "model_xmlids": "fs_product_multi_image.model_fs_product_category_image,"
-                "fs_product_multi_image.model_fs_product_image",
+                "model_xmlids": model_xmlids,
             }
         )
 

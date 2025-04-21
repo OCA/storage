@@ -69,6 +69,7 @@ Contributors
 
 -  Juany Davila <juany.davila@forgeflow.com>
 -  Bernat Puig <bernat.puig@forgeflow.com>
+-  Do Anh Duy <duyda@trobz.com>
 
 Maintainers
 -----------
