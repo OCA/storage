@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="fs_field.FsField" t-inherit-mode="primary">
+        <div class="o_list_renderer">
+            <div class="o_fs_field_field_header row">
+                <div class="col-9" />
+                <div class="col-3">
+                    <i
+                        class="btn btn-link fa fa-plus"
+                        t-on-click="onClickAddChildFolder"
+                    />
+                    <i
+                        class="btn btn-link fa fa-clipboard"
+                        t-on-click="onPaste"
+                        t-if="state.copy"
+                    />
+                </div>
+            </div>
+            <div t-if="state.path.length">
+                <span class="btn btn-link" t-on-click="returnParent">Home</span> /
+                <span
+                t-foreach="state.path"
+                t-as="path"
+                t-key="path_index"
+                t-on-click="() => this.returnParent(path)"
+            >
+                    <t t-esc="path" />
+                    /
+                </span>
+            </div>
+            <table
+                class="o_list_table table table-sm table-hover mb-0"
+                t-ref="dropzone"
+            >
+                <tbody>
+                    <t t-foreach="state.data" t-as="record" t-key="record.name">
+                        <t
+                            t-component="getComponent(record)"
+                            t-props="getProps(record)"
+                        />
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+
+</templates>

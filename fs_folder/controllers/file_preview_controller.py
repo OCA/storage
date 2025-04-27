@@ -1,5 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
+import os
 
 from werkzeug.exceptions import NotFound
 
@@ -25,3 +26,91 @@ class CrmController(http.Controller):
         if not response:
             raise NotFound()
         return response
+
+    @http.route(
+        "/fs_field/get_children/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def get_children(self, res_id, res_model, field_name, path=""):
+        result = request.env["fs.folder.field.web.api"].get_children(
+            res_id, res_model, field_name, path
+        )
+        if not path:
+            return result
+        return [{**item, "name": item["name"][len(path) + 1 :]} for item in result]
+
+    @http.route(
+        "/fs_field/add_folder/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def add_folder(self, res_id, res_model, field_name, path, name):
+        request.env["fs.folder.field.web.api"].create_folder(
+            res_id, res_model, field_name, os.path.join(path, name)
+        )
+
+    @http.route(
+        "/fs_field/delete/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def delete(self, res_id, res_model, field_name, path, name):
+        request.env["fs.folder.field.web.api"].delete(
+            res_id, res_model, field_name, os.path.join(path, name), recursive=True
+        )
+
+    @http.route(
+        "/fs_field/move/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def move_file(self, res_id, res_model, field_name, path, origin_path, record):
+        if path == origin_path:
+            return
+        return request.env["fs.folder.field.web.api"].rename(
+            res_id,
+            res_model,
+            field_name,
+            os.path.join(origin_path, record),
+            os.path.join(path, record),
+            recursive=True,
+        )
+
+    @http.route(
+        "/fs_field/copy/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def copy_file(self, res_id, res_model, field_name, path, origin_path, record):
+        if path == origin_path:
+            return
+        return request.env["fs.folder.field.web.api"].copy_item(
+            res_id,
+            res_model,
+            field_name,
+            os.path.join(origin_path, record),
+            os.path.join(path, record),
+            recursive=True,
+        )
+
+    @http.route(
+        "/fs_field/upload/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def upload(self, res_id, res_model, field_name, path, name, data):
+        request.env["fs.folder.field.web.api"].upload_file(
+            res_id,
+            res_model,
+            field_name,
+            path,
+            name,
+            data,
+        )

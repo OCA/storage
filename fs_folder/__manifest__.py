@@ -15,6 +15,11 @@
     "data": [
         "views/fs_storage.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "fs_field/static/src/**/*",
+        ],
+    },
     "demo": [],
     "installable": True,
     "maintainers": ["lmignon"],
