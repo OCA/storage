@@ -6,16 +6,15 @@ import {SimpleDialog} from "../simple_dialog/simple_dialog.esm";
 import {_t} from "@web/core/l10n/translation";
 import {downloadFile} from "@web/core/network/download";
 import {registry} from "@web/core/registry";
-import {rpc} from "@web/core/network/rpc";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
 import {useDropzone} from "@web/core/dropzone/dropzone_hook";
-
 import {usePreviewIframeViewer} from "../preview_iframe/preview_iframe_hook.esm";
 import {useService} from "@web/core/utils/hooks";
 
 export class FsField extends Component {
     setup() {
         super.setup();
+        this.service = useService(this.constructor.serviceName);
         this.dropzone = useRef("dropzone");
         this.dialog = useService("dialog");
         this.fileViewer = usePreviewIframeViewer();
@@ -26,11 +25,10 @@ export class FsField extends Component {
         useDropzone(this.dropzone, this.onDropFile.bind(this), "");
     }
     async setData() {
-        this.state.data = await rpc(
-            `/fs_field/get_children/${this.props.record.resModel}/${this.props.record.resId}/${this.props.name}`,
-            {
-                path: this.state.path.join("/"),
-            }
+        this.state.data = await this.service.getData(
+            this.props.record,
+            this.props.name,
+            this.state.path
         );
     }
     async onDropFile(event) {
@@ -43,14 +41,15 @@ export class FsField extends Component {
                     var reader = new window.FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = function (ev) {
-                        rpc(
-                            `/fs_field/upload/${self.props.record.resModel}/${self.props.record.resId}/${self.props.name}`,
-                            {
-                                path: self.state.path.join("/"),
-                                name: file.name,
-                                data: ev.target.result.split(",")[1],
-                            }
-                        ).then(() => resolve());
+                        self.service
+                            .uploadFile(
+                                this.props.record,
+                                this.props.name,
+                                this.state.path,
+                                file,
+                                ev.target.result.split(",")[1]
+                            )
+                            .then(() => resolve());
                     };
                 })
             );
@@ -67,13 +66,13 @@ export class FsField extends Component {
         };
     }
     async onPaste() {
-        await rpc(
-            `/fs_field/${this.state.copy.move ? "move" : "copy"}/${this.props.record.resModel}/${this.props.record.resId}/${this.props.name}`,
-            {
-                path: this.state.path.join("/"),
-                origin_path: this.state.copy.path,
-                record: this.state.copy.record.name,
-            }
+        await this.service.pasteFile(
+            this.props.record,
+            this.props.name,
+            this.state.path,
+            this.state.copy.path,
+            this.state.copy.record,
+            this.state.copy.move
         );
         this.state.copy = null;
         this.setData();
@@ -113,54 +112,57 @@ export class FsField extends Component {
         this.setData();
     }
     async onClickDownload(record) {
-        var url = new URL(
-            `/fs_field/get_file/${this.props.record.resModel}/${this.props.record.resId}/${this.props.name}`,
-            window.location.origin
+        await downloadFile(
+            this.service.getFileUrl(
+                this.props.record,
+                this.props.name,
+                this.state.path,
+                record.name,
+                1
+            )
         );
-        var path = [...this.state.path, record.name];
-        url.searchParams.append("path", path.join("/"));
-        url.searchParams.append("download", 1);
-        await downloadFile(url.toString());
     }
     async onClickPreview(record) {
-        var url = new URL(
-            `/fs_field/get_file/${this.props.record.resModel}/${this.props.record.resId}/${this.props.name}`,
-            window.location.origin
+        this.fileViewer.open(
+            this.service.getFileUrl(
+                this.props.record,
+                this.props.name,
+                this.state.path,
+                record.name,
+                0
+            )
         );
-        var path = [...this.state.path, record.name];
-        url.searchParams.append("path", path.join("/"));
-        this.fileViewer.open(url.toString());
     }
     async onClickDelete(record) {
         this.dialog.add(ConfirmationDialog, {
             body: _t("Are you sure that you want to remove this item?"),
             confirm: () => {
-                rpc(
-                    `/fs_field/delete/${this.props.record.resModel}/${this.props.record.resId}/${this.props.name}`,
-                    {
-                        path: this.state.path.join("/"),
-                        name: record.name,
-                    }
-                ).then(() => {
-                    this.setData();
-                });
+                this.service
+                    .delete(this.props.record, this.props.name, this.state.path, record)
+                    .then(() => {
+                        this.setData();
+                    });
             },
         });
     }
     onClickAddChildFolder() {
         this.dialog.add(SimpleDialog, {
             confirm: (value) => {
-                rpc(
-                    `/fs_field/add_folder/${this.props.record.resModel}/${this.props.record.resId}/${this.props.name}`,
-                    {
-                        path: this.state.path.join("/") || "",
-                        name: value,
-                    }
-                ).then(this.setData());
+                this.service
+                    .addFolder(
+                        this.props.record,
+                        this.props.name,
+                        this.state.path,
+                        value
+                    )
+                    .then(() => {
+                        this.setData();
+                    });
             },
         });
     }
 }
+FsField.serviceName = "fs.field";
 FsField.components = {
     FsFieldDirectory,
     FsFieldFile,
