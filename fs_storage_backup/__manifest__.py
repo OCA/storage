@@ -1,7 +1,7 @@
 {
     "name": "Filesystem Storage Backup",
     "category": "Technical",
-    "version": "16.0.1.0.1",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "Onestein, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",

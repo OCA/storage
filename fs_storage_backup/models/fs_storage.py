@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class FSStorage(models.Model):
     _name = "fs.storage"
-    _inherit = ["fs.storage", "mail.thread"]  # Use queue_job_cron instead?
+    _inherit = ["fs.storage", "mail.thread"]
 
     use_for_backup = fields.Boolean(string="Use For Backups")
     backup_include_filestore = fields.Boolean(
@@ -65,7 +65,7 @@ class FSStorage(models.Model):
             backup_path = self._get_backup_path()
             self.fs.makedirs(self.backup_dir, exist_ok=True)
             if self.fs.exists(backup_path):
-                raise Exception("File already exists (%s)." % backup_path)
+                raise Exception(f"File already exists ({backup_path}).")
             backup_file = self.fs.open(backup_path, "w")
             list_db = tools.config["list_db"]
             if not list_db:
@@ -80,7 +80,8 @@ class FSStorage(models.Model):
             _logger.exception("Database backup failed: %s", e)
             self.message_post(
                 subject=_("Database backup failed"),
-                body="<pre>%s</pre>" % tools.html_escape(traceback.format_exc()),
+                body=f"<pre>{tools.html_escape(traceback.format_exc())}</pre>",
+                body_is_html=True,
                 subtype_id=self.env.ref(
                     "fs_storage_backup.message_subtype_backup_failed"
                 ).id,
@@ -101,7 +102,8 @@ class FSStorage(models.Model):
             _logger.exception("Failed to clean up old backups: %s", e)
             self.message_post(
                 subject=_("Failed to clean up old backups"),
-                body="<pre>%s</pre>" % tools.html_escape(traceback.format_exc()),
+                body=f"<pre>{tools.html_escape(traceback.format_exc())}</pre>",
+                body_is_html=True,
                 subtype_id=self.env.ref(
                     "fs_storage_backup.message_subtype_cleanup_failed"
                 ).id,
