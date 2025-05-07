@@ -114,3 +114,12 @@ class CrmController(http.Controller):
             name,
             data,
         )
+
+    @http.route(
+        "/fs_field/initialize/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def initialize(self, res_id, res_model, field_name):
+        request.env[res_model].browse(res_id)[field_name].initialize()

@@ -50,6 +50,12 @@ class FsFieldService {
             name: folderName,
         });
     }
+    initialize(record, name) {
+        return rpc(
+            `/fs_field/initialize/${record.resModel}/${record.resId}/${name}`,
+            {}
+        );
+    }
 }
 export const fsFieldService = {
     start() {

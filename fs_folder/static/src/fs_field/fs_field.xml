@@ -2,7 +2,14 @@
 <templates xml:space="preserve">
 
     <t t-name="fs_field.FsField" t-inherit-mode="primary">
-        <div class="o_list_renderer">
+        <button
+            class="btn btn-primary oe_highlight"
+            t-on-click="onClickInitialize"
+            t-if="!props.record.data[props.name]"
+        >
+            <i class="fa fa-plus" /> Create Folder
+        </button>
+        <div class="o_list_renderer" t-if="props.record.data[props.name]">
             <div class="o_fs_field_field_header row">
                 <div class="col-9" />
                 <div class="col-3">

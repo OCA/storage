@@ -24,12 +24,18 @@ export class FsField extends Component {
         });
         useDropzone(this.dropzone, this.onDropFile.bind(this), "");
     }
+    async onClickInitialize() {
+        await this.service.initialize(this.props.record, this.props.name);
+        this.props.record.load();
+    }
     async setData() {
-        this.state.data = await this.service.getData(
-            this.props.record,
-            this.props.name,
-            this.state.path
-        );
+        if (this.props.record.data[this.props.name]) {
+            this.state.data = await this.service.getData(
+                this.props.record,
+                this.props.name,
+                this.state.path
+            );
+        }
     }
     async onDropFile(event) {
         const {files} = event.dataTransfer;
