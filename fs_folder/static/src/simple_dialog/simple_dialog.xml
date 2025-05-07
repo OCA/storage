@@ -2,9 +2,20 @@
 <templates xml:space="preserve">
 
   <t t-name="fs_field.SimpleDialog">
-        <Dialog size="'md'" title="props.title" modalRef="modalRef">
+        <Dialog
+            size="'md'"
+            title="props.title"
+            modalRef="modalRef"
+            contentClass="'o_field_widget'"
+        >
             <p t-out="props.body" class="text-prewrap" />
-            <input t-ref="input" t-att-value="props.value" />
+            <input
+                t-ref="input"
+                class="o_input"
+                style="outline: none"
+                t-att-value="props.value"
+                placeholder="Folder Name"
+            />
             <t t-set-slot="footer">
                 <button
                     class="btn"

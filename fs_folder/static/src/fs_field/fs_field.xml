@@ -40,6 +40,17 @@
                 class="o_list_table table table-sm table-hover mb-0"
                 t-ref="dropzone"
             >
+                <thead>
+                    <tr>
+                        <th class="o_list_icon" />
+                        <th class="o_list_name">
+                            <span>Name</span>
+                        </th>
+                        <th class="o_list_actions">
+                            <span>Actions</span>
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
                     <t t-foreach="state.data" t-as="record" t-key="record.name">
                         <t

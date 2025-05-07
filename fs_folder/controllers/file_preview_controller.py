@@ -122,4 +122,6 @@ class CrmController(http.Controller):
         methods=["POST"],
     )
     def initialize(self, res_id, res_model, field_name):
-        request.env[res_model].browse(res_id)[field_name].initialize()
+        request.env["fs.folder.field.web.api"].initialize_field_value(
+            res_id, res_model, field_name
+        )
