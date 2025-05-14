@@ -3,4 +3,19 @@
     .o_fs_field_clickable {
         cursor: pointer;
     }
+    .o_fs_field_item_field {
+        cursor: pointer;
+    }
+    .dropdown-menu {
+        display: none;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+        min-width: 160px;
+        z-index: 1000;
+    }
+
+    .dropdown.show .dropdown-menu {
+        display: block;
+    }
 }

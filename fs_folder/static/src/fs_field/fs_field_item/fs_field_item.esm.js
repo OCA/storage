@@ -1,11 +1,31 @@
 import {Component} from "@odoo/owl";
+import {Dropdown} from "@web/core/dropdown/dropdown";
+import {DropdownItem} from "@web/core/dropdown/dropdown_item";
 import {useService} from "@web/core/utils/hooks";
-export class FsFieldFile extends Component {
+
+export class FsFieldItem extends Component {
     setup() {
         super.setup();
         this.orm = useService("orm");
     }
+    get items() {
+        return this.props.moreActionDef
+            .filter(
+                (item) =>
+                    (item.directory && this.props.record.type === "directory") ||
+                    (item.file && this.props.record.type === "file")
+            )
+            .sort((a, b) => {
+                if (a.sequence === b.sequence) {
+                    return 0;
+                }
+                return a.sequence < b.sequence ? -1 : 1;
+            });
+    }
     get icon() {
+        if (this.props.record.type === "directory") {
+            return "fa-folder";
+        }
         const filename = this.props.record.name;
         const extensionStartPosition = filename.lastIndexOf(".");
         if (extensionStartPosition === -1) {
@@ -69,14 +89,21 @@ export class FsFieldFile extends Component {
                 return "fa-file-o";
         }
     }
+    onClick() {
+        if (this.props.record.type === "directory") {
+            this.env.onClickDirectory(this.props.record);
+        } else {
+            this.env.onClickPreview(this.props.record);
+        }
+    }
 }
-FsFieldFile.template = "fs_field.FsFieldFile";
-FsFieldFile.props = {
+FsFieldItem.template = "fs_field.FsFieldItem";
+FsFieldItem.props = {
     record: Object,
-    onClickDelete: Function,
-    onCopy: Function,
-    onCut: Function,
-    onClickDownload: Function,
-    onClickPreview: Function,
+    fieldDef: Object,
+    moreActionDef: Object,
 };
-FsFieldFile.components = {};
+FsFieldItem.components = {
+    Dropdown,
+    DropdownItem,
+};

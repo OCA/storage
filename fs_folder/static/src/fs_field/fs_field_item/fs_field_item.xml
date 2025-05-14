@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="fs_field.FsFieldItem" t-inherit-mode="primary">
+        <tr class="o_data_row">
+            <td
+                class="o_data_cell o_fs_field_item_field o_fs_field_item_name"
+                t-on-click="onClick"
+            >
+                <i t-attf-class="fa {{icon}}" />
+                <t t-esc="' '" />
+                <t t-esc="props.record.name" />
+            </td>
+            <td class="o_data_cell o_fs_field_item_button">
+                <button
+                    class="btn btn-link o_fs_field_field_file_button_download"
+                    title="Download"
+                    t-if="props.record.type === 'file'"
+                    t-on-click="() => this.env.onClickDownload(this.props.record)"
+                >
+                    <i class="fa fa-download" />
+                </button>
+
+                <button
+                    class="btn btn-link o_fs_field_field_file_button_preview"
+                    title="Preview"
+                    t-if="props.record.type === 'file'"
+                    t-on-click="() => this.env.onClickPreview(this.props.record)"
+                >
+                    <i class="fa fa-eye" />
+                </button>
+                <Dropdown>
+                    <button class="btn btn-link" title="More Actions">
+                        <i class="fa fa-list" />
+                    </button>
+                    <t t-set-slot="content">
+                        <t t-foreach="items" t-as="item" t-key="item_index">
+                            <DropdownItem
+                                class="item.class_name"
+                                onSelected="() => item.callback(this.props.record)"
+                                t-on-pointerdown.prevent="() => {}"
+                            >
+                                <t t-esc="item.name" />
+                            </DropdownItem>
+                        </t>
+                    </t>
+                </Dropdown>
+            </td>
+        </tr>
+    </t>
+
+</templates>

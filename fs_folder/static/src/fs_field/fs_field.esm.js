@@ -1,7 +1,6 @@
-import {Component, onWillStart, useRef, useState} from "@odoo/owl";
+import {Component, onWillStart, useRef, useState, useSubEnv} from "@odoo/owl";
 import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
-import {FsFieldDirectory} from "./fs_field_directory/fs_field_directory.esm";
-import {FsFieldFile} from "./fs_field_file/fs_field_file.esm";
+import {FsFieldItem} from "./fs_field_item/fs_field_item.esm";
 import {SimpleDialog} from "../simple_dialog/simple_dialog.esm";
 import {_t} from "@web/core/l10n/translation";
 import {downloadFile} from "@web/core/network/download";
@@ -23,6 +22,17 @@ export class FsField extends Component {
             this.setData();
         });
         useDropzone(this.dropzone, this.onDropFile.bind(this), "");
+        useSubEnv({
+            onClickDirectory: (record) => {
+                this.onClickDirectory(record);
+            },
+            onClickPreview: (record) => {
+                this.onClickPreview(record);
+            },
+            onClickDownload: (record) => {
+                this.onClickDownload(record);
+            },
+        });
     }
     async onClickInitialize() {
         await this.service.initialize(this.props.record, this.props.name);
@@ -83,35 +93,14 @@ export class FsField extends Component {
         this.state.copy = null;
         this.setData();
     }
-    async returnParent(path) {
-        if (path) {
+    async returnParent(path_index) {
+        if (path_index < 0) {
             this.state.path = [];
             this.setData();
             return;
         }
-        this.state.path = this.state.path.slice(0, this.state.path.indexOf(path) + 1);
+        this.state.path = this.state.path.slice(0, path_index + 1);
         this.setData();
-    }
-    getComponent(record) {
-        if (record.type === "directory") {
-            return FsField.components.FsFieldDirectory;
-        }
-        return FsField.components.FsFieldFile;
-    }
-    getProps(record) {
-        const props = {
-            record,
-            onClickDelete: () => this.onClickDelete(record),
-            onCopy: () => this.onCopy(record, false),
-            onCut: () => this.onCopy(record, true),
-        };
-        if (record.type === "directory") {
-            props.onClick = () => this.onClickDirectory(record);
-        } else {
-            props.onClickDownload = () => this.onClickDownload(record);
-            props.onClickPreview = () => this.onClickPreview(record);
-        }
-        return props;
     }
     async onClickDirectory(record) {
         this.state.path = [...this.state.path, record.name];
@@ -151,6 +140,60 @@ export class FsField extends Component {
             },
         });
     }
+    get moreActionDef() {
+        /**
+         * This should return an array of objects with the following properties:
+         * - sequence: The sequence of the action
+         * - string: The name of the action
+         * - icon: The icon of the action
+         * - callback: The function to call when the action is clicked
+         * - directory: true if the action is for a directory
+         * - file: true if the action is for a file
+         *
+         */
+        return [
+            {
+                sequence: 80,
+                name: _t("Copy"),
+                icon: "fa-copy",
+                callback: (record) => this.onCopy(record),
+                directory: true,
+                file: true,
+            },
+            {
+                sequence: 90,
+                name: _t("Cut"),
+                icon: "fa-scissors",
+                callback: (record) => this.onCopy(record, true),
+                directory: true,
+                file: true,
+            },
+            {
+                sequence: 99,
+                name: _t("Delete"),
+                icon: "fa-trash",
+                callback: (record) => this.onClickDelete(record),
+                directory: true,
+                file: true,
+            },
+        ];
+    }
+    get fieldDef() {
+        /**
+         * This should return an array of objects with the following properties:
+         *
+         * - string: The name of the field
+         * - type: The type of the field
+         * - name: Technical name of the field
+         * */
+        return [
+            {
+                string: _t("Name"),
+                type: "char",
+                name: "name",
+            },
+        ];
+    }
     onClickAddChildFolder() {
         this.dialog.add(SimpleDialog, {
             confirm: (value) => {
@@ -170,8 +213,7 @@ export class FsField extends Component {
 }
 FsField.serviceName = "fs.field";
 FsField.components = {
-    FsFieldDirectory,
-    FsFieldFile,
+    FsFieldItem,
 };
 FsField.template = "fs_field.FsField";
 FsField.props = {

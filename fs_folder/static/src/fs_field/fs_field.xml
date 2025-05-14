@@ -10,31 +10,46 @@
             <i class="fa fa-plus" /> Create Folder
         </button>
         <div class="o_list_renderer" t-if="props.record.data[props.name]">
-            <div class="o_fs_field_field_header row">
-                <div class="col-9" />
-                <div class="col-3">
-                    <i
-                        class="btn btn-link fa fa-plus"
-                        t-on-click="onClickAddChildFolder"
-                    />
-                    <i
-                        class="btn btn-link fa fa-clipboard"
-                        t-on-click="onPaste"
-                        t-if="state.copy"
-                    />
-                </div>
+            <div class="o_fs_field_field_header">
+                <button
+                    class="m-1 btn btn-info o_fs_field_field_file_button_refresh"
+                    t-on-click="setData"
+                >
+                    <i class="fa fa-refresh" />
+                </button>
+                <button
+                    class="m-1 btn btn-info o_fs_field_field_file_button_add_folder"
+                    t-on-click="onClickAddChildFolder"
+                >
+                    <i class="fa fa-folder" />
+                </button>
+                <button
+                    class="m-1 btn btn-info o_fs_field_field_file_button_add_file"
+                    t-on-click="onClickAddChildFile"
+                >
+                    <i class="fa fa-file" />
+                </button>
+                <button
+                    class="m-1 btn btn-link o_fs_field_field_file_button_paste"
+                    t-on-click="onPaste"
+                    t-if="state.copy"
+                >
+                    <i class="fa fa-clipboard" />
+                </button>
             </div>
-            <div t-if="state.path.length">
-                <span class="btn btn-link" t-on-click="returnParent">Home</span> /
+            <div>
                 <span
-                t-foreach="state.path"
-                t-as="path"
-                t-key="path_index"
-                t-on-click="() => this.returnParent(path)"
-            >
-                    <t t-esc="path" />
+                class="btn btn-link"
+                t-on-click="() => this.returnParent(-1)"
+            >Root</span> /
+                <t t-foreach="state.path" t-as="path" t-key="path_index">
+                    <span
+                t-esc="path"
+                class="btn btn-link"
+                t-on-click="() => this.returnParent(path_index)"
+            />
                     /
-                </span>
+                </t>
             </div>
             <table
                 class="o_list_table table table-sm table-hover mb-0"
@@ -42,7 +57,6 @@
             >
                 <thead>
                     <tr>
-                        <th class="o_list_icon" />
                         <th class="o_list_name">
                             <span>Name</span>
                         </th>
@@ -53,9 +67,10 @@
                 </thead>
                 <tbody>
                     <t t-foreach="state.data" t-as="record" t-key="record.name">
-                        <t
-                            t-component="getComponent(record)"
-                            t-props="getProps(record)"
+                        <FsFieldItem
+                            record="record"
+                            fieldDef="fieldDef"
+                            moreActionDef="moreActionDef"
                         />
                     </t>
                 </tbody>
