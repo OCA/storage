@@ -7,8 +7,7 @@
                 class="o_data_cell o_fs_field_item_field o_fs_field_item_name"
                 t-on-click="onClick"
             >
-                <i t-attf-class="fa {{icon}}" />
-                <t t-esc="' '" />
+                <i t-attf-class="fa {{icon}} p-1" />
                 <t t-esc="props.record.name" />
             </td>
             <td class="o_data_cell o_fs_field_item_button">
@@ -40,6 +39,10 @@
                                 onSelected="() => item.callback(this.props.record)"
                                 t-on-pointerdown.prevent="() => {}"
                             >
+                                <i
+                                    t-attf-class="p-1 fa {{item.icon}}"
+                                    t-if="item.icon"
+                                />
                                 <t t-esc="item.name" />
                             </DropdownItem>
                         </t>
