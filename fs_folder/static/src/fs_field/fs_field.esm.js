@@ -49,9 +49,9 @@ export class FsField extends Component {
                     reader.onload = function (ev) {
                         self.service
                             .uploadFile(
-                                this.props.record,
-                                this.props.name,
-                                this.state.path,
+                                self.props.record,
+                                self.props.name,
+                                self.state.path,
                                 file,
                                 ev.target.result.split(",")[1]
                             )
