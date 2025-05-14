@@ -50,6 +50,13 @@ class FsFieldService {
             name: folderName,
         });
     }
+    rename(record, name, path, oldName, newName) {
+        return rpc(`/fs_field/rename/${record.resModel}/${record.resId}/${name}`, {
+            path: path.join("/"),
+            name: oldName,
+            new_name: newName,
+        });
+    }
     initialize(record, name) {
         return rpc(
             `/fs_field/initialize/${record.resModel}/${record.resId}/${name}`,

@@ -100,6 +100,21 @@ class CrmController(http.Controller):
         )
 
     @http.route(
+        "/fs_field/rename/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def rename(self, res_id, res_model, field_name, path, name, new_name):
+        request.env["fs.folder.field.web.api"].rename(
+            res_id,
+            res_model,
+            field_name,
+            os.path.join(path, name),
+            os.path.join(path, new_name),
+        )
+
+    @http.route(
         "/fs_field/upload/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",

@@ -153,7 +153,33 @@ export class FsField extends Component {
          */
         return [
             {
-                sequence: 80,
+                sequence: 10,
+                name: _t("Rename"),
+                icon: "fa-pencil",
+                callback: (record) => {
+                    this.dialog.add(SimpleDialog, {
+                        title: _t("Rename"),
+                        value: record.name,
+                        confirm: (value) => {
+                            this.service
+                                .rename(
+                                    this.props.record,
+                                    this.props.name,
+                                    this.state.path,
+                                    record.name,
+                                    value
+                                )
+                                .then(() => {
+                                    this.setData();
+                                });
+                        },
+                    });
+                },
+                directory: true,
+                file: true,
+            },
+            {
+                sequence: 30,
                 name: _t("Copy"),
                 icon: "fa-copy",
                 callback: (record) => this.onCopy(record),
@@ -161,7 +187,7 @@ export class FsField extends Component {
                 file: true,
             },
             {
-                sequence: 90,
+                sequence: 50,
                 name: _t("Cut"),
                 icon: "fa-scissors",
                 callback: (record) => this.onCopy(record, true),
@@ -196,6 +222,7 @@ export class FsField extends Component {
     }
     onClickAddChildFolder() {
         this.dialog.add(SimpleDialog, {
+            title: _t("Add Folder"),
             confirm: (value) => {
                 this.service
                     .addFolder(
