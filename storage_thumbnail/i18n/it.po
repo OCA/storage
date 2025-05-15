@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-30 20:06+0000\n"
+"PO-Revision-Date: 2025-05-15 11:24+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: storage_thumbnail
 #: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__url_path
@@ -116,7 +116,7 @@ msgstr "Ultimo aggiornamento di"
 #. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__write_date
 msgid "Last Updated on"
-msgstr "Ultimo"
+msgstr "Ultimo aggiornamento il"
 
 #. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_thumbnail_mixin__image_medium_url
