@@ -1,5 +1,6 @@
 import {Component, markup, onWillStart, useRef, useState, useSubEnv} from "@odoo/owl";
 import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
+import {FileUploader} from "@web/views/fields/file_handler";
 import {FsFieldItem} from "./fs_field_item/fs_field_item.esm";
 import {SimpleDialog} from "../simple_dialog/simple_dialog.esm";
 import {_t} from "@web/core/l10n/translation";
@@ -48,6 +49,15 @@ export class FsField extends Component {
                 this.state.path
             );
         }
+    }
+    async onAddFile(file) {
+        this.service.uploadFile(
+            this.props.record,
+            this.props.name,
+            this.state.path,
+            file,
+            file.data
+        );
     }
     async onDropFile(event) {
         const {files} = event.dataTransfer;
@@ -357,6 +367,7 @@ export class FsField extends Component {
 FsField.serviceName = "fs.field";
 FsField.components = {
     FsFieldItem,
+    FileUploader,
 };
 FsField.template = "fs_field.FsField";
 FsField.props = {

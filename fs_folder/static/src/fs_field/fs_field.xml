@@ -23,12 +23,20 @@
                 >
                     <i class="fa fa-folder" />
                 </button>
-                <button
-                    class="m-1 btn btn-info o_fs_field_field_file_button_add_file"
-                    t-on-click="onClickAddChildFile"
+
+                <FileUploader
+                    onUploaded.bind="onAddFile"
+                    multiUpload="true"
+                    onUploadComplete.bind="setData"
                 >
-                    <i class="fa fa-file" />
-                </button>
+                    <t t-set-slot="toggler">
+                        <button
+                            class="m-1 btn btn-info o_fs_field_field_file_button_add_file"
+                        >
+                            <i class="fa fa-file" />
+                        </button>
+                    </t>
+                </FileUploader>
                 <button
                     class="m-1 btn btn-link o_fs_field_field_file_button_paste"
                     t-on-click="onPaste"
