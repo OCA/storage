@@ -4,11 +4,14 @@
     <t t-name="fs_field.FsFieldItem" t-inherit-mode="primary">
         <tr class="o_data_row">
             <td
+                t-foreach="props.fieldDef"
+                t-as="field"
+                t-key="field.name"
                 class="o_data_cell o_fs_field_item_field o_fs_field_item_name"
                 t-on-click="onClick"
             >
-                <i t-attf-class="fa {{icon}} p-1" />
-                <t t-esc="props.record.name" />
+                <t t-out="field.value(props.record)" t-if="!!field.value" />
+                <span t-esc="props.record[field.name]" t-else="" />
             </td>
             <td class="o_data_cell o_fs_field_item_button">
                 <button

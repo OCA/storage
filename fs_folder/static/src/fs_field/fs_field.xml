@@ -57,8 +57,8 @@
             >
                 <thead>
                     <tr>
-                        <th class="o_list_name">
-                            <span>Name</span>
+                        <th t-foreach="fieldDef" t-as="field" t-key="field.name">
+                            <span t-esc="field.string" />
                         </th>
                         <th class="o_list_actions">
                             <span>Actions</span>

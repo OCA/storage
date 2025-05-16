@@ -1,14 +1,16 @@
-import {Component, onWillStart, useRef, useState, useSubEnv} from "@odoo/owl";
+import {Component, markup, onWillStart, useRef, useState, useSubEnv} from "@odoo/owl";
 import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
 import {FsFieldItem} from "./fs_field_item/fs_field_item.esm";
 import {SimpleDialog} from "../simple_dialog/simple_dialog.esm";
 import {_t} from "@web/core/l10n/translation";
 import {downloadFile} from "@web/core/network/download";
+import {formatDateTime} from "@web/core/l10n/dates";
 import {registry} from "@web/core/registry";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
 import {useDropzone} from "@web/core/dropzone/dropzone_hook";
 import {usePreviewIframeViewer} from "../preview_iframe/preview_iframe_hook.esm";
 import {useService} from "@web/core/utils/hooks";
+const {DateTime} = luxon;
 
 export class FsField extends Component {
     setup() {
@@ -205,6 +207,9 @@ export class FsField extends Component {
         ];
     }
     get fieldDef() {
+        return this.fieldDefinition.sort((a, b) => a.sequence - b.sequence);
+    }
+    get fieldDefinition() {
         /**
          * This should return an array of objects with the following properties:
          *
@@ -214,9 +219,53 @@ export class FsField extends Component {
          * */
         return [
             {
+                sequence: 10,
                 string: _t("Name"),
                 type: "char",
                 name: "name",
+                value: (record) => {
+                    return markup(
+                        `<span><i class="p-1 fa ${this.getIcon(record)}"></i>${record.name}</span>`
+                    );
+                },
+            },
+            {
+                sequence: 20,
+                string: _t("Created on"),
+                type: "datetime",
+                name: "created",
+                value: (record) => {
+                    if (!record.created) {
+                        return "";
+                    }
+
+                    if (typeof record.created === "number") {
+                        return formatDateTime(DateTime.fromSeconds(record.created));
+                    }
+                    return record.created;
+                },
+            },
+            {
+                sequence: 30,
+                string: _t("User"),
+                type: "char",
+                name: "uid",
+            },
+            {
+                sequence: 40,
+                string: _t("Modified on"),
+                type: "datetime",
+                name: "mtime",
+                value: (record) => {
+                    if (!record.mtime) {
+                        return "";
+                    }
+
+                    if (typeof record.mtime === "number") {
+                        return formatDateTime(DateTime.fromSeconds(record.mtime));
+                    }
+                    return record.mtime;
+                },
             },
         ];
     }
@@ -236,6 +285,73 @@ export class FsField extends Component {
                     });
             },
         });
+    }
+    getIcon(record) {
+        if (record.is_directory) {
+            return "fa-folder";
+        }
+        const filename = record.name;
+        const extensionStartPosition = filename.lastIndexOf(".");
+        if (extensionStartPosition === -1) {
+            return "fa-file-o";
+        }
+        const extension = filename.slice(extensionStartPosition + 1);
+        switch (extension.toLowerCase()) {
+            case "aac":
+            case "ogg":
+            case "mp3":
+                return "fa-file-audio-o";
+            case "avi":
+            case "flv":
+            case "mkv":
+            case "mp4":
+                return "fa-file-video-o";
+            case "css":
+            case "html":
+            case "js":
+                return "fa-file-code-o";
+            case "csv":
+                return "fa-file-csv-o";
+            case "doc":
+            case "docx":
+                return "fa-file-word-o";
+            case "gif":
+            case "jpeg":
+            case "jpg":
+            case "png":
+                return "fa-file-image-o";
+            case "gz":
+            case "zip":
+            case "archive":
+                return "fa-file-archive-o";
+            case "pdf":
+                return "fa-file-pdf-o";
+            case "ppt":
+            case "pptx":
+                return "fa-file-powerpoint-o";
+            case "txt":
+            case "text":
+                return "fa-file-alt-o";
+            case "xls":
+            case "xlsx":
+                return "fa-file-excel-o";
+            case "audio":
+                return "fa-file-audio-o";
+            case "code":
+                return "fa-file-code-o";
+            case "image":
+                return "fa-file-image-o";
+            case "excel":
+                return "fa-file-excel-o";
+            case "powerpoint":
+                return "fa-file-powerpoint-o";
+            case "video":
+                return "fa-file-video-o";
+            case "word":
+                return "fa-file-word-o";
+            default:
+                return "fa-file-o";
+        }
     }
 }
 FsField.serviceName = "fs.field";
