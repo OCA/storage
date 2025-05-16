@@ -65,9 +65,19 @@
             >
                 <thead>
                     <tr>
-                        <th t-foreach="fieldDef" t-as="field" t-key="field.name">
-                            <span t-esc="field.string" />
-                        </th>
+                        <t t-foreach="fieldDef" t-as="field" t-key="field.name">
+                            <th t-on-click="() => this.onSort(field)">
+                                <span t-esc="field.string" />
+                                <i
+                                    class="fa fa-caret-down"
+                                    t-if="state.sort.length and state.sort[0].field === field.name and state.sort[0].order === 'desc'"
+                                />
+                                <i
+                                    class="fa fa-caret-up"
+                                    t-if="state.sort.length and state.sort[0].field === field.name and state.sort[0].order === 'asc'"
+                                />
+                            </th>
+                        </t>
                         <th class="o_list_actions">
                             <span>Actions</span>
                         </th>

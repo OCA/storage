@@ -20,7 +20,7 @@ export class FsField extends Component {
         this.dropzone = useRef("dropzone");
         this.dialog = useService("dialog");
         this.fileViewer = usePreviewIframeViewer();
-        this.state = useState({path: [], data: [], copy: false});
+        this.state = useState({path: [], data: [], copy: false, sort: []});
         onWillStart(() => {
             this.setData();
         });
@@ -43,12 +43,46 @@ export class FsField extends Component {
     }
     async setData() {
         if (this.props.record.data[this.props.name]) {
-            this.state.data = await this.service.getData(
-                this.props.record,
-                this.props.name,
-                this.state.path
+            this.state.data = this.sortData(
+                await this.service.getData(
+                    this.props.record,
+                    this.props.name,
+                    this.state.path
+                )
             );
         }
+    }
+    onSort(field) {
+        if (this.state.sort.length && this.state.sort[0].field === field.name) {
+            this.state.sort[0].order =
+                this.state.sort[0].order === "asc" ? "desc" : "asc";
+        } else {
+            const newSort = this.state.sort.filter((s) => s.field !== field.name);
+            newSort.unshift({
+                field: field.name,
+                order: "asc",
+            });
+            this.state.sort = newSort;
+        }
+        this.state.data = this.sortData(this.state.data);
+    }
+    sortData(data) {
+        if (!this.state.sort) {
+            return data;
+        }
+        return data.sort((a, b) => {
+            for (const sort of this.state.sort) {
+                const field = sort.field;
+                const order = sort.order;
+                if (a[field] < b[field]) {
+                    return order === "asc" ? -1 : 1;
+                }
+                if (a[field] > b[field]) {
+                    return order === "asc" ? 1 : -1;
+                }
+            }
+            return 0;
+        });
     }
     async onAddFile(file) {
         this.service.uploadFile(
