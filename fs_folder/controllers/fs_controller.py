@@ -11,7 +11,7 @@ from odoo.tools import str2bool
 _logger = logging.getLogger(__name__)
 
 
-class CrmController(http.Controller):
+class FsController(http.Controller):
     @http.route(
         "/fs_field/get_file/<string:res_model>/<int:res_id>/<string:field_name>",
         type="http",
