@@ -1,5 +1,7 @@
 import {Component, markup, onWillStart, useRef, useState, useSubEnv} from "@odoo/owl";
 import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
+import {Dropdown} from "@web/core/dropdown/dropdown";
+import {DropdownItem} from "@web/core/dropdown/dropdown_item";
 import {FileUploader} from "@web/views/fields/file_handler";
 import {FsFieldItem} from "./fs_field_item/fs_field_item.esm";
 import {SimpleDialog} from "../simple_dialog/simple_dialog.esm";
@@ -20,7 +22,7 @@ export class FsField extends Component {
         this.dropzone = useRef("dropzone");
         this.dialog = useService("dialog");
         this.fileViewer = usePreviewIframeViewer();
-        this.state = useState({path: [], data: [], copy: false, sort: []});
+        this.state = useState({path: [], data: [], copy: false, sort: [], hide: []});
         onWillStart(() => {
             this.setData();
         });
@@ -277,6 +279,7 @@ export class FsField extends Component {
                 sequence: 20,
                 string: _t("Created on"),
                 type: "datetime",
+                optional: true,
                 name: "created",
                 value: (record) => {
                     if (!record.created) {
@@ -292,12 +295,14 @@ export class FsField extends Component {
             {
                 sequence: 30,
                 string: _t("User"),
+                optional: true,
                 type: "char",
                 name: "uid",
             },
             {
                 sequence: 40,
                 string: _t("Modified on"),
+                optional: true,
                 type: "datetime",
                 name: "mtime",
                 value: (record) => {
@@ -397,11 +402,26 @@ export class FsField extends Component {
                 return "fa-file-o";
         }
     }
+    showField(fieldName) {
+        return (
+            Object.values(this.state.hide).filter((item) => item === fieldName)
+                .length === 0
+        );
+    }
+    hideField(fieldName) {
+        if (this.showField(fieldName)) {
+            this.state.hide.push(fieldName);
+        } else {
+            this.state.hide.pop(fieldName);
+        }
+    }
 }
 FsField.serviceName = "fs.field";
 FsField.components = {
-    FsFieldItem,
+    Dropdown,
+    DropdownItem,
     FileUploader,
+    FsFieldItem,
 };
 FsField.template = "fs_field.FsField";
 FsField.props = {

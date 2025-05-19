@@ -66,7 +66,10 @@
                 <thead>
                     <tr>
                         <t t-foreach="fieldDef" t-as="field" t-key="field.name">
-                            <th t-on-click="() => this.onSort(field)">
+                            <th
+                                t-on-click="() => this.onSort(field)"
+                                t-if="showField(field.name)"
+                            >
                                 <span t-esc="field.string" />
                                 <i
                                     class="fa fa-caret-down"
@@ -81,6 +84,33 @@
                         <th class="o_list_actions">
                             <span>Actions</span>
                         </th>
+                        <th class="o_data_cell">
+                            <Dropdown>
+                                <button class="btn p-0" title="More Actions">
+                                    <i class="oi oi-fw oi-settings-adjust" />
+                                </button>
+                                <t t-set-slot="content">
+                                    <t
+                                        t-foreach="fieldDef"
+                                        t-as="field"
+                                        t-key="field.name"
+                                    >
+                                        <DropdownItem
+                                            t-if="field.optional"
+                                            onSelected="() => this.hideField(field.name)"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                t-att-checked="showField(field.name)"
+                                                t-on-change.prevent="() => this.showField(field.name)"
+                                            />
+                                            <span t-esc="field.string" />
+                                        </DropdownItem>
+                                    </t>
+                                </t>
+                            </Dropdown>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +119,7 @@
                             record="record"
                             fieldDef="fieldDef"
                             moreActionDef="moreActionDef"
+                            showField="this.showField.bind(this)"
                         />
                     </t>
                 </tbody>

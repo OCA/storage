@@ -35,6 +35,7 @@ FsFieldItem.props = {
     record: Object,
     fieldDef: Object,
     moreActionDef: Object,
+    showField: Function,
 };
 FsFieldItem.components = {
     Dropdown,
