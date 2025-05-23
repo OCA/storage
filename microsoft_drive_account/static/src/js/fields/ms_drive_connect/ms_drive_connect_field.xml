@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 ACSONE SA/NV
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<templates id="template" xml:space="preserve">
+
+    <t t-name="microsoft_drive_account.MSDriveConnectField" owl="1">
+        <div
+            class="btn btn-info o_field_ms_drive_button"
+            t-on-click.prevent.stop="() => this.onButtonClick()"
+            t-att="{
+                    'data-tooltip': this.isConnected ? 'Connected: Click to disconnect' : 'Disconnected: Click to connect'
+                 }"
+        >
+            <img
+                t-att-src="this.isConnected ? '/microsoft_drive_account/static/img/ms_drive_connected.png' : '/microsoft_drive_account/static/img/ms_drive_not_connected.png'"
+            />
+        </div>
+    </t>
+
+</templates>

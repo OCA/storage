@@ -17,8 +17,8 @@ const config = [{
             owl: "readonly",
             luxon: "readonly",
             URL: "readonly",
-            window: "readonly",
-        },
+            window: true,
+	},
 
         ecmaVersion: 2024,
         sourceType: "script",
