@@ -336,7 +336,7 @@ export class FsField extends Component {
         });
     }
     getIcon(record) {
-        if (record.is_directory) {
+        if (record.type === "directory") {
             return "fa-folder";
         }
         const filename = record.name;

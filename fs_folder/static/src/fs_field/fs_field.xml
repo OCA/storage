@@ -13,12 +13,14 @@
             <div class="o_fs_field_field_header">
                 <button
                     class="m-1 btn btn-info o_fs_field_field_file_button_refresh"
+                    name="action_refresh"
                     t-on-click="setData"
                 >
                     <i class="fa fa-refresh" />
                 </button>
                 <button
                     class="m-1 btn btn-info o_fs_field_field_file_button_add_folder"
+                    name="action_add_folder"
                     t-on-click="onClickAddChildFolder"
                 >
                     <i class="fa fa-folder" />
@@ -39,6 +41,7 @@
                 </FileUploader>
                 <button
                     class="m-1 btn btn-link o_fs_field_field_file_button_paste"
+                    name="action_paste"
                     t-on-click="onPaste"
                     t-if="state.copy"
                 >

@@ -16,6 +16,7 @@
             <td class="o_data_cell o_fs_field_item_button">
                 <button
                     class="btn btn-link py-0 px-1 o_fs_field_field_file_button_download"
+                    name="action_download"
                     title="Download"
                     t-if="props.record.type === 'file'"
                     t-on-click="() => this.env.onClickDownload(this.props.record)"
@@ -25,6 +26,7 @@
 
                 <button
                     class="btn btn-link py-0 px-1 o_fs_field_field_file_button_preview"
+                    name="action_preview"
                     title="Preview"
                     t-if="props.record.type === 'file'"
                     t-on-click="() => this.env.onClickPreview(this.props.record)"
