@@ -1,4 +1,4 @@
-import {Component, markup, onWillRender, useRef, useState, useSubEnv} from "@odoo/owl";
+import {Component, markup, useEffect, useRef, useState, useSubEnv} from "@odoo/owl";
 import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
 import {Dropdown} from "@web/core/dropdown/dropdown";
 import {DropdownItem} from "@web/core/dropdown/dropdown_item";
@@ -23,9 +23,15 @@ export class FsField extends Component {
         this.dialog = useService("dialog");
         this.fileViewer = usePreviewIframeViewer();
         this.state = useState({path: [], data: [], copy: false, sort: [], hide: []});
-        onWillRender(() => {
-            this.setData();
-        });
+        useEffect(
+            () => {
+                // Initialize the fields as we are changing the record
+                this.state.path = [];
+                this.state.copy = false;
+                this.setData();
+            },
+            () => [this.props.record.resId]
+        );
         useDropzone(this.dropzone, this.onDropFile.bind(this), "");
         useSubEnv({
             onClickDirectory: (record) => {
