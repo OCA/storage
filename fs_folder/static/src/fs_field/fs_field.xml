@@ -76,11 +76,11 @@
                                 <span t-esc="field.string" />
                                 <i
                                     class="fa fa-caret-down"
-                                    t-if="state.sort.length and state.sort[0].field === field.name and state.sort[0].order === 'desc'"
+                                    t-if="state.sort.length and state.sort[0].field.name === field.name and state.sort[0].order === 'desc'"
                                 />
                                 <i
                                     class="fa fa-caret-up"
-                                    t-if="state.sort.length and state.sort[0].field === field.name and state.sort[0].order === 'asc'"
+                                    t-if="state.sort.length and state.sort[0].field.name === field.name and state.sort[0].order === 'asc'"
                                 />
                             </th>
                         </t>

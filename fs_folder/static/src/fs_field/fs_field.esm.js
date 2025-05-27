@@ -61,13 +61,13 @@ export class FsField extends Component {
         }
     }
     onSort(field) {
-        if (this.state.sort.length && this.state.sort[0].field === field.name) {
+        if (this.state.sort.length && this.state.sort[0].field.name === field.name) {
             this.state.sort[0].order =
                 this.state.sort[0].order === "asc" ? "desc" : "asc";
         } else {
-            const newSort = this.state.sort.filter((s) => s.field !== field.name);
+            const newSort = this.state.sort.filter((s) => s.field.name !== field.name);
             newSort.unshift({
-                field: field.name,
+                field: field,
                 order: "asc",
             });
             this.state.sort = newSort;
@@ -82,11 +82,37 @@ export class FsField extends Component {
             for (const sort of this.state.sort) {
                 const field = sort.field;
                 const order = sort.order;
-                if (a[field] < b[field]) {
-                    return order === "asc" ? -1 : 1;
+                if (field.name === "name") {
+                    // Special case for name field, we want to sort by type first
+                    const aType = a?.type || "directory";
+                    const bType = b?.type || "directory";
+                    const typeOrder = aType.localeCompare(bType);
+                    if (typeOrder !== 0) {
+                        return typeOrder;
+                    }
                 }
-                if (a[field] > b[field]) {
-                    return order === "asc" ? 1 : -1;
+                let cmp = (itemA, itemB) => {
+                    const aValue = itemA[field.name] || field.value(itemA) || "";
+                    const bValue = itemB[field.name] || field.value(itemB) || "";
+                    const type = field.type || "char";
+                    if (
+                        (type === "char" || type === "text") &&
+                        typeof aValue === "string"
+                    ) {
+                        // For string fields, we want to do a case-insensitive and accented
+                        // character insensitive comparison based on the locale
+                        return aValue.localeCompare(bValue, undefined, {
+                            sensitivity: "base",
+                        });
+                    }
+                    return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+                };
+                if (typeof field?.cmp === "function") {
+                    cmp = field.cmp;
+                }
+                const cmpResult = cmp(a, b);
+                if (cmpResult !== 0) {
+                    return order === "asc" ? cmpResult : -cmpResult;
                 }
             }
             return 0;
