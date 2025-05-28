@@ -1,0 +1,28 @@
+.o_fs_field_field_file_button_ms_drive {
+    --btn-bg: transparent;
+}
+.o_fs_folder_button_ms_drive {
+    --btn-bg: transparent;
+}
+.o_icon_ms_drive {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    overflow: visible;
+    position: relative;
+}
+
+.o_icon_ms_drive::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5); // enlarge inside
+    width: 1em;
+    height: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("/fs_folder_ms_drive/static/src/img/ms_drive_connected.png");
+}

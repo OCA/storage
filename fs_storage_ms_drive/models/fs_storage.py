@@ -41,9 +41,9 @@ class FSStorage(models.Model):
         with Registry(db_name).cursor() as cr:
             env = api.Environment(cr, user_id, {})
             token = client.parse_response_token(res)
-            env.user.microsoft_sharepoint_token = token.get("access_token", False)
-            env.user.microsoft_sharepoint_rtoken = token.get("refresh_token", False)
+            env.user.microsoft_drive_token = token.get("access_token", False)
+            env.user.microsoft_drive_rtoken = token.get("refresh_token", False)
             ts = token.get("expires_at", False)
             valid_untill = dt.fromtimestamp(ts) if ts else False
-            env.user.microsoft_sharepoint_token_validity = valid_untill
+            env.user.microsoft_drive_token_validity = valid_untill
         return res

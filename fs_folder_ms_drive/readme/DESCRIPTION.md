@@ -1,0 +1,1 @@
+This addon extends the functionality of the `fs_folder` addon by integrating with specific functionnalities to improve the user experience when working folders stored into a Microsoft Drive.

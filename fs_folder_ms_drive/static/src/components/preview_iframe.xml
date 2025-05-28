@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+  <t t-name="fs_folder_ms_drive.PreviewIframe">
+        <div t-if="props.url" class="preview-iframe">
+            <button
+                class="close-preview-button font-bold"
+                t-on-click="() => this.env.onCloseUrlPreview()"
+            >X</button>
+            <div class="iframe-container">
+                <iframe t-att-src="props.url" frameborder="0" class="iframe-content" />
+            </div>
+        </div>
+    </t>
+</templates>

@@ -12,7 +12,7 @@
     "development_status": "Beta",
     "installable": True,
     "depends": [
-        "microsoft_sharepoint_account",
+        "microsoft_drive_account",
         "fs_storage",
     ],
     "external_dependencies": {"python": ["msgraphfs", "fsspec>=2025.0.0"]},

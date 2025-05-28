@@ -12,9 +12,9 @@ class ResUsers(models.Model):
         self.ensure_one()
         get_param = self.env["ir.config_parameter"].sudo().get_param
         return {
-            "client_id": get_param("microsoft_sharepoint_client_id"),
-            "client_secret": get_param("microsoft_sharepoint_client_secret"),
-            "scope": get_param("sharepoint_microsoft_client_scope"),
+            "client_id": get_param("microsoft_drive_client_id"),
+            "client_secret": get_param("microsoft_drive_client_secret"),
+            "scope": get_param("drive_microsoft_client_scope"),
             "token_endpoint": get_param("microsoft_account.token_endpoint"),
         }
 
