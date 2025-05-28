@@ -27,7 +27,7 @@ class FsContentValue:
         self._env = record.env
         self._value_adapter = record.env["fs.folder.field.value.adapter"]
         self._ref, self._storage_code = self._value_adapter._parse_fs_folder_value(
-            self._stored_value, self, self._record
+            self._stored_value, self._field, self._record
         )
 
     @property
