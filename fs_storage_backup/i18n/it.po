@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-05-20 09:26+0000\n"
+"PO-Revision-Date: 2025-05-29 16:26+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: fs_storage_backup
 #: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_needaction
 msgid "Action Needed"
-msgstr "Richiesta azione"
+msgstr "Azione richiesta"
 
 #. module: fs_storage_backup
 #: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_attachment_count
