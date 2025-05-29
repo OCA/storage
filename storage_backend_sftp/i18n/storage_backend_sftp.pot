@@ -19,6 +19,11 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
+
+#. module: storage_backend_sftp
 #: model:ir.model.fields,help:storage_backend_sftp.field_storage_backend__sftp_ssh_private_key
 msgid ""
 "It's recommended to not store the key here but to provide it via secret env "
