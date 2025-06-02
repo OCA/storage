@@ -490,7 +490,11 @@ class FSStorage(models.Model):
         return f".odoo_fs_storage_{self.id}.marker"
 
     def _marker_file_check_connection(self, fs):
+        if not self.directory_path:
+            raise ValidationError(_("Please set a 'Directory Path' value"))
         marker_file_name = self._get_marker_file_name()
+        bucket = self.directory_path
+        fs.makedirs(bucket, exist_ok=True)
         try:
             fs.info(marker_file_name)
         except FileNotFoundError:
