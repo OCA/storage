@@ -1,0 +1,1 @@
+Some organizations have a need to manage documents in an external filesystem next to odoo records. This module provides a generic way to do it through the use a specialized field type that can be used in any Odoo model.
