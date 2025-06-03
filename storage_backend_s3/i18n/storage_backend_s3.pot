@@ -45,6 +45,11 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend_s3
+#: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__x_backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
+
+#. module: storage_backend_s3
 #: model:ir.model.fields,field_description:storage_backend_s3.field_storage_backend__aws_bucket
 msgid "Bucket"
 msgstr ""
