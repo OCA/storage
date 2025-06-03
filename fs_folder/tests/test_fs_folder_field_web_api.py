@@ -1,12 +1,12 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 import base64
 import os
 
 from odoo.tools import mute_logger
 
 from ..fields import FsFolderValue
-from .common import FsFieldTestCase
+from .common import FsFolderTestCase
 
 TEXT_FILES = {
     "nested/file1": b"hello\n",
@@ -16,7 +16,7 @@ TEXT_FILES = {
 }
 
 
-class TestFsFolderFieldWebApi(FsFieldTestCase):
+class TestFsFolderFieldWebApi(FsFolderTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -56,7 +56,7 @@ class TestFsFolderFieldWebApi(FsFieldTestCase):
         data = sorted(data, key=lambda x: x[sort_key])
         return [self._filter_info(item, *keys) for item in data]
 
-    @mute_logger("odoo.addons.fs_field.models.fs_folder_field_web_api")
+    @mute_logger("odoo.addons.fs_folder.models.fs_folder_field_web_api")
     def test_wrong_field(self):
         # case where the field name is unknown
         with self.assertRaises(ValueError):

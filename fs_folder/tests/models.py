@@ -1,5 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 # DON'T IMPORT THIS MODULE IN INIT TO AVOID THE CREATION OF THE MODELS
 # DEFINED FOR TESTS INTO YOUR ODOO INSTANCE

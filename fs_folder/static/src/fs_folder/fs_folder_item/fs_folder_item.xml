@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
 
-    <t t-name="fs_field.FsFieldItem" t-inherit-mode="primary">
+    <t t-name="fs_folder.FsFolderItem" t-inherit-mode="primary">
         <tr class="o_data_row">
             <t t-foreach="props.fieldDef" t-as="field" t-key="field.name">
                 <td
                     t-if="props.showField(field.name)"
-                    class="o_data_cell o_fs_field_item_field o_fs_field_item_name"
+                    class="o_data_cell o_fs_folder_item_field o_fs_folder_item_name"
                     t-on-click="onClick"
                 >
                     <t t-out="field.value(props.record)" t-if="!!field.value" />
                     <span t-esc="props.record[field.name]" t-else="" />
                 </td>
             </t>
-            <td class="o_data_cell o_fs_field_item_button">
+            <td class="o_data_cell o_fs_folder_item_button">
                 <button
-                    class="btn btn-link py-0 px-1 o_fs_field_field_file_button_download"
+                    class="btn btn-link py-0 px-1 o_fs_folder_field_file_button_download"
                     name="action_download"
                     title="Download"
                     t-if="props.record.type === 'file'"
@@ -25,7 +25,7 @@
                 </button>
 
                 <button
-                    class="btn btn-link py-0 px-1 o_fs_field_field_file_button_preview"
+                    class="btn btn-link py-0 px-1 o_fs_folder_field_file_button_preview"
                     name="action_preview"
                     title="Preview"
                     t-if="props.record.type === 'file'"

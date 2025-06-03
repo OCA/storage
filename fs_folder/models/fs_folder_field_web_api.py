@@ -1,5 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 import base64
 import logging
 import urllib
@@ -249,7 +249,7 @@ class FsFolderFieldWebApi(models.AbstractModel):
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
         query_params = urllib.parse.urlencode({"path": path})
         return (
-            f"{base_url}/fs_field/get_file/{res_model}/{res_id}/{field_name}?"
+            f"{base_url}/fs_folder/get_file/{res_model}/{res_id}/{field_name}?"
             f"{query_params}"
         )
 

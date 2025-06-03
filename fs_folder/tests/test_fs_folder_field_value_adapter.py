@@ -1,5 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 import os
 import shutil
 
@@ -7,10 +7,10 @@ from odoo import models
 
 from odoo.addons.fs_storage.rooted_dir_file_system import RootedDirFileSystem
 
-from .common import FsFieldTestCase
+from .common import FsFolderTestCase
 
 
-class TestFsFodlerFieldValueAdapter(FsFieldTestCase):
+class TestFsFodlerFieldValueAdapter(FsFolderTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

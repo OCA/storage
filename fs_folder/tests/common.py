@@ -1,5 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 import shutil
 import tempfile
 
@@ -8,7 +8,7 @@ from odoo_test_helper import FakeModelLoader
 from odoo.addons.base.tests.common import BaseCommon
 
 
-class FsFieldTestCase(BaseCommon):
+class FsFolderTestCase(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

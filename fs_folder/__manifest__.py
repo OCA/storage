@@ -1,14 +1,14 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 {
-    "name": "Fs Field",
-    "summary": """A set of specialized fields to reference and manage content stored"
-    " into external filesystems.""",
+    "name": "Fs Folder",
+    "summary": """A module to link to Odoo records and manage from record forms forlders
+            from external file systems """,
     "version": "18.0.1.0.0",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/fs-content",
+    "website": "https://github.com/OCA/storage",
     "depends": [
         "fs_storage",
     ],
@@ -17,7 +17,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "fs_field/static/src/**/*",
+            "fs_folder/static/src/**/*",
         ],
     },
     "demo": [],

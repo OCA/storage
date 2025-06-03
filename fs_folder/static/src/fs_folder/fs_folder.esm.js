@@ -3,7 +3,7 @@ import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dia
 import {Dropdown} from "@web/core/dropdown/dropdown";
 import {DropdownItem} from "@web/core/dropdown/dropdown_item";
 import {FileUploader} from "@web/views/fields/file_handler";
-import {FsFieldItem} from "./fs_field_item/fs_field_item.esm";
+import {FsFolderItem} from "./fs_folder_item/fs_folder_item.esm";
 import {SimpleDialog} from "../simple_dialog/simple_dialog.esm";
 import {_t} from "@web/core/l10n/translation";
 import {downloadFile} from "@web/core/network/download";
@@ -15,7 +15,7 @@ import {usePreviewIframeViewer} from "../preview_iframe/preview_iframe_hook.esm"
 import {useService} from "@web/core/utils/hooks";
 const {DateTime} = luxon;
 
-export class FsField extends Component {
+export class FsFolder extends Component {
     setup() {
         super.setup();
         this.service = useService(this.constructor.serviceName);
@@ -448,19 +448,19 @@ export class FsField extends Component {
         }
     }
 }
-FsField.serviceName = "fs.field";
-FsField.components = {
+FsFolder.serviceName = "fs.folder";
+FsFolder.components = {
     Dropdown,
     DropdownItem,
     FileUploader,
-    FsFieldItem,
+    FsFolderItem,
 };
-FsField.template = "fs_field.FsField";
-FsField.props = {
+FsFolder.template = "fs_folder.FsFolder";
+FsFolder.props = {
     ...standardFieldProps,
 };
-export const FsFieldField = {
-    component: FsField,
+export const FsFolderField = {
+    component: FsFolder,
 };
 
-registry.category("fields").add("fs_field", FsFieldField);
+registry.category("fields").add("fs_folder", FsFolderField);

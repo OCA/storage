@@ -4,7 +4,7 @@ import {_t} from "@web/core/l10n/translation";
 import {useChildRef} from "@web/core/utils/hooks";
 
 export class SimpleDialog extends Component {
-    static template = "fs_field.SimpleDialog";
+    static template = "fs_folder.SimpleDialog";
     static components = {Dialog};
     static props = {
         close: Function,

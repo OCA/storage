@@ -1,5 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 from __future__ import annotations
 
 import mimetypes
@@ -37,7 +37,7 @@ class FsStream(Stream):
             download_name=filename,
             conditional=True,
             etag=checksum,
-            type="fs_field_content",
+            type="/fs_folder_content",
             size=size,
             last_modified=fields.Datetime.now(),  # TODO should comes from fs
             fs=fs,
@@ -45,7 +45,7 @@ class FsStream(Stream):
         )
 
     def read(self):
-        if self.type == "fs_field_content":
+        if self.type == "/fs_folder_content":
             with self.fs.open(self.path, "rb") as f:
                 return f.read()
         return super().read()
@@ -57,7 +57,7 @@ class FsStream(Stream):
         content_security_policy="default-src 'none'",
         **send_file_kwargs,
     ):
-        if self.type != "fs_field_content":
+        if self.type != "/fs_folder_content":
             return super().get_response(
                 as_attachment=as_attachment, immutable=immutable, **send_file_kwargs
             )

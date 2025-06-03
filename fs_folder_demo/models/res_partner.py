@@ -1,9 +1,9 @@
 # Copyright 2025 Dixmit
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 from odoo import models
 
-from odoo.addons.fs_field import fields as fs_fields
+from odoo.addons.fs_folder import fields as fs_fields
 
 
 class ResPartner(models.Model):

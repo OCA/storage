@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
 
-  <t t-name="fs_field.SimpleDialog">
+  <t t-name="fs_folder.SimpleDialog">
         <Dialog
             size="'md'"
             title="props.title"

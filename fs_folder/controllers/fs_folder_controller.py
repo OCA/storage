@@ -11,9 +11,9 @@ from odoo.tools import str2bool
 _logger = logging.getLogger(__name__)
 
 
-class FsController(http.Controller):
+class FsFolderController(http.Controller):
     @http.route(
-        "/fs_field/get_file/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/get_file/<string:res_model>/<int:res_id>/<string:field_name>",
         type="http",
         auth="user",
         methods=["GET"],
@@ -28,7 +28,7 @@ class FsController(http.Controller):
         return response
 
     @http.route(
-        "/fs_field/get_children/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/get_children/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -42,7 +42,7 @@ class FsController(http.Controller):
         return [{**item, "name": item["name"][len(path) + 1 :]} for item in result]
 
     @http.route(
-        "/fs_field/add_folder/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/add_folder/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -53,7 +53,7 @@ class FsController(http.Controller):
         )
 
     @http.route(
-        "/fs_field/delete/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/delete/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -64,7 +64,7 @@ class FsController(http.Controller):
         )
 
     @http.route(
-        "/fs_field/move/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/move/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -82,7 +82,7 @@ class FsController(http.Controller):
         )
 
     @http.route(
-        "/fs_field/copy/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/copy/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -100,7 +100,7 @@ class FsController(http.Controller):
         )
 
     @http.route(
-        "/fs_field/rename/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/rename/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -115,7 +115,7 @@ class FsController(http.Controller):
         )
 
     @http.route(
-        "/fs_field/upload/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/upload/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],
@@ -131,7 +131,7 @@ class FsController(http.Controller):
         )
 
     @http.route(
-        "/fs_field/initialize/<string:res_model>/<int:res_id>/<string:field_name>",
+        "/fs_folder/initialize/<string:res_model>/<int:res_id>/<string:field_name>",
         type="json",
         auth="user",
         methods=["POST"],

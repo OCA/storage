@@ -3,7 +3,7 @@ import {Dropdown} from "@web/core/dropdown/dropdown";
 import {DropdownItem} from "@web/core/dropdown/dropdown_item";
 import {useService} from "@web/core/utils/hooks";
 
-export class FsFieldItem extends Component {
+export class FsFolderItem extends Component {
     setup() {
         super.setup();
         this.orm = useService("orm");
@@ -30,14 +30,14 @@ export class FsFieldItem extends Component {
         }
     }
 }
-FsFieldItem.template = "fs_field.FsFieldItem";
-FsFieldItem.props = {
+FsFolderItem.template = "fs_folder.FsFolderItem";
+FsFolderItem.props = {
     record: Object,
     fieldDef: Object,
     moreActionDef: Object,
     showField: Function,
 };
-FsFieldItem.components = {
+FsFolderItem.components = {
     Dropdown,
     DropdownItem,
 };

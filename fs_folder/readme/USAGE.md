@@ -18,7 +18,7 @@ parampeters.
 
 ```python
 from odoo import models
-from odoo.addons.fs_field import fields as fs_fields
+from odoo.addons.fs_folder import fields as fs_fields
 
 class MyModel(models.Model):
     _name = 'my.model'
@@ -31,7 +31,7 @@ The new field type comes with a specific way to initialize the field. Even if th
 
 ```python
 
-from odoo.addons.fs_field.fields import FsFolderValue
+from odoo.addons.fs_folder.fields import FsFolderValue
 
 record = self.env['my.model'].create({})
 assert isinstance(record.fs_folder_field, FsFolderValue)
