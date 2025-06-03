@@ -7,6 +7,9 @@
         <field name="model">fs.storage</field>
         <field name="inherit_id" ref="fs_storage.fs_storage_form_view" />
         <field name="arch" type="xml">
+            <field name="directory_path_template" position="after">
+                <field name="add_path_template" />
+            </field>
             <field name="options" position="after">
                 <separator string="Attachment" />
                 <field name="optimizes_directory_path" />

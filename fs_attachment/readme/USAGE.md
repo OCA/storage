@@ -8,6 +8,22 @@ In addition to the common fields available to configure a storage,
 specifics fields are available under the section 'Attachment' to
 configure the way attachments will be stored in the filesystem.
 
+- `Additonal Path Template`: With this option, it is possible to use 
+  the `{db}` placeholder to automatically add the database name to the
+  path. This will make the path different for each database, which can
+  help organize documents when copying the database. The classic case
+  is copying a database from a production environment to a test environment.
+  You can use the `add_path_template` field to configure this as other
+  options. The information is stored at the store_fname level so attachments
+  will still be available even when a database is renamed. Old attachments
+  will be accessible from the old path.
+  ``` ini
+  [fs_storage.fsprod]
+  directory_path_template=my_bucket
+  add_path_template={db}
+  ```
+  => path = my_bucket/{db}
+
 - `Optimizes Directory Path`: This option is useful if you need to
   prevent having too many files in a single directory. It will create a
   directory structure based on the attachment's checksum (with 2 levels

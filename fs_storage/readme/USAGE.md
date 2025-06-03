@@ -42,7 +42,7 @@ follows:
 
 ``` python
 {
-    "directory_path": "/tmp/my_backend",
+    "directory_path_template": "/tmp/my_backend",
     "target_protocol": "odoofs",
     "target_options": {...},
 }
@@ -64,7 +64,7 @@ file as follows:
 [fs_storage.fsprod]
 protocol=s3
 options={"endpoint_url": "https://my_s3_server/", "key": "KEY", "secret": "SECRET"}
-directory_path=my_bucket
+directory_path_template=my_bucket
 ```
 
 To work, a storage.backend record must exist with the code fsprod into
@@ -73,7 +73,7 @@ for the following fields:
 
 - protocol
 - options
-- directory_path
+- directory_path_template
 
 ## Migration from storage_backend
 
@@ -98,3 +98,16 @@ version (V18) of the addon. You should use the methods of the
 fsspec.AbstractFileSystem class instead since they are more flexible and
 powerful. You can access the instance of the fsspec.AbstractFileSystem
 class using the fs property of a fs.storage record.
+
+## Directory Path Template
+It is possible to use the `{db}` placeholder to automatically add the database name to the path.
+This will make the path different for each database, which can help organize documents when 
+copying the database. The classic case is copying a database from a production environment 
+to a test environment.
+Be careful, this path change can prevent the original documents from being found. In the case of
+attachments, it may be preferable to use the `add_path_template` field so that the information
+is stored at the store_fname level.
+``` ini
+[fs_storage.fsprod]
+directory_path_template=my_bucket/{db}
+```

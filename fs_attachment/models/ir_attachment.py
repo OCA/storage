@@ -418,7 +418,8 @@ class IrAttachment(models.Model):
         if self.env["fs.storage"]._must_optimize_directory_path(storage_code):
             # Generate a unique directory path based on the file's hash
             key = os.path.join(key[:2], key[2:4], key)
-        # Generate a unique directory path based on the file's hash
+        # adds the variable part of the path to keep it in the fname. Essential when changing the name of the database, for example.
+        key = os.path.join(self.env["fs.storage"]._computed_part_path(storage_code), key)
         return key
 
     def _build_fs_filename(self):
@@ -701,6 +702,26 @@ class IrAttachment(models.Model):
             _logger.info("moving on the object storage from database")
             self.write({"datas": self.datas})
 
+    def _force_storage_to_db_for_special_fields_normmalized_domain(self, storage):
+        """Return a normalized domain for the given storage code.
+        Useful to find or count attachments that must be moved from the object storage to db.
+        """
+        return AND(
+            (
+                normalize_domain(
+                    [
+                        ("store_fname", "=like", f"{storage}://%"),
+                        # for res_field, see comment in
+                        # _force_storage_to_object_storage
+                        "|",
+                        ("res_field", "=", False),
+                        ("res_field", "!=", False),
+                    ]
+                ),
+                normalize_domain(self._store_in_db_instead_of_object_storage_domain()),
+            )
+        )
+
     @api.model
     def force_storage(self):
         if not self.env["res.users"].browse(self.env.uid)._is_admin():
@@ -727,31 +748,16 @@ class IrAttachment(models.Model):
         """
         storage = self._storage()
         if self._is_storage_disabled(storage):
-            return
+            return "Storage is disabled, cannot force storage to DB."
         if storage not in self._get_storage_codes():
-            return
-
-        domain = AND(
-            (
-                normalize_domain(
-                    [
-                        ("store_fname", "=like", f"{storage}://%"),
-                        # for res_field, see comment in
-                        # _force_storage_to_object_storage
-                        "|",
-                        ("res_field", "=", False),
-                        ("res_field", "!=", False),
-                    ]
-                ),
-                normalize_domain(self._store_in_db_instead_of_object_storage_domain()),
-            )
-        )
+            return "Storage is not configured, cannot force storage to DB."
+        domain = self._force_storage_to_db_for_special_fields_normmalized_domain(storage)
 
         with self._do_in_new_env(new_cr=new_cr) as new_env:
             model_env = new_env["ir.attachment"].with_context(prefetch_fields=False)
             attachment_ids = model_env.search(domain).ids
             if not attachment_ids:
-                return
+                return f"No special attachments to move from {storage} to DB"
             total = len(attachment_ids)
             start_time = time.time()
             _logger.info(
@@ -781,6 +787,7 @@ class IrAttachment(models.Model):
                         total,
                         time.time() - start_time,
                     )
+        return f"Moved {current}/{total} special attachments from {storage} to DB"
 
     @api.model
     def _force_storage_to_object_storage(self, new_cr=False):

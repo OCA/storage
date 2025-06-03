@@ -13,6 +13,19 @@ from .ir_attachment import IrAttachment
 class FsStorage(models.Model):
     _inherit = "fs.storage"
 
+    add_path_template = fields.Char(
+        string="Additonal Path Template",
+        help="""Additional path to the directory. Use {db} to include the database name in the path. e.g: 'prod/{db}'
+        This additional path is stored in the store_fname field. So if it is modified by the configuration (e.g. change of name of the database between production and staging) the attachments remain accessible.
+        Additionally, any modification of the attachment will use this new path and therefore will not change the production data.
+        """
+    )
+
+    add_path = fields.Char(
+        string="Computed Additonal Path",
+        compute="_compute_add_path",
+    )
+
     optimizes_directory_path = fields.Boolean(
         help="If checked, the directory path will be optimized to avoid "
         "too much files into the same directory. This options is used when the "
@@ -93,6 +106,7 @@ class FsStorage(models.Model):
         env_fields = super()._server_env_fields
         env_fields.update(
             {
+                "add_path_template": {},
                 "optimizes_directory_path": {},
                 "autovacuum_gc": {},
                 "base_url": {},
@@ -180,6 +194,15 @@ class FsStorage(models.Model):
                     )
                 ) from e
 
+    def _compute_add_path(self):
+        data = self.get_data_to_format()
+        for record in self:
+            template = record.add_path_template or ''
+            try:
+                record.add_path = template.format(**data)
+            except KeyError:
+                record.add_path = template  # fallback if the format is incorrect
+
     @api.model
     @tools.ormcache()
     def get_storage_code_for_attachments_fallback(self):
@@ -224,6 +247,11 @@ class FsStorage(models.Model):
         ):
             return const_eval(storage.force_db_for_default_attachment_rules)
         return {}
+
+    @api.model
+    @tools.ormcache("code")
+    def _computed_part_path(self, code):
+        return self.sudo().get_by_code(code).add_path
 
     @api.model
     @tools.ormcache("code")

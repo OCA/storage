@@ -127,7 +127,14 @@ class FSStorage(models.Model):
     )
 
     directory_path = fields.Char(
-        help="Relative path to the directory to store the file"
+        string="Computed Directory Path",
+        help="Relative path to the directory to store the file, as root path.",
+        compute="_compute_directory_path",
+    )
+
+    directory_path_template = fields.Char(
+        string="Directory Path Template",
+        help="Relative path to the directory to store the file as root path. Use {db} to include the database name in the path. e.g: 'prod/{db}'"
     )
 
     model_xmlids = fields.Char(
@@ -257,6 +264,22 @@ class FSStorage(models.Model):
                         % {"field": xmlid, "other_storage": other_storages[0].name}
                     )
 
+    def get_data_to_format(self):
+        """ Return the data to format the path. 
+        It is easy to add variables by overloading this method.
+        """
+        return {'db': self.env.cr.dbname}
+
+    #@api.depends('directory_path_template')
+    def _compute_directory_path(self):
+        data = self.get_data_to_format()
+        for record in self:
+            template = record.directory_path_template or ''
+            try:
+                record.directory_path = template.format(**data)
+            except KeyError:
+                record.directory_path = template  # fallback if the format is incorrect
+
     @api.model
     def _get_check_connection_method_selection(self):
         return [
@@ -269,7 +292,7 @@ class FSStorage(models.Model):
         return {
             "protocol": {},
             "options": {},
-            "directory_path": {},
+            "directory_path_template": {},
             "eval_options_from_env": {},
             "model_xmlids": {},
             "field_xmlids": {},
