@@ -22,9 +22,9 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend_ftp
-#: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__display_name
-msgid "Display Name"
-msgstr "Nome visualizzato"
+#: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__x_backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls_explicit
@@ -74,18 +74,8 @@ msgid "FTP security option"
 msgstr ""
 
 #. module: storage_backend_ftp
-#: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__id
-msgid "ID"
-msgstr ""
-
-#. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls
 msgid "Implicit FTP over TLS"
-msgstr ""
-
-#. module: storage_backend_ftp
-#: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: storage_backend_ftp
@@ -132,3 +122,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__tlsv1_2
 msgid "TLSv1_2"
 msgstr ""
+
+#~ msgid "Display Name"
+#~ msgstr "Nome visualizzato"
