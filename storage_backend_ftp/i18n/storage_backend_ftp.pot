@@ -19,6 +19,11 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend_ftp
+#: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__x_backend_type_env_default
+msgid "Backend Type Env Default"
+msgstr ""
+
+#. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls_explicit
 msgid "Explicit FTP over TLS"
 msgstr ""
