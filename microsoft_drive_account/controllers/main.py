@@ -12,6 +12,23 @@ from odoo.addons.microsoft_account.controllers import main
 
 
 class MicrosoftAuth(main.MicrosoftAuth):
+    @http.route("/ms_drive_account/status", type="json", auth="user", methods=["POST"])
+    def check_user_connected(self, from_url=None, **kwargs):
+        """Check if the user is connected to Microsoft Drive.
+
+        This route is called to verify if the user has a valid connection
+        to Microsoft Drive before performing any operations that require
+        access to the user's Microsoft Drive account from the User Interface.
+
+        The function returns a dictionary with the connection status and
+        a url to redirect the user to the Microsoft Drive authentication
+        page if they are not connected.
+        """
+        return {
+            "status": request.env.user.microsoft_drive_status,
+            "url": request.env.user.get_drive_authentication_url(from_url=from_url),
+        }
+
     @http.route()
     def oauth2callback(self, **kw):
         # we need to handle the case where the user is redirected to the

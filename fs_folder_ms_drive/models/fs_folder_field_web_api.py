@@ -61,3 +61,19 @@ class FsFolderFieldWebApi(models.AbstractModel):
         item_info = info.get("item_info")
         rooted_file_path = fs.sep.join((fs.path, path))
         return root_fs.preview(rooted_file_path, item_id=item_info.get("id"))
+
+    @api.model
+    def is_ms_drive(self, res_id, res_model, field_name):
+        """
+        Check if the field is a Microsoft Drive field.
+        """
+        self._check_field_access(res_id, res_model, field_name, "read")
+        field, record = self._get_field_and_record(res_id, res_model, field_name)
+        fs = None
+        if field.type == "fs_folder":
+            value = record[field_name]
+            if value:
+                fs = value.fs
+            else:
+                fs = field.get_fs(record)
+        return fs and self._is_ms_drive(fs)

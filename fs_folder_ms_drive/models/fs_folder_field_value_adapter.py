@@ -41,8 +41,11 @@ class FsFolderFieldValueAdapter(models.AbstractModel):
         """
         ref, storage_code = super()._parse_fs_folder_value(stored_value, field, record)
         if ref:
-            fs = record.env["fs.storage"].get_fs_by_code(storage_code)
-            if self._is_msgraph_folder(fs):
+            fs = record.env["fs.storage"].sudo().get_fs_by_code(storage_code)
+            if (
+                self._is_msgraph_folder(fs)
+                and self.env.user.microsoft_drive_status == "connected"
+            ):
                 fs_info = fs.info(path=ref, item_id=ref, details=False)
                 ref = fs_info.get("name")
         return ref, storage_code

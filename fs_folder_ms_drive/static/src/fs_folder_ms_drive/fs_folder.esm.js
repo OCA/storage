@@ -1,4 +1,4 @@
-import {useState, useSubEnv} from "@odoo/owl";
+import {onWillStart, useState, useSubEnv} from "@odoo/owl";
 import {FsFolder} from "@fs_folder/fs_folder/fs_folder.esm";
 import {PreviewIframe} from "../components/preview_iframe.esm";
 import {_t} from "@web/core/l10n/translation";
@@ -26,6 +26,22 @@ patch(FsFolder.prototype, {
             url: null,
             show: false,
         });
+        onWillStart(this.onWillStart);
+    },
+
+    async onWillStart() {
+        if (this.isMSGD) {
+            this.ensureMsDriveAccountConnected();
+        }
+    },
+
+    async ensureMsDriveAccountConnected() {
+        const result = await rpc("/ms_drive_account/status", {
+            from_url: window.location.href,
+        });
+        if (result.status === "not_connected") {
+            window.location.assign(result.url);
+        }
     },
 
     get isMSGD() {
@@ -105,6 +121,17 @@ patch(FsFolder.prototype, {
                 }
             });
         }
+    },
+
+    async onClickInitialize() {
+        const record = this.props.record;
+        const result = await rpc(
+            `/fs_folder_ms_drive/is_ms_drive/${record.resModel}/${record.resId}/${this.props.name}`
+        );
+        if (result.is_ms_drive) {
+            this.ensureMsDriveAccountConnected();
+        }
+        return super.onClickInitialize();
     },
 
     onCloseUrlPreview() {
