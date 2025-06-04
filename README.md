@@ -20,7 +20,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[attachment_db_by_checksum](attachment_db_by_checksum/) | 14.0.1.0.0 | [![eLBati](https://github.com/eLBati.png?size=30px)](https://github.com/eLBati) | Allow to identify database attachments through their hash, avoiding duplicates
+[attachment_db_by_checksum](attachment_db_by_checksum/) | 14.0.1.0.0 | <a href='https://github.com/eLBati'><img src='https://github.com/eLBati.png' width='32' height='32' style='border-radius:50%;' alt='eLBati'/></a> | Allow to identify database attachments through their hash, avoiding duplicates
 [storage_backend](storage_backend/) | 14.0.2.0.6 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_ftp](storage_backend_ftp/) | 14.0.1.1.0 |  | Implement FTP Storage
 [storage_backend_s3](storage_backend_s3/) | 14.0.2.1.0 |  | Implement amazon S3 Storage
@@ -33,7 +33,7 @@ addon | version | maintainers | summary
 [storage_image_product_brand](storage_image_product_brand/) | 14.0.2.0.0 |  | Link images to product brands
 [storage_image_product_brand_import](storage_image_product_brand_import/) | 14.0.1.0.1 |  | Helper for importing image for csv base on url
 [storage_image_product_import](storage_image_product_import/) | 14.0.1.0.0 |  | Helper for importing image for csv base on url
-[storage_image_product_pos](storage_image_product_pos/) | 14.0.1.1.0 | [![hparfr](https://github.com/hparfr.png?size=30px)](https://github.com/hparfr) [![pierrickbrun](https://github.com/pierrickbrun.png?size=30px)](https://github.com/pierrickbrun) | Link images to products and categories inside POS
+[storage_image_product_pos](storage_image_product_pos/) | 14.0.1.1.0 | <a href='https://github.com/hparfr'><img src='https://github.com/hparfr.png' width='32' height='32' style='border-radius:50%;' alt='hparfr'/></a> <a href='https://github.com/pierrickbrun'><img src='https://github.com/pierrickbrun.png' width='32' height='32' style='border-radius:50%;' alt='pierrickbrun'/></a> | Link images to products and categories inside POS
 [storage_import_image_advanced](storage_import_image_advanced/) | 14.0.1.0.4 |  | Import product images using CSV
 [storage_media](storage_media/) | 14.0.2.2.0 |  | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 14.0.2.3.0 |  | Link media to products and categories
