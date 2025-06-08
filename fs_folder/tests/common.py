@@ -25,6 +25,10 @@ class FsFolderTestCase(BaseCommon):
         cls.fs_test_model_related = cls.env[FsTestModelRelated._name]
 
         cls.temp_dir = tempfile.mkdtemp()
+        # Disable exisiting backend used as default for fs contents
+        cls.env["fs.storage"].search([]).filtered(
+            "use_as_default_for_fs_contents"
+        ).unlink()
         cls.temp_backend = cls.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
