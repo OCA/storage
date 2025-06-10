@@ -94,6 +94,16 @@ class FsContentValue:
         """
         return self._record.env["fs.storage"]._get_root_filesystem(self.fs).protocol
 
+    @property
+    def storage(self) -> FsStorage:
+        """
+        The FsStorage instance for the folder.
+
+        This is the FsStorage instance for the folder. It can be used to
+        access the properties of the storage.
+        """
+        return self._record.env["fs.storage"].get_by_code(self.storage_code)
+
     def initialize(self):
         """This method is called to initialize the field value if it is not already set.
 
