@@ -101,7 +101,7 @@ class FsContentValue:
         """
         if self._stored_value:
             raise ValueError(f"Value already set: {self}")
-        return self._field.create_value(self._record)
+        return self._field.create_value(self._record)[0]
 
     def __repr__(self) -> str:
         return (

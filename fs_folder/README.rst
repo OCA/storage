@@ -1,6 +1,6 @@
-========
-Fs Field
-========
+=========
+Fs Folder
+=========
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,14 +16,14 @@ Fs Field
 .. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Ffs--content-lightgray.png?logo=github
-    :target: https://github.com/OCA/fs-content/tree/18.0/fs_field
-    :alt: OCA/fs-content
+.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
+    :target: https://github.com/OCA/storage/tree/18.0/fs_folder
+    :alt: OCA/storage
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/fs-content-18-0/fs-content-18-0-fs_field
+    :target: https://translation.odoo-community.org/projects/storage-18-0/storage-18-0-fs_folder
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/fs-content&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -42,8 +42,8 @@ Use Cases / Context
 
 Some organizations have a need to manage documents in an external
 filesystem next to odoo records. This module provides a generic way to
-do it through the use a specialized field type that can be used in any
-Odoo model.
+do it through the use of a specialized field ``FsFolder`` that can be
+used in any Odoo model.
 
 Usage
 =====
@@ -82,7 +82,7 @@ declaration requires no parampeters.
 .. code:: python
 
    from odoo import models
-   from odoo.addons.fs_field import fields as fs_fields
+   from odoo.addons.fs_folder import fields as fs_fields
 
    class MyModel(models.Model):
        _name = 'my.model'
@@ -98,7 +98,7 @@ or ``None`` in a null context.
 .. code:: python
 
 
-   from odoo.addons.fs_field.fields import FsFolderValue
+   from odoo.addons.fs_folder.fields import FsFolderValue
 
    record = self.env['my.model'].create({})
    assert isinstance(record.fs_folder_field, FsFolderValue)
@@ -301,18 +301,13 @@ In addition you can:
   abstract model.
 - extend/override the widget itself
 
-Known issues / Roadmap
-======================
-
-- Add a dedicated field to reference a specific Document
-
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/fs-content/issues>`_.
+Bugs are tracked on `GitHub Issues <https://github.com/OCA/storage/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/fs-content/issues/new?body=module:%20fs_field%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/storage/issues/new?body=module:%20fs_folder%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -328,6 +323,7 @@ Contributors
 ------------
 
 - Laurent Mignon laurent.mignon@acsone.eu
+- Enric Tobella Alomar enric.tobella@dixmit.com
 
 Other credits
 -------------
@@ -358,6 +354,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-lmignon| 
 
-This module is part of the `OCA/fs-content <https://github.com/OCA/fs-content/tree/18.0/fs_field>`_ project on GitHub.
+This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/18.0/fs_folder>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
