@@ -1,4 +1,5 @@
 import {Component, markup, useEffect, useRef, useState, useSubEnv} from "@odoo/owl";
+import {useBus, useService} from "@web/core/utils/hooks";
 import {ConfirmationDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
 import {Dropdown} from "@web/core/dropdown/dropdown";
 import {DropdownItem} from "@web/core/dropdown/dropdown_item";
@@ -12,7 +13,6 @@ import {registry} from "@web/core/registry";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
 import {useDropzone} from "@web/core/dropzone/dropzone_hook";
 import {usePreviewIframeViewer} from "../preview_iframe/preview_iframe_hook.esm";
-import {useService} from "@web/core/utils/hooks";
 const {DateTime} = luxon;
 
 export class FsFolder extends Component {
@@ -23,6 +23,8 @@ export class FsFolder extends Component {
         this.dialog = useService("dialog");
         this.fileViewer = usePreviewIframeViewer();
         this.state = useState({path: [], data: [], copy: false, sort: [], hide: []});
+        this.notificationService = useService("fs_folder_notification");
+        useBus(this.notificationService.bus, "folder_modified", this.onFolderModified);
         useEffect(
             () => {
                 // Initialize the fields as we are changing the record
@@ -44,6 +46,16 @@ export class FsFolder extends Component {
                 this.onClickDownload(record);
             },
         });
+    }
+    onFolderModified(event) {
+        const {resId, resModel, fieldName} = event.detail;
+        if (
+            resId === this.props.record.resId &&
+            resModel === this.props.record.resModel &&
+            fieldName === this.props.name
+        ) {
+            this.setData();
+        }
     }
     async onClickInitialize() {
         await this.service.initialize(this.props.record, this.props.name);
