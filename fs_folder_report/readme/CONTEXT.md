@@ -1,0 +1,2 @@
+This module addresses the need of being able to store generated reports by Odoo into a folder structure associated with a specific record. This module is the companion to the `fs_folder` module, which allows for the creation and management of folder linked to records in Odoo.
+It is particularly useful in scenarios where reports need to be organized and accessed easily, such as in accounting, project management, or any other domain where documents need to be stored systematically in an external file system.

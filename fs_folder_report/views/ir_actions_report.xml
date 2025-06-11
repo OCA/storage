@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="ir_actions_report_form_view">
+        <field name="model">ir.actions.report</field>
+        <field name="inherit_id" ref="base.act_report_xml_view" />
+        <field name="arch" type="xml">
+            <field name="attachment" position="after">
+                <field name="is_save_in_fs_folder_possible" invisible="1" />
+                <field
+                    name="save_in_fs_folder"
+                    invisible="not is_save_in_fs_folder_possible or not attachment"
+                />
+                <field
+                    name="fs_folder_field_id"
+                    invisible="not save_in_fs_folder"
+                    required="save_in_fs_folder"
+                    domain="[('model', '=', model), ('ttype', '=', 'fs_folder')]"
+                />
+                <field name="fs_folder_path" invisible="not save_in_fs_folder" />
+            </field>
+        </field>
+    </record>
+</odoo>
