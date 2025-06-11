@@ -1,3 +1,4 @@
 odoo_test_helper
 requests_mock
 vcrpy-unittest
+odoo-addon-fs-folder @ git+https://github.com/OCA/storage@refs/pull/480/head#subdirectory=fs_folder
