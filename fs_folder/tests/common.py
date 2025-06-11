@@ -5,13 +5,16 @@ import tempfile
 
 from odoo_test_helper import FakeModelLoader
 
+from odoo.tests.common import TransactionCase
+
 from odoo.addons.base.tests.common import BaseCommon
 
 
-class FsFolderTestCase(BaseCommon):
+class FsFolderTestCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env["base"].with_context(**BaseCommon.default_env_context()).env
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
         cls.addClassCleanup(cls.loader.restore_registry)

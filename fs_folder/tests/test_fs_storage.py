@@ -2,14 +2,16 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo.exceptions import UserError, ValidationError
+from odoo.tests.common import TransactionCase
 
 from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestFsStorage(BaseCommon):
+class TestFsStorage(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env["base"].with_context(**BaseCommon.default_env_context()).env
         cls.backend = cls.env.ref("fs_storage.fs_storage_demo")
 
     def test_is_fs_name_valid(self):
