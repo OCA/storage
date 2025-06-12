@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 import os
 import shutil
+from importlib import resources as importlib_resources
 from unittest import mock
 
 from odoo.tests.common import RecordCapturer
@@ -55,6 +56,26 @@ class TestFsFodlerFieldValueAdapter(FsFolderTestCase):
                 """,
             }
         )
+        cls.pdf_filename_1 = importlib_resources.files(
+            "odoo.addons.fs_folder_report.tests"
+        ).joinpath("dummy.pdf")
+        with cls.pdf_filename_1.open("rb") as pdf:
+            cls.pdf_content_1 = pdf.read()
+        wkhtmltopdf_patcher = mock.patch.object(
+            cls.report.__class__, "_run_wkhtmltopdf"
+        )
+        cls.mocked_wkhtmltopdf = wkhtmltopdf_patcher.start()
+        cls.mocked_wkhtmltopdf.return_value = cls.pdf_content_1
+        get_wkhtmltopdf_state_patcher = mock.patch.object(
+            cls.report.__class__, "get_wkhtmltopdf_state"
+        )
+        cls.mocked_get_wkhtmltopdf_state = get_wkhtmltopdf_state_patcher.start()
+        cls.mocked_get_wkhtmltopdf_state.return_value = "ok"
+
+        @cls.addClassCleanup
+        def stop_mock():
+            wkhtmltopdf_patcher.stop()
+            get_wkhtmltopdf_state_patcher.stop()
 
     def tearDown(self):
         super().tearDown()
