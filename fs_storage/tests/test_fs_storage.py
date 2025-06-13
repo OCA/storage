@@ -150,3 +150,9 @@ class TestFSStorage(TestFSStorageCase):
             ),
             log.output[0],
         )
+
+    def test_directory_path_substitution(self):
+        template = "dir/{db_name}"
+        self.backend.directory_path = template
+        # Assert different (db name should be replaced)
+        self.assertNotEqual(template, self.backend.get_directory_path())
