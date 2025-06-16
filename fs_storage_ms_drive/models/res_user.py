@@ -14,7 +14,7 @@ class ResUsers(models.Model):
         return {
             "client_id": get_param("microsoft_drive_client_id"),
             "client_secret": get_param("microsoft_drive_client_secret"),
-            "scope": get_param("drive_microsoft_client_scope"),
+            "scope": self.env["microsoft.service"]._get_drive_scope(),
             "token_endpoint": get_param("microsoft_account.token_endpoint"),
         }
 

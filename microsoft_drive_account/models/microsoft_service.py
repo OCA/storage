@@ -7,6 +7,7 @@ from odoo import api, models
 class MicrosoftService(models.AbstractModel):
     _inherit = "microsoft.service"
 
+    @api.model
     def _get_drive_scope(self):
         ICP = self.env["ir.config_parameter"].sudo()
         scope = ICP.get_param(
