@@ -1,45 +1,51 @@
 # models/ir_attachment.py
 import logging
+import os
 
-from odoo import models
-from odoo.addons.fs_attachment.models.ir_attachment import AttachmentFileLikeAdapter
+from odoo import models, api
 
 _logger = logging.getLogger(__name__)
-
-
-class AttachmentFileLikeAdapterWithMetadata(AttachmentFileLikeAdapter):
-    """Enhanced adapter that passes metadata when opening files for writing."""
-
-    def _open_fs_file(self, mode):
-
-        print("OPENFILE")
-        """Override to pass metadata when opening files."""
-        kwargs = {}
-        if 'w' in mode and self.attachment.mimetype:
-            kwargs['metadata'] = {'contentType': self.attachment.mimetype}
-            _logger.debug(
-                "Opening file %s with content-type metadata: %s",
-                self.fs_filename,
-                self.attachment.mimetype
-            )
-
-        return self.fs.open(self.fs_filename, mode, **kwargs)
 
 
 class IrAttachment(models.Model):
     _inherit = "ir.attachment"
 
+    def _get_datas_related_values(self, data, mimetype):
+        """Override to pass mimetype to storage operations."""
+        # Store mimetype in context for _storage_file_write to access
+        if mimetype:
+            self = self.with_context(attachment_mimetype=mimetype)
+
+        # Call parent method which will eventually call _storage_file_write
+        return super()._get_datas_related_values(data, mimetype)
+
+    @api.model
+    def _storage_file_write(self, bin_data: bytes) -> str:
+        """Write the file to the filesystem storage with content-type metadata."""
+        storage = self.env.context.get("storage_location") or self._storage()
+        fs = self._get_fs_storage_for_code(storage)
+        path = self._get_fs_path(storage, bin_data)
+        dirname = os.path.dirname(path)
+        if not fs.exists(dirname):
+            fs.makedirs(dirname)
+        fname = f"{storage}://{path}"
+        kwargs = self._storage_write_option(fs)
+
+        # Get mimetype from context
+        mimetype = self.env.context.get('attachment_mimetype')
+
+        if mimetype:
+            kwargs['content_type'] = mimetype
+
+        with fs.open(path, "wb", **kwargs) as f:
+            f.write(bin_data)
+        self._fs_mark_for_gc(fname)
+        return fname
+
     def _set_content_type_metadata(self):
         """Set content-type metadata on external storage if supported."""
-        if not self:
-            return
-
-        for attachment in self:
-            if not attachment.fs_storage_id or not attachment.mimetype:
-                continue
-
+        for attachment in self.filtered(lambda a: a.fs_storage_id and a.mimetype):
             try:
-                # Use the storage's setxattrs method which handles the filesystem routing
                 result = attachment.fs_storage_id.setxattrs(
                     attachment.fs_filename,
                     content_type=attachment.mimetype
@@ -53,18 +59,8 @@ class IrAttachment(models.Model):
         """Override to set content-type metadata when mimetype changes."""
         result = super().write(vals)
 
-        # Only update metadata if mimetype changed and we have FS attachments
+        # Set metadata when mimetype changes on existing files
         if 'mimetype' in vals:
-            fs_attachments = self.filtered('fs_storage_id')
-            if fs_attachments:
-                fs_attachments._set_content_type_metadata()
+            self._set_content_type_metadata()
 
         return result
-
-    def open(self, mode="rb", new_version=False, **kwargs):
-        """Override to use our custom adapter with metadata support."""
-        if self.fs_storage_id:
-            return AttachmentFileLikeAdapterWithMetadata(
-                self, mode=mode, new_version=new_version, **kwargs
-            )
-        return super().open(mode, new_version, **kwargs)

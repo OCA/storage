@@ -10,7 +10,6 @@ class FSStorage(models.Model):
     _inherit = "fs.storage"
 
     def setxattrs(self, path, **kwargs):
-        print("SETXATTRS")
         """Set extended attributes/metadata on a file if supported by the filesystem."""
         try:
             fs_system = self.fs
