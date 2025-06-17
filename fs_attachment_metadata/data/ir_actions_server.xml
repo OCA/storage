@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Server Action for setting content-type metadata -->
+        <record id="action_set_content_type_metadata" model="ir.actions.server">
+            <field name="name">Set Content-Type Metadata</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="binding_model_id" ref="base.model_ir_attachment"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                records._set_content_type_metadata()
+            </field>
+        </record>
+    </data>
+</odoo>
