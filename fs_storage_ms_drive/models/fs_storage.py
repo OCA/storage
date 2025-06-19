@@ -1,7 +1,7 @@
 from datetime import datetime as dt
 from functools import partial
 
-from odoo import api, models
+from odoo import SUPERUSER_ID, api, models
 from odoo.modules.registry import Registry
 
 
@@ -39,11 +39,17 @@ class FSStorage(models.Model):
         self, res, client=None, db_name=None, user_id=None
     ):
         with Registry(db_name).cursor() as cr:
-            env = api.Environment(cr, user_id, {})
-            token = client.parse_response_token(res)
-            env.user.microsoft_drive_token = token.get("access_token", False)
-            env.user.microsoft_drive_rtoken = token.get("refresh_token", False)
-            ts = token.get("expires_at", False)
-            valid_untill = dt.fromtimestamp(ts) if ts else False
-            env.user.microsoft_drive_token_validity = valid_untill
+            env = api.Environment(cr, SUPERUSER_ID, {})
+            user = env["res.users"].browse(user_id)
+            if user:
+                token = client.parse_response_token(res)
+                ts = token.get("expires_at", False)
+                valid_untill = dt.fromtimestamp(ts) if ts else False
+                user.write(
+                    {
+                        "microsoft_drive_token": token.get("access_token", False),
+                        "microsoft_drive_rtoken": token.get("refresh_token", False),
+                        "microsoft_drive_token_validity": valid_untill,
+                    }
+                )
         return res
