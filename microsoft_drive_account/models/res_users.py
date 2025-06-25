@@ -29,14 +29,14 @@ class ResUsers(models.Model):
     def _set_microsoft_drive_auth_tokens(
         self, access_token: str, refresh_token: str, ttl: float
     ):
+        token_validity = False
+        if access_token and ttl:
+            token_validity = fields.Datetime.now() + timedelta(seconds=ttl)
         self.write(
             {
                 "microsoft_drive_rtoken": refresh_token,
                 "microsoft_drive_token": access_token,
-                "microsoft_drive_token_validity": fields.Datetime.now()
-                + timedelta(seconds=ttl)
-                if ttl
-                else False,
+                "microsoft_drive_token_validity": token_validity,
             }
         )
 
