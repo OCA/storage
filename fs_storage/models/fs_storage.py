@@ -273,6 +273,7 @@ class FSStorage(models.Model):
             "eval_options_from_env": {},
             "model_xmlids": {},
             "field_xmlids": {},
+            "check_connection_method": {},
         }
 
     def write(self, vals):
