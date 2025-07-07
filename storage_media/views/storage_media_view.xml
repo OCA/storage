@@ -3,7 +3,7 @@
     <record id="storage_media_view_tree" model="ir.ui.view">
         <field name="model">storage.media</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-muted="not active">
                 <field name="name" />
                 <field name="media_type_id" />
             </list>
@@ -22,13 +22,43 @@
                         type="action"
                     />
                 </header>
-                <group>
-                    <field name="data" filename="name" />
-                    <field name="url" readonly="True" widget="url" />
-                    <field name="name" />
-                    <field name="media_type_id" />
-                </group>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        invisible="active"
+                    />
+                    <group>
+                        <field name="data" filename="name" />
+                        <field name="url" readonly="True" widget="url" />
+                        <field name="name" />
+                        <field name="media_type_id" />
+                    </group>
+                </sheet>
             </form>
+        </field>
+    </record>
+    <record id="storage_media_view_search" model="ir.ui.view">
+        <field name="model">storage.media</field>
+        <field name="arch" type="xml">
+            <search string="Storage Media">
+                <field name="name" />
+                <field name="media_type_id" />
+                <field name="url" />
+                <separator />
+                <filter
+                    string="All"
+                    name="all"
+                    domain="['|', ('active', '=', False), ('active', '=', True)]"
+                />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+            </search>
         </field>
     </record>
 
