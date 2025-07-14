@@ -24,6 +24,17 @@ msgid "Active"
 msgstr ""
 
 #. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
+msgid "All"
+msgstr ""
+
+#. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
+msgid "Archived"
+msgstr ""
+
+#. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Cancel"
 msgstr ""
@@ -204,6 +215,7 @@ msgstr ""
 #: model:ir.model,name:storage_media.model_storage_media
 #: model:ir.ui.menu,name:storage_media.storage_media_menu
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
 msgid "Storage Media"
 msgstr ""
 
