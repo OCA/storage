@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-04-01 17:08+0000\n"
+"PO-Revision-Date: 2025-07-15 11:25+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__url_path
@@ -29,13 +29,13 @@ msgstr "Attivo"
 #. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 #. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
 msgid "Archived"
-msgstr ""
+msgstr "In archivio"
 
 #. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
