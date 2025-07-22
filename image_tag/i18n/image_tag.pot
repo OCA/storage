@@ -71,6 +71,11 @@ msgid "Name"
 msgstr ""
 
 #. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__server_env_defaults
+msgid "Server Env Defaults"
+msgstr ""
+
+#. module: image_tag
 #: model:ir.model.fields,field_description:image_tag.field_image_tag__tech_name
 msgid "Tech Name"
 msgstr ""
