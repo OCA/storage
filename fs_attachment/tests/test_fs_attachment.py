@@ -469,3 +469,21 @@ class TestFSAttachment(TestFSAttachmentCommon):
         attachment.write({"name": "file2.txt"})
         self.assertTrue(attachment.fs_filename.startswith("file2-"))
         self.assertTrue(attachment.fs_filename.endswith(".txt"))
+
+    def test_store_in_db_instead_of_object_storage_domain(self):
+        IrAttachment = self.env["ir.attachment"]
+        self.patch(
+            type(IrAttachment),
+            "_get_storage_force_db_config",
+            lambda self: {"text/plain": 0, "image/png": 100},
+        )
+        self.assertEqual(
+            self.env["ir.attachment"]._store_in_db_instead_of_object_storage_domain(),
+            [
+                "|",
+                ("mimetype", "=like", "text/plain%"),
+                "&",
+                ("mimetype", "=like", "image/png%"),
+                ("file_size", "<=", 100),
+            ],
+        )
