@@ -176,7 +176,8 @@ class IrAttachment(models.Model):
             part = [("mimetype", "=like", "{}%".format(mimetype_key))]
             if limit:
                 part = AND([part, [("file_size", "<=", limit)]])
-            domain = OR([domain, part])
+            # OR simplifies to [(1, '=', 1)] if a domain being OR'ed is empty
+            domain = OR([domain, part]) if domain else part
         return domain
 
     def _store_in_db_instead_of_object_storage(self, data, mimetype):
