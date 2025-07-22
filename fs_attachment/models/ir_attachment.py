@@ -737,8 +737,17 @@ class IrAttachment(models.Model):
         if not storage:
             storage = self._storage()
         if self._is_storage_disabled(storage):
+            _logger.warning(
+                "Storage '%s' is disabled, skipping migration of attachments to DB",
+                storage,
+            )
             return
         if storage not in self._get_storage_codes():
+            _logger.warning(
+                "Storage '%s' is not configured, "
+                "skipping migration of attachments to DB",
+                storage,
+            )
             return
 
         domain = AND(
