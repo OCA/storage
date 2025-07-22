@@ -716,7 +716,9 @@ class IrAttachment(models.Model):
         self._force_storage_to_object_storage()
 
     @api.model
-    def force_storage_to_db_for_special_fields(self, new_cr=False):
+    def force_storage_to_db_for_special_fields(
+        self, new_cr=False, storage: str | None = None
+    ):
         """Migrate special attachments from Object Storage back to database
 
         The access to a file stored on the objects storage is slower
@@ -730,7 +732,8 @@ class IrAttachment(models.Model):
 
         It is not called anywhere, but can be called by RPC or scripts.
         """
-        storage = self._storage()
+        if not storage:
+            storage = self._storage()
         if self._is_storage_disabled(storage):
             return
         if storage not in self._get_storage_codes():
@@ -760,7 +763,7 @@ class IrAttachment(models.Model):
             total = len(attachment_ids)
             start_time = time.time()
             _logger.info(
-                "Moving %d attachments from %s to" " DB for fast access", total, storage
+                "Moving %d attachments from %s to DB for fast access", total, storage
             )
             current = 0
             for attachment_id in attachment_ids:
