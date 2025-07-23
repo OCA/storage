@@ -33,6 +33,11 @@ msgid "Check Connection Method"
 msgstr ""
 
 #. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_default
+msgid "Check Connection Method Env Default"
+msgstr ""
+
+#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr ""
@@ -325,6 +330,7 @@ msgstr "服务器环境默认值"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_check_connection_method_env_default
 msgid ""
 "Set a method if you want the connection to remote to be checked every time "
 "the storage is used, in order to remove the obsolete connection from the "
@@ -429,6 +435,11 @@ msgstr ""
 "此列表是fsspec库支持的（见 https://filesystem-spec.readthedocs.io/en/"
 "latest）。默认添加了一个文件系统协议，指的是Odoo本地文件系统。\n"
 "请注意，根据协议，某些选项必须通过选项字段提供。"
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_is_editable
+msgid "X Check Connection Method Env Is Editable"
+msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
