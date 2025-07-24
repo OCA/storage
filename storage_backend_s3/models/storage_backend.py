@@ -4,27 +4,9 @@
 # @author Simone Orsi <simone.orsi@camptocamp.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import logging
-
-import boto3
-
 from odoo import fields, models
 
-_logger = logging.getLogger(__name__)
-
-
-def _load_aws_regions():
-    _logger.info("Loading available AWS regions")
-    session = boto3.session.Session()
-    return [
-        (region, region.replace("-", " ").capitalize())
-        for region in session.get_available_regions("s3")
-    ]
-
-
-# AWS regions won't change that often, fine to retrieve them at instance load.
-# Also, this prevents to call AWS every time the selection list is accessed.
-AWS_REGIONS = _load_aws_regions()
+from ..regions import AWS_REGIONS
 
 
 class StorageBackend(models.Model):
