@@ -73,9 +73,7 @@ class FsStream(Stream):
             f = self.fs_attachment.open("rb")
             res = _send_file(f, **send_file_kwargs)
         else:
-            x_accel_redirect = (
-                f"/{self.fs_attachment.fs_storage_code}{self.fs_attachment.fs_url_path}"
-            )
+            x_accel_redirect = self.fs_attachment._get_x_accel_redirect_path()
             send_file_kwargs["use_x_sendfile"] = True
             res = _send_file("", **send_file_kwargs)
             # nginx specific headers
