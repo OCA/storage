@@ -3,3 +3,4 @@ fsspec>=2024.5.0
 fsspec>=2025.3.0
 paramiko
 python_slugify
+s3fs
