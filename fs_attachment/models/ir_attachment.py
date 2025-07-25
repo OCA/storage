@@ -484,6 +484,7 @@ class IrAttachment(models.Model):
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
             # of ir_attachment prevent normal write on store_fname
+            # flake8: noqa: E231
             attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
 
@@ -674,6 +675,11 @@ class IrAttachment(models.Model):
     def _get_storage_codes(self):
         """Get the list of filesystem storage active in the system"""
         return self.env["fs.storage"].sudo().get_storage_codes()
+
+    def _get_x_accel_redirect_path(self):
+        """Get the path to use for X-Accel-Redirect"""
+        self.ensure_one()
+        return self.env["fs.storage"]._get_x_accel_redirect_path(self)
 
     ################################
     # useful methods for migration #
