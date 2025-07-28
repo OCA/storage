@@ -1,6 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from pathlib import Path
 
 import fsspec.asyn
 
@@ -38,37 +37,42 @@ class FsStorage(models.Model):
         )
         return fields
 
-    @api.model
-    def _get_x_accel_redirect_path(self, attachment: IrAttachment):
-        """Get the path to use for X-Accel-Redirect
+    def _get_x_accel_redirect_base_url(
+        self, attachment: IrAttachment, raise_if_not_found: bool = True
+    ) -> str:
+        x_accel_base_url = super()._get_x_accel_redirect_base_url(
+            attachment, raise_if_not_found=False
+        )
+        if not x_accel_base_url:
+            root_fs = self._get_root_filesystem(self.fs)
+            s3_client = root_fs.s3 if hasattr(root_fs, "s3") else None
+            if s3_client:
+                x_accel_base_url = s3_client.meta.endpoint_url
+        if not x_accel_base_url:
+            return super()._get_x_accel_redirect_base_url(
+                attachment, raise_if_not_found=raise_if_not_found
+            )
+        return x_accel_base_url.rstrip("/")
 
-        The path always starts with the storage code as prefix and then the
-        path to use to access the file in the storage.
-        The use of the storage code as prefix is to ensure that you can
-        define an internal location into your reverse proxy
-        (nginx, apache, etc.) to serve the file.
-        """
-        path = super()._get_x_accel_redirect_path(attachment)
-        fs, storage_code, file_path = attachment._get_fs_parts()
-        root_fs = self.env["fs.storage"]._get_root_filesystem(fs)
-        fs_storage = self.sudo().get_by_code(storage_code)
-        if fs_storage.s3_uses_signed_url_for_x_accel_redirect and hasattr(
-            root_fs, "s3"
-        ):
-            # for s3 storage, we use a signed URL
+    def _get_x_accel_redirect_sub_path(self, attachment: IrAttachment) -> str:
+        fs, _storage_code, file_path = attachment._get_fs_parts()
+        root_fs = self._get_root_filesystem(fs)
+        if self.s3_uses_signed_url_for_x_accel_redirect and hasattr(root_fs, "s3"):
+            # for S3 storage, we use a signed URL
             s3_client = root_fs.s3
             url = self._s3_call_generate_presigned_url(
                 s3_client,
                 "get_object",
-                Params={"Bucket": fs_storage.directory_path, "Key": file_path},
-                ExpiresIn=fs_storage.s3_signed_url_expiration,
+                Params={"Bucket": self.directory_path, "Key": file_path},
+                ExpiresIn=self.s3_signed_url_expiration,
             )
             # exclude the endpoint_url from the path
             endpoint_url = s3_client.meta.endpoint_url
-            url_path = url.replace(endpoint_url, "").lstrip("/")
-            path = Path("/") / storage_code / url_path
-        return str(path)
+            return url.replace(endpoint_url, "").lstrip("/")
+        else:
+            return super()._get_x_accel_redirect_sub_path(attachment)
 
+    @api.model
     def _s3_call_generate_presigned_url(self, s3_client, *args, **kwargs):
         """Generate a presigned URL for S3 operations."""
         # s3fs uses aiobotocore as s3 client, which is asynchronous.

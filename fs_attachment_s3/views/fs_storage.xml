@@ -7,7 +7,7 @@
         <field name="model">fs.storage</field>
         <field name="inherit_id" ref="fs_attachment.fs_storage_form_view" />
         <field name="arch" type="xml">
-            <field name="use_x_sendfile_to_serve_internal_url" position="after">
+            <field name="x_send_file_base_url" position="after">
                 <field
                     name="s3_uses_signed_url_for_x_accel_redirect"
                     attrs="{'invisible': ['|', ('use_x_sendfile_to_serve_internal_url', '=', False), ('protocol', '!=', 's3')]}"

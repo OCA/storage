@@ -24,7 +24,7 @@ class TestFSAttachmentS3Common(TransactionCase):
                     "region_name": "aws-region",
                 },
             },
-            "base_url": "https://s3.amazonaws.com/test-bucket",
+            "base_url": "https://s3.amazonaws.com/",
         }
         cls.s3_backend = cls.env["fs.storage"].create(cls.s3_backend_config)
         cls.ir_attachment_model = cls.env["ir.attachment"]
