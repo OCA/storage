@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from urllib.parse import urlparse
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
@@ -50,6 +50,15 @@ class FsStorage(models.Model):
         "served by odoo that will stream the content read from the filesystem "
         "storage. This option is useful to avoid to serve files from odoo "
         "and therefore to avoid to load the odoo process. ",
+    )
+    x_send_file_base_url = fields.Char(
+        string="Base URL for X-Sendfile",
+        help="Base URL to use for X-Sendfile. If not set, the base URL of the "
+        "storage will be used. This option is useful to serve files from a"
+        "different URL than the base URL of the storage. For example, if you "
+        "want to serve files from a private CDN, you can set the base URL of the CDN "
+        "to this field. The CDN must support X-Sendfile to serve the files "
+        "from the storage. The base_url field remains the one exposed to the user.",
     )
     use_as_default_for_attachments = fields.Boolean(
         help="If checked, this storage will be used to store all the attachments ",
@@ -189,6 +198,7 @@ class FsStorage(models.Model):
                 "base_url": {},
                 "is_directory_path_in_url": {},
                 "use_x_sendfile_to_serve_internal_url": {},
+                "x_send_file_base_url": {},
                 "use_as_default_for_attachments": {},
                 "force_db_for_default_attachment_rules": {},
                 "use_filename_obfuscation": {},
@@ -492,22 +502,86 @@ class FsStorage(models.Model):
         attachments._compute_fs_url()
         attachments._compute_fs_url_path()
 
-    @api.model
-    def _get_x_accel_redirect_path(self, attachment: IrAttachment):
-        """Get the path to use for X-Accel-Redirect
+    def _get_x_accel_redirect_base_url(
+        self, attachment: IrAttachment, raise_if_not_found: bool = True
+    ) -> str:
+        """Get the base url to use for X-Accel-Redirect
 
-        The path always starts with the storage code as prefix and then the
-        path to use to access the file in the storage.
-        The use of the storage code as prefix is to ensure that you can
-        define an internal location into your reverse proxy
-        (nginx, apache, etc.) to serve the file.
+        :param attachment: the attachment to get the base url for
+        :param raise_if_not_found: if True, raise an error if the base url is not found
+        :return: the base url to use for X-Accel-Redirect
+
+        The base url must be a valid URL with a protocol and a host. It could also
+        provide a path.
+        ie: https://my.public.files/ or https://my.public.files/media/
+
+        For a given attachment, the concatenation of the base URL and the sub path
+        must give the URL to access the file.
         """
+        x_send_file_base_url = self.x_send_file_base_url or self.base_url or ""
+        if x_send_file_base_url:
+            parsed_url = urlparse(x_send_file_base_url)
+            if not parsed_url.scheme or not parsed_url.netloc:
+                raise RuntimeError(
+                    "The x_send_file_base_url must be a valid URL with a protocol and a host."
+                )
+        if not x_send_file_base_url and raise_if_not_found:
+            raise RuntimeError(
+                "The storage %s does not have a base URL for X-Accel-Redirect."
+                % self.name
+            )
+        return x_send_file_base_url.rstrip("/")
+
+    def _get_x_accel_redirect_sub_path(self, attachment: IrAttachment) -> str:
+        """Get the sub path to use for X-Accel-Redirect
+
+        :param attachment: the attachment to get the sub path for
+        :return: the sub path to use for X-Accel-Redirect
+
+        The sub path is the path to the file in the storage.
+
+        For a given attachment, the concatenation of the base URL and the sub path
+        must give the URL to access the file.
+        """
+
         url_path = attachment.fs_url_path
-        storage_code = attachment.fs_storage_code
         if not url_path:
             raise RuntimeError(
                 "The attachment %s is not stored in a filesystem storage."
                 % attachment.id
             )
-        path = Path("/") / storage_code / url_path.lstrip("/")
-        return str(path)
+        return url_path
+
+    @api.model
+    def _get_x_accel_redirect_path(self, attachment: IrAttachment):
+        """Get the path to use for X-Accel-Redirect
+
+        :param attachment: the attachment to get the path for
+        :return: the path to use for X-Accel-Redirect
+
+        This method is used to generate the path to use for X-Accel-Redirect.
+        The path generated is of the form:
+        /fs_x_accel_redirect/<protocol>/<netloc>/<path>
+        where :
+        * <protocol> is the protocol of the base URL,
+        * <netloc> is the netloc of the base URL
+        * and <path> is the potential path of the base URL concatenated with the
+        sub path of the attachment in the storage.
+        storage.
+        """
+        storage = self.sudo().get_by_code(attachment.fs_storage_id.code)
+        if not storage:
+            raise RuntimeError(
+                "The storage %s is not found." % attachment.fs_storage_id.code
+            )
+        x_accel_base_url = storage._get_x_accel_redirect_base_url(attachment)
+        x_accel_sub_path = storage._get_x_accel_redirect_sub_path(attachment)
+
+        parsed_url = urlparse(x_accel_base_url)
+        base_path = parsed_url.path.strip("/")
+        sub_path = x_accel_sub_path.lstrip("/")
+        full_path = f"{base_path}/{sub_path}" if base_path else sub_path
+
+        return (
+            f"/fs_x_accel_redirect/{parsed_url.scheme}/{parsed_url.netloc}/{full_path}"
+        )

@@ -412,6 +412,14 @@ variables using the keys:</p>
 <li><em>s3_uses_signed_url_for_x_accel_redirect</em></li>
 <li><em>s3_signed_url_expiration</em></li>
 </ul>
+<p>To work properly, you must also configure your web server to handle
+X-Accel-Redirect or X-Sendfile headers. You can find more information
+about this in the documentation of the
+<a class="reference external" href="https://github.com/OCA/storage/tree/16.0/fs_attachment">fs_attachment</a>
+module.</p>
+<p>In the case of a S3 storage, the base URL and base URL for X-Sendfile
+field on the storage configuration are not mandatory. If not set, the
+storage will use the S3 bucket URL as the base URL for X-Accel-Redirect.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>

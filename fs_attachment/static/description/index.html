@@ -539,12 +539,14 @@ the files from a URL, you can leave this field empty.</p>
 is not included in the URL. If you want to include it, you can activate this option.</p>
 </li>
 <li><p class="first"><tt class="docutils literal">Use <span class="pre">X-Sendfile</span> To Serve Internal Url</tt>: If checked and odoo is behind a proxy
-that supports x-sendfile, the content served by the attachment’s internal URL
-will be served by the proxy using the filesystem url path if defined (This field
-is available on the attachment if the storage is configured with a base URL)
-If not, the file will be served by odoo that will stream the content read from
-the filesystem storage. This option is useful to avoid to serve files from odoo
-and therefore to avoid to load the odoo process.</p>
+that supports x-sendfile, the content will be served by the proxy. This means
+that the charge on the odoo process will be reduced and the files will be served
+directly by the proxy. In order to use this option, you must also a <tt class="docutils literal">base URL</tt>
+or a <tt class="docutils literal">Base URL for <span class="pre">X-Sendfile</span></tt>. This URL will be used to serve the files
+through the proxy. The concatenation of this URL with the file path
+will give the URL to access the file. For example, if the base URL is
+<tt class="docutils literal"><span class="pre">https://my.public.files/</span></tt> and the file path is <tt class="docutils literal">/my_picture.png</tt>, the
+URL to access the file will be <tt class="docutils literal"><span class="pre">https://my.public.files/my_picture.png</span></tt>.</p>
 <p>To be fully functional, this option requires the proxy to support x-sendfile
 (apache) or x-accel-redirect (nginx). You must also configure your proxy by
 adding for each storage a rule to redirect the url rooted at the ‘storagge code’
@@ -552,19 +554,40 @@ to the server serving the files. For example, if you have a storage with the
 code ‘my_storage’ and a server serving the files at the url ‘<a class="reference external" href="http://myserver.com">http://myserver.com</a>’,
 you must add the following rule in your proxy configuration:</p>
 <pre class="code nginx literal-block">
-<span class="k">location</span><span class="w"> </span><span class="s">/my_storage/</span><span class="w"> </span><span class="p">{</span><span class="w">
+<span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/fs_x_accel_redirect/(.*?)/(.*?)/(.*)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="kn">internal</span><span class="p">;</span><span class="w">
-    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://myserver.com</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_protocol</span><span class="w"> </span><span class="nv">$1</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_host</span><span class="w"> </span><span class="nv">$2</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_path</span><span class="w"> </span><span class="nv">$3</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url</span><span class="w"> </span><span class="nv">$url_protocol://$url_host/$url_path</span><span class="p">;</span><span class="w">
+
+    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="nv">$url$is_args$args</span><span class="p">;</span><span class="w">
+    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$url_host</span><span class="p">;</span><span class="w">
+    </span><span class="kn">proxy_ssl_server_name</span><span class="w"> </span><span class="no">on</span><span class="p">;</span><span class="w">
+
+    </span><span class="c1"># Optional: Forward original filename (if needed)
+</span><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Original-URI</span><span class="w"> </span><span class="nv">$request_uri</span><span class="p">;</span><span class="w">
 </span><span class="p">}</span>
 </pre>
-<p>With this configuration a call to ‘/web/content/&lt;att.id&gt;/&lt;att.name&gt;&lt;att.extension&gt;”
-for a file stored in the ‘my_storage’ storage will generate a response by odoo
-with the URI
-<tt class="docutils literal"><span class="pre">/my_storage/&lt;paht_in_storage&gt;/&lt;att.name&gt;-&lt;att.id&gt;-&lt;version&gt;&lt;att.extension&gt;</span></tt>
-in the headers <tt class="docutils literal"><span class="pre">X-Accel-Redirect</span></tt> and <tt class="docutils literal"><span class="pre">X-Sendfile</span></tt> and the proxy will redirect to
-<tt class="docutils literal"><span class="pre">http://myserver.com/&lt;paht_in_storage&gt;/&lt;att.name&gt;-&lt;att.id&gt;-&lt;version&gt;&lt;att.extension&gt;</span></tt>.</p>
-<p>see <a class="reference external" href="https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/">https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/</a> for more
-information.</p>
+<p>When Odoo builds the respone to serve the attachment, it will
+add the headers <tt class="docutils literal"><span class="pre">X-Accel-Redirect</span></tt> and <tt class="docutils literal"><span class="pre">X-Sendfile</span></tt> with the URL to access
+the file. By convention, the URL will be in the format
+<tt class="docutils literal"><span class="pre">/fs_x_accel_redirect/&lt;protocol&gt;/&lt;host&gt;/&lt;path&gt;</span></tt> where <cite>&lt;protocol&gt;</cite> is the protocol
+used to access the file (http or https), <cite>&lt;host&gt;</cite> is the host of the
+server serving the files and <cite>&lt;path&gt;</cite> is the path to the file on the server.</p>
+<p>For example, if the base URL is <tt class="docutils literal"><span class="pre">https://my.public.files/</span></tt> and the file path
+is <tt class="docutils literal">/my_picture.png</tt>, the URL to access the file will be
+<tt class="docutils literal">/fs_x_accel_redirect/https/my.public.files/my_picture.png</tt>.</p>
+<p>This rule is generic and will work for any storage configured with the
+<cite>Use X-Sendfile To Serve Internal Url</cite> option. The proxy will then redirect
+the request to the server serving the files.</p>
+</li>
+<li><p class="first"><tt class="docutils literal">Base URL for <span class="pre">X-Sendfile</span></tt>: This is the base URL used to access the attachments
+when the <cite>Use X-Sendfile To Serve Internal Url</cite> option is activated. If not set,
+the base URL of the storage will be used. The motivation for this field
+is to allow the use of specific URL for accessing the files through
+the proxy than the base URL of the storage itself. (For example, your base URL
+could be a CDN URL, but you want to access the files through a specific private URL)</p>
 </li>
 <li><p class="first"><tt class="docutils literal">Use Filename Obfuscation</tt>: If checked, the filename used to store the content
 into the filesystem storage will be obfuscated. This is useful to avoid to

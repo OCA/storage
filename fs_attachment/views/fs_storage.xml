@@ -36,6 +36,10 @@
                 <field name="is_directory_path_in_url" />
                 <field name="use_filename_obfuscation" />
                 <field name="use_x_sendfile_to_serve_internal_url" />
+                <field
+                    name="x_send_file_base_url"
+                    attrs="{'invisible': [('use_x_sendfile_to_serve_internal_url', '=', False)]}"
+                />
             </field>
         </field>
     </record>
