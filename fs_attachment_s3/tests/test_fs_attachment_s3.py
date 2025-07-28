@@ -17,22 +17,12 @@ class TestFSAttachementS3(TestFSAttachmentS3Common):
 
         url = self.fake_attachment_s3._get_x_accel_redirect_path()
         self.assertTrue(
-            url.startswith("/s3tst/"), "The URL should start with the storage code."
-        )
-        _, storage_code, bucket, file_path = url.split("/", 3)
-        self.assertEqual(
-            storage_code,
-            "s3tst",
-            "The x-accel redirect path must be prefixed with the storage code.",
-        )
-        self.assertEqual(
-            bucket,
-            "test-bucket",
-            "The first part of the path should be the bucket name.",
-        )
-        self.assertTrue(
-            file_path.startswith("dir/sub/fake_s3_file.txt?"),
-            "The end of the path should contain the path to thefile name and query parameters.",
+            url.startswith(
+                "/fs_x_accel_redirect/https/s3.amazonaws.com/"
+                "test-bucket/dir/sub/fake_s3_file.txt?"
+            ),
+            "The end of the path should contain the path to the file "
+            f"name and query parameters. ({url})",
         )
 
     def test_get_x_access_url_path(self):
@@ -40,8 +30,8 @@ class TestFSAttachementS3(TestFSAttachmentS3Common):
         url = self.fake_attachment_s3._get_x_accel_redirect_path()
         self.assertEqual(
             url,
-            "/s3tst/dir/sub/fake_s3_file.txt",
-            "The X-Accel-Redirect path should match the expected format.",
+            "/fs_x_accel_redirect/https/s3.amazonaws.com/dir/sub/fake_s3_file.txt",
+            f"The X-Accel-Redirect path should match the expected format. ({url})",
         )
 
         # if we enclude the directory path in the file url
@@ -51,7 +41,8 @@ class TestFSAttachementS3(TestFSAttachmentS3Common):
         url = self.fake_attachment_s3._get_x_accel_redirect_path()
         self.assertEqual(
             url,
-            "/s3tst/test-bucket/dir/sub/fake_s3_file.txt",
+            "/fs_x_accel_redirect/https/s3.amazonaws.com/"
+            "test-bucket/dir/sub/fake_s3_file.txt",
             "The X-Accel-Redirect path should include the bucket "
-            "name when directory path is in URL.",
+            f"name when directory path is in URL. ({url})",
         )
