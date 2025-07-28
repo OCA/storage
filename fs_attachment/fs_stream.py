@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from odoo.http import STATIC_CACHE_LONG, Response, Stream, request
-from odoo.tools import config
 
 from .models.ir_attachment import IrAttachment
 
@@ -95,8 +94,7 @@ class FsStream(Stream):
     @classmethod
     def _check_use_x_sendfile(cls, attachment: IrAttachment) -> bool:
         return (
-            config["x_sendfile"]
-            and attachment.fs_url
+            attachment.fs_url
             and attachment.fs_storage_id.use_x_sendfile_to_serve_internal_url
         )
 
