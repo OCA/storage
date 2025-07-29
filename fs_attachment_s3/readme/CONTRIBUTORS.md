@@ -1,1 +1,2 @@
 - Laurent Mignon <laurent.mignon@acsone.eu> (https://www.acsone.eu)
+- Stéphane Bidoul <stephane.bidoul@acsone.eu> (https://www.acsone.eu)

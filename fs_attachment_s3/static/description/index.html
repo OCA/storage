@@ -372,9 +372,14 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/storage/tree/16.0/fs_attachment_s3"><img alt="OCA/storage" src="https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/storage-16-0/storage-16-0-fs_attachment_s3"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/storage&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>This module extends the functionality of
 <a class="reference external" href="https://github.com/OCA/storage/tree/16.0/fs_attachment">fs_attachment</a>
-to better support Amazon S3 storage. It includes features such as signed
-URLs for X-Accel-Redirect, and enforcing the mimetype of files stored in
-S3.</p>
+to better support Amazon S3 storage. It includes features such as:</p>
+<ul class="simple">
+<li>Special handling of X-Accel-Redirect headers for S3 storages.</li>
+<li>Options for using signed URLs in X-Accel-Redirect. (This is required
+to be able to serve files from a private S3 bucket using
+X-Accel-Redirect without exposing the files publicly.)</li>
+<li>Enforcing the mimetype of files stored in S3.</li>
+</ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -402,7 +407,7 @@ X-Accel-Redirect path will be a signed URL, which is useful for S3
 storages that require signed URLs for access.</li>
 <li><strong>S3 Signed URL Expiration</strong>: The expiration time for the signed URL
 in seconds. This field is only relevant if the previous option is
-checked. By default, it is set to 60 seconds but it could be less
+checked. By default, it is set to 30 seconds but it could be less
 since the url generated into the X-Accel-Redirect process is directly
 used by the web server to serve the file.</li>
 </ul>
@@ -412,14 +417,42 @@ variables using the keys:</p>
 <li><em>s3_uses_signed_url_for_x_accel_redirect</em></li>
 <li><em>s3_signed_url_expiration</em></li>
 </ul>
-<p>To work properly, you must also configure your web server to handle
-X-Accel-Redirect or X-Sendfile headers. You can find more information
-about this in the documentation of the
-<a class="reference external" href="https://github.com/OCA/storage/tree/16.0/fs_attachment">fs_attachment</a>
-module.</p>
-<p>In the case of a S3 storage, the base URL and base URL for X-Sendfile
-field on the storage configuration are not mandatory. If not set, the
-storage will use the S3 bucket URL as the base URL for X-Accel-Redirect.</p>
+<p>When the option “Use X-Sendfile To Serve Internal Url” is enabled, the
+system will generate an X-Accel-Redirect header in the response to a
+request to get a file. In the case of S3 storages, it will follow the
+format:</p>
+<pre class="code text literal-block">
+X-Accel-Redirect: /fs_x_accel_redirect/{scheme}/{host}/{path with query if any}
+</pre>
+<p>Where:</p>
+<ul class="simple">
+<li><tt class="docutils literal">{scheme}</tt>: The URL scheme (http or https).</li>
+<li><tt class="docutils literal">{host}</tt>: The host of the S3 storage.</li>
+<li><tt class="docutils literal">{path with query if any}</tt>: The path to the file in the S3 storage,
+including any query parameters. (Query parameters are set when the
+<tt class="docutils literal">s3_uses_signed_url_for_x_accel_redirect</tt> option is enabled.)</li>
+</ul>
+<p>In order to serve files using X-Accel-Redirect, you must ensure that
+your web server is configured to handle these headers correctly. This
+typically involves setting up a location block in your web server
+configuration that matches the X-Accel-Redirect path and proxies the
+request to the S3 storage.</p>
+<p>For example, if you are using Nginx, you would add a location block like
+this:</p>
+<pre class="code nginx literal-block">
+<span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/fs_x_accel_redirect/(.*?)/(.*?)/(.*)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="kn">internal</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_protocol</span><span class="w"> </span><span class="nv">$1</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_host</span><span class="w"> </span><span class="nv">$2</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_path</span><span class="w"> </span><span class="nv">$3</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url</span><span class="w"> </span><span class="nv">$url_protocol://$url_host/$url_path</span><span class="p">;</span><span class="w">
+
+    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="nv">$url$is_args$args</span><span class="p">;</span><span class="w">
+    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$url_host</span><span class="p">;</span><span class="w">
+    </span><span class="kn">proxy_ssl_server_name</span><span class="w"> </span><span class="no">on</span><span class="p">;</span><span class="w">
+
+</span><span class="p">}</span>
+</pre>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
@@ -441,6 +474,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <h2><a class="toc-backref" href="#toc-entry-5">Contributors</a></h2>
 <ul class="simple">
 <li>Laurent Mignon <a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a> (<a class="reference external" href="https://www.acsone.eu">https://www.acsone.eu</a>)</li>
+<li>Stéphane Bidoul <a class="reference external" href="mailto:stephane.bidoul&#64;acsone.eu">stephane.bidoul&#64;acsone.eu</a> (<a class="reference external" href="https://www.acsone.eu">https://www.acsone.eu</a>)</li>
 </ul>
 </div>
 <div class="section" id="other-credits">
