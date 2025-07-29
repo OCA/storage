@@ -30,9 +30,13 @@ Fs Attachment S3
 
 This module extends the functionality of
 `fs_attachment <https://github.com/OCA/storage/tree/16.0/fs_attachment>`__
-to better support Amazon S3 storage. It includes features such as signed
-URLs for X-Accel-Redirect, and enforcing the mimetype of files stored in
-S3.
+to better support Amazon S3 storage. It includes features such as:
+
+- Special handling of X-Accel-Redirect headers for S3 storages.
+- Options for using signed URLs in X-Accel-Redirect. (This is required
+  to be able to serve files from a private S3 bucket using
+  X-Accel-Redirect without exposing the files publicly.)
+- Enforcing the mimetype of files stored in S3.
 
 **Table of contents**
 
@@ -54,7 +58,7 @@ fields will appear:
   storages that require signed URLs for access.
 - **S3 Signed URL Expiration**: The expiration time for the signed URL
   in seconds. This field is only relevant if the previous option is
-  checked. By default, it is set to 60 seconds but it could be less
+  checked. By default, it is set to 30 seconds but it could be less
   since the url generated into the X-Accel-Redirect process is directly
   used by the web server to serve the file.
 
@@ -64,15 +68,47 @@ variables using the keys:
 - *s3_uses_signed_url_for_x_accel_redirect*
 - *s3_signed_url_expiration*
 
-To work properly, you must also configure your web server to handle
-X-Accel-Redirect or X-Sendfile headers. You can find more information
-about this in the documentation of the
-`fs_attachment <https://github.com/OCA/storage/tree/16.0/fs_attachment>`__
-module.
+When the option "Use X-Sendfile To Serve Internal Url" is enabled, the
+system will generate an X-Accel-Redirect header in the response to a
+request to get a file. In the case of S3 storages, it will follow the
+format:
 
-In the case of a S3 storage, the base URL and base URL for X-Sendfile
-field on the storage configuration are not mandatory. If not set, the
-storage will use the S3 bucket URL as the base URL for X-Accel-Redirect.
+.. code:: text
+
+   X-Accel-Redirect: /fs_x_accel_redirect/{scheme}/{host}/{path with query if any}
+
+Where:
+
+- ``{scheme}``: The URL scheme (http or https).
+- ``{host}``: The host of the S3 storage.
+- ``{path with query if any}``: The path to the file in the S3 storage,
+  including any query parameters. (Query parameters are set when the
+  ``s3_uses_signed_url_for_x_accel_redirect`` option is enabled.)
+
+In order to serve files using X-Accel-Redirect, you must ensure that
+your web server is configured to handle these headers correctly. This
+typically involves setting up a location block in your web server
+configuration that matches the X-Accel-Redirect path and proxies the
+request to the S3 storage.
+
+For example, if you are using Nginx, you would add a location block like
+this:
+
+.. code:: nginx
+
+
+       location ~ ^/fs_x_accel_redirect/(.*?)/(.*?)/(.*) {
+           internal;
+           set $url_protocol $1;
+           set $url_host $2;
+           set $url_path $3;
+           set $url $url_protocol://$url_host/$url_path;
+
+           proxy_pass $url$is_args$args;
+           proxy_set_header Host $url_host;
+           proxy_ssl_server_name on;
+        
+       }
 
 Bug Tracker
 ===========
@@ -96,6 +132,7 @@ Contributors
 ------------
 
 - Laurent Mignon laurent.mignon@acsone.eu (https://www.acsone.eu)
+- Stéphane Bidoul stephane.bidoul@acsone.eu (https://www.acsone.eu)
 
 Other credits
 -------------

@@ -18,7 +18,7 @@ class TestFSAttachementS3(TestFSAttachmentS3Common):
         url = self.fake_attachment_s3._get_x_accel_redirect_path()
         self.assertTrue(
             url.startswith(
-                "/fs_x_accel_redirect/https/s3.amazonaws.com/"
+                "/fs_x_accel_redirect/http/minio.minio/"
                 "test-bucket/dir/sub/fake_s3_file.txt?"
             ),
             "The end of the path should contain the path to the file "
@@ -30,19 +30,6 @@ class TestFSAttachementS3(TestFSAttachmentS3Common):
         url = self.fake_attachment_s3._get_x_accel_redirect_path()
         self.assertEqual(
             url,
-            "/fs_x_accel_redirect/https/s3.amazonaws.com/dir/sub/fake_s3_file.txt",
+            "/fs_x_accel_redirect/http/minio.minio/test-bucket/dir/sub/fake_s3_file.txt",
             f"The X-Accel-Redirect path should match the expected format. ({url})",
-        )
-
-        # if we enclude the directory path in the file url
-        # we get the bucket name in the path
-        self.s3_backend.is_directory_path_in_url = True
-        self.s3_backend.recompute_urls()
-        url = self.fake_attachment_s3._get_x_accel_redirect_path()
-        self.assertEqual(
-            url,
-            "/fs_x_accel_redirect/https/s3.amazonaws.com/"
-            "test-bucket/dir/sub/fake_s3_file.txt",
-            "The X-Accel-Redirect path should include the bucket "
-            f"name when directory path is in URL. ({url})",
         )

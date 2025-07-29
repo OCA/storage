@@ -1,6 +1,8 @@
 # Copyright 2025 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from urllib.parse import urlparse
+
 import fsspec.asyn
 
 from odoo import api, fields, models
@@ -20,9 +22,9 @@ class FsStorage(models.Model):
     )
     s3_signed_url_expiration = fields.Integer(
         string="Signed URL Expiration (seconds)",
-        default=60,
+        default=30,
         help="The expiration time for the signed URL in seconds. "
-        "Default is 60 seconds.",
+        "Default is 30 seconds.",
     )
 
     @property
@@ -37,40 +39,66 @@ class FsStorage(models.Model):
         )
         return fields
 
-    def _get_x_accel_redirect_base_url(
-        self, attachment: IrAttachment, raise_if_not_found: bool = True
-    ) -> str:
-        x_accel_base_url = super()._get_x_accel_redirect_base_url(
-            attachment, raise_if_not_found=False
-        )
-        if not x_accel_base_url:
-            root_fs = self._get_root_filesystem(self.fs)
-            s3_client = root_fs.s3 if hasattr(root_fs, "s3") else None
-            if s3_client:
-                x_accel_base_url = s3_client.meta.endpoint_url
-        if not x_accel_base_url:
-            return super()._get_x_accel_redirect_base_url(
-                attachment, raise_if_not_found=raise_if_not_found
-            )
-        return x_accel_base_url.rstrip("/")
-
-    def _get_x_accel_redirect_sub_path(self, attachment: IrAttachment) -> str:
-        fs, _storage_code, file_path = attachment._get_fs_parts()
+    @api.model
+    def _get_x_accel_redirect_path(self, attachment: IrAttachment):
+        redirect_path = super()._get_x_accel_redirect_path(attachment)
+        fs = self.get_fs_by_code(attachment.fs_storage_code)
         root_fs = self._get_root_filesystem(fs)
-        if self.s3_uses_signed_url_for_x_accel_redirect and hasattr(root_fs, "s3"):
-            # for S3 storage, we use a signed URL
-            s3_client = root_fs.s3
-            url = self._s3_call_generate_presigned_url(
+        if hasattr(root_fs, "s3"):
+            redirect_path = self._get_s3_x_accel_redirect_path(attachment)
+        return redirect_path
+
+    @api.model
+    def _get_s3_x_accel_redirect_path(self, attachment: IrAttachment):
+        """Generate the X-Accel-Redirect path for S3 storage.
+
+        This method is used to generate the path for S3 storage when using
+        X-Accel-Redirect. It constructs the path based on the S3 bucket and
+        file path, ensuring that it is compatible with the S3 storage
+        configuration and the Odoo file storage system.
+
+        Args:
+            attachment (IrAttachment): The attachment record for which the
+                X-Accel-Redirect path is being generated.
+        Returns:
+            str: The X-Accel-Redirect path for the S3 storage.
+
+        The path is formatted as:
+            /fs_x_accel_redirect/<scheme>/<netloc>/<path>
+
+        where:
+        - `<scheme>` is the scheme of the base URL (e.g., 'https').
+        - `<netloc>` is the netloc of the base URL (e.g., 's3.amazonaws.com').
+        - `<path>` is the path to the file in the S3 bucket, including the
+          bucket name
+        """
+        fs, storage_code, file_path = attachment._get_fs_parts()
+        storage = self.sudo().get_by_code(storage_code)
+        root_fs = self._get_root_filesystem(fs)
+        s3_client = root_fs.s3
+        bucket_name = storage.directory_path.strip("/").rstrip("/")
+        if storage.s3_uses_signed_url_for_x_accel_redirect:
+            file_url = self._s3_call_generate_presigned_url(
                 s3_client,
                 "get_object",
-                Params={"Bucket": self.directory_path, "Key": file_path},
-                ExpiresIn=self.s3_signed_url_expiration,
+                Params={"Bucket": bucket_name, "Key": file_path},
+                ExpiresIn=storage.s3_signed_url_expiration,
             )
-            # exclude the endpoint_url from the path
-            endpoint_url = s3_client.meta.endpoint_url
-            return url.replace(endpoint_url, "").lstrip("/")
         else:
-            return super()._get_x_accel_redirect_sub_path(attachment)
+            file_url = (
+                f"{s3_client.meta.endpoint_url.rstrip('/')}/"
+                f"{bucket_name}/{file_path.lstrip('/')}"
+            )
+
+        parsed_url = urlparse(file_url)
+        path = parsed_url.path.strip("/")
+        query = parsed_url.query
+        redirect_path = (
+            f"/fs_x_accel_redirect/{parsed_url.scheme}/{parsed_url.netloc}/{path}"
+        )
+        if query:
+            redirect_path += f"?{query}"
+        return redirect_path
 
     @api.model
     def _s3_call_generate_presigned_url(self, s3_client, *args, **kwargs):
@@ -82,5 +110,5 @@ class FsStorage(models.Model):
             s3_client.generate_presigned_url,
             *args,
             timeout=None,
-            **kwargs
+            **kwargs,
         )
