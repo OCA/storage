@@ -94,14 +94,12 @@ from URLs.
 * ``Is Directory Path In URL``: Normally the directory patch configured on the storage
   is not included in the URL. If you want to include it, you can activate this option.
 * ``Use X-Sendfile To Serve Internal Url``: If checked and odoo is behind a proxy
-  that supports x-sendfile, the content will be served by the proxy. This means
-  that the charge on the odoo process will be reduced and the files will be served
-  directly by the proxy. In order to use this option, you must also a ``base URL``
-  or a ``Base URL for X-Sendfile``. This URL will be used to serve the files
-  through the proxy. The concatenation of this URL with the file path
-  will give the URL to access the file. For example, if the base URL is
-  ``https://my.public.files/`` and the file path is ``/my_picture.png``, the
-  URL to access the file will be ``https://my.public.files/my_picture.png``.
+  that supports x-sendfile, the content served by the attachment's internal URL
+  will be served by the proxy using the filesystem url path if defined (This field
+  is available on the attachment if the storage is configured with a base URL)
+  If not, the file will be served by odoo that will stream the content read from
+  the filesystem storage. This option is useful to avoid to serve files from odoo
+  and therefore to avoid to load the odoo process.
 
   To be fully functional, this option requires the proxy to support x-sendfile
   (apache) or x-accel-redirect (nginx). You must also configure your proxy by
@@ -112,42 +110,20 @@ from URLs.
 
   .. code-block:: nginx
 
-    location ~ ^/fs_x_accel_redirect/(.*?)/(.*?)/(.*) {
+    location /my_storage/ {
         internal;
-        set $url_protocol $1;
-        set $url_host $2;
-        set $url_path $3;
-        set $url $url_protocol://$url_host/$url_path;
-
-        proxy_pass $url$is_args$args;
-        proxy_set_header Host $url_host;
-        proxy_ssl_server_name on;
-     
-        # Optional: Forward original filename (if needed)
-        proxy_set_header X-Original-URI $request_uri;
+        proxy_pass http://myserver.com;
     }
 
-  When Odoo builds the respone to serve the attachment, it will
-  add the headers ``X-Accel-Redirect`` and ``X-Sendfile`` with the URL to access
-  the file. By convention, the URL will be in the format
-  ``/fs_x_accel_redirect/<protocol>/<host>/<path>`` where `<protocol>` is the protocol
-  used to access the file (http or https), `<host>` is the host of the
-  server serving the files and `<path>` is the path to the file on the server.
+  With this configuration a call to '/web/content/<att.id>/<att.name><att.extension>"
+  for a file stored in the 'my_storage' storage will generate a response by odoo
+  with the URI
+  ``/my_storage/<paht_in_storage>/<att.name>-<att.id>-<version><att.extension>``
+  in the headers ``X-Accel-Redirect`` and ``X-Sendfile`` and the proxy will redirect to
+  ``http://myserver.com/<paht_in_storage>/<att.name>-<att.id>-<version><att.extension>``.
 
-  For example, if the base URL is ``https://my.public.files/`` and the file path
-  is ``/my_picture.png``, the URL to access the file will be
-  ``/fs_x_accel_redirect/https/my.public.files/my_picture.png``.
-
-  This rule is generic and will work for any storage configured with the
-  `Use X-Sendfile To Serve Internal Url` option. The proxy will then redirect
-  the request to the server serving the files.
-
-* ``Base URL for X-Sendfile``: This is the base URL used to access the attachments
-  when the `Use X-Sendfile To Serve Internal Url` option is activated. If not set,
-  the base URL of the storage will be used. The motivation for this field
-  is to allow the use of specific URL for accessing the files through
-  the proxy than the base URL of the storage itself. (For example, your base URL
-  could be a CDN URL, but you want to access the files through a specific private URL)
+  see https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/ for more
+  information.
 
 * ``Use Filename Obfuscation``: If checked, the filename used to store the content
   into the filesystem storage will be obfuscated. This is useful to avoid to
