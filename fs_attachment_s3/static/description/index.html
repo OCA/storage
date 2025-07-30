@@ -442,10 +442,10 @@ this:</p>
 <pre class="code nginx literal-block">
 <span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/fs_x_accel_redirect/(.*?)/(.*?)/(.*)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="kn">internal</span><span class="p">;</span><span class="w">
-    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_protocol</span><span class="w"> </span><span class="nv">$1</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_scheme</span><span class="w"> </span><span class="nv">$1</span><span class="p">;</span><span class="w">
     </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_host</span><span class="w"> </span><span class="nv">$2</span><span class="p">;</span><span class="w">
     </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_path</span><span class="w"> </span><span class="nv">$3</span><span class="p">;</span><span class="w">
-    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url</span><span class="w"> </span><span class="nv">$url_protocol://$url_host/$url_path</span><span class="p">;</span><span class="w">
+    </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url</span><span class="w"> </span><span class="nv">$url_scheme://$url_host/$url_path</span><span class="p">;</span><span class="w">
 
     </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="nv">$url$is_args$args</span><span class="p">;</span><span class="w">
     </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$url_host</span><span class="p">;</span><span class="w">
