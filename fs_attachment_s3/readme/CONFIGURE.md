@@ -44,10 +44,10 @@ For example, if you are using Nginx, you would add a location block like this:
 
     location ~ ^/fs_x_accel_redirect/(.*?)/(.*?)/(.*) {
         internal;
-        set $url_protocol $1;
+        set $url_scheme $1;
         set $url_host $2;
         set $url_path $3;
-        set $url $url_protocol://$url_host/$url_path;
+        set $url $url_scheme://$url_host/$url_path;
 
         proxy_pass $url$is_args$args;
         proxy_set_header Host $url_host;
