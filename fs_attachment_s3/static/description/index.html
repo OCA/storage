@@ -414,7 +414,7 @@ used by the web server to serve the file.</li>
 <p>The value of these fields can also be set in the server environment
 variables using the keys:</p>
 <ul class="simple">
-<li><em>s3_uses_signed_url_for_x_accel_redirect</em></li>
+<li><em>s3_uses_signed_url_for_x_sendfile</em></li>
 <li><em>s3_signed_url_expiration</em></li>
 </ul>
 <p>When the option “Use X-Sendfile To Serve Internal Url” is enabled, the
@@ -422,7 +422,7 @@ system will generate an X-Accel-Redirect header in the response to a
 request to get a file. In the case of S3 storages, it will follow the
 format:</p>
 <pre class="code text literal-block">
-X-Accel-Redirect: /fs_x_accel_redirect/{scheme}/{host}/{path with query if any}
+X-Accel-Redirect: /fs_x_sendfile/{scheme}/{host}/{path with query if any}
 </pre>
 <p>Where:</p>
 <ul class="simple">
@@ -430,7 +430,7 @@ X-Accel-Redirect: /fs_x_accel_redirect/{scheme}/{host}/{path with query if any}
 <li><tt class="docutils literal">{host}</tt>: The host of the S3 storage.</li>
 <li><tt class="docutils literal">{path with query if any}</tt>: The path to the file in the S3 storage,
 including any query parameters. (Query parameters are set when the
-<tt class="docutils literal">s3_uses_signed_url_for_x_accel_redirect</tt> option is enabled.)</li>
+<tt class="docutils literal">s3_uses_signed_url_for_x_sendfile</tt> option is enabled.)</li>
 </ul>
 <p>In order to serve files using X-Accel-Redirect, you must ensure that
 your web server is configured to handle these headers correctly. This
@@ -440,7 +440,7 @@ request to the S3 storage.</p>
 <p>For example, if you are using Nginx, you would add a location block like
 this:</p>
 <pre class="code nginx literal-block">
-<span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/fs_x_accel_redirect/(.*?)/(.*?)/(.*)</span><span class="w"> </span><span class="p">{</span><span class="w">
+<span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/fs_x_sendfile/(.*?)/(.*?)/(.*)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="kn">internal</span><span class="p">;</span><span class="w">
     </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_scheme</span><span class="w"> </span><span class="nv">$1</span><span class="p">;</span><span class="w">
     </span><span class="kn">set</span><span class="w"> </span><span class="nv">$url_host</span><span class="w"> </span><span class="nv">$2</span><span class="p">;</span><span class="w">

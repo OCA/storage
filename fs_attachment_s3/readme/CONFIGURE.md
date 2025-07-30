@@ -14,7 +14,7 @@ the option "Use X-Sendfile To Serve Internal Url", 2 additional fields will appe
 The value of these fields can also be set in the server environment variables using
 the keys:
 
-- *s3_uses_signed_url_for_x_accel_redirect*
+- *s3_uses_signed_url_for_x_sendfile*
 - *s3_signed_url_expiration*
 
 When the option "Use X-Sendfile To Serve Internal Url" is enabled, the system will
@@ -22,7 +22,7 @@ generate an X-Accel-Redirect header in the response to a request to get a file.
 In the case of S3 storages, it will follow the format:
 
 ```text
-X-Accel-Redirect: /fs_x_accel_redirect/{scheme}/{host}/{path with query if any}
+X-Accel-Redirect: /fs_x_sendfile/{scheme}/{host}/{path with query if any}
 ```
 
 Where:
@@ -31,7 +31,7 @@ Where:
 - `{host}`: The host of the S3 storage.
 - `{path with query if any}`: The path to the file in the S3 storage,
   including any query parameters. (Query parameters are set when the
-  `s3_uses_signed_url_for_x_accel_redirect` option is enabled.)
+  `s3_uses_signed_url_for_x_sendfile` option is enabled.)
 
 In order to serve files using X-Accel-Redirect, you must ensure that your
 web server is configured to handle these headers correctly. This typically
@@ -42,7 +42,7 @@ For example, if you are using Nginx, you would add a location block like this:
 
 ```nginx
 
-    location ~ ^/fs_x_accel_redirect/(.*?)/(.*?)/(.*) {
+    location ~ ^/fs_x_sendfile/(.*?)/(.*?)/(.*) {
         internal;
         set $url_scheme $1;
         set $url_host $2;
