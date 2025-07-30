@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import const_eval
@@ -326,31 +324,3 @@ class FsStorage(models.Model):
         attachments = self.env["ir.attachment"].search(domain)
         attachments._compute_fs_url()
         attachments._compute_fs_url_path()
-
-    @api.model
-    def _get_x_accel_redirect_path(self, attachment: IrAttachment):
-        """Get the path to use for X-Accel-Redirect
-
-        The path always starts with the storage code as prefix and then the
-        path to use to access the file in the storage.
-        The use of the storage code as prefix is to ensure that you can
-        define an internal location into your reverse proxy
-        (nginx, apache, etc.) to serve the file.
-        """
-        url_path = attachment.fs_url_path
-        storage_code = attachment.fs_storage_code
-        if not url_path:
-            raise RuntimeError(
-                "The attachment %s is not stored in a filesystem storage."
-                % attachment.id
-            )
-        path = Path("/") / storage_code / url_path.lstrip("/")
-        return str(path)
-
-    @api.model
-    def _use_x_sendfile(self, attachment: IrAttachment):
-        """Return whether to use X-Sendfile to serve the internal URL"""
-        return (
-            attachment.fs_url_path
-            and attachment.fs_storage_id.use_x_sendfile_to_serve_internal_url
-        )
