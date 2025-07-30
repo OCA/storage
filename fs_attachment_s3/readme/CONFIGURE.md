@@ -55,3 +55,10 @@ For example, if you are using Nginx, you would add a location block like this:
      
     }
 ```
+
+
+Unlike the standard implementation of X-Accel-Redirect on non S3 storages,
+the S3 implementation does not require a base URL to be set in the storage
+configuration. The X-Accel-Redirect path is constructed directly from the
+S3 storage's URL defined for the connection, the directory name as
+bucket name, and the file path.

@@ -39,14 +39,26 @@ class FsStorage(models.Model):
         )
         return fields
 
+    @property
+    def is_s3_storage(self):
+        """Check if the storage is an S3 storage."""
+        self.ensure_one()
+        return hasattr(self._get_root_filesystem(self.fs), "s3")
+
     @api.model
     def _get_x_accel_redirect_path(self, attachment: IrAttachment):
-        redirect_path = super()._get_x_accel_redirect_path(attachment)
-        fs = self.get_fs_by_code(attachment.fs_storage_code)
-        root_fs = self._get_root_filesystem(fs)
-        if hasattr(root_fs, "s3"):
-            redirect_path = self._get_s3_x_accel_redirect_path(attachment)
-        return redirect_path
+        storage = attachment.fs_storage_id
+        if storage.is_s3_storage:
+            return self._get_s3_x_accel_redirect_path(attachment)
+        return super()._get_x_accel_redirect_path(attachment)
+
+    @api.model
+    def _use_x_sendfile(self, attachment: IrAttachment):
+        """Return whether to use X-Sendfile to serve the internal URL"""
+        storage = attachment.fs_storage_id
+        if storage.is_s3_storage:
+            return storage.use_x_sendfile_to_serve_internal_url
+        return super()._use_x_sendfile(attachment)
 
     @api.model
     def _get_s3_x_accel_redirect_path(self, attachment: IrAttachment):
