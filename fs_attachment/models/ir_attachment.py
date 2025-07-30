@@ -672,7 +672,7 @@ class IrAttachment(models.Model):
         """Get the list of filesystem storage active in the system"""
         return self.env["fs.storage"].sudo().get_storage_codes()
 
-    def _get_x_accel_redirect_path(self):
+    def _get_x_sendfile_path(self):
         """Get the path to use for X-Accel-Redirect"""
         self.ensure_one()
         url_path = self.fs_url_path
@@ -684,7 +684,7 @@ class IrAttachment(models.Model):
         path = Path("/") / storage_code / url_path.lstrip("/")
         return str(path)
 
-    def _fs_use_x_accel_redirect(self):
+    def _fs_use_x_sendfile(self):
         """Return whether to use X-Sendfile to serve the internal URL"""
         self.ensure_one()
         return (
