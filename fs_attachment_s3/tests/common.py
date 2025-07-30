@@ -24,7 +24,7 @@ class TestFSAttachmentS3Common(TransactionCase):
                     "region_name": "aws-region",
                 },
             },
-            "base_url": "https://s3.amazonaws.com/",
+            "base_url": False,  # S3 does not use base_url for x-sendfile
         }
         cls.s3_backend = cls.env["fs.storage"].create(cls.s3_backend_config)
         cls.ir_attachment_model = cls.env["ir.attachment"]
@@ -46,7 +46,6 @@ class TestFSAttachmentS3Common(TransactionCase):
                     store_fname = 's3tst://dir/sub/fake_s3_file.txt',
                     fs_filename = 'fake_s3_file.txt',
                     fs_storage_code = 's3tst',
-                    fs_url = 'https://s3.amazonaws.com/test-bucket/fake_s3_file.txt',
                     checksum = 234,
                     file_size = 1234,
                     fs_storage_id = %s

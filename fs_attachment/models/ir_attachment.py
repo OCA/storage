@@ -676,6 +676,11 @@ class IrAttachment(models.Model):
         self.ensure_one()
         return self.env["fs.storage"]._get_x_accel_redirect_path(self)
 
+    def _fs_use_x_accel_redirect(self):
+        """Return whether to use X-Sendfile to serve the internal URL"""
+        self.ensure_one()
+        return self.env["fs.storage"]._use_x_sendfile(self)
+
     ################################
     # useful methods for migration #
     ################################
