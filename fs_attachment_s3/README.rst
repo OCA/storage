@@ -87,7 +87,7 @@ Where:
 
 In order to serve files using X-Accel-Redirect, you must ensure that
 your web server is configured to handle these headers correctly. This
-typically involves setting up a location block in your web server
+typically involves setting up an `internal <https://nginx.org/en/docs/http/ngx_http_core_module.html#internal>`_ location block in your web server
 configuration that matches the X-Accel-Redirect path and proxies the
 request to the S3 storage.
 
