@@ -25,12 +25,12 @@ class IrAttachment(models.Model):
             return self._get_s3_x_sendfile_path()
         return super()._get_x_sendfile_path()
 
-    def _use_x_sendfile(self):
+    def _fs_use_x_sendfile(self):
         self.ensure_one()
         storage = self.fs_storage_id
         if storage.is_s3_storage:
             return storage.use_x_sendfile_to_serve_internal_url
-        return super()._use_x_sendfile()
+        return super()._fs_use_x_sendfile()
 
     def _get_s3_x_sendfile_path(self):
         """Generate the X-Accel-Redirect path for S3 storage.
