@@ -10,7 +10,7 @@ class FsStorage(models.Model):
 
     _inherit = "fs.storage"
 
-    s3_uses_signed_url_for_x_accel_redirect = fields.Boolean(
+    s3_uses_signed_url_for_x_sendfile = fields.Boolean(
         string="Use signed URL for X-Accel-Redirect",
         help="If checked, the storage will use signed URLs for attachments "
         "when using X-Accel-Redirect. This is useful for S3 storage where the "
@@ -29,7 +29,7 @@ class FsStorage(models.Model):
         fields = super()._server_env_fields
         fields.update(
             {
-                "s3_uses_signed_url_for_x_accel_redirect": {},
+                "s3_uses_signed_url_for_x_sendfile": {},
                 "s3_signed_url_expiration": {},
             }
         )

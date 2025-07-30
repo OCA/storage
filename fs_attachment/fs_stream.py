@@ -65,20 +65,20 @@ class FsStream(Stream):
             "environ": request.httprequest.environ,
             "response_class": Response,
         }
-        use_x_sendfile = self.fs_attachment._fs_use_x_accel_redirect()
+        use_x_sendfile = self.fs_attachment._fs_use_x_sendfile()
         # The file will be closed by werkzeug...
         send_file_kwargs["use_x_sendfile"] = use_x_sendfile
         if not use_x_sendfile:
             f = self.fs_attachment.open("rb")
             res = _send_file(f, **send_file_kwargs)
         else:
-            x_accel_redirect = self.fs_attachment._get_x_accel_redirect_path()
+            x_sendfile_path = self.fs_attachment._get_x_sendfile_path()
             send_file_kwargs["use_x_sendfile"] = True
             res = _send_file("", **send_file_kwargs)
             # nginx specific headers
-            res.headers["X-Accel-Redirect"] = x_accel_redirect
+            res.headers["X-Accel-Redirect"] = x_sendfile_path
             # apache specific headers
-            res.headers["X-Sendfile"] = x_accel_redirect
+            res.headers["X-Sendfile"] = x_sendfile_path
             res.headers["Content-Length"] = 0
 
         if immutable and res.cache_control:

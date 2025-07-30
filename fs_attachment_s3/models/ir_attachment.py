@@ -18,12 +18,12 @@ class IrAttachment(models.Model):
                 option["ContentType"] = mimetype
         return option
 
-    def _get_x_accel_redirect_path(self):
+    def _get_x_sendfile_path(self):
         self.ensure_one()
         storage = self.fs_storage_id
         if storage.is_s3_storage:
-            return self._get_s3_x_accel_redirect_path()
-        return super()._get_x_accel_redirect_path()
+            return self._get_s3_x_sendfile_path()
+        return super()._get_x_sendfile_path()
 
     def _use_x_sendfile(self):
         self.ensure_one()
@@ -32,7 +32,7 @@ class IrAttachment(models.Model):
             return storage.use_x_sendfile_to_serve_internal_url
         return super()._use_x_sendfile()
 
-    def _get_s3_x_accel_redirect_path(self):
+    def _get_s3_x_sendfile_path(self):
         """Generate the X-Accel-Redirect path for S3 storage.
 
         This method is used to generate the path for S3 storage when using
@@ -47,7 +47,7 @@ class IrAttachment(models.Model):
             str: The X-Accel-Redirect path for the S3 storage.
 
         The path is formatted as:
-            /fs_x_accel_redirect/<scheme>/<netloc>/<path>
+            /fs_x_sendfile/<scheme>/<netloc>/<path>
 
         where:
         - `<scheme>` is the scheme of the base URL (e.g., 'https').
@@ -60,7 +60,7 @@ class IrAttachment(models.Model):
         root_fs = storage._get_root_filesystem(fs)
         s3_client = root_fs.s3
         bucket_name = storage.directory_path.strip("/").rstrip("/")
-        if storage.s3_uses_signed_url_for_x_accel_redirect:
+        if storage.s3_uses_signed_url_for_x_sendfile:
             file_url = storage._s3_call_generate_presigned_url(
                 s3_client,
                 "get_object",
@@ -76,9 +76,7 @@ class IrAttachment(models.Model):
         parsed_url = urlparse(file_url)
         path = parsed_url.path.strip("/")
         query = parsed_url.query
-        redirect_path = (
-            f"/fs_x_accel_redirect/{parsed_url.scheme}/{parsed_url.netloc}/{path}"
-        )
+        redirect_path = f"/fs_x_sendfile/{parsed_url.scheme}/{parsed_url.netloc}/{path}"
         if query:
             redirect_path += f"?{query}"
         return redirect_path
