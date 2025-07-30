@@ -65,7 +65,7 @@ class FsStream(Stream):
             "environ": request.httprequest.environ,
             "response_class": Response,
         }
-        use_x_sendfile = self._fs_use_x_sendfile
+        use_x_sendfile = self.fs_attachment._fs_use_x_accel_redirect()
         # The file will be closed by werkzeug...
         send_file_kwargs["use_x_sendfile"] = use_x_sendfile
         if not use_x_sendfile:
@@ -90,15 +90,3 @@ class FsStream(Stream):
             res.headers["Content-Security-Policy"] = content_security_policy
 
         return res
-
-    @classmethod
-    def _check_use_x_sendfile(cls, attachment: IrAttachment) -> bool:
-        return (
-            attachment.fs_url
-            and attachment.fs_storage_id.use_x_sendfile_to_serve_internal_url
-        )
-
-    @property
-    def _fs_use_x_sendfile(self) -> bool:
-        """Return True if x-sendfile should be used to serve the file"""
-        return self._check_use_x_sendfile(self.fs_attachment)

@@ -346,3 +346,11 @@ class FsStorage(models.Model):
             )
         path = Path("/") / storage_code / url_path.lstrip("/")
         return str(path)
+
+    @api.model
+    def _use_x_sendfile(self, attachment: IrAttachment):
+        """Return whether to use X-Sendfile to serve the internal URL"""
+        return (
+            attachment.fs_url_path
+            and attachment.fs_storage_id.use_x_sendfile_to_serve_internal_url
+        )

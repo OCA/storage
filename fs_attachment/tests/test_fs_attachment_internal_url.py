@@ -3,10 +3,8 @@
 import os
 import shutil
 import tempfile
-from unittest.mock import patch
 
 from odoo.tests.common import HttpCase
-from odoo.tools import config
 
 
 class TestFsAttachmentInternalUrl(HttpCase):
@@ -91,18 +89,17 @@ class TestFsAttachmentInternalUrl(HttpCase):
     def test_fs_attachment_internal_url_x_sendfile(self):
         self.authenticate("admin", "admin")
         self.temp_backend.write({"use_x_sendfile_to_serve_internal_url": True})
-        with patch.object(config, "options", {**config.options, "x_sendfile": True}):
-            x_accel_redirect = f"/tmp_dir/test-{self.attachment.id}-0.txt"
-            self.assertDownload(
-                self.attachment.internal_url,
-                headers={},
-                assert_status_code=200,
-                assert_headers={
-                    "Content-Type": "text/plain; charset=utf-8",
-                    "Content-Disposition": "inline; filename=test.txt",
-                    "X-Accel-Redirect": x_accel_redirect,
-                    "Content-Length": "0",
-                    "X-Sendfile": x_accel_redirect,
-                },
-                assert_content=None,
-            )
+        x_accel_redirect = f"/tmp_dir/test-{self.attachment.id}-0.txt"
+        self.assertDownload(
+            self.attachment.internal_url,
+            headers={},
+            assert_status_code=200,
+            assert_headers={
+                "Content-Type": "text/plain; charset=utf-8",
+                "Content-Disposition": "inline; filename=test.txt",
+                "X-Accel-Redirect": x_accel_redirect,
+                "Content-Length": "0",
+                "X-Sendfile": x_accel_redirect,
+            },
+            assert_content=None,
+        )
