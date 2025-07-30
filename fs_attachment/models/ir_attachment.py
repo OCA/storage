@@ -11,6 +11,7 @@ import os
 import re
 import time
 from contextlib import closing, contextmanager
+from pathlib import Path
 
 import fsspec  # pylint: disable=missing-manifest-dependency
 import psycopg2
@@ -676,12 +677,21 @@ class IrAttachment(models.Model):
     def _get_x_accel_redirect_path(self):
         """Get the path to use for X-Accel-Redirect"""
         self.ensure_one()
-        return self.env["fs.storage"]._get_x_accel_redirect_path(self)
+        url_path = self.fs_url_path
+        storage_code = self.fs_storage_code
+        if not url_path:
+            raise RuntimeError(
+                "The attachment %s is not stored in a filesystem storage." % self.id
+            )
+        path = Path("/") / storage_code / url_path.lstrip("/")
+        return str(path)
 
     def _fs_use_x_accel_redirect(self):
         """Return whether to use X-Sendfile to serve the internal URL"""
         self.ensure_one()
-        return self.env["fs.storage"]._use_x_sendfile(self)
+        return (
+            self.fs_url_path and self.fs_storage_id.use_x_sendfile_to_serve_internal_url
+        )
 
     ################################
     # useful methods for migration #
