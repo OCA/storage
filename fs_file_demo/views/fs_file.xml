@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_file_form_view">
         <field name="name">fs.file.form (in fs_file_demo)</field>
         <field name="model">fs.file</field>
@@ -23,7 +22,6 @@
             </form>
         </field>
     </record>
-
 
     <record model="ir.ui.view" id="fs_file_tree_view">
         <field name="name">fs.file.tree (in fs_file_demo)</field>
@@ -49,5 +47,4 @@
         <field name="action" ref="fs_file_act_window" />
         <field name="sequence" eval="16" />
     </record>
-
 </odoo>
