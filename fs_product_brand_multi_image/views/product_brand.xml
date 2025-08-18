@@ -13,7 +13,7 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="logo" position="after">
-                 <field
+                <field
                     name="image"
                     class="oe_avatar"
                     options="{'preview_image': 'image_medium', 'zoom': true}"
@@ -41,7 +41,7 @@
         <field name="inherit_id" ref="product_brand.view_product_brand_kanban" />
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
-               <attribute
+                <attribute
                     name="t-att-src"
                 >kanban_image('product.brand', 'image_medium', record.id.raw_value)</attribute>
             </xpath>
