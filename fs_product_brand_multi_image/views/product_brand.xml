@@ -9,9 +9,6 @@
         <field name="model">product.brand</field>
         <field name="inherit_id" ref="product_brand.view_product_brand_form" />
         <field name="arch" type="xml">
-            <field name="logo" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
             <field name="logo" position="after">
                 <field
                     name="image"
@@ -22,29 +19,13 @@
             <notebook position="inside">
                 <page name="images" string="Images">
                     <field name="image_ids">
-                        <tree>
+                        <list>
                             <field name="sequence" widget="handle" />
                             <field name="name" />
-                        </tree>
+                        </list>
                     </field>
-                    <!-- field
-                        name="image_ids"
-                        mode="kanban"
-                        widget="storage_image_handle"
-                    / -->
                 </page>
             </notebook>
-        </field>
-    </record>
-    <record model="ir.ui.view" id="product_brand_kanban_view">
-        <field name="model">product.brand</field>
-        <field name="inherit_id" ref="product_brand.view_product_brand_kanban" />
-        <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
-                <attribute
-                    name="t-att-src"
-                >kanban_image('product.brand', 'image_medium', record.id.raw_value)</attribute>
-            </xpath>
         </field>
     </record>
 </odoo>

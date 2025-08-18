@@ -17,13 +17,13 @@ Fs Product Brand Multi Image
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
-    :target: https://github.com/OCA/storage/tree/17.0/fs_product_brand_multi_image
+    :target: https://github.com/OCA/storage/tree/18.0/fs_product_brand_multi_image
     :alt: OCA/storage
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/storage-17-0/storage-17-0-fs_product_brand_multi_image
+    :target: https://translation.odoo-community.org/projects/storage-18-0/storage-18-0-fs_product_brand_multi_image
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=17.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/storage&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -55,7 +55,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/storage/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/storage/issues/new?body=module:%20fs_product_brand_multi_image%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/storage/issues/new?body=module:%20fs_product_brand_multi_image%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -70,13 +70,14 @@ Authors
 Contributors
 ------------
 
--  Sébastien Beau <sebastien.beau@akretion.com>
--  Quentin Groulard <quentin.groulard@acsone.eu>
--  `Camptocamp <https://www.camptocamp.com>`__
+- Sébastien Beau <sebastien.beau@akretion.com>
+- Quentin Groulard <quentin.groulard@acsone.eu>
+- `Camptocamp <https://www.camptocamp.com>`__
 
-   -  Iván Todorovich <ivan.todorovich@gmail.com>
+  - Iván Todorovich <ivan.todorovich@gmail.com>
 
--  Laurent Mignon <laurent.mignon@acsone.eu>
+- Laurent Mignon <laurent.mignon@acsone.eu>
+- Mohamed Alkobrosli <malkobrosly@kencove.com>
 
 Maintainers
 -----------
@@ -99,6 +100,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-lmignon| 
 
-This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/17.0/fs_product_brand_multi_image>`_ project on GitHub.
+This module is part of the `OCA/storage <https://github.com/OCA/storage/tree/18.0/fs_product_brand_multi_image>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
