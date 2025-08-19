@@ -1,3 +1,10 @@
+## 17.0.2.0.4 (2025-08-19)
+
+### Features
+
+- Allow setting check_connection_method in configuration file.
+
+
 ## 17.0.2.0.0 (2024-10-07)
 
 ### Features
