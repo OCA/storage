@@ -180,6 +180,7 @@ class FSStorage(models.Model):
             "options": {},
             "directory_path": {},
             "eval_options_from_env": {},
+            "check_connection_method": {},
         }
 
     def write(self, vals):
