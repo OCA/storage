@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_product_category_media_form_view">
         <field name="name">product.category.fs.media.form</field>
         <field name="model">fs.product.category.media</field>
@@ -18,5 +17,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
