@@ -29,13 +29,13 @@
     </record>
 
     <record model="ir.ui.view" id="fs_media_relation_mixin_tree_view">
-        <field name="name">fs.media.relation.mixin.tree</field>
+        <field name="name">fs.media.relation.mixin.list</field>
         <field name="model">fs.media.relation.mixin</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" widget="handle" />
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>
