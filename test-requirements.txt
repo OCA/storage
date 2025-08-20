@@ -1,3 +1,4 @@
 odoo_test_helper
 requests_mock
 vcrpy-unittest
+odoo-addon-fs_base_multi_media @ git+https://github.com/OCA/storage.git@refs/pull/507/head#subdirectory=fs_base_multi_media
