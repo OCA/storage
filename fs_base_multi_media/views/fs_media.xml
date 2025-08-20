@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_media_form_view">
         <field name="name">fs.media.form</field>
         <field name="model">fs.media</field>
@@ -16,7 +15,7 @@
                     <group>
                         <group>
                             <field name="file" />
-                             <field name="media_type_id" />
+                            <field name="media_type_id" />
                         </group>
                     </group>
                 </sheet>
@@ -70,19 +69,17 @@
     </record>
 
     <record id="fs_media_action" model="ir.actions.act_window">
-    <field name="name">Fs Media</field>
-    <field name="res_model">fs.media</field>
-    <field name="view_mode">tree,form</field>
-    <field name="domain">[]</field>
-    <field name="context">{}</field>
-</record>
+        <field name="name">Fs Media</field>
+        <field name="res_model">fs.media</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
 
-<menuitem
+    <menuitem
         id="fs_media_menu"
         parent="fs_storage.menu_storage"
         action="fs_media_action"
         sequence="50"
     />
-
-
 </odoo>

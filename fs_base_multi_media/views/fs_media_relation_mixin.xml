@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_media_relation_mixin_form_view">
         <field name="name">fs.media.relation.mixin.form</field>
         <field name="model">fs.media.relation.mixin</field>
@@ -22,7 +21,7 @@
                         <field name="media_id" invisible="not link_existing" />
                     </group>
                     <group name="extra">
-                            <!-- Add here custom relation fields -->
+                        <!-- Add here custom relation fields -->
                     </group>
                 </sheet>
             </form>
@@ -39,5 +38,4 @@
             </tree>
         </field>
     </record>
-
 </odoo>
