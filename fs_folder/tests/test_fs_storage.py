@@ -17,6 +17,7 @@ class TestFsStorage(TransactionCase):
     def test_is_fs_name_valid(self):
         self.assertFalse(self.backend.is_fs_name_valid(r'my\/:*?"<>| directory'))
         self.assertTrue(self.backend.is_fs_name_valid("my directory"))
+        self.assertTrue(self.backend.is_fs_name_valid("my-directory"))
         with self.assertRaises(UserError):
             self.backend.is_fs_name_valid(
                 r'my\/:*?"<>| directory', raise_if_invalid=True
@@ -39,3 +40,5 @@ class TestFsStorage(TransactionCase):
 
         sanitized = self.backend.sanitize_fs_item_names(["/y dir*", "sub/dir"], " ")
         self.assertEqual(sanitized, ["y dir", "sub dir"])
+        sanitized = self.backend.sanitize_fs_item_name("y-dir_1", "_")
+        self.assertEqual(sanitized, "y-dir_1")

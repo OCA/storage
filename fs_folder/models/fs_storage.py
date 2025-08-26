@@ -30,10 +30,11 @@ class FsStorage(models.Model):
     def _check_fs_name_sanitization_replace_char(self):
         for rec in self:
             rc = rec.fs_name_sanitization_replace_char
-            if rc and re.findall(self._get_invalid_fs_name_chars(as_regex=True), rc):
+
+            if rc and self._invalid_fs_name_chars_re_pattern.findall(rc):
                 raise ValidationError(
                     _("The character to use as replacement can not be one of '%s'")
-                    % self._get_invalid_fs_name_chars()
+                    % self._invalid_fs_name_chars
                 )
 
     @api.constrains("use_as_default_for_fs_contents")
@@ -58,7 +59,7 @@ class FsStorage(models.Model):
 
     @api.model
     @tools.ormcache()
-    def get_storage_code_for_fs_content_fallback(self):
+    def get_storage_code_for_fs_content_fallback(self) -> str | None:
         storages = (
             self.sudo()
             .search([])
@@ -69,7 +70,7 @@ class FsStorage(models.Model):
         return None
 
     @api.model
-    def get_default_storage_code_for_fs_content(self, model_name, field_name):
+    def get_default_storage_code_for_fs_content(self, model_name, field_name) -> str:
         """
         Return the code of the default storage for the content of the
         external filesystem fields.
@@ -90,15 +91,18 @@ class FsStorage(models.Model):
             )
         return storage_code
 
-    def _get_invalid_fs_name_chars(self, as_regex=False):
-        invalid_chars = '<>:"/\\|?*\x00-\x1f'
-        if as_regex:
-            return f"[{re.escape(invalid_chars)}]"
-        return invalid_chars
+    @property
+    def _invalid_fs_name_chars(self) -> str:
+        return r'<>:"/\\|?*\x00-\x1f'
 
-    def is_fs_name_valid(self, name, raise_if_invalid=False):
+    @property
+    def _invalid_fs_name_chars_re_pattern(self) -> re.Pattern:
+        pattern = f"[{self._invalid_fs_name_chars}]"
+        return re.compile(pattern)
+
+    def is_fs_name_valid(self, name, raise_if_invalid=False) -> bool:
         self.ensure_one()
-        invalid = re.findall(self._get_invalid_fs_name_chars(as_regex=True), name)
+        invalid = self._invalid_fs_name_chars_re_pattern.findall(name)
         if invalid and raise_if_invalid:
             raise UserError(
                 _(
@@ -107,15 +111,15 @@ class FsStorage(models.Model):
                     "The following chars are not allowed: %(all_invalid_chars)s",
                     name=name,
                     invalid_chars=", ".join(invalid),
-                    all_invalid_chars=self._get_invalid_fs_name_chars(),
+                    all_invalid_chars=self._invalid_fs_name_chars,
                 )
             )
         return not bool(invalid)
 
-    def is_fs_names_valid(self, names, raise_if_invalid=False):
+    def is_fs_names_valid(self, names, raise_if_invalid=False) -> bool:
         return all(self.is_fs_name_valid(name, raise_if_invalid) for name in names)
 
-    def sanitize_fs_item_name(self, name, replace_char=None):
+    def sanitize_fs_item_name(self, name, replace_char=None) -> str:
         """Sanitize a filesystem item name by replacing invalid characters with a
         replacement character.
 
@@ -127,11 +131,12 @@ class FsStorage(models.Model):
         self.ensure_one()
         if replace_char is None:
             replace_char = self.fs_name_sanitization_replace_char
-        return re.sub(
-            self._get_invalid_fs_name_chars(as_regex=True), replace_char, name.strip()
+
+        return self._invalid_fs_name_chars_re_pattern.sub(
+            replace_char, name.strip()
         ).strip()
 
-    def sanitize_fs_item_names(self, names, replace_char=None):
+    def sanitize_fs_item_names(self, names, replace_char=None) -> list[str]:
         """Sanitize a list of filesystem item names by replacing invalid characters with
         a replacement character.
 
