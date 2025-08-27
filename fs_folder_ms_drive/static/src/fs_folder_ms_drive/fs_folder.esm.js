@@ -1,4 +1,4 @@
-import {onWillStart, useState, useSubEnv} from "@odoo/owl";
+import {markup, onWillStart, useState, useSubEnv} from "@odoo/owl";
 import {FsFolder} from "@fs_folder/fs_folder/fs_folder.esm";
 import {PreviewIframe} from "../components/preview_iframe.esm";
 import {_t} from "@web/core/l10n/translation";
@@ -147,9 +147,19 @@ patch(FsFolder.prototype, {
         if (this.isMSGD && definition && Array.isArray(definition)) {
             // First we remove the 'uid' field if it exists
             definition = definition.filter((item) => item.name !== "uid");
-            // Then we add the the createdBy field and modifiedBy field
+            // Then we add the description, the createdBy field and modifiedBy field
             definition.push({
-                sequence: 30,
+                sequence: 15,
+                name: "description",
+                type: "char",
+                optional: true,
+                string: _t("Description"),
+                value: (record) => {
+                    return markup(record?.item_info?.description || "");
+                },
+            });
+            definition.push({
+                sequence: 35,
                 name: "createdBy",
                 type: "char",
                 optional: true,
