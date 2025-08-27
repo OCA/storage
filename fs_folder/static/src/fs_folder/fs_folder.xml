@@ -50,16 +50,22 @@
             </div>
             <div>
                 <span
-                class="btn btn-link"
-                t-on-click="() => this.returnParent(-1)"
-            >Root</span> /
+                    t-att-class="state.path.length === 0 ? 'o_last_breadcrumb' : 'btn btn-link'"
+                    t-on-click="() => this.returnParent(-1)"
+                >Root</span>
                 <t t-foreach="state.path" t-as="path" t-key="path_index">
+                    <span>/</span>
                     <span
-                t-esc="path"
-                class="btn btn-link"
-                t-on-click="() => this.returnParent(path_index)"
-            />
-                    /
+                        t-if="path_index !== state.path.length - 1"
+                        t-esc="path"
+                        class="btn btn-link"
+                        t-on-click="() => this.returnParent(path_index)"
+                    />
+                    <span
+                        t-if="path_index === state.path.length - 1"
+                        t-esc="path"
+                        class="o_last_breadcrumb"
+                    />
                 </t>
             </div>
             <table

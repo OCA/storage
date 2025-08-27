@@ -18,4 +18,11 @@
     .dropdown.show .dropdown-menu {
         display: block;
     }
+
+    .o_last_breadcrumb {
+        @extend .btn;
+        @extend .btn-link;
+        pointer-events: none;
+        color: $o-main-text-color;
+    }
 }
