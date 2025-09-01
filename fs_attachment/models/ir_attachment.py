@@ -11,6 +11,7 @@ import os
 import re
 import time
 from contextlib import closing, contextmanager
+from pathlib import Path
 
 import fsspec  # pylint: disable=missing-manifest-dependency
 import psycopg2
@@ -385,11 +386,6 @@ class IrAttachment(models.Model):
         return b""
 
     def _storage_write_option(self, fs):
-        mimetype = self.env.context.get("mimetype")
-        if mimetype:
-            root_fs = self.env["fs.storage"]._get_root_filesystem(fs)
-            if hasattr(root_fs, "s3"):
-                return {"ContentType": mimetype}
         return {}
 
     @api.model
@@ -488,6 +484,7 @@ class IrAttachment(models.Model):
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
             # of ir_attachment prevent normal write on store_fname
+            # flake8: noqa: E231
             attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
 
@@ -676,6 +673,25 @@ class IrAttachment(models.Model):
     def _get_storage_codes(self):
         """Get the list of filesystem storage active in the system"""
         return self.env["fs.storage"].sudo().get_storage_codes()
+
+    def _get_x_sendfile_path(self):
+        """Get the path to use for X-Accel-Redirect"""
+        self.ensure_one()
+        url_path = self.fs_url_path
+        storage_code = self.fs_storage_code
+        if not url_path:
+            raise RuntimeError(
+                "The attachment %s is not stored in a filesystem storage." % self.id
+            )
+        path = Path("/") / storage_code / url_path.lstrip("/")
+        return str(path)
+
+    def _fs_use_x_sendfile(self):
+        """Return whether to use X-Sendfile to serve the internal URL"""
+        self.ensure_one()
+        return (
+            self.fs_url_path and self.fs_storage_id.use_x_sendfile_to_serve_internal_url
+        )
 
     ################################
     # useful methods for migration #

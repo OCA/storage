@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from odoo.http import STATIC_CACHE_LONG, Response, Stream, request
-from odoo.tools import config
 
 from .models.ir_attachment import IrAttachment
 
@@ -66,22 +65,20 @@ class FsStream(Stream):
             "environ": request.httprequest.environ,
             "response_class": Response,
         }
-        use_x_sendfile = self._fs_use_x_sendfile
+        use_x_sendfile = self.fs_attachment._fs_use_x_sendfile()
         # The file will be closed by werkzeug...
         send_file_kwargs["use_x_sendfile"] = use_x_sendfile
         if not use_x_sendfile:
             f = self.fs_attachment.open("rb")
             res = _send_file(f, **send_file_kwargs)
         else:
-            x_accel_redirect = (
-                f"/{self.fs_attachment.fs_storage_code}{self.fs_attachment.fs_url_path}"
-            )
+            x_sendfile_path = self.fs_attachment._get_x_sendfile_path()
             send_file_kwargs["use_x_sendfile"] = True
             res = _send_file("", **send_file_kwargs)
             # nginx specific headers
-            res.headers["X-Accel-Redirect"] = x_accel_redirect
+            res.headers["X-Accel-Redirect"] = x_sendfile_path
             # apache specific headers
-            res.headers["X-Sendfile"] = x_accel_redirect
+            res.headers["X-Sendfile"] = x_sendfile_path
             res.headers["Content-Length"] = 0
 
         if immutable and res.cache_control:
@@ -93,16 +90,3 @@ class FsStream(Stream):
             res.headers["Content-Security-Policy"] = content_security_policy
 
         return res
-
-    @classmethod
-    def _check_use_x_sendfile(cls, attachment: IrAttachment) -> bool:
-        return (
-            config["x_sendfile"]
-            and attachment.fs_url
-            and attachment.fs_storage_id.use_x_sendfile_to_serve_internal_url
-        )
-
-    @property
-    def _fs_use_x_sendfile(self) -> bool:
-        """Return True if x-sendfile should be used to serve the file"""
-        return self._check_use_x_sendfile(self.fs_attachment)
