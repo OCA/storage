@@ -11,7 +11,7 @@
     "depends": ["fs_attachment"],
     "external_dependencies": {
         "python": [
-            "s3fs",
+            "fsspec[s3]",
         ],
     },
     "data": [
