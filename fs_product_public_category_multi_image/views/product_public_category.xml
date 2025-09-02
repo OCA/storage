@@ -4,8 +4,8 @@
         <field name="model">product.public.category</field>
         <field name="inherit_id" ref="website_sale.product_public_category_form_view" />
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('oe_left')]" position="after">
-                <div class="oe_right">
+            <xpath expr="//div[hasclass('float-start')]" position="after">
+                <div class="float-end">
                     <group>
                         <group name="images" string="Images">
                             <field

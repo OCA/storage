@@ -47,14 +47,17 @@ class TestFsProductMultiImage(TransactionCase):
 
     def setUp(self):
         super().setUp()
+        model_xmlids = """
+            fs_product_multi_image.model_fs_product_category_image,
+            fs_product_multi_image.model_fs_product_image
+            """
         self.temp_dir = self.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
                 "protocol": "memory",
                 "code": "mem_dir",
                 "directory_path": "/tmp/",
-                "model_xmlids": "fs_product_multi_image.model_fs_product_category_image,"
-                "fs_product_multi_image.model_fs_product_image",
+                "model_xmlids": model_xmlids,
             }
         )
 
