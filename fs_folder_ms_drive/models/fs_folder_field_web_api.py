@@ -18,6 +18,21 @@ class FsFolderFieldWebApi(models.AbstractModel):
             protocol = protocol[0]
         return protocol == "msgd"
 
+    def get_root_fs_and_path(self, res_id, res_model, field_name):
+        """
+        Get the root filesystem and path to for a given record and field.
+        """
+        fs = self._get_fs(res_id, res_model, field_name)
+        if not self._is_ms_drive(fs):
+            return None, None
+        parent_paths = [fs.path] if fs.path else []
+        root_fs = fs
+        while fs := getattr(fs, "fs", None):
+            if hasattr(fs, "path") and fs.path:
+                parent_paths.insert(0, fs.path)
+            root_fs = fs
+        return root_fs, root_fs.sep.join(parent_paths)
+
     @api.model
     def get_ms_drive_url(self, res_id, res_model, field_name, path=None):
         """
@@ -56,10 +71,10 @@ class FsFolderFieldWebApi(models.AbstractModel):
         fs = self._get_fs(res_id, res_model, field_name)
         if not self._is_ms_drive(fs):
             return None
-        root_fs = self.env["fs.storage"].sudo()._get_root_filesystem(fs)
+        root_fs, parent_path = self.get_root_fs_and_path(res_id, res_model, field_name)
         info = fs.info(path, details=True)
         item_info = info.get("item_info")
-        rooted_file_path = fs.sep.join((fs.path, path))
+        rooted_file_path = fs.sep.join((parent_path, path))
         return root_fs.preview(rooted_file_path, item_id=item_info.get("id"))
 
     @api.model
