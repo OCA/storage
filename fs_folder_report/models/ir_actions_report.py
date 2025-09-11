@@ -56,7 +56,8 @@ class IrActionsReport(models.Model):
                     break
 
     def _render_qweb_pdf(self, report_ref, res_ids=None, data=None):
-        self_with_context = self.with_context(report_id=self.id)
+        report = self._get_report(report_ref)
+        self_with_context = self.with_context(report_id=report.id)
         return super(IrActionsReport, self_with_context)._render_qweb_pdf(
             report_ref, res_ids=res_ids, data=data
         )
