@@ -25,8 +25,11 @@ addon | version | maintainers | summary
 [fs_file](fs_file/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Field to store files into filesystem storages
 [fs_folder](fs_folder/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | A module to link to Odoo records and manage from record forms forlders from external file systems
 [fs_folder_demo](fs_folder_demo/) | 18.0.1.0.0 |  | Demo for fs_folder addon
+[fs_folder_ms_drive](fs_folder_ms_drive/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Display and manage your files from Microsoft drives from within Odoo
 [fs_storage](fs_storage/) | 18.0.2.0.1 |  | Implement the concept of Storage with amazon S3, sftp...
+[fs_storage_ms_drive](fs_storage_ms_drive/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Add the microsoft drives (OneDrive, Sharepoint) as a storage backend
 [image_tag](image_tag/) | 18.0.1.0.0 |  | Image tag model
+[microsoft_drive_account](microsoft_drive_account/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Link user with Microsoft
 [storage_backend](storage_backend/) | 18.0.1.0.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_ftp](storage_backend_ftp/) | 18.0.1.0.0 |  | Implement FTP Storage
 [storage_backend_s3](storage_backend_s3/) | 18.0.1.1.0 |  | Implement amazon S3 Storage
