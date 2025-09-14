@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-storage"
-version = "17.0.20240531.1"
+version = "17.0.20250914.0"
 dependencies = [
     "odoo-addon-fs_attachment>=17.0dev,<17.1dev",
     "odoo-addon-fs_base_multi_image>=17.0dev,<17.1dev",
@@ -14,6 +14,7 @@ dependencies = [
     "odoo-addon-fs_product_multi_media>=17.0dev,<17.1dev",
     "odoo-addon-fs_storage>=17.0dev,<17.1dev",
     "odoo-addon-image_tag>=17.0dev,<17.1dev",
+    "odoo-addon-storage_backend>=17.0dev,<17.1dev",
 ]
 classifiers=[
     "Programming Language :: Python",

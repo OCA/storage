@@ -33,6 +33,7 @@ addon | version | maintainers | summary
 [fs_product_multi_media](fs_product_multi_media/) | 17.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Link media to products and categories
 [fs_storage](fs_storage/) | 17.0.2.0.4 |  | Implement the concept of Storage with amazon S3, sftp...
 [image_tag](image_tag/) | 17.0.1.0.0 |  | Image tag model
+[storage_backend](storage_backend/) | 17.0.1.0.0 |  | Implement the concept of Storage with amazon S3, sftp...
 
 [//]: # (end addons)
 
