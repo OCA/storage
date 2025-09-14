@@ -1,0 +1,1 @@
+On the user preference page, the user can link their Microsoft Drive account to Odoo by cliking on the Drive button. This will redirect the user to the Microsoft authentication page, where they can log in and grant permission to Odoo to access their Drive account. Once the user has granted permission, they will be redirected back to Odoo, where their Drive account will be linked.

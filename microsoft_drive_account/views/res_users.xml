@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 ACSONE SA/NV
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <record id="res_users_form_view" model="ir.ui.view">
+        <field name="name">res.users.from.view</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <page name="account_security" position="inside">
+                <group string="Drive" name="drive_group">
+                    <field name="microsoft_drive_status" widget="ms_drive_connect" />
+                    <group invisible="microsoft_drive_status == 'not_connected'">
+                        <field
+                            name="microsoft_drive_token_validity"
+                            string="Token Validity"
+                            readonly="1"
+                            groups="base.group_no_one"
+                        />
+                        <field
+                            name="microsoft_drive_rtoken"
+                            string="Refresh Token"
+                            readonly="1"
+                            groups="base.group_no_one"
+                        />
+                        <field
+                            name="microsoft_drive_token"
+                            string="User Token"
+                            readonly="1"
+                            groups="base.group_no_one"
+                        />
+                    </group>
+                </group>
+            </page>
+        </field>
+    </record>
+
+    <record id="res_users_simple_form_view" model="ir.ui.view">
+        <field name="name">res.users.from.view</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <group name="auth" position="after">
+                <group string="Drive" name="drive_group">
+                    <div class="alert alert-info" role="alert" colspan="4">
+                        <span invisible="microsoft_drive_status == 'connected'">
+                            You are not connected to Drive. Click the button below to
+                            connect.
+                        </span>
+                        <span invisible="microsoft_drive_status == 'not_connected'">
+                            You are connected to Drive. Click the button below to
+                            disconnect or reset your account.
+                        </span>
+                    </div>
+                    <field
+                        name="microsoft_drive_status"
+                        widget="ms_drive_connect"
+                        nolabel="1"
+                    />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

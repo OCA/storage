@@ -1,0 +1,1 @@
+This addon allows the user to link their Microsoft Drive account to Odoo. The stored credentials are then used by other addons to perform actions on Drive as the logged-in user.

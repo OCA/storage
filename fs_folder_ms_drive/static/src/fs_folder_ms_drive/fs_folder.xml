@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name='fs_folder_ms_drive.FsFolder'
+        t-inherit="fs_folder.FsFolder"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//FileUploader" position="after">
+            <button
+                class="o_fs_folder_button_ms_drive m-1 btn btn-info"
+                t-on-click="onOpenInMsDrive"
+                t-if="isMSGD"
+            >
+                <span class="o_icon_ms_drive" />
+            </button>
+        </xpath>
+        <xpath expr="//button[1]" position="before">
+            <t t-if="urlPreview.show">
+                <PreviewIframe onClose="closeUrlPreview" url="urlPreview.url" />
+            </t>
+        </xpath>
+    </t>
+
+</templates>

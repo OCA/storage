@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name='fs_folder_ms_drive.FsFolderItem'
+        t-inherit="fs_folder.FsFolderItem"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//td/button[1]" position="before">
+            <button
+                class="btn btn-link py-0 px-1 o_fs_field_field_file_button_ms_drive"
+                t-on-click="() => this.env.onOpenInMsDrive(this.props.record)"
+                t-if="this.env.isMSGD()"
+            >
+                <span class="o_icon_ms_drive" />
+            </button>
+        </xpath>
+    </t>
+
+</templates>
