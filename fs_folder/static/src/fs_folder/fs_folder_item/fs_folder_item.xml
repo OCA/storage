@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="fs_folder.FsFolderItem" t-inherit-mode="primary">
+        <tr class="o_data_row">
+            <t t-foreach="props.fieldDef" t-as="field" t-key="field.name">
+                <td
+                    t-if="props.showField(field.name)"
+                    class="o_data_cell o_fs_folder_item_field o_fs_folder_item_name"
+                    t-on-click="onClick"
+                >
+                    <t t-out="field.value(props.record)" t-if="!!field.value" />
+                    <span t-esc="props.record[field.name]" t-else="" />
+                </td>
+            </t>
+            <td class="o_data_cell o_fs_folder_item_button">
+                <button
+                    class="btn btn-link py-0 px-1 o_fs_folder_field_file_button_download"
+                    name="action_download"
+                    title="Download"
+                    t-if="props.record.type === 'file'"
+                    t-on-click="() => this.env.onClickDownload(this.props.record)"
+                >
+                    <i class="fa fa-download" />
+                </button>
+
+                <button
+                    class="btn btn-link py-0 px-1 o_fs_folder_field_file_button_preview"
+                    name="action_preview"
+                    title="Preview"
+                    t-if="props.record.type === 'file'"
+                    t-on-click="() => this.env.onClickPreview(this.props.record)"
+                >
+                    <i class="fa fa-eye" />
+                </button>
+                <Dropdown>
+                    <button class="btn btn-link py-0 px-1" title="More Actions">
+                        <i class="fa fa-list" />
+                    </button>
+                    <t t-set-slot="content">
+                        <t t-foreach="items" t-as="item" t-key="item_index">
+                            <DropdownItem
+                                class="item.class_name"
+                                onSelected="() => item.callback(this.props.record)"
+                                t-on-pointerdown.prevent="() => {}"
+                            >
+                                <i
+                                    t-attf-class="p-1 fa {{item.icon}}"
+                                    t-if="item.icon"
+                                />
+                                <t t-esc="item.name" />
+                            </DropdownItem>
+                        </t>
+                    </t>
+                </Dropdown>
+            </td>
+            <td class="o_data_cell" />
+        </tr>
+    </t>
+
+</templates>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+  <t t-name="fs_folder.SimpleDialog">
+        <Dialog
+            size="'md'"
+            title="props.title"
+            modalRef="modalRef"
+            contentClass="'o_field_widget'"
+        >
+            <p t-out="props.body" class="text-prewrap" />
+            <input
+                t-ref="input"
+                class="o_input"
+                style="outline: none"
+                t-att-value="props.value"
+                placeholder="Folder Name"
+            />
+            <t t-set-slot="footer">
+                <button
+                    class="btn"
+                    t-att-class="props.confirmClass"
+                    t-on-click="_confirm"
+                    t-esc="props.confirmLabel"
+                />
+                <button
+                    t-if="props.cancel"
+                    class="btn btn-secondary"
+                    t-on-click="_cancel"
+                    t-esc="props.cancelLabel"
+                />
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

@@ -1,0 +1,28 @@
+.o_field_fs_folder {
+    width: 100%;
+    .o_fs_folder_clickable {
+        cursor: pointer;
+    }
+    .o_fs_folder_item_field {
+        cursor: pointer;
+    }
+    .dropdown-menu {
+        display: none;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+        min-width: 160px;
+        z-index: 1000;
+    }
+
+    .dropdown.show .dropdown-menu {
+        display: block;
+    }
+
+    .o_last_breadcrumb {
+        @extend .btn;
+        @extend .btn-link;
+        pointer-events: none;
+        color: $o-main-text-color;
+    }
+}

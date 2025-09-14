@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="fs_folder.FsFolder" t-inherit-mode="primary">
+        <button
+            class="btn btn-primary oe_highlight"
+            t-on-click="onClickInitialize"
+            t-if="!props.record.data[props.name]"
+        >
+            <i class="fa fa-plus" /> Create Folder
+        </button>
+        <div class="o_list_renderer" t-if="props.record.data[props.name]">
+            <div class="o_fs_folder_field_header">
+                <button
+                    class="m-1 btn btn-info o_fs_folder_field_file_button_refresh"
+                    name="action_refresh"
+                    t-on-click="setData"
+                >
+                    <i class="fa fa-refresh" />
+                </button>
+                <button
+                    class="m-1 btn btn-info o_fs_folder_field_file_button_add_folder"
+                    name="action_add_folder"
+                    t-on-click="onClickAddChildFolder"
+                >
+                    <i class="fa fa-folder" />
+                </button>
+
+                <FileUploader
+                    onUploaded.bind="onAddFile"
+                    multiUpload="true"
+                    onUploadComplete.bind="setData"
+                >
+                    <t t-set-slot="toggler">
+                        <button
+                            class="m-1 btn btn-info o_fs_folder_field_file_button_add_file"
+                        >
+                            <i class="fa fa-file" />
+                        </button>
+                    </t>
+                </FileUploader>
+                <button
+                    class="m-1 btn btn-link o_fs_folder_field_file_button_paste"
+                    name="action_paste"
+                    t-on-click="onPaste"
+                    t-if="state.copy"
+                >
+                    <i class="fa fa-clipboard" />
+                </button>
+            </div>
+            <div>
+                <span
+                    t-att-class="state.path.length === 0 ? 'o_last_breadcrumb' : 'btn btn-link'"
+                    t-on-click="() => this.returnParent(-1)"
+                >Root</span>
+                <t t-foreach="state.path" t-as="path" t-key="path_index">
+                    <span>/</span>
+                    <span
+                        t-if="path_index !== state.path.length - 1"
+                        t-esc="path"
+                        class="btn btn-link"
+                        t-on-click="() => this.returnParent(path_index)"
+                    />
+                    <span
+                        t-if="path_index === state.path.length - 1"
+                        t-esc="path"
+                        class="o_last_breadcrumb"
+                    />
+                </t>
+            </div>
+            <table
+                class="o_list_table table table-sm table-hover mb-0"
+                t-ref="dropzone"
+            >
+                <thead>
+                    <tr>
+                        <t t-foreach="fieldDef" t-as="field" t-key="field.name">
+                            <th
+                                t-on-click="() => this.onSort(field)"
+                                t-if="showField(field.name)"
+                            >
+                                <span t-esc="field.string" />
+                                <i
+                                    class="fa fa-caret-down"
+                                    t-if="state.sort.length and state.sort[0].field.name === field.name and state.sort[0].order === 'desc'"
+                                />
+                                <i
+                                    class="fa fa-caret-up"
+                                    t-if="state.sort.length and state.sort[0].field.name === field.name and state.sort[0].order === 'asc'"
+                                />
+                            </th>
+                        </t>
+                        <th class="o_list_actions">
+                            <span>Actions</span>
+                        </th>
+                        <th class="o_data_cell">
+                            <Dropdown>
+                                <button class="btn p-0" title="More Actions">
+                                    <i class="oi oi-fw oi-settings-adjust" />
+                                </button>
+                                <t t-set-slot="content">
+                                    <t
+                                        t-foreach="fieldDef"
+                                        t-as="field"
+                                        t-key="field.name"
+                                    >
+                                        <DropdownItem
+                                            t-if="field.optional"
+                                            onSelected="() => this.hideField(field.name)"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                t-att-checked="showField(field.name)"
+                                                t-on-change.prevent="() => this.showField(field.name)"
+                                            />
+                                            <span t-esc="field.string" />
+                                        </DropdownItem>
+                                    </t>
+                                </t>
+                            </Dropdown>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="state.data" t-as="record" t-key="record.name">
+                        <FsFolderItem
+                            record="record"
+                            fieldDef="fieldDef"
+                            moreActionDef="moreActionDef"
+                            showField="this.showField.bind(this)"
+                        />
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+
+</templates>
