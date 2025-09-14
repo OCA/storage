@@ -1,9 +1,11 @@
 [project]
 name = "odoo-addons-oca-storage"
-version = "18.0.20250914.0"
+version = "18.0.20250914.1"
 dependencies = [
     "odoo-addon-fs_attachment==18.0.*",
     "odoo-addon-fs_file==18.0.*",
+    "odoo-addon-fs_folder==18.0.*",
+    "odoo-addon-fs_folder_demo==18.0.*",
     "odoo-addon-fs_storage==18.0.*",
     "odoo-addon-image_tag==18.0.*",
     "odoo-addon-storage_backend==18.0.*",
