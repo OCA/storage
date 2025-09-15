@@ -6,26 +6,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-09-15 09:42+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: fs_folder_demo
 #: model:ir.model,name:fs_folder_demo.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contatto"
 
 #. module: fs_folder_demo
 #: model_terms:ir.ui.view,arch_db:fs_folder_demo.res_partner_form_view
 msgid "Documents"
-msgstr ""
+msgstr "Documenti"
 
 #. module: fs_folder_demo
 #: model:ir.model.fields,field_description:fs_folder_demo.field_res_partner__fs_folder_field
 #: model:ir.model.fields,field_description:fs_folder_demo.field_res_users__fs_folder_field
 msgid "Fs Folder Field"
-msgstr ""
+msgstr "Campo cartella FS"
