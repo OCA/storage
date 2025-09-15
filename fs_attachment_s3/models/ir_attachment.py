@@ -6,7 +6,6 @@ from odoo import models
 
 
 class IrAttachment(models.Model):
-
     _inherit = "ir.attachment"
 
     def _storage_write_option(self, fs):

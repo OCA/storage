@@ -7,7 +7,8 @@ from odoo.http import STATIC_CACHE_LONG, Response, Stream, request
 from .models.ir_attachment import IrAttachment
 
 try:
-    from werkzeug.utils import secure_filename, send_file as _send_file
+    from werkzeug.utils import secure_filename
+    from werkzeug.utils import send_file as _send_file
 except ImportError:
     from odoo.tools._vendor.send_file import send_file as _send_file
 
