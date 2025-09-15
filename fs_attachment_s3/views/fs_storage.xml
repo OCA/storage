@@ -2,7 +2,6 @@
 <!-- Copyright 2025 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_storage_form_view">
         <field name="model">fs.storage</field>
         <field name="inherit_id" ref="fs_attachment.fs_storage_form_view" />
@@ -19,5 +18,4 @@
             </field>
         </field>
     </record>
-
 </odoo>

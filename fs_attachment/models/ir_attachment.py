@@ -677,7 +677,7 @@ class IrAttachment(models.Model):
         storage_code = self.fs_storage_code
         if not url_path:
             raise RuntimeError(
-                "The attachment %s is not stored in a filesystem storage." % self.id
+                f"The attachment {self.id} is not stored in a filesystem storage."
             )
         path = Path("/") / storage_code / url_path.lstrip("/")
         return str(path)
