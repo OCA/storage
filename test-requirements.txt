@@ -1,3 +1,4 @@
 odoo_test_helper
 requests_mock
 vcrpy-unittest
+s3fs>=2025.3.0

@@ -260,29 +260,17 @@ class FsStorage(models.Model):
         :param attachment: an attachment record
         :return: the URL to access the attachment
         """
-        fs_storage = self.sudo().get_by_code(attachment.fs_storage_code)
-        if not fs_storage:
+        _fs, storage_code, file_path = attachment._get_fs_parts()
+        if not storage_code:
             return None
+        fs_storage = self.sudo().get_by_code(storage_code)
         base_url = fs_storage.base_url_for_files
         if not base_url:
             return None
         if exclude_base_url:
             base_url = base_url.replace(fs_storage.base_url.rstrip("/"), "") or "/"
-        # always remove the directory_path from the fs_filename
-        # only if it's at the start of the filename
-        fs_filename = attachment.fs_filename
-        if fs_storage.directory_path and fs_filename.startswith(
-            fs_storage.directory_path
-        ):
-            fs_filename = fs_filename.replace(fs_storage.directory_path, "")
-        parts = [base_url, fs_filename]
-        if attachment.fs_storage_id:
-            if (
-                fs_storage.optimizes_directory_path
-                and not fs_storage.use_filename_obfuscation
-            ):
-                checksum = attachment.checksum
-                parts = [base_url, checksum[:2], checksum[2:4], fs_filename]
+        parts = [base_url]
+        parts.append(file_path)
         return self._normalize_url("/".join(parts))
 
     @api.model
