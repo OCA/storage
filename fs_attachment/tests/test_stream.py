@@ -223,7 +223,8 @@ class TestStream(HttpCase):
                 {"name": "tes\nt.png", "raw": self.image}
             )  # newline in the filename
         )
-        # Ensure the name IS stored with the newline before sanitization happens on download
+        # Ensure the name IS stored with the newline before sanitization
+        # happens on download
         self.assertIn("\n", attachment_image.name)
 
         self.authenticate("admin", "admin")

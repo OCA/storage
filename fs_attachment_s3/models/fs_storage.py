@@ -7,7 +7,6 @@ from odoo import api, fields, models
 
 
 class FsStorage(models.Model):
-
     _inherit = "fs.storage"
 
     s3_uses_signed_url_for_x_sendfile = fields.Boolean(
