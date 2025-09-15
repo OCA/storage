@@ -16,7 +16,7 @@
         "security/fs_file_gc.xml",
         "views/fs_storage.xml",
     ],
-    "external_dependencies": {"python": ["python_slugify"]},
+    "external_dependencies": {"python": ["python_slugify", "fsspec>=2025.3.0"]},
     "installable": True,
     "auto_install": False,
     "maintainers": ["lmignon"],
