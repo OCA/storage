@@ -6,130 +6,132 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-09-16 08:39+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: fs_folder
 #: model:ir.model,name:fs_folder.model_fs_folder_field_web_api
 msgid "Abstract model providing the required api for the FsFolser "
-msgstr ""
+msgstr "Modello astratto che fornisce le API richieste per la cartella FS "
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.xml:0
 msgid "Actions"
-msgstr ""
+msgstr "Azioni"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Add Folder"
-msgstr ""
+msgstr "Aggiungi cartella"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Are you sure that you want to remove this item?"
-msgstr ""
+msgstr "Si è sicuri di voler eliminare questo elemento?"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/simple_dialog/simple_dialog.esm.js:0
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #. module: fs_folder
 #: model:ir.model,name:fs_folder.model_bus_bus
 msgid "Communication Bus"
-msgstr ""
+msgstr "Bus comunicazioni"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/simple_dialog/simple_dialog.esm.js:0
 msgid "Confirmation"
-msgstr ""
+msgstr "Conferma"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Copy"
-msgstr ""
+msgstr "Copia"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.xml:0
 msgid "Create Folder"
-msgstr ""
+msgstr "Crea cartella"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Cut"
-msgstr ""
+msgstr "Taglia"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Delete"
-msgstr ""
+msgstr "Cancella"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder_item/fs_folder_item.xml:0
 msgid "Download"
-msgstr ""
+msgstr "Scarica"
 
 #. module: fs_folder
 #: model:ir.model.fields.selection,name:fs_folder.selection__ir_model_fields__ttype__fs_folder
 msgid "External Folder"
-msgstr ""
+msgstr "Cartella esterna"
 
 #. module: fs_folder
 #: model:ir.model,name:fs_folder.model_fs_storage
 msgid "FS Storage"
-msgstr ""
+msgstr "Deposito FS"
 
 #. module: fs_folder
 #: model:ir.model.fields,field_description:fs_folder.field_ir_model_fields__ttype
 msgid "Field Type"
-msgstr ""
+msgstr "Tipo campo"
 
 #. module: fs_folder
 #: model:ir.model,name:fs_folder.model_ir_model_fields
 msgid "Fields"
-msgstr ""
+msgstr "Campi"
 
 #. module: fs_folder
 #: model_terms:ir.ui.view,arch_db:fs_folder.fs_storage_form_view
 msgid "Filesystem contents"
-msgstr ""
+msgstr "Contenuti file system"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/simple_dialog/simple_dialog.xml:0
 msgid "Folder Name"
-msgstr ""
+msgstr "Nome cartella"
 
 #. module: fs_folder
 #: model:ir.model,name:fs_folder.model_fs_folder_field_value_adapter
 msgid "Folder field value adapter"
-msgstr ""
+msgstr "Adattatore valore campo cartella"
 
 #. module: fs_folder
 #: model:ir.model.fields,field_description:fs_folder.field_fs_storage__fs_name_sanitization_replace_char
 msgid "Fs Name Sanitization Replace Char"
-msgstr ""
+msgstr "Sanitizzazione nome file system sostituzione carattere"
 
 #. module: fs_folder
 #: model:ir.model.fields,help:fs_folder.field_fs_storage__sanitize_fs_name
@@ -138,6 +140,9 @@ msgid ""
 "sanitized. Invalid characters will be replaced by the value provided by the "
 "field 'fs_name_sanitizatio_replace_char'."
 msgstr ""
+"Se selezionata, i nomi degli elementi del file system creati dai campi "
+"verranno ripuliti. I caratteri non validi verranno sostituiti dal valore "
+"fornito dal campo 'fs_name_sanitizatio_replace_char'."
 
 #. module: fs_folder
 #: model:ir.model.fields,help:fs_folder.field_fs_storage__use_as_default_for_fs_contents
@@ -145,25 +150,27 @@ msgid ""
 "If checked, this storage will be used to store the content of the external "
 "filesystem fields by default. "
 msgstr ""
+"Se selezionata, questo archivio verrà utilizzato per memorizzare il "
+"contenuto dei campi del file system esterno per impostazione predefinita. "
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Modified on"
-msgstr ""
+msgstr "Modificato il"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.xml:0
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder_item/fs_folder_item.xml:0
 msgid "More Actions"
-msgstr ""
+msgstr "Altre azioni"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: fs_folder
 #. odoo-python
@@ -173,47 +180,53 @@ msgid ""
 "for model %(model)s and field %(field)s. Please set a default storage in the"
 " filesystem storage configuration."
 msgstr ""
+"Non è stato trovato alcun archivio predefinito per il contenuto dei campi "
+"del file system esterno per il modello %(model)s e il campo %(field)s. "
+"Impostare un archivio predefinito nella configurazione dell'archivio del "
+"file system."
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/simple_dialog/simple_dialog.esm.js:0
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #. module: fs_folder
 #. odoo-python
 #: code:addons/fs_folder/models/fs_storage.py:0
 msgid "Only one storage can be used as default for filesystem contents."
 msgstr ""
+"È possibile utilizzare solo un archivio come predefinito per i contenuti del "
+"file system."
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder_item/fs_folder_item.xml:0
 msgid "Preview"
-msgstr ""
+msgstr "Anteprima"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "Rename"
-msgstr ""
+msgstr "Rinomina"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.xml:0
 msgid "Root"
-msgstr ""
+msgstr "Radice"
 
 #. module: fs_folder
 #: model:ir.model.fields,field_description:fs_folder.field_fs_storage__sanitize_fs_name
 msgid "Sanitize Fs Name"
-msgstr ""
+msgstr "Sanitizza nome file system"
 
 #. module: fs_folder
 #. odoo-python
 #: code:addons/fs_folder/models/fs_storage.py:0
 msgid "The character to use as replacement can not be one of '%s'"
-msgstr ""
+msgstr "Il carattere da usare come sostituto non può essere uno dei '%s'"
 
 #. module: fs_folder
 #: model:ir.model.fields,help:fs_folder.field_fs_storage__fs_name_sanitization_replace_char
@@ -221,12 +234,14 @@ msgid ""
 "The character used to replace the invalid characters in the names of the "
 "filesystem items created by the fields."
 msgstr ""
+"Carattere utilizzato per sostituire i caratteri non validi nei nomi degli "
+"elementi del file system creati dai campi."
 
 #. module: fs_folder
 #. odoo-python
 #: code:addons/fs_folder/models/fs_folder_field_web_api.py:0
 msgid "The field is not an external filesystem field."
-msgstr ""
+msgstr "Il campo non è un campo di un file system esterno."
 
 #. module: fs_folder
 #. odoo-python
@@ -235,26 +250,28 @@ msgid ""
 "The name '%(name)s' contains invalid characters %(invalid_chars)s.\n"
 "The following chars are not allowed: %(all_invalid_chars)s"
 msgstr ""
+"Il nome '%(name)s' contiene caratteri non validi %(invalid_chars)s.\n"
+"I seguenti caratteri non sono consentiti: %(all_invalid_chars)s"
 
 #. module: fs_folder
 #. odoo-python
 #: code:addons/fs_folder/models/fs_folder_field_web_api.py:0
 msgid "Unknown field"
-msgstr ""
+msgstr "Campo sconosciuto"
 
 #. module: fs_folder
 #. odoo-python
 #: code:addons/fs_folder/models/fs_folder_field_web_api.py:0
 msgid "Unknown model"
-msgstr ""
+msgstr "Modello sconosciuto"
 
 #. module: fs_folder
 #: model:ir.model.fields,field_description:fs_folder.field_fs_storage__use_as_default_for_fs_contents
 msgid "Use As Default For Fs Contents"
-msgstr ""
+msgstr "Utilizzare come predefinito per i contenuti del file system"
 
 #. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "User"
-msgstr ""
+msgstr "Utente"
