@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-09-17 10:42+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_simple_form_view
@@ -26,136 +28,147 @@ msgid ""
 "                            disconnect or reset your account.\n"
 "                        </span>"
 msgstr ""
+"<span invisible=\"microsoft_drive_status == 'connected'\">\n"
+"                            Non si è connessi a Drive. Fare clic sul "
+"punsante sottostante per\n"
+"                            connettersi.\n"
+"                        </span>\n"
+"                        <span invisible="
+"\"microsoft_drive_status == 'not_connected'\">\n"
+"                            Si è colleegati a Drive. Fare clic sul pulsante "
+"sottostante per \n"
+"                            disconnettersi o resettare il proprio account.\n"
+"                        </span>"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.microsoft_drive_reset_account_form_view
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #. module: microsoft_drive_account
 #: model:ir.model,name:microsoft_drive_account.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Impostazioni configurazione"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.microsoft_drive_reset_account_form_view
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields.selection,name:microsoft_drive_account.selection__res_users__microsoft_drive_status__connected
 msgid "Connected"
-msgstr ""
+msgstr "Connesso"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_form_view
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_simple_form_view
 msgid "Drive"
-msgstr ""
+msgstr "Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: microsoft_drive_account
 #: model:ir.actions.act_window,name:microsoft_drive_account.microsoft_drive_reset_account_action
 #: model:ir.model,name:microsoft_drive_account.model_microsoft_drive_account_reset
 msgid "Microsoft Drive Account Reset"
-msgstr ""
+msgstr "Reset dell'account Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_config_settings__drive_microsoft_client_id
 msgid "Microsoft Drive Client_id"
-msgstr ""
+msgstr "Client_id Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_config_settings__drive_microsoft_client_secret
 msgid "Microsoft Drive Client_key"
-msgstr ""
+msgstr "Client_key Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_status
 msgid "Microsoft Drive Connection Status"
-msgstr ""
+msgstr "Stato connessione Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_rtoken
 msgid "Microsoft Drive Refresh Token"
-msgstr ""
+msgstr "Token aggiornamento Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_config_settings__drive_microsoft_client_scope
 msgid "Microsoft Drive Scope"
-msgstr ""
+msgstr "Scope Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_token
 msgid "Microsoft Drive Token"
-msgstr ""
+msgstr "Token Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_token_validity
 msgid "Microsoft Drive Token Validity"
-msgstr ""
+msgstr "Validità token Microsoft Drive"
 
 #. module: microsoft_drive_account
 #: model:ir.model,name:microsoft_drive_account.model_microsoft_service
 msgid "Microsoft Service"
-msgstr ""
+msgstr "Servizio Microsoft"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields.selection,name:microsoft_drive_account.selection__res_users__microsoft_drive_status__not_connected
 msgid "Not connected"
-msgstr ""
+msgstr "Non connesso"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_form_view
 msgid "Refresh Token"
-msgstr ""
+msgstr "Token aggiornamento"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.microsoft_drive_reset_account_form_view
 msgid "Reset Outlook Drive Account?"
-msgstr ""
+msgstr "Resettare l'account Microsoft Drive?"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_form_view
 msgid "Token Validity"
-msgstr ""
+msgstr "Validità token"
 
 #. module: microsoft_drive_account
 #: model:ir.model,name:microsoft_drive_account.model_res_users
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__user_id
 msgid "User"
-msgstr ""
+msgstr "Utente"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_form_view
 msgid "User Token"
-msgstr ""
+msgstr "Token utente"
