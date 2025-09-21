@@ -140,3 +140,28 @@ class FsFolderController(http.Controller):
         request.env["fs.folder.field.web.api"].initialize_field_value(
             res_id, res_model, field_name
         )
+
+    @http.route(
+        "/fs_folder/unlink_folder/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def unlink_folder(self, res_id, res_model, field_name):
+        request.env["fs.folder.field.web.api"].remove_field_value(
+            res_id, res_model, field_name
+        )
+
+    @http.route(
+        "/fs_folder/delete_folder/<string:res_model>/<int:res_id>/<string:field_name>",
+        type="json",
+        auth="user",
+        methods=["POST"],
+    )
+    def delete_folder(self, res_id, res_model, field_name):
+        request.env["fs.folder.field.web.api"].delete(
+            res_id, res_model, field_name, "/", recursive=True
+        )
+        request.env["fs.folder.field.web.api"].remove_field_value(
+            res_id, res_model, field_name
+        )

@@ -130,6 +130,34 @@ export class FsFolder extends Component {
             return 0;
         });
     }
+    async onClickUnlinkFolder() {
+        this.dialog.add(ConfirmationDialog, {
+            body: _t(
+                "Are you sure that you want to unlink this folder? The folder will be preserved on your external storage."
+            ),
+            confirm: () => {
+                this.service
+                    .unlink_folder(this.props.record, this.props.name)
+                    .then(() => {
+                        this.props.record.load();
+                    });
+            },
+        });
+    }
+    async onClickDeleteFolder() {
+        this.dialog.add(ConfirmationDialog, {
+            body: _t(
+                "Are you sure that you want to delete this folder? The folder will be deleted on your external storage."
+            ),
+            confirm: () => {
+                this.service
+                    .deleteFolder(this.props.record, this.props.name)
+                    .then(() => {
+                        this.props.record.load();
+                    });
+            },
+        });
+    }
     async onAddFile(file) {
         this.service.uploadFile(
             this.props.record,
