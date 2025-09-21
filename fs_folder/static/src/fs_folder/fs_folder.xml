@@ -10,10 +10,11 @@
             <i class="fa fa-plus" /> Create Folder
         </button>
         <div class="o_list_renderer" t-if="props.record.data[props.name]">
-            <div class="o_fs_folder_field_header">
+            <div class="d-flex o_fs_folder_field_header">
                 <button
                     class="m-1 btn btn-info o_fs_folder_field_file_button_refresh"
                     name="action_refresh"
+                    title="Refresh"
                     t-on-click="setData"
                 >
                     <i class="fa fa-refresh" />
@@ -21,6 +22,7 @@
                 <button
                     class="m-1 btn btn-info o_fs_folder_field_file_button_add_folder"
                     name="action_add_folder"
+                    title="Add folder"
                     t-on-click="onClickAddChildFolder"
                 >
                     <i class="fa fa-folder" />
@@ -34,6 +36,7 @@
                     <t t-set-slot="toggler">
                         <button
                             class="m-1 btn btn-info o_fs_folder_field_file_button_add_file"
+                            title="Add File"
                         >
                             <i class="fa fa-file" />
                         </button>
@@ -42,11 +45,30 @@
                 <button
                     class="m-1 btn btn-link o_fs_folder_field_file_button_paste"
                     name="action_paste"
+                    title="Paste"
                     t-on-click="onPaste"
                     t-if="state.copy"
                 >
                     <i class="fa fa-clipboard" />
                 </button>
+                <div class="ms-auto">
+                    <button
+                        class="m-1 btn btn-warning ms-auto"
+                        title="Unlink folder"
+                        name="action_unlink_folder"
+                        t-on-click="onClickUnlinkFolder"
+                    >
+                        <i class="fa fa-chain-broken" />
+                    </button>
+                    <button
+                        class="m-1 btn btn-danger ms-auto"
+                        title="Delete folder"
+                        name="action_delete_folder"
+                        t-on-click="onClickDeleteFolder"
+                    >
+                        <i class="fa fa-trash-o" />
+                    </button>
+                </div>
             </div>
             <div>
                 <span

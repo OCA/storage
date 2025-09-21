@@ -88,6 +88,15 @@ class FsFolderFieldWebApi(models.AbstractModel):
         record[field_name].initialize()
 
     @api.model
+    def remove_field_value(self, res_id, res_model, field_name, **kwargs) -> None:
+        """
+        Delete the value of the field.
+        """
+        self._check_field_access(res_id, res_model, field_name, "write")
+        _field, record = self._get_field_and_record(res_id, res_model, field_name)
+        record[field_name] = False
+
+    @api.model
     def get_children(self, res_id, res_model, field_name, path, **kwargs) -> list[dict]:
         """
         Return the children of the given item.
