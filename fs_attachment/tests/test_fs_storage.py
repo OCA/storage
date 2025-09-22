@@ -324,3 +324,8 @@ class TestFsStorage(TestFSAttachmentCommon):
         self.assertTrue(parts)
         self.assertTrue(checksum)
         self.assertEqual(fs_url_1, fs_url_2)
+
+    def test_directory_path_substitution(self):
+        self.temp_backend.directory_path += "/{db_name}"
+        self.assertEqual("", self.temp_backend.base_url_for_files)
+        self.assertNotIn("{db_name}", self.temp_backend.base_url_for_files)
