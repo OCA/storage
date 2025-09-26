@@ -11,7 +11,7 @@
     "author": " ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "development_status": "Beta",
-    "installable": True,
+    "installable": False,
     "depends": ["base", "base_sparse_field", "server_environment"],
     "data": [
         "views/fs_storage_view.xml",

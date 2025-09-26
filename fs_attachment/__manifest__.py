@@ -17,7 +17,7 @@
         "views/fs_storage.xml",
     ],
     "external_dependencies": {"python": ["python_slugify", "fsspec>=2025.3.0"]},
-    "installable": True,
+    "installable": False,
     "auto_install": False,
     "maintainers": ["lmignon"],
     "pre_init_hook": "pre_init_hook",

@@ -16,5 +16,7 @@
         "web.assets_backend": [
             "fs_image/static/src/**/*",
         ],
-    },
+    'installable': False,
+},
+    'installable': False,
 }

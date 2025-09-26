@@ -16,6 +16,8 @@
         "web.assets_backend": [
             "fs_folder_ms_drive/static/src/**/*",
         ],
-    },
+    'installable': False,
+},
     "maintainers": ["lmignon"],
+    'installable': False,
 }

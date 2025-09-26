@@ -8,7 +8,10 @@
     "website": "https://github.com/OCA/storage",
     "author": " Acsone SA/NV,Odoo Community Association (OCA)",
     "license": "LGPL-3",
-    "external_dependencies": {"python": ["pyftpdlib"]},
+    "external_dependencies": {"python": ["pyftpdlib"],
+    'installable': False,
+},
     "depends": ["storage_backend"],
     "data": ["views/backend_storage_view.xml"],
+    'installable': False,
 }

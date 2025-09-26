@@ -22,6 +22,8 @@
         "web.assets_backend": [
             "microsoft_drive_account/static/src/js/fields/**/*",
         ],
-    },
+    'installable': False,
+},
     "maintainers": ["lmignon"],
+    'installable': False,
 }

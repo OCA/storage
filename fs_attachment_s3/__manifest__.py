@@ -13,9 +13,11 @@
         "python": [
             "fsspec[s3]",
         ],
-    },
+    'installable': False,
+},
     "data": [
         "views/fs_storage.xml",
     ],
     "maintainers": ["lmignon"],
+    'installable': False,
 }

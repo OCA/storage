@@ -10,7 +10,7 @@
     "author": " ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "development_status": "Beta",
-    "installable": True,
+    "installable": False,
     "depends": [
         "microsoft_drive_account",
         "fs_storage",

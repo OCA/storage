@@ -25,6 +25,8 @@
         "web.assets_backend": [
             "storage_image/static/src/css/StorageImageHandle.scss",
             "storage_image/static/src/js/StorageImageHandle.esm.js",
-        ]
-    },
+        ],
+    'installable': False,
+},
+    'installable': False,
 }

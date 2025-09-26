@@ -15,4 +15,5 @@
         "security/image_tag.xml",
         "views/image_tag.xml",
     ],
+    'installable': False,
 }
