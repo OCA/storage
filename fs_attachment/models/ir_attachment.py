@@ -254,7 +254,14 @@ class IrAttachment(models.Model):
     @api.model
     def _storage(self):
         # We check if a filesystem storage is configured for attachments
-        storage = self.env["fs.storage"].get_default_storage_code_for_attachments()
+        storage = (
+            self.env["fs.storage"]
+            .with_context(
+                attachment_res_model=self.res_model,
+                attachment_res_field=self.res_field,
+            )
+            .get_default_storage_code_for_attachments()
+        )
         if not storage:
             # If not, we use the default storage configured into odoo
             storage = super()._storage()
