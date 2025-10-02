@@ -1,10 +1,10 @@
 # Copyright 2023 ACSONE SA/NV (https://www.acsone.eu).
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import os
+import posixpath
+from pathlib import PurePosixPath
 
 from fsspec.implementations.dirfs import DirFileSystem
-from fsspec.implementations.local import make_path_posix
 from fsspec.registry import register_implementation
 
 
@@ -20,18 +20,22 @@ class RootedDirFileSystem(DirFileSystem):
     """
 
     def _join(self, path):
-        path = super()._join(path)
+        joined = super()._join(path)
         # Ensure that the path is a subpath of the root path by resolving
         # any relative paths.
-        # Since the path separator is not always the same on all systems,
-        # we need to normalize the path separator.
-        path_posix = os.path.normpath(make_path_posix(path))
-        root_posix = os.path.normpath(make_path_posix(self.path))
-        if not path_posix.startswith(root_posix):
+
+        root = PurePosixPath(self.path).as_posix()
+        rnorm = posixpath.normpath(root)
+
+        jnorm = posixpath.normpath(joined or ".")
+
+        if not (jnorm == rnorm or jnorm.startswith(rnorm + "/")):
             raise PermissionError(
-                "Path %s is not a subpath of the root path %s" % (path, self.path)
+                f"Path {path!r} resolves to {jnorm!r} which is outside "
+                f"the root path {rnorm!r}"
             )
-        return path
+
+        return joined
 
 
 register_implementation("rooted_dir", RootedDirFileSystem)
