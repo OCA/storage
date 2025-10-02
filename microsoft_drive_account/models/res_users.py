@@ -74,3 +74,11 @@ class ResUsers(models.Model):
         )
         action["context"] = py_ctx
         return action
+
+    @property
+    def SELF_READABLE_FIELDS(self):
+        """Extend the set of user fields that are allowed in sudo mode when
+        a user reads their own profile. The check is all-or-nothing: if any requested
+        field is not in this list, sudo is not applied and restricted fields will
+        raise access errors."""
+        return super().SELF_READABLE_FIELDS + ["microsoft_drive_status"]
