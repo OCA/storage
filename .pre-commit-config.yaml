@@ -1,7 +1,6 @@
 exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
-  ^fs_attachment/|
   ^fs_attachment_s3/|
   ^fs_file/|
   ^fs_folder/|

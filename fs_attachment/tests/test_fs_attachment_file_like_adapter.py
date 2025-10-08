@@ -16,7 +16,7 @@ class TestFSAttachmentFileLikeAdapterMixin:
         cls.new_content = b"This is a new test attachment"
 
     def prepare(self):
-        self.attachment = self._create_attachment()
+        self.attachment = self.env.create_attachment()
 
     def open(self, attachment=None, mode="rb", new_version=False, **kwargs):
         return AttachmentFileLikeAdapter(
