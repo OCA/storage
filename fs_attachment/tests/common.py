@@ -4,6 +4,7 @@ import os
 import shutil
 import tempfile
 
+from odoo.fields import Command
 from odoo.tests.common import TransactionCase
 
 
@@ -13,6 +14,13 @@ class TestFSAttachmentCommon(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         temp_dir = tempfile.mkdtemp()
+        cls.default_backend = cls.env["fs.storage"].create(
+            {
+                "name": "Odoo Filesystem Backend",
+                "protocol": "odoofs",
+                "code": "odoofs",
+            }
+        )
         cls.temp_backend = cls.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
@@ -33,6 +41,20 @@ class TestFSAttachmentCommon(TransactionCase):
         cls.temp_dir = temp_dir
         cls.gc_file_model = cls.env["fs.file.gc"]
         cls.ir_attachment_model = cls.env["ir.attachment"]
+        cls.demo_user = (
+            cls.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Test User",
+                    "login": "demo",
+                    "password": "demo",
+                    "email": "test@yourcompany.com",
+                    "company_id": cls.env.ref("base.main_company").id,
+                    "group_ids": [Command.link(cls.env.ref("base.group_user").id)],
+                }
+            )
+        )
 
         @cls.addClassCleanup
         def cleanup_tempdir():
