@@ -17,13 +17,10 @@ class FsFileGC(models.Model):
     store_fname = fields.Char("Stored Filename")
     fs_storage_code = fields.Char("Storage Code")
 
-    _sql_constraints = [
-        (
-            "store_fname_uniq",
-            "unique (store_fname)",
-            "The stored filename must be unique!",
-        ),
-    ]
+    _store_fname_uniq = models.Constraint(
+        "unique (store_fname)",
+        "The stored filename must be unique!",
+    )
 
     def _is_test_mode(self) -> bool:
         """Return True if we are running the tests, so we do not mark files for
@@ -101,7 +98,7 @@ class FsFileGC(models.Model):
         # the LOCK statement will wait until those concurrent transactions end.
         # But this transaction will not see the new attachements if it has done
         # other requests before the LOCK (like the method _storage() above).
-        cr = self._cr
+        cr = self.env.cr
         cr.commit()  # pylint: disable=invalid-commit
 
         # prevent all concurrent updates on ir_attachment and fs_file_gc
@@ -125,7 +122,7 @@ class FsFileGC(models.Model):
         if not codes:
             return
         # we process by batch of storage codes.
-        self._cr.execute(
+        self.env.cr.execute(
             """
             SELECT
                 fs_storage_code,
@@ -145,7 +142,7 @@ class FsFileGC(models.Model):
             """,
             (tuple(codes),),
         )
-        for code, store_fnames in self._cr.fetchall():
+        for code, store_fnames in self.env.cr.fetchall():
             self.env["fs.storage"].get_by_code(code)
             fs = self.env["fs.storage"].get_fs_by_code(code)
             for store_fname in store_fnames:
@@ -156,7 +153,7 @@ class FsFileGC(models.Model):
                     _logger.debug("Failed to remove file %s", store_fname)
 
         # delete the records from the table fs_file_gc
-        self._cr.execute(
+        self.env.cr.execute(
             """
             DELETE FROM
                 fs_file_gc

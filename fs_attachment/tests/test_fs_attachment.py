@@ -396,7 +396,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         group_user = self.env.ref("base.group_user")
         group_partner_manager = self.env.ref("base.group_partner_manager")
         demo_user.write(
-            {"groups_id": [(6, 0, [group_user.id, group_partner_manager.id])]}
+            {"groups_ids": [(6, 0, [group_user.id, group_partner_manager.id])]}
         )
         # Create basic attachment
         self.ir_attachment_model.with_user(demo_user).create(

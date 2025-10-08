@@ -85,7 +85,7 @@ class FsStorage(models.Model):
         defaults = self.search([]).filtered("use_as_default_for_attachments")
         if len(defaults) > 1:
             raise ValidationError(
-                _("Only one storage can be used as default for attachments")
+                self.env._("Only one storage can be used as default for attachments")
             )
 
     @property
@@ -132,7 +132,7 @@ class FsStorage(models.Model):
             if not vals["use_as_default_for_attachments"]:
                 vals["force_db_for_default_attachment_rules"] = None
         res = super().write(vals)
-        self._create_write_check_constraints(vals)
+        self.env.create_write_check_constraints(vals)
         return res
 
     def _create_write_check_constraints(self, vals):
@@ -165,7 +165,7 @@ class FsStorage(models.Model):
                 continue
             if not rec.use_as_default_for_attachments:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The force_db_for_default_attachment_rules can only be set "
                         "if the storage is used as default for attachments."
                     )
@@ -174,7 +174,7 @@ class FsStorage(models.Model):
                 const_eval(rec.force_db_for_default_attachment_rules)
             except (SyntaxError, TypeError, ValueError) as e:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The force_db_for_default_attachment_rules is not a valid "
                         "python dict."
                     )

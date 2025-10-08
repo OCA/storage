@@ -18,9 +18,9 @@ import psycopg2
 from slugify import slugify  # pylint: disable=missing-manifest-dependency
 
 import odoo
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
-from odoo.osv.expression import AND, OR, normalize_domain
+from odoo.fields import Domain
 
 from .strtobool import strtobool
 
@@ -169,9 +169,9 @@ class IrAttachment(models.Model):
         for mimetype_key, limit in storage_config.items():
             part = [("mimetype", "=like", f"{mimetype_key}%")]
             if limit:
-                part = AND([part, [("file_size", "<=", limit)]])
+                part = Domain.AND([part, [("file_size", "<=", limit)]])
             # OR simplifies to [(1, '=', 1)] if a domain being OR'ed is empty
-            domain = OR([domain, part]) if domain else part
+            domain = Domain.OR([domain, part]) if domain else part
         return domain
 
     def _store_in_db_instead_of_object_storage(self, data, mimetype):
@@ -306,7 +306,7 @@ class IrAttachment(models.Model):
                     vals["mimetype"] = mimetypes[0]
                 else:
                     raise UserError(
-                        _(
+                        self.env._(
                             "You can't write on multiple attachments with different "
                             "mimetypes at the same time."
                         )
@@ -723,7 +723,9 @@ class IrAttachment(models.Model):
     @api.model
     def force_storage(self):
         if not self.env["res.users"].browse(self.env.uid)._is_admin():
-            raise AccessError(_("Only administrators can execute this action."))
+            raise AccessError(
+                self.env._("Only administrators can execute this action.")
+            )
         location = self.env.context.get("storage_location") or self._storage()
         if location not in self._get_storage_codes():
             return super().force_storage()
@@ -762,9 +764,9 @@ class IrAttachment(models.Model):
             )
             return
 
-        domain = AND(
+        domain = Domain.AND(
             (
-                normalize_domain(
+                Domain.normalize_domain(
                     [
                         ("store_fname", "=like", f"{storage}://%"),
                         # for res_field, see comment in
@@ -774,7 +776,9 @@ class IrAttachment(models.Model):
                         ("res_field", "!=", False),
                     ]
                 ),
-                normalize_domain(self._store_in_db_instead_of_object_storage_domain()),
+                Domain.normalize_domain(
+                    self._store_in_db_instead_of_object_storage_domain()
+                ),
             )
         )
 
