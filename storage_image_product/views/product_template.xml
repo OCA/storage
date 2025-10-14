@@ -33,6 +33,7 @@
             <xpath expr="//aside/field[@name='image_128']" position="attributes">
                 <attribute name="name">image_small_url</attribute>
                 <attribute name="widget">image_url</attribute>
+                <attribute name="invisible">not image_small_url</attribute>
             </xpath>
         </field>
     </record>
