@@ -8,7 +8,7 @@ import fsspec
 from werkzeug import Response
 
 from odoo import _, api, models
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 
 from ..fs_stream import FsStream
 
@@ -88,6 +88,15 @@ class FsFolderFieldWebApi(models.AbstractModel):
         record[field_name].initialize()
 
     @api.model
+    def remove_field_value(self, res_id, res_model, field_name, **kwargs) -> None:
+        """
+        Delete the value of the field.
+        """
+        self._check_field_access(res_id, res_model, field_name, "write")
+        _field, record = self._get_field_and_record(res_id, res_model, field_name)
+        record[field_name] = False
+
+    @api.model
     def get_children(self, res_id, res_model, field_name, path, **kwargs) -> list[dict]:
         """
         Return the children of the given item.
@@ -100,7 +109,18 @@ class FsFolderFieldWebApi(models.AbstractModel):
         """
         self._check_field_access(res_id, res_model, field_name, "read")
         fs = self._get_fs(res_id, res_model, field_name)
-        return fs.ls(path, detail=True)
+        try:
+            return fs.ls(path, detail=True)
+        except Exception as e:
+            raise UserError(
+                _(
+                    "An error occurred while listing files: '%s'\n"
+                    "This might happen if the folder was moved, renamed or deleted "
+                    "on the external storage.\n"
+                    "If this is expected you might want to unlink this folder."
+                )
+                % e
+            ) from e
 
     @api.model
     def get_root(self, res_id, res_model, field_name, **kwargs) -> dict:
