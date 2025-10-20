@@ -23,15 +23,17 @@ class FSStorage(models.Model):
             while hasattr(root_fs, "fs"):
                 root_fs = fs.fs
             client = root_fs.client
-            client.register_compliance_hook(
-                "refresh_token_response",
-                partial(
-                    self.update_refresh_token_on_user,
-                    client=client,
-                    db_name=self._cr.dbname,
-                    user_id=self.env.user.id,
-                ),
-            )
+            if not self.env.user.microsoft_drive_oauth2_non_interactive:
+                # In interactive mode, we need to update the refresh token on user
+                client.register_compliance_hook(
+                    "refresh_token_response",
+                    partial(
+                        self.update_refresh_token_on_user,
+                        client=client,
+                        db_name=self._cr.dbname,
+                        user_id=self.env.user.id,
+                    ),
+                )
         return fs
 
     @api.model
