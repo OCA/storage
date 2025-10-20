@@ -26,6 +26,16 @@ class ResUsers(models.Model):
         store=True,
     )
 
+    microsoft_drive_oauth2_non_interactive = fields.Boolean(
+        string="Microsoft Drive OAuth2 (non-interactive)",
+        default=False,
+        help="If set, this user will not go through the interactive OAuth2 "
+        "authorization flow; The requested token will be requested to the "
+        "authentication server directly using client credentials flows. "
+        "(scope: 'https://graph.microsoft.com/.default', "
+        "grante_type: 'client_credentials')",
+    )
+
     def _set_microsoft_drive_auth_tokens(
         self, access_token: str, refresh_token: str, ttl: float
     ):
