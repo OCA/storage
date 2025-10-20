@@ -1,4 +1,5 @@
 # Copyright 2025 ACSONE SA/NV
+# Copyright 2025 XCG SAS
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from urllib.parse import urlparse
 
@@ -58,7 +59,7 @@ class IrAttachment(models.Model):
         storage = self.env["fs.storage"].sudo().get_by_code(storage_code)
         root_fs = storage._get_root_filesystem(fs)
         s3_client = root_fs.s3
-        bucket_name = storage.directory_path.strip("/").rstrip("/")
+        bucket_name = storage.get_directory_path().strip("/").rstrip("/")
         if storage.s3_uses_signed_url_for_x_sendfile:
             file_url = storage._s3_call_generate_presigned_url(
                 s3_client,

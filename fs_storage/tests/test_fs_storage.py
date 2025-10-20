@@ -240,3 +240,9 @@ class TestFSStorage(TestFSStorageCase):
         )
         with self.assertRaises(ValidationError):
             self.copy_backend.field_xmlids = "base.field_res_partner__name"
+
+    def test_directory_path_substitution(self):
+        template = "dir/{db_name}"
+        self.backend.directory_path = template
+        # Assert different (db name should be replaced)
+        self.assertNotEqual(template, self.backend.get_directory_path())
