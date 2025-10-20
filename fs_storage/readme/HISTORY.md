@@ -1,3 +1,10 @@
+## 18.0.2.1.0 (2025-10-20)
+
+### Features
+
+- Replace {db_name} by the database name in directory_path ([#db_name](https://github.com/OCA/storage/issues/db_name))
+
+
 ## 18.0.2.0.1 (2025-07-23)
 
 ### Features
