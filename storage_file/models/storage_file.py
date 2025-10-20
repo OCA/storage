@@ -81,6 +81,11 @@ class StorageFile(models.Model):
         )
     ]
 
+    def _in_cache_without(self, field, limit=models.PREFETCH_MAX):
+        if field.name == "data":
+            limit = 1
+        return super()._in_cache_without(field, limit=limit)
+
     def write(self, vals):
         if "data" in vals:
             for record in self:

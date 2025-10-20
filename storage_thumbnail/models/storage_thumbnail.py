@@ -28,6 +28,11 @@ class StorageThumbnail(models.Model):
     res_model = fields.Char(readonly=False, index=True)
     res_id = fields.Integer(readonly=False, index=True)
 
+    def _in_cache_without(self, field, limit=models.PREFETCH_MAX):
+        if field.name == "data":
+            limit = 1
+        return super()._in_cache_without(field, limit=limit)
+
     def _prepare_thumbnail(self, image, size_x, size_y, url_key):
         image_resize_format = (
             self.env["ir.config_parameter"]
