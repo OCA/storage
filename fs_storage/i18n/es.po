@@ -163,6 +163,17 @@ msgid "ID"
 msgstr "ID (identificación)"
 
 #. module: fs_storage
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__is_cacheable
+msgid ""
+"If True, once instantiated, the filesystem will be cached and reused.\n"
+"By default, the filesystem is cacheable but in some cases, like when using "
+"OAuth2 authentication, the filesystem cannot be cached because it depends on "
+"the user and the token can change.\n"
+"In this case, you can set this field to False to avoid caching the "
+"filesystem."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_ir_model_fields__storage_id
 msgid ""
 "If specified, all attachments linked to this field will be stored in the "
@@ -174,6 +185,11 @@ msgstr ""
 msgid ""
 "If specified, all attachments linked to this model will be stored in the "
 "provided storage."
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__is_cacheable
+msgid "Is Cacheable"
 msgstr ""
 
 #. module: fs_storage
