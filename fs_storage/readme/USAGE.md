@@ -75,6 +75,10 @@ for the following fields:
 - options
 - directory_path
 
+When evaluating directory_path, `{db_name}` is replaced by the database name.
+This is usefull in multi-tenant with a setup completly controlled by
+configuration files.
+
 ## Migration from storage_backend
 
 The fs_storage addon can be used to replace the storage_backend addon.
