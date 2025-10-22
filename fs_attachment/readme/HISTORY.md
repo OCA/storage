@@ -1,3 +1,10 @@
+## 17.0.1.6.0 (2025-10-22)
+
+### Features
+
+- Adapt to handle {db_name} in directory_path. ([#db_name](https://github.com/OCA/storage/issues/db_name))
+
+
 ## 17.0.1.0.3 (2024-10-15)
 
 ### Bugfixes
