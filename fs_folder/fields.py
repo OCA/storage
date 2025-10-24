@@ -1,5 +1,6 @@
 # Copyright 2024 ACSONE SA/NV
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+import logging
 import threading
 import time
 import typing
@@ -7,13 +8,15 @@ from functools import partial
 
 import fsspec
 
-from odoo import SUPERUSER_ID, api, fields, models, registry
+from odoo import api, fields, models, registry
 from odoo.tools.misc import SENTINEL, Sentinel
 from odoo.tools.sql import pg_varchar
 
 from odoo.addons.fs_storage.rooted_dir_file_system import RootedDirFileSystem
 
 from .models.fs_storage import FsStorage
+
+_logger = logging.getLogger(__name__)
 
 
 class FsContentValue:
@@ -352,14 +355,17 @@ class FsFolder(AbstractFsContentField):
 
             fs.mkdir(path, **kwargs)
 
-            def clean_up_folder(path, storage_code, dbname):
+            def clean_up_folder(path, storage_code, dbname, user_id):
                 db_registry = registry(dbname)
                 with db_registry.cursor() as cr:
-                    env = api.Environment(cr, SUPERUSER_ID, {})
+                    env = api.Environment(cr, user_id, {})
                     fs = env["fs.storage"].get_fs_by_code(storage_code)
                     time.sleep(0.5)  # wait creation into the filesystem
-                    fs.rm(path, recursive=True)
-                # remove created resource in case of rollback
+                    try:
+                        # remove created resource in case of rollback
+                        fs.rm(path, recursive=True)
+                    except Exception as e:
+                        _logger.exception(f"Error cleaning up folder {path}: {e}")
 
             test_mode = getattr(threading.current_thread(), "testing", False)
             if not test_mode:
@@ -369,6 +375,7 @@ class FsFolder(AbstractFsContentField):
                         path,
                         storage_code,
                         record.env.cr.dbname,
+                        record.env.user.id,
                     ),
                 )
 
