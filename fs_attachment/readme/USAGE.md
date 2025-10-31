@@ -238,3 +238,14 @@ with attachment.open("w", new_version=False) as f:
   the production storage. Be careful to adapt the configuration of your
   storage to the production environment to make it read only. (The use
   of server environment files is a good way to do so).
+
+- When enabling `Use As Default For Attachment` you must be aware that this
+  option applies from the point when the `fs_attachment` has been loaded by
+  Odoo. This means that some attachments (such as icons)  created during the
+  update of modules that are loaded before `fs_attachment` will still be stored
+  in the location defined in the `ir_attachment.location` system parameter
+  (which is `file` by default, meaning the regular on-disk `filestore`
+  directory). 
+  
+  A simple way to work around this issue is to set the `ir_attachment.location`
+  System Parameter record to `db`.
