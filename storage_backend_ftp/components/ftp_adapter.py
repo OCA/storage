@@ -130,7 +130,7 @@ class FTPStorageBackendAdapter(Component):
         full_path = self._fullpath(relative_path)
         with ftp(self.collection) as client:
             try:
-                return client.nlst(full_path)
+                return [os.path.basename(path) for path in client.nlst(full_path)]
             except IOError as e:
                 if e.errno == errno.ENOENT:
                     # The path do not exist return an empty list
