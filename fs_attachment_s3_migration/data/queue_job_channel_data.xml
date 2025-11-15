@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="queue_channel_s3_migration" model="queue.job.channel">
+        <field name="name">s3_migration</field>
+        <field name="parent_id" ref="queue_job.channel_root" />
+    </record>
+</odoo>

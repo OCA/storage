@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_fs_storage_form_inherit_s3_migration" model="ir.ui.view">
+        <field name="name">fs.storage.form.inherit.s3.migration</field>
+        <field name="model">fs.storage</field>
+        <field name="inherit_id" ref="fs_storage.fs_storage_form_view" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button
+                    type="object"
+                    name="action_open_migration_wizard"
+                    string="Move existing attachments to S3"
+                    attrs="{'invisible': [('protocol', '!=', 's3')]}"
+                    class="oe_highlight"
+                />
+            </header>
+            <sheet position="inside">
+                <group string="Migration">
+                    <field name="migration_batch_size" />
+                    <field name="migration_channel" />
+                </group>
+            </sheet>
+        </field>
+    </record>
+
+</odoo>
