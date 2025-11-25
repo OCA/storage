@@ -55,3 +55,4 @@ class TestX(TransactionComponentCase):
         # And ensure that the new file
         self.assertEqual(media.file_id.name, self.filename_1)
         self.assertEqual(media.file_id.data, self.filedata_1)
+        self.assertEqual(media.file_id.file_type, "media")
