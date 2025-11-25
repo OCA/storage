@@ -25,6 +25,12 @@ class StorageFileReplace(models.TransientModel):
             )
         return res
 
+    def _prepare_file_values(self):
+        res = super()._prepare_file_values()
+        if self.image_id:
+            res["file_type"] = self.image_id._default_file_type
+        return res
+
     def confirm(self):
         res = super().confirm()
         if self.image_id and self.data:

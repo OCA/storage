@@ -57,3 +57,4 @@ class TestStorageReplaceFile(StorageImageCommonCase):
         # And ensure that the new file
         self.assertEqual(image.file_id.name, self.filename_1)
         self.assertEqual(image.file_id.data, self.filedata_1)
+        self.assertEqual(image.file_id.file_type, "image")
