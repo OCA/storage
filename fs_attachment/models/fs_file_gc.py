@@ -4,7 +4,7 @@ import logging
 import threading
 from contextlib import closing, contextmanager
 
-from odoo import api, fields, models
+from odoo import api, fields, models, modules
 from odoo.sql_db import Cursor
 
 _logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ class FsFileGC(models.Model):
         """
         return (
             getattr(threading.current_thread(), "testing", False)
-            or self.env.registry.in_test_mode()
+            or modules.module.current_test
         )
 
     @contextmanager
@@ -117,7 +117,7 @@ class FsFileGC(models.Model):
     def _gc_files_unsafe(self) -> None:
         # get the list of fs.storage codes that must be autovacuumed
         codes = (
-            self.env["fs.storage"].search([]).filtered("autovacuum_gc").mapped("code")
+            self.env["fs.storage"].search([]).filtered("autovacuum_gc").mapped("code")  # pylint: disable=no-search-all
         )
         if not codes:
             return

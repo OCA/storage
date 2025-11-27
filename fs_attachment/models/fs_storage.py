@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import const_eval
 
@@ -82,7 +82,7 @@ class FsStorage(models.Model):
     def _check_use_as_default_for_attachments(self):
         # constrains are checked in python since values can be provided by
         # the server environment
-        defaults = self.search([]).filtered("use_as_default_for_attachments")
+        defaults = self.search([]).filtered("use_as_default_for_attachments")  # pylint: disable=no-search-all
         if len(defaults) > 1:
             raise ValidationError(
                 self.env._("Only one storage can be used as default for attachments")
@@ -132,7 +132,7 @@ class FsStorage(models.Model):
             if not vals["use_as_default_for_attachments"]:
                 vals["force_db_for_default_attachment_rules"] = None
         res = super().write(vals)
-        self.env.create_write_check_constraints(vals)
+        self.env._create_write_check_constraints(vals)
         return res
 
     def _create_write_check_constraints(self, vals):
@@ -184,7 +184,7 @@ class FsStorage(models.Model):
     @tools.ormcache()
     def get_storage_code_for_attachments_fallback(self):
         storages = (
-            self.sudo()
+            self.sudo()  # pylint: disable=no-search-all
             .search([])
             .filtered_domain([("use_as_default_for_attachments", "=", True)])
         )
