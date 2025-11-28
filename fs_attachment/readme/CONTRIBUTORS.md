@@ -1,4 +1,4 @@
-* Thierry Ducrest \<<thierry.ducrest@camptocamp.com>\> 
+* Thierry Ducrest \<<thierry.ducrest@camptocamp.com>\>
 * Guewen Baconnier \<<guewen.baconnier@camptocamp.com>\>
 * Julien Coux \<<julien.coux@camptocamp.com>\>
 * Akim Juillerat \<<akim.juillerat@camptocamp.com>\>

@@ -7,12 +7,6 @@ from .common import TestFSAttachmentCommon
 
 
 class TestFsStorage(TestFSAttachmentCommon):
-    @classmethod
-    def setUpClass(cls):
-        res = super().setUpClass()
-        cls.default_backend = cls.env.ref("fs_storage.fs_storage_demo")
-        return res
-
     def test_force_model_create_attachment(self):
         """
         Force 'res.partner' model to temp_backend
