@@ -6,6 +6,7 @@ import shutil
 import tempfile
 from unittest import mock
 
+from odoo.fields import Command
 from odoo.tests.common import TransactionCase
 
 from ..models.fs_storage import FSStorage
@@ -16,12 +17,31 @@ class TestFSStorageCase(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.backend: FSStorage = cls.env.ref("fs_storage.fs_storage_demo")
+        cls.backend: FSStorage = cls.env["fs.storage"].create(
+            {
+                "name": "Odoo Filesystem Backend",
+                "protocol": "odoofs",
+                "code": "odoofs",
+            }
+        )
         cls.backend.json_options = {"target_options": {"auto_mkdir": "True"}}
         cls.filedata = base64.b64encode(b"This is a simple file")
         cls.filename = "test_file.txt"
         cls.case_with_subdirectory = "subdirectory/here"
-        cls.demo_user = cls.env.ref("base.user_demo")
+        cls.demo_user = (
+            cls.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Test User",
+                    "login": "demo",
+                    "password": "demo",
+                    "email": "test@yourcompany.com",
+                    "company_id": cls.env.ref("base.main_company").id,
+                    "group_ids": [Command.link(cls.env.ref("base.group_user").id)],
+                }
+            )
+        )
         cls.temp_dir = tempfile.mkdtemp()
 
     def setUp(self):
