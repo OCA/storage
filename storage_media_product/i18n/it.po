@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-04-08 06:29+0000\n"
+"PO-Revision-Date: 2025-11-28 10:41+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: storage_media_product
 #: model:ir.model.fields,help:storage_media_product.field_product_media_relation__url_path
 msgid "Accessible path, no base URL"
-msgstr ""
+msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
@@ -135,7 +135,7 @@ msgstr "URL"
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__url_path
 msgid "Url Path"
-msgstr ""
+msgstr "Percorso URL"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_product__variant_media_ids
