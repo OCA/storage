@@ -232,7 +232,6 @@ class TestFSStorage(TestFSStorageCase):
         A given model can be linked to a unique storage
         """
         self.backend.model_xmlids = "base.model_res_partner,base.model_ir_attachment"
-        self.env.ref("fs_storage.fs_storage_demo")
         with self.assertRaises(ValidationError):
             self.copy_backend.model_xmlids = "base.model_res_partner"
 
