@@ -132,7 +132,7 @@ class FsStorage(models.Model):
             if not vals["use_as_default_for_attachments"]:
                 vals["force_db_for_default_attachment_rules"] = None
         res = super().write(vals)
-        self.env._create_write_check_constraints(vals)
+        self._create_write_check_constraints(vals)
         return res
 
     def _create_write_check_constraints(self, vals):
