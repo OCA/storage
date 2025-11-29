@@ -32,9 +32,9 @@ This module lets users move existing ``ir.attachment`` files from the
 standard filestore or database into an Amazon S3-backed ``fs.storage``,
 using a wizard directly on the storage form.
 
-Migrations run in background batches, skip attachments that already live
-on S3 or must remain in PostgreSQL, so the process can be launched
-repeatedly without duplicates.
+Migrations are run in background batches, skipping attachments that are
+already stored in S3 or must remain in PostgreSQL. This allows to run
+the process repeatedly avoiding creating duplicates.
 
 **Table of contents**
 
@@ -71,7 +71,8 @@ Authors
 Contributors
 ------------
 
-- Cetmix (cetmix.com)
+Cetmix (cetmix.com)
+
 - Ivan Sokolov
 - George Smirnov
 

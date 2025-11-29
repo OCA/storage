@@ -373,9 +373,9 @@ ul.auto-toc {
 <p>This module lets users move existing <tt class="docutils literal">ir.attachment</tt> files from the
 standard filestore or database into an Amazon S3-backed <tt class="docutils literal">fs.storage</tt>,
 using a wizard directly on the storage form.</p>
-<p>Migrations run in background batches, skip attachments that already live
-on S3 or must remain in PostgreSQL, so the process can be launched
-repeatedly without duplicates.</p>
+<p>Migrations are run in background batches, skipping attachments that are
+already stored in S3 or must remain in PostgreSQL. This allows to run
+the process repeatedly avoiding creating duplicates.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -417,8 +417,8 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </div>
 <div class="section" id="contributors">
 <h2><a class="toc-backref" href="#toc-entry-5">Contributors</a></h2>
+<p>Cetmix (cetmix.com)</p>
 <ul class="simple">
-<li>Cetmix (cetmix.com)</li>
 <li>Ivan Sokolov</li>
 <li>George Smirnov</li>
 </ul>

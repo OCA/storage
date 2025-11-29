@@ -11,7 +11,7 @@
                     type="object"
                     name="action_open_migration_wizard"
                     string="Move existing attachments to S3"
-                    attrs="{'invisible': [('protocol', '!=', 's3')]}"
+                    invisible="protocol != 's3'"
                     class="oe_highlight"
                 />
             </header>

@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 
 class TestAttachmentS3Migration(TransactionCase):
-    """Test suite for cx_attachment_s3_migration module."""
+    """Test suite for fs_attachment_s3_migration module."""
 
     @classmethod
     def setUpClass(cls):

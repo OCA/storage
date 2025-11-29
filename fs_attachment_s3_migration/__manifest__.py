@@ -12,9 +12,10 @@
         "fs_attachment_s3",
     ],
     "data": [
+        "security/ir.model.access.csv",
+        "data/queue_job_channel_data.xml",
         "views/fs_storage_view.xml",
         "views/migration_wizard_views.xml",
-        "data/queue_job_channel_data.xml",
-        "security/ir.model.access.csv",
     ],
+    "installable": True,
 }

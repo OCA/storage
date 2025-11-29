@@ -20,9 +20,9 @@ class FsStorage(models.Model):
     )
 
     def action_open_migration_wizard(self):
+        """Open the S3 migration wizard for this storage."""
         self.ensure_one()
-        # storage code comes from fs_attachment_s3 runtime model
-        if not getattr(self, "code", False):
+        if not self.code:
             raise UserError(_("Storage must have a code to run migration."))
         return {
             "type": "ir.actions.act_window",
@@ -30,8 +30,8 @@ class FsStorage(models.Model):
             "view_mode": "form",
             "target": "new",
             "context": {
-                "default_storage_id": getattr(self, "id", False),
-                "default_storage_code": getattr(self, "code", False),
+                "default_storage_id": self.id,
+                "default_storage_code": self.code,
                 "default_batch_size": self.migration_batch_size,
                 "default_channel": self.migration_channel,
             },

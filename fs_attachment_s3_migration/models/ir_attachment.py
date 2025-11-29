@@ -8,6 +8,12 @@ from odoo.osv.expression import AND, OR
 
 _logger = logging.getLogger(__name__)
 
+# Required tautology for ir.attachment searches to include field-linked attachments.
+# Odoo's ir.attachment._search automatically adds ('res_field', '=', False) when the
+# domain doesn't contain 'res_field', which would exclude all field-linked attachments.
+# See: odoo/addons/base/models/ir_attachment.py _search method
+RES_FIELD_DOMAIN = ["|", ("res_field", "=", False), ("res_field", "!=", False)]
+
 
 class IrAttachment(models.Model):
     _inherit = "ir.attachment"
@@ -21,10 +27,7 @@ class IrAttachment(models.Model):
         """
         base = [
             ("store_fname", "not like", f"{storage_code}://%"),
-            "|",
-            ("res_field", "=", False),
-            ("res_field", "!=", False),
-        ]
+        ] + RES_FIELD_DOMAIN
 
         force_db_domain = self._s3_get_force_db_domain(storage_code)
         if force_db_domain:
@@ -69,8 +72,6 @@ class IrAttachment(models.Model):
         if not checksum:
             return None
 
-        rf_domain = ["|", ("res_field", "=", False), ("res_field", "!=", False)]
-
         # File is already on target storage (reads from S3)
         domain_target = AND(
             [
@@ -78,7 +79,7 @@ class IrAttachment(models.Model):
                     ("checksum", "=", checksum),
                     ("store_fname", "=like", f"{target_storage_code}://%"),
                 ],
-                rf_domain,
+                RES_FIELD_DOMAIN,
             ]
         )
         donor = self.search(domain_target, limit=1)
@@ -89,7 +90,7 @@ class IrAttachment(models.Model):
 
         # File is kept in DB (fast and independent from filestore)
         domain_db = AND(
-            [[("checksum", "=", checksum), ("db_datas", "!=", False)], rf_domain]
+            [[("checksum", "=", checksum), ("db_datas", "!=", False)], RES_FIELD_DOMAIN]
         )
         donor = self.search(domain_db, limit=1)
         if donor:
@@ -97,7 +98,7 @@ class IrAttachment(models.Model):
             return donor_data
 
         # 3) Fallback: any readable same-checksum record (avoid mass prefetch)
-        domain_any = AND([[("checksum", "=", checksum)], rf_domain])
+        domain_any = AND([[("checksum", "=", checksum)], RES_FIELD_DOMAIN])
         candidates = self.with_context(prefetch_fields=False).search(
             domain_any, limit=10
         )
@@ -201,7 +202,7 @@ class IrAttachment(models.Model):
                 file_data = attachment.datas
                 mimetype = attachment.mimetype
                 name = attachment.name
-            except Exception as e:
+            except OSError as e:
                 # File missing (deleted by parallel worker) or already migrated
                 _logger.debug(
                     "Skipping attachment %s (id=%s): %s",
@@ -243,7 +244,7 @@ class IrAttachment(models.Model):
 
         _logger.info(
             "Completed batch migration: %d/%d attachments to storage %s (%d skipped). "
-            "Old files will be cleaned by garbage collection.",
+            "Old files will be cleaned by the garbage collector.",
             processed - skipped,
             total,
             storage_code,

@@ -13,13 +13,13 @@
                     <field name="max_batches" />
                 </group>
                 <footer>
-                    <button string="Cancel" class="btn-secondary" special="cancel" />
                     <button
                         string="Confirm"
                         type="object"
                         name="action_confirm"
-                        class="btn-primary oe_highlight"
+                        class="btn-primary"
                     />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>
         </field>
