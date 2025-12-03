@@ -108,6 +108,12 @@ class FsStorage(models.Model):
         compute="_compute_field_ids",
         inverse="_inverse_field_ids",
     )
+    batch_gc = fields.Boolean(
+        string="Run GC on batch",
+        default=False,
+        help="If checked, the gc will run on batch so not locking the db for a long time"
+    )
+    batch_amount = fields.Integer("Amount of batch per run", default=10)
 
     @api.constrains("use_as_default_for_attachments")
     def _check_use_as_default_for_attachments(self):
