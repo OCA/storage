@@ -18,8 +18,7 @@ class TestFSAttachementS3(TestFSAttachmentS3Common):
         url = self.fake_attachment_s3._get_x_sendfile_path()
         self.assertTrue(
             url.startswith(
-                "/fs_x_sendfile/http/minio.minio/"
-                "test-bucket/dir/sub/fake_s3_file.txt?"
+                "/fs_x_sendfile/http/minio.minio/test-bucket/dir/sub/fake_s3_file.txt?"
             ),
             "The end of the path should contain the path to the file "
             f"name and query parameters. ({url})",
