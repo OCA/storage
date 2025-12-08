@@ -13,9 +13,9 @@ import time
 from contextlib import closing, contextmanager
 from pathlib import Path
 
-import fsspec  # pylint: disable=missing-manifest-dependency
+import fsspec
 import psycopg2
-from slugify import slugify  # pylint: disable=missing-manifest-dependency
+from slugify import slugify
 
 import odoo
 from odoo import api, fields, models
