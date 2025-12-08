@@ -19,24 +19,24 @@ class IrBinary(models.AbstractModel):
     def _get_fs_attachment_for_field(self, record, field_name):
         if record._name == "ir.attachment" and record.fs_filename:
             return record
-
-        record.check_field_access_rights("read", [field_name])
-        field_def = record._fields[field_name]
-        if field_def.attachment and field_def.store:
-            fs_attachment = (
-                self.env["ir.attachment"]
-                .sudo()
-                .search(
-                    domain=[
-                        ("res_model", "=", record._name),
-                        ("res_id", "=", record.id),
-                        ("res_field", "=", field_name),
-                    ],
-                    limit=1,
+        field_def = record._fields.get(field_name)
+        if field_def:
+            record._check_field_access(field_def, "read")
+            if field_def.attachment and field_def.store:
+                fs_attachment = (
+                    self.env["ir.attachment"]
+                    .sudo()
+                    .search(
+                        domain=[
+                            ("res_model", "=", record._name),
+                            ("res_id", "=", record.id),
+                            ("res_field", "=", field_name),
+                        ],
+                        limit=1,
+                    )
                 )
-            )
-            if fs_attachment and fs_attachment.fs_filename:
-                return fs_attachment
+                if fs_attachment and fs_attachment.fs_filename:
+                    return fs_attachment
         return None
 
     def _record_to_stream(self, record, field_name):
