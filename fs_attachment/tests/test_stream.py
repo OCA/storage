@@ -8,10 +8,10 @@ import tempfile
 
 from PIL import Image
 
-from odoo.tests.common import HttpCase
+from odoo.addons.base.tests.common import HttpCaseWithUserDemo
 
 
-class TestStream(HttpCase):
+class TestStream(HttpCaseWithUserDemo):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -167,10 +167,10 @@ class TestStream(HttpCase):
 
     def test_serving_field_image(self):
         self.authenticate("admin", "admin")
-        demo_partner = self.env.ref("base.partner_demo")
+        demo_partner = self.partner_demo
         demo_partner.with_context(
             storage_location=self.temp_backend.code,
-        ).write({"image_128": base64.encodebytes(self.env.create_image(128, 128))})
+        ).write({"image_128": base64.encodebytes(self._create_image(128, 128))})
         url = f"/web/image/{demo_partner._name}/{demo_partner.id}/image_128"
         res = self.assertDownload(
             url,
