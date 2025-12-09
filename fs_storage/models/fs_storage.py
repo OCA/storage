@@ -220,9 +220,10 @@ class FSStorage(models.Model):
                     raise ValidationError(
                         self.env._(
                             "Model %(model)s already stored in another "
-                            "FS storage ('%(other_storage)s')"
+                            "FS storage ('%(other_storage)s')",
+                            model=xmlid,
+                            other_storage=other_storages[0].name,
                         )
-                        % {"model": xmlid, "other_storage": other_storages[0].name}
                     )
 
     @api.constrains("field_xmlids")
@@ -249,9 +250,10 @@ class FSStorage(models.Model):
                     raise ValidationError(
                         self.env._(
                             "Field %(field)s already stored in another "
-                            "FS storage ('%(other_storage)s')"
+                            "FS storage ('%(other_storage)s')",
+                            field=xmlid,
+                            other_storage=other_storages[0].name,
                         )
-                        % {"field": xmlid, "other_storage": other_storages[0].name}
                     )
 
     @api.model
