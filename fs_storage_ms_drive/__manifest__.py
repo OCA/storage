@@ -4,7 +4,7 @@
 {
     "name": "Filesystem Storage For Microsoft Drives",
     "summary": "Add the microsoft drives (OneDrive, Sharepoint) as a storage backend",
-    "version": "18.0.1.0.0",
+    "version": "18.0.2.0.0",
     "category": "FS Storage",
     "website": "https://github.com/OCA/storage",
     "author": " ACSONE SA/NV, Odoo Community Association (OCA)",

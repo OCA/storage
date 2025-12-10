@@ -5,7 +5,7 @@
     "name": "Fs Folder",
     "summary": """A module to link to Odoo records and manage from record forms forlders
             from external file systems """,
-    "version": "18.0.1.0.1",
+    "version": "18.0.2.0.0",
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
