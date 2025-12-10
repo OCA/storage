@@ -20,11 +20,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_simple_form_view
 msgid ""
 "<span invisible=\"microsoft_drive_status == 'connected'\">\n"
-"                            You are not connected to Drive. Click the button below to\n"
+"                            You are not connected to Drive. Click the button "
+"below to\n"
 "                            connect.\n"
 "                        </span>\n"
-"                        <span invisible=\"microsoft_drive_status == 'not_connected'\">\n"
-"                            You are connected to Drive. Click the button below to\n"
+"                        <span invisible=\"microsoft_drive_status == "
+"'not_connected'\">\n"
+"                            You are connected to Drive. Click the button "
+"below to\n"
 "                            disconnect or reset your account.\n"
 "                        </span>"
 msgstr ""
@@ -33,8 +36,8 @@ msgstr ""
 "punsante sottostante per\n"
 "                            connettersi.\n"
 "                        </span>\n"
-"                        <span invisible="
-"\"microsoft_drive_status == 'not_connected'\">\n"
+"                        <span invisible=\"microsoft_drive_status == "
+"'not_connected'\">\n"
 "                            Si è colleegati a Drive. Fare clic sul pulsante "
 "sottostante per \n"
 "                            disconnettersi o resettare il proprio account.\n"
@@ -87,6 +90,15 @@ msgid "ID"
 msgstr "ID"
 
 #. module: microsoft_drive_account
+#: model:ir.model.fields,help:microsoft_drive_account.field_res_users__microsoft_drive_oauth2_non_interactive
+msgid ""
+"If set, this user will not go through the interactive OAuth2 authorization "
+"flow; The requested token will be requested to the authentication server "
+"directly using client credentials flows. (scope: 'https://graph.microsoft."
+"com/.default', grante_type: 'client_credentials')"
+msgstr ""
+
+#. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -116,6 +128,11 @@ msgstr "Client_key Microsoft Drive"
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_status
 msgid "Microsoft Drive Connection Status"
 msgstr "Stato connessione Microsoft Drive"
+
+#. module: microsoft_drive_account
+#: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_oauth2_non_interactive
+msgid "Microsoft Drive OAuth2 (non-interactive)"
+msgstr ""
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_rtoken
