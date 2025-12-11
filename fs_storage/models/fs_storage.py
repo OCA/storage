@@ -14,7 +14,7 @@ from typing import AnyStr
 
 import fsspec
 
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
 
 from odoo.addons.base_sparse_field.models.fields import Serialized
@@ -189,13 +189,10 @@ class FSStorage(models.Model):
         "* List File : List all files from root directory",
     )
 
-    _sql_constraints = [
-        (
-            "code_uniq",
-            "unique(code)",
-            "The code must be unique",
-        ),
-    ]
+    _uniq_code = models.Constraint(
+        "unique(code)",
+        "The code must be unique",
+    )
 
     _server_env_section_name_field = "code"
 
@@ -210,7 +207,7 @@ class FSStorage(models.Model):
             xmlids = rec.model_xmlids.split(",")
             for xmlid in xmlids:
                 other_storages = (
-                    self.env["fs.storage"]
+                    self.env["fs.storage"]  # pylint: disable=no-search-all
                     .search([])
                     .filtered_domain(
                         [
@@ -221,11 +218,12 @@ class FSStorage(models.Model):
                 )
                 if other_storages:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Model %(model)s already stored in another "
-                            "FS storage ('%(other_storage)s')"
+                            "FS storage ('%(other_storage)s')",
+                            model=xmlid,
+                            other_storage=other_storages[0].name,
                         )
-                        % {"model": xmlid, "other_storage": other_storages[0].name}
                     )
 
     @api.constrains("field_xmlids")
@@ -239,7 +237,7 @@ class FSStorage(models.Model):
             xmlids = rec.field_xmlids.split(",")
             for xmlid in xmlids:
                 other_storages = (
-                    self.env["fs.storage"]
+                    self.env["fs.storage"]  # pylint: disable=no-search-all
                     .search([])
                     .filtered_domain(
                         [
@@ -250,18 +248,19 @@ class FSStorage(models.Model):
                 )
                 if other_storages:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Field %(field)s already stored in another "
-                            "FS storage ('%(other_storage)s')"
+                            "FS storage ('%(other_storage)s')",
+                            field=xmlid,
+                            other_storage=other_storages[0].name,
                         )
-                        % {"field": xmlid, "other_storage": other_storages[0].name}
                     )
 
     @api.model
     def _get_check_connection_method_selection(self):
         return [
-            ("marker_file", _("Create Marker file")),
-            ("ls", _("List File")),
+            ("marker_file", self.env._("Create Marker file")),
+            ("ls", self.env._("List File")),
         ]
 
     @property
@@ -338,7 +337,7 @@ class FSStorage(models.Model):
             )
             if field:
                 storage = (
-                    self.env["fs.storage"]
+                    self.env["fs.storage"]  # pylint: disable=no-search-all
                     .sudo()
                     .search([])
                     .filtered_domain([("field_ids", "in", [field.id])])
@@ -353,7 +352,7 @@ class FSStorage(models.Model):
             )
             if model:
                 storage = (
-                    self.env["fs.storage"]
+                    self.env["fs.storage"]  # pylint: disable=no-search-all
                     .sudo()
                     .search([])
                     .filtered_domain([("model_ids", "in", [model.id])])
@@ -399,7 +398,9 @@ class FSStorage(models.Model):
             try:
                 json.loads(rec.options or "{}")
             except Exception as e:
-                raise ValidationError(_("The options must be a valid JSON")) from e
+                raise ValidationError(
+                    self.env._("The options must be a valid JSON")
+                ) from e
 
     @api.depends("options")
     def _compute_json_options(self) -> None:
@@ -703,11 +704,11 @@ class FSStorage(models.Model):
     def _test_config(self, connection_method):
         try:
             self._check_connection(self.fs, connection_method)
-            title = _("Connection Test Succeeded!")
-            message = _("Everything seems properly set up!")
+            title = self.env._("Connection Test Succeeded!")
+            message = self.env._("Everything seems properly set up!")
             msg_type = "success"
         except Exception as err:
-            title = _("Connection Test Failed!")
+            title = self.env._("Connection Test Failed!")
             message = str(err)
             msg_type = "danger"
         return {

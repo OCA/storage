@@ -82,7 +82,12 @@ class TestFSStorage(TestFSStorageCase):
         for i in range(4):
             backend_ids.append(
                 self.backend.create(
-                    {"name": f"name{i}", "directory_path": f"{i}", "code": f"code{i}"}
+                    {
+                        "name": f"name{i}",
+                        "directory_path": f"{i}",
+                        "code": f"code{i}",
+                        "protocol": "odoofs",
+                    }
                 ).id
             )
         records = self.backend.browse(backend_ids)
@@ -227,7 +232,6 @@ class TestFSStorage(TestFSStorageCase):
         A given model can be linked to a unique storage
         """
         self.backend.model_xmlids = "base.model_res_partner,base.model_ir_attachment"
-        self.env.ref("fs_storage.fs_storage_demo")
         with self.assertRaises(ValidationError):
             self.copy_backend.model_xmlids = "base.model_res_partner"
 
