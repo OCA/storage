@@ -4,3 +4,4 @@ vcrpy-unittest
 s3fs>=2025.3.0
 
 odoo-addon-server_environment @ git+https://github.com/OCA/server-env@refs/pull/247/head#subdirectory=server_environment
+odoo-addon-fs_storage @ git+https://github.com/OCA/storage@refs/pull/543/head#subdirectory=fs_storage
