@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-09-17 10:42+0000\n"
+"PO-Revision-Date: 2025-12-11 09:42+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -97,6 +97,11 @@ msgid ""
 "directly using client credentials flows. (scope: 'https://graph.microsoft."
 "com/.default', grante_type: 'client_credentials')"
 msgstr ""
+"Se impostato, questo utente non passerà attraverso il flusso di "
+"autorizzazione OAuth2 interattivo; il token richiesto verrà richiesto "
+"direttamente al server di autenticazione tramite i flussi di credenziali "
+"client. (ambito: 'https://graph.microsoft.com/.default', grante_type: "
+"'client_credentials')"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__write_uid
@@ -132,7 +137,7 @@ msgstr "Stato connessione Microsoft Drive"
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_oauth2_non_interactive
 msgid "Microsoft Drive OAuth2 (non-interactive)"
-msgstr ""
+msgstr "OAuth2 Microsoft Drive (non interattiva)"
 
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_rtoken
