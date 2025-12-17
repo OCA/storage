@@ -1,10 +1,2 @@
 # generated from manifests external_dependencies
-boto3
 fsspec>=2024.5.0
-fsspec>=2025.0.0
-fsspec>=2025.3.0
-fsspec[s3]
-msgraphfs
-paramiko
-pyftpdlib
-python_slugify
