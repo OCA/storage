@@ -13,14 +13,14 @@ import time
 from contextlib import closing, contextmanager
 from pathlib import Path
 
-import fsspec  # pylint: disable=missing-manifest-dependency
+import fsspec
 import psycopg2
-from slugify import slugify  # pylint: disable=missing-manifest-dependency
+from slugify import slugify
 
 import odoo
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
-from odoo.osv.expression import AND, OR, normalize_domain
+from odoo.fields import Domain
 
 from .strtobool import strtobool
 
@@ -169,9 +169,9 @@ class IrAttachment(models.Model):
         for mimetype_key, limit in storage_config.items():
             part = [("mimetype", "=like", f"{mimetype_key}%")]
             if limit:
-                part = AND([part, [("file_size", "<=", limit)]])
+                part = Domain.AND([part, [("file_size", "<=", limit)]])
             # OR simplifies to [(1, '=', 1)] if a domain being OR'ed is empty
-            domain = OR([domain, part]) if domain else part
+            domain = Domain.OR([domain, part]) if domain else part
         return domain
 
     def _store_in_db_instead_of_object_storage(self, data, mimetype):
@@ -224,22 +224,29 @@ class IrAttachment(models.Model):
         return False
 
     def _get_datas_related_values(self, data, mimetype):
+        values = super(
+            IrAttachment, self.with_context(mimetype=mimetype)
+        )._get_datas_related_values(data, mimetype)
         storage = self.env.context.get("storage_location") or self._storage()
         if data and storage in self._get_storage_codes():
             if self._store_in_db_instead_of_object_storage(data, mimetype):
-                # compute the fields that depend on datas
-                bin_data = data
-                values = {
-                    "file_size": len(bin_data),
-                    "checksum": self._compute_checksum(bin_data),
-                    "index_content": self._index(bin_data, mimetype),
-                    "store_fname": False,
-                    "db_datas": data,
-                }
-                return values
-        return super(
-            IrAttachment, self.with_context(mimetype=mimetype)
-        )._get_datas_related_values(data, mimetype)
+                # Force storing data in the database, overriding the filestore logic.
+                values.update(
+                    {
+                        "store_fname": False,
+                        "db_datas": data,
+                    }
+                )
+            else:
+                # Uses the full object storage path; standard Odoo uses a relative path.
+                path = self._get_fs_path(storage, data)
+                values.update(
+                    {
+                        "store_fname": f"{storage}://{path}",
+                        "db_datas": False,
+                    }
+                )
+        return values
 
     ###########################################################
     # Odoo methods that we override to use the object storage #
@@ -306,7 +313,7 @@ class IrAttachment(models.Model):
                     vals["mimetype"] = mimetypes[0]
                 else:
                     raise UserError(
-                        _(
+                        self.env._(
                             "You can't write on multiple attachments with different "
                             "mimetypes at the same time."
                         )
@@ -697,9 +704,10 @@ class IrAttachment(models.Model):
         self.ensure_one()
         _logger.info("inspecting attachment %s (%d)", self.name, self.id)
         fname = self.store_fname
-        storage = fname.partition("://")[0]
-        if self._is_storage_disabled(storage):
-            fname = False
+        if fname:
+            storage = fname.partition("://")[0]
+            if self._is_storage_disabled(storage):
+                fname = False
         if fname:
             # migrating from filesystem filestore
             # or from the old 'store_fname' without the bucket name
@@ -723,7 +731,9 @@ class IrAttachment(models.Model):
     @api.model
     def force_storage(self):
         if not self.env["res.users"].browse(self.env.uid)._is_admin():
-            raise AccessError(_("Only administrators can execute this action."))
+            raise AccessError(
+                self.env._("Only administrators can execute this action.")
+            )
         location = self.env.context.get("storage_location") or self._storage()
         if location not in self._get_storage_codes():
             return super().force_storage()
@@ -762,19 +772,22 @@ class IrAttachment(models.Model):
             )
             return
 
-        domain = AND(
+        domain = Domain.AND(
             (
-                normalize_domain(
+                Domain.AND(
                     [
-                        ("store_fname", "=like", f"{storage}://%"),
+                        Domain("store_fname", "=like", f"{storage}://%"),
                         # for res_field, see comment in
                         # _force_storage_to_object_storage
-                        "|",
-                        ("res_field", "=", False),
-                        ("res_field", "!=", False),
+                        Domain.OR(
+                            [
+                                Domain("res_field", "=", False),
+                                Domain("res_field", "!=", False),
+                            ]
+                        ),
                     ]
                 ),
-                normalize_domain(self._store_in_db_instead_of_object_storage_domain()),
+                Domain(self._store_in_db_instead_of_object_storage_domain()),
             )
         )
 
