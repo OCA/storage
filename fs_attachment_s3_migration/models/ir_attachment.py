@@ -8,10 +8,8 @@ from odoo.osv.expression import AND, OR
 
 _logger = logging.getLogger(__name__)
 
-# Required tautology for ir.attachment searches to include field-linked attachments.
-# Odoo's ir.attachment._search automatically adds ('res_field', '=', False) when the
-# domain doesn't contain 'res_field', which would exclude all field-linked attachments.
-# See: odoo/addons/base/models/ir_attachment.py _search method
+# Tautology to include field-linked attachments in searches.
+# Odoo's ir.attachment._search adds ('res_field', '=', False) by default.
 RES_FIELD_DOMAIN = ["|", ("res_field", "=", False), ("res_field", "!=", False)]
 
 
@@ -20,32 +18,28 @@ class IrAttachment(models.Model):
 
     @api.model
     def _s3_migration_domain(self, storage_code):
-        """Build domain for attachments to migrate, excluding force-DB files.
-
-        Respects force_db_for_default_attachment_rules to keep assets and
-        small images in database for performance.
-        """
+        """Build domain for attachments eligible for migration."""
         base = [
+            ("checksum", "!=", False),
+            ("type", "=", "binary"),
+            ("store_fname", "!=", False),
             ("store_fname", "not like", f"{storage_code}://%"),
+            ("db_datas", "=", False),
         ] + RES_FIELD_DOMAIN
 
-        force_db_domain = self._s3_get_force_db_domain(storage_code)
-        if force_db_domain:
-            return AND([base, ["!"] + force_db_domain])
+        fs_storage = self.env["fs.storage"].sudo().get_by_code(storage_code)
+        if fs_storage and fs_storage.migration_use_storage_force_db_rules:
+            force_db_domain = self._s3_get_force_db_domain(storage_code)
+            if force_db_domain:
+                return AND([base, ["!"] + force_db_domain])
         return base
 
     @api.model
     def _s3_get_force_db_domain(self, storage_code):
-        """Get domain for attachments that must stay in DB for target storage.
-
-        Returns an Odoo domain combining MIME-type prefixes and optional
-        file_size limits. Each rule is normalized with AND() before OR'ing
-        with the accumulated domain to ensure correct grouping.
-        """
-        fs_storage = self.env["fs.storage"]
-        force_db_rules = fs_storage.get_force_db_for_default_attachment_rules(
-            storage_code
-        )
+        """Get domain for attachments that must stay in DB."""
+        force_db_rules = self.env[
+            "fs.storage"
+        ].get_force_db_for_default_attachment_rules(storage_code)
         if not force_db_rules:
             return []
 
@@ -58,55 +52,112 @@ class IrAttachment(models.Model):
 
         return domain or []
 
-    # ----------------------------------------------
-    # Migration helpers
-    # ----------------------------------------------
-    def _s3_resolve_migration_bytes(self, attachment, target_storage_code):
-        """Return non-empty base64 bytes for an attachment or None.
+    @api.model
+    def _should_force_db(self, mimetype, file_size, force_db_rules):
+        """Check if attachment should stay in DB based on force_db rules."""
+        if not force_db_rules:
+            return False
+        mimetype = mimetype or ""
+        file_size = file_size or 0
+        for mime_prefix, limit in force_db_rules.items():
+            if mimetype.startswith(mime_prefix):
+                if limit == 0 or file_size <= limit:
+                    return True
+        return False
 
-        Prefer a donor already migrated to the target storage, then a donor
-        stored in DB. A donor is any attachment with the same checksum whose
-        ``datas`` can be read non-empty at this moment.
+    @api.model
+    def _compute_s3_path(self, checksum, optimize_path):
+        """Compute S3 storage path for a given checksum."""
+        if optimize_path:
+            return f"{checksum[:2]}/{checksum[2:4]}/{checksum}"
+        return checksum
+
+    @api.model
+    def _mark_old_store_fname_for_gc(self, old_fname):
+        """Queue the previous remote object for garbage collection.
+
+        Only files stored on an ``fs.storage`` are queued, through ``fs.file.gc``.
+        Local filestore paths are left untouched: they are collected outside Odoo
+        and are deliberately not added to the core checklist.
         """
-        checksum = attachment.checksum
-        if not checksum:
-            return None
+        if self._is_file_from_a_storage(old_fname):
+            self._fs_mark_for_gc(old_fname)
 
-        # File is already on target storage (reads from S3)
-        domain_target = AND(
+    def _get_binary_data_for_checksum(self, checksum, storage_code):
+        """Get binary data for a checksum from any available source."""
+        # Priority 1: Already migrated to target S3 (read from S3)
+        domain = AND(
             [
                 [
                     ("checksum", "=", checksum),
-                    ("store_fname", "=like", f"{target_storage_code}://%"),
+                    ("store_fname", "=like", f"{storage_code}://%"),
                 ],
                 RES_FIELD_DOMAIN,
             ]
         )
-        donor = self.search(domain_target, limit=1)
+        donor = self.with_context(prefetch_fields=False).search(domain, limit=1)
         if donor:
-            donor_data = donor.with_context(prefetch_fields=False).datas
-            if donor_data:
-                return donor_data
+            try:
+                return donor.raw
+            except OSError as e:
+                _logger.debug("Failed to read from S3 donor %s: %s", donor.id, e)
 
-        # File is kept in DB (fast and independent from filestore)
-        domain_db = AND(
+        # Priority 2: Stored in DB (fast, no file access)
+        domain = AND(
             [[("checksum", "=", checksum), ("db_datas", "!=", False)], RES_FIELD_DOMAIN]
         )
-        donor = self.search(domain_db, limit=1)
+        donor = self.with_context(prefetch_fields=False).search(domain, limit=1)
         if donor:
-            donor_data = donor.with_context(prefetch_fields=False).datas
-            return donor_data
+            try:
+                return donor.raw
+            except OSError as e:
+                _logger.debug("Failed to read from DB donor %s: %s", donor.id, e)
 
-        # 3) Fallback: any readable same-checksum record (avoid mass prefetch)
-        domain_any = AND([[("checksum", "=", checksum)], RES_FIELD_DOMAIN])
-        candidates = self.with_context(prefetch_fields=False).search(
-            domain_any, limit=10
-        )
+        # Priority 3: Local filestore (fallback)
+        domain = AND([[("checksum", "=", checksum)], RES_FIELD_DOMAIN])
+        candidates = self.with_context(prefetch_fields=False).search(domain, limit=5)
         for candidate in candidates:
-            donor_data = candidate.with_context(prefetch_fields=False).datas
-            if donor_data:
-                return donor_data
+            try:
+                data = candidate.raw
+                if data:
+                    return data
+            except OSError:
+                continue
         return None
+
+    def _upload_to_storage(self, fs, path, bin_data):
+        """Upload binary data to storage with content verification."""
+        dirname = "/".join(path.split("/")[:-1])
+        if dirname:
+            try:
+                fs.makedirs(dirname, exist_ok=True)
+            except OSError as e:
+                _logger.debug("Directory %s may already exist: %s", dirname, e)
+
+        expected_size = len(bin_data)
+
+        if fs.exists(path):
+            try:
+                existing_size = fs.info(path).get("size", -1)
+                if existing_size == expected_size:
+                    return
+                _logger.warning(
+                    "Existing file %s has mismatched size (%d vs %d), overwriting",
+                    path,
+                    existing_size,
+                    expected_size,
+                )
+            except OSError as e:
+                _logger.debug(
+                    "Cannot verify existing file %s: %s, overwriting", path, e
+                )
+
+        try:
+            with fs.open(path, "wb") as f:
+                f.write(bin_data)
+        except OSError as e:
+            _logger.error("Failed to write file %s: %s", path, e)
+            raise
 
     @api.model
     def s3_enqueue_migration(
@@ -117,22 +168,18 @@ class IrAttachment(models.Model):
         channel="root.s3_migration",
         max_retries=None,
     ):
-        """Enqueue migration jobs for attachments using cursor pagination.
-
-        Returns number of attachments enqueued for migration.
-        """
+        """Enqueue migration jobs using cursor pagination."""
         domain = self._s3_migration_domain(storage_code)
         total_enqueued = 0
         batches = 0
         last_id = 0
 
-        fs_storage = self.env["fs.storage"]
-        force_db_config = fs_storage.get_force_db_for_default_attachment_rules(
-            storage_code
-        )
+        force_db_config = self.env[
+            "fs.storage"
+        ].get_force_db_for_default_attachment_rules(storage_code)
         if force_db_config:
             _logger.info(
-                "Migration will exclude force-DB files per storage rules: %s",
+                "Migration will exclude force-DB files: %s",
                 force_db_config,
             )
 
@@ -153,16 +200,14 @@ class IrAttachment(models.Model):
             if not ids:
                 break
 
-            rs = self.browse(ids)
-            rs.with_delay(channel=channel, max_retries=max_retries).s3_migrate_batch(
-                storage_code
-            )
+            self.browse(ids).with_delay(
+                channel=channel, max_retries=max_retries
+            ).s3_migrate_batch(storage_code)
 
             total_enqueued += len(ids)
             batches += 1
-            last_id = ids[-1]  # Move cursor to last processed ID
+            last_id = ids[-1]
 
-            # Progress logging every 10 batches
             if batches % 10 == 0:
                 _logger.info(
                     "Migration enqueue progress: %d attachments in %d batches",
@@ -182,72 +227,107 @@ class IrAttachment(models.Model):
         return total_enqueued
 
     def s3_migrate_batch(self, storage_code):
-        """Migrate a batch of attachments to target storage."""
-        rs = self.with_context(prefetch_fields=False)
-        env = self.env
-        total = len(rs)
-        processed = 0
+        """Migrate batch with checksum deduplication."""
+        fs_storage = self.env["fs.storage"].sudo().get_by_code(storage_code)
+        if not fs_storage:
+            _logger.error("Storage not found: %s", storage_code)
+            return False
+
+        fs = fs_storage.fs
+        optimize_path = fs_storage.optimizes_directory_path
+
+        force_db_rules = {}
+        if fs_storage.migration_use_storage_force_db_rules:
+            force_db_rules = self.env[
+                "fs.storage"
+            ].get_force_db_for_default_attachment_rules(storage_code)
+
+        checksum_groups = {}
+        for att in self.with_context(prefetch_fields=False):
+            if att.checksum:
+                checksum_groups.setdefault(att.checksum, self.env["ir.attachment"])
+                checksum_groups[att.checksum] |= att
+
+        total = len(self)
+        migrated = 0
         skipped = 0
 
         _logger.info(
-            "Starting batch migration: %d attachments to storage %s",
+            "Starting batch: %d attachments (%d unique checksums) to %s",
             total,
+            len(checksum_groups),
             storage_code,
         )
 
-        for attachment in rs:
-            env.clear()
+        for checksum, attachments in checksum_groups.items():
+            representative = attachments[0]
 
-            try:
-                file_data = attachment.datas
-                mimetype = attachment.mimetype
-                name = attachment.name
-            except OSError as e:
-                # File missing (deleted by parallel worker) or already migrated
-                _logger.debug(
-                    "Skipping attachment %s (id=%s): %s",
-                    attachment.name,
-                    attachment.id,
-                    str(e),
-                )
-                skipped += 1
-                processed += 1
+            if self._should_force_db(
+                representative.mimetype, representative.file_size, force_db_rules
+            ):
+                skipped += len(attachments)
                 continue
 
-            # Avoid empty writes if source is temporarily unreadable
-            if attachment.file_size and not file_data:
-                resolved = self._s3_resolve_migration_bytes(attachment, storage_code)
-                if not resolved:
-                    _logger.warning(
-                        "Skipping migration for id=%s (checksum=%s): "
-                        "source bytes missing",
-                        attachment.id,
-                        attachment.checksum,
-                    )
-                    skipped += 1
-                    processed += 1
-                    continue
-                file_data = resolved
+            try:
+                bin_data = self._get_binary_data_for_checksum(checksum, storage_code)
+            except Exception as e:  # pylint: disable=broad-except
+                _logger.warning(
+                    "Cannot read checksum %s: %s, skipping %d attachments",
+                    checksum,
+                    e,
+                    len(attachments),
+                )
+                skipped += len(attachments)
+                continue
 
-            att = attachment.with_context(storage_location=storage_code)
-            att.write({"datas": file_data, "mimetype": mimetype, "name": name})
+            if not bin_data:
+                _logger.warning(
+                    "No data for checksum %s, skipping %d attachments",
+                    checksum,
+                    len(attachments),
+                )
+                skipped += len(attachments)
+                continue
 
-            processed += 1
-            if processed % 50 == 0 or processed % max(1, total // 10) == 0:
+            path = self._compute_s3_path(checksum, optimize_path)
+
+            try:
+                self._upload_to_storage(fs, path, bin_data)
+            except Exception as e:
+                _logger.error(
+                    "Upload failed for %s: %s, skipping %d attachments",
+                    checksum,
+                    e,
+                    len(attachments),
+                )
+                skipped += len(attachments)
+                continue
+
+            new_store_fname = f"{storage_code}://{path}"
+            fs_filename = path.split("/")[-1]
+
+            for att in attachments:
+                old_fname = att.store_fname
+                if old_fname and not old_fname.startswith(f"{storage_code}://"):
+                    self._mark_old_store_fname_for_gc(old_fname)
+                att._force_write_store_fname(new_store_fname)
+
+            attachments.write({"fs_filename": fs_filename})
+            migrated += len(attachments)
+
+            if migrated % 100 == 0:
                 _logger.info(
-                    "Migration batch progress: %d/%d (%.1f%%) - storage: %s",
-                    processed,
+                    "Batch progress: %d/%d migrated, %d skipped",
+                    migrated,
                     total,
-                    (processed / total) * 100,
-                    storage_code,
+                    skipped,
                 )
 
         _logger.info(
-            "Completed batch migration: %d/%d attachments to storage %s (%d skipped). "
-            "Old files will be cleaned by the garbage collector.",
-            processed - skipped,
+            "Batch complete: migrated=%d, skipped=%d (total=%d) to %s",
+            migrated,
+            skipped,
             total,
             storage_code,
-            skipped,
         )
         return True

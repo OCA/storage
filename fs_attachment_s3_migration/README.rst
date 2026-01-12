@@ -1,3 +1,7 @@
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
 =======================
 Attachment S3 Migration
 =======================
@@ -13,7 +17,7 @@ Attachment S3 Migration
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -34,7 +38,9 @@ using a wizard directly on the storage form.
 
 Migrations are run in background batches, skipping attachments that are
 already stored in S3 or must remain in PostgreSQL. This allows to run
-the process repeatedly avoiding creating duplicates.
+the process repeatedly avoiding creating duplicates. The migration does
+not delete the original local filestore files; disk cleanup is handled
+outside this module.
 
 **Table of contents**
 
@@ -49,6 +55,9 @@ Usage
 2. In the migration wizard, keep or adjust the storage code, batch size,
    queue channel, and optional *Max Batches* value, then confirm to
    enqueue jobs.
+3. The migration **copies** blobs to S3 and repoints ``store_fname``.
+   The original local filestore files are **not** deleted by this
+   module.
 
 Bug Tracker
 ===========

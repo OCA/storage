@@ -77,18 +77,17 @@ class S3MigrationWizard(models.TransientModel):
             max_batches=max_batches,
             channel=self.channel,
         )
-        return [
-            {"type": "ir.actions.act_window_close"},
-            {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("Migration Enqueued"),
-                    "message": _(
-                        "%(count)s attachments enqueued for migration.",
-                        count=total,
-                    ),
-                    "sticky": False,
-                },
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Migration Enqueued"),
+                "message": _(
+                    "%(count)s attachments enqueued for migration.",
+                    count=total,
+                ),
+                "type": "success",
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
             },
-        ]
+        }

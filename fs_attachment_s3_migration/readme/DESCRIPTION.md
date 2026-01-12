@@ -4,5 +4,6 @@ wizard directly on the storage form.
 
 Migrations are run in background batches, skipping attachments that are already
 stored in S3 or must remain in PostgreSQL. This allows to run the process
-repeatedly avoiding creating duplicates.
+repeatedly avoiding creating duplicates. The migration does not delete the
+original local filestore files; disk cleanup is handled outside this module.
 

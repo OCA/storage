@@ -9,7 +9,7 @@
     To increase parallelism, configure in queue.job.channel settings or
     via server environment configuration:
 
-    Check https://github.com/OCA/queue/tree/18.0/queue_job documentation for more details.
+    Check https://github.com/OCA/queue/tree/16.0/queue_job documentation for more details.
 
     -->
     <record id="queue_channel_s3_migration" model="queue.job.channel">
