@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-21 17:50+0000\n"
+"PO-Revision-Date: 2026-01-22 16:50+0000\n"
 "Last-Translator: Vincent Hatakeyama <vincent+github@hatakeyama.fr>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -104,19 +104,19 @@ msgstr "Nom affiché"
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Enter you fsspec options here."
-msgstr ""
+msgstr "Entrer ici les options pour fsspec."
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env_env_is_editable
 msgid "Eval Options From Env Env Is Editable"
-msgstr ""
+msgstr "Options évaluées par défaut de l’environnement éditable"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "Everything seems properly set up!"
-msgstr ""
+msgstr "Tout semble bien configuré !"
 
 #. module: fs_storage
 #: model:ir.actions.act_window,name:fs_storage.act_open_fs_storage_view
@@ -131,12 +131,12 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.actions.act_window,name:fs_storage.act_open_fs_test_connection_view
 msgid "FS Test Connection"
-msgstr ""
+msgstr "Test de connexion FS"
 
 #. module: fs_storage
 #: model:ir.model,name:fs_storage.model_fs_test_connection
 msgid "FS Test Connection Wizard"
-msgstr ""
+msgstr "Assistant de test de connexion FS"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
@@ -260,11 +260,18 @@ msgid ""
 "* Create Marker file : Create a file on remote and check it exists\n"
 "* List File : List all files from root directory"
 msgstr ""
+"Indiquer une méthode si vous voulez que la connexion distante soit testée à "
+"chaque fois que le stockage est utilisé, dans le but d’enlever les "
+"connexions obsolètes du cache.\n"
+"* Créer un fichier de marque : créer un fichier sur le serveur distant et "
+"vérifier qu’il existe.\n"
+"* Faire la liste des fichiers : demander tous les fichiers du répertoire "
+"racine."
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__storage_id
 msgid "Storage"
-msgstr ""
+msgstr "Stockage"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__code
@@ -275,34 +282,39 @@ msgid ""
 "'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
 "installed."
 msgstr ""
+"Code technique utilisé pour identifier le stockage dans le code. Le code "
+"doit être unique. Le code est entre autre utilisé pour définir le stockage à "
+"utiliser pour stocker les pièces jointes via le paramètre de configuration «"
+" ir_attachment.storage.force.database » lorsque le module fs_attachhment est "
+"installé."
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Test Connection"
-msgstr ""
+msgstr "Test de connexion"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Test connection"
-msgstr ""
+msgstr "Test de connexion"
 
 #. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
 msgid "The code must be unique"
-msgstr ""
+msgstr "Le code doit être unique"
 
 #. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 #, python-format
 msgid "The options must be a valid JSON"
-msgstr ""
+msgstr "Les options doivent être du JSON valide"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__json_options
 msgid "The options used to initialize the filesystem.\n"
-msgstr ""
+msgstr "Les options pour initialiser le système de fichier.\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
