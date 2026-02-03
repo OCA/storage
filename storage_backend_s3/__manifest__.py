@@ -5,13 +5,13 @@
 {
     "name": "Storage Backend S3",
     "summary": "Implement amazon S3 Storage",
-    "version": "15.0.1.0.1",
+    "version": "16.0.1.0.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "installable": True,
-    "external_dependencies": {"python": ["boto3<=1.15.18"]},
+    "external_dependencies": {"python": ["boto3"]},
     "depends": ["storage_backend"],
     "data": ["views/backend_storage_view.xml"],
 }
