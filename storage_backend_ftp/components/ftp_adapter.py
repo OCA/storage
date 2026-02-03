@@ -61,15 +61,18 @@ class ImplicitFTPTLS(ftplib.FTP_TLS):
         self._sock = value
 
 
+FTP_TIMEOUT = 30
+
+
 @contextmanager
 def ftp(backend):
     security = None
     prot_p = False
     if backend.ftp_encryption in ["ftp", "tls", "tls_explicit"]:
         if backend.ftp_encryption == "ftp":
-            _ftp = ftplib.FTP()
+            _ftp = ftplib.FTP(timeout=FTP_TIMEOUT)
         elif backend.ftp_encryption == "tls":
-            _ftp = ImplicitFTPTLS()
+            _ftp = ImplicitFTPTLS(timeout=FTP_TIMEOUT)
             # Due to a bug into between ftplib and ssl, this part (about ssl) might not work!
             # https://bugs.python.org/issue31727
             security = FTP_SECURITY_TO_PROTOCOL.get(backend.ftp_security, None)
@@ -77,7 +80,7 @@ def ftp(backend):
             if isinstance(security, str):
                 raise UserError(security)
         elif backend.ftp_encryption == "tls_explicit":
-            _ftp = ftplib.FTP_TLS()
+            _ftp = ftplib.FTP_TLS(timeout=FTP_TIMEOUT)
             prot_p = True
         with _ftp as client:
             if security:
