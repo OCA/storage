@@ -8,6 +8,7 @@ import base64
 import errno
 import logging
 import os
+import tempfile
 from contextlib import contextmanager
 from io import StringIO
 
@@ -185,7 +186,7 @@ def parse_hostkey(hostkey_input, hostname=None):
 def _log_verbose(backend, message, *args):
     """Log message only if verbose logging is enabled."""
     if backend.sftp_verbose_logging:
-        _logger.info(message, *args)
+        _logger.debug(message, *args)
 
 
 @contextmanager
@@ -349,10 +350,10 @@ class SFTPStorageBackendAdapter(Component):
     def get(self, relative_path, **kwargs):
         full_path = self._fullpath(relative_path)
         with sftp(self.collection) as client:
-            file_data = client.open(full_path, "r")
-            data = file_data.read()
-            # TODO: shouldn't we close the file?
-        return data
+            with tempfile.NamedTemporaryFile() as tmp:
+                client.get(full_path, tmp.name)
+                tmp.seek(0)
+                return tmp.read()
 
     def list(self, relative_path):
         full_path = self._fullpath(relative_path)
