@@ -336,11 +336,11 @@ class IrAttachment(models.Model):
         return True
 
     @api.model
-    def _file_read(self, fname):
+    def _file_read(self, fname, size=None):
         if self._is_file_from_a_storage(fname):
-            return self._storage_file_read(fname)
+            return self._storage_file_read(fname, size)
         else:
-            return super()._file_read(fname)
+            return super()._file_read(fname, size)
 
     @api.model
     def _file_write(self, bin_data, checksum):
@@ -374,12 +374,12 @@ class IrAttachment(models.Model):
     # Internal methods to use the object storage #
     ##############################################
     @api.model
-    def _storage_file_read(self, fname: str) -> bytes | None:
+    def _storage_file_read(self, fname: str, size: int | None = None) -> bytes | None:
         """Read the file from the filesystem storage"""
         fs, _storage, fname = self._fs_parse_store_fname(fname)
         try:
             with fs.open(fname, "rb") as f:
-                return f.read()
+                return f.read(size)
         except OSError:
             _logger.info(
                 "Error reading %s on storage %s", fname, _storage, exc_info=True
