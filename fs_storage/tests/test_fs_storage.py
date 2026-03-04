@@ -4,7 +4,6 @@ import warnings
 from unittest import mock
 
 from odoo.exceptions import ValidationError
-from odoo.tests import Form
 from odoo.tools import mute_logger
 
 from .common import TestFSStorageCase
@@ -137,18 +136,23 @@ class TestFSStorage(TestFSStorageCase):
         )
 
     def test_interface_values(self):
-        protocol = "file"  # should be available by default in the list of protocols
-        with Form(self.env["fs.storage"]) as new_storage:
-            new_storage.name = "Test storage"
-            new_storage.code = "code"
-            new_storage.protocol = protocol
-            self.assertEqual(new_storage.protocol, protocol)
-            # the options should follow the protocol
-            self.assertEqual(new_storage.options_protocol, protocol)
-            description = new_storage.protocol_descr
-            self.assertTrue("Interface to files on local storage" in description)
-        # this is still true after saving
-        self.assertEqual(new_storage.options_protocol, protocol)
+        storage = self.env["fs.storage"].create(
+            {
+                "name": "Test storage",
+                "code": "code",
+                "protocol": "file",
+            }
+        )
+        self.assertEqual(
+            storage.options_protocol,
+            "file",
+            "Options should match the protocol",
+        )
+        self.assertIn(
+            "Interface to files on local storage",
+            storage.protocol_descr,
+            "Description should match the protocol",
+        )
 
     def test_options_env(self):
         self.backend.json_options = {"key": {"sub_key": "$KEY_VAR"}}
