@@ -709,6 +709,12 @@ class IrAttachment(models.Model):
             if self._is_storage_disabled(storage):
                 fname = False
         if fname:
+            if (
+                not self._is_file_from_a_storage(fname)
+                and not Path(self._full_path(fname)).exists()
+            ):
+                _logger.warning("file %s does not exist, skipping migration", fname)
+                return
             # migrating from filesystem filestore
             # or from the old 'store_fname' without the bucket name
             _logger.info("moving %s on the object storage", fname)

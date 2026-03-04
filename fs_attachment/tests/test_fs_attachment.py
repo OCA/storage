@@ -1,6 +1,7 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import os
+from pathlib import Path
 from unittest import mock
 
 from odoo.fields import Domain
@@ -374,6 +375,26 @@ class TestFSAttachment(TestFSAttachmentCommon):
         filename = f"test-{attachment.id}-0.txt"
         self.assertEqual(attachment.store_fname, f"tmp_dir://{filename}")
         self.assertIn(filename, os.listdir(self.temp_dir))
+
+    @mute_logger("odoo.addons.fs_attachment.models.ir_attachment")
+    def test_force_storage_to_fs_ignore_missing_file(self):
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        store_fname = attachment.store_fname
+        fs_path = self.ir_attachment_model._filestore() + "/" + store_fname
+        # remove the actual file from the filestore
+        Path(fs_path).unlink()
+        # we decide to force the storage in the filestore
+        self.temp_backend.use_as_default_for_attachments = True
+        with (
+            mock.patch.object(self.env.cr, "commit"),
+            mock.patch("odoo.addons.fs_attachment.models.ir_attachment.clean_fs"),
+        ):
+            self.ir_attachment_model.force_storage()
+        # the file should not have been moved
+        self.assertEqual(attachment.store_fname, store_fname, "store_fname not changed")
 
     def test_storage_use_filename_obfuscation(self):
         self.temp_backend.base_url = "https://acsone.eu/media"
