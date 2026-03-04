@@ -6,8 +6,7 @@ import shutil
 import tempfile
 from unittest import mock
 
-from odoo.fields import Command
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, new_test_user
 
 from ..models.fs_storage import FSStorage
 
@@ -28,20 +27,7 @@ class TestFSStorageCase(TransactionCase):
         cls.filedata = base64.b64encode(b"This is a simple file")
         cls.filename = "test_file.txt"
         cls.case_with_subdirectory = "subdirectory/here"
-        cls.demo_user = (
-            cls.env["res.users"]
-            .with_context(no_reset_password=True)
-            .create(
-                {
-                    "name": "Test User",
-                    "login": "demo",
-                    "password": "demo",
-                    "email": "test@yourcompany.com",
-                    "company_id": cls.env.ref("base.main_company").id,
-                    "group_ids": [Command.link(cls.env.ref("base.group_user").id)],
-                }
-            )
-        )
+        cls.demo_user = new_test_user(cls.env, login="test", groups="base.group_user")
         cls.temp_dir = tempfile.mkdtemp()
 
     def setUp(self):
