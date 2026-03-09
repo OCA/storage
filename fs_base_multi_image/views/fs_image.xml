@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="fs_image_form_view">
         <field name="name">fs.image.form (in fs_base_multi_image)</field>
         <field name="model">fs.image</field>
@@ -73,5 +72,4 @@
         <field name="parent_id" ref="fs_storage.menu_storage" />
         <field name="action" ref="fs_image_act_window" />
     </record>
-
 </odoo>
