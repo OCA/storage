@@ -20,9 +20,9 @@ class FsImage(models.Model):
     @api.depends("image")
     def _compute_name(self):
         for record in self:
-            record.name = record.image.name if record.image else None
+            record.name = record.image.name if record.image else False
 
     @api.depends("image")
-    def _compute_mimetypes(self):
+    def _compute_mimetype(self):
         for record in self:
-            record.mimetype = record.image.mimetype if record.image else None
+            record.mimetype = record.image.mimetype if record.image else False
