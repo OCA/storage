@@ -2,3 +2,5 @@ odoo_test_helper
 requests_mock
 vcrpy-unittest
 s3fs>=2025.3.0
+odoo-addon-microsoft_drive_account@git+https://github.com/OCA/storage.git@refs/pull/561/head#subdirectory=microsoft_drive_account
+odoo-addon-fs_folder@git+https://github.com/OCA/storage.git@refs/pull/562/head#subdirectory=fs_folder
