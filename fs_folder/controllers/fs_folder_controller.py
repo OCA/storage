@@ -29,7 +29,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/get_children/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -43,7 +43,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/add_folder/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -54,7 +54,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/delete/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -65,7 +65,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/move/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -83,7 +83,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/copy/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -101,7 +101,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/rename/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -116,7 +116,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/upload/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -132,7 +132,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/initialize/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )

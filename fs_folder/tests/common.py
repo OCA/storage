@@ -23,6 +23,7 @@ class FsFolderTestCase(TransactionCase):
         cls.loader.update_registry(
             (FsTestModel, FsTestModelInherits, FsTestModelRelated)
         )
+
         cls.fs_test_model = cls.env[FsTestModel._name]
         cls.fs_test_model_inherits = cls.env[FsTestModelInherits._name]
         cls.fs_test_model_related = cls.env[FsTestModelRelated._name]
