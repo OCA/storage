@@ -8,7 +8,7 @@ from odoo.http import request
 class FsController(http.Controller):
     @http.route(
         "/fs_folder_ms_drive/get_ms_drive_url/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -22,7 +22,7 @@ class FsController(http.Controller):
 
     @http.route(
         "/fs_folder_ms_drive/get_ms_drive_download_url/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -36,7 +36,7 @@ class FsController(http.Controller):
 
     @http.route(
         "/fs_folder_ms_drive/get_ms_drive_preview_url/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -50,7 +50,7 @@ class FsController(http.Controller):
 
     @http.route(
         "/fs_folder_ms_drive/is_ms_drive/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )

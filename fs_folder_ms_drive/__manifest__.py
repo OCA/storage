@@ -5,7 +5,7 @@
     "name": "Fs Folder Msgraph",
     "summary": """Display and manage your files from Microsoft drives from within
             Odoo""",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
@@ -16,8 +16,6 @@
         "web.assets_backend": [
             "fs_folder_ms_drive/static/src/**/*",
         ],
-    'installable': False,
-},
+    },
     "maintainers": ["lmignon"],
-    'installable': False,
 }
