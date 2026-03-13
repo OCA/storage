@@ -107,7 +107,7 @@ class ThumbnailMixing(models.AbstractModel):
             vals = self.env["storage.thumbnail"]._prepare_thumbnail(
                 self, size_x, size_y, url_key
             )
-            thumbnail = self.thumbnail_ids.create(vals)
+            thumbnail = self.thumbnail_ids.sudo().create(vals)
             # invalidate field since a new record is created
             # The actual model is a mixin, therefore the inverse into
             # storage.thumbnail is not defined as a one2many to this mixin.
