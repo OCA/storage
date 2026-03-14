@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.10.4\n"
 
 #. module: storage_media_product
+#: model:ir.model.fields,help:storage_media_product.field_product_media_relation__url_path
+msgid "Accessible path, no base URL"
+msgstr ""
+
+#. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
 msgid "Association"
 msgstr "Associazione"
@@ -126,6 +131,11 @@ msgstr "Sequenza"
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__url
 msgid "Url"
 msgstr "URL"
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__url_path
+msgid "Url Path"
+msgstr ""
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_product__variant_media_ids

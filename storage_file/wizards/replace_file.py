@@ -14,13 +14,14 @@ class StorageFileReplace(models.TransientModel):
 
     def _get_file_from_data(self):
         file_model = self.env["storage.file"].sudo()
-        return file_model.create(
-            {
-                "backend_id": self.file_id.backend_id.id,
-                "data": self.data,
-                "name": self.file_name,
-            }
-        )
+        return file_model.create(self._prepare_file_values())
+
+    def _prepare_file_values(self):
+        return {
+            "backend_id": self.file_id.backend_id.id,
+            "data": self.data,
+            "name": self.file_name,
+        }
 
     def confirm(self):
         return

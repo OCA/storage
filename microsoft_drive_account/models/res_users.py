@@ -26,6 +26,16 @@ class ResUsers(models.Model):
         store=True,
     )
 
+    microsoft_drive_oauth2_non_interactive = fields.Boolean(
+        string="Microsoft Drive OAuth2 (non-interactive)",
+        default=False,
+        help="If set, this user will not go through the interactive OAuth2 "
+        "authorization flow; The requested token will be requested to the "
+        "authentication server directly using client credentials flows. "
+        "(scope: 'https://graph.microsoft.com/.default', "
+        "grante_type: 'client_credentials')",
+    )
+
     def _set_microsoft_drive_auth_tokens(
         self, access_token: str, refresh_token: str, ttl: float
     ):
@@ -74,3 +84,11 @@ class ResUsers(models.Model):
         )
         action["context"] = py_ctx
         return action
+
+    @property
+    def SELF_READABLE_FIELDS(self):
+        """Extend the set of user fields that are allowed in sudo mode when
+        a user reads their own profile. The check is all-or-nothing: if any requested
+        field is not in this list, sudo is not applied and restricted fields will
+        raise access errors."""
+        return super().SELF_READABLE_FIELDS + ["microsoft_drive_status"]

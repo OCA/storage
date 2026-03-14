@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
+from odoo.tools import SQL
 from odoo.tools.safe_eval import const_eval
 
 from .ir_attachment import IrAttachment
@@ -240,15 +241,15 @@ class FsStorage(models.Model):
     def _must_use_filename_obfuscation(self, code):
         return self.sudo().get_by_code(code).use_filename_obfuscation
 
-    @api.depends("base_url", "is_directory_path_in_url")
+    @api.depends("base_url", "is_directory_path_in_url", "directory_path")
     def _compute_base_url_for_files(self):
         for rec in self:
             if not rec.base_url:
                 rec.base_url_for_files = ""
                 continue
             parts = [rec.base_url]
-            if rec.is_directory_path_in_url and rec.directory_path:
-                parts.append(rec.directory_path)
+            if rec.is_directory_path_in_url and rec.get_directory_path():
+                parts.append(rec.get_directory_path())
             rec.base_url_for_files = self._normalize_url("/".join(parts))
 
     @api.model
@@ -324,3 +325,16 @@ class FsStorage(models.Model):
         attachments = self.env["ir.attachment"].search(domain)
         attachments._compute_fs_url()
         attachments._compute_fs_url_path()
+
+    @api.model
+    def _setup_complete(self):
+        # Force recompute of base_url_for_files.
+        # This is needed when {db_name} is used in directory path.
+        # Due to the use of server_environment, there is no directory_path column to
+        # filter so recompute all.
+        self.env.cr.execute(SQL("SELECT id FROM %s", SQL.identifier(self._table)))
+        records = self.browse(row[0] for row in self.env.cr.fetchall())
+        if records:
+            self.env.add_to_compute(self._fields["base_url_for_files"], records)
+        # recompute is done at the end of the caller (registry::setup_models)
+        return super()._setup_complete()

@@ -9,8 +9,13 @@
         <field name="arch" type="xml">
             <page name="account_security" position="inside">
                 <group string="Drive" name="drive_group">
+                    <group>
+                        <field name="microsoft_drive_oauth2_non_interactive" />
+                    </group>
                     <field name="microsoft_drive_status" widget="ms_drive_connect" />
-                    <group invisible="microsoft_drive_status == 'not_connected'">
+                    <group
+                        invisible="not microsoft_drive_oauth2_non_interactive or microsoft_drive_status == 'not_connected'"
+                    >
                         <field
                             name="microsoft_drive_token_validity"
                             string="Token Validity"

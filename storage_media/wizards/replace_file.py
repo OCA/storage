@@ -25,10 +25,15 @@ class StorageFileReplace(models.TransientModel):
             )
         return res
 
+    def _prepare_file_values(self):
+        res = super()._prepare_file_values()
+        if self.media_id:
+            res["file_type"] = self.media_id._default_file_type
+        return res
+
     def confirm(self):
         res = super().confirm()
         if self.media_id and self.data:
             self.media_id.file_id = self._get_file_from_data()
-            # TODO remove sudo
-            self.media_id.file_id.sudo()._inverse_data()
+            self.media_id.file_id._inverse_data()
         return res

@@ -73,6 +73,15 @@ msgid "ID"
 msgstr ""
 
 #. module: microsoft_drive_account
+#: model:ir.model.fields,help:microsoft_drive_account.field_res_users__microsoft_drive_oauth2_non_interactive
+msgid ""
+"If set, this user will not go through the interactive OAuth2 authorization "
+"flow; The requested token will be requested to the authentication server "
+"directly using client credentials flows. (scope: "
+"'https://graph.microsoft.com/.default', grante_type: 'client_credentials')"
+msgstr ""
+
+#. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_microsoft_drive_account_reset__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -101,6 +110,11 @@ msgstr ""
 #. module: microsoft_drive_account
 #: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_status
 msgid "Microsoft Drive Connection Status"
+msgstr ""
+
+#. module: microsoft_drive_account
+#: model:ir.model.fields,field_description:microsoft_drive_account.field_res_users__microsoft_drive_oauth2_non_interactive
+msgid "Microsoft Drive OAuth2 (non-interactive)"
 msgstr ""
 
 #. module: microsoft_drive_account
