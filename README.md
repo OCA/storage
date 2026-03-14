@@ -34,6 +34,7 @@ addon | version | maintainers | summary
 [fs_folder](fs_folder/) | 18.0.1.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | A module to link to Odoo records and manage from record forms forlders from external file systems
 [fs_folder_demo](fs_folder_demo/) | 18.0.1.0.0 (unported) |  | Demo for fs_folder addon
 [fs_folder_ms_drive](fs_folder_ms_drive/) | 18.0.1.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Display and manage your files from Microsoft drives from within Odoo
+[fs_folder_webdav](fs_folder_webdav/) | 18.0.1.0.0 (unported) | <a href='https://github.com/jguenat'><img src='https://github.com/jguenat.png' width='32' height='32' style='border-radius:50%;' alt='jguenat'/></a> | UI improvement when managing WebDAV folder
 [fs_image](fs_image/) | 18.0.1.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Field to store images into filesystem storages
 [fs_storage_ms_drive](fs_storage_ms_drive/) | 18.0.1.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Add the microsoft drives (OneDrive, Sharepoint) as a storage backend
 [image_tag](image_tag/) | 18.0.1.0.0 (unported) |  | Image tag model
@@ -43,9 +44,9 @@ addon | version | maintainers | summary
 [storage_backend_s3](storage_backend_s3/) | 18.0.1.1.0 (unported) |  | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 18.0.1.0.0 (unported) |  | Implement SFTP Storage
 [storage_file](storage_file/) | 18.0.1.0.0 (unported) |  | Storage file in storage backend
-[storage_image](storage_image/) | 18.0.1.0.0 (unported) |  | Store image and resized image in a storage backend
+[storage_image](storage_image/) | 18.0.1.0.1 (unported) |  | Store image and resized image in a storage backend
 [storage_image_product](storage_image_product/) | 18.0.1.0.0 (unported) |  | Link images to products and categories
-[storage_media](storage_media/) | 18.0.1.1.0 (unported) |  | Give the posibility to store media data in Odoo
+[storage_media](storage_media/) | 18.0.1.1.1 (unported) |  | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 18.0.1.0.0 (unported) |  | Link media to products and categories
 [storage_thumbnail](storage_thumbnail/) | 18.0.1.0.0 (unported) |  | Abstract module that add the possibility to have thumbnail
 
