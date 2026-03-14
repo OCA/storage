@@ -5,6 +5,7 @@ exclude: |
   ^fs_folder/|
   ^fs_folder_demo/|
   ^fs_folder_ms_drive/|
+  ^fs_folder_webdav/|
   ^fs_image/|
   ^fs_storage_ms_drive/|
   ^image_tag/|

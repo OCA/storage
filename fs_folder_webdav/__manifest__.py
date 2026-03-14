@@ -17,4 +17,5 @@
     },
     "maintainers": ["jguenat"],
     "external_dependencies": {"python": ["webdav4[fsspec]"]},
+    "installable": False,
 }
