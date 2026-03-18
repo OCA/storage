@@ -95,6 +95,8 @@ msgstr "Percorso cartella ambiente predefinito"
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__display_name
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__display_name
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
@@ -140,8 +142,8 @@ msgstr "Campo"
 msgid ""
 "Field %(field)s already stored in another FS storage ('%(other_storage)s')"
 msgstr ""
-"Il campo %(field)s è già archiviato in un altro deposito FS "
-"('%(other_storage)s')"
+"Il campo %(field)s è già archiviato in un altro deposito FS ('%"
+"(other_storage)s')"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__field_xmlids
@@ -161,6 +163,8 @@ msgstr "Campi"
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__id
 msgid "ID"
 msgstr "ID"
 
@@ -286,8 +290,8 @@ msgstr "Modello"
 msgid ""
 "Model %(model)s already stored in another FS storage ('%(other_storage)s')"
 msgstr ""
-"Il modello %(model)s è già archiviato in un altro deposito FS "
-"('%(other_storage)s')"
+"Il modello %(model)s è già archiviato in un altro deposito FS ('%"
+"(other_storage)s')"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__model_xmlids
@@ -400,8 +404,9 @@ msgstr "Deposito"
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "Codice tecnico usato per identificare il backend deposito nel codice. Questo "
 "codice deve essere univoco. Questo codice è utilizzato per esempio per "
@@ -421,7 +426,7 @@ msgid "Test connection"
 msgstr "Prova connessione"
 
 #. module: fs_storage
-#: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
+#: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_uniq_code
 msgid "The code must be unique"
 msgstr "Il codice deve essere univoco"
 
@@ -523,6 +528,12 @@ msgstr "Le opzioni X ambiente sono modificabili"
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
 msgid "X Protocol Env Is Editable"
 msgstr "Il protocollo X ambiente è modificabile"
+
+#. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid "ls"
+msgstr ""
 
 #~ msgid "Directory Path Env Is Editable"
 #~ msgstr "Percorso cartella ambiente è modificabile"

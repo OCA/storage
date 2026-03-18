@@ -95,6 +95,8 @@ msgstr "目录路径环境默认值"
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__display_name
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__display_name
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__display_name
 msgid "Display Name"
 msgstr "目录路径环境默认值"
 
@@ -159,6 +161,8 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__id
 msgid "ID"
 msgstr "ID"
 
@@ -367,12 +371,13 @@ msgstr ""
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "用于在代码中标识存储后端的技术代码。此代码必须是唯一的。例如，当安"
-"装'fs_attachment'模块时，此代码用于通过配置参数'ir_attachment.storage.force."
-"database'定义存储附件的存储后端。"
+"装'fs_attachment'模块时，此代码用于通过配置参"
+"数'ir_attachment.storage.force.database'定义存储附件的存储后端。"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
@@ -386,7 +391,7 @@ msgid "Test connection"
 msgstr "测试连接"
 
 #. module: fs_storage
-#: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
+#: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_uniq_code
 msgid "The code must be unique"
 msgstr "代码必须是唯一的"
 
@@ -486,3 +491,9 @@ msgstr "X选项环境可编辑"
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
 msgid "X Protocol Env Is Editable"
 msgstr "X协议环境可编辑"
+
+#. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid "ls"
+msgstr ""

@@ -95,6 +95,8 @@ msgstr "Ruta del Directorio Env Predet"
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__display_name
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__display_name
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__display_name
 msgid "Display Name"
 msgstr "Mostrar Nombre"
 
@@ -159,6 +161,8 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__id
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model__id
+#: model:ir.model.fields,field_description:fs_storage.field_ir_model_fields__id
 msgid "ID"
 msgstr "ID (identificación)"
 
@@ -368,14 +372,16 @@ msgstr ""
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "Código técnico utilizado para identificar el servidor de almacenamiento en "
 "el código. Este código debe ser único. Este código se utiliza, por ejemplo, "
 "para definir el servidor de almacenamiento para guardar los archivos "
-"adjuntos mediante el parámetro de configuración \"ir_attachment.storage."
-"force.database\" cuando se instala el módulo \"fs_attachment\"."
+"adjuntos mediante el parámetro de configuración "
+"\"ir_attachment.storage.force.database\" cuando se instala el módulo "
+"\"fs_attachment\"."
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
@@ -389,7 +395,7 @@ msgid "Test connection"
 msgstr "Probar conexión"
 
 #. module: fs_storage
-#: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
+#: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_uniq_code
 msgid "The code must be unique"
 msgstr "El código tiene que ser único"
 
@@ -491,6 +497,12 @@ msgstr "X Las Opciones Env son Editables"
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
 msgid "X Protocol Env Is Editable"
 msgstr "El Protocolo X Env es Editable"
+
+#. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid "ls"
+msgstr ""
 
 #~ msgid "Directory Path Env Is Editable"
 #~ msgstr "La Ruta de Directorio Env es Editable"
