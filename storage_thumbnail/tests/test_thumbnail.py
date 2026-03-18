@@ -25,6 +25,15 @@ class TestStorageThumbnail(TransactionComponentCase):
         cls.filename = "akretion-logo.png"
         return res
 
+    def setUp(self):
+        res = super().setUp()
+        # Remove check_attrs cleanup if exists to avoid conflict with FakeModelLoader.
+        # since superClass uses it for its own puposes not relevant for our tests.
+        check_attrs = (getattr(self, "check_attrs", None), tuple(), {})
+        if check_attrs in self._cleanups:
+            self._cleanups.remove(check_attrs)
+        return res
+
     @classmethod
     def tearDownClass(cls):
         cls.loader.restore_registry()

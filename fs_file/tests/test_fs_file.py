@@ -40,6 +40,11 @@ class TestFsFile(TransactionCase):
 
     def setUp(self):
         super().setUp()
+        # Remove check_attrs cleanup if exists to avoid conflict with FakeModelLoader.
+        # since superClass uses it for its own puposes not relevant for our tests.
+        check_attrs = (getattr(self, "check_attrs", None), tuple(), {})
+        if check_attrs in self._cleanups:
+            self._cleanups.remove(check_attrs)
         self.temp_dir: FSStorage = self.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
