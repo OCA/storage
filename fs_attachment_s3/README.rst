@@ -120,6 +120,18 @@ the storage configuration. The X-Accel-Redirect path is constructed
 directly from the S3 storage's URL defined for the connection, the
 directory name as bucket name, and the file path.
 
+Changelog
+=========
+
+18.0.1.2.0 (2025-10-20)
+-----------------------
+
+Features
+~~~~~~~~
+
+- Adapt to handle {db_name} in directory_path.
+  (`#db_name <https://github.com/OCA/storage/issues/db_name>`__)
+
 Bug Tracker
 ===========
 
