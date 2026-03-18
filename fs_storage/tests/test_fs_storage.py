@@ -5,7 +5,7 @@ from unittest import mock
 
 from odoo.exceptions import ValidationError
 from odoo.tests import Form
-from odoo.tools import mute_logger
+from odoo.tools import mute_logger, safe_eval
 
 from .common import TestFSStorageCase
 
@@ -246,3 +246,52 @@ class TestFSStorage(TestFSStorageCase):
         self.backend.directory_path = template
         # Assert different (db name should be replaced)
         self.assertNotEqual(template, self.backend.get_directory_path())
+
+    def test_no_create_in_safe_eval(self):
+        # check that we can't create a file in safe_eval
+        with self.assertRaisesRegex(
+            ValidationError,
+            "Calling fs.storage.create is not allowed in a safe_eval context.",
+        ):
+            safe_eval.safe_eval(
+                "env['fs.storage'].create({'name': 'test', 'code': 'test'})",
+                {"env": self.env},
+            )
+
+        with self.assertRaisesRegex(
+            ValidationError,
+            "Calling fs.storage.create is not allowed in a safe_eval context.",
+        ):
+            safe_eval.safe_eval(
+                "env['fs.storage']._create({'name': 'test', 'code': 'test'})",
+                {"env": self.env},
+            )
+
+    def test_no_write_in_safe_eval(self):
+        # check that we can't write a file in safe_eval
+        with self.assertRaisesRegex(
+            ValidationError,
+            "Calling fs.storage.write is not allowed in a safe_eval context.",
+        ):
+            safe_eval.safe_eval(
+                "env['fs.storage'].search([]).write({'name': 'test'})",
+                {"env": self.env},
+            )
+        with self.assertRaisesRegex(
+            ValidationError,
+            "Calling fs.storage.write is not allowed in a safe_eval context.",
+        ):
+            safe_eval.safe_eval(
+                "env['fs.storage'].search([])._write({'name': 'test'})",
+                {"env": self.env},
+            )
+
+    def test_no_unlink_in_safe_eval(self):
+        # check that we can't unlink a file in safe_eval
+        with self.assertRaisesRegex(
+            ValidationError,
+            "Calling fs.storage.unlink is not allowed in a safe_eval context.",
+        ):
+            safe_eval.safe_eval(
+                "env['fs.storage'].search([]).unlink()", {"env": self.env}
+            )
