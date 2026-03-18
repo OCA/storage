@@ -60,6 +60,32 @@ def deprecated(reason):
     return decorator
 
 
+def prevent_call_from_safe_eval(reason):
+    """Decorator to prevent the call to the method in the context of a
+    safe_eval.
+    """
+
+    def deorator(func):
+        @functools.wraps(func)
+        def wrapper(self, *args, **kwargs):
+            for frame_info in inspect.stack():
+                filename = frame_info.filename or ""
+                function = frame_info.function or ""
+                if "safe_eval" in filename or function == "safe_eval":
+                    raise ValidationError(
+                        _(
+                            "Calling fs.storage.%(reason)s is not allowed "
+                            "in a safe_eval context.",
+                            reason=reason,
+                        )
+                    )
+            return func(self, *args, **kwargs)
+
+        return wrapper
+
+    return deorator
+
+
 class FSStorage(models.Model):
     _name = "fs.storage"
     _inherit = "server.env.mixin"
@@ -183,10 +209,29 @@ class FSStorage(models.Model):
             "eval_options_from_env": {},
         }
 
+    @api.model_create_multi
+    @prevent_call_from_safe_eval("create")
+    def create(self, vals_list):
+        return super().create(vals_list)
+
+    @prevent_call_from_safe_eval("create")
+    def _create(self, data_list):
+        return super()._create(data_list)
+
+    @prevent_call_from_safe_eval("write")
     def write(self, vals):
         self.__fs = None
         self.clear_caches()
         return super().write(vals)
+
+    @prevent_call_from_safe_eval("write")
+    def _write(self, vals):
+        return super()._write(vals)
+
+    @api.ondelete(at_uninstall=False)
+    @prevent_call_from_safe_eval("unlink")
+    def _check_no_safe_eval_call(self):
+        pass
 
     @api.model
     @tools.ormcache()
