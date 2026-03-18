@@ -336,7 +336,7 @@ class FSStorage(models.Model):
         # For example, the msgd protocol is not cacheable because it uses
         # OAuth2 authentication and the token can change.
         fs_storage = self.get_by_code(code)
-        return fs_storage and fs_storage.is_cacheable
+        return fs_storage and fs_storage.sudo().is_cacheable
 
     @api.model
     @tools.ormcache()
