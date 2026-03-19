@@ -27,6 +27,12 @@ msgid "Available properties"
 msgstr "Propriétés disponibles"
 
 #. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid "Calling fs.storage.%(reason)s is not allowed in a safe_eval context."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__check_connection_method
 msgid "Check Connection Method"
@@ -166,8 +172,11 @@ msgstr ""
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__is_cacheable
 msgid ""
 "If True, once instantiated, the filesystem will be cached and reused.\n"
-"By default, the filesystem is cacheable but in some cases, like when using OAuth2 authentication, the filesystem cannot be cached because it depends on the user and the token can change.\n"
-"In this case, you can set this field to False to avoid caching the filesystem."
+"By default, the filesystem is cacheable but in some cases, like when using "
+"OAuth2 authentication, the filesystem cannot be cached because it depends on "
+"the user and the token can change.\n"
+"In this case, you can set this field to False to avoid caching the "
+"filesystem."
 msgstr ""
 
 #. module: fs_storage
@@ -346,7 +355,9 @@ msgstr "Serveur par défaut de l’environnement"
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__x_check_connection_method_env_default
 msgid ""
-"Set a method if you want the connection to remote to be checked every time the storage is used, in order to remove the obsolete connection from the cache.\n"
+"Set a method if you want the connection to remote to be checked every time "
+"the storage is used, in order to remove the obsolete connection from the "
+"cache.\n"
 "* Create Marker file : Create a file on remote and check it exists\n"
 "* List File : List all files from root directory"
 msgstr ""
@@ -376,9 +387,9 @@ msgid ""
 msgstr ""
 "Code technique utilisé pour identifier le stockage dans le code. Le code "
 "doit être unique. Le code est entre autre utilisé pour définir le stockage à "
-"utiliser pour stocker les pièces jointes via le paramètre de configuration «"
-" ir_attachment.storage.force.database » lorsque le module fs_attachhment est "
-"installé."
+"utiliser pour stocker les pièces jointes via le paramètre de configuration "
+"« ir_attachment.storage.force.database » lorsque le module fs_attachhment "
+"est installé."
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
@@ -423,7 +434,8 @@ msgid ""
 "    }\n"
 "}\n"
 "For more information, please refer to the fsspec documentation:\n"
-"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations"
+"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-"
+"implementations"
 msgstr ""
 "Les options pour initialiser le système de fichier.\n"
 "C’est un champ JSON qui dépend du protocole utilisé.\n"
@@ -447,8 +459,11 @@ msgstr ""
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__x_protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
-"This list is the one supported by the fsspec library (see https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocolis added by default and refers to the odoo local filesystem.\n"
-"Pay attention that according to the protocol, some options must beprovided through the options field."
+"This list is the one supported by the fsspec library (see https://filesystem-"
+"spec.readthedocs.io/en/latest). A filesystem protocolis added by default and "
+"refers to the odoo local filesystem.\n"
+"Pay attention that according to the protocol, some options must beprovided "
+"through the options field."
 msgstr ""
 "Le protocole utilisé pour accéder le contenu du système de fichier.\n"
 "Cette liste contient ce qui est supporté par la bibliothèque fsspec (voir "

@@ -27,6 +27,12 @@ msgid "Available properties"
 msgstr "可用属性"
 
 #. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+msgid "Calling fs.storage.%(reason)s is not allowed in a safe_eval context."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__check_connection_method
 msgid "Check Connection Method"
@@ -367,12 +373,13 @@ msgstr ""
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "用于在代码中标识存储后端的技术代码。此代码必须是唯一的。例如，当安"
-"装'fs_attachment'模块时，此代码用于通过配置参数'ir_attachment.storage.force."
-"database'定义存储附件的存储后端。"
+"装'fs_attachment'模块时，此代码用于通过配置参"
+"数'ir_attachment.storage.force.database'定义存储附件的存储后端。"
 
 #. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
