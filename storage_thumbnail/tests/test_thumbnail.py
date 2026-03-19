@@ -14,6 +14,7 @@ class TestStorageThumbnail(TransactionComponentCase):
         res = super().setUpClass()
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
+        cls.addClassCleanup(cls.loader.restore_registry)
         from .models import ModelTest
 
         cls.loader.update_registry((ModelTest,))
@@ -25,19 +26,10 @@ class TestStorageThumbnail(TransactionComponentCase):
         cls.filename = "akretion-logo.png"
         return res
 
-    def setUp(self):
-        res = super().setUp()
-        # Remove check_attrs cleanup if exists to avoid conflict with FakeModelLoader.
+    def check_attrs(self):
+        # Deactivate check_attrs to avoid conflict with FakeModelLoader.
         # since superClass uses it for its own puposes not relevant for our tests.
-        check_attrs = (getattr(self, "check_attrs", None), tuple(), {})
-        if check_attrs in self._cleanups:
-            self._cleanups.remove(check_attrs)
-        return res
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.loader.restore_registry()
-        return super().tearDownClass()
+        pass
 
     def _create_thumbnail(self):
         # create thumbnail
