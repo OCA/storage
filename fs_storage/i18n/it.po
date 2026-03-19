@@ -27,6 +27,13 @@ msgid "Available properties"
 msgstr "Proprietà disponibili"
 
 #. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/models/fs_storage.py:0
+#, python-format
+msgid "Calling fs.storage.%(reason)s is not allowed in a safe_eval context."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__check_connection_method
 msgid "Check Connection Method"
@@ -257,8 +264,9 @@ msgstr "Deposito"
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "Codice tecnico usato per identificare il backend deposito nel codice. Questo "
 "codice deve essere univoco. Questo codice è utilizzato per esempio per "
