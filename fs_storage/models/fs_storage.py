@@ -330,8 +330,8 @@ class FSStorage(models.Model):
         return super().write(vals)
 
     @prevent_call_from_safe_eval("write")
-    def _write(self, vals):
-        return super()._write(vals)
+    def _write_multi(self, vals_list):
+        return super()._write_multi(vals_list)
 
     @api.ondelete(at_uninstall=False)
     @prevent_call_from_safe_eval("unlink")

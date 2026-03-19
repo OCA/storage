@@ -286,6 +286,15 @@ class TestFSStorage(TestFSStorageCase):
                 {"env": self.env},
             )
 
+        with self.assertRaisesRegex(
+            ValidationError,
+            "Calling fs.storage.write is not allowed in a safe_eval context.",
+        ):
+            safe_eval.safe_eval(
+                "env['fs.storage'].search([])._write_multi([{'name': 'test'}])",
+                {"env": self.env},
+            )
+
     def test_no_unlink_in_safe_eval(self):
         # check that we can't unlink a file in safe_eval
         with self.assertRaisesRegex(
