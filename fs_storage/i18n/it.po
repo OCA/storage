@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-03-16 10:45+0000\n"
+"PO-Revision-Date: 2026-03-19 18:45+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -31,6 +31,8 @@ msgstr "Proprietà disponibili"
 #: code:addons/fs_storage/models/fs_storage.py:0
 msgid "Calling fs.storage.%(reason)s is not allowed in a safe_eval context."
 msgstr ""
+"La chiamata a fs.storage.%(reason)s non è consentita in un contesto "
+"safe_eval."
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method
@@ -539,7 +541,7 @@ msgstr "Il protocollo X ambiente è modificabile"
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 msgid "ls"
-msgstr ""
+msgstr "ls"
 
 #~ msgid "Directory Path Env Is Editable"
 #~ msgstr "Percorso cartella ambiente è modificabile"
