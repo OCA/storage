@@ -23,6 +23,7 @@ class TestFsFile(TransactionCase):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
+        cls.addClassCleanup(cls.loader.restore_registry)
         from .models import TestModel
 
         cls.loader.update_registry((TestModel,))
@@ -38,13 +39,13 @@ class TestFsFile(TransactionCase):
         f.seek(0)
         cls.png_content = f
 
+    def check_attrs(self):
+        # Deactivate check_attrs to avoid conflict with FakeModelLoader.
+        # since superClass uses it for its own puposes not relevant for our tests.
+        pass
+
     def setUp(self):
         super().setUp()
-        # Remove check_attrs cleanup if exists to avoid conflict with FakeModelLoader.
-        # since superClass uses it for its own puposes not relevant for our tests.
-        check_attrs = (getattr(self, "check_attrs", None), tuple(), {})
-        if check_attrs in self._cleanups:
-            self._cleanups.remove(check_attrs)
         self.temp_dir: FSStorage = self.env["fs.storage"].create(
             {
                 "name": "Temp FS Storage",
@@ -59,7 +60,6 @@ class TestFsFile(TransactionCase):
     def tearDownClass(cls):
         if os.path.exists(cls.tmpfile_path):
             os.remove(cls.tmpfile_path)
-        cls.loader.restore_registry()
         return super().tearDownClass()
 
     def _test_create(self, fs_file_value):
