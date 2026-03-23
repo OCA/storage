@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
-    "depends": ["server_environment"],
+    "depends": ["base"],
     "data": [
         "security/res_groups.xml",
         "security/image_tag.xml",
