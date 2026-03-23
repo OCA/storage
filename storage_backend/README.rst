@@ -1,6 +1,10 @@
-==============
-Storage Bakend
-==============
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
+===============
+Storage Backend
+===============
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -13,7 +17,7 @@ Storage Bakend
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -28,6 +32,15 @@ Storage Bakend
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
+This module defines a reusable storage backend model for Odoo.
+
+It serves as a base layer for modules that need to connect Odoo with external
+file storage systems. A backend record centralizes storage configuration and
+allows specialized addons to implement support for concrete protocols or
+providers such as Amazon S3, SFTP, or compatible services.
+
+This addon is mainly a technical dependency used by other storage-related
+modules.
 
 **Table of contents**
 

@@ -56,7 +56,7 @@ def deprecated(reason):
 
 class StorageBackend(models.Model):
     _name = "storage.backend"
-    _inherit = ["collection.base", "server.env.mixin"]
+    _inherit = "collection.base"
     _backend_name = "storage_backend"
     _description = "Storage Backend"
 
@@ -71,19 +71,8 @@ class StorageBackend(models.Model):
 
     def _compute_has_validation(self):
         for rec in self:
-            if not rec.backend_type:
-                # with server_env
-                # this code can be triggered
-                # before a backend_type has been set
-                # get_adapter() can't work without backend_type
-                rec.has_validation = False
-                continue
             adapter = rec._get_adapter()
             rec.has_validation = hasattr(adapter, "validate_config")
-
-    @property
-    def _server_env_fields(self):
-        return {"backend_type": {}, "directory_path": {}}
 
     def add(self, relative_path, data, binary=True, **kwargs):
         if not binary:
