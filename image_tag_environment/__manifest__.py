@@ -2,18 +2,15 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 {
-    "name": "Image Tag",
-    "summary": """
-        Image tag model""",
-    "version": "16.0.1.0.2",
+    "name": "Image Tag - Server Environment",
+    "summary": "Server environment features for the Image Tag model",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
-    "depends": ["base"],
+    "depends": ["image_tag", "server_environment"],
     "data": [
-        "security/res_groups.xml",
-        "security/image_tag.xml",
         "views/image_tag.xml",
     ],
-    "demo": [],
+    "auto_install": True,
 }
