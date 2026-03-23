@@ -16,8 +16,6 @@ When you create a new backend, you must specify the following:
   fsspec python package when creating the filesystem. These options
   depend on the protocol used and are described in the fsspec
   documentation.
-- Resolve env vars. This options resolves the protocol options values
-  starting with \$ from environment variables
 - Check Connection Method. If set, Odoo will always check the connection before
   using a storage and it will remove the fs connection from the cache if the
   check fails.
@@ -50,34 +48,6 @@ follows:
 
 In this example, the SimpleCacheFileSystem protocol will be used as a
 wrapper around the odoofs protocol.
-
-## Server Environment
-
-To ease the management of the filesystem storages configuration accross
-the different environments, the configuration of the filesystem storages
-can be defined in environment files or directly in the main
-configuration file. For example, the configuration of a filesystem
-storage with the code fsprod can be provided in the main configuration
-file as follows:
-
-``` ini
-[fs_storage.fsprod]
-protocol=s3
-options={"endpoint_url": "https://my_s3_server/", "key": "KEY", "secret": "SECRET"}
-directory_path=my_bucket
-```
-
-To work, a storage.backend record must exist with the code fsprod into
-the database. In your configuration section, you can specify the value
-for the following fields:
-
-- protocol
-- options
-- directory_path
-
-When evaluating directory_path, `{db_name}` is replaced by the database name.
-This is usefull in multi-tenant with a setup completly controlled by
-configuration files.
 
 ## Migration from storage_backend
 
