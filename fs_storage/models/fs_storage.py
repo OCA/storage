@@ -89,7 +89,6 @@ def prevent_call_from_safe_eval(reason):
 
 class FSStorage(models.Model):
     _name = "fs.storage"
-    _inherit = "server.env.mixin"
     _description = "FS Storage"
 
     __slots__ = ("__fs", "__odoo_storage_path")
@@ -143,17 +142,6 @@ class FSStorage(models.Model):
         inverse="_inverse_json_options",
     )
 
-    eval_options_from_env = fields.Boolean(
-        string="Resolve env vars",
-        help="""Resolve options values starting with $ from environment variables. e.g
-            {
-                "endpoint_url": "$AWS_ENDPOINT_URL",
-            }
-            """,
-    )
-
-    # When accessing this field, use the method get_directory_path instead so that
-    # parameter expansion is done.
     directory_path = fields.Char(
         help="Relative path to the directory to store the file",
     )
@@ -235,8 +223,6 @@ class FSStorage(models.Model):
         ),
     ]
 
-    _server_env_section_name_field = "code"
-
     @api.constrains("model_xmlids")
     def _check_model_xmlid_storage_unique(self):
         """
@@ -301,18 +287,6 @@ class FSStorage(models.Model):
             ("marker_file", _("Create Marker file")),
             ("ls", _("List File")),
         ]
-
-    @property
-    def _server_env_fields(self):
-        return {
-            "protocol": {},
-            "options": {},
-            "directory_path": {},
-            "eval_options_from_env": {},
-            "model_xmlids": {},
-            "field_xmlids": {},
-            "check_connection_method": {},
-        }
 
     @api.model_create_multi
     @prevent_call_from_safe_eval("create")
@@ -660,32 +634,10 @@ class FSStorage(models.Model):
             self._recursive_add_odoo_storage_path(target_options)
         return options
 
-    def _eval_options_from_env(self, options):
-        values = {}
-        for key, value in options.items():
-            if isinstance(value, dict):
-                values[key] = self._eval_options_from_env(value)
-            elif isinstance(value, str) and value.startswith("$"):
-                env_variable_name = value[1:]
-                env_variable_value = os.getenv(env_variable_name)
-                if env_variable_value is not None:
-                    values[key] = env_variable_value
-                else:
-                    values[key] = value
-                    _logger.warning(
-                        "Environment variable %s is not set for fs_storage %s.",
-                        env_variable_name,
-                        self.display_name,
-                    )
-            else:
-                values[key] = value
-        return values
-
     def _get_fs_options(self):
-        options = self.json_options
-        if not self.eval_options_from_env:
-            return options
-        return self._eval_options_from_env(self.json_options)
+        # We need this hook to be able to override
+        # the options in the dependent modules
+        return self.json_options
 
     def _get_filesystem(self) -> fsspec.AbstractFileSystem:
         """Get the fsspec filesystem for this backend.

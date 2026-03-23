@@ -36,7 +36,6 @@
                             <field name="protocol" />
                             <field name="is_cacheable" />
                             <field name="directory_path" />
-                            <field name="eval_options_from_env" />
                             <field
                                 name="options"
                                 widget="ace"
