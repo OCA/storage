@@ -132,6 +132,15 @@ class StorageBackend(models.Model):
     def _delete(self, relative_path):
         return self.delete(relative_path)
 
+    def _get_backend_type_default(self):
+        # get_adapter() can be triggered before a backend_type has been set
+        # we need to provide a default backend_type to avoid errors in this case
+        default_backend = self.env.ref(
+            "storage_backend.default_storage_backend", raise_if_not_found=False
+        )
+        backend_type_default = self.default_get(["backend_type"])["backend_type"]
+        return default_backend.backend_type or backend_type_default
+
     def _forward(self, method, *args, **kwargs):
         _logger.debug(
             "Backend Storage ID: %s type %s: %s file %s %s",
@@ -142,6 +151,8 @@ class StorageBackend(models.Model):
             kwargs,
         )
         self.ensure_one()
+        if not self.backend_type:
+            self.backend_type = self._get_backend_type_default()
         adapter = self._get_adapter()
         return getattr(adapter, method)(*args, **kwargs)
 
