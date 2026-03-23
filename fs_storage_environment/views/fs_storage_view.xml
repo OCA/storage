@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="fs_storage_form_view" model="ir.ui.view">
+        <field name="model">fs.storage</field>
+        <field name="inherit_id" ref="fs_storage.fs_storage_form_view" />
+        <field name="arch" type="xml">
+            <field name="directory_path" position="after">
+                <field name="eval_options_from_env" />
+            </field>
+        </field>
+    </record>
+</odoo>
