@@ -2,4 +2,5 @@
 fsspec>=2024.5.0
 fsspec>=2025.3.0
 fsspec[s3]
+openupgradelib>=3.6.0
 python_slugify

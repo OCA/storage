@@ -17,6 +17,6 @@
         "security/ir.model.access.csv",
         "wizards/fs_test_connection.xml",
     ],
-    "external_dependencies": {"python": ["fsspec>=2024.5.0"]},
+    "external_dependencies": {"python": ["fsspec>=2024.5.0", "openupgradelib>=3.6.0"]},
     "installable": True,
 }
