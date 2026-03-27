@@ -8,7 +8,7 @@ import os
 from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class ProductImageCommonCase(TransactionComponentCase):
+class ProductImageCaseMixin:
     @staticmethod
     def _get_file_content(name, base_path=None, as_binary=False):
         path = base_path or os.path.dirname(os.path.abspath(__file__))
@@ -25,8 +25,7 @@ class ProductImageCommonCase(TransactionComponentCase):
         )
 
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def _setup_base_image_data(cls):
         cls.template = cls.env.ref("product.product_product_4_product_template")
         cls.product_a = cls.env.ref("product.product_product_4")
         cls.product_b = cls.env.ref("product.product_product_4b")
@@ -34,3 +33,10 @@ class ProductImageCommonCase(TransactionComponentCase):
         cls.logo_image = cls._create_storage_image("logo-image.jpg")
         cls.white_image = cls._create_storage_image("white-image.jpg")
         cls.black_image = cls._create_storage_image("black-image.jpg")
+
+
+class ProductImageCommonCase(TransactionComponentCase, ProductImageCaseMixin):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls._setup_base_image_data()
