@@ -1,12 +1,14 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
+from mimetypes import guess_extension
 
 import werkzeug.http
 
 from odoo import models
 from odoo.http import request
 from odoo.tools.image import image_process
+from odoo.tools.mimetypes import get_extension
 
 from ..fs_stream import FsStream
 
@@ -72,6 +74,12 @@ class IrBinary(models.AbstractModel):
                 stream.download_name = filename
             elif record and filename_field in record:
                 stream.download_name = record[filename_field] or stream.download_name
+
+        if (
+            not get_extension(stream.download_name)
+            and stream.mimetype != "application/octet-stream"
+        ):
+            stream.download_name += guess_extension(stream.mimetype) or ""
 
         return stream
 
