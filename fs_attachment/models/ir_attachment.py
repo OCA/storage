@@ -767,11 +767,6 @@ class IrAttachment(models.Model):
                 normalize_domain(
                     [
                         ("store_fname", "=like", f"{storage}://%"),
-                        # for res_field, see comment in
-                        # _force_storage_to_object_storage
-                        "|",
-                        ("res_field", "=", False),
-                        ("res_field", "!=", False),
                     ]
                 ),
                 normalize_domain(self._store_in_db_instead_of_object_storage_domain()),
@@ -779,7 +774,9 @@ class IrAttachment(models.Model):
         )
 
         with self._do_in_new_env(new_cr=new_cr) as new_env:
-            model_env = new_env["ir.attachment"].with_context(prefetch_fields=False)
+            model_env = new_env["ir.attachment"].with_context(
+                prefetch_fields=False, skip_res_field_check=True
+            )
             attachment_ids = model_env.search(domain).ids
             if not attachment_ids:
                 return
@@ -819,25 +816,16 @@ class IrAttachment(models.Model):
         storage = self.env.context.get("storage_location") or self._storage()
         if self._is_storage_disabled(storage):
             return
-        # The weird "res_field = False OR res_field != False" domain
-        # is required! It's because of an override of _search in ir.attachment
-        # which adds ('res_field', '=', False) when the domain does not
-        # contain 'res_field'.
-        # https://github.com/odoo/odoo/blob/9032617120138848c63b3cfa5d1913c5e5ad76db/
-        # odoo/addons/base/ir/ir_attachment.py#L344-L347
         domain = [
             "!",
             ("store_fname", "=like", f"{storage}://%"),
-            "|",
-            ("res_field", "=", False),
-            ("res_field", "!=", False),
         ]
         # We do a copy of the environment so we can workaround the cache issue
         # below. We do not create a new cursor by default because it causes
         # serialization issues due to concurrent updates on attachments during
         # the installation
         with self._do_in_new_env(new_cr=new_cr) as new_env:
-            model_env = new_env["ir.attachment"]
+            model_env = new_env["ir.attachment"].with_context(skip_res_field_check=True)
             ids = model_env.search(domain).ids
             files_to_clean = []
             for attachment_id in ids:

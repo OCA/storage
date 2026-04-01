@@ -310,19 +310,14 @@ class FsStorage(models.Model):
         in staging are done in a different directory and will  not impact the
         production.
         """
-        # The weird "res_field = False OR res_field != False" domain
-        # is required! It's because of an override of _search in ir.attachment
-        # which adds ('res_field', '=', False) when the domain does not
-        # contain 'res_field'.
-        # https://github.com/odoo/odoo/blob/9032617120138848c63b3cfa5d1913c5e5ad76db/
-        # odoo/addons/base/ir/ir_attachment.py#L344-L347
         domain = [
             ("fs_storage_id", "in", self.ids),
-            "|",
-            ("res_field", "=", False),
-            ("res_field", "!=", False),
         ]
-        attachments = self.env["ir.attachment"].search(domain)
+        attachments = (
+            self.env["ir.attachment"]
+            .with_context(skip_res_field_check=True)
+            .search(domain)
+        )
         attachments._compute_fs_url()
         attachments._compute_fs_url_path()
 

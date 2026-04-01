@@ -337,23 +337,43 @@ class TestFSAttachment(TestFSAttachmentCommon):
         attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": b"content"}
         )
+        attachment_res_field = self.ir_attachment_model.create(
+            {
+                "name": "field.txt",
+                "raw": "Attachment linked to a field",
+                "res_model": "res.partner",
+                "res_field": "name",
+            }
+        )
         self.env.flush_all()
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
         store_fname = attachment.store_fname
+        store_fname_res_field = attachment_res_field.store_fname
         # we change the rules to force the storage in db for text/plain
         self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
         attachment.force_storage_to_db_for_special_fields()
         self.assertFalse(attachment.store_fname)
         self.assertEqual(attachment.db_datas, b"content")
+        self.assertFalse(attachment_res_field.store_fname)
+        self.assertEqual(attachment_res_field.db_datas, b"Attachment linked to a field")
         # we check that the file is marked for GC
         gc_files = self.gc_file_model.search([]).mapped("store_fname")
         self.assertIn(store_fname, gc_files)
+        self.assertIn(store_fname_res_field, gc_files)
 
     @mute_logger("odoo.addons.fs_attachment.models.ir_attachment")
     def test_force_storage_to_fs(self):
         attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": b"content"}
+        )
+        attachment_res_field = self.ir_attachment_model.create(
+            {
+                "name": "field.txt",
+                "raw": "Attachment linked to a field",
+                "res_model": "res.partner",
+                "res_field": "name",
+            }
         )
         self.env.flush_all()
         fs_path = self.ir_attachment_model._filestore() + "/" + attachment.store_fname
@@ -371,8 +391,13 @@ class TestFSAttachment(TestFSAttachmentCommon):
             clean_fs.assert_called_once()
         # files into the filestore must be moved to our filesystem storage
         filename = f"test-{attachment.id}-0.txt"
+        filename_res_field = f"field-{attachment_res_field.id}-0.txt"
         self.assertEqual(attachment.store_fname, f"tmp_dir://{filename}")
+        self.assertEqual(
+            attachment_res_field.store_fname, f"tmp_dir://{filename_res_field}"
+        )
         self.assertIn(filename, os.listdir(self.temp_dir))
+        self.assertIn(filename_res_field, os.listdir(self.temp_dir))
 
     def test_storage_use_filename_obfuscation(self):
         self.temp_backend.base_url = "https://acsone.eu/media"
