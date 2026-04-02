@@ -74,6 +74,14 @@ class FsStream(Stream):
         else:
             x_sendfile_path = self.fs_attachment._get_x_sendfile_path()
             send_file_kwargs["use_x_sendfile"] = True
+
+            # Strip Range header from environ: _send_file("") stats the cwd
+            # (size=4096 on Linux), causing werkzeug to reject Range requests
+            # with 416. S3/nginx handle Range natively via X-Accel-Redirect.
+            environ = dict(send_file_kwargs["environ"])
+            environ.pop("HTTP_RANGE", None)
+            send_file_kwargs["environ"] = environ
+
             res = _send_file("", **send_file_kwargs)
             # nginx specific headers
             res.headers["X-Accel-Redirect"] = x_sendfile_path
