@@ -3,8 +3,6 @@
 import os
 import shutil
 
-from odoo import models
-
 from odoo.addons.fs_storage.rooted_dir_file_system import RootedDirFileSystem
 
 from .common import FsFolderTestCase
@@ -15,23 +13,34 @@ class TestFsFodlerFieldValueAdapter(FsFolderTestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        class FsTestFsFolderFieldValueAdapter(models.AbstractModel):
-            _inherit = "fs.folder.field.value.adapter"
+        # We can't use add_to_registry here because the model has no _name of
+        # its own (_inherit), so instead we patch the method directly and restore it
+        # after the test.
+        adapter_cls = cls.registry["fs.folder.field.value.adapter"]
+        original_created = adapter_cls._created_folder_name_to_stored_value
+        original_rooted = adapter_cls._get_rooted_dir_file_system
 
-            def _created_folder_name_to_stored_value(self, path, storage_code, fs):
-                # for the test we inverse the path content
-                path = path.lstrip("/")[::-1]
-                return super()._created_folder_name_to_stored_value(
-                    path, storage_code, fs
-                )
+        def reversed_created(self, path, storage_code, fs):
+            path = path.lstrip("/")[::-1]
+            return original_created(self, path, storage_code, fs)
 
-            def _get_rooted_dir_file_system(self, value, fs):
-                ref = value.ref
-                if ref:
-                    ref = ref[::-1]
-                return RootedDirFileSystem(path=ref, fs=fs)
+        def reversed_rooted(self, value, fs):
+            ref = value.ref
+            if ref:
+                ref = ref[::-1]
+            return RootedDirFileSystem(path=ref, fs=fs)
 
-        cls.loader.update_registry((FsTestFsFolderFieldValueAdapter,))
+        adapter_cls._created_folder_name_to_stored_value = reversed_created
+        adapter_cls._get_rooted_dir_file_system = reversed_rooted
+        cls.addClassCleanup(
+            setattr,
+            adapter_cls,
+            "_created_folder_name_to_stored_value",
+            original_created,
+        )
+        cls.addClassCleanup(
+            setattr, adapter_cls, "_get_rooted_dir_file_system", original_rooted
+        )
 
     def tearDown(self) -> None:
         super().tearDown()
