@@ -143,7 +143,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/unlink_folder/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
@@ -154,7 +154,7 @@ class FsFolderController(http.Controller):
 
     @http.route(
         "/fs_folder/delete_folder/<string:res_model>/<int:res_id>/<string:field_name>",
-        type="json",
+        type="jsonrpc",
         auth="user",
         methods=["POST"],
     )
