@@ -19,7 +19,19 @@
                         name="sftp_ssh_private_key"
                         password="True"
                         invisible="sftp_auth_method != 'ssh_key'"
+                        placeholder="Paste key content or enter path: ~/.ssh/id_rsa"
                     />
+                    <separator string="Security Options" />
+                    <field name="sftp_verify_hostkey" />
+                    <field
+                        name="sftp_hostkey"
+                        invisible="not sftp_verify_hostkey"
+                        placeholder="ssh-rsa AAAAB3... or ~/.ssh/known_hosts"
+                    />
+                    <separator string="Compatibility Options" />
+                    <field name="sftp_legacy_algorithms" />
+                    <separator string="Debugging" />
+                    <field name="sftp_verbose_logging" />
                 </group>
             </group>
         </field>
