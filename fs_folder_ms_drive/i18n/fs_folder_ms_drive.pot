@@ -40,3 +40,9 @@ msgstr ""
 #: code:addons/fs_folder_ms_drive/static/src/fs_folder_ms_drive/fs_folder.esm.js:0
 msgid "Modified By"
 msgstr ""
+
+#. module: fs_folder_ms_drive
+#. odoo-javascript
+#: code:addons/fs_folder_ms_drive/static/src/components/preview_iframe.xml:0
+msgid "X"
+msgstr ""
