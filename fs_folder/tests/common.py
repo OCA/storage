@@ -3,8 +3,7 @@
 import shutil
 import tempfile
 
-from odoo_test_helper import FakeModelLoader
-
+from odoo.orm.model_classes import add_to_registry
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.base.tests.common import BaseCommon
@@ -15,14 +14,22 @@ class FsFolderTestCase(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env["base"].with_context(**BaseCommon.default_env_context()).env
-        cls.loader = FakeModelLoader(cls.env, cls.__module__)
-        cls.loader.backup_registry()
-        cls.addClassCleanup(cls.loader.restore_registry)
         from .models import FsTestModel, FsTestModelInherits, FsTestModelRelated
 
-        cls.loader.update_registry(
-            (FsTestModel, FsTestModelInherits, FsTestModelRelated)
-        )
+        model_names = [
+            FsTestModel._name,
+            FsTestModelInherits._name,
+            FsTestModelRelated._name,
+        ]
+        add_to_registry(cls.registry, FsTestModel)
+        add_to_registry(cls.registry, FsTestModelInherits)
+        add_to_registry(cls.registry, FsTestModelRelated)
+        cls.registry._setup_models__(cls.env.cr, model_names)
+        cls.registry.init_models(cls.env.cr, model_names, {"models_to_check": True})
+        cls.addClassCleanup(cls.registry.__delitem__, FsTestModel._name)
+        cls.addClassCleanup(cls.registry.__delitem__, FsTestModelInherits._name)
+        cls.addClassCleanup(cls.registry.__delitem__, FsTestModelRelated._name)
+
         cls.fs_test_model = cls.env[FsTestModel._name]
         cls.fs_test_model_inherits = cls.env[FsTestModelInherits._name]
         cls.fs_test_model_related = cls.env[FsTestModelRelated._name]
@@ -46,13 +53,13 @@ class FsFolderTestCase(TransactionCase):
         def cleanup_tempdir():
             shutil.rmtree(cls.temp_dir)
 
-    def check_attrs(self):
-        # Deactivate check_attrs to avoid conflict with FakeModelLoader.
-        # since superClass uses it for its own puposes not relevant for our tests.
-        pass
-
     def setUp(self):
         super().setUp()
+        # Remove check_attrs cleanup if exists to avoid conflict with FakeModelLoader.
+        # since superClass uses it for its own puposes not relevant for our tests.
+        check_attrs = (getattr(self, "check_attrs", None), tuple(), {})
+        if check_attrs in self._cleanups:
+            self._cleanups.remove(check_attrs)
         # enforce temp_backend field since it seems that they are reset on
         # savepoint rollback when managed by server_environment -> TO Be investigated
         self.temp_backend.write(

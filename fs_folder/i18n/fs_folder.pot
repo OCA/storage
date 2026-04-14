@@ -318,9 +318,3 @@ msgstr ""
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "User"
 msgstr ""
-
-#. module: fs_folder
-#. odoo-javascript
-#: code:addons/fs_folder/static/src/preview_iframe/preview_iframe.xml:0
-msgid "X"
-msgstr ""

@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: fs_folder
 #: model:ir.model,name:fs_folder.model_fs_folder_field_web_api
@@ -337,9 +337,3 @@ msgstr "Utilizzare come predefinito per i contenuti del file system"
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "User"
 msgstr "Utente"
-
-#. module: fs_folder
-#. odoo-javascript
-#: code:addons/fs_folder/static/src/preview_iframe/preview_iframe.xml:0
-msgid "X"
-msgstr "X"
