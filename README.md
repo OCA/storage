@@ -23,7 +23,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [fs_attachment](fs_attachment/) | 19.0.1.1.1 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments on external object store
 [fs_attachment_s3](fs_attachment_s3/) | 19.0.1.2.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments into S3 complient filesystem
-[fs_storage](fs_storage/) | 19.0.1.1.1 |  | Implement the concept of Storage with amazon S3, sftp...
+[fs_storage](fs_storage/) | 19.0.1.1.2 |  | Implement the concept of Storage with amazon S3, sftp...
 
 
 Unported addons
