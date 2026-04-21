@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==================
 Storage Backend S3
 ==================
@@ -17,7 +13,7 @@ Storage Backend S3
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -90,9 +86,9 @@ Authors
 Contributors
 ------------
 
-- Sebastien Beau <sebastien.beau@akretion.com>
-- Raphaël Reverdy <raphael.reverdy@akretion.com>
-- Simone Orsi <simone.orsi@camptocamp.com>
+-  Sebastien Beau <sebastien.beau@akretion.com>
+-  Raphaël Reverdy <raphael.reverdy@akretion.com>
+-  Simone Orsi <simone.orsi@camptocamp.com>
 
 Other credits
 -------------

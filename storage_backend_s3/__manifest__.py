@@ -11,7 +11,7 @@
     "author": " Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "installable": True,
-    "external_dependencies": {"python": ["boto3"]},
+    "external_dependencies": {"python": ["boto3", "cryptography==3.4.8"]},
     "depends": ["storage_backend"],
     "data": ["views/backend_storage_view.xml"],
 }
