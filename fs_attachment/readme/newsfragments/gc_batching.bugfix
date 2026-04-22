@@ -1,0 +1,16 @@
+Paginate the autovacuum GC loop to bound worker memory.
+
+``FsFileGC._gc_files_unsafe`` used to load the entire backlog of orphan
+files into a single Python list via ``array_agg(store_fname)`` and iterate
+``fs.rm`` over all of them in one pass. With the Azure Blob backend and
+tens of thousands of orphans queued, each HEAD+DELETE pair retained
+response buffers and connection-pool state inside the adlfs client that
+was only released when the worker exited. The autovacuum cron hit Odoo's
+``limit_memory_hard`` and got ``SIGKILL``'d mid-run every time, so the
+queue never drained and the next worker ran the same failing loop.
+
+The SELECT and the ``fs.rm`` loop are now paginated in batches of 500 per
+storage, with an explicit ``gc.collect()`` between batches. The caller
+(``_gc_files``) still holds the ``SHARE`` lock and performs the final
+commit, so the consistency guarantees and transactional semantics are
+unchanged.

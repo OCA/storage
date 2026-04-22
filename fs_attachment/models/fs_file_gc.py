@@ -1,5 +1,6 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+import gc
 import logging
 import threading
 from contextlib import closing, contextmanager
@@ -118,6 +119,15 @@ class FsFileGC(models.Model):
         # commit to release the lock
         cr.commit()  # pylint: disable=invalid-commit
 
+    # Max orphan files processed per batch. Bounds the per-run memory
+    # footprint of the autovacuum job when many orphans are queued:
+    # fsspec backend clients (adlfs, s3fs, ...) keep response buffers
+    # and connection-pool state alive until their referents are
+    # collected. Loading tens of thousands of fnames into a single
+    # Python list and iterating ``fs.rm`` in one pass was enough to
+    # hit Odoo's ``limit_memory_hard`` on production workers.
+    _GC_BATCH_SIZE = 500
+
     def _gc_files_unsafe(self) -> None:
         # get the list of fs.storage codes that must be autovacuumed
         codes = (
@@ -125,44 +135,50 @@ class FsFileGC(models.Model):
         )
         if not codes:
             return
-        # we process by batch of storage codes.
-        self._cr.execute(
-            """
-            SELECT
-                fs_storage_code,
-                array_agg(store_fname)
-
-            FROM
-                fs_file_gc
-            WHERE
-                fs_storage_code IN %s
-                AND NOT EXISTS (
-                    SELECT 1
-                    FROM ir_attachment
-                    WHERE store_fname = fs_file_gc.store_fname
-                )
-            GROUP BY
-                fs_storage_code
-            """,
-            (tuple(codes),),
-        )
-        for code, store_fnames in self._cr.fetchall():
+        # Process one storage at a time and paginate both the SELECT and
+        # the fs.rm loop so neither the Python list of file names nor
+        # the storage SDK's response buffers can grow unbounded.
+        for code in codes:
             self.env["fs.storage"].get_by_code(code)
             fs = self.env["fs.storage"].get_fs_by_code(code)
-            for store_fname in store_fnames:
-                try:
-                    file_path = store_fname.partition("://")[2]
-                    fs.rm(file_path)
-                except Exception:
-                    _logger.debug("Failed to remove file %s", store_fname)
-
-        # delete the records from the table fs_file_gc
-        self._cr.execute(
-            """
-            DELETE FROM
-                fs_file_gc
-            WHERE
-                fs_storage_code IN %s
-            """,
-            (tuple(codes),),
-        )
+            while True:
+                self._cr.execute(
+                    """
+                    SELECT store_fname
+                    FROM fs_file_gc
+                    WHERE fs_storage_code = %s
+                      AND NOT EXISTS (
+                          SELECT 1
+                          FROM ir_attachment
+                          WHERE store_fname = fs_file_gc.store_fname
+                      )
+                    LIMIT %s
+                    """,
+                    (code, self._GC_BATCH_SIZE),
+                )
+                rows = self._cr.fetchall()
+                if not rows:
+                    break
+                fnames = [row[0] for row in rows]
+                for store_fname in fnames:
+                    try:
+                        file_path = store_fname.partition("://")[2]
+                        fs.rm(file_path)
+                    except Exception:
+                        _logger.debug("Failed to remove file %s", store_fname)
+                # Always clear this batch from fs_file_gc — fs.rm failures
+                # leak the blob in the backend (same behaviour as the
+                # pre-batching implementation) but the DB row must go or
+                # the next SELECT would re-fetch the same rows and the
+                # loop would never terminate.
+                self._cr.execute(
+                    "DELETE FROM fs_file_gc WHERE store_fname = ANY(%s)",
+                    (fnames,),
+                )
+                # Force a collection between batches to reclaim response
+                # buffers and connection objects held by the storage SDK
+                # that would otherwise only be freed on worker exit. Do
+                # NOT commit here: the caller (_gc_files) holds a SHARE
+                # lock on fs_file_gc and ir_attachment for consistency
+                # and commits at the end.
+                gc.collect()
