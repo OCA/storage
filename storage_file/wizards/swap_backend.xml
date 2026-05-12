@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Camptocamp SA
+     @author Simone Orsi <simone.orsi@camptocamp.com>
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <record id="storage_file_swap_backend_view_form" model="ir.ui.view">
+        <field name="name">storage.file.swap.backend.form</field>
+        <field name="model">storage.file.swap.backend</field>
+        <field name="arch" type="xml">
+            <form string="Swap Storage Backend">
+                <sheet>
+                    <group>
+                        <field name="source_backend_id" readonly="1" />
+                        <field name="dest_backend_id" required="1" />
+                    </group>
+                    <group string="Files to swap" name="files">
+                        <field name="file_ids" nolabel="1" required="1">
+                            <list>
+                                <field name="name" />
+                                <field name="backend_id" />
+                                <field name="human_file_size" />
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name="action_apply"
+                        string="Swap Files"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button special="cancel" string="Cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="storage_file_swap_backend_action" model="ir.actions.act_window">
+        <field name="name">Swap Storage Backend</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">storage.file.swap.backend</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="storage_file_swap_backend_view_form" />
+    </record>
+
+    <record id="storage_file_swap_backend_server_action" model="ir.actions.server">
+        <field name="name">Swap Storage Backend</field>
+        <field name="model_id" ref="model_storage_file" />
+        <field name="binding_model_id" ref="model_storage_file" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field
+            name="code"
+        >action = env["ir.actions.act_window"]._for_xml_id("storage_file.storage_file_swap_backend_action")</field>
+    </record>
+</odoo>
