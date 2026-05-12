@@ -38,3 +38,7 @@ class StorageMedia(models.Model):
         return self.env["storage.backend"]._get_backend_id_from_param(
             self.env, "storage.media.backend_id"
         )
+
+    def unlink(self):
+        files = self.mapped("file_id")
+        return super().unlink() and files.unlink()

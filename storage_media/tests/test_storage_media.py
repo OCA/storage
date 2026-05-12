@@ -27,3 +27,10 @@ class StorageMediaCase(TransactionComponentCase):
         media = self.env["storage.media"].create({"name": self.filename})
         self.assertEqual(media.file_type, "media")
         self.assertIsNotNone(media.backend_id)
+
+    def test_unlink(self):
+        media = self.env["storage.media"].create({"name": self.filename})
+        stfile = media.file_id
+        media.unlink()
+        self.assertEqual(stfile.to_delete, True)
+        self.assertEqual(stfile.active, False)
