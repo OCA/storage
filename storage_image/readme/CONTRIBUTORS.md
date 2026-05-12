@@ -6,4 +6,5 @@
 - Quentin Groulard \<<quentin.groulard@acsone.eu>\>
 - [Camptocamp](https://www.camptocamp.com)
   - Iván Todorovich \<<ivan.todorovich@gmail.com>\>
+  - Simone Orsi \<<simone.orsi@camptocamp.com>\>
 - Vo Hong Thien \<<thienvh@trobz.com>\>
