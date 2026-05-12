@@ -22,5 +22,6 @@
         "security/storage_file.xml",
         "data/ir_cron.xml",
         "data/storage_backend.xml",
+        "wizards/swap_backend.xml",
     ],
 }
