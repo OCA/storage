@@ -16,6 +16,7 @@
     "depends": ["storage_file", "storage_thumbnail"],
     "data": [
         "wizards/replace_file.xml",
+        "wizards/swap_backend.xml",
         "views/storage_media_view.xml",
         "data/ir_parameter.xml",
         "security/res_group.xml",
