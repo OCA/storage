@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-04-20 16:45+0000\n"
+"PO-Revision-Date: 2026-05-19 10:56+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -163,11 +163,19 @@ msgid ""
 "In this case, you can set this field to False to avoid caching the "
 "filesystem."
 msgstr ""
+"Se impostato su True, una volta instanziato, il file system verrà "
+"memorizzato nella cache e riutilizzato.\n"
+"Per impostazione predefinita, il file system è memorizzabile nella cache, ma "
+"in alcuni casi, come quando si utilizza l'autenticazione OAuth2, il file "
+"system non può essere memorizzato nella cache perché dipende dall'utente e "
+"il token può cambiare.\n"
+"In questo caso, è possibile impostare questo campo su False per evitare di "
+"memorizzare il file system nella cache."
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__is_cacheable
 msgid "Is Cacheable"
-msgstr ""
+msgstr "È memorizzabile"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__json_options
