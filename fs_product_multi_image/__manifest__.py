@@ -22,5 +22,5 @@
     ],
     "demo": [],
     "maintainers": ["lmignon"],
-    "development_status": "Alpha",
+    "development_status": "Beta",
 }
