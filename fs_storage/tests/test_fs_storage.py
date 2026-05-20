@@ -304,3 +304,22 @@ class TestFSStorage(TestFSStorageCase):
             safe_eval.safe_eval(
                 "env['fs.storage'].search([]).unlink()", {"env": self.env}
             )
+
+    def test_move_file(self):
+        src_dir = "src"
+        dst_dir = "dst"
+        self.backend.fs.makedirs(src_dir, exist_ok=True)
+        self.backend.fs.makedirs(dst_dir, exist_ok=True)
+        self._create_file(self.backend, f"{src_dir}/{self.filename}", self.filedata)
+
+        res = self.backend._move_file(src_dir, dst_dir, self.filename)
+        self.assertTrue(res)
+        # The actual move runs on post-commit, so until then the file
+        # must still live in the source directory.
+        self.assertTrue(self.backend.fs.exists(f"{src_dir}/{self.filename}"))
+        self.assertFalse(self.backend.fs.exists(f"{dst_dir}/{self.filename}"))
+
+        self.env.cr.postcommit.run()
+
+        self.assertFalse(self.backend.fs.exists(f"{src_dir}/{self.filename}"))
+        self.assertTrue(self.backend.fs.exists(f"{dst_dir}/{self.filename}"))
