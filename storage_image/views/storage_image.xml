@@ -8,6 +8,7 @@
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="human_file_size" />
+                <field name="is_public" optional="hide" />
             </list>
         </field>
     </record>
@@ -86,6 +87,17 @@
         <field name="arch" type="xml">
             <search string="Image">
                 <field name="name" />
+                <separator />
+                <filter
+                    string="Public"
+                    name="public"
+                    domain="[('is_public', '=', True)]"
+                />
+                <filter
+                    string="Private"
+                    name="private"
+                    domain="[('is_public', '=', False)]"
+                />
             </search>
         </field>
     </record>
