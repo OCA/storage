@@ -8,6 +8,7 @@
                 <field name="backend_id" />
                 <field name="file_size" />
                 <field name="file_type" />
+                <field name="is_public" optional="hide" />
                 <field name="company_id" groups="base.group_multi_company" />
             </list>
         </field>
@@ -29,6 +30,7 @@
                         <field name="checksum" readonly="True" />
                         <field name="relative_path" readonly="True" />
                         <field name="file_type" />
+                        <field name="is_public" readonly="True" />
                         <field name="company_id" groups="base.group_multi_company" />
                     </group>
                 </div>
@@ -42,6 +44,17 @@
                 <field name="name" />
                 <field name="backend_id" />
                 <field name="url" />
+                <separator />
+                <filter
+                    string="Public"
+                    name="public"
+                    domain="[('is_public', '=', True)]"
+                />
+                <filter
+                    string="Private"
+                    name="private"
+                    domain="[('is_public', '=', False)]"
+                />
             </search>
         </field>
     </record>

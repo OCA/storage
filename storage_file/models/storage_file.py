@@ -65,6 +65,27 @@ class StorageFile(models.Model):
         "res.company", "Company", default=lambda self: self.env.user.company_id.id
     )
     file_type = fields.Selection([])
+    is_public = fields.Boolean(
+        compute="_compute_is_public",
+        compute_sudo=True,
+        search="_search_is_public",
+        # Not stored to avoid massive recomputes when the backend flag changes.
+        help="Reflects the `is_public` flag of the related backend.",
+    )
+
+    @api.depends("backend_id.is_public")
+    def _compute_is_public(self):
+        for rec in self:
+            rec.is_public = rec.backend_id.is_public
+
+    def _search_is_public(self, operator, value):
+        # Look up matching backends with sudo so that users with limited ACL
+        # on `storage.backend` can still filter their accessible files by
+        # public flag.
+        backends = (
+            self.env["storage.backend"].sudo().search([("is_public", operator, value)])
+        )
+        return [("backend_id", "in", backends.ids)]
 
     _sql_constraints = [
         (
