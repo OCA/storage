@@ -26,6 +26,7 @@
                         widget="many2many_tags"
                         invisible="not available_attribute_value_ids"
                     />
+                    <field name="is_public" />
                 </group>
             </form>
         </field>
