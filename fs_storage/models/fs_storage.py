@@ -151,8 +151,10 @@ class FSStorage(models.Model):
             """,
     )
 
+    # When accessing this field, use the method get_directory_path instead so that
+    # parameter expansion is done.
     directory_path = fields.Char(
-        help="Relative path to the directory to store the file"
+        help="Relative path to the directory to store the file",
     )
 
     # the next fields are used to display documentation to help the user
@@ -217,6 +219,7 @@ class FSStorage(models.Model):
             "options": {},
             "directory_path": {},
             "eval_options_from_env": {},
+            "check_connection_method": {},
         }
 
     @api.model_create_multi
@@ -242,6 +245,14 @@ class FSStorage(models.Model):
     @prevent_call_from_safe_eval("unlink")
     def _check_no_safe_eval_call(self):
         pass
+
+    def get_directory_path(self):
+        """Returns directory path with substitution done."""
+        return (
+            self.directory_path.format(db_name=self.env.cr.dbname)
+            if isinstance(self.directory_path, str)
+            else self.directory_path
+        )
 
     @api.model
     @tools.ormcache()
@@ -489,7 +500,7 @@ class FSStorage(models.Model):
             options["auth"] = tuple(options["auth"])
         options = self._recursive_add_odoo_storage_path(options)
         fs = fsspec.filesystem(self.protocol, **options)
-        directory_path = self.directory_path
+        directory_path = self.get_directory_path()
         if directory_path:
             fs = fsspec.filesystem("rooted_dir", path=directory_path, fs=fs)
         return fs

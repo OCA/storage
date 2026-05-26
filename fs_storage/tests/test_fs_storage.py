@@ -200,3 +200,9 @@ class TestFSStorage(TestFSStorageCase):
             safe_eval.safe_eval(
                 "env['fs.storage'].search([]).unlink()", {"env": self.env}
             )
+
+    def test_directory_path_substitution(self):
+        template = "dir/{db_name}"
+        self.backend.directory_path = template
+        # Assert different (db name should be replaced)
+        self.assertNotEqual(template, self.backend.get_directory_path())

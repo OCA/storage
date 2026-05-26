@@ -70,6 +70,10 @@ In your configuration section, you can specify the value for the following field
 * `options`
 * `directory_path`
 
+When evaluating directory_path, `{db_name}` is replaced by the database name.
+This is usefull in multi-tenant with a setup completly controlled by
+configuration files.
+
 Migration from storage_backend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
