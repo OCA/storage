@@ -1,3 +1,11 @@
+16.0.1.5.0 (2026-05-26)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Features**
+
+- Replace {db_name} by the database name in directory_path (`#db_name <https://github.com/OCA/storage/issues/db_name>`_)
+
+
 16.0.1.2.0 (2024-02-06)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
