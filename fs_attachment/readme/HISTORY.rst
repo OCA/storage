@@ -1,3 +1,25 @@
+16.0.2.0.3 (2026-05-26)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Bound the GC cursor with per-transaction timeouts.
+
+  The secondary cursor opened by ``FsFileGC._in_new_cursor`` had no upper
+  bound, so a slow or unresponsive external storage backend (observed on
+  Azure Blob, same class of issue applies to S3) could leave it
+  ``idle in transaction`` while waiting on network I/O. The cursor kept a
+  row lock on ``fs_file_gc`` (via the ``store_fname`` unique constraint in
+  ``_mark_for_gc``), serialising every concurrent attachment write until
+  the Odoo session ``statement_timeout`` killed it — by which time every
+  ``POST /mail/attachment/upload`` was returning a 500 HTML page, which
+  the frontend tried to ``JSON.parse`` and failed with
+  ``Unexpected token '<', "<!DOCTYPE"...``. A ``SET LOCAL statement_timeout``
+  and ``SET LOCAL idle_in_transaction_session_timeout`` on the new cursor
+  cap the damage to 30-60 s and let the main transaction fail fast instead
+  of stalling the whole instance. (`#gc_cursor_timeout <https://github.com/OCA/storage/issues/gc_cursor_timeout>`_)
+
+
 16.0.1.0.13 (2024-05-10)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
