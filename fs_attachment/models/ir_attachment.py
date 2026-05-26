@@ -253,6 +253,18 @@ class IrAttachment(models.Model):
             storage = super()._storage()
         return storage
 
+    @api.depends("store_fname", "db_datas")
+    def _compute_raw(self):
+        """Always expose raw payload as bytes.
+
+        Some callers (e.g. account EDI helpers) slice the value returned by
+        ``raw`` and crash when it is ``False`` for 0-byte attachments.
+        """
+        res = super()._compute_raw()
+        false_attachments = self.filtered(lambda att: not att.raw)
+        false_attachments.raw = b""
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         """
@@ -697,9 +709,10 @@ class IrAttachment(models.Model):
         self.ensure_one()
         _logger.info("inspecting attachment %s (%d)", self.name, self.id)
         fname = self.store_fname
-        storage = fname.partition("://")[0]
-        if self._is_storage_disabled(storage):
-            fname = False
+        if fname:
+            storage = fname.partition("://")[0]
+            if self._is_storage_disabled(storage):
+                fname = False
         if fname:
             # migrating from filesystem filestore
             # or from the old 'store_fname' without the bucket name

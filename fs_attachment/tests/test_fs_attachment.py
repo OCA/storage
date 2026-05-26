@@ -75,6 +75,12 @@ class TestFSAttachment(TestFSAttachmentCommon):
         with attachment.open("rb") as f:
             self.assertEqual(f.read(), new_content)
 
+    def test_create_attachment_with_no_payload_has_bytes_raw(self):
+        attachment = self.ir_attachment_model.create({"name": "empty.txt"})
+
+        self.assertEqual(attachment.raw, b"")
+        self.assertEqual(attachment.file_size, 0)
+
     def test_open_attachment_in_db(self):
         self.env["ir.config_parameter"].sudo().set_param("ir_attachment.location", "db")
         content = b"This is a test attachment in db"
