@@ -13,7 +13,7 @@ class FsFileGc(models.Model):
     _inherit = "fs.file.gc"
 
     # S3 bulk delete limit is 1000 objects per request
-    _GC_BATCH_SIZE = 1000
+    _S3_GC_BATCH_SIZE = 1000
 
     def _gc_files_unsafe(self) -> None:
         """
@@ -63,27 +63,7 @@ class FsFileGc(models.Model):
                     bucket_name,
                 )
 
-                while True:
-                    # Select the next batch of orphaned files
-                    self._cr.execute(
-                        """
-                        SELECT store_fname
-                        FROM fs_file_gc
-                        WHERE fs_storage_code = %s
-                          AND NOT EXISTS (
-                              SELECT 1 FROM ir_attachment
-                              WHERE store_fname = fs_file_gc.store_fname
-                          )
-                        LIMIT %s
-                    """,
-                        (code, self._GC_BATCH_SIZE),
-                    )
-
-                    rows = self._cr.fetchall()
-                    if not rows:
-                        break
-
-                    fnames = [row[0] for row in rows]
+                while fnames := self._list_pending_gc_files(code, self._GC_BATCH_SIZE):
                     # Prepare the keys by removing the protocol prefix (e.g., s3://)
                     objects_to_delete = [{"Key": f.partition("://")[2]} for f in fnames]
 

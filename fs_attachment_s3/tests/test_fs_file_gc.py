@@ -4,6 +4,8 @@
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
+from odoo.tools import mute_logger
+
 from .common import TestFSAttachmentS3Common
 
 
@@ -71,6 +73,7 @@ class TestFsFileGcS3(TestFSAttachmentS3Common):
             ),
             patch.object(storage_class, "_get_root_filesystem", return_value=root_fs),
             patch.object(type(self.env.cr), "commit", return_value=None),
+            mute_logger("odoo.addons.fs_attachment_s3.models.fs_file_gc"),
         ):
             self.gc_file_model._gc_s3_bulk_delete()
 
