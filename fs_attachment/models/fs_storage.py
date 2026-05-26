@@ -3,9 +3,10 @@
 
 from __future__ import annotations
 
+from psycopg2.extensions import AsIs
+
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
-from odoo.tools import SQL
 from odoo.tools.safe_eval import const_eval
 
 from .ir_attachment import IrAttachment
@@ -497,7 +498,7 @@ class FsStorage(models.Model):
         # This is needed when {db_name} is used in directory path.
         # Due to the use of server_environment, there is no directory_path column to
         # filter so recompute all.
-        self.env.cr.execute(SQL("SELECT id FROM %s", SQL.identifier(self._table)))
+        self.env.cr.execute("SELECT id FROM %s", (AsIs(self._table),))
         records = self.browse(row[0] for row in self.env.cr.fetchall())
         if records:
             self.env.add_to_compute(self._fields["base_url_for_files"], records)
