@@ -16,5 +16,5 @@
         "views/product_public_category.xml",
     ],
     "demo": [],
-    "development_status": "Alpha",
+    "development_status": "Beta",
 }

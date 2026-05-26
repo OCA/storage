@@ -13,7 +13,7 @@
     "data": [],
     "demo": [],
     "maintainers": ["lmignon"],
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "assets": {
         "web.assets_backend": [
             "fs_file/static/src/**/*",
