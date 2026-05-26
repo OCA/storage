@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================
 Microsoft account for Drive
 ===========================
@@ -17,7 +13,7 @@ Microsoft account for Drive
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -44,34 +40,94 @@ actions on Drive as the logged-in user.
 Configuration
 =============
 
-In order to use the Microsoft Drive Account module, you need to set
-following configuration parameters in your Odoo instance:
+In order to use the Microsoft Drive Account module, you need to follow
+this process for link Odoo and Microsoft:
 
-- microsoft_account.auth_endpoint: The URL of the Microsoft
-  authentication endpoint. This is usually
-  `https://login.microsoftonline.com/{your <https://login.microsoftonline.com/{your>`__
-  endpoint id}/oauth2/v2.0/authorize.
-- microsoft_account.token_endpoint: The URL of the Microsoft token
-  endpoint. This is usually
-  `https://login.microsoftonline.com/{your <https://login.microsoftonline.com/{your>`__
-  endpoint id}/oauth2/v2.0/token.
-- microsoft_drive_client_id: The client ID of your Microsoft
-  application. This is a unique identifier for your application that you
-  can obtain from the Azure portal.
-- microsoft_drive_client_secret: The client secret of your Microsoft
-  application. This is a secret key that you can obtain from the Azure
-  portal. It is used to authenticate your application with the Microsoft
-  Graph API.
+PART 1 : Create an Azure Application
+------------------------------------
 
-Optionally, you can set the following parameters:
+To allow Odoo to access Microsoft OneDrive or SharePoint through the
+Microsoft Graph API, you must create an application in Azure Active
+Directory.
 
-- microsoft_drive_client_scope: The scope of the Microsoft application.
-  By default the following scopes are used
+Step 1 – Open the Azure portal and go to Azure Active Directory, then
+"App registrations", and click “New registration”.
 
-  - offline_access
-  - openid
-  - Files.ReadWrite.All
-  - Sites.ReadWrite.All
+Step 2 – Register the application. Set a name “Odoo storage
+integration”. Select the third option "Accounts in any organizational
+directory (Any Microsoft Entra ID tenant - Multitenant) and personal
+Microsoft accounts (e.g. Skype, Xbox)" Add a Redirect URI of type "Web".
+{URL of your Odoo instance}/microsoft_account/authentication. Once the
+application is created, note the Application (client) ID and the
+Directory (tenant) ID.
+
+|Azure App dashboard|
+
+Step 3 – Generate a client secret. Go to Certificates & secrets, create
+a new client secret (Description : Odoo storage secret / Expires :
+24month), and copy its value. You will not be able to see it again.
+
+|Secret of Azure App|
+
+Step 4 – Configure API permissions. Open API permissions, add Microsoft
+Graph "Application permissions", and include Files.ReadWrite.All, and
+Sites.ReadWrite.All. Add also "Delegated permission" for include
+offline_access, openid.
+
+IMPORTANT : Grant admin consent so the application can use these
+permissions.
+
+|Permissions in Azure App|
+
+PART 2 : Set Odoo System Parameters
+-----------------------------------
+
+You need your tenant_url, you can find it in your Azure portal, open
+Home > Dashboard. Look at the URL, it's usually ends with
+onmicrosoft.com.
+
+|Tenant URL|
+
+In Odoo, open Settings > Technical > System Parameters.
+
+Required parameters:
+
+- microsoft_account.auth_endpoint : This is the Microsoft OAuth2
+  authorization URL. It usually has the form:
+  `https://login.microsoftonline.com/{tenant_url}/oauth2/v2.0/authorize <https://login.microsoftonline.com/{tenant_url}/oauth2/v2.0/authorize>`__
+- microsoft_account.token_endpoint : This is the token endpoint URL,
+  usually:
+  `https://login.microsoftonline.com/{tenant_url}/oauth2/v2.0/token <https://login.microsoftonline.com/{tenant_url}/oauth2/v2.0/token>`__
+- microsoft_drive_client_id : The Client ID of the Azure application.
+- microsoft_drive_client_secret : The Client Secret value generated in
+  Azure.
+
+Optional parameter :
+
+- microsoft_drive_client_scope : Defines the permissions requested by
+  Odoo. If not defined, Odoo uses the default scopes: offline_access,
+  openid, Files.ReadWrite.All, Sites.ReadWrite.All.
+
+PART 3 : Test the Configuration
+-------------------------------
+
+Step 1 – In Odoo, go to your odoo profile and select "Account
+Security",then click on the “grey cloud icon".
+
+Step 2 – You will be redirected to the Microsoft login page. Sign in and
+accept the requested permissions. You will then be redirected back to
+Odoo.
+
+Step 3 – After authorization, Odoo should display a "blue cloud icon".
+The connection is now established.
+
+|Test connexion from odoo profile|
+
+.. |Azure App dashboard| image:: https://raw.githubusercontent.com/OCA/storage/18.0/microsoft_drive_account/static/description/azure_storage_app.png
+.. |Secret of Azure App| image:: https://raw.githubusercontent.com/OCA/storage/18.0/microsoft_drive_account/static/description/azure_storage_secret.png
+.. |Permissions in Azure App| image:: https://raw.githubusercontent.com/OCA/storage/18.0/microsoft_drive_account/static/description/azure_storage_permissions.png
+.. |Tenant URL| image:: https://raw.githubusercontent.com/OCA/storage/18.0/microsoft_drive_account/static/description/azure_storage_tenant_url.png
+.. |Test connexion from odoo profile| image:: https://raw.githubusercontent.com/OCA/storage/18.0/microsoft_drive_account/static/description/azure_storage_test.png
 
 Usage
 =====

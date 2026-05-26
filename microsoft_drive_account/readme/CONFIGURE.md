@@ -1,6 +1,6 @@
 In order to use the Microsoft Drive Account module, you need to follow this process for link Odoo and Microsoft:
 
-### PART 1 : Create an Azure Application
+## PART 1 : Create an Azure Application
 
 To allow Odoo to access Microsoft OneDrive or SharePoint through the Microsoft Graph API, you must create an application in Azure Active Directory.
 
@@ -27,7 +27,7 @@ IMPORTANT : Grant admin consent so the application can use these permissions.
 
  ![Permissions in Azure App](../static/description/azure_storage_permissions.png)
 
-### PART 2 : Set Odoo System Parameters
+## PART 2 : Set Odoo System Parameters
 
 You need your tenant_url, you can find it in your Azure portal, open Home > Dashboard. Look at the URL, it's usually ends with onmicrosoft.com.
 
@@ -44,7 +44,7 @@ Required parameters:
 Optional parameter :
 * microsoft_drive_client_scope : Defines the permissions requested by Odoo. If not defined, Odoo uses the default scopes: offline_access, openid, Files.ReadWrite.All, Sites.ReadWrite.All.
 
-### PART 3 : Test the Configuration
+## PART 3 : Test the Configuration
 
 Step 1 – In Odoo, go to your odoo profile and select "Account Security",then click on the “grey cloud icon".
 
