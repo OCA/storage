@@ -2,6 +2,9 @@
   "pull_requests": {
     "OCA/storage#344": "migration PR",
     "OCA/storage#368": "CI fix",
-    "OCA/storage#402": "FP from 16 to 17"
+    "OCA/storage#402": "FP from 16 to 17",
+    "orphaned_commits": "Migration commits for 18.0",
+    "OCA/storage#460": "Already into 16.0",
+    "OCA/storage#514": "Already into 16.0"
   }
 }
