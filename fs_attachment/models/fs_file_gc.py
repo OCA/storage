@@ -44,6 +44,18 @@ class FsFileGC(models.Model):
 
         with closing(self.env.registry.cursor()) as cr:
             try:
+                # Bound this cursor so it cannot hold a row lock on
+                # fs_file_gc indefinitely. Without these guards, a slow
+                # external storage backend (e.g. S3, Azure Blob) can leave
+                # the cursor "idle in transaction" while waiting on I/O,
+                # serialising every attachment write behind the unique
+                # constraint lock on fs_file_gc.store_fname. Every queued
+                # POST /mail/attachment/upload then times out at the
+                # session statement_timeout and returns a 500 HTML page,
+                # which the frontend tries to JSON.parse and fails with
+                # "Unexpected token '<', \"<!DOCTYPE\"...".
+                cr.execute("SET LOCAL statement_timeout = '30s'")
+                cr.execute("SET LOCAL idle_in_transaction_session_timeout = '60s'")
                 yield cr
             except Exception:
                 cr.rollback()
