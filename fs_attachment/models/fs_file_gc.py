@@ -140,6 +140,28 @@ class FsFileGC(models.Model):
     # hit Odoo's ``limit_memory_hard`` on production workers.
     _GC_BATCH_SIZE = 500
 
+    @api.model
+    def _list_pending_gc_files(
+        self, code: str, batch_size: int | None = None
+    ) -> list[str]:
+        """Return a batch of store filenames to garbage collect for the given storage code"""
+        sql = """
+            SELECT store_fname
+            FROM fs_file_gc
+            WHERE fs_storage_code = %s
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM ir_attachment
+                  WHERE store_fname = fs_file_gc.store_fname
+              )
+        """
+        params = [code]
+        if batch_size is not None:
+            sql += " LIMIT %s"
+            params.append(batch_size)
+        self._cr.execute(sql, params)
+        return [row[0] for row in self._cr.fetchall()]
+
     def _gc_files_unsafe(self) -> None:
         # get the list of fs.storage codes that must be autovacuumed
         codes = (
@@ -153,25 +175,7 @@ class FsFileGC(models.Model):
         for code in codes:
             self.env["fs.storage"].get_by_code(code)
             fs = self.env["fs.storage"].get_fs_by_code(code)
-            while True:
-                self._cr.execute(
-                    """
-                    SELECT store_fname
-                    FROM fs_file_gc
-                    WHERE fs_storage_code = %s
-                      AND NOT EXISTS (
-                          SELECT 1
-                          FROM ir_attachment
-                          WHERE store_fname = fs_file_gc.store_fname
-                      )
-                    LIMIT %s
-                    """,
-                    (code, self._GC_BATCH_SIZE),
-                )
-                rows = self._cr.fetchall()
-                if not rows:
-                    break
-                fnames = [row[0] for row in rows]
+            while fnames := self._list_pending_gc_files(code, self._GC_BATCH_SIZE):
                 for store_fname in fnames:
                     try:
                         file_path = store_fname.partition("://")[2]
