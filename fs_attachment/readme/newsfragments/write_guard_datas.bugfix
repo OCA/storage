@@ -1,0 +1,20 @@
+Reconcile ``fs_filename`` when ``datas`` / ``raw`` is rewritten.
+
+``ir.attachment.write`` only called ``_enforce_meaningful_storage_filename``
+when ``name`` was in ``vals``. Every code path that updates an attachment's
+content without touching its name — asset-bundle regeneration, ORM image
+field updates, inline kanban image writes, the ``_force_storage``
+migration itself — rewrote ``store_fname`` via ``_storage_file_write``
+but left ``fs_filename`` / ``fs_storage_code`` / ``fs_storage_id``
+stale. A ``NULL`` ``fs_filename`` defeats the gate in
+``IrBinary._get_fs_attachment_for_field``, so base Odoo falls through
+to ``Stream.from_attachment``, which passes the raw ``store_fname``
+(e.g. ``"azure_attachments://<hash>"``) straight to ``os.stat`` and
+raises ``FileNotFoundError`` — observed in production as 500s on every
+``/web/image/...`` request for that record.
+
+Extending the guard to fire on ``"datas"`` / ``"raw"`` keeps
+``fs_filename`` consistent with ``store_fname`` after every content
+rewrite. ``_enforce_meaningful_storage_filename`` is idempotent and
+already no-ops when nothing needs to change, so the widened guard has
+no downside for the existing ``"name"`` path.

@@ -330,7 +330,29 @@ class IrAttachment(models.Model):
             ).write(vals)
 
         if "name" in vals:
+            # Renaming requires rebuilding the storage filename so URLs
+            # stay meaningful — apply to every record in the recordset.
             self._enforce_meaningful_storage_filename()
+        elif "datas" in vals or "raw" in vals:
+            # Content was rewritten without touching the name.
+            # ``_storage_file_write`` just replaced ``store_fname`` but
+            # the sibling ``fs_filename`` / ``fs_storage_*`` fields are
+            # NOT recomputed. A stale ``NULL`` ``fs_filename`` defeats
+            # the gate in ``IrBinary._get_fs_attachment_for_field``, so
+            # base Odoo falls through to ``Stream.from_attachment``,
+            # which passes the raw ``store_fname``
+            # (e.g. ``"azure_attachments://<hash>"``) straight to
+            # ``os.stat`` and raises ``FileNotFoundError`` → 500 on
+            # every ``/web/image/...`` call.
+            # Only reconcile rows actually in the broken shape: running
+            # ``_enforce_meaningful_storage_filename`` on a record that
+            # already has an ``fs_filename`` would trigger a spurious
+            # ``fs.rename()`` round-trip against the storage.
+            broken = self.filtered(
+                lambda a: a.store_fname and not a.fs_filename
+            )
+            if broken:
+                broken._enforce_meaningful_storage_filename()
 
         return True
 
