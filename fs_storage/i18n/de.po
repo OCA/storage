@@ -42,6 +42,16 @@ msgid "Check Connection Method"
 msgstr "Verbindungsmethode prüfen"
 
 #. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method_env_default
+msgid "Check Connection Method Env Default"
+msgstr ""
+
+#. module: fs_storage
+#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method_env_is_editable
+msgid "Check Connection Method Env Is Editable"
+msgstr ""
+
+#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr "Schließen"
@@ -281,6 +291,7 @@ msgstr "Server-Umgebungsstandards"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
+#: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method_env_default
 msgid ""
 "Set a method if you want the connection to remote to be checked every time "
 "the storage is used, in order to remove the obsolete connection from the "
