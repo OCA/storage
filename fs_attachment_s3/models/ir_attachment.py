@@ -60,18 +60,26 @@ class IrAttachment(models.Model):
         storage = self.env["fs.storage"].sudo().get_by_code(storage_code)
         root_fs = storage._get_root_filesystem(fs)
         s3_client = root_fs.s3
-        bucket_name = storage.get_directory_path().strip("/").rstrip("/")
+        # The directory path might contain the bucket and a prefix
+        # the part before the first "/" is the bucket
+        # the rest is the prefix
+        path_parts = storage.get_directory_path().strip("/").rstrip("/").split("/")
+        bucket_name = path_parts[:1][0]
+        prefix = "/".join(path_parts[1:])
+        s3_key = (
+            f"{prefix}/{file_path.lstrip('/')}" if prefix else file_path.lstrip("/")
+        )
         if storage.s3_uses_signed_url_for_x_sendfile:
             file_url = storage._s3_call_generate_presigned_url(
                 s3_client,
                 "get_object",
-                Params={"Bucket": bucket_name, "Key": file_path},
+                Params={"Bucket": bucket_name, "Key": s3_key},
                 ExpiresIn=storage.s3_signed_url_expiration,
             )
         else:
             file_url = (
                 f"{s3_client.meta.endpoint_url.rstrip('/')}/"
-                f"{bucket_name}/{file_path.lstrip('/')}"
+                f"{bucket_name}/{s3_key.lstrip('/')}"
             )
 
         parsed_url = urlparse(file_url)
