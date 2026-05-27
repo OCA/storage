@@ -15,7 +15,7 @@
                     <br />Make sure this parameter is properly configured and accessible
                     from everwhere you want to access the service.
                 </div>
-                <field name="is_public" invisible="served_by != 'odoo'" />
+                <field name="is_public" />
                 <field name="base_url" invisible="served_by != 'external'" />
                 <field name="filename_strategy" />
                 <field name="backend_view_use_internal_url" />
