@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ================
 Fs Attachment S3
 ================
@@ -17,7 +13,7 @@ Fs Attachment S3
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -122,6 +118,17 @@ directory name as bucket name, and the file path.
 
 Changelog
 =========
+
+18.0.1.2.1 (2025-10-20)
+-----------------------
+
+Fixed
+~~~~~
+
+- Allow to use a prefix path and bucket in the directory_path on
+  fs.storage When the directory_path parameter is configured as / the
+  presigned url generation failed with a botocore error: "Invalid bucket
+  name"
 
 18.0.1.2.0 (2025-10-20)
 -----------------------
