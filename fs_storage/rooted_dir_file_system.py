@@ -27,7 +27,9 @@ class RootedDirFileSystem(DirFileSystem):
         # we need to normalize the path separator.
         path_posix = os.path.normpath(make_path_posix(path))
         root_posix = os.path.normpath(make_path_posix(self.path))
-        if not path_posix.startswith(root_posix):
+        if not root_posix.endswith("/"):
+            root_posix = root_posix + "/"
+        if path_posix != root_posix.rstrip("/") and not path_posix.startswith(root_posix):
             raise PermissionError(
                 f"Path {path} is not a subpath of the root path {self.path}"
             )
