@@ -63,12 +63,8 @@ class IrAttachment(models.Model):
         # The directory path might contain the bucket and a prefix
         # the part before the first "/" is the bucket
         # the rest is the prefix
-        path_parts = storage.get_directory_path().strip("/").rstrip("/").split("/")
-        bucket_name = path_parts[:1][0]
-        prefix = "/".join(path_parts[1:])
-        s3_key = (
-            f"{prefix}/{file_path.lstrip('/')}" if prefix else file_path.lstrip("/")
-        )
+        bucket_name, *prefix_parts = storage.get_directory_path().strip("/").split("/")
+        s3_key = "/".join(prefix_parts + [file_path.lstrip("/")])
         if storage.s3_uses_signed_url_for_x_sendfile:
             file_url = storage._s3_call_generate_presigned_url(
                 s3_client,
