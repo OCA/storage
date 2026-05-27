@@ -29,6 +29,7 @@ addon | version | maintainers | summary
 [fs_folder_ms_drive](fs_folder_ms_drive/) | 18.0.2.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Display and manage your files from Microsoft drives from within Odoo
 [fs_folder_webdav](fs_folder_webdav/) | 18.0.1.0.0 | <a href='https://github.com/jguenat'><img src='https://github.com/jguenat.png' width='32' height='32' style='border-radius:50%;' alt='jguenat'/></a> | UI improvement when managing WebDAV folder
 [fs_image](fs_image/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Field to store images into filesystem storages
+[fs_image_thumbnail](fs_image_thumbnail/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Generate and store thumbnail for images
 [fs_storage](fs_storage/) | 18.0.2.1.2 |  | Implement the concept of Storage with amazon S3, sftp...
 [fs_storage_ms_drive](fs_storage_ms_drive/) | 18.0.2.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Add the microsoft drives (OneDrive, Sharepoint) as a storage backend
 [image_tag](image_tag/) | 18.0.1.0.0 |  | Image tag model
