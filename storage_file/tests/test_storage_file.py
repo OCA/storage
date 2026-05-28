@@ -7,6 +7,7 @@ from unittest import mock
 from urllib import parse
 
 from odoo.exceptions import AccessError, UserError
+from odoo.tests import Form
 
 from odoo.addons.component.tests.common import TransactionComponentCase
 
@@ -317,3 +318,23 @@ class StorageFileCase(TransactionComponentCase):
         # get_url is called on new records
         empty = self.env["storage.file"].new({})._get_url()
         self.assertEqual(empty, "")
+
+    def test_default_backend_id_on_form(self):
+        """Form pre-fills the default backend for storage.file."""
+        form = Form(self.env["storage.file"])
+        self.assertEqual(form.backend_id, self.backend)
+
+    def test_default_backend_id_from_param(self):
+        """storage.file.backend_id param overrides the form default."""
+        other_backend = self.env["storage.backend"].create(
+            {
+                "name": "Other",
+                "backend_type": "filesystem",
+                "filename_strategy": "name_with_id",
+            }
+        )
+        self.env["ir.config_parameter"].sudo().set_param(
+            "storage.file.backend_id", str(other_backend.id)
+        )
+        form = Form(self.env["storage.file"])
+        self.assertEqual(form.backend_id, other_backend)

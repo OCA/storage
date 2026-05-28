@@ -40,6 +40,7 @@
                 <notebook>
                     <page name="info" string="File Informations">
                         <group name="info">
+                            <field name="backend_id" />
                             <field name="file_id" readonly="True" required="False" />
                             <field name="thumb_medium_id" />
                             <field name="thumb_small_id" />

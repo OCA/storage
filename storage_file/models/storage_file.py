@@ -30,7 +30,11 @@ class StorageFile(models.Model):
 
     name = fields.Char(required=True, index=True)
     backend_id = fields.Many2one(
-        "storage.backend", "Storage", index=True, required=True
+        "storage.backend",
+        "Storage",
+        index=True,
+        required=True,
+        default=lambda self: self._get_default_backend_id(),
     )
     url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
     url_path = fields.Char(
@@ -77,6 +81,12 @@ class StorageFile(models.Model):
     def _compute_is_public(self):
         for rec in self:
             rec.is_public = rec.backend_id.is_public
+
+    @api.model
+    def _get_default_backend_id(self):
+        return self.env["storage.backend"]._get_backend_id_from_param(
+            self.env, "storage.file.backend_id"
+        )
 
     def _search_is_public(self, operator, value):
         # Look up matching backends with sudo so that users with limited ACL

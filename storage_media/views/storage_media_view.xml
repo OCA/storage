@@ -34,6 +34,7 @@
                         <field name="url" readonly="True" widget="url" />
                         <field name="name" />
                         <field name="media_type_id" />
+                        <field name="backend_id" />
                     </group>
                 </sheet>
             </form>

@@ -34,3 +34,23 @@ class StorageMediaCase(TransactionComponentCase):
         media.unlink()
         self.assertEqual(stfile.to_delete, True)
         self.assertEqual(stfile.active, False)
+
+    def test_default_backend_id_on_form(self):
+        """Creating a media without backend_id uses the configured default."""
+        media = self.env["storage.media"].create({"name": "default-test.txt"})
+        self.assertEqual(media.backend_id, self.backend)
+
+    def test_default_backend_id_from_param(self):
+        """storage.media.backend_id param overrides backend on create."""
+        other_backend = self.env["storage.backend"].create(
+            {
+                "name": "Media Backend",
+                "backend_type": "filesystem",
+                "filename_strategy": "name_with_id",
+            }
+        )
+        self.env["ir.config_parameter"].sudo().set_param(
+            "storage.media.backend_id", str(other_backend.id)
+        )
+        media = self.env["storage.media"].create({"name": "test.txt"})
+        self.assertEqual(media.backend_id.id, other_backend.id)
