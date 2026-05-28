@@ -206,6 +206,8 @@ class StorageFile(models.Model):
 
         :param exclude_base_url: skip base_url
         """
+        if not self.backend_id or not self.relative_path:
+            return ""
         return self.backend_id._get_url_for_file(
             self, exclude_base_url=exclude_base_url
         )
