@@ -110,6 +110,17 @@ class StorageFileCase(TransactionComponentCase):
             stfile.url, f"https://foo.com/baz/test-of-my_file-{stfile.id}.txt"
         )
 
+    def test_url_external_no_base_url_falls_back_to_odoo(self):
+        """External backend w/o base_url uses the internal Odoo route."""
+        stfile = self._create_storage_file()
+        params = self.env["ir.config_parameter"].sudo()
+        base_url = params.get_param("web.base.url")
+        stfile.backend_id.update({"served_by": "external", "base_url": ""})
+        self.assertEqual(
+            stfile.url,
+            f"{base_url}/storage.file/test-of-my_file-{stfile.id}.txt",
+        )
+
     def test_url_without_base_url(self):
         stfile = self._create_storage_file()
         # served by odoo

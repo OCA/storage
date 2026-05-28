@@ -13,4 +13,15 @@
         <field name="perm_create" eval="False" />
         <field name="perm_unlink" eval="False" />
     </record>
+    <!--Internal users can read all files (public and private)-->
+    <record id="ir_rule_storage_file_internal" model="ir.rule">
+        <field name="name">Storage file internal read all</field>
+        <field name="model_id" ref="model_storage_file" />
+        <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="False" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_unlink" eval="False" />
+    </record>
 </odoo>

@@ -17,6 +17,16 @@
                 </div>
                 <field name="is_public" />
                 <field name="base_url" invisible="served_by != 'external'" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    invisible="served_by != 'external' or base_url"
+                >
+                    <strong>Note:</strong> Without a CDN base URL, files will be proxied
+                    through Odoo. This is acceptable for internal use with low traffic
+                    but suboptimal for high-volume public access as every request loads
+                    the file from the storage backend into memory.
+                </div>
                 <field name="filename_strategy" />
                 <field name="backend_view_use_internal_url" />
             </field>
