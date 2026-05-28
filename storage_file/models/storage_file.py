@@ -229,11 +229,12 @@ class StorageFile(models.Model):
         - upload it to the new backend (re-computing relative_path using the
           new backend filename strategy),
         - update ``backend_id`` and ``relative_path`` on the record,
-        - schedule deletion of the old file from the old backend via a
-          post-commit hook, so the original file is only removed if the
-          rest of the transaction (upload + DB update) actually committed.
+        - delete the old file from the previous backend.
 
         Files already on ``new_backend`` are skipped.
+
+        :return: dict with ``moved`` (list of names) and ``failed`` (list of
+            error descriptions).
         """
         if not new_backend:
             raise UserError(self.env._("A destination storage is required."))
@@ -242,50 +243,55 @@ class StorageFile(models.Model):
             raise UserError(
                 self.env._(
                     "The filename strategy is empty for the backend %s.\n"
-                    "Please configure it."
+                    "Please configure it.",
+                    new_backend.name,
                 )
-                % new_backend.name
             )
+        moved = []
+        failed = []
         for record in self.sudo():
+            if not record.exists():
+                failed.append(f"ID {record.id}: record no longer exists")
+                continue
             if record.backend_id == new_backend:
                 continue
             old_backend = record.backend_id
             old_relative_path = record.relative_path
-            if not old_relative_path:
-                # Nothing physical to swap, just update the backend.
-                record.sudo().backend_id = new_backend
-                continue
-            bin_data = old_backend.get(old_relative_path, binary=True)
-            # Switch backend first so that ``_build_relative_path`` uses the
-            # destination backend filename strategy.
-            record.backend_id = new_backend
-            new_relative_path = record._build_relative_path(record.checksum)
-            new_backend.add(
-                new_relative_path,
-                bin_data,
-                mimetype=record.mimetype,
-                binary=True,
-            )
-            record.relative_path = new_relative_path
-            self._register_old_file_deletion(old_backend, old_relative_path)
-
-    @api.model
-    def _register_old_file_deletion(self, old_backend, old_relative_path):
-        """Schedule deletion of an old physical file after commit."""
-        backend = old_backend.sudo()
-
-        def _delete_old_file():
             try:
-                backend.delete(old_relative_path)
-            except Exception as exc:
-                _logger.warning(
-                    "Failed to delete %s from backend %s after swap: %s",
-                    old_relative_path,
-                    backend.name,
-                    exc,
+                if not old_relative_path:
+                    record.backend_id = new_backend
+                    moved.append(f"{record.name} (ID {record.id})")
+                    continue
+                bin_data = old_backend.get(old_relative_path, binary=True)
+                record.backend_id = new_backend
+                new_relative_path = record._build_relative_path(record.checksum)
+                new_backend.add(
+                    new_relative_path,
+                    bin_data,
+                    mimetype=record.mimetype,
+                    binary=True,
                 )
-
-        self.env.cr.postcommit.add(_delete_old_file)
+                record.relative_path = new_relative_path
+                try:
+                    old_backend.delete(old_relative_path)
+                except Exception as exc:
+                    _logger.warning(
+                        "Swapped %s but failed to delete old file %s from %s: %s",
+                        record.name,
+                        old_relative_path,
+                        old_backend.name,
+                        exc,
+                    )
+                moved.append(f"{record.name} (ID {record.id})")
+            except Exception as exc:
+                failed.append(f"{record.name} (ID {record.id}): {exc}")
+                _logger.exception(
+                    "Failed to swap file %s (ID %d) to backend %s",
+                    record.name,
+                    record.id,
+                    new_backend.name,
+                )
+        return {"moved": moved, "failed": failed}
 
     @api.model
     def get_from_slug_name_with_id(self, slug_name_with_id):

@@ -37,26 +37,18 @@ class TestSwapBackend(TransactionComponentCase):
 
     def test_swap_uploads_to_new_backend_and_updates_record(self):
         stfile = self._create_storage_file(data=b"payload")
-        old_relative_path = stfile.relative_path
 
-        stfile._swap_backend(self.backend_b)
+        result = stfile._swap_backend(self.backend_b)
 
         self.assertEqual(stfile.backend_id, self.backend_b)
         self.assertEqual(stfile.relative_path, f"my_file-{stfile.id}.txt")
-        # Data is readable from the new backend.
         self.assertEqual(base64.b64decode(stfile.data), b"payload")
-        # Old file still physically present until postcommit runs.
-        self.assertEqual(
-            self.backend_a.sudo().get(old_relative_path, binary=True), b"payload"
-        )
+        self.assertIn(stfile.name, result["moved"][0])
 
-    def test_swap_deletes_old_file_only_on_postcommit(self):
+    def test_swap_deletes_old_file(self):
         stfile = self._create_storage_file(data=b"payload")
         old_relative_path = stfile.relative_path
         stfile._swap_backend(self.backend_b)
-        # Run postcommit hooks manually (TestCursor clears them on commit).
-        self.env.cr.postcommit.run()
-        # Old physical file is gone.
         with self.assertRaises(FileNotFoundError):
             self.backend_a.sudo().get(old_relative_path, binary=True)
 
@@ -65,10 +57,11 @@ class TestSwapBackend(TransactionComponentCase):
         with mock.patch.object(
             type(self.env["storage.backend"]), "delete"
         ) as mocked_delete:
-            stfile._swap_backend(self.backend_b)
-            self.env.cr.postcommit.run()
+            result = stfile._swap_backend(self.backend_b)
             mocked_delete.assert_not_called()
         self.assertEqual(stfile.backend_id, self.backend_b)
+        self.assertEqual(result["moved"], [])
+        self.assertEqual(result["failed"], [])
 
     def test_swap_requires_destination(self):
         stfile = self._create_storage_file()
@@ -81,9 +74,8 @@ class TestSwapBackend(TransactionComponentCase):
         with self.assertRaisesRegex(UserError, "The filename strategy is empty"):
             stfile._swap_backend(self.backend_b)
 
-    def test_swap_failure_does_not_delete_old_file(self):
-        """If something blows up before commit, the postcommit hook never runs,
-        so the original file is preserved."""
+    def test_swap_failure_reports_in_failed(self):
+        """Upload failure is caught and reported in the failed list."""
         stfile = self._create_storage_file(data=b"payload")
         old_relative_path = stfile.relative_path
         with mock.patch.object(
@@ -91,11 +83,15 @@ class TestSwapBackend(TransactionComponentCase):
             "add",
             side_effect=RuntimeError("boom"),
         ):
-            with self.assertRaisesRegex(RuntimeError, "boom"):
-                stfile._swap_backend(self.backend_b)
-        # Simulate transaction rollback: do NOT run postcommit (the hook is
-        # registered, but on rollback Odoo clears it).
-        self.env.cr.postcommit.clear()
+            with self.assertLogs(
+                "odoo.addons.storage_file.models.storage_file", level="ERROR"
+            ) as log_cm:
+                result = stfile._swap_backend(self.backend_b)
+        self.assertEqual(len(result["failed"]), 1)
+        self.assertIn("boom", result["failed"][0])
+        self.assertTrue(
+            any("Failed to swap file" in msg and "boom" in msg for msg in log_cm.output)
+        )
         # Old file still physically present.
         self.assertEqual(
             self.backend_a.sudo().get(old_relative_path, binary=True), b"payload"
@@ -103,21 +99,20 @@ class TestSwapBackend(TransactionComponentCase):
 
     def test_swap_swallows_old_backend_delete_error(self):
         stfile = self._create_storage_file(data=b"payload")
-        stfile._swap_backend(self.backend_b)
         with mock.patch.object(
             type(self.env["storage.backend"]),
             "delete",
             side_effect=RuntimeError("boom"),
         ):
-            # Should not raise, just log a warning.
             with self.assertLogs(
                 "odoo.addons.storage_file.models.storage_file", level="WARNING"
             ) as log_cm:
-                self.env.cr.postcommit.run()
+                result = stfile._swap_backend(self.backend_b)
         self.assertTrue(
-            any("Failed to delete" in msg and "boom" in msg for msg in log_cm.output),
-            log_cm.output,
+            any("failed to delete" in msg and "boom" in msg for msg in log_cm.output)
         )
+        # File still counts as moved
+        self.assertEqual(len(result["moved"]), 1)
 
     # -- wizard ----------------------------------------------------------------
 
@@ -158,7 +153,6 @@ class TestSwapBackend(TransactionComponentCase):
             .create({"dest_backend_id": self.backend_b.id})
         )
         wiz.action_apply()
-        self.env.cr.postcommit.run()
         self.assertEqual(stfile.backend_id, self.backend_b)
 
     def test_wizard_apply_rejects_same_backend(self):
