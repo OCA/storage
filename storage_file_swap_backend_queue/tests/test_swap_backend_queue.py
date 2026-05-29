@@ -16,6 +16,7 @@ class TestSwapBackendQueue(TransactionComponentCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.backend_a = cls.env.ref("storage_backend.default_storage_backend")
+        cls.backend_a.swap_backend_use_queue = True
         cls.backend_b = cls.backend_a.copy(
             {
                 "name": "Second Backend",
@@ -147,4 +148,36 @@ class TestSwapBackendQueue(TransactionComponentCase):
         ):
             result = stfile._swap_backend_job(self.backend_b.id)
         self.assertIn(f"Moved to {self.backend_b.name} (1):", result)
+        self.assertEqual(stfile.backend_id, self.backend_b)
+
+    def test_wizard_use_queue_flag_from_backend(self):
+        """Wizard use_queue is preset from source backend flag."""
+        stfile = self._create_storage_file(data=b"payload")
+        wiz = (
+            self.env["storage.file.swap.backend"]
+            .with_context(active_model="storage.file", active_ids=stfile.ids)
+            .create({"dest_backend_id": self.backend_b.id})
+        )
+        self.assertTrue(wiz.use_queue)
+        # Disable queue on source backend
+        self.backend_a.swap_backend_use_queue = False
+        wiz2 = (
+            self.env["storage.file.swap.backend"]
+            .with_context(active_model="storage.file", active_ids=stfile.ids)
+            .create({"dest_backend_id": self.backend_b.id})
+        )
+        self.assertFalse(wiz2.use_queue)
+
+    def test_wizard_sync_when_queue_disabled(self):
+        """When use_queue is False, swap runs synchronously."""
+        self.backend_a.swap_backend_use_queue = False
+        stfile = self._create_storage_file(data=b"payload")
+        wiz = (
+            self.env["storage.file.swap.backend"]
+            .with_context(active_model="storage.file", active_ids=stfile.ids)
+            .create({"dest_backend_id": self.backend_b.id})
+        )
+        with trap_jobs() as trap:
+            wiz.action_apply()
+            trap.assert_jobs_count(0)
         self.assertEqual(stfile.backend_id, self.backend_b)

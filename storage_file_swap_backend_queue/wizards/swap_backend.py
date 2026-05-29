@@ -2,7 +2,7 @@
 # @author Simone Orsi <simone.orsi@camptocamp.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import models
+from odoo import fields, models
 
 DEFAULT_SWAP_BATCH_SIZE = 5
 SWAP_BATCH_SIZE_PARAM = "storage_file_swap_backend_queue.swap_backend_batch_size"
@@ -11,8 +11,15 @@ SWAP_BATCH_SIZE_PARAM = "storage_file_swap_backend_queue.swap_backend_batch_size
 class StorageFileSwapBackend(models.TransientModel):
     _inherit = "storage.file.swap.backend"
 
+    use_queue = fields.Boolean(
+        related="source_backend_id.swap_backend_use_queue",
+        string="Use Queue Jobs",
+    )
+
     def _action_apply(self):
         """Override to dispatch swap via queue jobs instead of synchronous."""
+        if not self.use_queue:
+            return super()._action_apply()
         batch_size = int(
             self.env["ir.config_parameter"]
             .sudo()

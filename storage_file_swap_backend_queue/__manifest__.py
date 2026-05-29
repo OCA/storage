@@ -12,6 +12,10 @@
     "installable": True,
     "depends": ["storage_file", "queue_job"],
     "external_dependencies": {"python": []},
-    "data": ["data/queue_job_data.xml"],
+    "data": [
+        "data/queue_job_data.xml",
+        "views/storage_backend_view.xml",
+        "views/swap_backend_view.xml",
+    ],
     "demo": [],
 }
