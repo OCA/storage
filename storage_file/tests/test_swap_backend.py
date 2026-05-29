@@ -184,3 +184,23 @@ class TestSwapBackend(TransactionComponentCase):
         ) as wiz_form:
             self.assertEqual(wiz_form.source_backend_id, self.backend_a)
             wiz_form.dest_backend_id = self.backend_b
+
+    # -- write triggers swap ------------------------------------------------
+
+    def test_write_backend_id_triggers_swap(self):
+        """Writing backend_id on storage.file triggers the full swap."""
+        stfile = self._create_storage_file(data=b"payload")
+        old_path = stfile.relative_path
+        stfile.backend_id = self.backend_b
+        self.assertEqual(stfile.backend_id, self.backend_b)
+        self.assertEqual(base64.b64decode(stfile.data), b"payload")
+        with self.assertRaises(FileNotFoundError):
+            self.backend_a.sudo().get(old_path, binary=True)
+
+    def test_write_backend_id_noop_if_same(self):
+        """Writing same backend_id does nothing special."""
+        stfile = self._create_storage_file(data=b"payload")
+        old_path = stfile.relative_path
+        stfile.backend_id = self.backend_a
+        self.assertEqual(stfile.backend_id, self.backend_a)
+        self.assertEqual(stfile.relative_path, old_path)

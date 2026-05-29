@@ -83,6 +83,19 @@ class StorageFile(models.Model):
                             "File can not be updated, remove it and create a new one"
                         )
                     )
+        if "backend_id" in vals and not self.env.context.get(
+            "storage_file_swap_backend"
+        ):
+            new_backend = self.env["storage.backend"].browse(vals["backend_id"])
+            to_swap = self.filtered(
+                lambda r: r.backend_id and r.backend_id != new_backend
+            )
+            if to_swap:
+                to_swap._swap_backend(new_backend)
+                remaining = self - to_swap
+                if remaining:
+                    return super(StorageFile, remaining).write(vals)
+                return True
         return super().write(vals)
 
     @api.depends("file_size")
@@ -259,19 +272,31 @@ class StorageFile(models.Model):
             old_relative_path = record.relative_path
             try:
                 if not old_relative_path:
-                    record.backend_id = new_backend
+                    record.with_context(
+                        storage_file_swap_backend=True
+                    ).backend_id = new_backend
                     moved.append(f"{record.name} (ID {record.id})")
                     continue
                 bin_data = old_backend.get(old_relative_path, binary=True)
-                record.backend_id = new_backend
-                new_relative_path = record._build_relative_path(record.checksum)
+                # Same logic as _build_relative_path but using the target
+                # backend strategy (backend_id not yet reassigned).
+                strategy = new_backend.filename_strategy
+                if strategy == "hash":
+                    new_relative_path = record.checksum[:2] + "/" + record.checksum
+                else:
+                    new_relative_path = record.slug
                 new_backend.add(
                     new_relative_path,
                     bin_data,
                     mimetype=record.mimetype,
                     binary=True,
                 )
-                record.relative_path = new_relative_path
+                record.with_context(storage_file_swap_backend=True).write(
+                    {
+                        "backend_id": new_backend.id,
+                        "relative_path": new_relative_path,
+                    }
+                )
                 try:
                     old_backend.delete(old_relative_path)
                 except Exception as exc:
