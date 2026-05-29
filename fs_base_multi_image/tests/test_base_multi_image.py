@@ -70,6 +70,11 @@ class TestBaseMultiImage(TransactionCase):
 
         super().tearDownClass()
 
+    def check_attrs(self):
+        # Deactivate check_attrs to avoid conflict with FakeModelLoader.
+        # since superClass uses it for its own puposes not relevant for our tests.
+        pass
+
     @staticmethod
     def _create_image(width, height, color="#4169E1", img_format="PNG"):
         f = io.BytesIO()
