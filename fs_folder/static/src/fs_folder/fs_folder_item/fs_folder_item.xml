@@ -41,7 +41,7 @@
                         <t t-foreach="items" t-as="item" t-key="item_index">
                             <DropdownItem
                                 class="item.class_name"
-                                onSelected="() => item.callback(this.props.record)"
+                                onSelected="() => this.env.onRunItemAction(() => item.callback(this.props.record))"
                                 t-on-pointerdown.prevent="() => {}"
                             >
                                 <i
