@@ -1,0 +1,1 @@
+Glue module for fs_storage_backup to use fs_storage_environment
