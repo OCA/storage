@@ -25,18 +25,6 @@ class FsStorage(models.Model):
     )
 
     @property
-    def _server_env_fields(self):
-        """Override to include S3 specific fields."""
-        fields = super()._server_env_fields
-        fields.update(
-            {
-                "s3_uses_signed_url_for_x_sendfile": {},
-                "s3_signed_url_expiration": {},
-            }
-        )
-        return fields
-
-    @property
     def is_s3_storage(self):
         """Check if the storage is an S3 storage."""
         self.ensure_one()
