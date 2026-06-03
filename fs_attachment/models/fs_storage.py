@@ -178,25 +178,6 @@ class FsStorage(models.Model):
                     )
 
     @property
-    def _server_env_fields(self):
-        env_fields = super()._server_env_fields
-        env_fields.update(
-            {
-                "optimizes_directory_path": {},
-                "autovacuum_gc": {},
-                "base_url": {},
-                "is_directory_path_in_url": {},
-                "use_x_sendfile_to_serve_internal_url": {},
-                "use_as_default_for_attachments": {},
-                "force_db_for_default_attachment_rules": {},
-                "use_filename_obfuscation": {},
-                "model_xmlids": {},
-                "field_xmlids": {},
-            }
-        )
-        return env_fields
-
-    @property
     def _default_force_db_for_default_attachment_rules(self) -> str:
         return '{"image/": 51200, "application/javascript": 0, "text/css": 0}'
 
