@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-from psycopg2.extensions import AsIs
-
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import const_eval
@@ -493,14 +491,24 @@ class FsStorage(models.Model):
         attachments._compute_fs_url_path()
 
     @api.model
-    def _setup_complete(self):
+    def _register_hook(self):
+        res = super()._register_hook()
+        self._ensure_db_name_in_base_url()
+        return res
+
+    def _ensure_db_name_in_base_url(self):
+        """Ensure that the {db_name} placeholder is present in the base_url_for_files"""
         # Force recompute of base_url_for_files.
         # This is needed when {db_name} is used in directory path.
         # Due to the use of server_environment, there is no directory_path column to
         # filter so recompute all.
-        self.env.cr.execute("SELECT id FROM %s", (AsIs(self._table),))
-        records = self.browse(row[0] for row in self.env.cr.fetchall())
-        if records:
-            self.env.add_to_compute(self._fields["base_url_for_files"], records)
-        # recompute is done at the end of the caller (registry::setup_models)
-        return super()._setup_complete()
+        storages = self.search([])
+        to_recompute = self.browse()
+        for rec in storages:
+            if (
+                rec.is_directory_path_in_url
+                and rec.get_directory_path() not in rec.base_url_for_files
+            ):
+                to_recompute |= rec
+        if to_recompute:
+            to_recompute._compute_base_url_for_files()
