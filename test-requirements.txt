@@ -4,3 +4,6 @@ vcrpy-unittest
 s3fs>=2025.3.0
 pyOpenSSL<24
 cryptography<43
+# S3 test suite importing vcr’s aiohttp stubs
+# require aiohttp version with AsyncStreamReaderMixin.
+aiohttp<3.12
