@@ -40,16 +40,6 @@ msgid "Check Connection Method"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method_env_default
-msgid "Check Connection Method Env Default"
-msgstr ""
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method_env_is_editable
-msgid "Check Connection Method Env Is Editable"
-msgstr ""
-
-#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr ""
@@ -103,16 +93,6 @@ msgid "Directory Path"
 msgstr "Ruta del Directorio"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr "Ruta del Directorio Env Predet"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_is_editable
-msgid "Directory Path Env Is Editable"
-msgstr "La Ruta de Directorio Env es Editable"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__display_name
 msgid "Display Name"
@@ -122,11 +102,6 @@ msgstr "Mostrar Nombre"
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Enter you fsspec options here."
 msgstr "Introduzca aquí sus opciones fsspec."
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env_env_is_editable
-msgid "Eval Options From Env Env Is Editable"
-msgstr ""
 
 #. module: fs_storage
 #. odoo-python
@@ -218,16 +193,6 @@ msgid "Options"
 msgstr "Opciones"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_default
-msgid "Options Env Default"
-msgstr "Opciones Env Por Defecto"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_is_editable
-msgid "Options Env Is Editable"
-msgstr "Las Opciones Env son Editables"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
 msgstr "Protocolo"
@@ -239,18 +204,7 @@ msgid "Protocol Descr"
 msgstr "Descr. del Protocolo"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_default
-msgid "Protocol Env Default"
-msgstr "Protocolo Env Predeterminado"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_is_editable
-msgid "Protocol Env Is Editable"
-msgstr "El Protocolo Env es Editable"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr "Ruta relativa al directorio para almacenar el archivo"
 
@@ -260,13 +214,7 @@ msgid "Resolve env vars"
 msgstr "Resolver las variables de entorno"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env_env_default
-msgid "Resolve env vars Env Default"
-msgstr ""
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env_env_default
 msgid ""
 "Resolve options values starting with $ from environment variables. e.g\n"
 "            {\n"
@@ -282,13 +230,7 @@ msgstr ""
 "            "
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "Valores por defecto del Entorno de Servidor"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method_env_default
 msgid ""
 "Set a method if you want the connection to remote to be checked every time "
 "the storage is used, in order to remove the obsolete connection from the "
@@ -348,7 +290,6 @@ msgstr "Las opciones utilizadas para inicializar el sistema de archivos.\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -383,7 +324,6 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
 "This list is the one supported by the fsspec library (see https://filesystem-"
@@ -398,3 +338,24 @@ msgstr ""
 "agregado por defecto y se refiere al sistema de archivos local de odoo.\n"
 "Preste atención que de acuerdo al protocolo, algunas opciones deben ser "
 "provistas a través del campo opciones."
+
+#~ msgid "Directory Path Env Default"
+#~ msgstr "Ruta del Directorio Env Predet"
+
+#~ msgid "Directory Path Env Is Editable"
+#~ msgstr "La Ruta de Directorio Env es Editable"
+
+#~ msgid "Options Env Default"
+#~ msgstr "Opciones Env Por Defecto"
+
+#~ msgid "Options Env Is Editable"
+#~ msgstr "Las Opciones Env son Editables"
+
+#~ msgid "Protocol Env Default"
+#~ msgstr "Protocolo Env Predeterminado"
+
+#~ msgid "Protocol Env Is Editable"
+#~ msgstr "El Protocolo Env es Editable"
+
+#~ msgid "Server Env Defaults"
+#~ msgstr "Valores por defecto del Entorno de Servidor"

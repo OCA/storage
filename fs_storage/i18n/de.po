@@ -42,16 +42,6 @@ msgid "Check Connection Method"
 msgstr "Verbindungsmethode prüfen"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method_env_default
-msgid "Check Connection Method Env Default"
-msgstr ""
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__check_connection_method_env_is_editable
-msgid "Check Connection Method Env Is Editable"
-msgstr ""
-
-#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr "Schließen"
@@ -105,16 +95,6 @@ msgid "Directory Path"
 msgstr "Verzeichnispfad"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr "Verzeichnispfad Standard-Umgebung"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path_env_is_editable
-msgid "Directory Path Env Is Editable"
-msgstr "Verzeichnispfad Standard-Umgebung ist bearbeitbar"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
 #: model:ir.model.fields,field_description:fs_storage.field_fs_test_connection__display_name
 msgid "Display Name"
@@ -124,11 +104,6 @@ msgstr "Anzeigename"
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_storage_form_view
 msgid "Enter you fsspec options here."
 msgstr "Gib hier deine fsspec-Optionen ein."
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env_env_is_editable
-msgid "Eval Options From Env Env Is Editable"
-msgstr "Optionen aus Umgebung auswerten, Umgebung ist bearbeitbar"
 
 #. module: fs_storage
 #. odoo-python
@@ -220,16 +195,6 @@ msgid "Options"
 msgstr "Optionen"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_default
-msgid "Options Env Default"
-msgstr "Optionen Standard-Umgebung"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__options_env_is_editable
-msgid "Options Env Is Editable"
-msgstr "Optionen Standard-Umgebung sind bearbeitbar"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
 msgstr "Protokoll"
@@ -241,18 +206,7 @@ msgid "Protocol Descr"
 msgstr "Protokollbeschreibung"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_default
-msgid "Protocol Env Default"
-msgstr "Protokoll Standard-Umgebung"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol_env_is_editable
-msgid "Protocol Env Is Editable"
-msgstr "Protokollumgebung ist bearbeitbar"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr ""
 "Relativer Pfad zum Verzeichnis, in dem die Datei gespeichert werden soll"
@@ -263,13 +217,7 @@ msgid "Resolve env vars"
 msgstr "Umgebungsvariablen auflösen"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__eval_options_from_env_env_default
-msgid "Resolve env vars Env Default"
-msgstr "Umgebungsvariablen auflösen Umgebungs-Standard"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env_env_default
 msgid ""
 "Resolve options values starting with $ from environment variables. e.g\n"
 "            {\n"
@@ -285,13 +233,7 @@ msgstr ""
 "            "
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "Server-Umgebungsstandards"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method_env_default
 msgid ""
 "Set a method if you want the connection to remote to be checked every time "
 "the storage is used, in order to remove the obsolete connection from the "
@@ -357,7 +299,6 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -393,7 +334,6 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
 "This list is the one supported by the fsspec library (see https://filesystem-"
@@ -410,3 +350,30 @@ msgstr ""
 "lokale Odoo-Dateisystem.  \n"
 "Beachte, dass je nach Protokoll einige Optionen über das Optionsfeld "
 "angegeben werden müssen."
+
+#~ msgid "Directory Path Env Default"
+#~ msgstr "Verzeichnispfad Standard-Umgebung"
+
+#~ msgid "Directory Path Env Is Editable"
+#~ msgstr "Verzeichnispfad Standard-Umgebung ist bearbeitbar"
+
+#~ msgid "Eval Options From Env Env Is Editable"
+#~ msgstr "Optionen aus Umgebung auswerten, Umgebung ist bearbeitbar"
+
+#~ msgid "Options Env Default"
+#~ msgstr "Optionen Standard-Umgebung"
+
+#~ msgid "Options Env Is Editable"
+#~ msgstr "Optionen Standard-Umgebung sind bearbeitbar"
+
+#~ msgid "Protocol Env Default"
+#~ msgstr "Protokoll Standard-Umgebung"
+
+#~ msgid "Protocol Env Is Editable"
+#~ msgstr "Protokollumgebung ist bearbeitbar"
+
+#~ msgid "Resolve env vars Env Default"
+#~ msgstr "Umgebungsvariablen auflösen Umgebungs-Standard"
+
+#~ msgid "Server Env Defaults"
+#~ msgstr "Server-Umgebungsstandards"
