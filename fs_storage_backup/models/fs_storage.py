@@ -24,20 +24,6 @@ class FSStorage(models.Model):
     backup_keep_time = fields.Integer(string="Keep backups of (in days)", default=7)
     backup_dir = fields.Char(string="Backup Directory", default="backups")
 
-    @property
-    def _server_env_fields(self):
-        env_fields = super()._server_env_fields
-        env_fields.update(
-            {
-                "use_for_backup": {},
-                "backup_include_filestore": {},
-                "backup_filename_format": {"no_default_field": False},
-                "backup_keep_time": {"no_default_field": False},
-                "backup_dir": {"no_default_field": False},
-            }
-        )
-        return env_fields
-
     @api.constrains("backup_keep_time")
     def _constrain_backup_keep_time(self):
         if self.backup_keep_time < 1:
