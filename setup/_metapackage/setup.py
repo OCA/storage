@@ -9,7 +9,9 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-fs_attachment>=16.0dev,<16.1dev',
+        'odoo-addon-fs_attachment_environment>=16.0dev,<16.1dev',
         'odoo-addon-fs_attachment_s3>=16.0dev,<16.1dev',
+        'odoo-addon-fs_attachment_s3_environment>=16.0dev,<16.1dev',
         'odoo-addon-fs_base_multi_image>=16.0dev,<16.1dev',
         'odoo-addon-fs_base_multi_media>=16.0dev,<16.1dev',
         'odoo-addon-fs_file>=16.0dev,<16.1dev',
@@ -22,6 +24,8 @@ setuptools.setup(
         'odoo-addon-fs_product_public_category_multi_image>=16.0dev,<16.1dev',
         'odoo-addon-fs_storage>=16.0dev,<16.1dev',
         'odoo-addon-fs_storage_backup>=16.0dev,<16.1dev',
+        'odoo-addon-fs_storage_backup_environment>=16.0dev,<16.1dev',
+        'odoo-addon-fs_storage_environment>=16.0dev,<16.1dev',
         'odoo-addon-image_tag>=16.0dev,<16.1dev',
         'odoo-addon-storage_backend>=16.0dev,<16.1dev',
         'odoo-addon-storage_backend_sftp>=16.0dev,<16.1dev',
