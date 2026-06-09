@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+msgid "A destination storage is required."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__url_path
 msgid "Accessible path, no base URL"
 msgstr ""
@@ -21,6 +27,14 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__active
 msgid "Active"
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid ""
+"All selected records must belong to the same source storage backend. Found: "
+"%s"
 msgstr ""
 
 #. module: storage_file
@@ -44,6 +58,11 @@ msgid "Base Url For Files"
 msgstr ""
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__checksum
 msgid "Checksum/SHA1"
 msgstr ""
@@ -61,12 +80,14 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__create_uid
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__create_uid
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__create_date
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__create_date
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__create_date
 msgid "Created on"
 msgstr ""
 
@@ -94,8 +115,20 @@ msgid ""
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__dest_backend_id
+msgid "Destination Storage"
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid "Destination storage must differ from source."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__display_name
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__display_name
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -150,6 +183,16 @@ msgid "Filename without extension"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__file_ids
+msgid "Files"
+msgstr ""
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Files to swap"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__internal_url
 msgid "HTTP URL to load the file directly from storage."
 msgstr ""
@@ -167,6 +210,7 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__id
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__id
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__id
 msgid "ID"
 msgstr ""
 
@@ -190,12 +234,14 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__write_uid
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__write_uid
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__write_date
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__write_date
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -224,6 +270,18 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__served_by__odoo
 msgid "Odoo"
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid "Please select a destination storage."
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid "Please select at least one file."
 msgstr ""
 
 #. module: storage_file
@@ -275,6 +333,11 @@ msgid "Slug-ified name with ID for URL"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__source_backend_id
+msgid "Source Storage"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__backend_id
 msgid "Storage"
 msgstr ""
@@ -298,11 +361,36 @@ msgid ""
 msgstr ""
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Swap Files"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.actions.act_window,name:storage_file.storage_file_swap_backend_action
+#: model:ir.actions.server,name:storage_file.storage_file_swap_backend_server_action
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Swap Storage Backend"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model,name:storage_file.model_storage_file_swap_backend
+msgid "Swap storage files between backends"
+msgstr ""
+
+#. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/models/storage_file.py:0
 msgid ""
 "The filename strategy is empty for the backend %s.\n"
 "Please configure it"
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+msgid ""
+"The filename strategy is empty for the backend %s.\n"
+"Please configure it."
 msgstr ""
 
 #. module: storage_file
