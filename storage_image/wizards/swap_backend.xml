@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Camptocamp SA
+     @author Simone Orsi <simone.orsi@camptocamp.com>
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <record id="storage_image_swap_backend_server_action" model="ir.actions.server">
+        <field name="name">Swap Storage Backend</field>
+        <field name="model_id" ref="model_storage_image" />
+        <field name="binding_model_id" ref="model_storage_image" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env["ir.actions.act_window"]._for_xml_id(
+    "storage_file.storage_file_swap_backend_action"
+)
+file_ids = env["storage.image"].browse(env.context.get("active_ids") or []).mapped("file_id").ids
+action["context"] = {
+    "active_model": "storage.file",
+    "active_ids": file_ids,
+    "active_id": file_ids[0] if file_ids else False,
+}
+        </field>
+    </record>
+</odoo>

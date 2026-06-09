@@ -1,0 +1,21 @@
+{
+    "name": "Storage File Swap Backend Queue",
+    "summary": "Delegate storage file backend swap to queue jobs",
+    "version": "18.0.1.0.0",
+    "category": "Storage",
+    "website": "https://github.com/OCA/storage",
+    "author": "Camptocamp, Odoo Community Association (OCA)",
+    "maintainers": ["simahawk"],
+    "license": "LGPL-3",
+    "development_status": "Beta",
+    "application": False,
+    "installable": True,
+    "depends": ["storage_file", "queue_job"],
+    "external_dependencies": {"python": []},
+    "data": [
+        "data/queue_job_data.xml",
+        "views/storage_backend_view.xml",
+        "views/swap_backend_view.xml",
+    ],
+    "demo": [],
+}

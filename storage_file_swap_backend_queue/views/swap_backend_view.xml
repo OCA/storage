@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Camptocamp SA
+     @author Simone Orsi <simone.orsi@camptocamp.com>
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <record id="storage_file_swap_backend_view_form" model="ir.ui.view">
+        <field name="model">storage.file.swap.backend</field>
+        <field
+            name="inherit_id"
+            ref="storage_file.storage_file_swap_backend_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="dest_backend_id" position="after">
+                <field name="use_queue" readonly="1" />
+            </field>
+        </field>
+    </record>
+</odoo>

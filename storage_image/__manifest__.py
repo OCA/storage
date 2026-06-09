@@ -17,6 +17,7 @@
         "security/ir_rule.xml",
         "security/ir.model.access.csv",
         "wizards/replace_file.xml",
+        "wizards/swap_backend.xml",
         "views/storage_image.xml",
         "views/storage_image_relation_abstract.xml",
         "data/ir_config_parameter.xml",
