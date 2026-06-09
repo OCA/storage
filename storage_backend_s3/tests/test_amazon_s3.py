@@ -15,6 +15,9 @@ from odoo.addons.storage_backend.tests.common import BackendStorageTestMixin, Co
 
 _logger = logging.getLogger(__name__)
 
+# avoid bloating logs with vcr debug info, which can be very large for S3 tests
+logging.getLogger("vcr.cassette").setLevel(logging.WARNING)
+
 
 class AmazonS3Case(VCRMixin, CommonCase, BackendStorageTestMixin):
     def _get_vcr_kwargs(self, **kwargs):
