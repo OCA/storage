@@ -250,6 +250,11 @@ msgid "Storage Image"
 msgstr "Immagine deposito"
 
 #. module: storage_image
+#: model:ir.actions.server,name:storage_image.storage_image_swap_backend_server_action
+msgid "Swap Storage Backend"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__thumb_medium_id
 msgid "Thumb Medium"
 msgstr "Anteprima media"
