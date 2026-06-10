@@ -83,6 +83,19 @@ class StorageFile(models.Model):
                             "File can not be updated, remove it and create a new one"
                         )
                     )
+        if "backend_id" in vals and not self.env.context.get(
+            "storage_file_swap_backend"
+        ):
+            new_backend = self.env["storage.backend"].browse(vals["backend_id"])
+            to_swap = self.filtered(
+                lambda r: r.backend_id and r.backend_id != new_backend
+            )
+            if to_swap:
+                to_swap._swap_backend(new_backend)
+                remaining = self - to_swap
+                if remaining:
+                    return super(StorageFile, remaining).write(vals)
+                return True
         return super().write(vals)
 
     @api.depends("file_size")
@@ -219,6 +232,91 @@ class StorageFile(models.Model):
         self.env["ir.cron"]._notify_progress(
             done=done, remaining=0 if done <= batch_size else len(ids) - done
         )
+
+    def _swap_backend(self, new_backend):
+        """Swap files to ``new_backend``.
+
+        For each record:
+
+        - read binary data from the current backend storage,
+        - upload it to the new backend (re-computing relative_path using the
+          new backend filename strategy),
+        - update ``backend_id`` and ``relative_path`` on the record,
+        - delete the old file from the previous backend.
+
+        Files already on ``new_backend`` are skipped.
+
+        :return: dict with ``moved`` (list of names) and ``failed`` (list of
+            error descriptions).
+        """
+        if not new_backend:
+            raise UserError(self.env._("A destination storage is required."))
+        new_backend = new_backend.sudo()
+        if not new_backend.filename_strategy:
+            raise UserError(
+                self.env._(
+                    "The filename strategy is empty for the backend %s.\n"
+                    "Please configure it.",
+                    new_backend.name,
+                )
+            )
+        moved = []
+        failed = []
+        for record in self.sudo():
+            if not record.exists():
+                failed.append(f"ID {record.id}: record no longer exists")
+                continue
+            if record.backend_id == new_backend:
+                continue
+            old_backend = record.backend_id
+            old_relative_path = record.relative_path
+            try:
+                if not old_relative_path:
+                    record.with_context(
+                        storage_file_swap_backend=True
+                    ).backend_id = new_backend
+                    moved.append(f"{record.name} (ID {record.id})")
+                    continue
+                bin_data = old_backend.get(old_relative_path, binary=True)
+                # Same logic as _build_relative_path but using the target
+                # backend strategy (backend_id not yet reassigned).
+                strategy = new_backend.filename_strategy
+                if strategy == "hash":
+                    new_relative_path = record.checksum[:2] + "/" + record.checksum
+                else:
+                    new_relative_path = record.slug
+                new_backend.add(
+                    new_relative_path,
+                    bin_data,
+                    mimetype=record.mimetype,
+                    binary=True,
+                )
+                record.with_context(storage_file_swap_backend=True).write(
+                    {
+                        "backend_id": new_backend.id,
+                        "relative_path": new_relative_path,
+                    }
+                )
+                try:
+                    old_backend.delete(old_relative_path)
+                except Exception as exc:
+                    _logger.warning(
+                        "Swapped %s but failed to delete old file %s from %s: %s",
+                        record.name,
+                        old_relative_path,
+                        old_backend.name,
+                        exc,
+                    )
+                moved.append(f"{record.name} (ID {record.id})")
+            except Exception as exc:
+                failed.append(f"{record.name} (ID {record.id}): {exc}")
+                _logger.exception(
+                    "Failed to swap file %s (ID %d) to backend %s",
+                    record.name,
+                    record.id,
+                    new_backend.name,
+                )
+        return {"moved": moved, "failed": failed}
 
     @api.model
     def get_from_slug_name_with_id(self, slug_name_with_id):
