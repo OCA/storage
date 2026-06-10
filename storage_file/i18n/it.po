@@ -17,6 +17,12 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+msgid "A destination storage is required."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__url_path
 msgid "Accessible path, no base URL"
 msgstr "Percorso accessibile, non URL base"
@@ -25,6 +31,14 @@ msgstr "Percorso accessibile, non URL base"
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__active
 msgid "Active"
 msgstr "Attivo"
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid ""
+"All selected records must belong to the same source storage backend. Found: "
+"%s"
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__backend_view_use_internal_url
@@ -47,6 +61,11 @@ msgid "Base Url For Files"
 msgstr "URL base per i file"
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__checksum
 msgid "Checksum/SHA1"
 msgstr "Checksum/SHA1"
@@ -64,12 +83,14 @@ msgstr "Azienda"
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__create_uid
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__create_uid
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__create_uid
 msgid "Created by"
 msgstr "Creato da"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__create_date
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__create_date
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__create_date
 msgid "Created on"
 msgstr "Creato il"
 
@@ -84,8 +105,8 @@ msgstr "Dati"
 #: model:ir.model.fields,help:storage_file.field_storage_backend__backend_view_use_internal_url
 msgid ""
 "Decide if Odoo backend views should use the external URL (usually a CDN) or "
-"the internal url with direct access to the storage. This could save you some"
-" money if you pay by CDN traffic."
+"the internal url with direct access to the storage. This could save you some "
+"money if you pay by CDN traffic."
 msgstr ""
 "Decidere se le viste backend Odoo devono usare l'URL esterno (normalmente un "
 "CDN) o l'URL interno con accesso diretto al deposito. Questo può far "
@@ -95,19 +116,33 @@ msgstr ""
 #: model:ir.model.fields,help:storage_file.field_storage_backend__is_public
 msgid ""
 "Define if every files stored into this backend are public or not. Examples:\n"
-"Private: your file/image can not be displayed is the user is not logged (not available on other website);\n"
-"Public: your file/image can be displayed if nobody is logged (useful to display files on external websites)"
+"Private: your file/image can not be displayed is the user is not logged (not "
+"available on other website);\n"
+"Public: your file/image can be displayed if nobody is logged (useful to "
+"display files on external websites)"
 msgstr ""
-"Definisce se ogni file archiviato in questo bcackend è pubblico o no. Esempi:"
-"\n"
+"Definisce se ogni file archiviato in questo bcackend è pubblico o no. "
+"Esempi:\n"
 "Privato: il file/immagine non può essere visualizzato se l'utente non ha "
 "effettuato l'accesso (non disponibile nel sito web);\n"
 "Pubblico: il file/immagine può essere visualizzato se nessuno ha effettuato "
 "l'accesso (utile per visualizzare i file in siti web esterni)"
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__dest_backend_id
+msgid "Destination Storage"
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid "Destination storage must differ from source."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__display_name
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__display_name
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
@@ -162,6 +197,16 @@ msgid "Filename without extension"
 msgstr "Nome file senza estensione"
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__file_ids
+msgid "Files"
+msgstr ""
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Files to swap"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__internal_url
 msgid "HTTP URL to load the file directly from storage."
 msgstr "URL HTTP per caricare il file direttamente dal deposito."
@@ -179,6 +224,7 @@ msgstr "Dimensione file umana"
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__id
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__id
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__id
 msgid "ID"
 msgstr "ID"
 
@@ -204,12 +250,14 @@ msgstr "È pubblico"
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__write_uid
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__write_uid
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__write_date
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__write_date
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__write_date
 msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
@@ -231,8 +279,8 @@ msgstr "Nome e ID"
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_backend__url_include_directory_path
 msgid ""
-"Normally the directory_path it's for internal usage. If this flag is enabled"
-" the path will be used to compute the public URL."
+"Normally the directory_path it's for internal usage. If this flag is enabled "
+"the path will be used to compute the public URL."
 msgstr ""
 "Normalmente il directory_path è per uso interno. Se questa opzione è "
 "abilitata il percorso verrà utilizzato per calcolare l'URL pubblico."
@@ -241,6 +289,18 @@ msgstr ""
 #: model:ir.model.fields.selection,name:storage_file.selection__storage_backend__served_by__odoo
 msgid "Odoo"
 msgstr "Odoo"
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid "Please select a destination storage."
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/swap_backend.py:0
+msgid "Please select at least one file."
+msgstr ""
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
@@ -276,7 +336,8 @@ msgstr "Fornito da"
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
 msgid ""
 "Served by Odoo option will use `web.base.url` as the base URL.\n"
-"                    <br/>Make sure this parameter is properly configured and accessible\n"
+"                    <br/>Make sure this parameter is properly configured and "
+"accessible\n"
 "                    from everwhere you want to access the service."
 msgstr ""
 "Fornito dall'opzione Odoo userà `web.base.url` come URL base.\n"
@@ -293,6 +354,11 @@ msgstr "Frazione"
 #: model:ir.model.fields,help:storage_file.field_storage_file__slug
 msgid "Slug-ified name with ID for URL"
 msgstr "Nome frazionato con ID per URL"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__source_backend_id
+msgid "Source Storage"
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__backend_id
@@ -314,12 +380,30 @@ msgstr "File deposito"
 msgid ""
 "Strategy to build the name of the file to be stored.\n"
 "Name and ID: will store the file with its name + its id.\n"
-"SHA Hash: will use the hash of the file as filename (same method as the native attachment storage)"
+"SHA Hash: will use the hash of the file as filename (same method as the "
+"native attachment storage)"
 msgstr ""
 "Strategia per costruire il nome del file da archiviare.\n"
 "Nome e ID: archivierà il file con nome + il suo ID\n"
 "Hash SHA: utilizzerà l'hash del file come nome del file (stesso metodo del "
 "deposito allegati nativo)"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Swap Files"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.actions.act_window,name:storage_file.storage_file_swap_backend_action
+#: model:ir.actions.server,name:storage_file.storage_file_swap_backend_server_action
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
+msgid "Swap Storage Backend"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model,name:storage_file.model_storage_file_swap_backend
+msgid "Swap storage files between backends"
+msgstr ""
 
 #. module: storage_file
 #. odoo-python
@@ -330,6 +414,14 @@ msgid ""
 msgstr ""
 "La strategia del nome file è vuota per il backend %s.\n"
 "Configurarlo"
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+msgid ""
+"The filename strategy is empty for the backend %s.\n"
+"Please configure it."
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.constraint,message:storage_file.constraint_storage_file_path_uniq
@@ -359,11 +451,15 @@ msgstr "Percorso URL"
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
 msgid ""
-"When served by external service you might have special environment configuration\n"
+"When served by external service you might have special environment "
+"configuration\n"
 "                    for building final files URLs.\n"
-"                    <br/>For performance reasons, the base URL is computed and stored.\n"
-"                    If you change some parameters (eg: in local dev environment or special instances)\n"
-"                    and you still want to see the images you might need to refresh this URL\n"
+"                    <br/>For performance reasons, the base URL is computed "
+"and stored.\n"
+"                    If you change some parameters (eg: in local dev "
+"environment or special instances)\n"
+"                    and you still want to see the images you might need to "
+"refresh this URL\n"
 "                    to make sure images and/or files are loaded correctly."
 msgstr ""
 "Quando fornito da servizio esterno serve avere una configurazione ambiente "
