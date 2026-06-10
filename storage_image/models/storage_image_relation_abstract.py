@@ -24,3 +24,4 @@ class ImageRelationAbstract(models.AbstractModel):
     image_alt_name = fields.Char(related="image_id.alt_name")
     image_url = fields.Char(related="image_id.image_medium_url")
     is_public = fields.Boolean(related="image_id.file_id.is_public", readonly=True)
+    active = fields.Boolean(related="image_id.active", readonly=True)

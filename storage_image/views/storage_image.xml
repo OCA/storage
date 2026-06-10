@@ -88,6 +88,7 @@
         <field name="arch" type="xml">
             <search string="Image">
                 <field name="name" />
+                <field name="backend_id" />
                 <separator />
                 <filter
                     string="Public"
@@ -99,6 +100,13 @@
                     name="private"
                     domain="[('is_public', '=', False)]"
                 />
+                <group string="Group By" expand="0">
+                    <filter
+                        string="Backend"
+                        name="group_by_backend"
+                        context="{'group_by': 'backend_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>
