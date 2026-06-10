@@ -237,6 +237,11 @@ msgid "Storage Media Type"
 msgstr "Tipo media deposito"
 
 #. module: storage_media
+#: model:ir.actions.server,name:storage_media.storage_media_swap_backend_server_action
+msgid "Swap Storage Backend"
+msgstr ""
+
+#. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__to_delete
 msgid "To Delete"
 msgstr "Da cancellare"
