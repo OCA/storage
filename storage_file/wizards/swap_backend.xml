@@ -10,11 +10,26 @@
             <form string="Swap Storage Backend">
                 <sheet>
                     <group>
-                        <field name="source_backend_id" readonly="1" />
-                        <field name="dest_backend_id" required="1" />
+                        <field
+                            name="source_backend_id"
+                            readonly="1"
+                            options="{'no_open': True, 'no_create': True}"
+                        />
+                        <field name="source_backend_categ_id" invisible="1" />
+                        <field
+                            name="dest_backend_id"
+                            required="1"
+                            domain="[('id', '!=', source_backend_id), ('categ_id', '=', source_backend_categ_id)]"
+                            options="{'no_open': True, 'no_create': True}"
+                        />
                     </group>
                     <group string="Files to swap" name="files">
-                        <field name="file_ids" nolabel="1" required="1">
+                        <field
+                            name="file_ids"
+                            nolabel="1"
+                            required="1"
+                            options="{'no_open': True, 'no_create': True}"
+                        >
                             <list>
                                 <field name="name" />
                                 <field name="backend_id" />

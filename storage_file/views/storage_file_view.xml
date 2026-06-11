@@ -23,7 +23,11 @@
                         <field name="name" />
                     </h1>
                     <group>
-                        <field name="backend_id" readonly="True" />
+                        <field name="backend_categ_id" invisible="1" />
+                        <field
+                            name="backend_id"
+                            domain="[('categ_id', '=', backend_categ_id)]"
+                        />
                         <field name="data" readonly="True" />
                         <field name="url" widget="url" />
                         <field name="human_file_size" />

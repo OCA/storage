@@ -5,6 +5,8 @@
 import base64
 from unittest import mock
 
+from lxml import etree
+
 from odoo.exceptions import UserError
 from odoo.tests import Form
 
@@ -73,6 +75,33 @@ class TestSwapBackend(TransactionComponentCase):
         stfile = self._create_storage_file()
         with self.assertRaisesRegex(UserError, "The filename strategy is empty"):
             stfile._swap_backend(self.backend_b)
+
+    def test_swap_rejects_different_backend_category(self):
+        src_categ = self.env["storage.backend.category"].create({"name": "SRC"})
+        dst_categ = self.env["storage.backend.category"].create({"name": "DST"})
+        self.backend_a.categ_id = src_categ
+        self.backend_b.categ_id = dst_categ
+        stfile = self._create_storage_file(backend=self.backend_a)
+
+        with self.assertRaisesRegex(
+            UserError, "Destination backend category must match source backend category"
+        ):
+            stfile._swap_backend(self.backend_b)
+
+    def test_swap_allows_different_backend_category_with_bypass(self):
+        src_categ = self.env["storage.backend.category"].create({"name": "SRC"})
+        dst_categ = self.env["storage.backend.category"].create({"name": "DST"})
+        self.backend_a.categ_id = src_categ
+        self.backend_b.categ_id = dst_categ
+        stfile = self._create_storage_file(backend=self.backend_a, data=b"payload")
+
+        result = stfile.with_context(
+            swap_backend_bypass_category_check=True
+        )._swap_backend(self.backend_b)
+
+        self.assertEqual(stfile.backend_id, self.backend_b)
+        self.assertEqual(base64.b64decode(stfile.data), b"payload")
+        self.assertIn(stfile.name, result["moved"][0])
 
     def test_swap_failure_reports_in_failed(self):
         """Upload failure is caught and reported in the failed list."""
@@ -204,3 +233,57 @@ class TestSwapBackend(TransactionComponentCase):
         stfile.backend_id = self.backend_a
         self.assertEqual(stfile.backend_id, self.backend_a)
         self.assertEqual(stfile.relative_path, old_path)
+
+    # -- category-based filtering ----------------------------------------
+
+    def test_wizard_form_same_category_shown_as_dest(self):
+        """Wizard declares and applies a same-category destination domain."""
+        categ = self.env["storage.backend.category"].create({"name": "Group A"})
+        categ2 = self.env["storage.backend.category"].create({"name": "Group B"})
+        backend_a_cat = self.backend_a.copy(
+            {
+                "name": "Backend A (Group A)",
+                "categ_id": categ.id,
+                "directory_path": "a_cat",
+            }
+        )
+        backend_b_cat = self.backend_b.copy(
+            {
+                "name": "Backend B (Group A)",
+                "categ_id": categ.id,
+                "directory_path": "b_cat",
+            }
+        )
+        backend_other = self.backend_a.copy(
+            {
+                "name": "Backend (Group B)",
+                "categ_id": categ2.id,
+                "directory_path": "other",
+            }
+        )
+        stfile = self._create_storage_file(backend=backend_a_cat)
+
+        # Assert the actual domain declared in the form view arch.
+        view = self.env.ref("storage_file.storage_file_swap_backend_view_form")
+        xml = etree.fromstring(view.arch_db.encode())
+        dest_field = xml.xpath("//field[@name='dest_backend_id']")
+        self.assertEqual(len(dest_field), 1)
+        domain = dest_field[0].get("domain")
+        self.assertIn("('id', '!=', source_backend_id)", domain)
+        self.assertIn("('categ_id', '=', source_backend_categ_id)", domain)
+        self.assertNotIn("source_backend_id.categ_id", domain)
+
+        with Form(
+            self.env["storage.file.swap.backend"].with_context(
+                active_model="storage.file",
+                active_ids=stfile.ids,
+            )
+        ) as wiz_form:
+            self.assertEqual(wiz_form.source_backend_id, backend_a_cat)
+            # domain: categ_id = Group A  →  Group B backend excluded
+            same_categ_backends = self.env["storage.backend"].search(
+                [("categ_id", "=", categ.id), ("id", "!=", backend_a_cat.id)]
+            )
+            self.assertIn(backend_b_cat, same_categ_backends)
+            self.assertNotIn(backend_other, same_categ_backends)
+            wiz_form.dest_backend_id = backend_b_cat
