@@ -60,6 +60,12 @@ class StorageBackend(models.Model):
     _description = "Storage Backend"
 
     name = fields.Char(required=True)
+    categ_id = fields.Many2one(
+        "storage.backend.category",
+        string="Category",
+        ondelete="restrict",
+        help="Category to group backends for swapping operations",
+    )
     backend_type = fields.Selection(
         selection=[("filesystem", "Filesystem")], required=True, default="filesystem"
     )
