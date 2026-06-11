@@ -5,6 +5,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name" />
+                <field name="categ_id" />
                 <field name="backend_type" />
             </list>
         </field>
@@ -30,6 +31,7 @@
                         </h1>
                     </div>
                     <group name="config">
+                        <field name="categ_id" />
                         <field name="backend_type" />
                         <field name="directory_path" />
                     </group>
@@ -42,6 +44,12 @@
         <field name="arch" type="xml">
             <search string="Storage Backend">
                 <field name="name" />
+                <separator />
+                <filter
+                    string="Category"
+                    name="group_by_category"
+                    context="{'group_by': 'categ_id'}"
+                />
             </search>
         </field>
     </record>
