@@ -6,6 +6,7 @@
             <list decoration-muted="not active">
                 <field name="name" />
                 <field name="media_type_id" />
+                <field name="is_public" optional="hide" />
             </list>
         </field>
     </record>
@@ -34,6 +35,7 @@
                         <field name="url" readonly="True" widget="url" />
                         <field name="name" />
                         <field name="media_type_id" />
+                        <field name="backend_id" />
                     </group>
                 </sheet>
             </form>
@@ -45,7 +47,19 @@
             <search string="Storage Media">
                 <field name="name" />
                 <field name="media_type_id" />
+                <field name="backend_id" />
                 <field name="url" />
+                <separator />
+                <filter
+                    string="Public"
+                    name="public"
+                    domain="[('is_public', '=', True)]"
+                />
+                <filter
+                    string="Private"
+                    name="private"
+                    domain="[('is_public', '=', False)]"
+                />
                 <separator />
                 <filter
                     string="All"
@@ -58,6 +72,13 @@
                     name="inactive"
                     domain="[('active', '=', False)]"
                 />
+                <group string="Group By" expand="0">
+                    <filter
+                        string="Backend"
+                        name="group_by_backend"
+                        context="{'group_by': 'backend_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>

@@ -65,6 +65,8 @@ class ProductMediaRelation(models.Model):
     url = fields.Char(related="media_id.url", readonly=True)
     url_path = fields.Char(related="media_id.url_path", readonly=True)
     media_type_id = fields.Many2one(related="media_id.media_type_id", readonly=True)
+    is_public = fields.Boolean(related="media_id.file_id.is_public", readonly=True)
+    active = fields.Boolean(related="media_id.active", readonly=True)
 
     @api.depends("media_id", "product_tmpl_id.attribute_line_ids.value_ids")
     def _compute_available_attribute(self):

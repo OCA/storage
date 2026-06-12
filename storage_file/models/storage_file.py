@@ -30,7 +30,11 @@ class StorageFile(models.Model):
 
     name = fields.Char(required=True, index=True)
     backend_id = fields.Many2one(
-        "storage.backend", "Storage", index=True, required=True
+        "storage.backend",
+        "Storage",
+        index=True,
+        required=True,
+        default=lambda self: self._get_default_backend_id(),
     )
     url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
     url_path = fields.Char(
@@ -65,6 +69,33 @@ class StorageFile(models.Model):
         "res.company", "Company", default=lambda self: self.env.user.company_id.id
     )
     file_type = fields.Selection([])
+    is_public = fields.Boolean(
+        compute="_compute_is_public",
+        compute_sudo=True,
+        search="_search_is_public",
+        # Not stored to avoid massive recomputes when the backend flag changes.
+        help="Reflects the `is_public` flag of the related backend.",
+    )
+
+    @api.depends("backend_id.is_public")
+    def _compute_is_public(self):
+        for rec in self:
+            rec.is_public = rec.backend_id.is_public
+
+    @api.model
+    def _get_default_backend_id(self):
+        return self.env["storage.backend"]._get_backend_id_from_param(
+            self.env, "storage.file.backend_id"
+        )
+
+    def _search_is_public(self, operator, value):
+        # Look up matching backends with sudo so that users with limited ACL
+        # on `storage.backend` can still filter their accessible files by
+        # public flag.
+        backends = (
+            self.env["storage.backend"].sudo().search([("is_public", operator, value)])
+        )
+        return [("backend_id", "in", backends.ids)]
 
     _sql_constraints = [
         (
@@ -175,6 +206,8 @@ class StorageFile(models.Model):
 
         :param exclude_base_url: skip base_url
         """
+        if not self.backend_id or not self.relative_path:
+            return ""
         return self.backend_id._get_url_for_file(
             self, exclude_base_url=exclude_base_url
         )

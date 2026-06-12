@@ -115,3 +115,27 @@ class StorageImageCase(StorageImageCommonCase):
                 "&w=64&h=64&mode=fill&fmt=webp",
                 urls,
             )
+
+    def test_default_backend_id_on_form(self):
+        """Creating an image without backend_id uses the configured default."""
+        image = self._create_storage_image(self.filename, self.filedata)
+        self.assertEqual(image.backend_id, self.backend)
+
+    def test_default_backend_id_from_param(self):
+        """storage.image.backend_id param overrides backend on create."""
+        other_backend = (
+            self.env["storage.backend"]
+            .sudo()
+            .create(
+                {
+                    "name": "Image Backend",
+                    "backend_type": "filesystem",
+                    "filename_strategy": "name_with_id",
+                }
+            )
+        )
+        self.env["ir.config_parameter"].sudo().set_param(
+            "storage.image.backend_id", str(other_backend.id)
+        )
+        image = self._create_storage_image(self.filename, self.filedata)
+        self.assertEqual(image.backend_id.id, other_backend.id)

@@ -33,7 +33,7 @@ class TestStorageThumbnail(TransactionComponentCase):
 
     def _create_thumbnail(self):
         # create thumbnail
-        vals = {"name": "TEST THUMB"}
+        vals = {"name": "TEST THUMB", "data": self.filedata}
         return self.env["storage.thumbnail"].create(vals)
 
     def _create_image(self, resize=False, **kw):

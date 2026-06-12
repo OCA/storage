@@ -145,7 +145,10 @@ class StorageBackend(models.Model):
     def _get_url_for_file(self, storage_file, exclude_base_url=False):
         """Return final full URL for given file."""
         backend = self.sudo()
-        if backend.served_by == "odoo":
+        # Make sure that no matter if you have a CDN URL or not,
+        # you can always access the file via Odoo.
+        force_serve_via_odoo = backend.served_by == "external" and not backend.base_url
+        if backend.served_by == "odoo" or force_serve_via_odoo:
             parts = [
                 self._get_base_url_from_param() if not exclude_base_url else "/",
                 "storage.file",

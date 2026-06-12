@@ -23,5 +23,6 @@
         "data/ir_cron.xml",
         "data/storage_backend.xml",
         "wizards/swap_backend.xml",
+        "data/ir_config_parameter.xml",
     ],
 }

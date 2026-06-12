@@ -26,6 +26,7 @@
                         widget="many2many_tags"
                         invisible="not available_attribute_value_ids"
                     />
+                    <field name="is_public" />
                 </group>
             </form>
         </field>
@@ -34,9 +35,15 @@
     <record id="product_media_relation_tree" model="ir.ui.view">
         <field name="model">product.media.relation</field>
         <field name="arch" type="xml">
-            <list>
+            <list
+                decoration-success="is_public and active"
+                decoration-danger="not is_public and active"
+                decoration-muted="not active"
+            >
                 <field name="media_id" />
                 <field name="media_type_id" readonly="True" />
+                <field name="is_public" optional="hide" />
+                <field name="active" column_invisible="True" />
             </list>
         </field>
     </record>

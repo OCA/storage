@@ -7,11 +7,17 @@
             <page name="info" position="before">
                 <page name="products" string="Products">
                     <field name="product_relation_ids" mode="list,form,kanban">
-                        <list>
+                        <list
+                            decoration-success="is_public and active"
+                            decoration-danger="not is_public and active"
+                            decoration-muted="not active"
+                        >
                             <field name="product_tmpl_id" />
                             <field name="available_attribute_value_ids" invisible="1" />
                             <field name="attribute_value_ids" widget="many2many_tags" />
                             <field name="tag_id" />
+                            <field name="is_public" optional="hide" />
+                            <field name="active" column_invisible="True" />
                         </list>
                         <form>
                             <group>
@@ -27,9 +33,15 @@
                 </page>
                 <page name="categories" string="Categories">
                     <field name="category_relation_ids" mode="list,form,kanban">
-                        <list>
+                        <list
+                            decoration-success="is_public and active"
+                            decoration-danger="not is_public and active"
+                            decoration-muted="not active"
+                        >
                             <field name="category_id" />
                             <field name="tag_id" />
+                            <field name="is_public" optional="hide" />
+                            <field name="active" column_invisible="True" />
                         </list>
                         <form>
                             <group>

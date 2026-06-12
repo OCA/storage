@@ -8,6 +8,7 @@
                 <field name="name" />
                 <field name="alt_name" />
                 <field name="human_file_size" />
+                <field name="is_public" optional="hide" />
             </list>
         </field>
     </record>
@@ -39,6 +40,7 @@
                 <notebook>
                     <page name="info" string="File Informations">
                         <group name="info">
+                            <field name="backend_id" />
                             <field name="file_id" readonly="True" required="False" />
                             <field name="thumb_medium_id" />
                             <field name="thumb_small_id" />
@@ -86,6 +88,25 @@
         <field name="arch" type="xml">
             <search string="Image">
                 <field name="name" />
+                <field name="backend_id" />
+                <separator />
+                <filter
+                    string="Public"
+                    name="public"
+                    domain="[('is_public', '=', True)]"
+                />
+                <filter
+                    string="Private"
+                    name="private"
+                    domain="[('is_public', '=', False)]"
+                />
+                <group string="Group By" expand="0">
+                    <filter
+                        string="Backend"
+                        name="group_by_backend"
+                        context="{'group_by': 'backend_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>

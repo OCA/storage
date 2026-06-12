@@ -7,6 +7,7 @@ from unittest import mock
 from urllib import parse
 
 from odoo.exceptions import AccessError, UserError
+from odoo.tests import Form
 
 from odoo.addons.component.tests.common import TransactionComponentCase
 
@@ -108,6 +109,17 @@ class StorageFileCase(TransactionComponentCase):
         stfile.backend_id.url_include_directory_path = True
         self.assertEqual(
             stfile.url, f"https://foo.com/baz/test-of-my_file-{stfile.id}.txt"
+        )
+
+    def test_url_external_no_base_url_falls_back_to_odoo(self):
+        """External backend w/o base_url uses the internal Odoo route."""
+        stfile = self._create_storage_file()
+        params = self.env["ir.config_parameter"].sudo()
+        base_url = params.get_param("web.base.url")
+        stfile.backend_id.update({"served_by": "external", "base_url": ""})
+        self.assertEqual(
+            stfile.url,
+            f"{base_url}/storage.file/test-of-my_file-{stfile.id}.txt",
         )
 
     def test_url_without_base_url(self):
@@ -306,3 +318,23 @@ class StorageFileCase(TransactionComponentCase):
         # get_url is called on new records
         empty = self.env["storage.file"].new({})._get_url()
         self.assertEqual(empty, "")
+
+    def test_default_backend_id_on_form(self):
+        """Form pre-fills the default backend for storage.file."""
+        form = Form(self.env["storage.file"])
+        self.assertEqual(form.backend_id, self.backend)
+
+    def test_default_backend_id_from_param(self):
+        """storage.file.backend_id param overrides the form default."""
+        other_backend = self.env["storage.backend"].create(
+            {
+                "name": "Other",
+                "backend_type": "filesystem",
+                "filename_strategy": "name_with_id",
+            }
+        )
+        self.env["ir.config_parameter"].sudo().set_param(
+            "storage.file.backend_id", str(other_backend.id)
+        )
+        form = Form(self.env["storage.file"])
+        self.assertEqual(form.backend_id, other_backend)
