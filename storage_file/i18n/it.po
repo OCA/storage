@@ -17,6 +17,17 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
+msgid ""
+"<strong>Note:</strong> Without a CDN base URL, files will be proxied\n"
+"                    through Odoo. This is acceptable for internal use with "
+"low traffic\n"
+"                    but suboptimal for high-volume public access as every "
+"request loads\n"
+"                    the file from the storage backend into memory."
+msgstr ""
+
+#. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/models/storage_file.py:0
 msgid "A destination storage is required."
@@ -38,6 +49,11 @@ msgstr "Attivo"
 msgid ""
 "All selected records must belong to the same source storage backend. Found: "
 "%s"
+msgstr ""
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "Backend"
 msgstr ""
 
 #. module: storage_file
@@ -207,6 +223,11 @@ msgid "Files to swap"
 msgstr ""
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "Group By"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__internal_url
 msgid "HTTP URL to load the file directly from storage."
 msgstr "URL HTTP per caricare il file direttamente dal deposito."
@@ -244,6 +265,7 @@ msgstr "URL interno"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__is_public
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__is_public
 msgid "Is Public"
 msgstr "È pubblico"
 
@@ -303,9 +325,24 @@ msgid "Please select at least one file."
 msgstr ""
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "Private"
+msgstr ""
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "Public"
+msgstr ""
+
+#. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
 msgid "Recompute base URL for files"
 msgstr "Ricalcola l'URL base per i file"
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__is_public
+msgid "Reflects the `is_public` flag of the related backend."
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__relative_path
