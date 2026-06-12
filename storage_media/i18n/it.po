@@ -38,6 +38,11 @@ msgid "Archived"
 msgstr "In archivio"
 
 #. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
+msgid "Backend"
+msgstr ""
+
+#. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Cancel"
 msgstr "Annulla"
@@ -115,6 +120,11 @@ msgid "Filename without extension"
 msgstr "Nome file senza estensione"
 
 #. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
+msgid "Group By"
+msgstr ""
+
+#. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__internal_url
 msgid "HTTP URL to load the file directly from storage."
 msgstr "URL HTTP per caricare il file direttamente dal deposito."
@@ -139,6 +149,11 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__internal_url
 msgid "Internal Url"
 msgstr "URL interno"
+
+#. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media__is_public
+msgid "Is Public"
+msgstr ""
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__write_uid
@@ -175,6 +190,21 @@ msgstr "Tipo MIME"
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Name"
 msgstr "Nome"
+
+#. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
+msgid "Private"
+msgstr ""
+
+#. module: storage_media
+#: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_search
+msgid "Public"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media__is_public
+msgid "Reflects the `is_public` flag of the related backend."
+msgstr ""
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__relative_path
