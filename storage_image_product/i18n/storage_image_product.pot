@@ -24,6 +24,12 @@ msgid "# of Products"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__active
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__active
+msgid "Active"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_alt_name
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_alt_name
 msgid "Alt Image name"
@@ -133,6 +139,12 @@ msgid "Images"
 msgstr ""
 
 #. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__is_public
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__is_public
+msgid "Is Public"
+msgstr ""
+
+#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__write_uid
 #: model:ir.model.fields,field_description:storage_image_product.field_image_tag__write_uid
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__write_uid
@@ -226,6 +238,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_image_product.image_tag_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image_product.storage_image_view_form
 msgid "Products"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.fields,help:storage_image_product.field_category_image_relation__is_public
+#: model:ir.model.fields,help:storage_image_product.field_product_image_relation__is_public
+msgid "Reflects the `is_public` flag of the related backend."
 msgstr ""
 
 #. module: storage_image_product
