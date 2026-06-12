@@ -32,6 +32,7 @@ msgid "Accessible path, no base URL"
 msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__active
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__active
 msgid "Active"
 msgstr "Attiva"
@@ -41,6 +42,11 @@ msgstr "Attiva"
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__alt_name
 msgid "Alt Image name"
 msgstr "Nome alternativo immagine"
+
+#. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+msgid "Backend"
+msgstr ""
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
@@ -116,6 +122,11 @@ msgid "Filename without extension"
 msgstr "Nome file senza estensione"
 
 #. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+msgid "Group By"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__internal_url
 msgid "HTTP URL to load the file directly from storage."
 msgstr "URL HTTP per caricare il file direttamente dal deposito."
@@ -163,6 +174,12 @@ msgid "Internal Url"
 msgstr "URL interno"
 
 #. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__is_public
+#: model:ir.model.fields,field_description:storage_image.field_storage_image__is_public
+msgid "Is Public"
+msgstr ""
+
+#. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -192,10 +209,26 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+msgid "Private"
+msgstr ""
+
+#. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+msgid "Public"
+msgstr ""
+
+#. module: storage_image
 #. odoo-javascript
 #: code:addons/storage_image/static/src/js/StorageImageHandle.esm.js:0
 msgid "Records have been successfully rearranged."
 msgstr "I record sono stati riorganizzati con successo."
+
+#. module: storage_image
+#: model:ir.model.fields,help:storage_image.field_image_relation_abstract__is_public
+#: model:ir.model.fields,help:storage_image.field_storage_image__is_public
+msgid "Reflects the `is_public` flag of the related backend."
+msgstr ""
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__relative_path
