@@ -22,6 +22,11 @@ msgid "Accessible path, no base URL"
 msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__active
+msgid "Active"
+msgstr ""
+
+#. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
 msgid "Association"
 msgstr "Associazione"
@@ -65,6 +70,11 @@ msgstr "Percorso HTTP al file accessibile"
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__id
 msgid "ID"
 msgstr "ID"
+
+#. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__is_public
+msgid "Is Public"
+msgstr ""
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__write_uid
@@ -121,6 +131,11 @@ msgstr "Variante prodotto"
 #: model:ir.model,name:storage_media_product.model_product_media_relation
 msgid "Products and storage media relation"
 msgstr "Relazione prodotti e media deposito"
+
+#. module: storage_media_product
+#: model:ir.model.fields,help:storage_media_product.field_product_media_relation__is_public
+msgid "Reflects the `is_public` flag of the related backend."
+msgstr ""
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__sequence
