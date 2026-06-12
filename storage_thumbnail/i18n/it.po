@@ -109,6 +109,11 @@ msgid "Internal Url"
 msgstr "URL interno"
 
 #. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__is_public
+msgid "Is Public"
+msgstr ""
+
+#. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -132,6 +137,11 @@ msgstr "Tipo MIME"
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__name
 msgid "Name"
 msgstr "Nome"
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__is_public
+msgid "Reflects the `is_public` flag of the related backend."
+msgstr ""
 
 #. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__relative_path
