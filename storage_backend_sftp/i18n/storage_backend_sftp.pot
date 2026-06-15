@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* storage_backend_sftp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__backend_type
+msgid "Backend Type"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,help:storage_backend_sftp.field_storage_backend__sftp_ssh_private_key
+msgid ""
+"It's recommended to not store the key here but to provide it via secret env "
+"variable. See `server_environment` docs."
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,help:storage_backend_sftp.field_storage_backend__sftp_login
+msgid "Login to connect to sftp server"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields.selection,name:storage_backend_sftp.selection__storage_backend__sftp_auth_method__pwd
+msgid "Password"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields.selection,name:storage_backend_sftp.selection__storage_backend__sftp_auth_method__ssh_key
+msgid "Private key"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields.selection,name:storage_backend_sftp.selection__storage_backend__backend_type__sftp
+#: model_terms:ir.ui.view,arch_db:storage_backend_sftp.storage_backend_view_form
+msgid "SFTP"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_auth_method
+msgid "SFTP Authentification Method"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_server
+msgid "SFTP Host"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_login
+msgid "SFTP Login"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_password
+msgid "SFTP Password"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_port
+msgid "SFTP Port"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model.fields,field_description:storage_backend_sftp.field_storage_backend__sftp_ssh_private_key
+msgid "SSH private key"
+msgstr ""
+
+#. module: storage_backend_sftp
+#: model:ir.model,name:storage_backend_sftp.model_storage_backend
+msgid "Storage Backend"
+msgstr ""
