@@ -73,10 +73,11 @@ class FsFileGc(models.Model):
                             "GC: Sending bulk delete request to S3 (%s files)",
                             len(objects_to_delete),
                         )
-                        s3_client.delete_objects(
-                            Bucket=bucket_name, Delete={"Objects": objects_to_delete}
+                        self.env["fs.storage"]._s3_call_delete_objects(
+                            s3_client,
+                            Bucket=bucket_name,
+                            Delete={"Objects": objects_to_delete},
                         )
-
                         # Mass delete from database
                         self._cr.execute(
                             "DELETE FROM fs_file_gc WHERE store_fname = ANY(%s)",
