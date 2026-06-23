@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,14 +16,12 @@ msgstr ""
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.esm.js:0
-#, python-format
 msgid "An error occurred during the images upload."
 msgstr ""
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
-#, python-format
 msgid "Choose how you want to store the new images:"
 msgstr ""
 
@@ -136,7 +134,6 @@ msgstr ""
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
-#, python-format
 msgid "Reusable images"
 msgstr ""
 
@@ -148,7 +145,6 @@ msgstr ""
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
-#, python-format
 msgid "Specific"
 msgstr ""
 
@@ -163,29 +159,30 @@ msgid "Specific Image (128)"
 msgstr ""
 
 #. module: fs_base_multi_image
+#: model_terms:ir.ui.view,arch_db:fs_base_multi_image.fs_image_relation_mixin_kanban_view
+msgid "X"
+msgstr ""
+
+#. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
-#, python-format
 msgid "You can drag and drop images to create new records or"
 msgstr ""
 
 #. module: fs_base_multi_image
 #. odoo-python
 #: code:addons/fs_base_multi_image/models/fs_image_relation_mixin.py:0
-#, python-format
 msgid "You must set an image"
 msgstr ""
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
-#, python-format
 msgid "click here"
 msgstr ""
 
 #. module: fs_base_multi_image
 #. odoo-javascript
 #: code:addons/fs_base_multi_image/static/src/fields/fs_image_relation_dnd_upload/fs_image_relation_dnd_upload.xml:0
-#, python-format
 msgid "to select image files."
 msgstr ""
