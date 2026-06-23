@@ -98,7 +98,6 @@ class FsFileGc(models.Model):
                             Bucket=bucket_name,
                             Delete={"Objects": objects_to_delete},
                         )
-
                         # Mass delete from database
                         self._cr.execute(
                             "DELETE FROM fs_file_gc WHERE store_fname = ANY(%s)",
