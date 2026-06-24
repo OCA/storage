@@ -24,7 +24,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [fs_attachment](fs_attachment/) | 16.0.3.1.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments on external object store
 [fs_attachment_environment](fs_attachment_environment/) | 16.0.1.0.0 |  | Allows to use server environment with fs storage attachment
-[fs_attachment_s3](fs_attachment_s3/) | 16.0.3.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments into S3 complient filesystem
+[fs_attachment_s3](fs_attachment_s3/) | 16.0.3.1.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments into S3 complient filesystem
 [fs_attachment_s3_environment](fs_attachment_s3_environment/) | 16.0.1.0.0 |  | Allows to use server environment with fs storage attachment S3
 [fs_base_multi_image](fs_base_multi_image/) | 16.0.1.1.2 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Mulitple Images from External File System
 [fs_base_multi_media](fs_base_multi_media/) | 16.0.1.0.2 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Give the possibility to store media data in external filesystem from odoo
