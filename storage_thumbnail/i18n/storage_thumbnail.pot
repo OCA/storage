@@ -24,6 +24,16 @@ msgid "Active"
 msgstr ""
 
 #. module: storage_thumbnail
+#: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__backend_categ_id
+msgid "Backend Category"
+msgstr ""
+
+#. module: storage_thumbnail
+#: model:ir.model.fields,help:storage_thumbnail.field_storage_thumbnail__backend_categ_id
+msgid "Category to group backends for swapping operations"
+msgstr ""
+
+#. module: storage_thumbnail
 #: model:ir.model.fields,field_description:storage_thumbnail.field_storage_thumbnail__checksum
 msgid "Checksum/SHA1"
 msgstr ""
