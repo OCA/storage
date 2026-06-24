@@ -15,6 +15,7 @@
     "depends": ["base", "component", "server_environment"],
     "data": [
         "views/backend_storage_view.xml",
+        "views/storage_backend_category_view.xml",
         "data/data.xml",
         "security/ir.model.access.csv",
     ],

@@ -40,7 +40,11 @@
                 <notebook>
                     <page name="info" string="File Informations">
                         <group name="info">
-                            <field name="backend_id" />
+                            <field name="backend_categ_id" invisible="1" />
+                            <field
+                                name="backend_id"
+                                domain="[('categ_id', '=', backend_categ_id)]"
+                            />
                             <field name="file_id" readonly="True" required="False" />
                             <field name="thumb_medium_id" />
                             <field name="thumb_small_id" />

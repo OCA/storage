@@ -36,6 +36,11 @@ class StorageFile(models.Model):
         required=True,
         default=lambda self: self._get_default_backend_id(),
     )
+    backend_categ_id = fields.Many2one(
+        "storage.backend.category",
+        related="backend_id.categ_id",
+        string="Backend Category",
+    )
     url = fields.Char(compute="_compute_url", help="HTTP accessible path to the file")
     url_path = fields.Char(
         compute="_compute_url_path", help="Accessible path, no base URL"
@@ -293,6 +298,18 @@ class StorageFile(models.Model):
                     new_backend.name,
                 )
             )
+        if not self.env.context.get("swap_backend_bypass_category_check"):
+            for record in self.sudo():
+                if not record.exists() or record.backend_id == new_backend:
+                    continue
+                if record.backend_id.categ_id != new_backend.categ_id:
+                    raise UserError(
+                        self.env._(
+                            "Destination backend category must match source backend "
+                            "category for %s.",
+                            record.name,
+                        )
+                    )
         moved = []
         failed = []
         for record in self.sudo():

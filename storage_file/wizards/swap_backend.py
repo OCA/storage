@@ -19,10 +19,15 @@ class StorageFileSwapBackend(models.TransientModel):
         string="Source Storage",
         readonly=True,
     )
+    source_backend_categ_id = fields.Many2one(
+        "storage.backend.category",
+        related="source_backend_id.categ_id",
+        string="Source Backend Category",
+        readonly=True,
+    )
     dest_backend_id = fields.Many2one(
         "storage.backend",
         string="Destination Storage",
-        domain="[('id', '!=', source_backend_id)]",
     )
     file_ids = fields.Many2many(
         "storage.file",
