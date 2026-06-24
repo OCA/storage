@@ -27,10 +27,15 @@ msgid "FS Storage"
 msgstr "Deposito FS"
 
 #. module: fs_attachment_s3
+#: model:ir.model,name:fs_attachment_s3.model_fs_file_gc
+msgid "Filesystem storage file garbage collector"
+msgstr ""
+
+#. module: fs_attachment_s3
 #: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
 msgid ""
-"If checked, the storage will use signed URLs for attachments when using "
-"X-Accel-Redirect. This is useful for S3 storage where the file path is not "
+"If checked, the storage will use signed URLs for attachments when using X-"
+"Accel-Redirect. This is useful for S3 storage where the file path is not "
 "directly accessible without authentication."
 msgstr ""
 "Se selezionata, l'archiviazione utilizzerà URL firmati per gli allegati "
