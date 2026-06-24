@@ -40,8 +40,18 @@ msgid "Backend"
 msgstr ""
 
 #. module: storage_media
+#: model:ir.model.fields,field_description:storage_media.field_storage_media__backend_categ_id
+msgid "Backend Category"
+msgstr ""
+
+#. module: storage_media
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Cancel"
+msgstr ""
+
+#. module: storage_media
+#: model:ir.model.fields,help:storage_media.field_storage_media__backend_categ_id
+msgid "Category to group backends for swapping operations"
 msgstr ""
 
 #. module: storage_media
