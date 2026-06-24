@@ -57,6 +57,11 @@ msgid "Backend"
 msgstr ""
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file__backend_categ_id
+msgid "Backend Category"
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__backend_view_use_internal_url
 msgid "Backend View Use Internal Url"
 msgstr "Vista backend utilizza URL interno"
@@ -79,6 +84,12 @@ msgstr "URL base per i file"
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
 msgid "Cancel"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file__backend_categ_id
+#: model:ir.model.fields,help:storage_file.field_storage_file_swap_backend__source_backend_categ_id
+msgid "Category to group backends for swapping operations"
 msgstr ""
 
 #. module: storage_file
@@ -147,6 +158,12 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__dest_backend_id
 msgid "Destination Storage"
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/models/storage_file.py:0
+msgid "Destination backend category must match source backend category for %s."
 msgstr ""
 
 #. module: storage_file
@@ -391,6 +408,11 @@ msgstr "Frazione"
 #: model:ir.model.fields,help:storage_file.field_storage_file__slug
 msgid "Slug-ified name with ID for URL"
 msgstr "Nome frazionato con ID per URL"
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__source_backend_categ_id
+msgid "Source Backend Category"
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__source_backend_id
