@@ -5,7 +5,7 @@
 {
     "name": "Storage Media",
     "summary": "Give the posibility to store media data in Odoo",
-    "version": "18.0.1.3.0",
+    "version": "18.0.1.4.0",
     "category": "Uncategorized",
     "website": "https://github.com/OCA/storage",
     "author": " Akretion, Odoo Community Association (OCA)",

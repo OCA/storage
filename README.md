@@ -35,15 +35,15 @@ addon | version | maintainers | summary
 [fs_storage_ms_drive](fs_storage_ms_drive/) | 18.0.2.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Add the microsoft drives (OneDrive, Sharepoint) as a storage backend
 [image_tag](image_tag/) | 18.0.1.0.0 |  | Image tag model
 [microsoft_drive_account](microsoft_drive_account/) | 18.0.2.0.1 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Link user with Microsoft
-[storage_backend](storage_backend/) | 18.0.1.0.0 |  | Implement the concept of Storage with amazon S3, sftp...
+[storage_backend](storage_backend/) | 18.0.1.1.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_ftp](storage_backend_ftp/) | 18.0.1.0.0 |  | Implement FTP Storage
 [storage_backend_s3](storage_backend_s3/) | 18.0.1.1.0 |  | Implement amazon S3 Storage
 [storage_backend_sftp](storage_backend_sftp/) | 18.0.1.0.0 |  | Implement SFTP Storage
-[storage_file](storage_file/) | 18.0.1.2.0 |  | Storage file in storage backend
+[storage_file](storage_file/) | 18.0.1.3.0 |  | Storage file in storage backend
 [storage_file_swap_backend_queue](storage_file_swap_backend_queue/) | 18.0.1.1.0 | <a href='https://github.com/simahawk'><img src='https://github.com/simahawk.png' width='32' height='32' style='border-radius:50%;' alt='simahawk'/></a> | Delegate storage file backend swap to queue jobs
-[storage_image](storage_image/) | 18.0.1.2.0 |  | Store image and resized image in a storage backend
+[storage_image](storage_image/) | 18.0.1.3.0 |  | Store image and resized image in a storage backend
 [storage_image_product](storage_image_product/) | 18.0.1.1.0 |  | Link images to products and categories
-[storage_media](storage_media/) | 18.0.1.3.0 |  | Give the posibility to store media data in Odoo
+[storage_media](storage_media/) | 18.0.1.4.0 |  | Give the posibility to store media data in Odoo
 [storage_media_product](storage_media_product/) | 18.0.1.1.0 |  | Link media to products and categories
 [storage_thumbnail](storage_thumbnail/) | 18.0.1.1.0 |  | Abstract module that add the possibility to have thumbnail
 
