@@ -324,6 +324,14 @@ export class FsFolder extends Component {
             },
         ];
     }
+    get isInvalid() {
+        return this.props.record.data[this.props.name]?.invalid === true;
+    }
+
+    get isUnavailable() {
+        return this.props.record.data[this.props.name]?.unavailable === true;
+    }
+
     get fieldDef() {
         return this.fieldDefinition.sort((a, b) => a.sequence - b.sequence);
     }

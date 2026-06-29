@@ -9,7 +9,26 @@
         >
             <i class="fa fa-plus" /> Create Folder
         </button>
-        <div class="o_list_renderer" t-if="props.record.data[props.name]">
+        <div
+            class="alert alert-danger d-flex align-items-center gap-3"
+            t-elif="isInvalid"
+        >
+            <i class="fa fa-exclamation-triangle fa-2x" />
+            <span
+            >The folder referenced by this field no longer exists on the external storage.</span>
+            <button class="btn btn-danger ms-auto" t-on-click="onClickDeleteFolder">
+                <i class="fa fa-trash-o" /> Delete reference
+            </button>
+        </div>
+        <div
+            class="alert alert-warning d-flex align-items-center gap-2"
+            t-elif="isUnavailable"
+        >
+            <i class="fa fa-clock-o fa-2x" />
+            <span
+            >The content of this folder is temporarily unavailable. Please refresh the view later.</span>
+        </div>
+        <div class="o_list_renderer" t-else="">
             <div class="d-flex o_fs_folder_field_header">
                 <button
                     class="m-1 btn btn-info o_fs_folder_field_file_button_refresh"
