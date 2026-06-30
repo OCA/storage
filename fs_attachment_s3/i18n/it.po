@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-09-15 09:42+0000\n"
+"PO-Revision-Date: 2026-06-30 09:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: fs_attachment_s3
 #: model:ir.model,name:fs_attachment_s3.model_ir_attachment
@@ -29,7 +29,7 @@ msgstr "Deposito FS"
 #. module: fs_attachment_s3
 #: model:ir.model,name:fs_attachment_s3.model_fs_file_gc
 msgid "Filesystem storage file garbage collector"
-msgstr ""
+msgstr "File archivio file system collettore spazzatura"
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
