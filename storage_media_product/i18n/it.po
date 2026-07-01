@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-11-28 10:41+0000\n"
+"PO-Revision-Date: 2026-07-01 11:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: storage_media_product
 #: model:ir.model.fields,help:storage_media_product.field_product_media_relation__url_path
@@ -24,7 +24,7 @@ msgstr "Percorso accessibile, non URL base"
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__active
 msgid "Active"
-msgstr ""
+msgstr "Attivo"
 
 #. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
@@ -74,7 +74,7 @@ msgstr "ID"
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__is_public
 msgid "Is Public"
-msgstr ""
+msgstr "È pubblico"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__write_uid
@@ -135,7 +135,7 @@ msgstr "Relazione prodotti e media deposito"
 #. module: storage_media_product
 #: model:ir.model.fields,help:storage_media_product.field_product_media_relation__is_public
 msgid "Reflects the `is_public` flag of the related backend."
-msgstr ""
+msgstr "Corrisponde all'opzione `is_public` del backend relativo."
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__sequence
