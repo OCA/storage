@@ -62,7 +62,11 @@ export class FsFolder extends Component {
         this.props.record.load();
     }
     async setData() {
-        if (this.props.record.data[this.props.name]) {
+        if (
+            this.props.record.data[this.props.name] &&
+            !this.isInvalid &&
+            !this.isUnavailable
+        ) {
             this.state.data = this.sortData(
                 await this.service.getData(
                     this.props.record,
