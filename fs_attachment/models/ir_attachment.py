@@ -518,11 +518,15 @@ class IrAttachment(models.Model):
         :param fname: the fname to parse
         :param base: if True, return the base filesystem
         """
-        partition = fname.partition("://")
-        storage_code = partition[0]
-        fs = self._get_fs_storage_for_code(storage_code)
-        fname = partition[2]
-        return fs, storage_code, fname
+        storage_code = None
+        fs = None
+        file_name = fname
+        if "://" in fname:
+            partition = fname.partition("://")
+            storage_code = partition[0]
+            fs = self._get_fs_storage_for_code(storage_code)
+            file_name = partition[2]
+        return fs, storage_code, file_name
 
     @api.model
     def _parse_fs_filename(self, filename: str) -> tuple[str, int, int, str] | None:

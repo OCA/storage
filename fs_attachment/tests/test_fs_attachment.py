@@ -11,6 +11,28 @@ from .common import MyException, TestFSAttachmentCommon
 
 
 class TestFSAttachment(TestFSAttachmentCommon):
+    def test_fs_parse_store_fname(self):
+        raw_fname = "fc/fcc92eb498d207046dcf79f50badd1041535626c"
+        fs, storage_code, file_name = self.ir_attachment_model._fs_parse_store_fname(
+            raw_fname
+        )
+        self.assertFalse(fs)
+        self.assertFalse(storage_code)
+        self.assertEqual(file_name, raw_fname)
+
+    @mock.patch(
+        "odoo.addons.fs_storage.models.fs_storage.FSStorage.get_fs_by_code",
+        return_value="FS_MOCK",
+    )
+    def test_fs_parse_store_fname_azure(self, mock_fs_storage):
+        azure_fname = "azure://b1/e9/screenshot-2026-06-30-190529-700499-0.png"
+        fs, storage_code, file_name = self.ir_attachment_model._fs_parse_store_fname(
+            azure_fname
+        )
+        self.assertIs(fs, "FS_MOCK")
+        self.assertEqual(storage_code, "azure")
+        self.assertEqual(file_name, "b1/e9/screenshot-2026-06-30-190529-700499-0.png")
+
     def test_create_attachment_explicit_location(self):
         content = b"This is a test attachment"
         attachment = (
