@@ -472,6 +472,7 @@ class IrAttachment(models.Model):
         Keeping the same meaning and mimetype is important to also ease to provide
         a meaningful and SEO friendly URL to the file in the filesystem storage.
         """
+        renamed_attachments = {}
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
                 continue
@@ -485,7 +486,17 @@ class IrAttachment(models.Model):
             new_filename_with_path = os.path.join(
                 os.path.dirname(filename), new_filename
             )
-            fs.rename(filename, new_filename_with_path)
+
+            if filename in renamed_attachments:
+                if renamed_attachments[filename] == new_filename_with_path:
+                    # we already renamed this file, no need to rename it again
+                    continue
+                else:
+                    fs.copy(renamed_attachments[filename], new_filename_with_path)
+            else:
+                fs.rename(filename, new_filename_with_path)
+            renamed_attachments[filename] = new_filename_with_path
+
             attachment.fs_filename = new_filename
             # we need to update the store_fname with the new filename by
             # calling the write method of the field since the write method
