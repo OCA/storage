@@ -6,35 +6,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-07-09 09:46+0000\n"
+"Last-Translator: Laura V <laura.valls@forgeflow.com>\n"
 "Language-Team: none\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: fs_attachment_s3
 #: model:ir.model,name:fs_attachment_s3.model_ir_attachment
 msgid "Attachment"
-msgstr ""
+msgstr "Vedhæftning"
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__display_name
 #: model:ir.model.fields,field_description:fs_attachment_s3.field_ir_attachment__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Vis navn"
 
 #. module: fs_attachment_s3
 #: model:ir.model,name:fs_attachment_s3.model_fs_storage
 msgid "FS Storage"
-msgstr ""
+msgstr "FS-lager"
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__id
 #: model:ir.model.fields,field_description:fs_attachment_s3.field_ir_attachment__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
@@ -43,19 +45,22 @@ msgid ""
 "X-Accel-Redirect. This is useful for S3 storage where the file path is not "
 "directly accessible without authentication."
 msgstr ""
+"Hvis markeret, vil lageret bruge signerede URL'er til vedhæftninger, når X-"
+"Accel-Redirect anvendes. Dette er nyttigt for S3-lager, hvor filstien ikke "
+"er direkte tilgængelig uden godkendelse."
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__s3_signed_url_expiration
 msgid "Signed URL Expiration (seconds)"
-msgstr ""
+msgstr "Udløb for signeret URL (sekunder)"
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_signed_url_expiration
 msgid ""
 "The expiration time for the signed URL in seconds. Default is 30 seconds."
-msgstr ""
+msgstr "Udløbstiden for den signerede URL i sekunder. Standard er 30 sekunder."
 
 #. module: fs_attachment_s3
 #: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
 msgid "Use signed URL for X-Accel-Redirect"
-msgstr ""
+msgstr "Brug signeret URL til X-Accel-Redirect"
