@@ -6,49 +6,51 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-07-09 07:03+0000\n"
+"Last-Translator: Laura V <laura.valls@forgeflow.com>\n"
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_ir_attachment
 #: model_terms:ir.ui.view,arch_db:fs_attachment.fs_storage_form_view
 msgid "Attachment"
-msgstr ""
+msgstr "Bilaga"
 
 #. module: fs_attachment
 #: model_terms:ir.ui.view,arch_db:fs_attachment.fs_storage_form_view
 msgid "Attachment's Url"
-msgstr ""
+msgstr "Bilagans URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__autovacuum_gc
 msgid "Autovacuum Garbage Collection"
-msgstr ""
+msgstr "Automatisk skräpinsamling"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__base_url
 msgid "Base Url"
-msgstr ""
+msgstr "Bas-URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__base_url_for_files
 msgid "Base Url For Files"
-msgstr ""
+msgstr "Bas-URL för filer"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Skapad av"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Skapad den"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__display_name
@@ -56,52 +58,52 @@ msgstr ""
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_binary__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Visningsnamn"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_fs_storage
 msgid "FS Storage"
-msgstr ""
+msgstr "FS-lagring"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
 msgid "File Name into the filesystem storage"
-msgstr ""
+msgstr "Filnamn i fillagringen"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_ir_binary
 msgid "File streaming helper model for controllers"
-msgstr ""
+msgstr "Hjälpmodell för filströmning för kontroller"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_id
 msgid "Filesystem Storage"
-msgstr ""
+msgstr "Fillagring"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_code
 msgid "Filesystem Storage Code"
-msgstr ""
+msgstr "Fillagringens kod"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url
 msgid "Filesystem URL"
-msgstr ""
+msgstr "Fillagrings-URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url_path
 msgid "Filesystem URL Path"
-msgstr ""
+msgstr "Fillagrings-URL-sökväg"
 
 #. module: fs_attachment
 #: model:ir.model,name:fs_attachment.model_fs_file_gc
 msgid "Filesystem storage file garbage collector"
-msgstr ""
+msgstr "Skräpinsamlare för filer i fillagringen"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__force_db_for_default_attachment_rules
 msgid "Force Db For Default Attachment Rules"
-msgstr ""
+msgstr "Tvinga DB för standardregler för bilagor"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__id
@@ -109,7 +111,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__id
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_binary__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__use_x_sendfile_to_serve_internal_url
@@ -121,6 +123,12 @@ msgid ""
 "avoid to serve files from odoo and therefore to avoid to load the odoo "
 "process. "
 msgstr ""
+"Om markerad och Odoo ligger bakom en proxy som stöder x-sendfile, kommer "
+"innehållet som levereras via bilagans interna URL att levereras av proxyn "
+"med hjälp av fs_url om den är definierad. Om inte, kommer filen att "
+"levereras av Odoo, som strömmar innehållet läst från fillagringen. Detta "
+"alternativ är användbart för att undvika att leverera filer från Odoo och "
+"därmed undvika att belasta Odoo-processen. "
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__autovacuum_gc
@@ -131,6 +139,11 @@ msgid ""
 "systems (like a website). In such case, records in the fs.file.gc table must"
 " be manually processed."
 msgstr ""
+"Om markerad utförs den automatiska skräpinsamlingen automatiskt när "
+"lagringen används för att lagra bilagor. I vissa fall bör den automatiska "
+"skräpinsamlingen undvikas när filer i lagringen refereras av andra system "
+"(som en webbplats). I sådana fall måste poster i tabellen fs.file.gc "
+"hanteras manuellt."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__optimizes_directory_path
@@ -142,6 +155,12 @@ msgid ""
 "properties will be stored in the same directory, avoiding overcrowding in "
 "the root directory and optimizing access times."
 msgstr ""
+"Om markerad optimeras katalogsökvägen för att undvika för många filer i "
+"samma katalog. Detta alternativ används när lagringen används för att lagra "
+"bilagor. Beroende på lagringen kan detta alternativ ignoreras. Det är "
+"användbart för lagring baserad på verkliga filer. På så sätt lagras filer "
+"med liknande egenskaper i samma katalog, vilket undviker överbelastning av "
+"rotkatalogen och optimerar åtkomsttider."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__use_filename_obfuscation
@@ -153,31 +172,38 @@ msgid ""
 " is used to store files that are referenced by other systems (like a "
 "website) where the filename is important for SEO."
 msgstr ""
+"Om markerad döljs filnamnet (obfuskeras). Detta alternativ är användbart för "
+"att undvika att exponera känslig information via URL:en eller i den externa "
+"lagringen. Döljandet görs med en hash av filnamnet. Det ursprungliga "
+"filnamnet lagras i bilagans metadata. Döljandet bör undvikas om lagringen "
+"används för att lagra filer som refereras av andra system (som en webbplats) "
+"där filnamnet är viktigt för SEO."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__use_as_default_for_attachments
 msgid "If checked, this storage will be used to store all the attachments "
 msgstr ""
+"Om markerad kommer denna lagring att användas för att lagra alla bilagor "
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
 msgid "Internal URL"
-msgstr ""
+msgstr "Intern URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__is_directory_path_in_url
 msgid "Is Directory Path In Url"
-msgstr ""
+msgstr "Katalogsökväg finns i URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Senast uppdaterad av"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Senast uppdaterad den"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__is_directory_path_in_url
@@ -185,33 +211,35 @@ msgid ""
 "Normally the directory_path is for internal usage. If this flag is enabled "
 "the path will be used to compute the public URL."
 msgstr ""
+"Normalt är directory_path för internt bruk. Om denna flagga är aktiverad "
+"kommer sökvägen att användas för att beräkna den publika URL:en."
 
 #. module: fs_attachment
 #. odoo-python
 #: code:addons/fs_attachment/models/ir_attachment.py:0
 msgid "Only administrators can execute this action."
-msgstr ""
+msgstr "Endast administratörer kan utföra denna åtgärd."
 
 #. module: fs_attachment
 #. odoo-python
 #: code:addons/fs_attachment/models/fs_storage.py:0
 msgid "Only one storage can be used as default for attachments"
-msgstr ""
+msgstr "Endast en lagring kan användas som standard för bilagor"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__optimizes_directory_path
 msgid "Optimizes Directory Path"
-msgstr ""
+msgstr "Optimerar katalogsökväg"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__fs_storage_code
 msgid "Storage Code"
-msgstr ""
+msgstr "Lagringskod"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__store_fname
 msgid "Stored Filename"
-msgstr ""
+msgstr "Lagrat filnamn"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_code
@@ -222,16 +250,21 @@ msgid ""
 "'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
 "installed."
 msgstr ""
+"Teknisk kod som används för att identifiera lagrings-backend i koden. Denna "
+"kod måste vara unik. Koden används till exempel för att definiera den "
+"lagrings-backend som ska lagra bilagor via konfigurationsparametern "
+"'ir_attachment.storage.force.database' när modulen 'fs_attachment' är "
+"installerad."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url
 msgid "The URL to access the file from the filesystem storage."
-msgstr ""
+msgstr "URL:en för att komma åt filen från fillagringen."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__internal_url
 msgid "The URL to access the file from the server."
-msgstr ""
+msgstr "URL:en för att komma åt filen från servern."
 
 #. module: fs_attachment
 #. odoo-python
@@ -240,12 +273,14 @@ msgid ""
 "The force_db_for_default_attachment_rules can only be set if the storage is "
 "used as default for attachments."
 msgstr ""
+"force_db_for_default_attachment_rules kan endast anges om lagringen används "
+"som standard för bilagor."
 
 #. module: fs_attachment
 #. odoo-python
 #: code:addons/fs_attachment/models/fs_storage.py:0
 msgid "The force_db_for_default_attachment_rules is not a valid python dict."
-msgstr ""
+msgstr "force_db_for_default_attachment_rules är inte en giltig python-dict."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_filename
@@ -254,36 +289,38 @@ msgid ""
 "the meaning of the filenamethe filename is computed from the name and the "
 "extension"
 msgstr ""
+"Filnamnet i fillagringen. För att bevara mimetypen och innebörden av "
+"filnamnet beräknas filnamnet från namnet och filändelsen"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url_path
 msgid "The path to access the file from the filesystem storage."
-msgstr ""
+msgstr "Sökvägen för att komma åt filen från fillagringen."
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_id
 msgid "The storage where the file is stored."
-msgstr ""
+msgstr "Lagringen där filen lagras."
 
 #. module: fs_attachment
 #: model:ir.model.constraint,message:fs_attachment.constraint_fs_file_gc_store_fname_uniq
 msgid "The stored filename must be unique!"
-msgstr ""
+msgstr "Det lagrade filnamnet måste vara unikt!"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__use_as_default_for_attachments
 msgid "Use As Default For Attachments"
-msgstr ""
+msgstr "Använd som standard för bilagor"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__use_filename_obfuscation
 msgid "Use Filename Obfuscation"
-msgstr ""
+msgstr "Använd döljning av filnamn"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__use_x_sendfile_to_serve_internal_url
 msgid "Use X-Sendfile To Serve Internal Url"
-msgstr ""
+msgstr "Använd X-Sendfile för att leverera intern URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_fs_storage__force_db_for_default_attachment_rules
@@ -294,6 +331,19 @@ msgid ""
 "* application/javascript are stored in database whatever their size \n"
 "* text/css are stored in database whatever their size"
 msgstr ""
+"Vid lagring av bilagor i en extern lagring kan lagringen vara långsam. Om "
+"lagringen används för att som standard lagra Odoo-bilagor kan det leda till "
+"en dålig användarupplevelse eftersom små bilder (128, 256) används i Odoo i "
+"list-/kanban-vyer. Vi vill att de ska vara snabba att läsa. Detta fält gör "
+"det möjligt att tvinga lagring av vissa bilagor i Odoo-databasen. Värdet är "
+"en dict där nyckeln är början av den mimetyp som ska konfigureras och värdet "
+"är storleksgränsen under vilken bilagor sparas i databasen. 0 innebär ingen "
+"gräns.\n"
+"Standardkonfiguration innebär:\n"
+"* bild-mimetyper (image/png, image/jpeg, ...) under 50 KB lagras i "
+"databasen\n"
+"* application/javascript lagras i databasen oavsett storlek \n"
+"* text/css lagras i databasen oavsett storlek"
 
 #. module: fs_attachment
 #. odoo-python
@@ -301,4 +351,4 @@ msgstr ""
 msgid ""
 "You can't write on multiple attachments with different mimetypes at the same"
 " time."
-msgstr ""
+msgstr "Du kan inte skriva på flera bilagor med olika mimetyper samtidigt."
