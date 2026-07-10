@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fs_attachment_s3
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fs_attachment_s3
+#: model:ir.model,name:fs_attachment_s3.model_ir_attachment
+msgid "Attachment"
+msgstr ""
+
+#. module: fs_attachment_s3
+#: model:ir.model,name:fs_attachment_s3.model_fs_storage
+msgid "FS Storage"
+msgstr ""
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
+msgid ""
+"If checked, the storage will use signed URLs for attachments when using "
+"X-Accel-Redirect. This is useful for S3 storage where the file path is not "
+"directly accessible without authentication."
+msgstr ""
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__s3_signed_url_expiration
+msgid "Signed URL Expiration (seconds)"
+msgstr ""
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_signed_url_expiration
+msgid ""
+"The expiration time for the signed URL in seconds. Default is 30 seconds."
+msgstr ""
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
+msgid "Use signed URL for X-Accel-Redirect"
+msgstr ""
