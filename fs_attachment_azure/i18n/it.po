@@ -1,0 +1,56 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fs_attachment_s3
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2025-10-23 08:43+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.4\n"
+
+#. module: fs_attachment_s3
+#: model:ir.model,name:fs_attachment_s3.model_ir_attachment
+msgid "Attachment"
+msgstr "Allegato"
+
+#. module: fs_attachment_s3
+#: model:ir.model,name:fs_attachment_s3.model_fs_storage
+msgid "FS Storage"
+msgstr "Deposito FS"
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
+msgid ""
+"If checked, the storage will use signed URLs for attachments when using "
+"X-Accel-Redirect. This is useful for S3 storage where the file path is not "
+"directly accessible without authentication."
+msgstr ""
+"Se selezionata, l'archiviazione utilizzerà URL firmati per gli allegati "
+"quando si utilizza X-Accel-Redirect. Questa opzione è utile per "
+"l'archiviazione S3 in cui il percorso del file non è direttamente "
+"accessibile senza autenticazione."
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__s3_signed_url_expiration
+msgid "Signed URL Expiration (seconds)"
+msgstr "Scadenza URL firmato (secondi)"
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,help:fs_attachment_s3.field_fs_storage__s3_signed_url_expiration
+msgid ""
+"The expiration time for the signed URL in seconds. Default is 30 seconds."
+msgstr ""
+"Il tempo di scadenza per l'URL firmato in secondi. Predefinito 30 secondi."
+
+#. module: fs_attachment_s3
+#: model:ir.model.fields,field_description:fs_attachment_s3.field_fs_storage__s3_uses_signed_url_for_x_sendfile
+msgid "Use signed URL for X-Accel-Redirect"
+msgstr "Utilizza URL firmato per X-Accel-Redirect"
