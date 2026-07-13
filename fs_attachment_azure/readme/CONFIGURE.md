@@ -1,12 +1,12 @@
 On the Odoo instance, go to *Settings* > *Technical* > *Storage* > *File Storage*.
 
-When you create a new storage for s3 or modify an existing one, when you activate
+When you create a new storage for Azure or modify an existing one, when you activate
 the option "Use X-Sendfile To Serve Internal Url", 2 additional fields will appear:
 
-- **S3 Uses Signed URL For X-Accel-Redirect**: If checked, the X-Accel-Redirect
+- **Azure Uses Signed URL For X-Accel-Redirect**: If checked, the X-Accel-Redirect
   path will be a signed URL, which is useful for S3 storages that require
   signed URLs for access.
-- **S3 Signed URL Expiration**: The expiration time for the signed URL in seconds.
+- **Azure Signed URL Expiration**: The expiration time for the signed URL in seconds.
   This field is only relevant if the previous option is checked. By default,
   it is set to 30 seconds but it could be less since the url generated into
   the X-Accel-Redirect process is directly used by the web server to serve the file.
@@ -14,12 +14,12 @@ the option "Use X-Sendfile To Serve Internal Url", 2 additional fields will appe
 The value of these fields can also be set in the server environment variables using
 the keys:
 
-- *s3_uses_signed_url_for_x_sendfile*
-- *s3_signed_url_expiration*
+- *azure_uses_signed_url_for_x_sendfile*
+- *azure_signed_url_expiration*
 
 When the option "Use X-Sendfile To Serve Internal Url" is enabled, the system will
 generate an X-Accel-Redirect header in the response to a request to get a file.
-In the case of S3 storages, it will follow the format:
+In the case of Azure storages, it will follow the format:
 
 ```text
 X-Accel-Redirect: /fs_x_sendfile/{scheme}/{host}/{path with query if any}
@@ -28,15 +28,15 @@ X-Accel-Redirect: /fs_x_sendfile/{scheme}/{host}/{path with query if any}
 Where:
 
 - `{scheme}`: The URL scheme (http or https).
-- `{host}`: The host of the S3 storage.
-- `{path with query if any}`: The path to the file in the S3 storage,
+- `{host}`: The host of the Azure storage.
+- `{path with query if any}`: The path to the file in the Azure storage,
   including any query parameters. (Query parameters are set when the
-  `s3_uses_signed_url_for_x_sendfile` option is enabled.)
+  `azure_uses_signed_url_for_x_sendfile` option is enabled.)
 
 In order to serve files using X-Accel-Redirect, you must ensure that your
 web server is configured to handle these headers correctly. This typically
 involves setting up a location block in your web server configuration that
-matches the X-Accel-Redirect path and proxies the request to the S3 storage.
+matches the X-Accel-Redirect path and proxies the request to the Azure storage.
 
 For example, if you are using Nginx, you would add a location block like this:
 
@@ -57,8 +57,8 @@ For example, if you are using Nginx, you would add a location block like this:
 ```
 
 
-Unlike the standard implementation of X-Accel-Redirect on non S3 storages,
-the S3 implementation does not require a base URL to be set in the storage
+Unlike the standard implementation of X-Accel-Redirect on non Azure storages,
+the Azure implementation does not require a base URL to be set in the storage
 configuration. The X-Accel-Redirect path is constructed directly from the
-S3 storage's URL defined for the connection, the directory name as
+Azure storage's URL defined for the connection, the directory name as
 bucket name, and the file path.

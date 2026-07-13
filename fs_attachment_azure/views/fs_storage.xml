@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2025 ACSONE SA/NV
+     Copyright 2026 Camptocamp SA
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
 
@@ -9,12 +10,12 @@
         <field name="arch" type="xml">
             <field name="use_x_sendfile_to_serve_internal_url" position="after">
                 <field
-                    name="s3_uses_signed_url_for_x_sendfile"
-                    invisible="not use_x_sendfile_to_serve_internal_url or protocol != 's3'"
+                    name="azure_uses_signed_url_for_x_sendfile"
+                    invisible="not use_x_sendfile_to_serve_internal_url or protocol != 'azure'"
                 />
                 <field
-                    name="s3_signed_url_expiration"
-                    invisible="not use_x_sendfile_to_serve_internal_url or protocol != 's3'"
+                    name="azure_signed_url_expiration"
+                    invisible="not use_x_sendfile_to_serve_internal_url or protocol != 'azure'"
                 />
             </field>
         </field>

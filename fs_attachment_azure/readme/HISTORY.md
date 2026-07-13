@@ -1,14 +1,3 @@
-## 17.0.1.2.1 (2026-05-27)
+## 17.0.1.0.0 (2026-07-13)
 
-### Bugfixes
-
-- Allow to use a prefix path and bucket in the directory_path on fs.storage
-  When the directory_path parameter is configured as <bucketname>/<someprefix>
-  the presigned url generation failed with a botocore error: "Invalid bucket name". ([#b17de9](https://github.com/OCA/storage/issues/b17de9))
-
-
-## 17.0.1.2.0 (2025-10-22)
-
-### Features
-
-- Adapt to handle {db_name} in directory_path. ([#db_name](https://github.com/OCA/storage/issues/db_name))
+- This module was "forked" from fs_attachment_s3 v17.0.1.2.1
