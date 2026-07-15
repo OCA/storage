@@ -2,6 +2,8 @@
   "pull_requests": {
     "OCA/storage#269": "already ported",
     "OCA/storage#403": "18 only",
-    "OCA/storage#433": "(auto) Nothing to port from PR #433"
+    "OCA/storage#433": "(auto) Nothing to port from PR #433",
+    "OCA/storage#460": "Already ported",
+    "OCA/storage#514": "Already ported"
   }
 }
