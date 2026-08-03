@@ -104,7 +104,7 @@ too much bandwidth.
                       <field
                           name="image"
                           class="oe_avatar"
-                          options="{'preview_image': 'image_medium', 'zoom': true}"
+                          options="{'preview_image': 'image_1024', 'zoom': true}"
                       />
                   </group>
               </sheet>

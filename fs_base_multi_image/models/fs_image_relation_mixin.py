@@ -21,7 +21,35 @@ class FsImageRelationMixin(models.AbstractModel):
     )
     specific_image = fs_fields.FSImage("Specific Image")
     # resized fields stored (as attachment) for performance
+
+    # deprecated fields, kept for backward compatibility
+    # uses specific_image_128 instead of specific_image_medium
     specific_image_medium = fs_fields.FSImage(
+        "Specific Image medium",
+        related="specific_image_128",
+    )
+    specific_image_1024 = fs_fields.FSImage(
+        "Specific Image (1024)",
+        related="specific_image",
+        max_width=1024,
+        max_height=1024,
+        store=True,
+    )
+    specific_image_512 = fs_fields.FSImage(
+        "Specific Image (512)",
+        related="specific_image",
+        max_width=512,
+        max_height=512,
+        store=True,
+    )
+    specific_image_256 = fs_fields.FSImage(
+        "Specific Image (256)",
+        related="specific_image",
+        max_width=256,
+        max_height=256,
+        store=True,
+    )
+    specific_image_128 = fs_fields.FSImage(
         "Specific Image (128)",
         related="specific_image",
         max_width=128,
@@ -37,8 +65,21 @@ class FsImageRelationMixin(models.AbstractModel):
         store=False,
     )
     # resized fields stored (as attachment) for performance
-    image_medium = fs_fields.FSImage(
-        "Image (128)", compute="_compute_image_medium", store=False
+
+    # deprecated fields, kept for backward compatibility
+    # uses image_128 instead of image_medium
+    image_medium = fs_fields.FSImage("Image medium", related="image_128", store=False)
+    image_1024 = fs_fields.FSImage(
+        "Image (1024)", compute="_compute_image_1024", store=False
+    )
+    image_512 = fs_fields.FSImage(
+        "Image (512)", compute="_compute_image_512", store=False
+    )
+    image_256 = fs_fields.FSImage(
+        "Image (256)", compute="_compute_image_256", store=False
+    )
+    image_128 = fs_fields.FSImage(
+        "Image (128)", compute="_compute_image_128", store=False
     )
 
     name = fields.Char(compute="_compute_name", store=True, index=True)
@@ -68,13 +109,37 @@ class FsImageRelationMixin(models.AbstractModel):
             else:
                 record.image = record.specific_image
 
-    @api.depends("image_id", "specific_image", "link_existing")
-    def _compute_image_medium(self):
+    @api.depends("image_id", "specific_image_128", "link_existing")
+    def _compute_image_128(self):
         for record in self:
             if record.link_existing:
-                record.image_medium = record.image_id.image_medium
+                record.image_128 = record.image_id.image_128
             else:
-                record.image_medium = record.specific_image_medium
+                record.image_128 = record.specific_image_128
+
+    @api.depends("image_id", "specific_image_256", "link_existing")
+    def _compute_image_256(self):
+        for record in self:
+            if record.link_existing:
+                record.image_256 = record.image_id.image_256
+            else:
+                record.image_256 = record.specific_image_256
+
+    @api.depends("image_id", "specific_image_512", "link_existing")
+    def _compute_image_512(self):
+        for record in self:
+            if record.link_existing:
+                record.image_512 = record.image_id.image_512
+            else:
+                record.image_512 = record.specific_image_512
+
+    @api.depends("image_id", "specific_image_1024", "link_existing")
+    def _compute_image_1024(self):
+        for record in self:
+            if record.link_existing:
+                record.image_1024 = record.image_id.image_1024
+            else:
+                record.image_1024 = record.specific_image_1024
 
     def _inverse_image(self):
         for record in self:

@@ -12,14 +12,14 @@
                      <field
                         name="image"
                         class="oe_avatar"
-                        options="{'preview_image': 'image_medium', 'zoom': true}"
+                        options="{'preview_image': 'image_128', 'zoom': true}"
                         readonly="1"
                         attrs="{'invisible': [('link_existing', '=', False)]}"
                     />
                     <field
                         name="specific_image"
                         class="oe_avatar"
-                        options="{'preview_image': 'image_medium', 'zoom': true}"
+                        options="{'preview_image': 'image_128', 'zoom': true}"
                         attrs="{'invisible': [('link_existing', '=', True)]}"
                     />
                     <group>

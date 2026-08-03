@@ -16,7 +16,7 @@
                  <field
                     name="image"
                     class="oe_avatar"
-                    options="{'preview_image': 'image_medium', 'zoom': true}"
+                    options="{'preview_image': 'image_1024', 'zoom': true}"
                 />
             </field>
             <notebook position="inside">
@@ -43,7 +43,7 @@
             <xpath expr="//div[hasclass('o_kanban_image')]/img" position="attributes">
                <attribute
                     name="t-att-src"
-                >kanban_image('product.brand', 'image_medium', record.id.raw_value)</attribute>
+                >kanban_image('product.brand', 'image_128', record.id.raw_value)</attribute>
             </xpath>
         </field>
     </record>
