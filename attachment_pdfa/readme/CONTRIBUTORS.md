@@ -1,0 +1,3 @@
+- Zina Rasoamanana <zina.rasoamanana@acsone.eu> ([Acsone](https://acsone.eu))
+- Benoit Aimont <benoit.aimont@acsone.eu> ([Acsone](https://acsone.eu))
+- Stéphane Bidoul <stephane.bidoul@acsone.eu> ([Acsone](https://acsone.eu))
