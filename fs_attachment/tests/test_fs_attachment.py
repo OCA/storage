@@ -77,6 +77,12 @@ class TestFSAttachment(TestFSAttachmentCommon):
         with attachment.open("rb") as f:
             self.assertEqual(f.read(), new_content)
 
+    def test_create_attachment_with_no_payload_has_bytes_raw(self):
+        attachment = self.ir_attachment_model.create({"name": "empty.txt"})
+
+        self.assertEqual(attachment.raw, b"")
+        self.assertEqual(attachment.file_size, 0)
+
     def test_open_attachment_in_db(self):
         self.env["ir.config_parameter"].sudo().set_param("ir_attachment.location", "db")
         content = b"This is a test attachment in db"
@@ -445,6 +451,56 @@ class TestFSAttachment(TestFSAttachmentCommon):
                 "res_field": partner_image_field.name,
             }
         )
+
+    def test_create_two_attachments(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        res = self.ir_attachment_model.create(
+            [
+                {"name": "test2.txt", "raw": b"content"},
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        self.assertEqual(len(res), 2)
+
+    def test_create_two_attachments_same_name(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        res = self.ir_attachment_model.create(
+            [
+                {"name": "test.txt", "raw": b"content"},
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        self.assertEqual(len(res), 2)
+        attachment1 = res[0]
+        attachment2 = res[1]
+        self.assertEqual(attachment1.name, "test.txt")
+        self.assertEqual(attachment2.name, "test.txt")
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.assertEqual(attachment1.raw, attachment2.raw)
+
+        attachment1.raw = b"new content"
+        self.assertNotEqual(attachment1.raw, attachment2.raw)
+
+        attachment2 = self.ir_attachment_model.browse(attachment2.id)
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_create_two_attachments_differnt_call(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        res = self.ir_attachment_model.create(
+            [
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        res2 = self.ir_attachment_model.create(
+            [
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        self.assertEqual(len(res), 1)
+        self.assertEqual(len(res2), 1)
+
+        self.assertNotEqual(res[0].store_fname, res2[0].store_fname)
+        self.assertEqual(res[0].raw, res2[0].raw)
 
     def test_update_png_to_svg(self):
         b64_data_png = (
