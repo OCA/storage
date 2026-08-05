@@ -33,6 +33,19 @@ class ProductTemplate(models.Model):
         store=False,
     )
 
+    # Compatibility field for standard modules (especially website_sale)
+    # The sole purpose of this field is to provide the field image_128
+    # that can be resolved by the web controller when requested
+    # to provide the image_128 content of a product.product record.
+    # By using a related field of the same type (FSImage) as image_medium,
+    # we avoid any extra cost of computing the image_128 content
+    image_128 = FSImage(
+        string="Image 128",
+        related="image_medium",
+        readonly=True,
+        store=False,
+    )
+
     @api.depends("image_ids", "image_ids.sequence")
     def _compute_main_image_id(self):
         for record in self:
