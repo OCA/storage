@@ -136,6 +136,84 @@ class FsContentValue:
         return not self.__eq__(other)
 
 
+class FsContentInvalidValue(FsContentValue):
+    """
+    Represents a FsContentValue whose reference to external content is no
+    longer accessible (directory deleted or moved, storage removed, temporary
+    connection failure, etc.).
+
+    The value is truthy (a stored_value is present) but signals that the
+    underlying resource cannot be reached.  The ``error`` attribute carries
+    the original exception so callers can distinguish a temporary connectivity
+    issue from a permanent ``FileNotFoundError``.
+
+    ``ref`` and ``storage_code`` are extracted from the stored value using
+    only basic string parsing — no call to the filesystem adapter — so they
+    remain available even when the external service is unreachable.
+    """
+
+    def __init__(
+        self,
+        stored_value: str | None,
+        field: fields.Field,
+        record: models.BaseModel,
+        error: Exception | None = None,
+    ):
+        self._stored_value = stored_value
+        self._field = field
+        self._record = record
+        self._env = record.env
+        self._value_adapter = record.env["fs.folder.field.value.adapter"]
+        self._fs = None
+        self._error = error
+        if stored_value:
+            partition = stored_value.partition("://")
+            self._ref, self._storage_code = partition[2], partition[0]
+        else:
+            self._ref, self._storage_code = None, None
+
+    @property
+    def error(self) -> Exception | None:
+        """The exception that caused this value to be invalid."""
+        return self._error
+
+    @property
+    def fs(self) -> None:
+        return None
+
+    @property
+    def protocol(self) -> None:
+        return None
+
+    @property
+    def storage(self) -> None:
+        return None
+
+    def initialize(self):
+        raise ValueError(f"Cannot initialize an invalid content value: {self!r}")
+
+    def __repr__(self) -> str:
+        error_str = f" [{self._error!r}]" if self._error else ""
+        return (
+            f"{self._record}.{self._field._name} -> {self.__class__.__name__}"
+            f"({self._stored_value}){error_str}"
+        )
+
+
+class FsContentUnavailableValue(FsContentInvalidValue):
+    """
+    Represents a FsContentValue whose reference to external content is
+    temporarily inaccessible (network failure, authentication issue, service
+    unavailability, etc.).
+
+    Unlike ``FsContentInvalidValue`` (which signals a permanent absence such
+    as a deleted directory), this class signals that the resource is expected
+    to exist but cannot be reached right now.
+    """
+
+    pass
+
+
 class FsFolderValue(FsContentValue):
     """
     Value for a fs_folder field.
@@ -146,9 +224,33 @@ class FsFolderValue(FsContentValue):
     pass
 
 
+class FsFolderInvalidValue(FsFolderValue, FsContentInvalidValue):
+    """
+    Invalid value for a fs_folder field.
+
+    Satisfies ``isinstance(value, FsFolderValue)`` while also being
+    identifiable via ``isinstance(value, FsContentInvalidValue)``.
+    """
+
+    pass
+
+
+class FsFolderUnavailableValue(FsFolderValue, FsContentUnavailableValue):
+    """
+    Temporarily unavailable value for a fs_folder field.
+
+    Satisfies ``isinstance(value, FsFolderValue)`` while also being
+    identifiable via ``isinstance(value, FsContentUnavailableValue)``.
+    """
+
+    pass
+
+
 class AbstractFsContentField(fields.Field):
     _column_type = ("varchar", pg_varchar())
     _value_type: FsContentValue | None = None
+    _invalid_value_type = FsContentInvalidValue
+    _unavailable_value_type = FsContentUnavailableValue
     create_method: typing.Callable | str | None = None
     create_post_process: typing.Callable | str | None = None
     copy = False
@@ -173,7 +275,24 @@ class AbstractFsContentField(fields.Field):
         return super().convert_to_cache(value, record, validate)
 
     def convert_to_record(self, value, record):
-        return self._value_type(value, self, record)
+        try:
+            return self._value_type(value, self, record)
+        except FileNotFoundError as e:
+            _logger.warning(
+                "Content value for %s.%s is no longer valid: %s",
+                record._name,
+                self.name,
+                e,
+            )
+            return self._invalid_value_type(value, self, record, error=e)
+        except Exception as e:
+            _logger.warning(
+                "Content value for %s.%s is temporarily unavailable: %s",
+                record._name,
+                self.name,
+                e,
+            )
+            return self._unavailable_value_type(value, self, record, error=e)
 
     def convert_to_write(self, value, record):
         return super().convert_to_cache(value, record)
@@ -182,11 +301,16 @@ class AbstractFsContentField(fields.Field):
         if not value:
             return None
         if isinstance(value, self._value_type):
-            return {
+            result = {
                 "ref": value.ref,
                 "storage_code": value.storage_code,
                 "protocol": value.protocol,
             }
+            if isinstance(value, FsContentUnavailableValue):
+                result["unavailable"] = True
+            elif isinstance(value, FsContentInvalidValue):
+                result["invalid"] = True
+            return result
         raise ValueError(
             f"Invalid value for {self.name}: {repr(value)}\n"
             f"Should be a {self._value_type.__name__} object"
@@ -306,6 +430,8 @@ class FsFolder(AbstractFsContentField):
 
     type = "fs_folder"
     _value_type = FsFolderValue
+    _invalid_value_type = FsFolderInvalidValue
+    _unavailable_value_type = FsFolderUnavailableValue
     create_parent_get: typing.Callable | str | None = None
     create_name_get: typing.Callable | str | None = None
     create_additional_kwargs_get: typing.Callable | str | None = None
