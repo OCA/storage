@@ -75,4 +75,9 @@ class CommonCase(TransactionComponentCase):
         cls.filedata = base64.b64encode(b"This is a simple file")
         cls.filename = "test_file.txt"
         cls.case_with_subdirectory = "subdirectory/here"
-        cls.demo_user = cls.env.ref("base.user_demo")
+        cls.demo_user = cls.env["res.users"].create(
+            {
+                "name": "SB demo user",
+                "login": "sb_demo_user",
+            }
+        )
