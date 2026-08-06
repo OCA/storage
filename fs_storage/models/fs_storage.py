@@ -10,6 +10,7 @@ import logging
 import os.path
 import re
 import warnings
+from pathlib import PurePath
 from typing import AnyStr
 
 import fsspec
@@ -819,3 +820,12 @@ class FSStorage(models.Model):
         while hasattr(fs, "fs"):
             fs = fs.fs
         return fs
+
+    def _move_file(self, from_dir_str, to_dir_str, filename):
+        self.ensure_one()
+        src = (PurePath(from_dir_str) / filename).as_posix()
+        if not self.fs.exists(src):
+            return False
+        dst = (PurePath(to_dir_str) / filename).as_posix()
+        self.env.cr.postcommit.add(functools.partial(self.fs.move, src, dst))
+        return True
