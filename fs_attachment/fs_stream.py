@@ -2,9 +2,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from odoo.http import STATIC_CACHE_LONG, Response, Stream, request
 
-from .models.ir_attachment import IrAttachment
+if TYPE_CHECKING:
+    from .models.ir_attachment import IrAttachment
 
 try:
     from werkzeug.utils import secure_filename
