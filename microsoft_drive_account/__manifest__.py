@@ -5,7 +5,7 @@
     "name": "Microsoft account for Drive",
     "summary": """
         Link user with Microsoft """,
-    "version": "18.0.2.0.0",
+    "version": "19.0.1.0.0",
     "license": "LGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",
@@ -22,8 +22,6 @@
         "web.assets_backend": [
             "microsoft_drive_account/static/src/js/fields/**/*",
         ],
-    'installable': False,
-},
+    },
     "maintainers": ["lmignon"],
-    'installable': False,
 }
