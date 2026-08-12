@@ -67,7 +67,7 @@ def ftp(backend):
     prot_p = False
     if backend.ftp_encryption in ["ftp", "tls", "tls_explicit"]:
         if backend.ftp_encryption == "ftp":
-            _ftp = ftplib.FTP()
+            _ftp = ftplib.FTP(timeout=30)
         elif backend.ftp_encryption == "tls":
             _ftp = ImplicitFTPTLS()
             # Due to a bug into between ftplib and ssl, this part (about ssl) might not work!
