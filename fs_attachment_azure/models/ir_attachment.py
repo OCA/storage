@@ -58,20 +58,22 @@ class IrAttachment(models.Model):
         container_name = storage.get_directory_path()
         blob_client = azure_client.get_blob_client(container_name, file_path)
         if storage.azure_uses_signed_url_for_x_sendfile:
-            if (
-                azure_client.connection_string
-                or azure_client.account_name
-                and azure_client.account_key
+            if root_fs.connection_string or (
+                root_fs.account_name and root_fs.account_key
             ):
-                file_url = azure_client.url(
-                    file_path, expires=storage.azure_signed_url_expiration
+                # AzureBlobFileSystem.url() signs with the shared key.
+                file_url = root_fs.url(
+                    f"{container_name}/{file_path}",
+                    expires=storage.azure_signed_url_expiration,
                 )
             else:
-                # Ideally we would be able to call azure_client.url() as it is calling
+                # Ideally we would be able to call root_fs.url() as it is calling
                 #  generate_blob_sas. However, it expects to use an account shared key
                 #  (i.e either a connection string or account name/key pair).
-                # For this we need to get a delegation key first
-                now = datetime.datetime.now()
+                # For this we need to get a delegation key first. The identity
+                # needs the "Storage Blob Delegator" role on the storage account,
+                # on top of a data plane role.
+                now = datetime.datetime.now(datetime.timezone.utc)
                 expiry_time = now + datetime.timedelta(
                     seconds=storage.azure_signed_url_expiration
                 )
@@ -81,13 +83,13 @@ class IrAttachment(models.Model):
                     key_expiry_time=expiry_time,
                 )
                 # Then we can call generate_blob_sas
-                sas_token = storage._azure_call_synchronous(
-                    generate_blob_sas,
-                    fs.fs.account_name,
-                    fs.path,
-                    file_path,
+                sas_token = generate_blob_sas(
+                    account_name=blob_client.account_name,
+                    container_name=container_name,
+                    blob_name=file_path,
                     user_delegation_key=delegation_key,
                     permission=BlobSasPermissions(read=True),
+                    start=now,
                     expiry=expiry_time,
                 )
                 file_url = f"{blob_client.url}?{sas_token}"
