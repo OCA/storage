@@ -13,4 +13,6 @@
     "installable": True,
     "depends": ["fs_attachment_environment", "fs_attachment_s3"],
     "auto_install": True,
+    "post_init_hook": "post_init_hook",
+    "uninstall_hook": "uninstall_hook",
 }
