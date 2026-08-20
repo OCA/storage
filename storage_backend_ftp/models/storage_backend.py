@@ -37,19 +37,3 @@ class StorageBackend(models.Model):
     ftp_login = fields.Char(string="FTP Login", help="Login to connect to ftp server")
     ftp_password = fields.Char(string="FTP Password")
     ftp_passive = fields.Boolean(string="FTP Passive", default=False)
-
-    @property
-    def _server_env_fields(self):
-        env_fields = super()._server_env_fields
-        env_fields.update(
-            {
-                "ftp_password": {},
-                "ftp_login": {},
-                "ftp_server": {},
-                "ftp_port": {},
-                "ftp_encryption": {},
-                "ftp_security": {},
-                "ftp_passive": {},
-            }
-        )
-        return env_fields
