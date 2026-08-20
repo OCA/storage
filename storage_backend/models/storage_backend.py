@@ -55,7 +55,7 @@ def deprecated(reason):
 
 class StorageBackend(models.Model):
     _name = "storage.backend"
-    _inherit = ["collection.base", "server.env.mixin"]
+    _inherit = "collection.base"
     _backend_name = "storage_backend"
     _description = "Storage Backend"
 
@@ -85,10 +85,6 @@ class StorageBackend(models.Model):
                 continue
             adapter = rec._get_adapter()
             rec.has_validation = hasattr(adapter, "validate_config")
-
-    @property
-    def _server_env_fields(self):
-        return {"backend_type": {}, "directory_path": {}}
 
     def add(self, relative_path, data, binary=True, **kwargs):
         if not binary:
