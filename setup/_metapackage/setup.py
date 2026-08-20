@@ -29,6 +29,7 @@ setuptools.setup(
         'odoo-addon-image_tag>=16.0dev,<16.1dev',
         'odoo-addon-image_tag_environment>=16.0dev,<16.1dev',
         'odoo-addon-storage_backend>=16.0dev,<16.1dev',
+        'odoo-addon-storage_backend_ftp>=16.0dev,<16.1dev',
         'odoo-addon-storage_backend_sftp>=16.0dev,<16.1dev',
         'odoo-addon-storage_file>=16.0dev,<16.1dev',
     ],
