@@ -73,18 +73,9 @@ msgstr "Última Actualización el"
 msgid "Name"
 msgstr "Nombre"
 
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__server_env_defaults
-msgid "Server Env Defaults"
-msgstr ""
+#~ msgid "Tech Name"
+#~ msgstr "Nombre Técnico"
 
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__tech_name
-msgid "Tech Name"
-msgstr "Nombre Técnico"
-
-#. module: image_tag
-#: model:ir.model.fields,help:image_tag.field_image_tag__tech_name
-msgid "Unique name for technical purposes. Eg: server env keys."
-msgstr ""
-"Nombre único con fines técnicos. Por ejemplo: claves de ent del servidor."
+#~ msgid "Unique name for technical purposes. Eg: server env keys."
+#~ msgstr ""
+#~ "Nombre único con fines técnicos. Por ejemplo: claves de ent del servidor."
