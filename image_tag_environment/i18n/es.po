@@ -16,75 +16,53 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.17\n"
 
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__apply_on
-msgid "Apply On"
-msgstr "Aplicar En"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__create_uid
-msgid "Created by"
-msgstr "Creado por"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__create_date
-msgid "Created on"
-msgstr "Creado el"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__display_name
-msgid "Display Name"
-msgstr "Mostrar Nombre"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__id
-msgid "ID"
-msgstr "ID (identificación)"
-
-#. module: image_tag
-#: model:ir.actions.act_window,name:image_tag.act_open_image_tag_view
-#: model:ir.model,name:image_tag.model_image_tag
-#: model_terms:ir.ui.view,arch_db:image_tag.image_tag_view_search
+#. module: image_tag_environment
+#: model:ir.model,name:image_tag_environment.model_image_tag
 msgid "Image Tag"
 msgstr "Etiqueta de Imagen"
 
-#. module: image_tag
-#: model:res.groups,name:image_tag.group_image_tag_manager
-msgid "Image Tag Manager"
-msgstr "Gestor de Etiquetas de Imagen"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag____last_update
-msgid "Last Modified on"
-msgstr "Última Modifiación el"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__write_uid
-msgid "Last Updated by"
-msgstr "Actualizado por Última vez por"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__write_date
-msgid "Last Updated on"
-msgstr "Última Actualización el"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__name
-msgid "Name"
-msgstr "Nombre"
-
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__server_env_defaults
+#. module: image_tag_environment
+#: model:ir.model.fields,field_description:image_tag_environment.field_image_tag__server_env_defaults
 msgid "Server Env Defaults"
 msgstr ""
 
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__tech_name
+#. module: image_tag_environment
+#: model:ir.model.fields,field_description:image_tag_environment.field_image_tag__tech_name
 msgid "Tech Name"
 msgstr "Nombre Técnico"
 
-#. module: image_tag
-#: model:ir.model.fields,help:image_tag.field_image_tag__tech_name
+#. module: image_tag_environment
+#: model:ir.model.fields,help:image_tag_environment.field_image_tag__tech_name
 msgid "Unique name for technical purposes. Eg: server env keys."
 msgstr ""
 "Nombre único con fines técnicos. Por ejemplo: claves de ent del servidor."
+
+#~ msgid "Apply On"
+#~ msgstr "Aplicar En"
+
+#~ msgid "Created by"
+#~ msgstr "Creado por"
+
+#~ msgid "Created on"
+#~ msgstr "Creado el"
+
+#~ msgid "Display Name"
+#~ msgstr "Mostrar Nombre"
+
+#~ msgid "ID"
+#~ msgstr "ID (identificación)"
+
+#~ msgid "Image Tag Manager"
+#~ msgstr "Gestor de Etiquetas de Imagen"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modifiación el"
+
+#~ msgid "Last Updated by"
+#~ msgstr "Actualizado por Última vez por"
+
+#~ msgid "Last Updated on"
+#~ msgstr "Última Actualización el"
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
