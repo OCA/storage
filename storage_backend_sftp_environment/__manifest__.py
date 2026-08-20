@@ -12,4 +12,6 @@
     "development_status": "Beta",
     "installable": True,
     "depends": ["storage_backend_environment", "storage_backend_sftp"],
+    "post_init_hook": "post_init_hook",
+    "uninstall_hook": "uninstall_hook",
 }
