@@ -12,5 +12,7 @@
     "development_status": "Beta",
     "installable": True,
     "depends": ["fs_storage_environment", "fs_folder"],
+    "post_init_hook": "post_init_hook",
+    "uninstall_hook": "uninstall_hook",
     "auto_install": True,
 }
