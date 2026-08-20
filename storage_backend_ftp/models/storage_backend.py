@@ -32,6 +32,7 @@ class StorageBackend(models.Model):
             ("sslv23", "SSLv23"),
             ("sslv3", "SSLv3"),
         ],
+        default="none",
         required=True,
     )
     ftp_login = fields.Char(string="FTP Login", help="Login to connect to ftp server")
