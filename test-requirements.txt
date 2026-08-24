@@ -2,3 +2,4 @@ odoo_test_helper
 requests_mock
 vcrpy-unittest
 s3fs>=2025.3.0
+odoo-addon-server_environment @ git+https://github.com/OCA/server-env.git@refs/pull/288/head#subdirectory=server_environment
