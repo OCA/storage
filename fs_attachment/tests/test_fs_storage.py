@@ -306,6 +306,7 @@ class TestFsStorage(TestFSAttachmentCommon):
                 "name": "FS Product Image Backend",
                 "code": "file",
                 "base_url": "https://localhost/images",
+                "protocol": "odoofs",
                 "optimizes_directory_path": True,
                 "use_filename_obfuscation": False,
             }
