@@ -25,11 +25,6 @@ msgid "Backend Type"
 msgstr ""
 
 #. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__x_backend_type_env_default
-msgid "Backend Type Env Default"
-msgstr ""
-
-#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__backend_ids
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_category_view_form
 msgid "Backends"
@@ -81,11 +76,6 @@ msgid "Directory Path"
 msgstr ""
 
 #. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__x_directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr ""
-
-#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__display_name
 msgid "Display Name"
@@ -133,13 +123,7 @@ msgstr ""
 
 #. module: storage_backend
 #: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path
-#: model:ir.model.fields,help:storage_backend.field_storage_backend__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
-msgstr ""
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
-msgid "Server Env Defaults"
 msgstr ""
 
 #. module: storage_backend
@@ -167,11 +151,10 @@ msgid "Test connection"
 msgstr ""
 
 #. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__x_backend_type_env_is_editable
-msgid "X Backend Type Env Is Editable"
-msgstr ""
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__x_directory_path_env_is_editable
-msgid "X Directory Path Env Is Editable"
+#. odoo-python
+#: code:addons/storage_backend/upgrades/18.0.1.1.1/post-update.py:0
+msgid ""
+"The 'storage_backend_environment' module is not available. It is required to"
+" preserve the server environment managed fields of 'storage.backend'. Make "
+"it available on the addons path before upgrading 'storage_backend'."
 msgstr ""
