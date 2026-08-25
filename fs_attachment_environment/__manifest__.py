@@ -14,4 +14,6 @@
     "depends": ["fs_storage_environment", "fs_attachment"],
     "data": [],
     "auto_install": True,
+    "post_init_hook": "post_init_hook",
+    "uninstall_hook": "uninstall_hook",
 }
