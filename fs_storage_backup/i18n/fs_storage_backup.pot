@@ -162,6 +162,16 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: fs_storage_backup
+#. odoo-python
+#: code:addons/fs_storage_backup/upgrades/16.0.2.0.0/post-update.py:0
+#, python-format
+msgid ""
+"The 'fs_storage_backup_environment' module is not available. It is required "
+"to preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_storage_backup'."
+msgstr ""
+
+#. module: fs_storage_backup
 #: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__use_for_backup
 msgid "Use For Backups"
 msgstr ""
