@@ -1,3 +1,11 @@
+16.0.2.0.1 (2026-08-25)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Features**
+
+- - Remove the dependancy of server_environment module and make fs_storage_environment a bridge between fs_storage and server_environment modules. (`#627 <https://github.com/OCA/storage/issues/627>`_)
+
+
 16.0.1.5.0 (2026-05-26)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

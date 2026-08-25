@@ -4,7 +4,7 @@
 {
     "name": "Filesystem Attachment Backend",
     "summary": "Allows to use server environment with fs storage attachment",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.0.1",
     "category": "FS Storage",
     "website": "https://github.com/OCA/storage",
     "author": " ACSONE SA/NV, Dixmit, Odoo Community Association (OCA)",

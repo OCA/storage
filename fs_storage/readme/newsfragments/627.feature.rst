@@ -1,1 +1,0 @@
-- Remove the dependancy of server_environment module and make fs_storage_environment a bridge between fs_storage and server_environment modules.

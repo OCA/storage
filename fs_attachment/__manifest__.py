@@ -5,7 +5,7 @@
 {
     "name": "Base Attachment Object Store",
     "summary": "Store attachments on external object store",
-    "version": "16.0.3.1.1",
+    "version": "16.0.3.1.2",
     "author": "Camptocamp, ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "development_status": "Beta",
