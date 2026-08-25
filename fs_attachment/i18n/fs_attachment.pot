@@ -336,6 +336,16 @@ msgid ""
 msgstr ""
 
 #. module: fs_attachment
+#. odoo-python
+#: code:addons/fs_attachment/upgrades/16.0.3.0.0/post-update.py:0
+#, python-format
+msgid ""
+"The 'fs_attachment_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_attachment'."
+msgstr ""
+
+#. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url
 msgid "The URL to access the file from the filesystem storage."
 msgstr ""
