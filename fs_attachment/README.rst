@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ============================
 Base Attachment Object Store
 ============================
@@ -17,7 +13,7 @@ Base Attachment Object Store
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -178,6 +174,47 @@ to different resource fields/models. You can configure it either on the
   fields (under the field_xmlids key). To do so, use the model/field XML
   ids provided by Odoo. See the Server Environment section for a
   concrete example.
+
+Dynamic routing rules
+~~~~~~~~~~~~~~~~~~~~~
+
+On top of the static ``model_ids``/``field_ids`` mapping described
+above, you can define dynamic routing rules from the menu
+``Settings > Technical > FS Storage Rules``. Unlike the static mapping,
+a rule can look at the actual record the attachment is linked to (its
+state, a related field, etc.) and not just its model or field.
+
+Each rule defines:
+
+- ``Model``: the resource model the rule applies to.
+- ``Field``: optional. Restricts the rule to attachments stored through
+  this specific binary field. Leave it empty to match any field,
+  including attachments with no ``res_field`` at all.
+- ``Domain``: a domain evaluated against the resource record. Rules are
+  evaluated in ``sequence`` order; the first one whose domain matches
+  wins.
+- ``Storage``: the storage to use when the domain matches.
+
+For example, to route attachments of company partners to a dedicated
+storage while individuals keep using the default one, create a rule on
+``res.partner`` with the domain ``[('is_company', '=', True)]``.
+
+The storage of an attachment is therefore resolved in this order:
+
+1. The first matching dynamic ``fs.storage.rule``, if any.
+2. The static ``model_ids``/``field_ids`` mapping (or
+   ``model_xmlids``/``field_xmlids`` from a server environment file).
+3. The storage configured as the default for attachments.
+
+Note
+
+A rule's domain is only evaluated when the attachment is created or when
+its content is rewritten (e.g. via ``open(..., new_version=True)``). It
+is **not** re-evaluated afterwards when the record changes. For example,
+an invoice PDF generated while the invoice is ``posted`` keeps the
+storage selected at that time, even if the invoice is later reset to
+draft. Routing is a permanent decision made when the file is written,
+not a live reflection of the record's current state.
 
 Another key feature of this module is the ability to get access to the
 attachments from URLs.

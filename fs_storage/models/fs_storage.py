@@ -16,6 +16,7 @@ import fsspec
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
+from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.base_sparse_field.models.fields import Serialized
 
@@ -410,6 +411,36 @@ class FSStorage(models.Model):
             if fs_storage:
                 fs = fs_storage.fs
         return fs
+
+    @api.model
+    @tools.ormcache("model_name")
+    def _get_storage_rule_ids_for_model(self, model_name):
+        """Static/cacheable part: which rules exist for this model."""
+        return tuple(
+            self.env["fs.storage.rule"]
+            .sudo()
+            .search([("model_id.model", "=", model_name)])
+            .ids
+        )
+
+    @api.model
+    def _get_storage_code_for_record(self, model_name, res_id, field_name=None):
+        """Return the storage code for a specific record.
+
+        Evaluates fs.storage.rule domains against the actual record before falling back
+        to the static model_ids/field_ids mapping.
+        """
+        if model_name and res_id:
+            rule_ids = self._get_storage_rule_ids_for_model(model_name)
+            if rule_ids:
+                record = self.env[model_name].sudo().browse(res_id).exists()
+                if record:
+                    for rule in self.env["fs.storage.rule"].sudo().browse(rule_ids):
+                        if rule.field_id and rule.field_id.name != field_name:
+                            continue
+                        if record.filtered_domain(safe_eval(rule.domain or "[]")):
+                            return rule.storage_id.code
+        return self.get_storage_code_by_model_field(model_name, field_name)
 
     @api.model
     @tools.ormcache("model_name", "field_name")
