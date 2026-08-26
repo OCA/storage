@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==========================
 Filesystem Storage Backend
 ==========================
@@ -17,7 +13,7 @@ Filesystem Storage Backend
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -165,6 +161,14 @@ follows:
 
 In this example, the SimpleCacheFileSystem protocol will be used as a
 wrapper around the odoofs protocol.
+
+Note
+
+If the ``fs_attachment`` addon is installed, attachments can also be
+routed to a specific storage dynamically, based on the resource record
+they are linked to (not just their model/field). See the "Dynamic
+routing rules" section of ``fs_attachment``'s usage documentation for
+details.
 
 Server Environment
 ------------------

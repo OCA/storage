@@ -195,14 +195,16 @@ class FsStorage(models.Model):
 
     @api.model
     def get_default_storage_code_for_attachments(self):
-        """Return the code of the storage to use to store the attachments.
-        If the resource field is linked to a particular storage, return this one.
-        Otherwise if the resource model is linked to a particular storage,
-        return it.
-        Finally return the code of the storage to use by default."""
+        """Return the code of the storage to use to store the attachment.
+
+        Dynamic fs.storage.rule take priority (record-aware, e.g. state),
+        then the static per-field/per-model mapping, then the global
+        default storage.
+        """
         res_field = self.env.context.get("attachment_res_field")
         res_model = self.env.context.get("attachment_res_model")
-        storage_code = self.get_storage_code_by_model_field(res_model, res_field)
+        res_id = self.env.context.get("attachment_res_id")
+        storage_code = self._get_storage_code_for_record(res_model, res_id, res_field)
         if not storage_code:
             storage_code = self.get_storage_code_for_attachments_fallback()
         return storage_code

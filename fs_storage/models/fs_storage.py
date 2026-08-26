@@ -16,6 +16,7 @@ import fsspec
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
+from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.base_sparse_field.models.fields import Serialized
 
@@ -410,6 +411,47 @@ class FSStorage(models.Model):
             if fs_storage:
                 fs = fs_storage.fs
         return fs
+
+    @api.model
+    @tools.ormcache("model_name")
+    def _get_storage_rules_for_model(self, model_name):
+        """Return cached rule definitions for a given model.
+
+        Returns a tuple of tuples: ((field_name, storage_code, domain), ...)
+        ordered by sequence, id.
+        """
+        rules = (
+            self.env["fs.storage.rule"]
+            .sudo()
+            .search([("model_id.model", "=", model_name)])
+        )
+        return tuple(
+            (
+                rule.field_id.name if rule.field_id else None,
+                rule.storage_id.code,
+                rule.domain or "[]",
+            )
+            for rule in rules
+        )
+
+    @api.model
+    def _get_storage_code_for_record(self, model_name, res_id, field_name=None):
+        """Return the storage code for a specific record.
+
+        Evaluates fs.storage.rule domains against the actual record before falling back
+        to the static model_ids/field_ids mapping.
+        """
+        if model_name and res_id:
+            rules = self._get_storage_rules_for_model(model_name)
+            if rules:
+                record = self.env[model_name].sudo().browse(res_id).exists()
+                if record:
+                    for rule_field_name, storage_code, domain_str in rules:
+                        if rule_field_name and rule_field_name != field_name:
+                            continue
+                        if record.filtered_domain(safe_eval(domain_str)):
+                            return storage_code
+        return self.get_storage_code_by_model_field(model_name, field_name)
 
     @api.model
     @tools.ormcache("model_name", "field_name")
