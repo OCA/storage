@@ -33,14 +33,19 @@ Attachment S3 Migration
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module lets users move existing ``ir.attachment`` files from the
-standard filestore or database into an Amazon S3-backed ``fs.storage``,
-using a wizard directly on the storage form.
+standard Odoo filestore into an Amazon S3-backed ``fs.storage``, using a
+wizard on the storage form.
 
-Migrations are run in background batches, skipping attachments that are
-already stored in S3 or must remain in PostgreSQL. This allows to run
-the process repeatedly avoiding creating duplicates. The migration does
-not delete the original local filestore files; disk cleanup is handled
-outside this module.
+Attachments stored in the database (``db_datas``) are **not** migrated:
+they stay in PostgreSQL. They may still be used as a data source when
+another attachment with the same checksum is migrated and the original
+filestore file is missing.
+
+Migrations run in background batches, skipping attachments that are
+already stored on the target S3 storage or that must remain in
+PostgreSQL according to the storage's force-DB rules. The process is
+idempotent and can be run repeatedly. Original local filestore files are
+not deleted; disk cleanup is handled outside this module.
 
 **Table of contents**
 
@@ -52,9 +57,10 @@ Usage
 
 1. Open the target S3 ``fs.storage`` record and click *Move existing
    attachments to S3* in the header.
-2. In the migration wizard, keep or adjust the storage code, batch size,
-   queue channel, and optional *Max Batches* value, then confirm to
-   enqueue jobs.
+2. In the migration wizard, keep or adjust the batch size, queue
+   channel, and optional *Max Batches* value, then confirm to enqueue
+   jobs. The target storage code is taken from the selected
+   ``fs.storage`` record and cannot be overridden independently.
 3. The migration **copies** blobs to S3 and repoints ``store_fname``.
    The original local filestore files are **not** deleted by this
    module.
@@ -80,10 +86,10 @@ Authors
 Contributors
 ------------
 
-Cetmix (cetmix.com)
+- `Cetmix <https://cetmix.com/>`__:
 
-- Ivan Sokolov
-- George Smirnov
+  - Ivan Sokolov
+  - George Smirnov
 
 Maintainers
 -----------

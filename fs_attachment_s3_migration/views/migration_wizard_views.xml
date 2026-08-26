@@ -9,7 +9,7 @@
                     <field name="storage_id" />
                     <field name="storage_code" />
                     <field name="batch_size" />
-                    <field name="channel" />
+                    <field name="channel_id" required="1" />
                     <field name="max_batches" />
                 </group>
                 <footer>

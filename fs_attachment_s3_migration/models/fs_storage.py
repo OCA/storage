@@ -1,4 +1,4 @@
-# Copyright 2025 Cetmix OU
+# Copyright 2026 Cetmix OU
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import _, fields, models
@@ -31,6 +31,8 @@ class FsStorage(models.Model):
         self.ensure_one()
         if not self.code:
             raise UserError(_("Storage must have a code to run migration."))
+        if self.protocol != "s3":
+            raise UserError(_("Target storage must use the S3 protocol."))
         return {
             "type": "ir.actions.act_window",
             "res_model": "s3.migration.wizard",
@@ -38,8 +40,5 @@ class FsStorage(models.Model):
             "target": "new",
             "context": {
                 "default_storage_id": self.id,
-                "default_storage_code": self.code,
-                "default_batch_size": self.migration_batch_size,
-                "default_channel": self.migration_channel,
             },
         }

@@ -1,5 +1,3 @@
-Cetmix (cetmix.com)
-
-* Ivan Sokolov
-* George Smirnov
-
+* [Cetmix](https://cetmix.com/):
+  * Ivan Sokolov
+  * George Smirnov

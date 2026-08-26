@@ -1,4 +1,4 @@
-# Copyright 2025 Cetmix OU
+# Copyright 2026 Cetmix OU
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Attachment S3 Migration",
@@ -14,8 +14,7 @@
     "data": [
         "security/ir.model.access.csv",
         "data/queue_job_channel_data.xml",
-        "views/fs_storage_view.xml",
+        "views/fs_storage_views.xml",
         "views/migration_wizard_views.xml",
     ],
-    "installable": True,
 }
