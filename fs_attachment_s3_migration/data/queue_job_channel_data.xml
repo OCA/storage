@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!--
+    Queue job channel for S3 migration tasks.
+
+    This channel allows controlling concurrency of migration jobs.
+    Default capacity is inherited from root (1 concurrent job).
+
+    To increase parallelism, configure in queue.job.channel settings or
+    via server environment configuration:
+
+    Check https://github.com/OCA/queue/tree/16.0/queue_job documentation for more details.
+
+    -->
+    <record id="queue_channel_s3_migration" model="queue.job.channel">
+        <field name="name">s3_migration</field>
+        <field name="parent_id" ref="queue_job.channel_root" />
+    </record>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_s3_migration_wizard_form" model="ir.ui.view">
+        <field name="name">s3.migration.wizard.form</field>
+        <field name="model">s3.migration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Move Existing Attachments to S3">
+                <group>
+                    <field name="storage_id" />
+                    <field name="storage_code" />
+                    <field name="batch_size" />
+                    <field name="channel_id" required="1" />
+                    <field name="max_batches" />
+                </group>
+                <footer>
+                    <button
+                        string="Confirm"
+                        type="object"
+                        name="action_confirm"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
