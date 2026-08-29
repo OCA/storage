@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,wBAAyB;EACrB,GAAG,EAAE,cAAc;EACnB,IAAI,EAAE,cAAc;EACpB,QAAQ,EAAE,mBAAmB",
+"sources": ["fsimage_field.scss"],
+"names": [],
+"file": "fsimage_field.css"
+}
