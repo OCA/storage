@@ -89,7 +89,6 @@ def prevent_call_from_safe_eval(reason):
 
 class FSStorage(models.Model):
     _name = "fs.storage"
-    _inherit = "server.env.mixin"
     _description = "FS Storage"
 
     __slots__ = ("__fs", "__odoo_storage_path")
@@ -229,8 +228,6 @@ class FSStorage(models.Model):
         "The code must be unique",
     )
 
-    _server_env_section_name_field = "code"
-
     @api.constrains("model_xmlids")
     def _check_model_xmlid_storage_unique(self):
         """
@@ -298,22 +295,12 @@ class FSStorage(models.Model):
             ("ls", self.env._("List File")),
         ]
 
-    @property
-    def _server_env_fields(self):
-        return {
-            "protocol": {},
-            "options": {},
-            "directory_path": {},
-            "eval_options_from_env": {},
-            "model_xmlids": {},
-            "field_xmlids": {},
-            "check_connection_method": {},
-        }
-
     @api.model_create_multi
     @prevent_call_from_safe_eval("create")
     def create(self, vals_list):
-        return super().create(vals_list)
+        records = super().create(vals_list)
+        self.env.registry.clear_cache()
+        return records
 
     @prevent_call_from_safe_eval("create")
     def _create(self, data_list):
