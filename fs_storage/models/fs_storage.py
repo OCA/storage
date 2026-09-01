@@ -87,7 +87,6 @@ def prevent_call_from_safe_eval(reason):
 
 class FSStorage(models.Model):
     _name = "fs.storage"
-    _inherit = "server.env.mixin"
     _description = "FS Storage"
 
     __slots__ = ("__fs", "__odoo_storage_path")
@@ -192,24 +191,12 @@ class FSStorage(models.Model):
         ),
     ]
 
-    _server_env_section_name_field = "code"
-
     @api.model
     def _get_check_connection_method_selection(self):
         return [
             ("marker_file", _("Create Marker file")),
             ("ls", _("List File")),
         ]
-
-    @property
-    def _server_env_fields(self):
-        return {
-            "protocol": {},
-            "options": {},
-            "directory_path": {},
-            "eval_options_from_env": {},
-            "check_connection_method": {},
-        }
 
     @api.model_create_multi
     @prevent_call_from_safe_eval("create")
