@@ -1,3 +1,4 @@
 from . import fs_storage
 from . import ir_model
 from . import ir_model_fields
+from . import fs_storage_rule

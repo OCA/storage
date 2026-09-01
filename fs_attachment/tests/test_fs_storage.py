@@ -335,3 +335,163 @@ class TestFsStorage(TestFSAttachmentCommon):
         self.temp_backend.directory_path += "/{db_name}"
         self.assertEqual("", self.temp_backend.base_url_for_files)
         self.assertNotIn("{db_name}", self.temp_backend.base_url_for_files)
+
+    def test_dynamic_rule_create_attachment(self):
+        """Attachments linked to a company partner go to temp_backend,
+        attachments linked to an individual go to default_backend, even
+        though both share the same res_model.
+        """
+        self.default_backend.use_as_default_for_attachments = True
+        partner_model = self.env["ir.model"]._get("res.partner")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": self.temp_backend.id,
+                "domain": "[('is_company', '=', True)]",
+            }
+        )
+        company = self.env["res.partner"].create({"name": "Acme", "is_company": True})
+        individual = self.env["res.partner"].create(
+            {"name": "Jane", "is_company": False}
+        )
+        att_company = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"company doc",
+                "res_model": "res.partner",
+                "res_id": company.id,
+            }
+        )
+        att_individual = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"individual doc",
+                "res_model": "res.partner",
+                "res_id": individual.id,
+            }
+        )
+        self.assertEqual(att_company.fs_storage_code, self.temp_backend.code)
+        self.assertEqual(att_individual.fs_storage_code, self.default_backend.code)
+
+    def test_dynamic_rule_takes_priority_over_static_model_mapping(self):
+        """A matching fs.storage.rule wins over the static model_ids mapping."""
+        self.default_backend.model_xmlids = "base.model_res_partner"
+        partner_model = self.env["ir.model"]._get("res.partner")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": self.temp_backend.id,
+                "domain": "[('is_company', '=', True)]",
+            }
+        )
+        company = self.env["res.partner"].create({"name": "Acme", "is_company": True})
+        attachment = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_model": "res.partner",
+                "res_id": company.id,
+            }
+        )
+        self.assertEqual(attachment.fs_storage_code, self.temp_backend.code)
+
+    def test_dynamic_rule_applies_on_new_version_write(self):
+        """A new version written via attachment.open('wb', new_version=True)
+        must still be resolved through the dynamic rule, not just create().
+        """
+        self.default_backend.use_as_default_for_attachments = True
+        partner_model = self.env["ir.model"]._get("res.partner")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": self.temp_backend.id,
+                "domain": "[('is_company', '=', True)]",
+            }
+        )
+        company = self.env["res.partner"].create({"name": "Acme", "is_company": True})
+        attachment = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"v0",
+                "res_model": "res.partner",
+                "res_id": company.id,
+            }
+        )
+        self.assertEqual(attachment.fs_storage_code, self.temp_backend.code)
+        with attachment.open("wb", new_version=True) as f:
+            f.write(b"v1")
+        # the new version must still land in temp_backend, not the global default
+        self.assertEqual(attachment.fs_storage_code, self.temp_backend.code)
+        self.assertTrue(
+            attachment.store_fname.startswith(f"{self.temp_backend.code}://")
+        )
+
+    def test_dynamic_rule_is_a_snapshot_not_a_live_binding(self):
+        """Once an attachment is routed by a matching rule, it must stay in
+        that storage even if the record it's attached to later stops
+        matching the rule's domain. Routing is decided at write time only
+        and is never re-evaluated by unrelated changes to the record.
+        """
+        self.default_backend.use_as_default_for_attachments = True
+        partner_model = self.env["ir.model"]._get("res.partner")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": self.temp_backend.id,
+                "domain": "[('is_company', '=', True)]",
+            }
+        )
+        company = self.env["res.partner"].create({"name": "Acme", "is_company": True})
+        attachment = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_model": "res.partner",
+                "res_id": company.id,
+            }
+        )
+        self.assertEqual(attachment.fs_storage_code, self.temp_backend.code)
+        # record no longer matches the rule's domain
+        company.is_company = False
+        # the already-stored attachment must NOT have moved
+        self.assertEqual(attachment.fs_storage_code, self.temp_backend.code)
+
+    def test_dynamic_rule_field_id_scopes_to_specific_field(self):
+        """A rule with field_id set only routes attachments stored through
+        that specific field; attachments on the same record stored through
+        a different field (or with no res_field at all) must not match it
+        and should fall back to the default storage instead.
+        """
+        self.temp_backend.use_as_default_for_attachments = True
+        partner_model = self.env["ir.model"]._get("res.partner")
+        image_field = self.env["ir.model.fields"]._get("res.partner", "image_1920")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "field_id": image_field.id,
+                "storage_id": self.backend_optimized.id,
+                "domain": "[]",
+            }
+        )
+        partner = self.env["res.partner"].create({"name": "Acme"})
+        image_attachment = self.ir_attachment_model.create(
+            {
+                "name": "test.png",
+                "raw": b"fake image content",
+                "res_model": "res.partner",
+                "res_id": partner.id,
+                "res_field": "image_1920",
+            }
+        )
+        self.assertEqual(image_attachment.fs_storage_code, self.backend_optimized.code)
+        # a plain attachment on the same record (no res_field) must NOT
+        # match the field-scoped rule and falls back to the default storage
+        plain_attachment = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"plain doc",
+                "res_model": "res.partner",
+                "res_id": partner.id,
+            }
+        )
+        self.assertEqual(plain_attachment.fs_storage_code, self.temp_backend.code)

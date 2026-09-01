@@ -51,6 +51,13 @@ follows:
 In this example, the SimpleCacheFileSystem protocol will be used as a
 wrapper around the odoofs protocol.
 
+Note
+
+If the `fs_attachment` addon is installed, attachments can also be routed
+to a specific storage dynamically, based on the resource record they are
+linked to (not just their model/field). See the "Dynamic routing rules"
+section of `fs_attachment`'s usage documentation for details.
+
 ## Server Environment
 
 To ease the management of the filesystem storages configuration accross

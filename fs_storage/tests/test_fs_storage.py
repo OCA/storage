@@ -304,3 +304,147 @@ class TestFSStorage(TestFSStorageCase):
             safe_eval.safe_eval(
                 "env['fs.storage'].search([]).unlink()", {"env": self.env}
             )
+
+    def test_get_storage_code_for_record_dynamic_rule(self):
+        company_storage = self.backend
+        individual_storage = self.copy_backend
+        partner_model = self.env["ir.model"]._get("res.partner")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": company_storage.id,
+                "domain": "[('is_company', '=', True)]",
+                "sequence": 10,
+            }
+        )
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": individual_storage.id,
+                "domain": "[('is_company', '=', False)]",
+                "sequence": 20,
+            }
+        )
+        company = self.env["res.partner"].create({"name": "Acme", "is_company": True})
+        individual = self.env["res.partner"].create(
+            {"name": "Jane", "is_company": False}
+        )
+        Storage = self.env["fs.storage"]
+        self.assertEqual(
+            Storage._get_storage_code_for_record("res.partner", company.id),
+            company_storage.code,
+        )
+        self.assertEqual(
+            Storage._get_storage_code_for_record("res.partner", individual.id),
+            individual_storage.code,
+        )
+
+    def test_get_storage_code_for_record_falls_back_to_static_mapping(self):
+        self.backend.model_xmlids = "base.model_res_partner"
+        partner = self.env["res.partner"].create({"name": "No rule"})
+        self.assertEqual(
+            self.env["fs.storage"]._get_storage_code_for_record(
+                "res.partner", partner.id
+            ),
+            self.backend.code,
+        )
+
+    def test_storage_rule_cache_invalidated_on_write(self):
+        partner_model = self.env["ir.model"]._get("res.partner")
+        rule = self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": self.backend.id,
+                "domain": "[('is_company', '=', True)]",
+            }
+        )
+        company = self.env["res.partner"].create({"name": "Acme", "is_company": True})
+        self.assertEqual(
+            self.env["fs.storage"]._get_storage_code_for_record(
+                "res.partner", company.id
+            ),
+            self.backend.code,
+        )
+        rule.storage_id = self.copy_backend
+        self.assertEqual(
+            self.env["fs.storage"]._get_storage_code_for_record(
+                "res.partner", company.id
+            ),
+            self.copy_backend.code,
+        )
+
+    def test_storage_rule_field_must_belong_to_model(self):
+        partner_model = self.env["ir.model"]._get("res.partner")
+        country_field = self.env["ir.model.fields"].search(
+            [("model", "=", "res.country"), ("name", "=", "name")], limit=1
+        )
+        with self.assertRaises(ValidationError):
+            self.env["fs.storage.rule"].create(
+                {
+                    "model_id": partner_model.id,
+                    "field_id": country_field.id,
+                    "storage_id": self.backend.id,
+                    "domain": "[]",
+                }
+            )
+
+    def test_storage_rule_field_id_matches_specific_field(self):
+        partner_model = self.env["ir.model"]._get("res.partner")
+        image_field = self.env["ir.model.fields"].search(
+            [("model", "=", "res.partner"), ("name", "=", "image_1920")]
+        )
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "field_id": image_field.id,
+                "storage_id": self.copy_backend.id,
+                "domain": "[]",
+            }
+        )
+        partner = self.env["res.partner"].create({"name": "Test"})
+        Storage = self.env["fs.storage"]
+        self.assertEqual(
+            Storage._get_storage_code_for_record(
+                "res.partner", partner.id, field_name="image_1920"
+            ),
+            self.copy_backend.code,
+        )
+
+    def test_storage_rule_field_id_does_not_match_other_field(self):
+        partner_model = self.env["ir.model"]._get("res.partner")
+        image_field = self.env["ir.model.fields"].search(
+            [("model", "=", "res.partner"), ("name", "=", "image_1920")]
+        )
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "field_id": image_field.id,
+                "storage_id": self.copy_backend.id,
+                "domain": "[]",
+            }
+        )
+        partner = self.env["res.partner"].create({"name": "Test"})
+        Storage = self.env["fs.storage"]
+        # regular attachment (res_field=False) must not match the image_1920-scoped rule
+        self.assertNotEqual(
+            Storage._get_storage_code_for_record("res.partner", partner.id, None),
+            self.copy_backend.code,
+        )
+
+    def test_storage_rule_without_field_id_matches_any_field(self):
+        partner_model = self.env["ir.model"]._get("res.partner")
+        self.env["fs.storage.rule"].create(
+            {
+                "model_id": partner_model.id,
+                "storage_id": self.copy_backend.id,
+                "domain": "[]",
+            }
+        )
+        partner = self.env["res.partner"].create({"name": "Test"})
+        Storage = self.env["fs.storage"]
+        self.assertEqual(
+            Storage._get_storage_code_for_record(
+                "res.partner", partner.id, field_name="image_1920"
+            ),
+            self.copy_backend.code,
+        )
