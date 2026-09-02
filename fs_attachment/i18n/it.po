@@ -383,14 +383,25 @@ msgstr "Nome file memorizzato"
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "Codice tecnico usato per identificare il backend deposito nel codice. Questo "
 "codice deve essere univoco. Questo codice è utilizzato per esempio per "
 "definire il backend deposito dove depositare gli allegati attraverso il "
 "parametro configurazione 'ir_attachment.storage.force.database' quando il "
 "modulo 'fs_attachment' è installato."
+
+#. module: fs_attachment
+#. odoo-python
+#: code:addons/fs_attachment/upgrades/17.0.1.6.4/post-migration.py:0
+#, python-format
+msgid ""
+"The 'fs_attachment_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_attachment'."
+msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url
