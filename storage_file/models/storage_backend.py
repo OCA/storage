@@ -71,19 +71,6 @@ class StorageBackend(models.Model):
             self.action_recompute_base_url_for_files()
         return res
 
-    @property
-    def _server_env_fields(self):
-        env_fields = super()._server_env_fields
-        env_fields.update(
-            {
-                "filename_strategy": {},
-                "served_by": {},
-                "base_url": {},
-                "url_include_directory_path": {},
-            }
-        )
-        return env_fields
-
     _default_backend_xid = "storage_backend.default_storage_backend"
 
     @classmethod
