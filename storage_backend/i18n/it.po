@@ -29,16 +29,6 @@ msgid "Backend Type"
 msgstr "Tipo backend"
 
 #. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_default
-msgid "Backend Type Env Default"
-msgstr "Tipo backend ambiente predefinito"
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__backend_type_env_is_editable
-msgid "Backend Type Env Is Editable"
-msgstr "Il tipo backend ambiente è modificabile"
-
-#. module: storage_backend
 #. odoo-python
 #: code:addons/storage_backend/models/storage_backend.py:0
 #, python-format
@@ -68,16 +58,6 @@ msgid "Directory Path"
 msgstr "Percorso cartella"
 
 #. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr "Percorso cartella ambiente predefinito"
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path_env_is_editable
-msgid "Directory Path Env Is Editable"
-msgstr "Percorso cartella ambiente è modificabile"
-
-#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
@@ -105,11 +85,6 @@ msgid "ID"
 msgstr "ID"
 
 #. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -126,14 +101,8 @@ msgstr "Nome"
 
 #. module: storage_backend
 #: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path
-#: model:ir.model.fields,help:storage_backend.field_storage_backend__directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr "Percorso relativo alla cartella per archiviare il file"
-
-#. module: storage_backend
-#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "Predefiniti ambiente server"
 
 #. module: storage_backend
 #: model:ir.actions.act_window,name:storage_backend.act_open_storage_backend_view
@@ -149,3 +118,31 @@ msgstr "Backend deposito"
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
 msgid "Test connection"
 msgstr "Prova connessione"
+
+#. module: storage_backend
+#. odoo-python
+#: code:addons/storage_backend/upgrades/17.0.1.0.1/post-update.py:0
+#, python-format
+msgid ""
+"The 'storage_backend_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'storage.backend'. Make it "
+"available on the addons path before upgrading 'storage_backend'."
+msgstr ""
+
+#~ msgid "Backend Type Env Default"
+#~ msgstr "Tipo backend ambiente predefinito"
+
+#~ msgid "Backend Type Env Is Editable"
+#~ msgstr "Il tipo backend ambiente è modificabile"
+
+#~ msgid "Directory Path Env Default"
+#~ msgstr "Percorso cartella ambiente predefinito"
+
+#~ msgid "Directory Path Env Is Editable"
+#~ msgstr "Percorso cartella ambiente è modificabile"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
+
+#~ msgid "Server Env Defaults"
+#~ msgstr "Predefiniti ambiente server"
