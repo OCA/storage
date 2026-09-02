@@ -40,11 +40,6 @@ msgid "Check Connection Method"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_default
-msgid "Check Connection Method Env Default"
-msgstr ""
-
-#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr ""
@@ -96,11 +91,6 @@ msgstr "Descripción del Protocolo"
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path
 msgid "Directory Path"
 msgstr "Ruta del Directorio"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr "Ruta del Directorio Env Predet"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
@@ -181,11 +171,6 @@ msgid "Options"
 msgstr "Opciones"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_default
-msgid "Options Env Default"
-msgstr "Opciones Env Por Defecto"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
 msgstr "Protocolo"
@@ -197,13 +182,7 @@ msgid "Protocol Descr"
 msgstr "Descr. del Protocolo"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_default
-msgid "Protocol Env Default"
-msgstr "Protocolo Env Predeterminado"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr "Ruta relativa al directorio para almacenar el archivo"
 
@@ -213,13 +192,7 @@ msgid "Resolve env vars"
 msgstr "Resolver las variables de entorno"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_default
-msgid "Resolve env vars Env Default"
-msgstr ""
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_eval_options_from_env_env_default
 msgid ""
 "Resolve options values starting with $ from environment variables. e.g\n"
 "            {\n"
@@ -235,13 +208,7 @@ msgstr ""
 "            "
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "Valores por defecto del Entorno de Servidor"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_check_connection_method_env_default
 msgid ""
 "Set a method if you want the connection to remote to be checked every time "
 "the storage is used, in order to remove the obsolete connection from the "
@@ -283,6 +250,16 @@ msgid "Test connection"
 msgstr "Probar conexión"
 
 #. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/upgrades/17.0.2.1.2/post-update.py:0
+#, python-format
+msgid ""
+"The 'fs_storage_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_storage'."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
 msgid "The code must be unique"
 msgstr "El código tiene que ser único"
@@ -301,7 +278,6 @@ msgstr "Las opciones utilizadas para inicializar el sistema de archivos.\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -336,7 +312,6 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
 "This list is the one supported by the fsspec library (see https://filesystem-"
@@ -352,30 +327,26 @@ msgstr ""
 "Preste atención que de acuerdo al protocolo, algunas opciones deben ser "
 "provistas a través del campo opciones."
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_is_editable
-msgid "X Check Connection Method Env Is Editable"
-msgstr ""
+#~ msgid "Directory Path Env Default"
+#~ msgstr "Ruta del Directorio Env Predet"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
-msgid "X Directory Path Env Is Editable"
-msgstr "X La Ruta de Directorio Env Es Editable"
+#~ msgid "Options Env Default"
+#~ msgstr "Opciones Env Por Defecto"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_is_editable
-msgid "X Eval Options From Env Env Is Editable"
-msgstr ""
+#~ msgid "Protocol Env Default"
+#~ msgstr "Protocolo Env Predeterminado"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
-msgid "X Options Env Is Editable"
-msgstr "X Las Opciones Env son Editables"
+#~ msgid "Server Env Defaults"
+#~ msgstr "Valores por defecto del Entorno de Servidor"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
-msgid "X Protocol Env Is Editable"
-msgstr "El Protocolo X Env es Editable"
+#~ msgid "X Directory Path Env Is Editable"
+#~ msgstr "X La Ruta de Directorio Env Es Editable"
+
+#~ msgid "X Options Env Is Editable"
+#~ msgstr "X Las Opciones Env son Editables"
+
+#~ msgid "X Protocol Env Is Editable"
+#~ msgstr "El Protocolo X Env es Editable"
 
 #~ msgid "Directory Path Env Is Editable"
 #~ msgstr "La Ruta de Directorio Env es Editable"

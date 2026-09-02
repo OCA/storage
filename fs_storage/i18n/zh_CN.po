@@ -40,11 +40,6 @@ msgid "Check Connection Method"
 msgstr ""
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_default
-msgid "Check Connection Method Env Default"
-msgstr ""
-
-#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr ""
@@ -96,11 +91,6 @@ msgstr "描述协议"
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path
 msgid "Directory Path"
 msgstr "目录路径"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr "目录路径环境默认值"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
@@ -181,11 +171,6 @@ msgid "Options"
 msgstr "选项"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_default
-msgid "Options Env Default"
-msgstr "选项环境默认值"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
 msgstr "协议"
@@ -197,13 +182,7 @@ msgid "Protocol Descr"
 msgstr "协议描述"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_default
-msgid "Protocol Env Default"
-msgstr "协议环境默认值"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr "存储文件的目录的相对路径"
 
@@ -213,13 +192,7 @@ msgid "Resolve env vars"
 msgstr "解析环境变量"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_default
-msgid "Resolve env vars Env Default"
-msgstr ""
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_eval_options_from_env_env_default
 msgid ""
 "Resolve options values starting with $ from environment variables. e.g\n"
 "            {\n"
@@ -234,13 +207,7 @@ msgstr ""
 "            "
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "服务器环境默认值"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_check_connection_method_env_default
 msgid ""
 "Set a method if you want the connection to remote to be checked every time "
 "the storage is used, in order to remove the obsolete connection from the "
@@ -279,6 +246,16 @@ msgid "Test connection"
 msgstr "测试连接"
 
 #. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/upgrades/17.0.2.1.2/post-update.py:0
+#, python-format
+msgid ""
+"The 'fs_storage_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_storage'."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
 msgid "The code must be unique"
 msgstr "代码必须是唯一的"
@@ -297,7 +274,6 @@ msgstr "用于初始化文件系统的选项。\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -332,7 +308,6 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
 "This list is the one supported by the fsspec library (see https://filesystem-"
@@ -346,27 +321,23 @@ msgstr ""
 "latest）。默认添加了一个文件系统协议，指的是Odoo本地文件系统。\n"
 "请注意，根据协议，某些选项必须通过选项字段提供。"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_is_editable
-msgid "X Check Connection Method Env Is Editable"
-msgstr ""
+#~ msgid "Directory Path Env Default"
+#~ msgstr "目录路径环境默认值"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
-msgid "X Directory Path Env Is Editable"
-msgstr "X目录路径环境可编辑"
+#~ msgid "Options Env Default"
+#~ msgstr "选项环境默认值"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_is_editable
-msgid "X Eval Options From Env Env Is Editable"
-msgstr ""
+#~ msgid "Protocol Env Default"
+#~ msgstr "协议环境默认值"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
-msgid "X Options Env Is Editable"
-msgstr "X选项环境可编辑"
+#~ msgid "Server Env Defaults"
+#~ msgstr "服务器环境默认值"
 
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
-msgid "X Protocol Env Is Editable"
-msgstr "X协议环境可编辑"
+#~ msgid "X Directory Path Env Is Editable"
+#~ msgstr "X目录路径环境可编辑"
+
+#~ msgid "X Options Env Is Editable"
+#~ msgstr "X选项环境可编辑"
+
+#~ msgid "X Protocol Env Is Editable"
+#~ msgstr "X协议环境可编辑"
