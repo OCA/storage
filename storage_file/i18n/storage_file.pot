@@ -437,6 +437,15 @@ msgstr ""
 
 #. module: storage_file
 #. odoo-python
+#: code:addons/storage_file/upgrades/18.0.1.3.1/post-migration.py:0
+msgid ""
+"The 'storage_file_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'storage.backend'. Make it"
+" available on the addons path before upgrading 'storage_file'."
+msgstr ""
+
+#. module: storage_file
+#. odoo-python
 #: code:addons/storage_file/models/storage_file.py:0
 msgid ""
 "The filename strategy is empty for the backend %s.\n"
