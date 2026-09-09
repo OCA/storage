@@ -1,0 +1,86 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* image_tag
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__apply_on
+msgid "Apply On"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__id
+msgid "ID"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.actions.act_window,name:image_tag.act_open_image_tag_view
+#: model:ir.model,name:image_tag.model_image_tag
+#: model_terms:ir.ui.view,arch_db:image_tag.image_tag_view_search
+msgid "Image Tag"
+msgstr ""
+
+#. module: image_tag
+#: model:res.groups,name:image_tag.group_image_tag_manager
+msgid "Image Tag Manager"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__name
+msgid "Name"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__server_env_defaults
+msgid "Server Env Defaults"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,field_description:image_tag.field_image_tag__tech_name
+msgid "Tech Name"
+msgstr ""
+
+#. module: image_tag
+#: model:ir.model.fields,help:image_tag.field_image_tag__tech_name
+msgid "Unique name for technical purposes. Eg: server env keys."
+msgstr ""
