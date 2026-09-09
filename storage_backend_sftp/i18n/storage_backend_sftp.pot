@@ -85,3 +85,13 @@ msgstr ""
 #: model:ir.model,name:storage_backend_sftp.model_storage_backend
 msgid "Storage Backend"
 msgstr ""
+
+#. module: storage_backend_sftp
+#. odoo-python
+#: code:addons/storage_backend_sftp/upgrades/18.0.1.0.1/post-migration.py:0
+msgid ""
+"The 'storage_backend_sftp_environment' module is not available. It is "
+"required to preserve the server environment managed fields of "
+"'storage.backend'. Make it available on the addons path before upgrading "
+"'storage_backend_sftp'."
+msgstr ""
