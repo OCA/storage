@@ -54,11 +54,6 @@ msgid "Image Tag Manager"
 msgstr "Gestore etichetta immagine"
 
 #. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
-
-#. module: image_tag
 #: model:ir.model.fields,field_description:image_tag.field_image_tag__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
@@ -73,12 +68,11 @@ msgstr "Ultimo aggiornamento il"
 msgid "Name"
 msgstr "Nome"
 
-#. module: image_tag
-#: model:ir.model.fields,field_description:image_tag.field_image_tag__tech_name
-msgid "Tech Name"
-msgstr "Nome tecnico"
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
 
-#. module: image_tag
-#: model:ir.model.fields,help:image_tag.field_image_tag__tech_name
-msgid "Unique name for technical purposes. Eg: server env keys."
-msgstr "Nome univoco per motivi tecnici. Es: chiavi server ambiente."
+#~ msgid "Tech Name"
+#~ msgstr "Nome tecnico"
+
+#~ msgid "Unique name for technical purposes. Eg: server env keys."
+#~ msgstr "Nome univoco per motivi tecnici. Es: chiavi server ambiente."
