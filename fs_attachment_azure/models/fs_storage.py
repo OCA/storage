@@ -18,6 +18,25 @@ AZURE_CLOCK_SKEW_TOLERANCE = 300
 # Azure refuses to issue a user delegation key valid for more than 7 days.
 AZURE_MAX_DELEGATION_KEY_EXPIRATION = 7 * 24 * 3600
 
+# Azure accepts at most 256 subrequests in a single blob batch request.
+AZURE_MAX_BLOBS_PER_BATCH = 256
+
+
+async def _azure_delete_blobs_batch(service_client, container_name, blob_names):
+    """Delete blobs in one batch request, returning a status code per blob.
+
+    The container client is used as a context manager, the same way adlfs
+    does when it needs a blob client.
+    """
+    async with service_client.get_container_client(container_name) as container_client:
+        responses = await container_client.delete_blobs(
+            *blob_names,
+            # A single blob that cannot be deleted must not discard the whole
+            # batch: the status of each subrequest is inspected instead.
+            raise_on_any_failure=False,
+        )
+        return [response.status_code async for response in responses]
+
 
 class FsStorage(models.Model):
     _inherit = "fs.storage"
@@ -121,3 +140,34 @@ class FsStorage(models.Model):
             key_start_time=now - skew,
             key_expiry_time=expiry_time,
         )
+
+    def _azure_delete_blobs(self, blob_names):
+        """Delete the given blobs from this storage's container.
+
+        The deletion is sent as a single batch request, so the caller is the
+        one splitting larger lists, one batch at a time.
+
+        :return: the blobs that are gone, either because they were deleted or
+            because they were already missing, which is as good as deleted.
+        :raise ValueError: if more blobs than a batch can hold are given.
+        """
+        self.ensure_one()
+        if not blob_names:
+            return []
+        if len(blob_names) > AZURE_MAX_BLOBS_PER_BATCH:
+            raise ValueError(
+                f"A blob batch request holds at most "
+                f"{AZURE_MAX_BLOBS_PER_BATCH} blobs, got {len(blob_names)}."
+            )
+        root_fs = self._get_root_filesystem()
+        status_codes = self._azure_call_synchronous(
+            _azure_delete_blobs_batch,
+            root_fs.service_client,
+            self.get_directory_path(),
+            blob_names,
+        )
+        return [
+            blob_name
+            for blob_name, status_code in zip(blob_names, status_codes, strict=True)
+            if 200 <= status_code < 300 or status_code == 404
+        ]
