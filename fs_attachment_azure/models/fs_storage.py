@@ -2,9 +2,21 @@
 # Copyright 2026 Camptocamp SA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import datetime
+
 import fsspec.asyn
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
+from ..tools import ormcache_expiring
+
+# Start times are backdated by this many seconds, to tolerate clock skew
+# between this host and Azure.
+AZURE_CLOCK_SKEW_TOLERANCE = 300
+
+# Azure refuses to issue a user delegation key valid for more than 7 days.
+AZURE_MAX_DELEGATION_KEY_EXPIRATION = 7 * 24 * 3600
 
 
 class FsStorage(models.Model):
@@ -22,6 +34,16 @@ class FsStorage(models.Model):
         help="The expiration time for the signed URL in seconds. "
         "Default is 30 seconds.",
     )
+    azure_delegation_key_expiration = fields.Integer(
+        string="Delegation Key Expiration (seconds)",
+        default=3600,
+        help="How long the user delegation key used to sign URLs is cached, when "
+        "the storage authenticates with an identity instead of a shared key. A "
+        "higher value means fewer calls to Azure, but a longer window during "
+        "which the key of a revoked identity remains usable. Azure does not "
+        "issue keys valid for more than 7 days, which this and the signed URL "
+        "expiration must leave room for.",
+    )
 
     @property
     def _server_env_fields(self):
@@ -31,9 +53,36 @@ class FsStorage(models.Model):
             {
                 "azure_uses_signed_url_for_x_sendfile": {},
                 "azure_signed_url_expiration": {},
+                "azure_delegation_key_expiration": {},
             }
         )
         return fields
+
+    @api.constrains("azure_delegation_key_expiration", "azure_signed_url_expiration")
+    def _check_azure_delegation_key_expiration(self):
+        for rec in self:
+            if rec.azure_delegation_key_expiration <= 0:
+                raise ValidationError(
+                    _("The delegation key expiration must be at least 1 second.")
+                )
+            # See _azure_get_user_delegation_key for the lifetime the key is
+            # requested for.
+            requested = (
+                rec.azure_delegation_key_expiration
+                + rec.azure_signed_url_expiration
+                + AZURE_CLOCK_SKEW_TOLERANCE
+            )
+            if requested > AZURE_MAX_DELEGATION_KEY_EXPIRATION:
+                raise ValidationError(
+                    _(
+                        "Azure does not issue delegation keys valid for more than "
+                        "7 days. The delegation key expiration, the signed URL "
+                        "expiration and a %(skew)s seconds clock skew tolerance "
+                        "must not add up to more than %(max)s seconds.",
+                        skew=AZURE_CLOCK_SKEW_TOLERANCE,
+                        max=AZURE_MAX_DELEGATION_KEY_EXPIRATION,
+                    )
+                )
 
     @property
     def is_azure_storage(self):
@@ -53,4 +102,35 @@ class FsStorage(models.Model):
             *args,
             timeout=None,
             **kwargs,
+        )
+
+    @ormcache_expiring(
+        "self.id",
+        "service_client.url",
+        expiration="self.azure_delegation_key_expiration",
+    )
+    def _azure_get_user_delegation_key(self, service_client):
+        """Return a user delegation key to sign URLs for this storage.
+
+        The key is cached for ``azure_delegation_key_expiration`` seconds and
+        shared by all the attachments of the storage. It is requested for a
+        bit longer than that, so that it still covers the signatures generated
+        by the very last call served from the cache.
+
+        Getting such a key requires the identity to have the "Storage Blob
+        Delegator" role on the storage account, on top of a data plane role.
+        """
+        self.ensure_one()
+        now = datetime.datetime.now(datetime.timezone.utc)
+        skew = datetime.timedelta(seconds=AZURE_CLOCK_SKEW_TOLERANCE)
+        expiry_time = (
+            now
+            + datetime.timedelta(seconds=self.azure_delegation_key_expiration)
+            + datetime.timedelta(seconds=self.azure_signed_url_expiration)
+            + skew
+        )
+        return self._azure_call_synchronous(
+            service_client.get_user_delegation_key,
+            key_start_time=now - skew,
+            key_expiry_time=expiry_time,
         )

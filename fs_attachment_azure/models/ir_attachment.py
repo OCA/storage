@@ -70,26 +70,21 @@ class IrAttachment(models.Model):
                 # Ideally we would be able to call root_fs.url() as it is calling
                 #  generate_blob_sas. However, it expects to use an account shared key
                 #  (i.e either a connection string or account name/key pair).
-                # For this we need to get a delegation key first. The identity
-                # needs the "Storage Blob Delegator" role on the storage account,
-                # on top of a data plane role.
-                now = datetime.datetime.now(datetime.timezone.utc)
-                expiry_time = now + datetime.timedelta(
-                    seconds=storage.azure_signed_url_expiration
-                )
-                delegation_key = storage._azure_call_synchronous(
-                    azure_client.get_user_delegation_key,
-                    key_start_time=now,
-                    key_expiry_time=expiry_time,
-                )
-                # Then we can call generate_blob_sas
+                # For this we need a user delegation key first.
+                delegation_key = storage._azure_get_user_delegation_key(azure_client)
+                # Then we can call generate_blob_sas. No start time is given, so
+                # that the signature is valid as soon as Azure receives it
+                # whatever the clock skew between this host and Azure. This is
+                # also what adlfs does when signing with a shared key.
+                expiry_time = datetime.datetime.now(
+                    datetime.timezone.utc
+                ) + datetime.timedelta(seconds=storage.azure_signed_url_expiration)
                 sas_token = generate_blob_sas(
                     account_name=blob_client.account_name,
                     container_name=container_name,
                     blob_name=file_path,
                     user_delegation_key=delegation_key,
                     permission=BlobSasPermissions(read=True),
-                    start=now,
                     expiry=expiry_time,
                 )
                 file_url = f"{blob_client.url}?{sas_token}"

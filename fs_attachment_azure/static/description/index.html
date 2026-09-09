@@ -382,16 +382,19 @@ X-Accel-Redirect without exposing the files publicly.)</li>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
-<li><a class="reference internal" href="#changelog" id="toc-entry-2">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-3">17.0.1.0.0 (2026-07-13)</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a><ul>
+<li><a class="reference internal" href="#signing-with-an-identity" id="toc-entry-2">Signing with an identity</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-4">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-5">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-6">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-7">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-8">Maintainers</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-3">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-4">17.0.1.0.0 (2026-07-13)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-7">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-8">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-9">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -401,23 +404,28 @@ X-Accel-Redirect without exposing the files publicly.)</li>
 <p>On the Odoo instance, go to <em>Settings</em> &gt; <em>Technical</em> &gt; <em>Storage</em> &gt; <em>File
 Storage</em>.</p>
 <p>When you create a new storage for Azure or modify an existing one, when
-you activate the option “Use X-Sendfile To Serve Internal Url”, 2
+you activate the option “Use X-Sendfile To Serve Internal Url”, 3
 additional fields will appear:</p>
 <ul class="simple">
 <li><strong>Azure Uses Signed URL For X-Accel-Redirect</strong>: If checked, the
-X-Accel-Redirect path will be a signed URL, which is useful for S3
+X-Accel-Redirect path will be a signed URL, which is useful for Azure
 storages that require signed URLs for access.</li>
 <li><strong>Azure Signed URL Expiration</strong>: The expiration time for the signed
 URL in seconds. This field is only relevant if the previous option is
 checked. By default, it is set to 30 seconds but it could be less
 since the url generated into the X-Accel-Redirect process is directly
 used by the web server to serve the file.</li>
+<li><strong>Azure Delegation Key Expiration</strong>: The lifetime of the user
+delegation key, in seconds. This field is only relevant when the
+storage authenticates with an identity (see below). By default it is
+set to 1 hour, and Azure does not allow more than 7 days.</li>
 </ul>
 <p>The value of these fields can also be set in the server environment
 variables using the keys:</p>
 <ul class="simple">
 <li><em>azure_uses_signed_url_for_x_sendfile</em></li>
 <li><em>azure_signed_url_expiration</em></li>
+<li><em>azure_delegation_key_expiration</em></li>
 </ul>
 <p>When the option “Use X-Sendfile To Serve Internal Url” is enabled, the
 system will generate an X-Accel-Redirect header in the response to a
@@ -460,18 +468,40 @@ storages, the Azure implementation does not require a base URL to be set
 in the storage configuration. The X-Accel-Redirect path is constructed
 directly from the Azure storage’s URL defined for the connection, the
 directory name as bucket name, and the file path.</p>
+<div class="section" id="signing-with-an-identity">
+<h2><a class="toc-backref" href="#toc-entry-2">Signing with an identity</a></h2>
+<p>Signed URLs are generated with the account shared key when the storage
+is configured with a connection string or an account name/key pair.
+Otherwise (managed identity, workload identity, service principal, …)
+they are signed with a <em>user delegation key</em>, which requires the
+identity to have the <strong>Storage Blob Delegator</strong> role on the storage
+account, on top of a data plane role such as <em>Storage Blob Data Reader</em>.</p>
+<p>Delegation keys are obtained from Azure with an extra request, so they
+are kept in the cache of the Odoo registry for <strong>Azure Delegation Key
+Expiration</strong> seconds. They are requested from Azure for slightly longer
+than that, so that a key served from the cache still covers the URLs
+signed with it.</p>
+<p>A higher value means fewer requests to Azure, but also a longer window
+during which the key of a revoked identity remains usable. Note that a
+key already issued by Azure stays valid until it expires anyway,
+whatever Odoo does with its copy.</p>
+<p>The cache is only kept in memory, so it is never shared between
+processes nor persisted in the database, and it is dropped whenever Odoo
+clears the cache of the registry, which modifying a storage does.
+Reconfiguring a storage is therefore applied right away.</p>
+</div>
 </div>
 <div class="section" id="changelog">
-<h1><a class="toc-backref" href="#toc-entry-2">Changelog</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-3">Changelog</a></h1>
 <div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-3">17.0.1.0.0 (2026-07-13)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-4">17.0.1.0.0 (2026-07-13)</a></h2>
 <ul class="simple">
 <li>This module was “forked” from fs_attachment_s3 v17.0.1.2.1</li>
 </ul>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-4">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/storage/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -479,16 +509,16 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-5">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-6">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-6">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">Authors</a></h2>
 <ul class="simple">
 <li>ACSONE SA/NV</li>
 <li>Camptocamp</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-7">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-8">Contributors</a></h2>
 <ul class="simple">
 <li>Laurent Mignon <a class="reference external" href="mailto:laurent.mignon&#64;acsone.eu">laurent.mignon&#64;acsone.eu</a> (<a class="reference external" href="https://www.acsone.eu">https://www.acsone.eu</a>)</li>
 <li>Stéphane Bidoul <a class="reference external" href="mailto:stephane.bidoul&#64;acsone.eu">stephane.bidoul&#64;acsone.eu</a> (<a class="reference external" href="https://www.acsone.eu">https://www.acsone.eu</a>)</li>
@@ -496,7 +526,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-8">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
