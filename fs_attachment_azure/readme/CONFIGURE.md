@@ -15,8 +15,8 @@ the option "Use X-Sendfile To Serve Internal Url", 3 additional fields will appe
   identity (see below). By default it is set to 1 hour, and Azure does not allow
   more than 7 days.
 
-The value of these fields can also be set in the server environment variables using
-the keys:
+The value of these fields can also be set in the server environment, by installing
+the *fs_attachment_azure_environment* glue module and using the keys:
 
 - *azure_uses_signed_url_for_x_sendfile*
 - *azure_signed_url_expiration*
