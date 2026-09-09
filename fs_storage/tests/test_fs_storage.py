@@ -82,7 +82,12 @@ class TestFSStorage(TestFSStorageCase):
         for i in range(4):
             backend_ids.append(
                 self.backend.create(
-                    {"name": f"name{i}", "directory_path": f"{i}", "code": f"code{i}"}
+                    {
+                        "name": f"name{i}",
+                        "directory_path": f"{i}",
+                        "code": f"code{i}",
+                        "protocol": "odoofs",
+                    }
                 ).id
             )
         records = self.backend.browse(backend_ids)

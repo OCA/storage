@@ -1,0 +1,1 @@
+Glue module for storage_backend_ftp to use storage_backend_environment

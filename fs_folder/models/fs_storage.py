@@ -47,16 +47,6 @@ class FsStorage(models.Model):
                 _("Only one storage can be used as default for filesystem contents.")
             )
 
-    @property
-    def _server_env_fields(self):
-        env_fields = super()._server_env_fields
-        env_fields.update(
-            {
-                "use_as_default_for_fs_contents": {},
-            }
-        )
-        return env_fields
-
     @api.model
     @tools.ormcache()
     def get_storage_code_for_fs_content_fallback(self) -> str | None:

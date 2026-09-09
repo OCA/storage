@@ -4,7 +4,7 @@
 {
     "name": "Fs Attachment S3",
     "summary": """Store attachments into S3 complient filesystem""",
-    "version": "18.0.1.2.1",
+    "version": "18.0.1.2.2",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/storage",

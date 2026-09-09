@@ -31,18 +31,3 @@ class StorageBackend(models.Model):
         "but to provide it via secret env variable. "
         "See `server_environment` docs.",
     )
-
-    @property
-    def _server_env_fields(self):
-        env_fields = super()._server_env_fields
-        env_fields.update(
-            {
-                "sftp_password": {},
-                "sftp_login": {},
-                "sftp_server": {},
-                "sftp_port": {},
-                "sftp_auth_method": {},
-                "sftp_ssh_private_key": {},
-            }
-        )
-        return env_fields

@@ -33,6 +33,7 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
                 "ftp_port": os.environ.get("FTP_PORT", "21"),
                 "directory_path": "upload",
                 "ftp_encryption": "ftp",
+                "ftp_security": "none",
             }
         )
         cls.case_with_subdirectory = "upload/subdirectory/here"
