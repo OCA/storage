@@ -33,7 +33,8 @@ addon | version | maintainers | summary
 [fs_image_thumbnail](fs_image_thumbnail/) | 18.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Generate and store thumbnail for images
 [fs_storage](fs_storage/) | 18.0.2.1.2 |  | Implement the concept of Storage with amazon S3, sftp...
 [fs_storage_ms_drive](fs_storage_ms_drive/) | 18.0.2.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Add the microsoft drives (OneDrive, Sharepoint) as a storage backend
-[image_tag](image_tag/) | 18.0.1.0.0 |  | Image tag model
+[image_tag](image_tag/) | 18.0.1.0.1 |  | Image tag model
+[image_tag_environment](image_tag_environment/) | 18.0.1.0.0 |  | Server environment features for the Image Tag model
 [microsoft_drive_account](microsoft_drive_account/) | 18.0.2.0.1 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Link user with Microsoft
 [storage_backend](storage_backend/) | 18.0.1.1.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_ftp](storage_backend_ftp/) | 18.0.1.0.0 |  | Implement FTP Storage
