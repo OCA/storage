@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-06-17 17:46+0000\n"
+"PO-Revision-Date: 2026-09-09 12:46+0000\n"
 "Last-Translator: Bastian Günther <mail@bastian-guenther.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -296,6 +296,9 @@ msgid ""
 "preserve the server environment managed fields of 'fs.storage'. Make it "
 "available on the addons path before upgrading 'fs_storage'."
 msgstr ""
+"Das Modul 'fs_storage_environment' ist nicht verfügbar. Es wird benötigt, um "
+"die über Server Environment verwalteten Felder von 'fs.storage' zu erhalten. "
+"Stellen Sie es im Addons-Pfad bereit, bevor Sie 'fs_storage' aktualisieren."
 
 #. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_code_uniq
