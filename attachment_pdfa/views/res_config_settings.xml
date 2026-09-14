@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 ACSONE SA/NV
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.attachment.pdfa</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='contacts_settings']" position="after">
+                <block title="PDF/A Conversion" name="attachment_pdfa_container">
+                    <setting
+                        id="attachment_pdfa_method_setting"
+                        string="Conversion Method"
+                        help="Engine used to convert PDF to PDF/A when a model requires it."
+                    >
+                        <field name="attachment_pdfa_method" widget="radio" />
+                    </setting>
+                    <setting
+                        id="attachment_pdfa_mode_setting"
+                        string="Storage Strategy"
+                        help="Choose whether to replace the original PDF or store the converted PDF/A file beside it."
+                        invisible="attachment_pdfa_method == 'disable'"
+                    >
+                        <field name="attachment_pdfa_mode" widget="radio" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
