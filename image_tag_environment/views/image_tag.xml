@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="image_tag_view_tree" model="ir.ui.view">
+        <field name="model">image.tag</field>
+        <field name="inherit_id" ref="image_tag.image_tag_view_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="tech_name" />
+            </field>
+        </field>
+    </record>
+    <record id="image_tag_view_search" model="ir.ui.view">
+        <field name="model">image.tag</field>
+        <field name="inherit_id" ref="image_tag.image_tag_view_search" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="tech_name" />
+            </field>
+        </field>
+    </record>
+</odoo>
