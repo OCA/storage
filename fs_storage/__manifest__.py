@@ -18,5 +18,5 @@
         "wizards/fs_test_connection.xml",
     ],
     "external_dependencies": {"python": ["fsspec>=2024.5.0"]},
-    "installable": True,
+    "installable": False,
 }
