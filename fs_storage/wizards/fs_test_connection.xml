@@ -20,7 +20,7 @@
             </form>
         </field>
     </record>
-    <record model="ir.actions.act_window" id="act_open_fs_test_connection_view">
+    <record id="act_open_fs_test_connection_view" model="ir.actions.act_window">
         <field name="name">FS Test Connection</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">fs.test.connection</field>
