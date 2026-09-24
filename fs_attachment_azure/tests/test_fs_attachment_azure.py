@@ -144,11 +144,14 @@ class TestFSAttachementAzure(TestFSAttachmentAzureCommon):
     def test_get_x_sendfile_path_azure_signed_shared_key(self):
         """With a shared key, the URL is signed by adlfs itself."""
         self._enable_signed_url()
-        with patch.object(
-            AzureBlobFileSystem, "do_connect", _fake_do_connect_shared_key
-        ), patch.object(
-            AzureBlobFileSystem, "url", return_value=f"{BASE_URL}?{TOKEN}"
-        ) as mock_url:
+        with (
+            patch.object(
+                AzureBlobFileSystem, "do_connect", _fake_do_connect_shared_key
+            ),
+            patch.object(
+                AzureBlobFileSystem, "url", return_value=f"{BASE_URL}?{TOKEN}"
+            ) as mock_url,
+        ):
             url = self.fake_attachment_azure._get_x_sendfile_path()
             service_client = self._get_service_client()
 
@@ -253,9 +256,11 @@ class TestFSAttachementAzure(TestFSAttachmentAzureCommon):
     def test_delegation_key_expiration_constraint(self):
         """Azure only issues delegation keys valid for up to 7 days."""
         for expiration in (0, -1, AZURE_MAX_DELEGATION_KEY_EXPIRATION):
-            with self.subTest(expiration=expiration), self.assertRaises(
-                ValidationError
-            ), self.env.cr.savepoint():
+            with (
+                self.subTest(expiration=expiration),
+                self.assertRaises(ValidationError),
+                self.env.cr.savepoint(),
+            ):
                 self.azure_backend.azure_delegation_key_expiration = expiration
         # The signed URL expiration and the clock skew tolerance are part of
         # the lifetime the key is requested for, so they leave less room.
