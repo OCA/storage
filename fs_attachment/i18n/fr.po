@@ -52,6 +52,9 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__display_name
+#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__display_name
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_binary__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -62,7 +65,6 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr ""
 
@@ -73,25 +75,21 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_id
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_storage_id
 msgid "Filesystem Storage"
 msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_code
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_storage_code
 msgid "Filesystem Storage Code"
 msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_url
 msgid "Filesystem URL"
 msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url_path
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_url_path
 msgid "Filesystem URL Path"
 msgstr ""
 
@@ -107,6 +105,9 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__id
+#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__id
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__id
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_binary__id
 msgid "ID"
 msgstr ""
 
@@ -159,7 +160,6 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__internal_url
 msgid "Internal URL"
 msgstr ""
 
@@ -214,23 +214,30 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_code
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_storage_code
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
+msgstr ""
+
+#. module: fs_attachment
+#. odoo-python
+#: code:addons/fs_attachment/upgrades/19.0.1.1.3/post-migration.py:0
+msgid ""
+"The 'fs_attachment_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_attachment'."
 msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_url
 msgid "The URL to access the file from the filesystem storage."
 msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__internal_url
-#: model:ir.model.fields,help:fs_attachment.field_product_document__internal_url
 msgid "The URL to access the file from the server."
 msgstr ""
 
@@ -250,7 +257,6 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_filename
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_filename
 msgid ""
 "The name of the file in the filesystem storage.To preserve the mimetype and "
 "the meaning of the filenamethe filename is computed from the name and the "
@@ -259,13 +265,11 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url_path
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_url_path
 msgid "The path to access the file from the filesystem storage."
 msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_id
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_storage_id
 msgid "The storage where the file is stored."
 msgstr ""
 

@@ -54,6 +54,9 @@ msgstr "创建于"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__display_name
+#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__display_name
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_binary__display_name
 msgid "Display Name"
 msgstr "显示名称"
 
@@ -64,7 +67,6 @@ msgstr "文件系统存储"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_filename
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_filename
 msgid "File Name into the filesystem storage"
 msgstr "文件系统存储中的文件名"
 
@@ -75,25 +77,21 @@ msgstr "控制器的文件流辅助模型"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_id
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_storage_id
 msgid "Filesystem Storage"
 msgstr "文件系统存储"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_storage_code
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_storage_code
 msgid "Filesystem Storage Code"
 msgstr "文件系统存储代码"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_url
 msgid "Filesystem URL"
 msgstr "文件系统URL"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__fs_url_path
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__fs_url_path
 msgid "Filesystem URL Path"
 msgstr "文件系统URL路径"
 
@@ -109,6 +107,9 @@ msgstr "强制数据库用于默认附件规则"
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_fs_file_gc__id
+#: model:ir.model.fields,field_description:fs_attachment.field_fs_storage__id
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__id
+#: model:ir.model.fields,field_description:fs_attachment.field_ir_binary__id
 msgid "ID"
 msgstr "ID"
 
@@ -176,7 +177,6 @@ msgstr "如果选中，此存储将被用于存放所有附件 "
 
 #. module: fs_attachment
 #: model:ir.model.fields,field_description:fs_attachment.field_ir_attachment__internal_url
-#: model:ir.model.fields,field_description:fs_attachment.field_product_document__internal_url
 msgid "Internal URL"
 msgstr "内部URL"
 
@@ -231,26 +231,33 @@ msgstr "存储的文件名"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_code
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_storage_code
 msgid ""
 "Technical code used to identify the storage backend into the code.This code "
 "must be unique. This code is used for example to define the storage backend "
-"to store the attachments via the configuration parameter 'ir_attachment."
-"storage.force.database' when the module 'fs_attachment' is installed."
+"to store the attachments via the configuration parameter "
+"'ir_attachment.storage.force.database' when the module 'fs_attachment' is "
+"installed."
 msgstr ""
 "用于在代码中标识存储后端的技术代码。此代码必须唯一。\n"
-"例如，当安装模块'fs_attachment'时，此代码用于通过配置参数'ir_attachment."
-"storage.force.database'定义存储附件的存储后端。"
+"例如，当安装模块'fs_attachment'时，此代码用于通过配置参"
+"数'ir_attachment.storage.force.database'定义存储附件的存储后端。"
+
+#. module: fs_attachment
+#. odoo-python
+#: code:addons/fs_attachment/upgrades/19.0.1.1.3/post-migration.py:0
+msgid ""
+"The 'fs_attachment_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_attachment'."
+msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_url
 msgid "The URL to access the file from the filesystem storage."
 msgstr "访问文件系统的存储中文件的URL。"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__internal_url
-#: model:ir.model.fields,help:fs_attachment.field_product_document__internal_url
 msgid "The URL to access the file from the server."
 msgstr "从服务器访问文件的URL。"
 
@@ -272,7 +279,6 @@ msgstr "force_db_for_default_attachment_rules 不是一个有效的 Python 字�
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_filename
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_filename
 msgid ""
 "The name of the file in the filesystem storage.To preserve the mimetype and "
 "the meaning of the filenamethe filename is computed from the name and the "
@@ -283,13 +289,11 @@ msgstr ""
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_url_path
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_url_path
 msgid "The path to access the file from the filesystem storage."
 msgstr "从文件系统存储访问文件的路径。"
 
 #. module: fs_attachment
 #: model:ir.model.fields,help:fs_attachment.field_ir_attachment__fs_storage_id
-#: model:ir.model.fields,help:fs_attachment.field_product_document__fs_storage_id
 msgid "The storage where the file is stored."
 msgstr "文件存储的位置。"
 
