@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
 import threading
+import math
 from contextlib import closing, contextmanager
 
 from odoo import api, fields, models
@@ -104,19 +105,85 @@ class FsFileGC(models.Model):
         cr = self._cr
         cr.commit()  # pylint: disable=invalid-commit
 
-        # prevent all concurrent updates on ir_attachment and fs_file_gc
-        # while collecting, but only attempt to grab the lock for a little bit,
-        # otherwise it'd start blocking other transactions.
-        # (will be retried later anyway)
-        cr.execute("SET LOCAL lock_timeout TO '10s'")
-        cr.execute("LOCK fs_file_gc IN SHARE MODE")
-        cr.execute("LOCK ir_attachment IN SHARE MODE")
-
-        self._gc_files_unsafe()
+        self._gc_files_batch()
 
         # commit to release the lock
         cr.commit()  # pylint: disable=invalid-commit
 
+    def _gc_files_batch(self) -> None:
+        cr = self._cr
+
+        # Get the list of autovacuum storage
+        storages = self.env['fs.storage'].search([]).filtered("autovacuum_gc")
+        if not storages:
+            return
+        
+        # Set the lock_timeout to 10s
+        cr.execute("SET LOCAL lock_timeout TO '10s'")
+
+        # Iterate each storage
+        for stg in storages:
+            code = stg.code
+
+            # Count the total record for the current storage
+            cr.execute("""
+                SELECT COUNT(*) 
+                FROM fs_file_gc 
+                WHERE fs_storage_code = %s
+                AND NOT EXISTS (
+                    SELECT 1 FROM ir_attachment 
+                    WHERE store_fname = fs_file_gc.store_fname
+                )
+            """, [code])
+
+            total = cr.dictfetchone()['count']
+            if not total:
+                _logger.debug("Skip no records")
+                continue
+
+            # Set the batch size 
+            batch_size = stg.batch_amount or 10 if stg.batch_gc else total
+            remaining = math.ceil(total / batch_size)
+
+            self.env["fs.storage"].get_by_code(code)
+            fs = self.env["fs.storage"].get_fs_by_code(code)
+
+            # Run cleanup on batch
+            for _ in range(remaining):
+                # Get the records and do row locking to allow concurrencies
+                cr.execute("""
+                    SELECT id, store_fname
+                    FROM fs_file_gc
+                    WHERE fs_storage_code = %s
+                    AND NOT EXISTS (
+                        SELECT 1 FROM ir_attachment
+                        WHERE store_fname = fs_file_gc.store_fname
+                    )
+                    LIMIT %s
+                    FOR UPDATE SKIP LOCKED
+                """, [code, batch_size])
+                
+                rows = cr.fetchall()
+                if not rows:
+                    break
+                
+                ids = []
+                for id, store_fname in rows:
+                    try:
+                        file_path = store_fname.partition("://")[2]
+                        fs.rm(file_path)
+                        ids.append(id)
+                    except Exception:
+                        _logger.debug("Failed to remove file %s", store_fname)
+                
+                # delete the records from the table fs_file_gc
+                if ids:
+                    cr.execute("DELETE FROM fs_file_gc WHERE id = ANY(%s)", [ids])
+
+                # commit to release the lock
+                cr.commit()
+
+    # Depreciated
     def _gc_files_unsafe(self) -> None:
         # get the list of fs.storage codes that must be autovacuumed
         codes = (
