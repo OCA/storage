@@ -189,8 +189,7 @@ class TestFSAttachementAzure(TestFSAttachmentAzureCommon):
         self.assertLess(
             key_args["key_start_time"],
             before,
-            "The delegation key start time should be backdated to tolerate "
-            "clock skew.",
+            "The delegation key start time should be backdated to tolerate clock skew.",
         )
         self.assertEqual(
             key_args["key_expiry_time"] - key_args["key_start_time"],
