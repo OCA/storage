@@ -22,7 +22,14 @@ export class FsFolder extends Component {
         this.dropzone = useRef("dropzone");
         this.dialog = useService("dialog");
         this.fileViewer = usePreviewIframeViewer();
-        this.state = useState({path: [], data: [], copy: false, sort: [], hide: []});
+        this.state = useState({
+            path: [],
+            data: [],
+            copy: false,
+            sort: [],
+            hide: [],
+            isItemActionProcessing: false,
+        });
         this.notificationService = useService("fs_folder_notification");
         useBus(this.notificationService.bus, "folder_modified", this.onFolderModified);
         useEffect(
@@ -36,16 +43,25 @@ export class FsFolder extends Component {
         );
         useDropzone(this.dropzone, this.onDropFile.bind(this), "");
         useSubEnv({
-            onClickDirectory: (record) => {
-                this.onClickDirectory(record);
-            },
-            onClickPreview: (record) => {
-                this.onClickPreview(record);
-            },
-            onClickDownload: (record) => {
-                this.onClickDownload(record);
-            },
+            onClickDirectory: (record) =>
+                this.withItemActionLock(() => this.onClickDirectory(record)),
+            onClickPreview: (record) =>
+                this.withItemActionLock(() => this.onClickPreview(record)),
+            onClickDownload: (record) =>
+                this.withItemActionLock(() => this.onClickDownload(record)),
+            onRunItemAction: (callback) => this.withItemActionLock(callback),
         });
+    }
+    async withItemActionLock(callback) {
+        if (this.state.isItemActionProcessing) {
+            return;
+        }
+        this.state.isItemActionProcessing = true;
+        try {
+            return await callback();
+        } finally {
+            this.state.isItemActionProcessing = false;
+        }
     }
     onFolderModified(event) {
         const {resId, resModel, fieldName} = event.detail;
@@ -224,7 +240,7 @@ export class FsFolder extends Component {
     }
     async onClickDirectory(record) {
         this.state.path = [...this.state.path, record.name];
-        this.setData();
+        await this.setData();
     }
     async onClickDownload(record) {
         await downloadFile(

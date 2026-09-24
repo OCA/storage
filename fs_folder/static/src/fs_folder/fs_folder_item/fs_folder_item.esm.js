@@ -22,11 +22,11 @@ export class FsFolderItem extends Component {
                 return a.sequence < b.sequence ? -1 : 1;
             });
     }
-    onClick() {
+    async onClick() {
         if (this.props.record.type === "directory") {
-            this.env.onClickDirectory(this.props.record);
+            await this.env.onClickDirectory(this.props.record);
         } else {
-            this.env.onClickPreview(this.props.record);
+            await this.env.onClickPreview(this.props.record);
         }
     }
 }
