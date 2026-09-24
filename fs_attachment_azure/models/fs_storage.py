@@ -6,7 +6,7 @@ import datetime
 
 import fsspec.asyn
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..tools import ormcache_expiring
@@ -42,13 +42,13 @@ class FsStorage(models.Model):
     _inherit = "fs.storage"
 
     azure_uses_signed_url_for_x_sendfile = fields.Boolean(
-        string="Use signed URL for X-Accel-Redirect",
+        string="Azure Use signed URL for X-Accel-Redirect",
         help="If checked, the storage will use signed URLs for attachments "
         "when using X-Accel-Redirect. This is useful for Azure storage where the "
         "file path is not directly accessible without authentication.",
     )
     azure_signed_url_expiration = fields.Integer(
-        string="Signed URL Expiration (seconds)",
+        string="Azure Signed URL Expiration (seconds)",
         default=30,
         help="The expiration time for the signed URL in seconds. "
         "Default is 30 seconds.",
@@ -69,7 +69,9 @@ class FsStorage(models.Model):
         for rec in self:
             if rec.azure_delegation_key_expiration <= 0:
                 raise ValidationError(
-                    _("The delegation key expiration must be at least 1 second.")
+                    self.env._(
+                        "The delegation key expiration must be at least 1 second."
+                    )
                 )
             # See _azure_get_user_delegation_key for the lifetime the key is
             # requested for.
@@ -80,7 +82,7 @@ class FsStorage(models.Model):
             )
             if requested > AZURE_MAX_DELEGATION_KEY_EXPIRATION:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Azure does not issue delegation keys valid for more than "
                         "7 days. The delegation key expiration, the signed URL "
                         "expiration and a %(skew)s seconds clock skew tolerance "
