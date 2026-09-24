@@ -33,7 +33,7 @@ class FsFileGc(models.Model):
         # autovacuum_gc is not a stored field, so the storages are filtered
         # in memory.
         storages = (
-            self.env["fs.storage"]
+            self.env["fs.storage"]  # pylint: disable=no-search-all
             .search([])
             .filtered(
                 lambda storage: storage.autovacuum_gc and storage.is_azure_storage
@@ -51,7 +51,7 @@ class FsFileGc(models.Model):
     def _gc_azure_bulk_delete_storage(self, storage) -> None:
         """Delete the orphaned blobs of one Azure storage, one batch at a time."""
         while True:
-            self._cr.execute(
+            self.env.cr.execute(
                 """
                 SELECT
                     store_fname
@@ -68,7 +68,7 @@ class FsFileGc(models.Model):
                 """,
                 (storage.code, self._GC_BATCH_SIZE),
             )
-            store_fnames = [row[0] for row in self._cr.fetchall()]
+            store_fnames = [row[0] for row in self.env.cr.fetchall()]
             if not store_fnames:
                 return
             blob_names = [
@@ -86,7 +86,7 @@ class FsFileGc(models.Model):
                 if blob_name in collected
             ]
             if deleted:
-                self._cr.execute(
+                self.env.cr.execute(
                     """
                     DELETE FROM
                         fs_file_gc
@@ -99,7 +99,7 @@ class FsFileGc(models.Model):
                 # Commit each batch, so that the progress is kept even if a
                 # later batch fails, and the locks taken by _gc_files are not
                 # held for the whole backlog.
-                self._cr.commit()  # pylint: disable=invalid-commit
+                self.env.cr.commit()  # pylint: disable=invalid-commit
             if len(deleted) < len(store_fnames):
                 # The blobs that could not be deleted would be selected again
                 # by the query above: leave them to the file by file cleanup.

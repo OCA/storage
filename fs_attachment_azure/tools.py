@@ -5,6 +5,7 @@ import time
 from inspect import Parameter, signature
 
 from odoo.tools import ormcache
+from odoo.tools.cache import _COUNTERS
 
 _logger = logging.getLogger(__name__)
 
@@ -48,15 +49,19 @@ class ormcache_expiring(ormcache):
             return
         # Same approach as ormcache.determine_key: build a lambda over the
         # signature of the decorated method and evaluate the expression in it.
+        # The defaults are kept, as the wrapper does not apply them.
         args = ", ".join(
-            str(param.replace(annotation=Parameter.empty, default=Parameter.empty))
+            str(param.replace(annotation=Parameter.empty))
             for param in signature(self.method).parameters.values()
         )
         self.compute_expiration = unsafe_eval(f"lambda {args}: {self.expiration}")
 
-    def lookup(self, method, *args, **kwargs):
-        d, key0, counter = self.lru(args[0])
-        key = key0 + self.key(*args, **kwargs)
+    def lookup(self, *args, **kwargs):
+        model = args[0]
+        d = model.pool._Registry__caches[self.cache_name]
+        key = self.key(*args, **kwargs)
+        counter = _COUNTERS[model.pool.db_name, self.method]
+        counter.cache_name = self.cache_name
         now = time.monotonic()
         try:
             expiry, value = d[key]
@@ -77,7 +82,8 @@ class ormcache_expiring(ormcache):
 
     def add_value(self, *args, cache_value=None, **kwargs):
         """Override to store the expiry along with the value."""
-        d, key0, _counter = self.lru(args[0])
-        key = key0 + self.key(*args, **kwargs)
+        model = args[0]
+        d = model.pool._Registry__caches[self.cache_name]
+        key = self.key(*args, **kwargs)
         expiry = time.monotonic() + self.compute_expiration(*args, **kwargs)
         d[key] = (expiry, cache_value)
