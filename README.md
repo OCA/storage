@@ -21,9 +21,12 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[fs_attachment](fs_attachment/) | 19.0.1.1.2 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments on external object store
-[fs_attachment_s3](fs_attachment_s3/) | 19.0.1.2.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments into S3 complient filesystem
-[fs_storage](fs_storage/) | 19.0.1.1.2 |  | Implement the concept of Storage with amazon S3, sftp...
+[fs_attachment](fs_attachment/) | 19.0.1.1.3 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments on external object store
+[fs_attachment_environment](fs_attachment_environment/) | 19.0.1.0.0 |  | Allows to use server environment with fs storage attachment
+[fs_attachment_s3](fs_attachment_s3/) | 19.0.1.2.1 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments into S3 complient filesystem
+[fs_attachment_s3_environment](fs_attachment_s3_environment/) | 19.0.1.0.0 |  | Allows to use server environment with fs storage attachment S3
+[fs_storage](fs_storage/) | 19.0.1.1.3 |  | Implement the concept of Storage with amazon S3, sftp...
+[fs_storage_environment](fs_storage_environment/) | 19.0.1.0.0 |  | Allows to use server environment with fs storage
 
 
 Unported addons
