@@ -299,7 +299,7 @@ class FSStorage(models.Model):
     @prevent_call_from_safe_eval("create")
     def create(self, vals_list):
         records = super().create(vals_list)
-        self.env.registry.clear_cache()
+        self.env.transaction.invalidate_ormcache()
         return records
 
     @prevent_call_from_safe_eval("create")
@@ -309,8 +309,9 @@ class FSStorage(models.Model):
     @prevent_call_from_safe_eval("write")
     def write(self, vals):
         self.__fs = None
-        self.env.registry.clear_cache()
-        return super().write(vals)
+        res = super().write(vals)
+        self.env.transaction.invalidate_ormcache()
+        return res
 
     @prevent_call_from_safe_eval("write")
     def _write_multi(self, vals_list):
@@ -321,6 +322,11 @@ class FSStorage(models.Model):
     def _check_no_safe_eval_call(self):
         pass
 
+    def unlink(self):
+        res = super().unlink()
+        self.env.transaction.invalidate_ormcache()
+        return res
+
     def get_directory_path(self):
         """Returns directory path with substitution done."""
         return (
@@ -330,7 +336,7 @@ class FSStorage(models.Model):
         )
 
     @api.model
-    @tools.ormcache()
+    @api.ormcache()
     def get_id_by_code_map(self):
         """Return a dictionary with the code as key and the id as value."""
         return {rec.code: rec.id for rec in self.sudo().search([])}
@@ -350,13 +356,13 @@ class FSStorage(models.Model):
         return res
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def get_protocol_by_code(self, code):
         record = self.get_by_code(code)
         return record.protocol if record else None
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def _is_fs_cacheable(self, code):
         """Return True if the filesystem is cacheable."""
         # This method is used to check if the filesystem is cacheable.
@@ -367,13 +373,13 @@ class FSStorage(models.Model):
         return fs_storage and fs_storage.sudo().is_cacheable
 
     @api.model
-    @tools.ormcache()
+    @api.ormcache()
     def get_storage_codes(self):
         """Return the list of codes of the existing filesystems."""
         return [s.code for s in self.search([])]
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def _get_fs_by_code_from_cache(self, code):
         return self.get_fs_by_code(code, force_no_cache=True)
 
@@ -395,7 +401,7 @@ class FSStorage(models.Model):
         return fs
 
     @api.model
-    @tools.ormcache("model_name", "field_name")
+    @api.ormcache("model_name", "field_name")
     def get_storage_code_by_model_field(self, model_name, field_name=None):
         """Return the storage backend associated to the given model and field.
 
@@ -463,7 +469,7 @@ class FSStorage(models.Model):
             try:
                 cls = fsspec.get_filesystem_class(p)
                 protocol.append((p, f"{p} ({cls.__name__})"))
-            except Exception as e:
+            except (ValueError, ImportError) as e:
                 _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
         return protocol
 
@@ -472,7 +478,7 @@ class FSStorage(models.Model):
         for rec in self:
             try:
                 json.loads(rec.options or "{}")
-            except Exception as e:
+            except json.JSONDecodeError as e:
                 raise ValidationError(
                     self.env._("The options must be a valid JSON")
                 ) from e
@@ -499,7 +505,7 @@ class FSStorage(models.Model):
             try:
                 fsspec.get_filesystem_class(p)
                 protocol.append((p, p))
-            except Exception as e:
+            except (ValueError, ImportError) as e:
                 _logger.debug("Cannot load the protocol %s. Reason: %s", p, e)
         return protocol
 
@@ -601,10 +607,10 @@ class FSStorage(models.Model):
             # Use a marker file to limit the scope of the LS command for performance.
             try:
                 self._check_connection(self.__fs, self.check_connection_method)
-            except Exception as e:
+            except Exception:
                 self.__fs.clear_instance_cache()
                 self.__fs = None
-                raise e
+                raise
         return self.__fs
 
     def _get_filesystem_storage_path(self) -> str:
@@ -782,7 +788,7 @@ class FSStorage(models.Model):
             title = self.env._("Connection Test Succeeded!")
             message = self.env._("Everything seems properly set up!")
             msg_type = "success"
-        except Exception as err:
+        except Exception as err:  # noqa: BLE001
             title = self.env._("Connection Test Failed!")
             message = str(err)
             msg_type = "danger"
