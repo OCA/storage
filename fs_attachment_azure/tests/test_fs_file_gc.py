@@ -73,11 +73,14 @@ class TestFsFileGcAzure(TestFSAttachmentAzureCommon):
         root_fs = SimpleNamespace(service_client=FakeServiceClient(container_client))
         storage_class = type(self.azure_backend)
         code = self.azure_backend.code
-        with patch.object(
-            storage_class,
-            "is_azure_storage",
-            new=property(lambda storage: storage.code == code),
-        ), patch.object(storage_class, "_get_root_filesystem", return_value=root_fs):
+        with (
+            patch.object(
+                storage_class,
+                "is_azure_storage",
+                new=property(lambda storage: storage.code == code),
+            ),
+            patch.object(storage_class, "_get_root_filesystem", return_value=root_fs),
+        ):
             self.gc_file_model._gc_azure_bulk_delete()
         return root_fs.service_client
 
