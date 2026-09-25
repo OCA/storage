@@ -22,6 +22,7 @@ from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.fields import Domain
 
+from ..fs_stream import FsStream
 from .strtobool import strtobool
 
 _logger = logging.getLogger(__name__)
@@ -381,6 +382,12 @@ class IrAttachment(models.Model):
     def _set_attachment_data(self, asbytes) -> None:  # pylint: disable=missing-return
         super()._set_attachment_data(asbytes)
         self._enforce_meaningful_storage_filename()
+
+    def _to_http_stream(self):
+        self.ensure_one()
+        if self.fs_filename:
+            return FsStream.from_fs_attachment(self)
+        return super()._to_http_stream()
 
     ##############################################
     # Internal methods to use the object storage #
