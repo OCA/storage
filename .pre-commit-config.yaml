@@ -2,7 +2,9 @@ exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
   ^fs_attachment/|
+  ^fs_attachment_environment/|
   ^fs_attachment_s3/|
+  ^fs_attachment_s3_environment/|
   ^fs_file/|
   ^fs_folder/|
   ^fs_folder_demo/|
@@ -10,6 +12,7 @@ exclude: |
   ^fs_folder_webdav/|
   ^fs_image/|
   ^fs_storage/|
+  ^fs_storage_environment/|
   ^fs_storage_ms_drive/|
   ^image_tag/|
   ^microsoft_drive_account/|

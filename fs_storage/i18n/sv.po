@@ -40,11 +40,6 @@ msgid "Check Connection Method"
 msgstr "Metod för kontroll av anslutning"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_default
-msgid "Check Connection Method Env Default"
-msgstr "Metod för kontroll av anslutning - miljöstandard"
-
-#. module: fs_storage
 #: model_terms:ir.ui.view,arch_db:fs_storage.fs_test_connection_form_view
 msgid "Close"
 msgstr "Stäng"
@@ -93,11 +88,6 @@ msgstr "Beskriver protokoll"
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__directory_path
 msgid "Directory Path"
 msgstr "Katalogsökväg"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_default
-msgid "Directory Path Env Default"
-msgstr "Katalogsökväg - miljöstandard"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__display_name
@@ -157,11 +147,6 @@ msgid "Field Xmlids"
 msgstr "Fält-XML-id:n"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_field_xmlids_env_default
-msgid "Field Xmlids Env Default"
-msgstr "Fält-XML-id:n - miljöstandard"
-
-#. module: fs_storage
 #: model:ir.model,name:fs_storage.model_ir_model_fields
 msgid "Fields"
 msgstr "Fält"
@@ -178,8 +163,11 @@ msgstr "ID"
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__is_cacheable
 msgid ""
 "If True, once instantiated, the filesystem will be cached and reused.\n"
-"By default, the filesystem is cacheable but in some cases, like when using OAuth2 authentication, the filesystem cannot be cached because it depends on the user and the token can change.\n"
-"In this case, you can set this field to False to avoid caching the filesystem."
+"By default, the filesystem is cacheable but in some cases, like when using "
+"OAuth2 authentication, the filesystem cannot be cached because it depends on "
+"the user and the token can change.\n"
+"In this case, you can set this field to False to avoid caching the "
+"filesystem."
 msgstr ""
 "Om sant kommer filsystemet att cachelagras och återanvändas när det väl har "
 "instansierats.\n"
@@ -250,7 +238,6 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__field_xmlids
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_field_xmlids_env_default
 msgid ""
 "List of fields xml ids such as attachments linked to one of these fields "
 "will be stored in this storage. NB: If the attachment is linked to a field "
@@ -273,7 +260,6 @@ msgstr ""
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__model_xmlids
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_model_xmlids_env_default
 msgid ""
 "List of models xml ids such as attachments linked to one of these models "
 "will be stored in this storage."
@@ -292,18 +278,13 @@ msgstr "Modell"
 msgid ""
 "Model %(model)s already stored in another FS storage ('%(other_storage)s')"
 msgstr ""
-"Modellen %(model)s är redan lagrad i en annan FS-lagring ('%(other_storage)"
-"s')"
+"Modellen %(model)s är redan lagrad i en annan FS-lagring ('%"
+"(other_storage)s')"
 
 #. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__model_xmlids
 msgid "Model Xmlids"
 msgstr "Modell-XML-id:n"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_model_xmlids_env_default
-msgid "Model Xmlids Env Default"
-msgstr "Modell-XML-id:n - miljöstandard"
 
 #. module: fs_storage
 #: model:ir.model,name:fs_storage.model_ir_model
@@ -321,11 +302,6 @@ msgid "Options"
 msgstr "Alternativ"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_default
-msgid "Options Env Default"
-msgstr "Alternativ - miljöstandard"
-
-#. module: fs_storage
 #: model:ir.model.fields,field_description:fs_storage.field_fs_storage__protocol
 msgid "Protocol"
 msgstr "Protokoll"
@@ -337,13 +313,7 @@ msgid "Protocol Descr"
 msgstr "Protokollbeskrivning"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_default
-msgid "Protocol Env Default"
-msgstr "Protokoll - miljöstandard"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__directory_path
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_directory_path_env_default
 msgid "Relative path to the directory to store the file"
 msgstr "Relativ sökväg till katalogen där filen ska lagras"
 
@@ -353,13 +323,7 @@ msgid "Resolve env vars"
 msgstr "Slå upp miljövariabler"
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_default
-msgid "Resolve env vars Env Default"
-msgstr "Slå upp miljövariabler - miljöstandard"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__eval_options_from_env
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_eval_options_from_env_env_default
 msgid ""
 "Resolve options values starting with $ from environment variables. e.g\n"
 "            {\n"
@@ -374,15 +338,11 @@ msgstr ""
 "            "
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "Servermiljöstandarder"
-
-#. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__check_connection_method
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_check_connection_method_env_default
 msgid ""
-"Set a method if you want the connection to remote to be checked every time the storage is used, in order to remove the obsolete connection from the cache.\n"
+"Set a method if you want the connection to remote to be checked every time "
+"the storage is used, in order to remove the obsolete connection from the "
+"cache.\n"
 "* Create Marker file : Create a file on remote and check it exists\n"
 "* List File : List all files from root directory"
 msgstr ""
@@ -427,6 +387,15 @@ msgid "Test connection"
 msgstr "Testa anslutning"
 
 #. module: fs_storage
+#. odoo-python
+#: code:addons/fs_storage/upgrades/19.0.1.1.3/post-update.py:0
+msgid ""
+"The 'fs_storage_environment' module is not available. It is required to "
+"preserve the server environment managed fields of 'fs.storage'. Make it "
+"available on the addons path before upgrading 'fs_storage'."
+msgstr ""
+
+#. module: fs_storage
 #: model:ir.model.constraint,message:fs_storage.constraint_fs_storage_uniq_code
 msgid "The code must be unique"
 msgstr "Koden måste vara unik"
@@ -444,7 +413,6 @@ msgstr "Alternativen som används för att initiera filsystemet.\n"
 
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_options_env_default
 msgid ""
 "The options used to initialize the filesystem.\n"
 "This is a JSON field that depends on the protocol used.\n"
@@ -456,7 +424,8 @@ msgid ""
 "    'port': 22\n"
 "}\n"
 "For more information, please refer to the fsspec documentation:\n"
-"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations"
+"https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-"
+"implementations"
 msgstr ""
 "Alternativen som används för att initiera filsystemet.\n"
 "Detta är ett JSON-fält som beror på den protokoll som används.\n"
@@ -474,11 +443,13 @@ msgstr ""
 #. module: fs_storage
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__options_protocol
 #: model:ir.model.fields,help:fs_storage.field_fs_storage__protocol
-#: model:ir.model.fields,help:fs_storage.field_fs_storage__x_protocol_env_default
 msgid ""
 "The protocol used to access the content of filesystem.\n"
-"This list is the one supported by the fsspec library (see https://filesystem-spec.readthedocs.io/en/latest). A filesystem protocolis added by default and refers to the odoo local filesystem.\n"
-"Pay attention that according to the protocol, some options must beprovided through the options field."
+"This list is the one supported by the fsspec library (see https://filesystem-"
+"spec.readthedocs.io/en/latest). A filesystem protocolis added by default and "
+"refers to the odoo local filesystem.\n"
+"Pay attention that according to the protocol, some options must beprovided "
+"through the options field."
 msgstr ""
 "Protokollet som används för att komma åt filsystemets innehåll.\n"
 "Denna lista stöds av fsspec-biblioteket (se https://filesystem-"
@@ -488,42 +459,52 @@ msgstr ""
 "alternativfältet."
 
 #. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_check_connection_method_env_is_editable
-msgid "X Check Connection Method Env Is Editable"
-msgstr "X Metod för kontroll av anslutning - miljö kan redigeras"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_directory_path_env_is_editable
-msgid "X Directory Path Env Is Editable"
-msgstr "X Katalogsökväg - miljö kan redigeras"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_eval_options_from_env_env_is_editable
-msgid "X Eval Options From Env Env Is Editable"
-msgstr "X Utvärdera alternativ från miljö - miljö kan redigeras"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_field_xmlids_env_is_editable
-msgid "X Field Xmlids Env Is Editable"
-msgstr "X Fält-XML-id:n - miljö kan redigeras"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_model_xmlids_env_is_editable
-msgid "X Model Xmlids Env Is Editable"
-msgstr "X Modell-XML-id:n - miljö kan redigeras"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_options_env_is_editable
-msgid "X Options Env Is Editable"
-msgstr "X Alternativ - miljö kan redigeras"
-
-#. module: fs_storage
-#: model:ir.model.fields,field_description:fs_storage.field_fs_storage__x_protocol_env_is_editable
-msgid "X Protocol Env Is Editable"
-msgstr "X Protokoll - miljö kan redigeras"
-
-#. module: fs_storage
 #. odoo-python
 #: code:addons/fs_storage/models/fs_storage.py:0
 msgid "ls"
 msgstr "ls"
+
+#~ msgid "Check Connection Method Env Default"
+#~ msgstr "Metod för kontroll av anslutning - miljöstandard"
+
+#~ msgid "Directory Path Env Default"
+#~ msgstr "Katalogsökväg - miljöstandard"
+
+#~ msgid "Field Xmlids Env Default"
+#~ msgstr "Fält-XML-id:n - miljöstandard"
+
+#~ msgid "Model Xmlids Env Default"
+#~ msgstr "Modell-XML-id:n - miljöstandard"
+
+#~ msgid "Options Env Default"
+#~ msgstr "Alternativ - miljöstandard"
+
+#~ msgid "Protocol Env Default"
+#~ msgstr "Protokoll - miljöstandard"
+
+#~ msgid "Resolve env vars Env Default"
+#~ msgstr "Slå upp miljövariabler - miljöstandard"
+
+#~ msgid "Server Env Defaults"
+#~ msgstr "Servermiljöstandarder"
+
+#~ msgid "X Check Connection Method Env Is Editable"
+#~ msgstr "X Metod för kontroll av anslutning - miljö kan redigeras"
+
+#~ msgid "X Directory Path Env Is Editable"
+#~ msgstr "X Katalogsökväg - miljö kan redigeras"
+
+#~ msgid "X Eval Options From Env Env Is Editable"
+#~ msgstr "X Utvärdera alternativ från miljö - miljö kan redigeras"
+
+#~ msgid "X Field Xmlids Env Is Editable"
+#~ msgstr "X Fält-XML-id:n - miljö kan redigeras"
+
+#~ msgid "X Model Xmlids Env Is Editable"
+#~ msgstr "X Modell-XML-id:n - miljö kan redigeras"
+
+#~ msgid "X Options Env Is Editable"
+#~ msgstr "X Alternativ - miljö kan redigeras"
+
+#~ msgid "X Protocol Env Is Editable"
+#~ msgstr "X Protokoll - miljö kan redigeras"
