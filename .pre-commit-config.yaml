@@ -9,7 +9,6 @@ exclude: |
   ^fs_image/|
   ^fs_storage_ms_drive/|
   ^image_tag/|
-  ^microsoft_drive_account/|
   ^storage_backend/|
   ^storage_backend_ftp/|
   ^storage_backend_s3/|

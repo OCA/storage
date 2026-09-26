@@ -7,7 +7,7 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form" />
         <field name="arch" type="xml">
-            <page name="account_security" position="inside">
+            <page name="page_security" position="inside">
                 <group string="Drive" name="drive_group">
                     <group>
                         <field name="microsoft_drive_oauth2_non_interactive" />
@@ -45,7 +45,7 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form_simple_modif" />
         <field name="arch" type="xml">
-            <group name="auth" position="after">
+            <page name="page_security" position="inside">
                 <group string="Drive" name="drive_group">
                     <div class="alert alert-info" role="alert" colspan="4">
                         <span invisible="microsoft_drive_status == 'connected'">
@@ -63,7 +63,7 @@
                         nolabel="1"
                     />
                 </group>
-            </group>
+            </page>
         </field>
     </record>
 </odoo>

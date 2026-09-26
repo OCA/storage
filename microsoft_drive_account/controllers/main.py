@@ -12,7 +12,9 @@ from odoo.addons.microsoft_account.controllers import main
 
 
 class MicrosoftAuth(main.MicrosoftAuth):
-    @http.route("/ms_drive_account/status", type="json", auth="user", methods=["POST"])
+    @http.route(
+        "/ms_drive_account/status", type="jsonrpc", auth="user", methods=["POST"]
+    )
     def check_user_connected(self, from_url=None, **kwargs):
         """Check if the user is connected to Microsoft Drive.
 
