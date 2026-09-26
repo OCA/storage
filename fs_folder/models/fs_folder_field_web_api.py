@@ -7,7 +7,7 @@ import urllib
 import fsspec
 from werkzeug import Response
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import AccessError, UserError
 
 from ..fs_stream import FsStream
@@ -31,10 +31,10 @@ class FsFolderFieldWebApi(models.AbstractModel):
         :param access: the access rights to check
         """
         if res_model not in self.env:
-            raise AccessError(_("Unknown model"))
+            raise AccessError(self.env._("Unknown model"))
         record = self.env[res_model].browse(res_id)
         if field_name not in record._fields:
-            raise AccessError(_("Unknown field"))
+            raise AccessError(self.env._("Unknown field"))
         record.check_access(access)
 
     @api.model
@@ -76,7 +76,9 @@ class FsFolderFieldWebApi(models.AbstractModel):
         if field.type == "fs_folder":
             fs = record[field_name].fs
         if not fs:
-            raise ValueError(_("The field is not an external filesystem field."))
+            raise ValueError(
+                self.env._("The field is not an external filesystem field.")
+            )
         return fs
 
     @api.model
@@ -113,13 +115,13 @@ class FsFolderFieldWebApi(models.AbstractModel):
             return fs.ls(path, detail=True)
         except Exception as e:
             raise UserError(
-                _(
-                    "An error occurred while listing files: '%s'\n"
+                self.env._(
+                    "An error occurred while listing files: '%(exception)s'\n"
                     "This might happen if the folder was moved, renamed or deleted "
                     "on the external storage.\n"
-                    "If this is expected you might want to unlink this folder."
+                    "If this is expected you might want to unlink this folder.",
+                    exception=e,
                 )
-                % e
             ) from e
 
     @api.model
