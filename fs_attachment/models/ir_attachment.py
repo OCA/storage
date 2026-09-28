@@ -237,6 +237,10 @@ class IrAttachment(models.Model):
                         "db_datas": data,
                     }
                 )
+                # see _is_forced_to_db_and_unreferenced
+                self.env.cr.cache.setdefault(
+                    "fs_attachment_forced_to_db_checksums", set()
+                ).add(values["checksum"])
             else:
                 # Uses the full object storage path; standard Odoo uses a relative path.
                 path = self._get_fs_path(storage, data)
@@ -358,10 +362,39 @@ class IrAttachment(models.Model):
     def _file_write(self, bin_data, checksum):
         location = self.env.context.get("storage_location") or self._storage()
         if location in self._get_storage_codes():
+            if self._is_forced_to_db_and_unreferenced(location, bin_data, checksum):
+                return False
             filename = self._storage_file_write(bin_data)
         else:
             filename = super()._file_write(bin_data, checksum)
         return filename
+
+    @api.model
+    def _is_forced_to_db_and_unreferenced(self, location, bin_data, checksum):
+        """Return whether writing the file into the storage can be skipped
+
+        Since Odoo 19, ``create`` and ``_set_attachment_data`` write the file
+        after ``_get_datas_related_values`` for every attachment when the
+        storage is not 'db', including the ones this module forces to the
+        database. Uploading them only leaves an orphan file in the storage
+        and fails when the storage is unreachable.
+
+        The write is skipped only for a content forced to the database in
+        this transaction that no attachment references, so a file shared with
+        an attachment kept in the storage is still written, as are the files
+        written for another purpose (e.g. ``AttachmentFileLikeAdapter``).
+        """
+        if checksum not in self.env.cr.cache.get(
+            "fs_attachment_forced_to_db_checksums", ()
+        ):
+            return False
+        store_fname = f"{location}://{self._get_fs_path(location, bin_data)}"
+        self.flush_model(["store_fname"])
+        self.env.cr.execute(
+            "SELECT 1 FROM ir_attachment WHERE store_fname = %s LIMIT 1",
+            (store_fname,),
+        )
+        return not self.env.cr.fetchone()
 
     @api.model
     def _file_delete(self, fname) -> None:  # pylint: disable=missing-return

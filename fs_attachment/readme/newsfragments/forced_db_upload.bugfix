@@ -1,0 +1,3 @@
+Attachments forced to the database by `force_db_for_default_attachment_rules`
+are no longer also written into the storage, which left an orphan file and
+failed when the storage was unreachable.

@@ -402,6 +402,68 @@ class TestFSAttachment(TestFSAttachmentCommon):
         # the file should not have been moved
         self.assertEqual(attachment.store_fname, store_fname, "store_fname not changed")
 
+    def test_force_attachment_in_db_rules_no_file_written(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        attachment.write({"raw": b"new content"})
+        self.env.flush_all()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, b"new content")
+        # nothing uploaded to the storage, nothing left for the gc
+        self.assertEqual(os.listdir(self.temp_dir), [])
+        self.assertFalse(
+            self.gc_file_model.search([("fs_storage_code", "=", "tmp_dir")])
+        )
+
+    def test_force_attachment_in_db_rules_storage_unreachable(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        with mock.patch.object(
+            type(self.ir_attachment_model),
+            "_storage_file_write",
+            side_effect=MyException("storage unreachable"),
+        ):
+            attachment = self.ir_attachment_model.create(
+                {"name": "test.txt", "raw": b"content"}
+            )
+            self.env.flush_all()
+        self.assertEqual(attachment.db_datas, b"content")
+
+    def test_force_attachment_in_db_rules_shared_content(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        in_db = self.ir_attachment_model.create({"name": "a.txt", "raw": b"content"})
+        # same content in the same transaction, not forced to the database:
+        # the file must still be written
+        self.temp_backend.force_db_for_default_attachment_rules = "{}"
+        in_storage = self.ir_attachment_model.create(
+            {"name": "b.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        self.assertFalse(in_db.store_fname)
+        self.assertTrue(in_storage.store_fname.startswith("tmp_dir://"))
+        self.assertEqual(os.listdir(self.temp_dir), [in_storage.fs_filename])
+        self.env.invalidate_all()
+        self.assertEqual(in_storage.raw, b"content")
+
+    def test_force_attachment_in_db_rules_content_already_in_storage(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = "{}"
+        in_storage = self.ir_attachment_model.create(
+            {"name": "a.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        in_db = self.ir_attachment_model.create({"name": "b.txt", "raw": b"content"})
+        self.env.flush_all()
+        self.assertFalse(in_db.store_fname)
+        self.assertEqual(os.listdir(self.temp_dir), [in_storage.fs_filename])
+        self.env.invalidate_all()
+        self.assertEqual(in_storage.raw, b"content")
+
     def test_storage_use_filename_obfuscation(self):
         self.temp_backend.base_url = "https://acsone.eu/media"
         self.temp_backend.use_as_default_for_attachments = True
