@@ -1,5 +1,6 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import base64
 import os
 from pathlib import Path
 from unittest import mock
@@ -340,6 +341,59 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment.db_datas, b"content")
         self.assertEqual(attachment.mimetype, "text/plain")
 
+    def _create_menu_with_icon(self):
+        icon = b'<svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>'
+        menu = self.env["ir.ui.menu"].create(
+            {"name": "Test Menu", "web_icon_data": base64.b64encode(icon)}
+        )
+        self.env.flush_all()
+        attachment = self.ir_attachment_model.search(
+            [
+                ("res_model", "=", "ir.ui.menu"),
+                ("res_field", "=", "web_icon_data"),
+                ("res_id", "=", menu.id),
+            ]
+        )
+        self.assertEqual(attachment.mimetype, "image/svg+xml")
+        return icon, attachment
+
+    def test_force_attachment_in_db_rules_field(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        # images are kept in db below 10 bytes only, but menu icons always
+        self.temp_backend.force_db_for_default_attachment_rules = (
+            '{"image/": 10, "ir.ui.menu.web_icon_data": 0}'
+        )
+        icon, attachment = self._create_menu_with_icon()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, icon)
+        # the same image not linked to the field goes to the storage
+        other = self.ir_attachment_model.create({"name": "icon.svg", "raw": icon})
+        self.env.flush_all()
+        self.assertTrue(other.store_fname.startswith("tmp_dir://"))
+        self.assertFalse(other.db_datas)
+
+    def test_force_attachment_in_db_rules_field_limit(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        # the icon is above the field limit and no mimetype rule matches
+        self.temp_backend.force_db_for_default_attachment_rules = (
+            '{"ir.ui.menu.web_icon_data": 10}'
+        )
+        _icon, attachment = self._create_menu_with_icon()
+        self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+        self.assertFalse(attachment.db_datas)
+
+    def test_force_storage_to_db_field(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = "{}"
+        icon, attachment = self._create_menu_with_icon()
+        self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+        self.temp_backend.force_db_for_default_attachment_rules = (
+            '{"ir.ui.menu.web_icon_data": 0}'
+        )
+        attachment.force_storage_to_db_for_special_fields()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, icon)
+
     def test_force_storage_to_db(self):
         self.temp_backend.use_as_default_for_attachments = True
         attachment = self.ir_attachment_model.create(
@@ -552,7 +606,12 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.patch(
             type(IrAttachment),
             "_get_storage_force_db_config",
-            lambda self: {"text/plain": 0, "image/png": 100},
+            lambda self: {
+                "text/plain": 0,
+                "image/png": 100,
+                "ir.ui.menu.web_icon_data": 0,
+                "res.partner.image_1920": 200,
+            },
         )
         self.assertEqual(
             self.env["ir.attachment"]._store_in_db_instead_of_object_storage_domain(),
@@ -563,6 +622,19 @@ class TestFSAttachment(TestFSAttachmentCommon):
                         [
                             Domain("mimetype", "=like", "image/png%"),
                             Domain("file_size", "<=", 100),
+                        ]
+                    ),
+                    Domain.AND(
+                        [
+                            Domain("res_model", "=", "ir.ui.menu"),
+                            Domain("res_field", "=", "web_icon_data"),
+                        ]
+                    ),
+                    Domain.AND(
+                        [
+                            Domain("res_model", "=", "res.partner"),
+                            Domain("res_field", "=", "image_1920"),
+                            Domain("file_size", "<=", 200),
                         ]
                     ),
                 ]

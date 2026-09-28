@@ -66,7 +66,10 @@ class FsStorage(models.Model):
         "* images mimetypes (image/png, image/jpeg, ...) below 50KB are stored "
         "in database\n"
         "* application/javascript are stored in database whatever their size \n"
-        "* text/css are stored in database whatever their size",
+        "* text/css are stored in database whatever their size\n"
+        "A key can also be a '<model>.<field>' pair (e.g. "
+        "'ir.ui.menu.web_icon_data') to force the storage in database of the "
+        "attachments of a specific binary field, whatever their mimetype.",
         default=lambda self: self._default_force_db_for_default_attachment_rules,
     )
     use_filename_obfuscation = fields.Boolean(
