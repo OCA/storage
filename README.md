@@ -25,6 +25,7 @@ addon | version | maintainers | summary
 [fs_attachment_environment](fs_attachment_environment/) | 19.0.1.0.0 |  | Allows to use server environment with fs storage attachment
 [fs_attachment_s3](fs_attachment_s3/) | 19.0.1.2.1 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Store attachments into S3 complient filesystem
 [fs_attachment_s3_environment](fs_attachment_s3_environment/) | 19.0.1.0.0 |  | Allows to use server environment with fs storage attachment S3
+[fs_folder](fs_folder/) | 19.0.1.0.0 | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | A module to link to Odoo records and manage from record forms forlders from external file systems
 [fs_storage](fs_storage/) | 19.0.1.1.3 |  | Implement the concept of Storage with amazon S3, sftp...
 [fs_storage_environment](fs_storage_environment/) | 19.0.1.0.0 |  | Allows to use server environment with fs storage
 
@@ -34,7 +35,6 @@ Unported addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [fs_file](fs_file/) | 18.0.1.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Field to store files into filesystem storages
-[fs_folder](fs_folder/) | 18.0.2.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | A module to link to Odoo records and manage from record forms forlders from external file systems
 [fs_folder_demo](fs_folder_demo/) | 18.0.1.0.0 (unported) |  | Demo for fs_folder addon
 [fs_folder_ms_drive](fs_folder_ms_drive/) | 18.0.2.0.0 (unported) | <a href='https://github.com/lmignon'><img src='https://github.com/lmignon.png' width='32' height='32' style='border-radius:50%;' alt='lmignon'/></a> | Display and manage your files from Microsoft drives from within Odoo
 [fs_folder_webdav](fs_folder_webdav/) | 18.0.1.0.0 (unported) | <a href='https://github.com/jguenat'><img src='https://github.com/jguenat.png' width='32' height='32' style='border-radius:50%;' alt='jguenat'/></a> | UI improvement when managing WebDAV folder
