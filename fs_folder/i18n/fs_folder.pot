@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,7 +46,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/fs_folder/models/fs_folder_field_web_api.py:0
 msgid ""
-"An error occurred while listing files: '%s'\n"
+"An error occurred while listing files: '%(exception)s'\n"
 "This might happen if the folder was moved, renamed or deleted on the external storage.\n"
 "If this is expected you might want to unlink this folder."
 msgstr ""
@@ -127,6 +127,15 @@ msgid "Delete folder"
 msgstr ""
 
 #. module: fs_folder
+#: model:ir.model.fields,field_description:fs_folder.field_bus_bus__display_name
+#: model:ir.model.fields,field_description:fs_folder.field_fs_folder_field_value_adapter__display_name
+#: model:ir.model.fields,field_description:fs_folder.field_fs_folder_field_web_api__display_name
+#: model:ir.model.fields,field_description:fs_folder.field_fs_storage__display_name
+#: model:ir.model.fields,field_description:fs_folder.field_ir_model_fields__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: fs_folder
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder_item/fs_folder_item.xml:0
 msgid "Download"
@@ -171,6 +180,15 @@ msgstr ""
 #. module: fs_folder
 #: model:ir.model.fields,field_description:fs_folder.field_fs_storage__fs_name_sanitization_replace_char
 msgid "Fs Name Sanitization Replace Char"
+msgstr ""
+
+#. module: fs_folder
+#: model:ir.model.fields,field_description:fs_folder.field_bus_bus__id
+#: model:ir.model.fields,field_description:fs_folder.field_fs_folder_field_value_adapter__id
+#: model:ir.model.fields,field_description:fs_folder.field_fs_folder_field_web_api__id
+#: model:ir.model.fields,field_description:fs_folder.field_fs_storage__id
+#: model:ir.model.fields,field_description:fs_folder.field_ir_model_fields__id
+msgid "ID"
 msgstr ""
 
 #. module: fs_folder
@@ -266,7 +284,8 @@ msgstr ""
 #. module: fs_folder
 #. odoo-python
 #: code:addons/fs_folder/models/fs_storage.py:0
-msgid "The character to use as replacement can not be one of '%s'"
+msgid ""
+"The character to use as replacement can not be one of '%(invalid_chars)s'"
 msgstr ""
 
 #. module: fs_folder
@@ -317,4 +336,10 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/fs_folder/static/src/fs_folder/fs_folder.esm.js:0
 msgid "User"
+msgstr ""
+
+#. module: fs_folder
+#. odoo-javascript
+#: code:addons/fs_folder/static/src/preview_iframe/preview_iframe.xml:0
+msgid "X"
 msgstr ""
