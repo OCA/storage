@@ -34,5 +34,5 @@ class StorageFileReplace(models.TransientModel):
     def confirm(self):
         res = super().confirm()
         if self.image_id and self.data:
-            self.image_id.file_id = self._get_file_from_data()
+            self._replace_file(self.image_id)
         return res
