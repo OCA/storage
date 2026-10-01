@@ -58,3 +58,48 @@ class TestStorageReplaceFile(StorageImageCommonCase):
         self.assertEqual(image.file_id.name, self.filename_1)
         self.assertEqual(image.file_id.data, self.filedata_1)
         self.assertEqual(image.file_id.file_type, "image")
+
+    def test_wizard_change_file_keep_history(self):
+        image = self._create_storage_image(self.filename_1, self.filedata_1)
+        old_file = image.file_id
+        wiz_form = Form(
+            self.env["storage.file.replace"].with_context(
+                **{"active_model": "storage.image", "active_id": image.id}
+            ),
+            view="storage_image.storage_file_replace_view_form",
+        )
+        wiz_form.file_name = self.filename_2
+        wiz_form.data = self.filedata_2
+        wiz_form.keep_history = True
+        wiz_form.save().confirm()
+        # The image holds the new file and stays active
+        self.assertTrue(image.active)
+        self.assertEqual(image.file_id.data, self.filedata_2)
+        # An archived copy holds the old file, untouched
+        archived_image = self.env["storage.image"].search(
+            [("file_id", "=", old_file.id), ("active", "=", False)]
+        )
+        self.assertEqual(len(archived_image), 1)
+        self.assertEqual(archived_image.data, self.filedata_1)
+        self.assertEqual(archived_image.backend_id, old_file.backend_id)
+        self.assertFalse(old_file.to_delete)
+
+    def test_wizard_change_file_no_history(self):
+        image = self._create_storage_image(self.filename_1, self.filedata_1)
+        old_file = image.file_id
+        backend, relative_path = old_file.backend_id, old_file.relative_path
+        wiz_form = Form(
+            self.env["storage.file.replace"].with_context(
+                **{"active_model": "storage.image", "active_id": image.id}
+            ),
+            view="storage_image.storage_file_replace_view_form",
+        )
+        wiz_form.file_name = self.filename_2
+        wiz_form.data = self.filedata_2
+        wiz_form.keep_history = False
+        wiz_form.save().confirm()
+        self.assertTrue(image.active)
+        self.assertEqual(image.file_id.data, self.filedata_2)
+        # Nothing refers to the old file anymore: it is deleted
+        self.assertFalse(old_file.exists())
+        self.assertNotIn(relative_path, backend.list_files())

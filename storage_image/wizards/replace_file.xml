@@ -3,31 +3,21 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
     <record id="storage_file_replace_view_form" model="ir.ui.view">
-        <field name="name">storage.file.replace.form</field>
         <field name="model">storage.file.replace</field>
+        <field name="inherit_id" ref="storage_file.storage_file_replace_view_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Replace File" version="7.0">
-                <sheet>
-                    <field name="file_id" invisible="1" />
-                    <field name="image_id" invisible="1" />
-                    <group string="Image" name="image">
-                        <field
-                            name="data"
-                            widget="image"
-                            filename="file_name"
-                            nolabel="1"
-                            options="{'size':(128,128)}"
-                        />
-                    </group>
-                    <group string="Name" name="name">
-                        <field name="file_name" />
-                    </group>
-                    <footer>
-                        <button name="confirm" string="Confirm" type="object" />
-                        <button special="cancel" string="Cancel" class="btn-default" />
-                    </footer>
-                </sheet>
-            </form>
+            <field name="file_id" position="after">
+                <field name="image_id" invisible="1" />
+            </field>
+            <group name="file" position="attributes">
+                <attribute name="string">Image</attribute>
+            </group>
+            <field name="data" position="attributes">
+                <attribute name="widget">image</attribute>
+                <attribute name="nolabel">1</attribute>
+                <attribute name="options">{'size': (128, 128)}</attribute>
+            </field>
         </field>
     </record>
 
