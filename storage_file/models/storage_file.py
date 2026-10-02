@@ -259,13 +259,22 @@ class StorageFile(models.Model):
         )
         ids = [x[0] for x in self._cr.fetchall()]
         recordset = self.browse(ids[:batch_size])
+        corrupted_ids = []
         for st_file in recordset:
+            if not st_file.relative_path:
+                corrupted_ids.append(st_file.id)
+                continue
             st_file.backend_id.sudo().delete(st_file.relative_path)
             st_file.with_context(force_delete_storage_file=True).unlink()
             # commit is required since the backend could be an external system
             # therefore, if the record is deleted on the external system
             # we must be sure that the record is also deleted into Odoo
             st_file._cr.commit()
+        if corrupted_ids:
+            _logger.error(
+                "Skipping corrupted files with no relative_path IDS=%s",
+                ",".join(map(str, corrupted_ids)),
+            )
         done = len(recordset)
         self.env["ir.cron"]._notify_progress(
             done=done, remaining=0 if done <= batch_size else len(ids) - done
