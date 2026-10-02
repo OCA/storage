@@ -338,3 +338,20 @@ class StorageFileCase(TransactionComponentCase):
         )
         form = Form(self.env["storage.file"])
         self.assertEqual(form.backend_id, other_backend)
+
+    def test_unlink_deprecated_ctx_key(self):
+        """The deprecated context key still forces the deletion."""
+        stfile = self._create_storage_file()
+        with self.assertLogs(
+            "odoo.addons.storage_file.models.storage_file", level="WARNING"
+        ) as logs:
+            stfile.with_context(cleanning_storage_file=True).unlink()
+        self.assertEqual(
+            logs.output,
+            [
+                "WARNING:odoo.addons.storage_file.models.storage_file:"
+                "The 'cleanning_storage_file' context key is deprecated: "
+                "use 'force_delete_storage_file' instead."
+            ],
+        )
+        self.assertFalse(stfile.exists())
