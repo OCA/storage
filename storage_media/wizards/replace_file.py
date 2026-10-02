@@ -34,6 +34,5 @@ class StorageFileReplace(models.TransientModel):
     def confirm(self):
         res = super().confirm()
         if self.media_id and self.data:
-            self.media_id.file_id = self._get_file_from_data()
-            self.media_id.file_id._inverse_data()
+            self._replace_file(self.media_id)
         return res

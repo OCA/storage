@@ -227,6 +227,24 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(len(files), 0)
         self.assertNotIn(relative_path, backend.list_files())
 
+    def test_clean_storage_file_skips_corrupted(self):
+        # Do not commit during the test
+        self.cr.commit = lambda: True
+        stfile = self._create_storage_file()
+        corrupted = self.env["storage.file"].create(
+            {"name": "corrupted.txt", "backend_id": stfile.backend_id.id}
+        )
+        self.assertFalse(corrupted.relative_path)
+        (stfile | corrupted).unlink()
+        with self.assertLogs(
+            "odoo.addons.storage_file.models.storage_file", level="ERROR"
+        ) as logs:
+            self.env["storage.file"]._clean_storage_file()
+        self.assertIn(str(corrupted.id), logs.output[0])
+        # The valid file is cleaned, the corrupted one is kept
+        self.assertFalse(stfile.exists())
+        self.assertTrue(corrupted.exists())
+
     def test_public_access1(self):
         """
         Test the public access (when is_public on the backend).

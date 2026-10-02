@@ -56,3 +56,79 @@ class TestX(TransactionComponentCase):
         self.assertEqual(media.file_id.name, self.filename_1)
         self.assertEqual(media.file_id.data, self.filedata_1)
         self.assertEqual(media.file_id.file_type, "media")
+
+    def _replace_media_file(self, media, **values):
+        wiz_form = Form(
+            self.env["storage.file.replace"].with_context(
+                **{"active_model": "storage.media", "active_id": media.id}
+            ),
+            view="storage_media.storage_file_replace_view_form",
+        )
+        wiz_form.file_name = self.filename_2
+        wiz_form.data = self.filedata_2
+        for key, value in values.items():
+            setattr(wiz_form, key, value)
+        wiz = wiz_form.save()
+        wiz.confirm()
+
+    def test_wizard_change_file_no_history(self):
+        media = self.env["storage.media"].create(
+            {"name": self.filename_1, "data": self.filedata_1}
+        )
+        media_model = self.env["storage.media"].with_context(active_test=False)
+        media_count = media_model.search_count([])
+        old_file = media.file_id
+        backend, relative_path = old_file.backend_id, old_file.relative_path
+        self._replace_media_file(media, keep_history=False)
+        self.assertEqual(media_model.search_count([]), media_count)
+        # Nothing refers to the old file anymore: it is deleted
+        self.assertFalse(old_file.exists())
+        self.assertNotIn(relative_path, backend.list_files())
+        self.assertTrue(media.active)
+        self.assertIn(media.file_id.relative_path, backend.list_files())
+
+    def test_wizard_change_file_keep_history(self):
+        media = self.env["storage.media"].create(
+            {"name": self.filename_1, "data": self.filedata_1}
+        )
+        old_file = media.file_id
+        self._replace_media_file(media, keep_history=True)
+        # The media holds the new file and stays active
+        self.assertTrue(media.active)
+        self.assertNotEqual(media.file_id, old_file)
+        self.assertEqual(media.file_id.data, self.filedata_2)
+        # An archived copy holds the old file, untouched
+        archived_media = self.env["storage.media"].search(
+            [("file_id", "=", old_file.id), ("active", "=", False)]
+        )
+        self.assertEqual(len(archived_media), 1)
+        self.assertEqual(archived_media.name, self.filename_1)
+        self.assertEqual(archived_media.data, self.filedata_1)
+        self.assertEqual(archived_media.backend_id, old_file.backend_id)
+        self.assertFalse(old_file.to_delete)
+
+    def test_wizard_change_file_keep_history_keeps_backend(self):
+        # The old file is not on the default media backend:
+        # keeping its history must not move it.
+        default_backend = self.env["storage.backend"].browse(
+            self.env["storage.media"]._get_default_backend_id()
+        )
+        other_backend = self.env["storage.backend"].create(
+            {
+                "name": "Other backend",
+                "backend_type": "filesystem",
+                "directory_path": "other_backend",
+                "categ_id": default_backend.categ_id.id,
+            }
+        )
+        media = self.env["storage.media"].create(
+            {
+                "name": self.filename_1,
+                "data": self.filedata_1,
+                "backend_id": other_backend.id,
+            }
+        )
+        old_file = media.file_id
+        self._replace_media_file(media, keep_history=True)
+        self.assertEqual(old_file.backend_id, other_backend)
+        self.assertEqual(old_file.data, self.filedata_1)
