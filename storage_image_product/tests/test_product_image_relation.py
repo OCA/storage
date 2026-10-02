@@ -202,3 +202,28 @@ class ProductImageCase(StorageImageCommonCase):
             self.env.ref("product.product_attribute_value_1")
             not in black_image.attribute_value_ids
         )
+
+    def test_archived_image(self):
+        logo_relation, white_relation = self.env["product.image.relation"].create(
+            [
+                {
+                    "product_tmpl_id": self.template.id,
+                    "image_id": self.logo_image.id,
+                    "sequence": 1,
+                },
+                {
+                    "product_tmpl_id": self.template.id,
+                    "image_id": self.white_image.id,
+                    "sequence": 2,
+                },
+            ]
+        )
+        self.assertEqual(self.template.main_image_id, self.logo_image)
+        self.assertEqual(self.product_a.main_image_id, self.logo_image)
+        self.logo_image.active = False
+        # Still listed, but not the main image anymore
+        self.assertEqual(self.template.image_ids, logo_relation | white_relation)
+        self.assertIn(logo_relation, self.product_a.variant_image_ids)
+        self.assertFalse(logo_relation.image_active)
+        self.assertEqual(self.template.main_image_id, self.white_image)
+        self.assertEqual(self.product_a.main_image_id, self.white_image)
