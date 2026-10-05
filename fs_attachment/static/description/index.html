@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Base Attachment Object Store</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -526,6 +526,17 @@ in database</li>
 <li>application/javascript are stored in database whatever their size</li>
 <li>text/css are stored in database whatever their size</li>
 </ul>
+<p>A key can also be a <tt class="docutils literal"><span class="pre">&lt;model&gt;.&lt;field&gt;</span></tt> pair to force the storage in
+database of the attachments of a specific binary field, whatever their
+mimetype. It’s useful for fields like the menu icons, that are read on
+every page load, without having to keep all the images in database:</p>
+<blockquote>
+<p>{“image/”: 51200, “application/javascript”: 0, “text/css”: 0,
+“ir.ui.menu.web_icon_data”: 0}</p>
+</blockquote>
+<p>A field rule is checked before the mimetype rules: if the attachment
+matches it and is within its limit, it is stored in database,
+otherwise the mimetype rules apply.</p>
 <p>This option is only available on the filesystem storage that is used
 as default for attachments.</p>
 </li>

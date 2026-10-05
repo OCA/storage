@@ -70,6 +70,18 @@ configure the way attachments will be stored in the filesystem.
   - application/javascript are stored in database whatever their size
   - text/css are stored in database whatever their size
 
+  A key can also be a `<model>.<field>` pair to force the storage in
+  database of the attachments of a specific binary field, whatever their
+  mimetype. It's useful for fields like the menu icons, that are read on
+  every page load, without having to keep all the images in database:
+
+  > {"image/": 51200, "application/javascript": 0, "text/css": 0,
+  > "ir.ui.menu.web_icon_data": 0}
+
+  A field rule is checked before the mimetype rules: if the attachment
+  matches it and is within its limit, it is stored in database,
+  otherwise the mimetype rules apply.
+
   This option is only available on the filesystem storage that is used
   as default for attachments.
 
