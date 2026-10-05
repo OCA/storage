@@ -502,6 +502,59 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertNotEqual(res[0].store_fname, res2[0].store_fname)
         self.assertEqual(res[0].raw, res2[0].raw)
 
+    def test_create_attachment_same_content_as_obfuscated_one(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.temp_backend.use_filename_obfuscation = False
+        attachment2 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_create_attachment_same_content_as_obfuscated_field_one(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1 = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_id": self.env.user.partner_id.id,
+                "res_model": "res.partner",
+                "res_field": "image_1920",
+            }
+        )
+        self.temp_backend.use_filename_obfuscation = False
+        attachment2 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_write_name_file_shared_with_obfuscated_attachment(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1, attachment2 = self.ir_attachment_model.create(
+            [
+                {"name": "test.txt", "raw": b"content"},
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        self.assertEqual(attachment1.store_fname, attachment2.store_fname)
+        self.temp_backend.use_filename_obfuscation = False
+        attachment1.name = "test2.txt"
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
     def test_update_png_to_svg(self):
         b64_data_png = (
             b"iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAIAAAD73QTtAAAAA3NCSVQICAjb4U/gAA"

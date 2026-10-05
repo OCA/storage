@@ -479,7 +479,7 @@ class IrAttachment(models.Model):
         Keeping the same meaning and mimetype is important to also ease to provide
         a meaningful and SEO friendly URL to the file in the filesystem storage.
         """
-        renamed_attachments = {}
+        to_rename = self.browse()
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
                 continue
@@ -487,22 +487,27 @@ class IrAttachment(models.Model):
 
             if self.env["fs.storage"]._must_use_filename_obfuscation(storage):
                 attachment.fs_filename = filename
-                continue
+            else:
+                to_rename |= attachment
+        to_rename._set_meaningful_storage_filename()
+
+    def _set_meaningful_storage_filename(self) -> None:
+        """Give each attachment's file its meaningful name"""
+        usage = self._count_by_store_fname()
+        for attachment in self:
+            fs, storage, filename = attachment._get_fs_parts()
             new_filename = attachment._build_fs_filename()
             # we must keep the same full path as the original filename
             new_filename_with_path = os.path.join(
                 os.path.dirname(filename), new_filename
             )
 
-            if filename in renamed_attachments:
-                if renamed_attachments[filename] == new_filename_with_path:
-                    # we already renamed this file, no need to rename it again
-                    continue
-                else:
-                    fs.copy(renamed_attachments[filename], new_filename_with_path)
+            if usage[attachment.store_fname] > 1:
+                # the file stays with the other attachments stored in it
+                usage[attachment.store_fname] -= 1
+                fs.copy(filename, new_filename_with_path)
             else:
                 fs.rename(filename, new_filename_with_path)
-            renamed_attachments[filename] = new_filename_with_path
 
             attachment.fs_filename = new_filename
             # we need to update the store_fname with the new filename by
@@ -511,6 +516,19 @@ class IrAttachment(models.Model):
             # flake8: noqa: E231
             attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
+
+    def _count_by_store_fname(self) -> dict[str, int]:
+        """Return the number of attachments stored in each file of self"""
+        # "res_field = False OR res_field != False" to count the attachments of
+        # binary fields too, see fs.storage
+        domain = [
+            ("store_fname", "in", self.mapped("store_fname")),
+            "|",
+            ("res_field", "=", False),
+            ("res_field", "!=", False),
+        ]
+        groups = self.sudo()._read_group(domain, ["store_fname"], ["__count"])
+        return dict(groups)
 
     def _force_write_store_fname(self, store_fname):
         """Force the write of the store_fname field
