@@ -29,12 +29,10 @@ def sftp_mkdirs(client, path, mode=511):
 
 
 def load_ssh_key(ssh_key_buffer):
-    for pkey_class in (
-        paramiko.RSAKey,
-        paramiko.DSSKey,
-        paramiko.ECDSAKey,
-        paramiko.Ed25519Key,
-    ):
+    pkey_classes = [paramiko.RSAKey, paramiko.ECDSAKey, paramiko.Ed25519Key]
+    if hasattr(paramiko, "DSSKey"):
+        pkey_classes.append(paramiko.DSSKey)
+    for pkey_class in pkey_classes:
         try:
             return pkey_class.from_private_key(ssh_key_buffer)
         except paramiko.SSHException:
