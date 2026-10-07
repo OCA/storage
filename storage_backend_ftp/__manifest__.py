@@ -3,15 +3,13 @@
 {
     "name": "Storage Backend FTP",
     "summary": "Implement FTP Storage",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": " Acsone SA/NV,Odoo Community Association (OCA)",
     "license": "LGPL-3",
-    "external_dependencies": {"python": ["pyftpdlib"],
-    'installable': False,
-},
     "depends": ["storage_backend"],
     "data": ["views/backend_storage_view.xml"],
-    'installable': False,
+    "external_dependencies": {"python": ["pyftpdlib"]},
+    "installable": True,
 }

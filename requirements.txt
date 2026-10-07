@@ -2,4 +2,5 @@
 fsspec>=2024.5.0
 fsspec>=2025.3.0
 fsspec[s3]
+pyftpdlib
 python_slugify
