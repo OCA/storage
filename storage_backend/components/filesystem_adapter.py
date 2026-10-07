@@ -28,13 +28,13 @@ class FileSystemStorageBackend(Component):
     def _fullpath(self, relative_path):
         """This will build the full path for the file, we force to
         store the data inside the filestore in the directory 'storage".
-        Becarefull if you implement your own custom path, end user
+        Be careful if you implement your own custom path, end user
         should never be able to write or read unwanted filesystem file"""
         full_path = super()._fullpath(relative_path)
         base_dir = self._basedir()
         full_path = os.path.join(base_dir, full_path)
         if not is_safe_path(base_dir, full_path):
-            raise AccessError(self.env._("Access to %s is forbidden") % full_path)
+            raise AccessError(self.env._("Access to %s is forbidden", full_path))
         return full_path
 
     def add(self, relative_path, data, **kwargs):
