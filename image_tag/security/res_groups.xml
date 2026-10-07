@@ -3,8 +3,8 @@
     <record model="res.groups" id="group_image_tag_manager">
         <field name="name">Image Tag Manager</field>
         <field
-            name="users"
-            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+            name="user_ids"
+            eval="[Command.link(ref('base.user_root')), Command.link(ref('base.user_admin'))]"
         />
     </record>
 </odoo>

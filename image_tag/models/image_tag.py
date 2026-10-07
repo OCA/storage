@@ -8,7 +8,6 @@ from odoo import api, fields, models
 
 class ImageTag(models.Model):
     _name = "image.tag"
-    _inherit = ["server.env.techname.mixin"]
     _description = "Image Tag"
 
     @api.model
