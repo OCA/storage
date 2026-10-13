@@ -41,20 +41,22 @@ class TestFSAttachmentCommon(TransactionCase):
         cls.temp_dir = temp_dir
         cls.gc_file_model = cls.env["fs.file.gc"]
         cls.ir_attachment_model = cls.env["ir.attachment"]
-        cls.demo_user = (
-            cls.env["res.users"]
-            .with_context(no_reset_password=True)
-            .create(
-                {
-                    "name": "Test User",
-                    "login": "demo",
-                    "password": "demo",
-                    "email": "test@yourcompany.com",
-                    "company_id": cls.env.ref("base.main_company").id,
-                    "group_ids": [Command.link(cls.env.ref("base.group_user").id)],
-                }
+        cls.demo_user = cls.env["res.users"].search([("login", "=", "demo")])
+        if not cls.demo_user:
+            cls.demo_user = (
+                cls.env["res.users"]
+                .with_context(no_reset_password=True)
+                .create(
+                    {
+                        "name": "Test User",
+                        "login": "demo",
+                        "password": "demo",
+                        "email": "test@yourcompany.com",
+                        "company_id": cls.env.ref("base.main_company").id,
+                        "group_ids": [Command.link(cls.env.ref("base.group_user").id)],
+                    }
+                )
             )
-        )
 
         @cls.addClassCleanup
         def cleanup_tempdir():

@@ -33,19 +33,21 @@ class TestFSAttachmentFileLikeAdapterMixin:
     def test_write(self):
         with self.open(mode="wb") as f:
             f.write(self.new_content)
-        self.assertEqual(self.new_content, self.attachment.raw)
+        self.assertEqual(self.new_content, self.attachment.raw.content)
 
     def test_write_append(self):
-        self.assertEqual(self.initial_content, self.attachment.raw)
+        self.assertEqual(self.initial_content, self.attachment.raw.content)
         with self.open(mode="ab") as f:
             f.write(self.new_content)
-        self.assertEqual(self.initial_content + self.new_content, self.attachment.raw)
+        self.assertEqual(
+            self.initial_content + self.new_content, self.attachment.raw.content
+        )
 
     def test_write_new_version(self):
         initial_fname = self.attachment.store_fname
         with self.open(mode="wb", new_version=True) as f:
             f.write(self.new_content)
-        self.assertEqual(self.new_content, self.attachment.raw)
+        self.assertEqual(self.new_content, self.attachment.raw.content)
         if initial_fname:
             self.assertNotEqual(self.attachment.store_fname, initial_fname)
 
@@ -53,7 +55,9 @@ class TestFSAttachmentFileLikeAdapterMixin:
         initial_fname = self.attachment.store_fname
         with self.open(mode="ab", new_version=True) as f:
             f.write(self.new_content)
-        self.assertEqual(self.initial_content + self.new_content, self.attachment.raw)
+        self.assertEqual(
+            self.initial_content + self.new_content, self.attachment.raw.content
+        )
         if initial_fname:
             self.assertNotEqual(self.attachment.store_fname, initial_fname)
 
@@ -63,14 +67,14 @@ class TestFSAttachmentFileLikeAdapterMixin:
             with self.env.cr.savepoint():
                 with self.open(mode="wb", new_version=True) as f:
                     f.write(self.new_content)
-                self.assertEqual(self.new_content, self.attachment.raw)
+                self.assertEqual(self.new_content, self.attachment.raw.content)
                 if initial_fname:
                     self.assertNotEqual(self.attachment.store_fname, initial_fname)
                 raise MyException("Test")
         except MyException:
             ...
 
-        self.assertEqual(self.initial_content, self.attachment.raw)
+        self.assertEqual(self.initial_content, self.attachment.raw.content)
         if initial_fname:
             self.assertEqual(self.attachment.store_fname, initial_fname)
 
@@ -109,7 +113,7 @@ class TestAttachmentInDBFileLikeAdapter(
 
     def setUp(self):
         super().setUp()
-        self.env["ir.config_parameter"].sudo().set_param("ir_attachment.location", "db")
+        self.env["ir.config_parameter"].sudo().set_str("ir_attachment.location", "db")
         self.prepare()
 
     def tearDown(self) -> None:
@@ -133,9 +137,7 @@ class TestAttachmentInFileFileLikeAdapter(
 
     def setUp(self):
         super().setUp()
-        self.env["ir.config_parameter"].sudo().set_param(
-            "ir_attachment.location", "file"
-        )
+        self.env["ir.config_parameter"].sudo().set_str("ir_attachment.location", "file")
         self.prepare()
 
     def tearDown(self) -> None:

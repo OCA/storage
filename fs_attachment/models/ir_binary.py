@@ -3,14 +3,8 @@
 import logging
 from mimetypes import guess_extension
 
-import werkzeug.http
-
 from odoo import models
-from odoo.http import request
-from odoo.tools.image import image_process
 from odoo.tools.mimetypes import get_extension
-
-from ..fs_stream import FsStream
 
 _logger = logging.getLogger(__name__)
 
@@ -18,36 +12,10 @@ _logger = logging.getLogger(__name__)
 class IrBinary(models.AbstractModel):
     _inherit = "ir.binary"
 
-    def _get_fs_attachment_for_field(self, record, field_name):
-        if record._name == "ir.attachment" and record.fs_filename:
-            return record
-        field_def = record._fields.get(field_name)
-        if field_def:
-            record._check_field_access(field_def, "read")
-            if field_def.attachment and field_def.store:
-                fs_attachment = (
-                    self.env["ir.attachment"]
-                    .sudo()
-                    .search(
-                        domain=[
-                            ("res_model", "=", record._name),
-                            ("res_id", "=", record.id),
-                            ("res_field", "=", field_name),
-                        ],
-                        limit=1,
-                    )
-                )
-                if fs_attachment and fs_attachment.fs_filename:
-                    return fs_attachment
-        return None
-
-    def _record_to_stream(self, record, field_name):
-        # Extend base implementation to support attachment stored into a
-        # filesystem storage
-        fs_attachment = self._get_fs_attachment_for_field(record, field_name)
-        if fs_attachment:
-            return FsStream.from_fs_attachment(fs_attachment)
-        return super()._record_to_stream(record, field_name)
+    # The streams of the attachments stored into a filesystem storage are
+    # provided by ir.attachment._to_http_stream (see FsStream). This method is
+    # called by ir.binary._record_to_stream for the attachments and the binary
+    # fields stored as attachment.
 
     def _get_stream_from(
         self,
@@ -66,21 +34,29 @@ class IrBinary(models.AbstractModel):
             mimetype=mimetype,
             default_mimetype=default_mimetype,
         )
-
         if stream.type == "fs":
+            # same as the base implementation for 'data' and 'path' streams
             if mimetype:
                 stream.mimetype = mimetype
+            elif not stream.mimetype:
+                stream.mimetype = default_mimetype
+
             if filename:
                 stream.download_name = filename
-            elif record and filename_field in record:
-                stream.download_name = record[filename_field] or stream.download_name
+            elif filename_field in record:
+                field = record._fields[filename_field]
+                if record.sudo(False).has_field_access(field, "read"):
+                    stream.download_name = record[filename_field]
+            if not stream.download_name:
+                stream.download_name = f"{record._table}-{record.id}-{field_name}"
 
-        if (
-            not get_extension(stream.download_name)
-            and stream.mimetype != "application/octet-stream"
-        ):
-            stream.download_name += guess_extension(stream.mimetype) or ""
-
+            stream.download_name = stream.download_name.replace("\n", "_").replace(
+                "\r", "_"
+            )
+            ext = get_extension(stream.download_name)
+            stream.download_name = stream.download_name.removesuffix(ext)[:100] + (
+                ext or guess_extension(stream.mimetype) or ""
+            )
         return stream
 
     def _get_image_stream_from(
@@ -97,27 +73,16 @@ class IrBinary(models.AbstractModel):
         crop=False,
         quality=0,
     ):
-        # we need to override this method since if you pass a width or height or
-        # set crop=True, the stream data must be a bytes object, not a
-        # file-like object. In the base implementation, the stream data is
-        # passed to `image_process` method to transform it and this method
-        # expects a bytes object.
-        initial_width = width
-        initial_height = height
-        initial_crop = crop
+        # Fields provided by the module fs_file / fs_image are not binary
+        # fields. Their content is served from the related attachment.
         if record._name != "ir.attachment" and field_name:
-            field_def = record._fields[field_name]
-            if field_def.type in ("fs_image", "fs_file"):
+            field_def = record._fields.get(field_name)
+            if field_def and field_def.type in ("fs_image", "fs_file"):
                 value = record[field_name]
                 if value:
                     record = value.attachment
                     field_name = "raw"
-            elif field_def.type in ("binary"):
-                fs_attachment = self._get_fs_attachment_for_field(record, field_name)
-                if fs_attachment:
-                    record = fs_attachment
-                    field_name = "raw"
-        stream = super()._get_image_stream_from(
+        return super()._get_image_stream_from(
             record,
             field_name=field_name,
             filename=filename,
@@ -125,31 +90,8 @@ class IrBinary(models.AbstractModel):
             mimetype=mimetype,
             default_mimetype=default_mimetype,
             placeholder=placeholder,
-            width=0,
-            height=0,
-            crop=False,
+            width=width,
+            height=height,
+            crop=crop,
             quality=quality,
         )
-        modified = werkzeug.http.is_resource_modified(
-            request.httprequest.environ,
-            etag=stream.etag,
-            last_modified=stream.last_modified,
-        )
-        if modified and (initial_width or initial_height or initial_crop):
-            if stream.type == "path":
-                with open(stream.path, "rb") as file:
-                    stream.type = "data"
-                    stream.path = None
-                    stream.data = file.read()
-            elif stream.type == "fs":
-                stream.data = stream.read()
-                stream.type = "data"
-            stream.data = image_process(
-                stream.data,
-                size=(initial_width, initial_height),
-                crop=initial_crop,
-                quality=quality,
-            )
-            stream.size = len(stream.data)
-
-        return stream
