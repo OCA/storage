@@ -170,7 +170,7 @@ class TestStream(HttpCaseWithUserDemo):
         demo_partner = self.partner_demo
         demo_partner.with_context(
             storage_location=self.temp_backend.code,
-        ).write({"image_128": base64.encodebytes(self._create_image(128, 128))})
+        ).write({"image_128": base64.b64encode(self._create_image(128, 128)).decode()})
         url = f"/web/image/{demo_partner._name}/{demo_partner.id}/image_128"
         res = self.assertDownload(
             url,

@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import SQL
 from odoo.tools.safe_eval import const_eval
@@ -112,9 +112,11 @@ class FsStorage(models.Model):
         return res
 
     def write(self, vals):
-        if "use_as_default_for_attachments" in vals:
-            if not vals["use_as_default_for_attachments"]:
-                vals["force_db_for_default_attachment_rules"] = None
+        if (
+            "use_as_default_for_attachments" in vals
+            and not (vals["use_as_default_for_attachments"])
+        ):
+            vals["force_db_for_default_attachment_rules"] = None
         res = super().write(vals)
         self._create_write_check_constraints(vals)
         return res
@@ -165,7 +167,7 @@ class FsStorage(models.Model):
                 ) from e
 
     @api.model
-    @tools.ormcache()
+    @api.ormcache()
     def get_storage_code_for_attachments_fallback(self):
         storages = (
             self.sudo()  # pylint: disable=no-search-all
@@ -191,7 +193,7 @@ class FsStorage(models.Model):
         return storage_code
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def get_force_db_for_default_attachment_rules(self, code):
         """Return the rules to force the storage of some attachments in the DB
 
@@ -210,17 +212,17 @@ class FsStorage(models.Model):
         return {}
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def _must_optimize_directory_path(self, code):
         return self.sudo().get_by_code(code).optimizes_directory_path
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def _must_autovacuum_gc(self, code):
         return self.sudo().get_by_code(code).autovacuum_gc
 
     @api.model
-    @tools.ormcache("code")
+    @api.ormcache("code")
     def _must_use_filename_obfuscation(self, code):
         return self.sudo().get_by_code(code).use_filename_obfuscation
 

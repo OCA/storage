@@ -1,12 +1,19 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import base64
+import hashlib
+import io
 import os
 from pathlib import Path
 from unittest import mock
 
+from PIL import Image
+
 from odoo.fields import Domain
 from odoo.tools import mute_logger
+from odoo.tools.binary import BinaryBytes
 
+from ..models.ir_attachment import FsBinaryFile
 from .common import MyException, TestFSAttachmentCommon
 
 
@@ -22,7 +29,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             .create({"name": "test.txt", "raw": content})
         )
         self.assertEqual(os.listdir(self.temp_dir), [f"test-{attachment.id}-0.txt"])
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertFalse(attachment.db_datas)
         self.assertEqual(attachment.mimetype, "text/plain")
         with attachment.open("rb") as f:
@@ -30,7 +37,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
 
         with attachment.open("wb") as f:
             f.write(b"new")
-        self.assertEqual(attachment.raw, b"new")
+        self.assertEqual(attachment.raw.content, b"new")
 
     def test_create_attachment_with_meaningful_name(self):
         """In this test we use a backend with 'optimizes_directory_path',
@@ -80,11 +87,11 @@ class TestFSAttachment(TestFSAttachmentCommon):
     def test_create_attachment_with_no_payload_has_bytes_raw(self):
         attachment = self.ir_attachment_model.create({"name": "empty.txt"})
 
-        self.assertEqual(attachment.raw, b"")
+        self.assertEqual(attachment.raw.content, b"")
         self.assertEqual(attachment.file_size, 0)
 
     def test_open_attachment_in_db(self):
-        self.env["ir.config_parameter"].sudo().set_param("ir_attachment.location", "db")
+        self.env["ir.config_parameter"].sudo().set_str("ir_attachment.location", "db")
         content = b"This is a test attachment in db"
         attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
@@ -96,24 +103,22 @@ class TestFSAttachment(TestFSAttachmentCommon):
             self.assertEqual(f.read(), content)
         with attachment.open("wb") as f:
             f.write(b"new")
-        self.assertEqual(attachment.raw, b"new")
+        self.assertEqual(attachment.raw.content, b"new")
 
     def test_attachment_open_in_filestore(self):
-        self.env["ir.config_parameter"].sudo().set_param(
-            "ir_attachment.location", "file"
-        )
+        self.env["ir.config_parameter"].sudo().set_str("ir_attachment.location", "file")
         content = b"This is a test attachment in filestore"
         attachment = self.ir_attachment_model.create(
             {"name": "test.txt", "raw": content}
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         with attachment.open("rb") as f:
             self.assertEqual(f.read(), content)
         with attachment.open("wb") as f:
             f.write(b"new")
-        self.assertEqual(attachment.raw, b"new")
+        self.assertEqual(attachment.raw.content, b"new")
 
     def test_default_attachment_store_in_fs(self):
         self.temp_backend.use_as_default_for_attachments = True
@@ -123,7 +128,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -145,7 +150,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         new_filename = f"test-{attachment.id}-1.txt"
         with open(os.path.join(self.temp_dir, new_filename), "rb") as f:
             self.assertEqual(f.read(), b"new")
-        self.assertEqual(attachment.raw, b"new")
+        self.assertEqual(attachment.raw.content, b"new")
         self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
         self.assertEqual(attachment.mimetype, "text/plain")
 
@@ -177,7 +182,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             {"name": "test.txt", "raw": content}
         )
         self.env.flush_all()
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
 
         initial_filename = f"test-{attachment.id}-0.txt"
 
@@ -205,7 +210,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
             ...
         self.assertEqual(attachment.store_fname, f"tmp_dir://{initial_filename}")
         self.assertEqual(attachment.fs_filename, initial_filename)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.assertEqual(
             set(os.listdir(self.temp_dir)),
@@ -234,7 +239,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
                     {"name": "test.txt", "raw": content}
                 )
                 self.env.flush_all()
-                self.assertEqual(attachment.raw, content)
+                self.assertEqual(attachment.raw.content, content)
                 initial_filename = f"test-{attachment.id}-0.txt"
                 self.assertEqual(
                     attachment.store_fname, f"tmp_dir://{initial_filename}"
@@ -337,7 +342,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         )
         self.env.flush_all()
         self.assertFalse(attachment.store_fname)
-        self.assertEqual(attachment.db_datas, b"content")
+        self.assertEqual(attachment.db_datas.content, b"content")
         self.assertEqual(attachment.mimetype, "text/plain")
 
     def test_force_storage_to_db(self):
@@ -353,7 +358,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
         attachment.force_storage_to_db_for_special_fields()
         self.assertFalse(attachment.store_fname)
-        self.assertEqual(attachment.db_datas, b"content")
+        self.assertEqual(attachment.db_datas.content, b"content")
         # we check that the file is marked for GC
         gc_files = self.gc_file_model.search([]).mapped("store_fname")
         self.assertIn(store_fname, gc_files)
@@ -476,13 +481,13 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment1.name, "test.txt")
         self.assertEqual(attachment2.name, "test.txt")
         self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
-        self.assertEqual(attachment1.raw, attachment2.raw)
+        self.assertEqual(attachment1.raw.content, attachment2.raw.content)
 
         attachment1.raw = b"new content"
-        self.assertNotEqual(attachment1.raw, attachment2.raw)
+        self.assertNotEqual(attachment1.raw.content, attachment2.raw.content)
 
         attachment2 = self.ir_attachment_model.browse(attachment2.id)
-        self.assertEqual(attachment2.raw, b"content")
+        self.assertEqual(attachment2.raw.content, b"content")
 
     def test_create_two_attachments_differnt_call(self):
         self.temp_backend.use_as_default_for_attachments = True
@@ -500,7 +505,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(len(res2), 1)
 
         self.assertNotEqual(res[0].store_fname, res2[0].store_fname)
-        self.assertEqual(res[0].raw, res2[0].raw)
+        self.assertEqual(res[0].raw.content, res2[0].raw.content)
 
     def test_update_png_to_svg(self):
         b64_data_png = (
@@ -512,7 +517,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         attachment = self.ir_attachment_model.create(
             {
                 "name": "test.png",
-                "datas": b64_data_png,
+                "raw": base64.b64decode(b64_data_png),
             }
         )
         self.assertEqual(attachment.mimetype, "image/png")
@@ -530,7 +535,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
         )
         attachment.write(
             {
-                "datas": b64_data_svg,
+                "raw": base64.b64decode(b64_data_svg),
             }
         )
 
@@ -539,7 +544,7 @@ class TestFSAttachment(TestFSAttachmentCommon):
     def test_write_name(self):
         self.temp_backend.use_as_default_for_attachments = True
         attachment = self.ir_attachment_model.create(
-            {"name": "file.bin", "datas": b"aGVsbG8gd29ybGQK"}
+            {"name": "file.bin", "raw": b"hello world\n"}
         )
         self.assertTrue(attachment.fs_filename.startswith("file-"))
         self.assertTrue(attachment.fs_filename.endswith(".bin"))
@@ -568,3 +573,83 @@ class TestFSAttachment(TestFSAttachmentCommon):
                 ]
             ),
         )
+
+    def test_raw_is_lazy(self):
+        content = b"This is a lazy attachment"
+        attachment = self.ir_attachment_model.with_context(
+            storage_location=self.temp_backend.code
+        ).create({"name": "test.txt", "raw": content})
+        attachment.invalidate_recordset()
+        raw = attachment.raw
+        self.assertIsInstance(raw, FsBinaryFile)
+        fs = attachment._get_fs_parts()[0]
+        with mock.patch.object(fs, "open", side_effect=AssertionError("read")):
+            # no access to the storage is required to get the metadata
+            self.assertEqual(raw.size, len(content))
+            self.assertEqual(raw.checksum, attachment.checksum)
+            self.assertTrue(raw)
+        with raw.open() as f:
+            self.assertEqual(f.read(), content)
+        self.assertEqual(raw.content, content)
+
+    def test_open_write_updates_file_values(self):
+        attachment = self.ir_attachment_model.with_context(
+            storage_location=self.temp_backend.code
+        ).create({"name": "test.txt", "raw": b"initial content"})
+        for new_version in (True, False):
+            new_content = f"new content {new_version}".encode()
+            with attachment.open("wb", new_version=new_version) as f:
+                f.write(new_content)
+            self.assertEqual(attachment.checksum, hashlib.sha1(new_content).hexdigest())
+            self.assertEqual(attachment.file_size, len(new_content))
+            self.assertEqual(attachment.raw.content, new_content)
+
+    def test_upload_file(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        content = b"This is an uploaded file"
+        attachment = self.ir_attachment_model._upload_file(
+            io.BytesIO(content), {"name": "upload.txt"}
+        )
+        self.assertEqual(
+            attachment.store_fname, f"tmp_dir://upload-{attachment.id}-0.txt"
+        )
+        self.assertEqual(attachment.fs_filename, f"upload-{attachment.id}-0.txt")
+        self.assertEqual(attachment.raw.content, content)
+        self.assertEqual(attachment.file_size, len(content))
+        self.assertEqual(attachment.checksum, hashlib.sha1(content).hexdigest())
+        self.assertEqual(attachment.mimetype, "text/plain")
+        with open(os.path.join(self.temp_dir, attachment.fs_filename), "rb") as f:
+            self.assertEqual(f.read(), content)
+
+    def test_upload_file_force_db(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
+        content = b"This is an uploaded file"
+        attachment = self.ir_attachment_model._upload_file(
+            io.BytesIO(content), {"name": "upload.txt"}
+        )
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas.content, content)
+        self.assertEqual(attachment.raw.content, content)
+        self.assertEqual(attachment.mimetype, "text/plain")
+
+    def test_binary_field_stored_in_fs(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        image = io.BytesIO()
+        Image.new("RGB", (64, 64), "#4169E1").save(image, "PNG")
+        partner = self.env["res.partner"].create({"name": "Test"})
+        partner.image_1920 = BinaryBytes(image.getvalue())
+        self.env.flush_all()
+        attachment = self.ir_attachment_model.search(
+            [
+                ("res_model", "=", "res.partner"),
+                ("res_id", "=", partner.id),
+                ("res_field", "=", "image_1920"),
+            ]
+        )
+        self.assertEqual(attachment.fs_storage_id, self.temp_backend)
+        self.assertEqual(attachment.fs_filename, f"image_1920-{attachment.id}-0.png")
+        partner.invalidate_recordset()
+        self.assertEqual(partner.image_1920.content, attachment.raw.content)
+        with partner.image_1920.open() as f:
+            self.assertEqual(f.read(), attachment.raw.content)

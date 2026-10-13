@@ -25,7 +25,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -47,7 +47,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         new_filename = f"test-{attachment.id}-1.txt"
         with open(os.path.join(self.temp_dir, new_filename), "rb") as f:
             self.assertEqual(f.read(), new_content)
-        self.assertEqual(attachment.raw, new_content)
+        self.assertEqual(attachment.raw.content, new_content)
         self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
 
         # 2. Second attachment linked to res.country model
@@ -57,7 +57,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -86,7 +86,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -108,7 +108,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         new_filename = f"test-{attachment.id}-1.txt"
         with open(os.path.join(self.temp_dir, new_filename), "rb") as f:
             self.assertEqual(f.read(), new_content)
-        self.assertEqual(attachment.raw, new_content)
+        self.assertEqual(attachment.raw.content, new_content)
         self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
 
         # 2. Second attachment linked to res.partner but other field (website)
@@ -123,7 +123,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -136,7 +136,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -166,7 +166,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -188,7 +188,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         new_filename = f"test-{attachment.id}-1.txt"
         with open(os.path.join(self.temp_dir, new_filename), "rb") as f:
             self.assertEqual(f.read(), new_content)
-        self.assertEqual(attachment.raw, new_content)
+        self.assertEqual(attachment.raw.content, new_content)
         self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
 
         # 2. Second attachment linked to res.partner but other field (website)
@@ -203,7 +203,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -216,7 +216,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -230,7 +230,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         )
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
-        self.assertEqual(attachment.raw, content)
+        self.assertEqual(attachment.raw.content, content)
         self.assertEqual(attachment.mimetype, "text/plain")
         self.env.flush_all()
 
@@ -249,7 +249,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         self.ir_attachment_model.create(
             {
                 "name": "field.txt",
-                "raw": "Attachment linked to a field",
+                "raw": b"Attachment linked to a field",
                 "res_model": "res.partner",
                 "res_field": "name",
             }
@@ -257,7 +257,7 @@ class TestFsStorage(TestFSAttachmentCommon):
         self.ir_attachment_model.create(
             {
                 "name": "no_field.txt",
-                "raw": "Attachment not linked to a field",
+                "raw": b"Attachment not linked to a field",
             }
         )
         self.env.flush_all()
@@ -308,7 +308,11 @@ class TestFsStorage(TestFSAttachmentCommon):
 
         # Create a mock image attachment
         attachment = self.env["ir.attachment"].create(
-            {"name": "test_image.png", "datas": image_data, "mimetype": "image/png"}
+            {
+                "name": "test_image.png",
+                "raw": base64.b64decode(image_data),
+                "mimetype": "image/png",
+            }
         )
 
         # Get the url from the model
