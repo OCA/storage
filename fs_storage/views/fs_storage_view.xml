@@ -96,7 +96,7 @@
             </search>
         </field>
     </record>
-    <record model="ir.actions.act_window" id="act_open_fs_storage_view">
+    <record id="act_open_fs_storage_view" model="ir.actions.act_window">
         <field name="name">FS Storage</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">fs.storage</field>
@@ -105,13 +105,13 @@
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
-    <record model="ir.actions.act_window.view" id="act_open_fs_storage_view_form">
+    <record id="act_open_fs_storage_view_form" model="ir.actions.act_window.view">
         <field name="act_window_id" ref="act_open_fs_storage_view" />
         <field name="sequence" eval="20" />
         <field name="view_mode">form</field>
         <field name="view_id" ref="fs_storage_form_view" />
     </record>
-    <record model="ir.actions.act_window.view" id="act_open_fs_storage_view_tree">
+    <record id="act_open_fs_storage_view_tree" model="ir.actions.act_window.view">
         <field name="act_window_id" ref="act_open_fs_storage_view" />
         <field name="sequence" eval="10" />
         <field name="view_mode">list</field>
