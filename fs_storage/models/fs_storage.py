@@ -9,6 +9,7 @@ import json
 import logging
 import os.path
 import re
+import threading
 import warnings
 from typing import AnyStr
 
@@ -20,6 +21,12 @@ from odoo.exceptions import ValidationError
 from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
+
+# Last filesystem built for each storage, per process and thread:
+# {(pid, thread ident, dbname, storage id): filesystem}. fsspec caches its
+# filesystems and never closes them, so the one replaced by a change of options
+# would keep its connection open until the process dies.
+_last_filesystems = {}
 
 
 # TODO: useful for the whole OCA?
@@ -396,10 +403,73 @@ class FSStorage(models.Model):
             try:
                 self._check_connection(self.__fs, self.check_connection_method)
             except Exception as e:
-                self.__fs.clear_instance_cache()
+                self._forget_filesystem(self.__fs)
+                self._drop_filesystem(self.__fs)
                 self.__fs = None
                 raise e
         return self.__fs
+
+    @classmethod
+    def _drop_filesystem(cls, fs: fsspec.AbstractFileSystem) -> None:
+        """Remove a filesystem from the fsspec instance cache and close it.
+
+        Only the given instance is dropped, so the filesystems of the other
+        storages stay cached. It is kept while another storage still uses it,
+        since fsspec shares the instances built with the same options. The
+        filesystem wrapped by a ``rooted_dir`` one is dropped too, otherwise
+        the next call would get it back from the cache.
+        """
+        # Snapshot: other threads may add storages meanwhile
+        if any(other is fs for other in list(_last_filesystems.values())):
+            return
+        wrapped_fs = getattr(fs, "fs", None)
+        if isinstance(wrapped_fs, fsspec.AbstractFileSystem):
+            cls._drop_filesystem(wrapped_fs)
+        # A new instance built with the same options gets the same token
+        token = getattr(fs, "_fs_token_", None)
+        if type(fs)._cache.get(token) is fs:
+            del type(fs)._cache[token]
+        # fsspec filesystems have no close method: only SFTP holds a connection
+        client = getattr(fs, "client", None)
+        if client is not None and hasattr(client, "get_transport"):
+            # Closing the channel may fail on a broken connection, and the
+            # client still has to be closed to stop the transport thread
+            for connection in (fs.ftp, client):
+                try:
+                    connection.close()
+                except Exception:
+                    _logger.warning(
+                        "Unable to close the SFTP connection", exc_info=True
+                    )
+
+    def _last_filesystem_key(self) -> tuple:
+        return (os.getpid(), threading.get_ident(), self.env.cr.dbname, self.id)
+
+    def _forget_filesystem(self, fs: fsspec.AbstractFileSystem) -> None:
+        """Stop counting this storage as a user of ``fs``.
+
+        Another recordset of the storage may have replaced it meanwhile, and
+        the filesystem in use must stay counted. A ``rooted_dir`` filesystem is
+        counted by the filesystem it wraps.
+        """
+        key = self._last_filesystem_key()
+        last_fs = _last_filesystems.get(key)
+        # Identity: fsspec filesystems with the same options compare equal
+        if last_fs is not None and (
+            last_fs is fs or last_fs is getattr(fs, "fs", None)
+        ):
+            del _last_filesystems[key]
+
+    def _release_replaced_filesystem(self, fs: fsspec.AbstractFileSystem) -> None:
+        """Drop the filesystem this storage used before ``fs``, if any.
+
+        It happens when the options of the storage change.
+        """
+        key = self._last_filesystem_key()
+        previous = _last_filesystems.get(key)
+        _last_filesystems[key] = fs
+        if previous is not None and previous is not fs:
+            self._drop_filesystem(previous)
 
     def _get_filesystem_storage_path(self) -> str:
         """Get the path to the storage directory.
@@ -487,6 +557,7 @@ class FSStorage(models.Model):
             options["auth"] = tuple(options["auth"])
         options = self._recursive_add_odoo_storage_path(options)
         fs = fsspec.filesystem(self.protocol, **options)
+        self._release_replaced_filesystem(fs)
         directory_path = self.get_directory_path()
         if directory_path:
             fs = fsspec.filesystem("rooted_dir", path=directory_path, fs=fs)
