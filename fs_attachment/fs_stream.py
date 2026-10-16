@@ -28,6 +28,7 @@ class FsStream(Stream):
             type="fs",
             size=attachment.file_size,
             last_modified=attachment["__last_update"],
+            public=attachment.public,
             fs_attachment=attachment,
         )
 
@@ -46,7 +47,10 @@ class FsStream(Stream):
     ):
         if self.type != "fs":
             return super().get_response(
-                as_attachment=as_attachment, immutable=immutable, **send_file_kwargs
+                as_attachment=as_attachment,
+                immutable=immutable,
+                content_security_policy=content_security_policy,
+                **send_file_kwargs,
             )
         if as_attachment is None:
             as_attachment = self.as_attachment
@@ -64,6 +68,7 @@ class FsStream(Stream):
             "max_age": STATIC_CACHE_LONG if immutable else self.max_age,
             "environ": request.httprequest.environ,
             "response_class": Response,
+            **send_file_kwargs,
         }
         use_x_sendfile = self.fs_attachment._fs_use_x_sendfile()
         # The file will be closed by werkzeug...
@@ -81,12 +86,19 @@ class FsStream(Stream):
             res.headers["X-Sendfile"] = x_sendfile_path
             res.headers["Content-Length"] = 0
 
-        if immutable and res.cache_control:
-            res.cache_control["immutable"] = None
-
         res.headers["X-Content-Type-Options"] = "nosniff"
 
         if content_security_policy:
             res.headers["Content-Security-Policy"] = content_security_policy
+
+        # apply same cache policy as odoo.http.Stream.get_response
+        if self.public:
+            if (res.cache_control.max_age or 0) > 0:
+                res.cache_control.public = True
+        else:
+            res.cache_control.pop("public", "")
+            res.cache_control.private = True
+        if immutable:
+            res.cache_control["immutable"] = None
 
         return res
