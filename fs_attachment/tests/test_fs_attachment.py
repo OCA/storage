@@ -535,6 +535,29 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment1.raw, b"content")
         self.assertEqual(attachment2.raw, b"content")
 
+    def test_open_new_version_content_stored_elsewhere(self):
+        """Open a new version of a file into a filesystem storage while the
+        current content is stored in the database or in the odoo filestore"""
+        for location in ("db", "file"):
+            for mode, expected in (
+                ("wb", b" new"),
+                ("ab", b"initial new"),
+            ):
+                with self.subTest(location=location, mode=mode):
+                    self.temp_backend.use_as_default_for_attachments = False
+                    self.env["ir.config_parameter"].sudo().set_param(
+                        "ir_attachment.location", location
+                    )
+                    attachment = self.ir_attachment_model.create(
+                        {"name": "test.txt", "raw": b"initial"}
+                    )
+                    self.assertFalse(attachment.fs_storage_id)
+                    self.temp_backend.use_as_default_for_attachments = True
+                    with attachment.open(mode, new_version=True) as f:
+                        f.write(b" new")
+                    self.assertEqual(attachment.raw, expected)
+                    self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+
     def test_write_name_transactional(self):
         """If the transaction is rolled back after a change of name, the
         attachment must still reference an existing file"""
