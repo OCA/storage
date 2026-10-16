@@ -34,6 +34,12 @@ def _authenticate():
     Odoo login, so the API key is the only thing standing between an anonymous
     caller and a write. Do not relax this without putting real authentication
     in front of the route.
+
+    Uploads validate with the dedicated ``dav`` scope. DAV tokens are issued
+    with that scope by ``dav_api_key_generator``, which means they cannot be
+    replayed against the general RPC endpoint. Keys created with no scope (the
+    default from Odoo's own API-key UI) still match, so existing clients are
+    unaffected.
     """
     auth_header = request.httprequest.headers.get("Authorization")
     if not auth_header:
@@ -44,7 +50,7 @@ def _authenticate():
     if not api_key:
         return None, _json_error("Invalid API key", 401)
     user_id = request.env["res.users.apikeys"]._check_credentials(
-        scope="rpc", key=api_key
+        scope="dav", key=api_key
     )
     if not user_id:
         return None, _json_error("Invalid API key", 401)

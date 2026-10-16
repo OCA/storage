@@ -18,7 +18,7 @@ class TestWebDAVUpload(HttpCase):
         self.api_key = (
             self.env["res.users.apikeys"]
             .with_user(self.api_user)
-            ._generate("rpc", "WebDAV Upload Key")
+            ._generate("dav", "WebDAV Upload Key")
         )
 
     def _put(self, path, body=b"statement", headers=None):
