@@ -347,12 +347,15 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.env.flush_all()
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
+        self.assertEqual(attachment.fs_storage_id, self.temp_backend)
         store_fname = attachment.store_fname
         # we change the rules to force the storage in db for text/plain
         self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
         attachment.force_storage_to_db_for_special_fields()
         self.assertFalse(attachment.store_fname)
         self.assertEqual(attachment.db_datas, b"content")
+        self.assertFalse(attachment.fs_storage_id)
+        self.assertFalse(attachment.fs_storage_code)
         # we check that the file is marked for GC
         gc_files = self.gc_file_model.search([]).mapped("store_fname")
         self.assertIn(store_fname, gc_files)

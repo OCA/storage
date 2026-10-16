@@ -130,7 +130,7 @@ class IrAttachment(models.Model):
                     rec, exclude_base_url=True
                 )
 
-    @api.depends("fs_filename")
+    @api.depends("store_fname", "fs_filename")
     def _compute_fs_storage_id(self):
         for rec in self:
             if rec.store_fname:
