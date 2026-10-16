@@ -559,6 +559,16 @@ class IrAttachment(models.Model):
         """
         self._fields["store_fname"].write(self, store_fname)
 
+    def _force_write_file_values(self, vals):
+        """Force the write of the fields computed from the file content
+
+        The write method of ir_attachment ignores the fields 'checksum' and
+        'file_size'. This method bypass this limitation by calling the write
+        method of the fields directly.
+        """
+        for field_name, value in vals.items():
+            self._fields[field_name].write(self, value)
+
     @api.model
     def _get_fs_storage_for_code(
         self,
@@ -1170,7 +1180,15 @@ class AttachmentFileLikeAdapter(object):
                 and self._is_stored_in_db
             ):
                 attachment_data["raw"] = self._file.getvalue()
+            # the values computed from the content are removed from the
+            # values by ir.attachment.write
+            file_values = {
+                "checksum": attachment_data["checksum"],
+                "file_size": attachment_data["file_size"],
+            }
             self.attachment.write(attachment_data)
+            if "raw" not in attachment_data:
+                self.attachment._force_write_file_values(file_values)
             if self.new_version and self._new_store_fname:
                 self.attachment._force_write_store_fname(self._new_store_fname)
             self.attachment._enforce_meaningful_storage_filename()
