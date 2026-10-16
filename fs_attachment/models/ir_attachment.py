@@ -526,8 +526,10 @@ class IrAttachment(models.Model):
             ("res_field", "=", False),
             ("res_field", "!=", False),
         ]
-        groups = self.sudo()._read_group(domain, ["store_fname"], ["__count"])
-        return dict(groups)
+        groups = self.sudo()._read_group(
+            domain, ["store_fname"], ["store_fname"], lazy=False
+        )
+        return {group["store_fname"]: group["__count"] for group in groups}
 
     def _force_write_store_fname(self, store_fname):
         """Force the write of the store_fname field
