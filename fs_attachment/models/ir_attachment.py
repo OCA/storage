@@ -17,7 +17,6 @@ import fsspec  # pylint: disable=missing-manifest-dependency
 import psycopg2
 from slugify import slugify  # pylint: disable=missing-manifest-dependency
 
-import odoo
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.osv.expression import AND, OR, normalize_domain
@@ -718,8 +717,7 @@ class IrAttachment(models.Model):
         Using a new Odoo Environment thus a new PG transaction.
         """
         if new_cr:
-            registry = odoo.modules.registry.Registry.new(self.env.cr.dbname)
-            with closing(registry.cursor()) as cr:
+            with closing(self.env.registry.cursor()) as cr:
                 try:
                     yield self.env(cr=cr)
                 except Exception:
