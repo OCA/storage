@@ -414,6 +414,7 @@ class IrAttachment(models.Model):
         with fs.open(path, "wb", **kwargs) as f:
             f.write(bin_data)
         self._fs_mark_for_gc(fname)
+        self._fs_get_files_written_in_transaction().add(fname)
         return fname
 
     @api.model
@@ -493,18 +494,27 @@ class IrAttachment(models.Model):
     def _set_meaningful_storage_filename(self) -> None:
         """Give each attachment's file its meaningful name"""
         usage = self._count_by_store_fname()
+        written_files = self._fs_get_files_written_in_transaction()
         for attachment in self:
             fs, storage, filename = attachment._get_fs_parts()
+            old_store_fname = attachment.store_fname
             new_filename = attachment._build_fs_filename()
             # we must keep the same full path as the original filename
             new_filename_with_path = os.path.join(
                 os.path.dirname(filename), new_filename
             )
 
-            if usage[attachment.store_fname] > 1:
+            if usage[old_store_fname] > 1:
                 # the file stays with the other attachments stored in it
-                usage[attachment.store_fname] -= 1
+                usage[old_store_fname] -= 1
                 fs.copy(filename, new_filename_with_path)
+            elif old_store_fname not in written_files:
+                # The file has not been written by the current transaction
+                # We can't rename it to ensure that in case of rollback
+                # the original one still exists... In place we copy
+                # the original and we mark it to GC
+                fs.copy(filename, new_filename_with_path)
+                self._fs_mark_for_gc(old_store_fname)
             else:
                 fs.rename(filename, new_filename_with_path)
 
@@ -515,6 +525,16 @@ class IrAttachment(models.Model):
             # flake8: noqa: E231
             attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
+            written_files.add(attachment.store_fname)
+
+    @api.model
+    def _fs_get_files_written_in_transaction(self) -> set[str]:
+        """Return the store_fname of the files written into a filesystem
+        storage by the current transaction.
+        """
+        return self.env.cr.postcommit.data.setdefault(
+            "fs_attachment.written_files", set()
+        )
 
     def _count_by_store_fname(self) -> dict[str, int]:
         """Return the number of attachments stored in each file of self"""

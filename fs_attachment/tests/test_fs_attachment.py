@@ -532,6 +532,46 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment1.raw, b"content")
         self.assertEqual(attachment2.raw, b"content")
 
+    def test_write_name_transactional(self):
+        """If the transaction is rolled back after a change of name, the
+        attachment must still reference an existing file"""
+        self.temp_backend.use_as_default_for_attachments = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        initial_filename = f"test-{attachment.id}-0.txt"
+        initial_store_fname = attachment.store_fname
+        self.assertEqual(initial_store_fname, f"tmp_dir://{initial_filename}")
+        # simulate the commit of the transaction that created the file
+        self.env.cr.postcommit.data.pop("fs_attachment.written_files", None)
+        try:
+            with self.env.cr.savepoint():
+                attachment.name = "test2.txt"
+                new_filename = f"test2-{attachment.id}-1.txt"
+                self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
+                # the original file is copied, not moved
+                self.assertEqual(
+                    set(os.listdir(self.temp_dir)), {initial_filename, new_filename}
+                )
+                gc_files = self.gc_file_model.search([]).mapped("store_fname")
+                self.assertIn(initial_store_fname, gc_files)
+                raise MyException("dummy exception")
+        except MyException:
+            ...
+        self.assertEqual(attachment.store_fname, initial_store_fname)
+        self.assertEqual(attachment.raw, b"content")
+
+    def test_write_name_of_new_attachment_renames_file(self):
+        """A file written by the current transaction is renamed, not copied"""
+        self.temp_backend.use_as_default_for_attachments = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        attachment.name = "test2.txt"
+        self.env.flush_all()
+        self.assertEqual(os.listdir(self.temp_dir), [f"test2-{attachment.id}-1.txt"])
+
     def test_update_png_to_svg(self):
         b64_data_png = (
             b"iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAIAAAD73QTtAAAAA3NCSVQICAjb4U/gAA"
