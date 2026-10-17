@@ -19,9 +19,15 @@ class IrBinary(models.AbstractModel):
     _inherit = "ir.binary"
 
     def _get_fs_attachment_for_field(self, record, field_name):
-        if record._name == "ir.attachment" and record.fs_filename:
-            return record
         field_def = record._fields.get(field_name)
+        # a field stored in its own attachment (ex: thumbnail) is not the file of
+        # the attachment itself
+        if (
+            record._name == "ir.attachment"
+            and record.fs_filename
+            and not (field_def and field_def.attachment)
+        ):
+            return record
         if field_def:
             record._check_field_access(field_def, "read")
             if field_def.attachment and field_def.store:
