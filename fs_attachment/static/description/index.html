@@ -526,6 +526,24 @@ in database</li>
 <li>application/javascript are stored in database whatever their size</li>
 <li>text/css are stored in database whatever their size</li>
 </ul>
+<p>The rules can also be grouped by rule name:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">mimetype-size</span></tt>: the mimetype rules described above</li>
+<li><tt class="docutils literal"><span class="pre">field-size</span></tt>: the key is a <tt class="docutils literal"><span class="pre">&lt;model&gt;.&lt;field&gt;</span></tt> pair, to force the
+storage in database of the attachments of a specific binary field,
+whatever their mimetype</li>
+</ul>
+<p>It’s useful for fields like the menu icons, that are read on every
+page load, without having to keep all the images in database:</p>
+<blockquote>
+<p>{“mimetype-size”: {“image/”: 51200, “application/javascript”: 0,
+“text/css”: 0}, “field-size”: {“ir.ui.menu.web_icon_data”: 0}}</p>
+</blockquote>
+<p>Keys that are not a rule name are read as mimetype rules, so existing
+configurations keep working.</p>
+<p>A field rule is checked before the mimetype rules: if the attachment
+matches it and is within its limit, it is stored in database,
+otherwise the mimetype rules apply.</p>
 <p>This option is only available on the filesystem storage that is used
 as default for attachments.</p>
 </li>

@@ -163,6 +163,27 @@ class IrAttachment(models.Model):
             self._storage()
         )
 
+    def _get_storage_force_db_rules(self):
+        """Return the force db config grouped by rule name
+
+        The config maps a rule name to its rules:
+
+        * ``mimetype-size``: ``{mimetype_key: limit}``
+        * ``field-size``: ``{"<model>.<field>": limit}``
+
+        Any other key is a legacy ``mimetype_key: limit`` entry and is merged
+        into the ``mimetype-size`` rules.
+
+        :return: a dict ``{rule_name: rules}`` with all the known rule names
+        """
+        rules = {"mimetype-size": {}, "field-size": {}}
+        for key, value in self._get_storage_force_db_config().items():
+            if key in rules:
+                rules[key].update(value)
+            else:
+                rules["mimetype-size"][key] = value
+        return rules
+
     def _store_in_db_instead_of_object_storage_domain(self):
         """Return a domain for attachments that must be forced to DB
 
@@ -176,12 +197,18 @@ class IrAttachment(models.Model):
         ``_store_in_db_instead_of_object_storage``.
         """
         domain = []
-        storage_config = self._get_storage_force_db_config()
-        for mimetype_key, limit in storage_config.items():
+        rules = self._get_storage_force_db_rules()
+        for mimetype_key, limit in rules["mimetype-size"].items():
             part = [("mimetype", "=like", f"{mimetype_key}%")]
             if limit:
                 part = Domain.AND([part, [("file_size", "<=", limit)]])
             # OR simplifies to [(1, '=', 1)] if a domain being OR'ed is empty
+            domain = Domain.OR([domain, part]) if domain else part
+        for field_key, limit in rules["field-size"].items():
+            res_model, res_field = field_key.rsplit(".", 1)
+            part = [("res_model", "=", res_model), ("res_field", "=", res_field)]
+            if limit:
+                part = Domain.AND([part, [("file_size", "<=", limit)]])
             domain = Domain.OR([domain, part]) if domain else part
         return domain
 
@@ -215,6 +242,21 @@ class IrAttachment(models.Model):
         value is the limit in size below which attachments are kept in DB.
         0 means no limit.
 
+        The rules can also be grouped by rule name, which allows other kinds
+        of rules. ``mimetype-size`` holds the mimetype rules described above
+        and ``field-size`` forces the storage in DB of the attachments of a
+        specific binary field, whatever their mimetype, for instance::
+
+            {
+                "mimetype-size": {"image/": 51200},
+                "field-size": {"ir.ui.menu.web_icon_data": 0},
+            }
+
+        Keys that are not a rule name are read as mimetype rules, so both
+        forms can be mixed. A field rule is checked before the mimetype rules:
+        if the attachment matches it and is within its limit, it is stored in
+        DB, otherwise the mimetype rules apply.
+
         These limits are applied only if the storage is the default one for
         attachments (see ``_storage``).
 
@@ -225,8 +267,15 @@ class IrAttachment(models.Model):
         """
         if self._is_storage_disabled():
             return True
-        storage_config = self._get_storage_force_db_config()
-        for mimetype_key, limit in storage_config.items():
+        rules = self._get_storage_force_db_rules()
+        res_model = self.env.context.get("attachment_res_model")
+        res_field = self.env.context.get("attachment_res_field")
+        field_key = f"{res_model}.{res_field}"
+        if res_model and res_field and field_key in rules["field-size"]:
+            limit = rules["field-size"][field_key]
+            if not limit or data.size <= limit:
+                return True
+        for mimetype_key, limit in rules["mimetype-size"].items():
             if mimetype.startswith(mimetype_key):
                 if not limit:
                     return True

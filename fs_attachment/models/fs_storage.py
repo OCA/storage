@@ -66,7 +66,11 @@ class FsStorage(models.Model):
         "* images mimetypes (image/png, image/jpeg, ...) below 50KB are stored "
         "in database\n"
         "* application/javascript are stored in database whatever their size \n"
-        "* text/css are stored in database whatever their size",
+        "* text/css are stored in database whatever their size\n"
+        "The rules can also be grouped by rule name: 'mimetype-size' for the "
+        "mimetype rules above and 'field-size' with '<model>.<field>' keys (e.g. "
+        "'ir.ui.menu.web_icon_data') to force the storage in database of the "
+        "attachments of a specific binary field, whatever their mimetype.",
         default=lambda self: self._default_force_db_for_default_attachment_rules,
     )
     use_filename_obfuscation = fields.Boolean(
@@ -157,7 +161,7 @@ class FsStorage(models.Model):
                     )
                 )
             try:
-                const_eval(rec.force_db_for_default_attachment_rules)
+                rules = const_eval(rec.force_db_for_default_attachment_rules)
             except (SyntaxError, TypeError, ValueError) as e:
                 raise ValidationError(
                     self.env._(
@@ -165,6 +169,32 @@ class FsStorage(models.Model):
                         "python dict."
                     )
                 ) from e
+            if not isinstance(rules, dict):
+                raise ValidationError(
+                    self.env._(
+                        "The force_db_for_default_attachment_rules is not a valid "
+                        "python dict."
+                    )
+                )
+            for rule_name in ("mimetype-size", "field-size"):
+                if not isinstance(rules.get(rule_name, {}), dict):
+                    raise ValidationError(
+                        self.env._(
+                            "The '%(rule_name)s' rules of "
+                            "force_db_for_default_attachment_rules must be a dict.",
+                            rule_name=rule_name,
+                        )
+                    )
+            for field_key in rules.get("field-size", {}):
+                if "." not in field_key:
+                    raise ValidationError(
+                        self.env._(
+                            "The 'field-size' key '%(key)s' of "
+                            "force_db_for_default_attachment_rules must be a "
+                            "'<model>.<field>' pair.",
+                            key=field_key,
+                        )
+                    )
 
     @api.model
     @api.ormcache()
