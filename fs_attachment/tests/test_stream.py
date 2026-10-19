@@ -240,3 +240,51 @@ class TestStream(HttpCase):
             },
             assert_content=self.image,
         )
+
+    def _create_attachment_without_extension(self):
+        return (
+            self.env["ir.attachment"]
+            .with_context(storage_location=self.temp_backend.code)
+            .create({"name": "report", "raw": self.content})
+        )
+
+    def test_content_url_name_without_extension(self):
+        """The extension is guessed from the mimetype for fs streams."""
+        attachment = self._create_attachment_without_extension()
+        self.assertEqual(attachment.mimetype, "text/plain")
+        self.authenticate("admin", "admin")
+        self.assertDownload(
+            f"/web/content/{attachment.id}",
+            headers={},
+            assert_status_code=200,
+            assert_headers={"Content-Disposition": "inline; filename=report.txt"},
+            assert_content=self.content,
+        )
+
+    def test_content_url_without_mimetype(self):
+        """An fs attachment without mimetype can still be downloaded.
+
+        The mimetype can be empty for attachments written outside the ORM
+        (imports, migrations). As in core, it falls back to the default
+        mimetype instead of crashing.
+        """
+        attachment = self._create_attachment_without_extension()
+        self.env.cr.execute(
+            "UPDATE ir_attachment SET mimetype = NULL WHERE id = %s", (attachment.id,)
+        )
+        attachment.invalidate_recordset(["mimetype"])
+        stream = self.env["ir.binary"]._get_stream_from(attachment)
+        self.assertEqual(stream.type, "fs")
+        self.assertEqual(stream.mimetype, "application/octet-stream")
+        self.assertEqual(stream.download_name, "report")
+        self.authenticate("admin", "admin")
+        self.assertDownload(
+            f"/web/content/{attachment.id}",
+            headers={},
+            assert_status_code=200,
+            assert_headers={
+                "Content-Type": "application/octet-stream",
+                "Content-Disposition": "inline; filename=report",
+            },
+            assert_content=self.content,
+        )
