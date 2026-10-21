@@ -3,7 +3,6 @@ exclude: |
   # NOT INSTALLABLE ADDONS
   ^fs_attachment/|
   ^fs_attachment_environment/|
-  ^fs_attachment_s3/|
   ^fs_attachment_s3_environment/|
   ^fs_file/|
   ^fs_folder/|
