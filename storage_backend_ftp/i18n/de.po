@@ -6,117 +6,119 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-10-21 14:13+0000\n"
+"Last-Translator: Erik Lichius <lichiuserik@gmail.com>\n"
 "Language-Team: none\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__backend_type
 msgid "Backend Type"
-msgstr ""
+msgstr "Backendtyp"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__backend_type_env_default
 msgid "Backend Type Env Default"
-msgstr ""
+msgstr "Backend-Typ Umgebung Standardwert"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls_explicit
 msgid "Explicit FTP over TLS"
-msgstr ""
+msgstr "Explizites FTP über TLS"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__backend_type__ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__ftp
 #: model_terms:ir.ui.view,arch_db:storage_backend_ftp.storage_backend_view_form
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_encryption
 msgid "FTP Encryption method"
-msgstr ""
+msgstr "FTP-Verschlüsselungsmethode"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_server
 msgid "FTP Host"
-msgstr ""
+msgstr "FTP-Host"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_login
 msgid "FTP Login"
-msgstr ""
+msgstr "FTP-Login"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_passive
 msgid "FTP Passive"
-msgstr ""
+msgstr "FTP-Passivmodus"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_password
 msgid "FTP Password"
-msgstr ""
+msgstr "FTP-Passwort"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_port
 msgid "FTP Port"
-msgstr ""
+msgstr "FTP-Port"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,field_description:storage_backend_ftp.field_storage_backend__ftp_security
 msgid "FTP security option"
-msgstr ""
+msgstr "FTP-Sicherheitsoption"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_encryption__tls
 msgid "Implicit FTP over TLS"
-msgstr ""
+msgstr "Implizites FTP über TLS"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields,help:storage_backend_ftp.field_storage_backend__ftp_login
 msgid "Login to connect to ftp server"
-msgstr ""
+msgstr "Login für die Verbindung zum FTP-Server"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__none
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__sslv2
 msgid "SSLv2"
-msgstr ""
+msgstr "SSLv2"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__sslv23
 msgid "SSLv23"
-msgstr ""
+msgstr "SSLv23"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__sslv3
 msgid "SSLv3"
-msgstr ""
+msgstr "SSLv3"
 
 #. module: storage_backend_ftp
 #: model:ir.model,name:storage_backend_ftp.model_storage_backend
 msgid "Storage Backend"
-msgstr ""
+msgstr "Speicher-Backend"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__tlsv1
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__tlsv1_1
 msgid "TLSv1_1"
-msgstr ""
+msgstr "TLSv1_1"
 
 #. module: storage_backend_ftp
 #: model:ir.model.fields.selection,name:storage_backend_ftp.selection__storage_backend__ftp_security__tlsv1_2
 msgid "TLSv1_2"
-msgstr ""
+msgstr "TLSv1_2"
