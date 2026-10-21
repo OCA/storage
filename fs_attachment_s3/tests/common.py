@@ -3,14 +3,12 @@
 
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
-
 
 class TestFSAttachmentS3Common(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, **DISABLED_MAIL_CONTEXT))
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.s3_backend_config = {
             "name": "S3 Storage",
             "protocol": "s3",
