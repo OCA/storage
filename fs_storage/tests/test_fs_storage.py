@@ -313,6 +313,18 @@ class TestFSStorage(TestFSStorageCase):
         self.assertFalse(fs_storage_models._filesystems)
         fs.client.close.assert_not_called()
 
+    def test_filesystem_not_cachable_by_fsspec_not_kept(self):
+        self._patch_sftp(self._new_sftp_filesystem)
+        storage = self._sftp_storage("sftp_test")
+        # fsspec never reuses some filesystems, like FTP ones
+        not_cachable = mock.Mock(cachable=False)
+        with mock.patch.object(
+            fsspec, "get_filesystem_class", return_value=not_cachable
+        ):
+            fs = storage._get_filesystem()
+            self.assertIsNot(storage._get_filesystem(), fs)
+        self.assertFalse(fs_storage_models._filesystems)
+
     def test_private_filesystem_does_not_replace_shared_one(self):
         self._patch_sftp(self._new_sftp_filesystem)
         storage = self._sftp_storage("sftp_test")

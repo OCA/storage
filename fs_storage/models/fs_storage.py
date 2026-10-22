@@ -28,8 +28,8 @@ _logger = logging.getLogger(__name__)
 # fs_storage keeps its filesystems itself instead of relying on the fsspec
 # instance cache, which never closes them and cannot drop a single instance:
 # an SFTP filesystem it stops using would keep its connection open until the
-# process dies. A filesystem built with skip_instance_cache in its options is
-# not kept: the caller closes it.
+# process dies. A filesystem built with skip_instance_cache in its options, or
+# of a class fsspec never caches (cachable = False, like FTP), is not kept.
 _filesystems = {}
 
 
@@ -539,8 +539,13 @@ class FSStorage(models.Model):
             options["auth"] = tuple(options["auth"])
         options = self._recursive_add_odoo_storage_path(options)
         directory_path = self.get_directory_path()
-        if options.get("skip_instance_cache"):
-            # The caller wants a filesystem of its own, and closes it itself
+        if (
+            options.get("skip_instance_cache")
+            or not fsspec.get_filesystem_class(self.protocol).cachable
+        ):
+            # The caller wants a filesystem of its own and closes it itself, or
+            # fsspec never reuses this kind of filesystem (FTP connections do
+            # not survive being idle)
             return self._build_filesystem(options, directory_path)
         key = self._filesystem_key()
         cached = _filesystems.get(key)
