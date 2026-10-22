@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-12-11 09:42+0000\n"
+"PO-Revision-Date: 2026-10-22 16:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_simple_form_view
@@ -172,7 +172,7 @@ msgstr "Non connesso"
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.res_users_form_view
 msgid "Refresh Token"
-msgstr "Token aggiornamento"
+msgstr "Aggiorna token"
 
 #. module: microsoft_drive_account
 #: model_terms:ir.ui.view,arch_db:microsoft_drive_account.microsoft_drive_reset_account_form_view
