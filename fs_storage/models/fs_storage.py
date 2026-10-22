@@ -9,6 +9,7 @@ import json
 import logging
 import os.path
 import re
+import threading
 import warnings
 from typing import AnyStr
 
@@ -20,6 +21,16 @@ from odoo.exceptions import ValidationError
 from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
+
+# Filesystem of each storage, per process and thread, with the options it was
+# built with: {(pid, thread ident, dbname, storage id): ((protocol, options,
+# directory path), filesystem)}.
+# fs_storage keeps its filesystems itself instead of relying on the fsspec
+# instance cache, which never closes them and cannot drop a single instance:
+# an SFTP filesystem it stops using would keep its connection open until the
+# process dies. A filesystem built with skip_instance_cache in its options, or
+# of a class fsspec never caches (cachable = False, like FTP), is not kept.
+_filesystems = {}
 
 
 # TODO: useful for the whole OCA?
@@ -396,10 +407,51 @@ class FSStorage(models.Model):
             try:
                 self._check_connection(self.__fs, self.check_connection_method)
             except Exception as e:
-                self.__fs.clear_instance_cache()
+                self._drop_filesystem(self.__fs)
                 self.__fs = None
                 raise e
         return self.__fs
+
+    def _filesystem_key(self) -> tuple:
+        return (os.getpid(), threading.get_ident(), self.env.cr.dbname, self.id)
+
+    def _drop_filesystem(self, fs: fsspec.AbstractFileSystem) -> None:
+        """Close a filesystem of this storage that failed its check.
+
+        It is forgotten only if it is still the one of the storage: another
+        recordset may have replaced it meanwhile, and the current one is kept.
+        A filesystem built with ``skip_instance_cache`` is not kept at all.
+        """
+        key = self._filesystem_key()
+        cached = _filesystems.get(key)
+        if cached is not None and cached[1] is fs:
+            del _filesystems[key]
+        self._close_filesystem(fs)
+
+    def _close_filesystem(self, fs: fsspec.AbstractFileSystem) -> None:
+        """Close a filesystem fs_storage stops using, and the one it wraps."""
+        wrapped_fs = getattr(fs, "fs", None)
+        if isinstance(wrapped_fs, fsspec.AbstractFileSystem):
+            self._close_filesystem(wrapped_fs)
+        self._on_filesystem_dropped(fs)
+
+    def _on_filesystem_dropped(self, fs: fsspec.AbstractFileSystem) -> None:
+        """Release the connection of a filesystem fs_storage stops using.
+
+        fsspec filesystems have no close method: override it for a protocol
+        holding a connection. Only SFTP does it here.
+        """
+        client = getattr(fs, "client", None)
+        if client is not None and hasattr(client, "get_transport"):
+            # Closing the channel may fail on a broken connection, and the
+            # client still has to be closed to stop the transport thread
+            for connection in (fs.ftp, client):
+                try:
+                    connection.close()
+                except Exception:
+                    _logger.warning(
+                        "Unable to close the SFTP connection", exc_info=True
+                    )
 
     def _get_filesystem_storage_path(self) -> str:
         """Get the path to the storage directory.
@@ -486,10 +538,36 @@ class FSStorage(models.Model):
         ):
             options["auth"] = tuple(options["auth"])
         options = self._recursive_add_odoo_storage_path(options)
-        fs = fsspec.filesystem(self.protocol, **options)
         directory_path = self.get_directory_path()
+        if (
+            options.get("skip_instance_cache")
+            or not fsspec.get_filesystem_class(self.protocol).cachable
+        ):
+            # The caller wants a filesystem of its own and closes it itself, or
+            # fsspec never reuses this kind of filesystem (FTP connections do
+            # not survive being idle)
+            return self._build_filesystem(options, directory_path)
+        key = self._filesystem_key()
+        cached = _filesystems.get(key)
+        if cached is not None and cached[0] == (self.protocol, options, directory_path):
+            return cached[1]
+        fs = self._build_filesystem(
+            dict(options, skip_instance_cache=True), directory_path
+        )
+        _filesystems[key] = ((self.protocol, options, directory_path), fs)
+        if cached is not None:
+            # The options of the storage changed
+            self._close_filesystem(cached[1])
+        return fs
+
+    def _build_filesystem(
+        self, options: dict, directory_path: str | None
+    ) -> fsspec.AbstractFileSystem:
+        fs = fsspec.filesystem(self.protocol, **options)
         if directory_path:
-            fs = fsspec.filesystem("rooted_dir", path=directory_path, fs=fs)
+            fs = fsspec.filesystem(
+                "rooted_dir", path=directory_path, fs=fs, skip_instance_cache=True
+            )
         return fs
 
     # Deprecated methods used to ease the migration from the storage_backend addons

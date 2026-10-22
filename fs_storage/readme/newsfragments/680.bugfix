@@ -1,0 +1,3 @@
+Close the SFTP connections that fs_storage stops using, when the connection
+check fails or the storage options change. They were left open until the
+worker died and could end in "can't start new thread" errors.
