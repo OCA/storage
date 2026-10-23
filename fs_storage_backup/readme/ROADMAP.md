@@ -1,0 +1,1 @@
+- **Configurable backup frequency**: e.g. backup every 7 days in s3 and every 4 hours on a FTP server.
