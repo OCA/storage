@@ -162,6 +162,31 @@ class TestStream(HttpCase):
             },
         )
 
+    def test_response_cache_control_private(self):
+        self.authenticate("admin", "admin")
+        for url in (
+            f"/web/content/{self.attachment_binary.id}",
+            # immutable content must not become cacheable by proxies
+            f"/web/content/{self.attachment_binary.id}?unique=1",
+        ):
+            res = self.assertDownload(
+                url, headers={}, assert_status_code=200, assert_headers={}
+            )
+            cache_control = res.headers.get("Cache-Control", "")
+            self.assertIn("private", cache_control)
+            self.assertNotIn("public", cache_control)
+
+    def test_response_cache_control_public(self):
+        self.attachment_binary.public = True
+        url = f"/web/content/{self.attachment_binary.id}?unique=1"
+        res = self.assertDownload(
+            url, headers={}, assert_status_code=200, assert_headers={}
+        )
+        cache_control = res.headers.get("Cache-Control", "")
+        self.assertIn("public", cache_control)
+        self.assertIn("immutable", cache_control)
+        self.assertNotIn("private", cache_control)
+
     def test_serving_field_image(self):
         self.authenticate("admin", "admin")
         demo_partner = self.env.ref("base.partner_demo")

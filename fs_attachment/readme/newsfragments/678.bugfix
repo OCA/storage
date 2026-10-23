@@ -1,0 +1,6 @@
+Don't move a file that other attachments still use.
+
+With filename obfuscation off, storing or renaming an attachment renames its
+file. Attachments stored while obfuscation was on share one file per content,
+so the others lost their content. The module now copies such a file and only
+moves it when no other attachment uses it.
