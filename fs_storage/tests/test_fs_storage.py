@@ -3,10 +3,13 @@
 import warnings
 from unittest import mock
 
+from fsspec.spec import AbstractFileSystem
+
 from odoo.exceptions import ValidationError
 from odoo.tests import Form
 from odoo.tools import mute_logger, safe_eval
 
+from ..rooted_dir_file_system import RootedDirFileSystem
 from .common import TestFSStorageCase
 
 
@@ -95,8 +98,34 @@ class TestFSStorage(TestFSStorageCase):
         with self.assertRaises(PermissionError), self.env.cr.savepoint():
             # check that we can't access the file into another subdirectory
             backend2.fs.ls(f"../{self.case_with_subdirectory}")
+        sibling = self.case_with_subdirectory.rsplit("/", 1)[-1] + "-backup"
+        with self.assertRaises(PermissionError), self.env.cr.savepoint():
+            # check that a sibling whose name starts with this one's is outside it
+            self.backend.fs.ls(f"../{sibling}")
+        with self.assertRaises(PermissionError), self.env.cr.savepoint():
+            # check that a backslash can't climb out either, as on Windows
+            self.backend.fs.ls(f"..\\{sibling}")
+        # check that we can access a list of paths, and that each one is checked
+        self.assertEqual(
+            self.backend.fs.cat([self.filename]), {self.filename: self.filedata}
+        )
+        with self.assertRaises(PermissionError), self.env.cr.savepoint():
+            self.backend.fs.cat([self.filename, f"../{sibling}"])
         self.backend.fs.rm_file(self.filename)
         backend2.fs.rm_file(self.filename)
+
+    def test_relative_access_windows_separator(self):
+        class WindowsFileSystem(AbstractFileSystem):
+            sep = "\\"
+
+        fs = RootedDirFileSystem(path="C:\\root", fs=WindowsFileSystem())
+        self.assertEqual(fs._join("dir\\file"), "C:\\root\\dir\\file")
+        for path in ("..", "..\\root-backup"):
+            with self.assertRaises(PermissionError):
+                # check that we can't access outside the root
+                fs._join(path)
+        # check that a root that ends with the separator keeps its sub paths
+        RootedDirFileSystem(path="C:\\", fs=WindowsFileSystem())._join("dir")
 
     def test_recursive_add_odoo_storage_path_to_options(self):
         options = {
