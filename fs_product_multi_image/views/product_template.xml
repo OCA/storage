@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 ACSONE SA/NV
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="product_template_only_form_view" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name="image_1920" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_1920" position="after">
+                <field
+                    name="image"
+                    widget="fs_image"
+                    string="Image"
+                    class="oe_avatar"
+                    options="{'preview_image': 'image_medium', 'zoom': true}"
+                />
+            </field>
+            <page name="sales" position="after">
+                <page name="images" string="Images">
+                    <field
+                        name="image_ids"
+                        widget="fs_image_relation_dnd_upload"
+                        mode="kanban"
+                    >
+                        <list>
+                            <field name="sequence" widget="handle" />
+                            <field name="name" />
+                            <field name="link_existing" invisible="1" />
+                            <field name="image_id" invisible="1" />
+                            <field name="image" invisible="1" />
+                            <field name="specific_image" invisible="1" />
+                        </list>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+    <record id="product_template_kanban_view" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name="image_128" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_128" position="after">
+                <field name="image_medium" widget="fs_image" alt="Product" />
+            </field>
+        </field>
+    </record>
+</odoo>
