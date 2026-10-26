@@ -48,7 +48,7 @@ class ProductProduct(models.Model):
                     img_relations.add(image_rel.id)
             variant.variant_image_ids = list(img_relations) if img_relations else False
 
-    @api.depends("variant_image_ids.sequence")
+    @api.depends("variant_image_ids.sequence", "variant_image_ids.image_active")
     def _compute_main_image_id(self):
         for record in self:
             record.main_image_id = record._get_main_image()
@@ -59,12 +59,15 @@ class ProductProduct(models.Model):
         ).image_id
 
     def _get_main_image(self):
-        match_image = self.variant_image_ids.filtered(
-            lambda i: i.attribute_value_ids
-            == self.mapped(
-                "product_template_attribute_value_ids.product_attribute_value_id"
+        images = self.variant_image_ids.filtered("image_active")
+        match_image = images.filtered(
+            lambda i: (
+                i.attribute_value_ids
+                == self.mapped(
+                    "product_template_attribute_value_ids.product_attribute_value_id"
+                )
             )
         )
         if match_image:
             return self._select_main_image(match_image)
-        return self._select_main_image(self.variant_image_ids)
+        return self._select_main_image(images)

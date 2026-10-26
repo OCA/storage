@@ -3,7 +3,8 @@
     <record id="storage_file_view_tree" model="ir.ui.view">
         <field name="model">storage.file</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-muted="not active">
+                <field name="active" column_invisible="True" />
                 <field name="name" />
                 <field name="backend_id" />
                 <field name="file_size" />
@@ -17,6 +18,13 @@
         <field name="model">storage.file</field>
         <field name="arch" type="xml">
             <form string="File">
+                <field name="active" invisible="1" />
+                <widget
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    invisible="active"
+                />
                 <div class="oe_title">
                     <label for="name" class="oe_edit_only" />
                     <h1>
@@ -58,6 +66,18 @@
                     string="Private"
                     name="private"
                     domain="[('is_public', '=', False)]"
+                />
+                <separator />
+                <filter
+                    string="All"
+                    name="all"
+                    domain="['|', ('active', '=', False), ('active', '=', True)]"
+                />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
                 />
                 <group string="Group By" expand="0">
                     <filter
