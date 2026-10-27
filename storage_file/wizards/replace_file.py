@@ -1,7 +1,12 @@
 # Copyright 2023 Camptocamp SA
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
+import base64
+import hashlib
+
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class StorageFileReplace(models.TransientModel):
@@ -40,7 +45,50 @@ class StorageFileReplace(models.TransientModel):
 
     def _get_file_from_data(self):
         file_model = self.env["storage.file"].sudo()
-        return file_model.create(self._prepare_file_values())
+        values = self._prepare_file_values()
+        stored_file = self._get_stored_file()
+        if stored_file:
+            return self._reuse_stored_file(stored_file, values)
+        return file_model.create(values)
+
+    def _get_stored_file(self):
+        """Return the file already storing the wizard data, if any.
+
+        With the 'hash' filename strategy the path depends only on the
+        content: the same content can be stored only once per backend.
+        """
+        file_model = self.env["storage.file"].sudo().with_context(active_test=False)
+        backend = self.file_id.sudo().backend_id
+        if backend.filename_strategy != "hash" or not self.data:
+            return file_model
+        checksum = hashlib.sha1(base64.b64decode(self.data)).hexdigest()
+        new_file = file_model.new({"backend_id": backend.id})
+        relative_path = new_file._build_relative_path(checksum)
+        return file_model.search(
+            [("backend_id", "=", backend.id), ("relative_path", "=", relative_path)],
+            limit=1,
+        )
+
+    def _reuse_stored_file(self, stored_file, values):
+        """Reuse ``stored_file`` if it is waiting for deletion.
+
+        This is the case of a file replaced without history, then uploaded
+        again before the cleanup cron runs.
+        """
+        if stored_file == self.file_id:
+            raise UserError(self.env._("The new file is identical to the current one."))
+        if not stored_file.to_delete:
+            # TODO: restore the record owning ``stored_file``, if archived
+            raise UserError(
+                self.env._(
+                    "The same content is already stored in file '%(name)s' "
+                    "(ID %(id)s).",
+                    name=stored_file.name,
+                    id=stored_file.id,
+                )
+            )
+        stored_file.write({"to_delete": False, "active": True, "name": values["name"]})
+        return stored_file
 
     def _prepare_file_values(self):
         return {
