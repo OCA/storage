@@ -1,13 +1,17 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import base64
+import threading
+from contextlib import nullcontext
 from unittest import mock
 from urllib import parse
 
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import Form
+from odoo.tools.misc import Callbacks
 
 from odoo.addons.component.tests.common import TransactionComponentCase
 
@@ -379,3 +383,52 @@ class StorageFileCase(TransactionComponentCase):
             ],
         )
         self.assertFalse(stfile.exists())
+
+    def test_register_rollback_cleanup(self):
+        """Storing a file registers a cleanup deleting its content on rollback."""
+        with (
+            mock.patch.object(threading.current_thread(), "testing", False),
+            mock.patch.object(Callbacks, "add") as mocked_add,
+        ):
+            stfile = self._create_storage_file()
+        cleanups = [
+            call.args[0]
+            for call in mocked_add.call_args_list
+            if getattr(getattr(call.args[0], "func", None), "__name__", None)
+            == "_rollback_cleanup"
+        ]
+        self.assertEqual(len(cleanups), 1)
+        self.assertEqual(cleanups[0].args, (self.backend.id, stfile.relative_path))
+        relative_path = stfile.relative_path
+        # Simulate the rollback: the record is gone, the content is not
+        stfile.with_context(force_delete_storage_file=True).unlink()
+        self.assertIn(relative_path, self.backend.list_files())
+        with mock.patch.object(
+            type(self.env.registry),
+            "cursor",
+            return_value=nullcontext(self.env.cr),
+        ):
+            cleanups[0]()
+        self.assertNotIn(relative_path, self.backend.list_files())
+
+    def test_delete_orphan_path(self):
+        """Content with no file referring to it is deleted from the backend."""
+        stfile = self._create_storage_file()
+        relative_path = stfile.relative_path
+        stfile.with_context(force_delete_storage_file=True).unlink()
+        self.assertIn(relative_path, self.backend.list_files())
+        deleted = self.env["storage.file"]._delete_orphan_path(
+            self.backend, relative_path
+        )
+        self.assertTrue(deleted)
+        self.assertNotIn(relative_path, self.backend.list_files())
+
+    def test_delete_orphan_path_in_use(self):
+        """Content still referred by a file, even archived, is kept."""
+        stfile = self._create_storage_file()
+        stfile.active = False
+        deleted = self.env["storage.file"]._delete_orphan_path(
+            self.backend, stfile.relative_path
+        )
+        self.assertFalse(deleted)
+        self.assertIn(stfile.relative_path, self.backend.list_files())
