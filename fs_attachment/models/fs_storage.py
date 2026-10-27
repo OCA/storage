@@ -3,12 +3,18 @@
 
 from __future__ import annotations
 
+import logging
+import os
+
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
+from odoo.osv.expression import OR
 from odoo.tools import SQL
 from odoo.tools.safe_eval import const_eval
 
 from .ir_attachment import IrAttachment
+
+_logger = logging.getLogger(__name__)
 
 
 class FsStorage(models.Model):
@@ -223,6 +229,82 @@ class FsStorage(models.Model):
     @tools.ormcache("code")
     def _must_use_filename_obfuscation(self, code):
         return self.sudo().get_by_code(code).use_filename_obfuscation
+
+    @api.model
+    def _get_storages_to_optimize_directory_path(self):
+        """Return the storages whose files must be moved to the optimized layout"""
+        # filtered() instead of a search domain: the field can be provided by
+        # the server environment, in which case it is not a database column
+        return self.sudo().search([]).filtered(lambda s: s.optimizes_directory_path)
+
+    def _get_root_attachments_domain(self):
+        # a path without '/' after '<code>://' is at the root of the storage
+        self.ensure_one()
+        return [
+            ("store_fname", "=like", f"{self.code}://%"),
+            "!",
+            ("store_fname", "=like", f"{self.code}://%/%"),
+        ]
+
+    def _get_storages_root_attachments_domain(self):
+        # NOTE: OR(...) returns FALSE_LEAF when self is empty
+        return OR([storage._get_root_attachments_domain() for storage in self])
+
+    @api.model
+    def _fs_raw_move_file(self, store_fname, target_store_fname):
+        """Copy the file to the target and mark the source for garbage collection
+
+        No attachment is updated: the caller must point every attachment using
+        store_fname to target_store_fname, in the same transaction. Otherwise the
+        source is kept, since attachments still use it, and the target is never
+        used. Use _fs_move_file unless the attachments are updated another way.
+        """
+        self.env["fs.file.gc"]._mark_for_gc(store_fname, separate_transaction=False)
+        self._fs_copy_file(store_fname, target_store_fname)
+
+    @api.model
+    def _fs_move_file(self, store_fname, target_store_fname):
+        """Move a file and update all the attachments using it
+
+        The file is copied if the target does not exist yet, all the
+        attachments using it are updated, and the source file is marked for
+        the garbage collector in the current transaction: it is only deleted
+        once the transaction is committed and no attachment uses it anymore.
+
+        Return the attachments now pointing to the target.
+        """
+        # skip_res_field_check: include the attachments of binary fields
+        attachment_model = (
+            self.env["ir.attachment"].sudo().with_context(skip_res_field_check=True)
+        )
+        attachments = attachment_model.search([("store_fname", "=", store_fname)])
+        if not attachments:
+            # already moved
+            return attachments
+        attachments._force_write_store_fname(target_store_fname)
+        self._fs_raw_move_file(store_fname, target_store_fname)
+        return attachments
+
+    @api.model
+    def _fs_copy_file(self, store_fname, target_store_fname):
+        """Copy a file to the target, unless the target already exists"""
+        attachment_model = self.env["ir.attachment"]
+        fs, code, path = attachment_model._fs_parse_store_fname(store_fname)
+        target_fs, target_code, target_path = attachment_model._fs_parse_store_fname(
+            target_store_fname
+        )
+        if target_fs.exists(target_path):
+            return
+        target_fs.makedirs(os.path.dirname(target_path), exist_ok=True)
+        try:
+            if code == target_code:
+                fs.copy(path, target_path)
+            else:
+                target_fs.pipe_file(target_path, fs.cat_file(path))
+        except FileNotFoundError:
+            # the file is already lost: the caller still updates the
+            # attachments, so that they are not selected again on every run
+            _logger.warning("File %s not found, cannot move it", store_fname)
 
     @api.depends("base_url", "is_directory_path_in_url", "directory_path")
     def _compute_base_url_for_files(self):

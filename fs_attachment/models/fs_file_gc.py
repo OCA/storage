@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
 import threading
-from contextlib import closing, contextmanager
+from contextlib import closing, contextmanager, nullcontext
 
 from odoo import api, fields, models
 from odoo.sql_db import Cursor
@@ -53,13 +53,19 @@ class FsFileGC(models.Model):
                 cr.commit()  # pylint: disable=invalid-commit
 
     @api.model
-    def _mark_for_gc(self, store_fname: str) -> None:
+    def _mark_for_gc(self, store_fname: str, separate_transaction: bool = True) -> None:
         """Mark a file for garbage collection"
 
-        This process is done in a separate transaction since the data must be
-        preserved even if the transaction is rolled back.
+        By default, this process is done in a separate transaction since the
+        data must be preserved even if the transaction is rolled back.
+        With separate_transaction=False, the mark is part of the current
+        transaction: use it when the file must only be collected if the
+        transaction is committed.
         """
-        with self._in_new_cursor() as cr:
+        cursor = (
+            self._in_new_cursor() if separate_transaction else nullcontext(self.env.cr)
+        )
+        with cursor as cr:
             code = store_fname.partition("://")[0]
             # use plain SQL to avoid the ORM ignore conflicts errors
             cr.execute(
