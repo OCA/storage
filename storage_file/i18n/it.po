@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-02-11 11:06+0000\n"
+"PO-Revision-Date: 2026-10-28 11:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
@@ -26,12 +26,20 @@ msgid ""
 "request loads\n"
 "                    the file from the storage backend into memory."
 msgstr ""
+"<strong>Nota:</strong> Senza un URL di base per la CDN, i file verranno "
+"inoltrati \n"
+"                    tramite Odoo. Questa soluzione è accettabile per un uso "
+"interno con traffico limitato, \n"
+"                    ma risulta subottimale in caso di accesso pubblico a "
+"volumi elevati, poiché ogni richiesta \n"
+"                    comporta il caricamento del file dallo storage di "
+"backend alla memoria."
 
 #. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/models/storage_file.py:0
 msgid "A destination storage is required."
-msgstr ""
+msgstr "È richiesto uno storage di destinazione."
 
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__url_path
@@ -50,16 +58,18 @@ msgid ""
 "All selected records must belong to the same source storage backend. Found: "
 "%s"
 msgstr ""
+"Tutti i record selezionati devono appartenere allo stesso backend di "
+"archiviazione di origine. Trovato: %s"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__backend_categ_id
 msgid "Backend Category"
-msgstr ""
+msgstr "Categoria backend"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_backend__backend_view_use_internal_url
@@ -84,13 +94,13 @@ msgstr "URL base per i file"
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__backend_categ_id
 #: model:ir.model.fields,help:storage_file.field_storage_file_swap_backend__source_backend_categ_id
 msgid "Category to group backends for swapping operations"
-msgstr ""
+msgstr "Categoria per raggruppare backend per operazioni di scambio"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__checksum
@@ -158,19 +168,21 @@ msgstr ""
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__dest_backend_id
 msgid "Destination Storage"
-msgstr ""
+msgstr "Storage destinazione"
 
 #. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/models/storage_file.py:0
 msgid "Destination backend category must match source backend category for %s."
 msgstr ""
+"La categoria del backend di destinazione deve corrispondere alla categoria "
+"del backend di origine per %s."
 
 #. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/wizards/swap_backend.py:0
 msgid "Destination storage must differ from source."
-msgstr ""
+msgstr "La memoria di destinazione deve essere diversa da quella di origine."
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__display_name
@@ -232,17 +244,17 @@ msgstr "Nome file senza estensione"
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__file_ids
 msgid "Files"
-msgstr ""
+msgstr "File"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
 msgid "Files to swap"
-msgstr ""
+msgstr "File da scambiare"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "Group By"
-msgstr ""
+msgstr "Raggruppa per"
 
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__internal_url
@@ -333,23 +345,23 @@ msgstr "Odoo"
 #. odoo-python
 #: code:addons/storage_file/wizards/swap_backend.py:0
 msgid "Please select a destination storage."
-msgstr ""
+msgstr "Selezionare uno storage di destinazione."
 
 #. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/wizards/swap_backend.py:0
 msgid "Please select at least one file."
-msgstr ""
+msgstr "Selezionare almeno un file."
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "Private"
-msgstr ""
+msgstr "Privato"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "Public"
-msgstr ""
+msgstr "Pubblico"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_backend_view_form
@@ -359,7 +371,7 @@ msgstr "Ricalcola l'URL base per i file"
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file__is_public
 msgid "Reflects the `is_public` flag of the related backend."
-msgstr ""
+msgstr "Corrisponde all'opzione `is_public` del backend relativo."
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__relative_path
@@ -412,12 +424,12 @@ msgstr "Nome frazionato con ID per URL"
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__source_backend_categ_id
 msgid "Source Backend Category"
-msgstr ""
+msgstr "Categoria backend origine"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__source_backend_id
 msgid "Source Storage"
-msgstr ""
+msgstr "Storage origine"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__backend_id
@@ -450,19 +462,19 @@ msgstr ""
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
 msgid "Swap Files"
-msgstr ""
+msgstr "Scambia file"
 
 #. module: storage_file
 #: model:ir.actions.act_window,name:storage_file.storage_file_swap_backend_action
 #: model:ir.actions.server,name:storage_file.storage_file_swap_backend_server_action
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
 msgid "Swap Storage Backend"
-msgstr ""
+msgstr "Scambia backend deposito"
 
 #. module: storage_file
 #: model:ir.model,name:storage_file.model_storage_file_swap_backend
 msgid "Swap storage files between backends"
-msgstr ""
+msgstr "File scambio deposito tra backend"
 
 #. module: storage_file
 #. odoo-python
@@ -472,6 +484,10 @@ msgid ""
 "preserve the server environment managed fields of 'storage.backend'. Make it "
 "available on the addons path before upgrading 'storage_file'."
 msgstr ""
+"Il modulo 'storage_backend_environment' non è disponibile. È necessario per "
+"preservare i campi gestiti dall'ambiente server di 'storage.backend'. "
+"Renderlo disponibile nel percorso degli addon prima di aggiornare "
+"'storage_backend'."
 
 #. module: storage_file
 #. odoo-python
@@ -490,6 +506,8 @@ msgid ""
 "The filename strategy is empty for the backend %s.\n"
 "Please configure it."
 msgstr ""
+"La strategia del nome file è vuota per il backend %s.\n"
+"Configurarlo."
 
 #. module: storage_file
 #: model:ir.model.constraint,message:storage_file.constraint_storage_file_path_uniq
