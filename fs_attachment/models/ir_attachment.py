@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import logging
 import mimetypes
@@ -21,6 +22,7 @@ import odoo
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.osv.expression import AND, OR, normalize_domain
+from odoo.tools import SQL
 
 from .strtobool import strtobool
 
@@ -36,6 +38,15 @@ FS_FILENAME_RE_PARSER = re.compile(
 
 def is_true(strval):
     return bool(strtobool(strval or "0"))
+
+
+def is_checksum_format(value):
+    """Return whether the value has the format of an attachment checksum
+
+    The checksum of an attachment is a SHA-1 in hexadecimal. Only the format
+    is checked, not that it matches the content of a file.
+    """
+    return bool(re.fullmatch(r"[0-9a-f]{40}", value or ""))
 
 
 def clean_fs(files):
@@ -105,7 +116,7 @@ class IrAttachment(models.Model):
                 extension = mimetypes.guess_extension(rec.mimetype)
             rec.internal_url = f"{pfx}/{rec.id}/{filename}{extension}"
 
-    @api.depends("fs_filename")
+    @api.depends("fs_filename", "store_fname")
     def _compute_fs_url(self) -> None:
         for rec in self:
             new_url = None
@@ -117,7 +128,7 @@ class IrAttachment(models.Model):
             if new_url != actual_url:
                 rec.fs_url = new_url
 
-    @api.depends("fs_filename")
+    @api.depends("fs_filename", "store_fname")
     def _compute_fs_url_path(self) -> None:
         for rec in self:
             rec.fs_url_path = None
@@ -126,7 +137,7 @@ class IrAttachment(models.Model):
                     rec, exclude_base_url=True
                 )
 
-    @api.depends("fs_filename")
+    @api.depends("fs_filename", "store_fname")
     def _compute_fs_storage_id(self):
         for rec in self:
             if rec.store_fname:
@@ -427,8 +438,7 @@ class IrAttachment(models.Model):
         if not key:
             key = self._compute_checksum(bin_data)
         if self.env["fs.storage"]._must_optimize_directory_path(storage_code):
-            # Generate a unique directory path based on the file's hash
-            key = os.path.join(key[:2], key[2:4], key)
+            key = self._optimized_path_from_key(key)
         # Generate a unique directory path based on the file's hash
         return key
 
@@ -513,6 +523,9 @@ class IrAttachment(models.Model):
         calling the write method of the field directly.
         """
         self._fields["store_fname"].write(self, store_fname)
+        # the field write skips the ORM write, which is what triggers the
+        # recomputation of the fields depending on store_fname
+        self.modified(["store_fname"])
 
     @api.model
     def _get_fs_storage_for_code(
@@ -899,6 +912,86 @@ class IrAttachment(models.Model):
             if files_to_clean:
                 new_env.cr.commit()
                 clean_fs(files_to_clean)
+
+    @api.model
+    def _cron_fs_optimize_directory_path(self, limit=1000):
+        """Move files stored before 'optimizes_directory_path' was enabled
+
+        Files written before the option was enabled stay at the root of the
+        storage. This moves them by batch into the '<xx>/<yy>/' sub-directories
+        so that the storage only contains files in the optimized layout.
+        """
+        if self._is_storage_disabled():
+            return
+        storages = self.env["fs.storage"]._get_storages_to_optimize_directory_path()
+        if not storages:
+            return
+        domain = storages._get_storages_root_attachments_domain()
+
+        # skip_res_field_check: include the attachments of binary fields
+        attachment_model = self.sudo().with_context(skip_res_field_check=True)
+        # the subquery selects the files to move (at most limit), and the
+        # search returns all the attachments using them, even beyond limit
+        # _read_group would scan the full table for no reason
+        subquery = attachment_model._search(domain, limit=limit)
+        attachments = attachment_model.search(
+            [
+                (
+                    "store_fname",
+                    "in",
+                    subquery.subselect(SQL.identifier(self._table, "store_fname")),
+                )
+            ]
+        )
+        groups = attachments.grouped("store_fname")
+        fs_storage_model = self.env["fs.storage"]
+        # safe only because each group holds every attachment of its store_fname
+        # outside this code, prefer to use _fs_move_file
+        for store_fname, file_attachments in groups.items():
+            storage_code = store_fname.partition("://")[0]
+            optimized_path = file_attachments[0]._get_optimized_path()
+            target_store_fname = f"{storage_code}://{optimized_path}"
+            file_attachments._force_write_store_fname(target_store_fname)
+            fs_storage_model._fs_raw_move_file(store_fname, target_store_fname)
+
+        [(remaining,)] = attachment_model._read_group(
+            domain, aggregates=["store_fname:count_distinct"]
+        )
+        # nothing left to move: the cron must be reactivated manually if needed
+        self.env["ir.cron"]._notify_progress(
+            done=len(groups), remaining=remaining, deactivate=not remaining
+        )
+
+    def _get_optimized_path(self):
+        """Return the path of the attachment's file in the optimized layout
+
+        The '<xx>/<yy>' directory comes from the checksum, and the file keeps
+        its current name.
+        """
+        self.ensure_one()
+        path = self.store_fname.partition("://")[2]
+        filename = os.path.basename(path)
+        key = self.checksum
+        # We should always have a checksum, but in case this does not happen,
+        # we must get one
+        if not key:
+            if is_checksum_format(filename):
+                key = filename
+            else:
+                key = hashlib.sha1(filename.encode()).hexdigest()
+        # keep the file name: it differs from the key when the storage
+        # does not use filename obfuscation
+        return self._optimized_path_from_key(key, filename=filename)
+
+    @api.model
+    def _optimized_path_from_key(self, key, filename=None):
+        """Return the path in the optimized layout: '<xx>/<yy>/<filename>'
+
+        '<xx>/<yy>' are the first 4 characters of the key (the file's hash).
+        The filename defaults to the key.
+        """
+        directory = os.path.join(key[:2], key[2:4])
+        return os.path.join(directory, filename or key)
 
 
 class AttachmentFileLikeAdapter:
