@@ -96,6 +96,17 @@ class TestStream(HttpCaseWithUserDemo):
             self.assertEqual(res.content, assert_content, "Wong content")
         return res
 
+    def test_to_http_stream(self):
+        from ..fs_stream import FsStream
+
+        stream = self.attachment_binary._to_http_stream()
+        self.assertIsInstance(stream, FsStream)
+        self.assertEqual(stream.mimetype, "text/plain")
+
+        stream = self.attachment_image._to_http_stream()
+        self.assertIsInstance(stream, FsStream)
+        self.assertEqual(stream.mimetype, "image/png")
+
     def test_content_url(self):
         self.authenticate("admin", "admin")
         url = f"/web/content/{self.attachment_binary.id}"
