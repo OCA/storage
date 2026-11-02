@@ -237,19 +237,7 @@ class FsStorage(models.Model):
         return self.sudo().search([]).filtered(lambda s: s.optimizes_directory_path)
 
     @api.model
-    def _fs_raw_move_file(self, store_fname, target_store_fname):
-        """Copy the file to the target and mark the source for garbage collection
-
-        No attachment is updated: the caller must point every attachment using
-        store_fname to target_store_fname, in the same transaction. Otherwise the
-        source is kept, since attachments still use it, and the target is never
-        used. Use _fs_move_file unless the attachments are updated another way.
-        """
-        self.env["fs.file.gc"]._mark_for_gc(store_fname, separate_transaction=False)
-        self._fs_copy_file(store_fname, target_store_fname)
-
-    @api.model
-    def _fs_move_file(self, store_fname, target_store_fname):
+    def _fs_move_file(self, store_fname, target_store_fname, unsafe=False):
         """Move a file and update all the attachments using it
 
         The file is copied if the target does not exist yet, all the
@@ -257,18 +245,26 @@ class FsStorage(models.Model):
         the garbage collector in the current transaction: it is only deleted
         once the transaction is committed and no attachment uses it anymore.
 
+        With unsafe=True, no attachment is searched nor updated: the caller
+        must point every attachment using store_fname to target_store_fname,
+        in the same transaction. Otherwise the source is kept, since
+        attachments still use it, and the target is never used.
+
         Return the attachments now pointing to the target.
         """
         # skip_res_field_check: include the attachments of binary fields
         attachment_model = (
             self.env["ir.attachment"].sudo().with_context(skip_res_field_check=True)
         )
-        attachments = attachment_model.search([("store_fname", "=", store_fname)])
-        if not attachments:
-            # already moved
-            return attachments
-        attachments._force_write_store_fname(target_store_fname)
-        self._fs_raw_move_file(store_fname, target_store_fname)
+        attachments = attachment_model.browse()
+        if not unsafe:
+            attachments = attachment_model.search([("store_fname", "=", store_fname)])
+            if not attachments:
+                # already moved
+                return attachments
+            attachments._force_write_store_fname(target_store_fname)
+        self.env["fs.file.gc"]._mark_for_gc(store_fname, separate_transaction=False)
+        self._fs_copy_file(store_fname, target_store_fname)
         return attachments
 
     @api.model

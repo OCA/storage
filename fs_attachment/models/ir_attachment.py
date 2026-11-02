@@ -962,13 +962,13 @@ class IrAttachment(models.Model):
         groups = attachments.grouped("store_fname")
         fs_storage_model = self.env["fs.storage"]
         # safe only because each group holds every attachment of its store_fname
-        # outside this code, prefer to use _fs_move_file
+        # outside this code, prefer to use _fs_move_file without unsafe
         for store_fname, file_attachments in groups.items():
             storage_code = store_fname.partition("://")[0]
             optimized_path = file_attachments[0]._get_optimized_path()
             target_store_fname = f"{storage_code}://{optimized_path}"
             file_attachments._force_write_store_fname(target_store_fname)
-            fs_storage_model._fs_raw_move_file(store_fname, target_store_fname)
+            fs_storage_model._fs_move_file(store_fname, target_store_fname, unsafe=True)
 
         [(remaining,)] = attachment_model._read_group(
             domain, aggregates=["store_fname:count_distinct"]
