@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import logging
 import os
+from functools import partial
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
@@ -277,6 +278,10 @@ class FsStorage(models.Model):
         )
         if target_fs.exists(target_path):
             return
+        # if the transaction is rolled back, nothing uses the copy anymore
+        self.env.cr.postrollback.add(
+            partial(self.env["fs.file.gc"]._mark_for_gc, target_store_fname)
+        )
         target_fs.makedirs(os.path.dirname(target_path), exist_ok=True)
         try:
             if code == target_code:
