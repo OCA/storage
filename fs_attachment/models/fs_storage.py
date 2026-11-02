@@ -8,7 +8,6 @@ import os
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError
-from odoo.osv.expression import OR
 from odoo.tools import SQL
 from odoo.tools.safe_eval import const_eval
 
@@ -236,19 +235,6 @@ class FsStorage(models.Model):
         # filtered() instead of a search domain: the field can be provided by
         # the server environment, in which case it is not a database column
         return self.sudo().search([]).filtered(lambda s: s.optimizes_directory_path)
-
-    def _get_root_attachments_domain(self):
-        # a path without '/' after '<code>://' is at the root of the storage
-        self.ensure_one()
-        return [
-            ("store_fname", "=like", f"{self.code}://%"),
-            "!",
-            ("store_fname", "=like", f"{self.code}://%/%"),
-        ]
-
-    def _get_storages_root_attachments_domain(self):
-        # NOTE: OR(...) returns FALSE_LEAF when self is empty
-        return OR([storage._get_root_attachments_domain() for storage in self])
 
     @api.model
     def _fs_raw_move_file(self, store_fname, target_store_fname):

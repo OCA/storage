@@ -914,6 +914,22 @@ class IrAttachment(models.Model):
                 clean_fs(files_to_clean)
 
     @api.model
+    def _get_root_attachments_domain_for_storages(self, storages):
+        """Return the domain of the attachments at the root of the storages"""
+        # a path without '/' after '<code>://' is at the root of the storage
+        # NOTE: OR(...) returns FALSE_LEAF when storages is empty
+        return OR(
+            [
+                [
+                    ("store_fname", "=like", f"{storage.code}://%"),
+                    "!",
+                    ("store_fname", "=like", f"{storage.code}://%/%"),
+                ]
+                for storage in storages
+            ]
+        )
+
+    @api.model
     def _cron_fs_optimize_directory_path(self, limit=1000):
         """Move files stored before 'optimizes_directory_path' was enabled
 
@@ -926,7 +942,7 @@ class IrAttachment(models.Model):
         storages = self.env["fs.storage"]._get_storages_to_optimize_directory_path()
         if not storages:
             return
-        domain = storages._get_storages_root_attachments_domain()
+        domain = self._get_root_attachments_domain_for_storages(storages)
 
         # skip_res_field_check: include the attachments of binary fields
         attachment_model = self.sudo().with_context(skip_res_field_check=True)
