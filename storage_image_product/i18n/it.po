@@ -296,5 +296,10 @@ msgstr "URL immagine media principale variante"
 msgid "Variant main small image URL"
 msgstr "URL immagine piccola principale variante"
 
+#. module: storage_image_product
+#: model:ir.model,name:storage_image_product.model_storage_file_replace
+msgid "Wizard template allowing to replace a storage.file"
+msgstr ""
+
 #~ msgid "Active"
 #~ msgstr "Attivo"
