@@ -157,5 +157,10 @@ msgstr "Percorso URL"
 msgid "Variant Media"
 msgstr "Media variante"
 
+#. module: storage_media_product
+#: model:ir.model,name:storage_media_product.model_storage_file_replace
+msgid "Wizard template allowing to replace a storage.file"
+msgstr ""
+
 #~ msgid "Active"
 #~ msgstr "Attivo"
