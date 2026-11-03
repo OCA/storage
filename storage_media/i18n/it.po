@@ -48,11 +48,6 @@ msgid "Backend Category"
 msgstr "Categoria backend"
 
 #. module: storage_media
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
-msgid "Cancel"
-msgstr "Annulla"
-
-#. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__backend_categ_id
 msgid "Category to group backends for swapping operations"
 msgstr "Categoria per raggruppare backend per operazioni di scambio"
@@ -71,11 +66,6 @@ msgstr "Codice"
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__company_id
 msgid "Company"
 msgstr "Azienda"
-
-#. module: storage_media
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
-msgid "Confirm"
-msgstr "Conferma"
 
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__create_uid
@@ -197,7 +187,6 @@ msgstr "Tipo MIME"
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__name
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Name"
 msgstr "Nome"
 
@@ -228,7 +217,6 @@ msgstr "Posizione relativa per il backend"
 
 #. module: storage_media
 #: model:ir.actions.act_window,name:storage_media.storage_replace_file_action
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
 msgid "Replace File"
 msgstr "Sostituisci file"
@@ -300,3 +288,9 @@ msgstr "Percorso URL"
 #: model:ir.model,name:storage_media.model_storage_file_replace
 msgid "Wizard template allowing to replace a storage.file"
 msgstr "Modello procedura guidata che consente di sostituire un storage.file"
+
+#~ msgid "Cancel"
+#~ msgstr "Annulla"
+
+#~ msgid "Confirm"
+#~ msgstr "Conferma"
