@@ -65,11 +65,6 @@ msgid "Backend Category"
 msgstr "Categoria backend"
 
 #. module: storage_image
-#: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
-msgid "Cancel"
-msgstr "Annulla"
-
-#. module: storage_image
 #: model:ir.model.fields,help:storage_image.field_storage_image__backend_categ_id
 msgid "Category to group backends for swapping operations"
 msgstr "Categoria per raggruppare backend per operazioni di scambio"
@@ -83,11 +78,6 @@ msgstr "Checksum/SHA1"
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__company_id
 msgid "Company"
 msgstr "Azienda"
-
-#. module: storage_image
-#: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
-msgid "Confirm"
-msgstr "Conferma"
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__create_uid
@@ -229,7 +219,6 @@ msgstr "Tipo MIME"
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__name
-#: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Name"
 msgstr "Nome"
@@ -268,7 +257,6 @@ msgstr "Posizione relativa per il backend"
 
 #. module: storage_image
 #: model:ir.actions.act_window,name:storage_image.storage_replace_file_action
-#: model_terms:ir.ui.view,arch_db:storage_image.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
 msgid "Replace File"
 msgstr "Sostituisci file"
@@ -357,3 +345,9 @@ msgstr "alt_name"
 #: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
 msgid "image_alt_name"
 msgstr "image_alt_name"
+
+#~ msgid "Cancel"
+#~ msgstr "Annulla"
+
+#~ msgid "Confirm"
+#~ msgstr "Conferma"
