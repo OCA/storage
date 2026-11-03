@@ -153,3 +153,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:storage_media_product.field_product_product__variant_media_ids
 msgid "Variant Media"
 msgstr ""
+
+#. module: storage_media_product
+#: model:ir.model,name:storage_media_product.model_storage_file_replace
+msgid "Wizard template allowing to replace a storage.file"
+msgstr ""
