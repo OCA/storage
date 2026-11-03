@@ -32,16 +32,27 @@ msgid "Accessible path, no base URL"
 msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_image
-#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__active
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__active
 msgid "Active"
 msgstr "Attiva"
+
+#. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+msgid "All"
+msgstr ""
 
 #. module: storage_image
 #: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_alt_name
 #: model:ir.model.fields,field_description:storage_image.field_storage_image__alt_name
 msgid "Alt Image name"
 msgstr "Nome alternativo immagine"
+
+#. module: storage_image
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_form
+#: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
+#: model_terms:ir.ui.view,arch_db:storage_image.view_storage_image_abstract_kanban
+msgid "Archived"
+msgstr ""
 
 #. module: storage_image
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
@@ -167,6 +178,11 @@ msgstr "ID"
 #: model_terms:ir.ui.view,arch_db:storage_image.storage_image_view_search
 msgid "Image"
 msgstr "Immagine"
+
+#. module: storage_image
+#: model:ir.model.fields,field_description:storage_image.field_image_relation_abstract__image_active
+msgid "Image Active"
+msgstr ""
 
 #. module: storage_image
 #: model:res.groups,name:storage_image.group_image_manager
