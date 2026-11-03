@@ -241,11 +241,25 @@ class StorageFile(models.Model):
             rec.mimetype = mime
 
     def unlink(self):
-        if self._context.get("cleanning_storage_file"):
+        if self._is_force_delete():
             super().unlink()
         else:
             self.write({"to_delete": True, "active": False})
         return True
+
+    def _is_force_delete(self):
+        """Tell if the files must be deleted instead of flagged for deletion."""
+        ctx = self.env.context
+        if ctx.get("force_delete_storage_file"):
+            return True
+        if ctx.get("cleanning_storage_file"):
+            # TODO: drop in v19
+            _logger.warning(
+                "The 'cleanning_storage_file' context key is deprecated: "
+                "use 'force_delete_storage_file' instead."
+            )
+            return True
+        return False
 
     @api.model
     def _clean_storage_file(self, batch_size=1000):
@@ -259,13 +273,23 @@ class StorageFile(models.Model):
         )
         ids = [x[0] for x in self._cr.fetchall()]
         recordset = self.browse(ids[:batch_size])
+        no_path_ids = []
         for st_file in recordset:
-            st_file.backend_id.sudo().delete(st_file.relative_path)
-            st_file.with_context(cleanning_storage_file=True).unlink()
+            if st_file.relative_path:
+                st_file.backend_id.sudo().delete(st_file.relative_path)
+            else:
+                # Nothing stored on the backend: only the record to delete
+                no_path_ids.append(st_file.id)
+            st_file.with_context(force_delete_storage_file=True).unlink()
             # commit is required since the backend could be an external system
             # therefore, if the record is deleted on the external system
             # we must be sure that the record is also deleted into Odoo
             st_file._cr.commit()
+        if no_path_ids:
+            _logger.warning(
+                "Deleted files with no relative_path IDS=%s",
+                ",".join(map(str, no_path_ids)),
+            )
         done = len(recordset)
         self.env["ir.cron"]._notify_progress(
             done=done, remaining=0 if done <= batch_size else len(ids) - done

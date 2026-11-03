@@ -111,7 +111,7 @@ class TestSwapBackendQueue(TransactionComponentCase):
         """Deleted records between enqueue and execution are reported."""
         stfile = self._create_storage_file(data=b"payload")
         file_id = stfile.id
-        stfile.with_context(cleanning_storage_file=True).unlink()
+        stfile.with_context(force_delete_storage_file=True).unlink()
         records = self.env["storage.file"].browse(file_id)
         result = records._swap_backend_job(self.backend_b.id)
         self.assertIn("no longer exists", result)

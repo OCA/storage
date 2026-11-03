@@ -227,6 +227,30 @@ class StorageFileCase(TransactionComponentCase):
         self.assertEqual(len(files), 0)
         self.assertNotIn(relative_path, backend.list_files())
 
+    def test_clean_storage_file_no_path(self):
+        """Files with no relative_path are deleted and logged."""
+        # Do not commit during the test
+        self.cr.commit = lambda: True
+        stfile = self._create_storage_file()
+        no_path = self.env["storage.file"].create(
+            {"name": "no_path.txt", "backend_id": stfile.backend_id.id}
+        )
+        self.assertFalse(no_path.relative_path)
+        (stfile | no_path).unlink()
+        with self.assertLogs(
+            "odoo.addons.storage_file.models.storage_file", level="WARNING"
+        ) as logs:
+            self.env["storage.file"]._clean_storage_file()
+        self.assertEqual(
+            logs.output,
+            [
+                "WARNING:odoo.addons.storage_file.models.storage_file:"
+                f"Deleted files with no relative_path IDS={no_path.id}"
+            ],
+        )
+        self.assertFalse(stfile.exists())
+        self.assertFalse(no_path.exists())
+
     def test_public_access1(self):
         """
         Test the public access (when is_public on the backend).
@@ -338,3 +362,20 @@ class StorageFileCase(TransactionComponentCase):
         )
         form = Form(self.env["storage.file"])
         self.assertEqual(form.backend_id, other_backend)
+
+    def test_unlink_deprecated_ctx_key(self):
+        """The deprecated context key still forces the deletion."""
+        stfile = self._create_storage_file()
+        with self.assertLogs(
+            "odoo.addons.storage_file.models.storage_file", level="WARNING"
+        ) as logs:
+            stfile.with_context(cleanning_storage_file=True).unlink()
+        self.assertEqual(
+            logs.output,
+            [
+                "WARNING:odoo.addons.storage_file.models.storage_file:"
+                "The 'cleanning_storage_file' context key is deprecated: "
+                "use 'force_delete_storage_file' instead."
+            ],
+        )
+        self.assertFalse(stfile.exists())
