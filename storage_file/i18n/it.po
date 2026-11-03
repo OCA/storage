@@ -52,6 +52,11 @@ msgid "Active"
 msgstr "Attivo"
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "All"
+msgstr ""
+
+#. module: storage_file
 #. odoo-python
 #: code:addons/storage_file/wizards/swap_backend.py:0
 msgid ""
@@ -60,6 +65,12 @@ msgid ""
 msgstr ""
 "Tutti i record selezionati devono appartenere allo stesso backend di "
 "archiviazione di origine. Trovato: %s"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_form
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
+msgid "Archived"
+msgstr ""
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
