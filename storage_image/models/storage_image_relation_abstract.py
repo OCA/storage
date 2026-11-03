@@ -1,4 +1,6 @@
 # Copyright 2020 ACSONE SA/NV
+# Copyright 2026 Camptocamp SA
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import fields, models
@@ -24,4 +26,9 @@ class ImageRelationAbstract(models.AbstractModel):
     image_alt_name = fields.Char(related="image_id.alt_name")
     image_url = fields.Char(related="image_id.image_medium_url")
     is_public = fields.Boolean(related="image_id.file_id.is_public", readonly=True)
-    active = fields.Boolean(related="image_id.active", readonly=True)
+    # Gray out the relations of archived images.
+    # NOTE: do not call this field `active`, it would hide the relations
+    # (eg: on the product) and we want to display them anyway.
+    image_active = fields.Boolean(
+        related="image_id.active", string="Image Active", readonly=True
+    )

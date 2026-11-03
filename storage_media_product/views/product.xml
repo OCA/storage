@@ -36,14 +36,14 @@
         <field name="model">product.media.relation</field>
         <field name="arch" type="xml">
             <list
-                decoration-success="is_public and active"
-                decoration-danger="not is_public and active"
-                decoration-muted="not active"
+                decoration-success="is_public and media_active"
+                decoration-danger="not is_public and media_active"
+                decoration-muted="not media_active"
             >
                 <field name="media_id" />
                 <field name="media_type_id" readonly="True" />
                 <field name="is_public" optional="hide" />
-                <field name="active" column_invisible="True" />
+                <field name="media_active" column_invisible="True" />
             </list>
         </field>
     </record>

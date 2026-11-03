@@ -3,7 +3,8 @@
     <record id="storage_image_view_tree" model="ir.ui.view">
         <field name="model">storage.image</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-muted="not active">
+                <field name="active" column_invisible="True" />
                 <field name="write_date" />
                 <field name="name" />
                 <field name="alt_name" />
@@ -24,6 +25,13 @@
                         type="action"
                     />
                 </header>
+                <field name="active" invisible="1" />
+                <widget
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    invisible="active"
+                />
                 <group string="Image" name="image">
                     <field
                         name="data"
@@ -103,6 +111,18 @@
                     string="Private"
                     name="private"
                     domain="[('is_public', '=', False)]"
+                />
+                <separator />
+                <filter
+                    string="All"
+                    name="all"
+                    domain="['|', ('active', '=', False), ('active', '=', True)]"
+                />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
                 />
                 <group string="Group By" expand="0">
                     <filter

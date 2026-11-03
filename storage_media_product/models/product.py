@@ -1,5 +1,7 @@
 # Copyright 2018 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# Copyright 2026 Camptocamp SA
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models
@@ -66,7 +68,12 @@ class ProductMediaRelation(models.Model):
     url_path = fields.Char(related="media_id.url_path", readonly=True)
     media_type_id = fields.Many2one(related="media_id.media_type_id", readonly=True)
     is_public = fields.Boolean(related="media_id.file_id.is_public", readonly=True)
-    active = fields.Boolean(related="media_id.active", readonly=True)
+    # Gray out the relations of archived media.
+    # NOTE: do not call this field `active`, it would hide the relations
+    # (eg: on the product) and we want to display them anyway.
+    media_active = fields.Boolean(
+        related="media_id.active", string="Media Active", readonly=True
+    )
 
     @api.depends("media_id", "product_tmpl_id.attribute_line_ids.value_ids")
     def _compute_available_attribute(self):

@@ -34,12 +34,18 @@ class ProductTemplate(models.Model):
         string="Main medium image URL", related="main_image_id.image_medium_url"
     )
 
-    @api.depends("image_ids", "image_ids.sequence", "image_ids.image_id")
+    @api.depends(
+        "image_ids",
+        "image_ids.sequence",
+        "image_ids.image_id",
+        "image_ids.image_active",
+    )
     def _compute_main_image_id(self):
         for record in self:
             record.main_image_id = record._get_main_image()
 
     def _get_main_image(self):
+        images = self.image_ids.filtered("image_active")
         return fields.first(
-            self.image_ids.sorted(key=lambda i: (i.sequence, i.image_id))
+            images.sorted(key=lambda i: (i.sequence, i.image_id))
         ).image_id
