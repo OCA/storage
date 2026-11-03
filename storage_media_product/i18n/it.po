@@ -22,11 +22,6 @@ msgid "Accessible path, no base URL"
 msgstr "Percorso accessibile, non URL base"
 
 #. module: storage_media_product
-#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__active
-msgid "Active"
-msgstr "Attivo"
-
-#. module: storage_media_product
 #: model_terms:ir.ui.view,arch_db:storage_media_product.product_media_relation_form
 msgid "Association"
 msgstr "Associazione"
@@ -98,6 +93,11 @@ msgid "Media"
 msgstr "Media"
 
 #. module: storage_media_product
+#: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__media_active
+msgid "Media Active"
+msgstr ""
+
+#. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__media_type_id
 msgid "Media Type"
 msgstr "Tipo media"
@@ -156,3 +156,6 @@ msgstr "Percorso URL"
 #: model:ir.model.fields,field_description:storage_media_product.field_product_product__variant_media_ids
 msgid "Variant Media"
 msgstr "Media variante"
+
+#~ msgid "Active"
+#~ msgstr "Attivo"
