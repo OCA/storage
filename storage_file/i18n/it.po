@@ -103,6 +103,7 @@ msgid "Base Url For Files"
 msgstr "URL base per i file"
 
 #. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_swap_backend_view_form
 msgid "Cancel"
 msgstr "Annulla"
@@ -127,6 +128,11 @@ msgstr "Pulisci deposito file"
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__company_id
 msgid "Company"
 msgstr "Azienda"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
+msgid "Confirm"
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__create_uid
@@ -216,6 +222,7 @@ msgstr "Esterno"
 #: model:ir.actions.act_window,name:storage_file.act_open_storage_file_view
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__file_id
 #: model:ir.ui.menu,name:storage_file.menu_storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_form
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "File"
@@ -310,6 +317,26 @@ msgid "Is Public"
 msgstr "È pubblico"
 
 #. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__keep_history
+msgid "Keep History"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__keep_relations
+msgid "Keep Relations"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__keep_relations_visible
+msgid "Keep Relations Visible"
+msgstr ""
+
+#. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file_replace__keep_history
+msgid "Keep an archived copy of the record holding the replaced file."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__write_uid
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__write_uid
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_swap_backend__write_uid
@@ -324,12 +351,18 @@ msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
 #. module: storage_file
+#: model:ir.model.fields,help:storage_file.field_storage_file_replace__keep_relations
+msgid "Link the archived copy to the same records."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__mimetype
 msgid "Mime Type"
 msgstr "Tipo MIME"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__name
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
 msgid "Name"
 msgstr "Nome"
 
@@ -393,6 +426,11 @@ msgstr "Percorso relativo"
 #: model:ir.model.fields,help:storage_file.field_storage_file__relative_path
 msgid "Relative location for backend"
 msgstr "Posizione relativa per il backend"
+
+#. module: storage_file
+#: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
+msgid "Replace File"
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model,name:storage_file.model_ir_actions_report
@@ -521,9 +559,21 @@ msgstr ""
 "Configurarlo."
 
 #. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/replace_file.py:0
+msgid "The new file is identical to the current one."
+msgstr ""
+
+#. module: storage_file
 #: model:ir.model.constraint,message:storage_file.constraint_storage_file_path_uniq
 msgid "The private path must be uniq per backend"
 msgstr "Il percorso privato deve essere univoco per backend"
+
+#. module: storage_file
+#. odoo-python
+#: code:addons/storage_file/wizards/replace_file.py:0
+msgid "The same content is already stored in file '%(name)s' (ID %(id)s)."
+msgstr ""
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__to_delete
