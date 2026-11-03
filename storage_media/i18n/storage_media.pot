@@ -45,11 +45,6 @@ msgid "Backend Category"
 msgstr ""
 
 #. module: storage_media
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
-msgid "Cancel"
-msgstr ""
-
-#. module: storage_media
 #: model:ir.model.fields,help:storage_media.field_storage_media__backend_categ_id
 msgid "Category to group backends for swapping operations"
 msgstr ""
@@ -67,11 +62,6 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__company_id
 msgid "Company"
-msgstr ""
-
-#. module: storage_media
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
-msgid "Confirm"
 msgstr ""
 
 #. module: storage_media
@@ -194,7 +184,6 @@ msgstr ""
 #. module: storage_media
 #: model:ir.model.fields,field_description:storage_media.field_storage_media__name
 #: model:ir.model.fields,field_description:storage_media.field_storage_media_type__name
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 msgid "Name"
 msgstr ""
 
@@ -225,7 +214,6 @@ msgstr ""
 
 #. module: storage_media
 #: model:ir.actions.act_window,name:storage_media.storage_replace_file_action
-#: model_terms:ir.ui.view,arch_db:storage_media.storage_file_replace_view_form
 #: model_terms:ir.ui.view,arch_db:storage_media.storage_media_view_form
 msgid "Replace File"
 msgstr ""
