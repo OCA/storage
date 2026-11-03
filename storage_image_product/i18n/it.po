@@ -27,12 +27,6 @@ msgid "# of Products"
 msgstr "N° di prodotti"
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__active
-#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__active
-msgid "Active"
-msgstr "Attivo"
-
-#. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_alt_name
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_alt_name
 msgid "Alt Image name"
@@ -120,6 +114,12 @@ msgstr "Se è necessario modificare le immagini, farlo dal modello prodotto."
 #: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_id
 msgid "Image"
 msgstr "Immagine"
+
+#. module: storage_image_product
+#: model:ir.model.fields,field_description:storage_image_product.field_category_image_relation__image_active
+#: model:ir.model.fields,field_description:storage_image_product.field_product_image_relation__image_active
+msgid "Image Active"
+msgstr ""
 
 #. module: storage_image_product
 #: model:ir.actions.act_window,name:storage_image_product.act_open_image_tag_view
@@ -295,3 +295,6 @@ msgstr "URL immagine media principale variante"
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_small_url
 msgid "Variant main small image URL"
 msgstr "URL immagine piccola principale variante"
+
+#~ msgid "Active"
+#~ msgstr "Attivo"
