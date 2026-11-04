@@ -20,8 +20,8 @@ class FileSystemCase(CommonCase, BackendStorageTestMixin):
         self._test_setting_and_getting_data_from_dir()
 
     def test_find_files(self):
-        good_filepaths = ["somepath/file%d.good" % x for x in range(1, 10)]
-        bad_filepaths = ["somepath/file%d.bad" % x for x in range(1, 10)]
+        good_filepaths = [f"somepath/file{x}.good" for x in range(1, 10)]
+        bad_filepaths = [f"somepath/file{x}.bad" for x in range(1, 10)]
         mocked_filepaths = bad_filepaths + good_filepaths
         backend = self.backend.sudo()
         base_dir = backend._get_adapter()._basedir()
