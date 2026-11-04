@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-28 11:46+0000\n"
+"PO-Revision-Date: 2026-11-04 13:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -54,7 +54,7 @@ msgstr "Attivo"
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 #. module: storage_file
 #. odoo-python
@@ -70,7 +70,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_form
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
 msgid "Archived"
-msgstr ""
+msgstr "In archivio"
 
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_view_search
@@ -132,7 +132,7 @@ msgstr "Azienda"
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__create_uid
@@ -319,22 +319,23 @@ msgstr "È pubblico"
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__keep_history
 msgid "Keep History"
-msgstr ""
+msgstr "Mantieni lo storico"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__keep_relations
 msgid "Keep Relations"
-msgstr ""
+msgstr "Mantieni le relazioni"
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file_replace__keep_relations_visible
 msgid "Keep Relations Visible"
-msgstr ""
+msgstr "Mantieni visibili le relazioni"
 
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file_replace__keep_history
 msgid "Keep an archived copy of the record holding the replaced file."
 msgstr ""
+"Mantieni una copia in archivio del record che contiene il file sostituito."
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__write_uid
@@ -353,7 +354,7 @@ msgstr "Ultimo aggiornamento il"
 #. module: storage_file
 #: model:ir.model.fields,help:storage_file.field_storage_file_replace__keep_relations
 msgid "Link the archived copy to the same records."
-msgstr ""
+msgstr "Collega la copia in archivio con gli stessi record."
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__mimetype
@@ -430,7 +431,7 @@ msgstr "Posizione relativa per il backend"
 #. module: storage_file
 #: model_terms:ir.ui.view,arch_db:storage_file.storage_file_replace_view_form
 msgid "Replace File"
-msgstr ""
+msgstr "Sostituisci file"
 
 #. module: storage_file
 #: model:ir.model,name:storage_file.model_ir_actions_report
@@ -562,7 +563,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/storage_file/wizards/replace_file.py:0
 msgid "The new file is identical to the current one."
-msgstr ""
+msgstr "Il nuovo file è identico all'attuale."
 
 #. module: storage_file
 #: model:ir.model.constraint,message:storage_file.constraint_storage_file_path_uniq
@@ -573,7 +574,7 @@ msgstr "Il percorso privato deve essere univoco per backend"
 #. odoo-python
 #: code:addons/storage_file/wizards/replace_file.py:0
 msgid "The same content is already stored in file '%(name)s' (ID %(id)s)."
-msgstr ""
+msgstr "Lo stesso contenuto è già archiviato nel file '%(name)s' (ID %(id)s)."
 
 #. module: storage_file
 #: model:ir.model.fields,field_description:storage_file.field_storage_file__to_delete
