@@ -3,10 +3,16 @@
 import gc
 import logging
 import threading
+import typing
 from contextlib import closing, contextmanager
+
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 from odoo.sql_db import Cursor
+
+if typing.TYPE_CHECKING:
+    from .fs_storage import FsStorage
 
 _logger = logging.getLogger(__name__)
 
@@ -142,9 +148,10 @@ class FsFileGC(models.Model):
 
     @api.model
     def _list_pending_gc_files(
-        self, code: str, batch_size: int | None = None
+        self, storage: "FsStorage", batch_size: int | None = None
     ) -> list[str]:
-        """Return a batch of store filenames to garbage collect for the given storage code"""
+        """Return a batch of store filenames to garbage collect for the given storage"""
+        gc_delay = fields.Datetime.now() - relativedelta(hours=storage.gc_delay_hours)
         sql = """
             SELECT store_fname
             FROM fs_file_gc
@@ -154,8 +161,9 @@ class FsFileGC(models.Model):
                   FROM ir_attachment
                   WHERE store_fname = fs_file_gc.store_fname
               )
+              AND create_date < %s
         """
-        params = [code]
+        params = [storage.code, gc_delay]
         if batch_size is not None:
             sql += " LIMIT %s"
             params.append(batch_size)
@@ -164,18 +172,16 @@ class FsFileGC(models.Model):
 
     def _gc_files_unsafe(self) -> None:
         # get the list of fs.storage codes that must be autovacuumed
-        codes = (
-            self.env["fs.storage"].search([]).filtered("autovacuum_gc").mapped("code")
-        )
-        if not codes:
+        storages = self.env["fs.storage"].search([]).filtered("autovacuum_gc")
+        if not storages:
             return
         # Process one storage at a time and paginate both the SELECT and
         # the fs.rm loop so neither the Python list of file names nor
         # the storage SDK's response buffers can grow unbounded.
-        for code in codes:
-            self.env["fs.storage"].get_by_code(code)
-            fs = self.env["fs.storage"].get_fs_by_code(code)
-            while fnames := self._list_pending_gc_files(code, self._GC_BATCH_SIZE):
+        for storage in storages:
+
+            fs = self.env["fs.storage"].get_fs_by_code(storage.code)
+            while fnames := self._list_pending_gc_files(storage, self._GC_BATCH_SIZE):
                 for store_fname in fnames:
                     try:
                         file_path = store_fname.partition("://")[2]
