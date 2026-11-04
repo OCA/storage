@@ -1,0 +1,1 @@
+Prevent premature garbage collection of files due to potential race conditions by introducing a ``gc_delay_hours`` configuration field on the ``fs.storage`` model.

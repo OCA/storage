@@ -42,7 +42,6 @@ class FsFileGc(models.Model):
         )
 
         for storage in storages_to_gc:
-            code = storage.code
 
             try:
                 # directory_path usually contains the bucket name in S3 configurations
@@ -53,17 +52,20 @@ class FsFileGc(models.Model):
 
                 if not s3_client or not bucket_name:
                     _logger.warning(
-                        "GC: Could not retrieve S3 client or Bucket name for %s", code
+                        "GC: Could not retrieve S3 client or Bucket name for %s",
+                        storage.code,
                     )
                     continue
 
                 _logger.info(
                     "GC: Starting optimized S3 cleanup for %s in bucket %s",
-                    code,
+                    storage.code,
                     bucket_name,
                 )
 
-                while fnames := self._list_pending_gc_files(code, self._GC_BATCH_SIZE):
+                while fnames := self._list_pending_gc_files(
+                    storage, self._GC_BATCH_SIZE
+                ):
                     # Prepare the keys by removing the protocol prefix (e.g., s3://)
                     objects_to_delete = [{"Key": f.partition("://")[2]} for f in fnames]
 
@@ -88,7 +90,9 @@ class FsFileGc(models.Model):
                         self._cr.commit()  # pylint: disable=invalid-commit
                     except Exception as e:
                         _logger.error(
-                            "GC Error: Failed S3 delete_objects for %s: %s", code, e
+                            "GC Error: Failed S3 delete_objects for %s: %s",
+                            storage.code,
+                            e,
                         )
                         # We break the loop for this storage
                         # to prevent DB deletion if S3 fails
@@ -99,7 +103,7 @@ class FsFileGc(models.Model):
 
             except Exception as e:
                 _logger.error(
-                    "GC Error: Could not initialize S3 storage %s: %s", code, e
+                    "GC Error: Could not initialize S3 storage %s: %s", storage.code, e
                 )
                 continue
 

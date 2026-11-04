@@ -541,3 +541,15 @@ class TestFSAttachment(TestFSAttachmentCommon):
                 ("file_size", "<=", 100),
             ],
         )
+
+    def test_gc_files_with_delay(self):
+        store_fname = "tmp_dir://dummy-0-0.txt"
+        self.gc_file_model._mark_for_gc(store_fname)
+        self.temp_backend.gc_delay_hours = 1
+        self.gc_file_model._gc_files_unsafe()
+        self.assertIn(store_fname, self.gc_file_model.search([]).mapped("store_fname"))
+        self.temp_backend.gc_delay_hours = 0
+        self.gc_file_model._gc_files_unsafe()
+        self.assertNotIn(
+            store_fname, self.gc_file_model.search([]).mapped("store_fname")
+        )
