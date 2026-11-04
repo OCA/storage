@@ -1,5 +1,6 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import copy
 import os
 from pathlib import Path
 from unittest import mock
@@ -568,3 +569,35 @@ class TestFSAttachment(TestFSAttachmentCommon):
                 ]
             ),
         )
+
+    def test_get_fs_attachment_for_field_stored_in_attachment(self):
+        """A field stored in its own attachment (ex: the thumbnail added by mail)
+        must not be replaced by the file of the parent attachment"""
+        parent = (
+            self.env["ir.attachment"]
+            .with_context(storage_location=self.temp_backend.code)
+            .create({"name": "doc.pdf", "raw": b"parent"})
+        )
+        thumbnail = (
+            self.env["ir.attachment"]
+            .with_context(storage_location=self.temp_backend.code)
+            .create(
+                {
+                    "name": "thumbnail",
+                    "raw": b"thumbnail",
+                    "res_model": "ir.attachment",
+                    "res_id": parent.id,
+                    "res_field": "thumbnail",
+                }
+            )
+        )
+        field = copy.copy(parent._fields["raw"])
+        field.attachment = True
+        field.store = True
+        ir_binary = self.env["ir.binary"]
+        fields_with_thumbnail = {**parent._fields, "thumbnail": field}
+        with mock.patch.object(type(parent), "_fields", fields_with_thumbnail):
+            self.assertEqual(
+                ir_binary._get_fs_attachment_for_field(parent, "thumbnail"), thumbnail
+            )
+        self.assertEqual(ir_binary._get_fs_attachment_for_field(parent, "raw"), parent)
