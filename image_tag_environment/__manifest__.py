@@ -12,5 +12,4 @@
     "data": [
         "views/image_tag.xml",
     ],
-    "auto_install": True,
 }
