@@ -14,6 +14,7 @@
     "website": "https://github.com/OCA/storage",
     "data": [
         "security/fs_file_gc.xml",
+        "data/ir_cron.xml",
         "views/fs_storage.xml",
     ],
     "external_dependencies": {"python": ["python_slugify", "fsspec>=2025.3.0"]},

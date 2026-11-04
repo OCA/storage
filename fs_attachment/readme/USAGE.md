@@ -13,6 +13,10 @@ configure the way attachments will be stored in the filesystem.
   directory structure based on the attachment's checksum (with 2 levels
   of depth) For example, if the checksum is `123456789`, the file will
   be stored in the directory `/path/to/storage/12/34/my_file-1-0.txt`.
+  Files stored before this option was enabled stay at the root of the
+  storage. To move them, activate the scheduled action `Filesystem
+  Storage: move files to optimized directories`. It moves them by batch
+  and reports how many files remain.
 
 - `Autovacuum GC`: This is used to automatically remove files from the
   filesystem when it's no longer referenced in Odoo. Some storage
