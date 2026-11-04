@@ -283,6 +283,7 @@ class IrAttachment(models.Model):
                     self.with_context(
                         attachment_res_model=vals.get("res_model"),
                         attachment_res_field=vals.get("res_field"),
+                        attachment_res_id=vals.get("res_id"),
                     ),
                 ).create(vals)
                 attachments += attachment
@@ -332,6 +333,7 @@ class IrAttachment(models.Model):
                 rec.with_context(
                     attachment_res_model=vals.get("res_model") or rec.res_model,
                     attachment_res_field=vals.get("res_field") or rec.res_field,
+                    attachment_res_id=vals.get("res_id") or rec.res_id,
                 ),
             ).write(vals)
 
@@ -1084,6 +1086,7 @@ class AttachmentFileLikeAdapter:
             new_store_fname = self.attachment.with_context(
                 attachment_res_model=self.attachment.res_model,
                 attachment_res_field=self.attachment.res_field,
+                attachment_res_id=self.attachment.res_id,
             )._file_write(content, checksum)
             if self.attachment._is_file_from_a_storage(new_store_fname):
                 (
