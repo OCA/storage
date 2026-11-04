@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 ACSONE SA/NV
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl). -->
+<odoo noupdate="1">
+    <record id="function_convert_pdfa" model="ir.config_parameter">
+        <field name="key">attachment_pdfa.method</field>
+        <field name="value">ghostscript</field>
+    </record>
+    <record id="storage_mode_pdfa" model="ir.config_parameter">
+        <field name="key">attachment_pdfa.mode</field>
+        <field name="value">replace</field>
+    </record>
+</odoo>
