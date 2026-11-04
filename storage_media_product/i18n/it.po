@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-07-01 11:46+0000\n"
+"PO-Revision-Date: 2026-11-04 13:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -95,7 +95,7 @@ msgstr "Media"
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__media_active
 msgid "Media Active"
-msgstr ""
+msgstr "Media attivo"
 
 #. module: storage_media_product
 #: model:ir.model.fields,field_description:storage_media_product.field_product_media_relation__media_type_id
@@ -160,7 +160,7 @@ msgstr "Media variante"
 #. module: storage_media_product
 #: model:ir.model,name:storage_media_product.model_storage_file_replace
 msgid "Wizard template allowing to replace a storage.file"
-msgstr ""
+msgstr "Modello procedura guidata che consente di sostituire un storage.file"
 
 #~ msgid "Active"
 #~ msgstr "Attivo"
