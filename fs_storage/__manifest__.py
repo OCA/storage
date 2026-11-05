@@ -18,5 +18,5 @@
         "security/ir.model.access.csv",
         "wizards/fs_test_connection.xml",
     ],
-    "external_dependencies": {"python": ["fsspec>=2024.5.0"]},
+    "external_dependencies": {"python": ["fsspec>=2026.6.0"]},
 }
