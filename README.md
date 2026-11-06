@@ -48,7 +48,7 @@ addon | version | maintainers | summary
 [storage_backend_s3_environment](storage_backend_s3_environment/) | 18.0.1.0.0 |  | Allows to use server environment with storage backend S3
 [storage_backend_sftp](storage_backend_sftp/) | 18.0.1.0.1 |  | Implement SFTP Storage
 [storage_backend_sftp_environment](storage_backend_sftp_environment/) | 18.0.1.0.0 |  | Allows to use server environment with storage backend SFTP
-[storage_file](storage_file/) | 18.0.1.5.0 |  | Storage file in storage backend
+[storage_file](storage_file/) | 18.0.1.6.0 |  | Storage file in storage backend
 [storage_file_environment](storage_file_environment/) | 18.0.1.0.0 |  | Allows to use server environment with storage file
 [storage_file_swap_backend_queue](storage_file_swap_backend_queue/) | 18.0.1.2.0 | <a href='https://github.com/simahawk'><img src='https://github.com/simahawk.png' width='32' height='32' style='border-radius:50%;' alt='simahawk'/></a> | Delegate storage file backend swap to queue jobs
 [storage_image](storage_image/) | 18.0.1.5.0 |  | Store image and resized image in a storage backend
