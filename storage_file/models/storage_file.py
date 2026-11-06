@@ -1,5 +1,6 @@
 # Copyright 2017 Akretion (http://www.akretion.com).
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
+# @author Simone Orsi <simone.orsi@camptocamp.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import base64
@@ -8,6 +9,8 @@ import logging
 import mimetypes
 import os
 import re
+import threading
+from functools import partial
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
@@ -184,6 +187,63 @@ class StorageFile(models.Model):
                 mimetype=record.mimetype,
                 binary=False,
             )
+            record._register_rollback_cleanup()
+
+    def _register_rollback_cleanup(self):
+        """Drop the content stored on the backend if the transaction is rolled back.
+
+        The backend is not transactional: without this, the content stays
+        there with no record referring to it.
+        Savepoint rollbacks do not trigger the cleanup.
+        """
+        if getattr(threading.current_thread(), "testing", False):
+            # Not committed anyway: the cleanup would run in another
+            # cursor at the end of the test.
+            return
+        self.env.cr.postrollback.add(
+            partial(
+                self.browse()._rollback_cleanup,
+                self.backend_id.id,
+                self.relative_path,
+            )
+        )
+
+    @api.model
+    def _rollback_cleanup(self, backend_id, relative_path):
+        """Delete the content stored by a rolled back transaction.
+
+        Use a new cursor: the rolled back one may be closed already.
+        """
+        # A postrollback hook must not raise: it would hide the original
+        # error, skip the other hooks and leak the connection (Cursor._close)
+        try:
+            with self.env.registry.cursor() as cr:
+                env = self.env(cr=cr, su=True)
+                backend = env["storage.backend"].browse(backend_id).exists()
+                if backend:
+                    env["storage.file"]._delete_orphan_path(backend, relative_path)
+        except Exception:
+            _logger.exception(
+                "Cannot delete %s from backend %s after rollback",
+                relative_path,
+                backend_id,
+            )
+
+    @api.model
+    def _delete_orphan_path(self, backend, relative_path):
+        """Delete ``relative_path`` from ``backend`` if no file refers to it.
+
+        A file may still refer to it, e.g. one storing the same content
+        with the 'hash' filename strategy.
+        """
+        in_use = self.with_context(active_test=False).search_count(
+            [("backend_id", "=", backend.id), ("relative_path", "=", relative_path)],
+            limit=1,
+        )
+        if in_use:
+            return False
+        backend.sudo().delete(relative_path)
+        return True
 
     def _compute_data(self):
         for rec in self:
