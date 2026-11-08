@@ -26,7 +26,6 @@ class TestFSStorage(TestFSStorageCase):
     @mute_logger("py.warnings")
     def _test_deprecated_setting_and_getting_data(self):
         # Check that the directory is empty
-        warnings.filterwarnings("ignore")
         files = self.backend.list_files()
         self.assertNotIn(self.filename, files)
 
@@ -50,7 +49,6 @@ class TestFSStorage(TestFSStorageCase):
 
     @mute_logger("py.warnings")
     def _test_deprecated_find_files(self):
-        warnings.filterwarnings("ignore")
         self.backend.add(
             self.filename, self.filedata, mimetype="text/plain", binary=False
         )
@@ -68,6 +66,16 @@ class TestFSStorage(TestFSStorageCase):
     def test_deprecated_setting_and_getting_data_from_dir(self):
         self.backend.directory_path = self.case_with_subdirectory
         self._test_deprecated_setting_and_getting_data()
+
+    @mute_logger("py.warnings")
+    def test_deprecated_keeps_warning_filters(self):
+        """Calling a deprecated method warns without touching the process filters."""
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.filterwarnings("ignore", "^fs_storage probe", DeprecationWarning)
+            self.backend.list_files()
+            caught.clear()
+            warnings.warn("fs_storage probe", DeprecationWarning, stacklevel=1)
+        self.assertEqual(caught, [], "deprecated() overrode the process filters")
 
     def test_deprecated_find_files_from_root(self):
         self._test_deprecated_find_files()
