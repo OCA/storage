@@ -70,9 +70,10 @@ class TestFSStorage(TestFSStorageCase):
     @mute_logger("py.warnings")
     def test_deprecated_keeps_warning_filters(self):
         """Calling a deprecated method warns without touching the process filters."""
-        warnings.filterwarnings("ignore", "^fs_storage probe", DeprecationWarning)
-        self.backend.list_files()
         with warnings.catch_warnings(record=True) as caught:
+            warnings.filterwarnings("ignore", "^fs_storage probe", DeprecationWarning)
+            self.backend.list_files()
+            caught.clear()
             warnings.warn("fs_storage probe", DeprecationWarning, stacklevel=1)
         self.assertEqual(caught, [], "deprecated() overrode the process filters")
 
