@@ -70,16 +70,17 @@ class IrBinary(models.AbstractModel):
         if stream.type == "fs":
             if mimetype:
                 stream.mimetype = mimetype
+            elif not stream.mimetype:
+                stream.mimetype = default_mimetype
             if filename:
                 stream.download_name = filename
             elif record and filename_field in record:
                 stream.download_name = record[filename_field] or stream.download_name
-
-        if (
-            not get_extension(stream.download_name)
-            and stream.mimetype != "application/octet-stream"
-        ):
-            stream.download_name += guess_extension(stream.mimetype) or ""
+            if (
+                not get_extension(stream.download_name)
+                and stream.mimetype != "application/octet-stream"
+            ):
+                stream.download_name += guess_extension(stream.mimetype) or ""
 
         return stream
 
