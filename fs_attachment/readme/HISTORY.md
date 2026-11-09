@@ -1,3 +1,12 @@
+## 19.0.1.1.6 (2026-11-09)
+
+### Features
+
+- Allow to group the `force_db_for_default_attachment_rules` by rule name and
+  add a `field-size` rule to keep the attachments of a specific binary field (e.g.
+  `ir.ui.menu.web_icon_data`) in the database whatever their mimetype. ([#force_db_field](https://github.com/OCA/storage/issues/force_db_field))
+
+
 ## 19.0.1.1.5 (2026-11-09)
 
 ### Bugfixes
