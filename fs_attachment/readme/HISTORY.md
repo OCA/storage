@@ -1,3 +1,15 @@
+## 19.0.1.1.5 (2026-11-09)
+
+### Bugfixes
+
+- Don't move a file that other attachments still use.
+
+  With filename obfuscation off, storing or renaming an attachment renames its
+  file. Attachments stored while obfuscation was on share one file per content,
+  so the others lost their content. The module now copies such a file and only
+  moves it when no other attachment uses it. ([#678](https://github.com/OCA/storage/issues/678))
+
+
 ## 19.0.1.1.0 (2026-03-18)
 
 ### Features
