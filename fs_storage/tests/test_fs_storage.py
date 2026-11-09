@@ -1,11 +1,14 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 import warnings
+from contextlib import contextmanager
 from unittest import mock
+
+import fsspec
 
 from odoo.exceptions import ValidationError
 from odoo.tests import Form
-from odoo.tools import mute_logger, safe_eval
+from odoo.tools import config, mute_logger, safe_eval
 
 from .common import TestFSStorageCase
 
@@ -211,3 +214,52 @@ class TestFSStorage(TestFSStorageCase):
         self.backend.directory_path = template
         # Assert different (db name should be replaced)
         self.assertNotEqual(template, self.backend.get_directory_path())
+
+    @contextmanager
+    def _server_connection_check(self, side_effect):
+        """Run the connection check of ``fs`` as on a running server."""
+        with mock.patch.object(
+            type(self.backend), "_check_connection", side_effect=side_effect
+        ) as check, mock.patch.dict(config.options, {"test_enable": False}):
+            yield check
+
+    def test_fs_reconnects_when_check_fails(self):
+        # A new record object: the filesystem is kept on the record object.
+        backend = self.backend.browse(self.backend.id)
+        connection = backend._get_filesystem().fs
+        with self._server_connection_check(
+            [OSError("Connection lost"), True]
+        ) as check, mute_logger("odoo.addons.fs_storage.models.fs_storage"):
+            fs = backend.fs
+        self.assertEqual(check.call_count, 2)
+        self.assertIsNot(fs.fs, connection)
+
+    def test_fs_raises_when_reconnect_fails(self):
+        backend = self.backend.browse(self.backend.id)
+        with self._server_connection_check(
+            OSError("Connection lost")
+        ) as check, mute_logger("odoo.addons.fs_storage.models.fs_storage"):
+            with self.assertRaises(OSError):
+                backend.fs  # pylint: disable=pointless-statement
+        self.assertEqual(check.call_count, 2)
+
+    def test_fs_does_not_reconnect_on_refusal(self):
+        backend = self.backend.browse(self.backend.id)
+        connection = backend._get_filesystem().fs
+        with self._server_connection_check(
+            PermissionError("Read-only directory")
+        ) as check:
+            with self.assertRaises(PermissionError):
+                backend.fs  # pylint: disable=pointless-statement
+        self.assertEqual(check.call_count, 1)
+        self.assertIs(backend._get_filesystem().fs, connection)
+
+    def test_clear_filesystem_cache(self):
+        wrapper = fsspec.filesystem("simplecache", target_protocol="memory")
+        connection = wrapper.fs
+        other_connection = fsspec.filesystem("memory", other=True)
+        self.backend._clear_filesystem_cache(wrapper)
+        new_wrapper = fsspec.filesystem("simplecache", target_protocol="memory")
+        self.assertIsNot(new_wrapper, wrapper)
+        self.assertIsNot(new_wrapper.fs, connection)
+        self.assertIs(fsspec.filesystem("memory", other=True), other_connection)

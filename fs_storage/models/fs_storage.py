@@ -21,6 +21,15 @@ from odoo.addons.base_sparse_field.models.fields import Serialized
 
 _logger = logging.getLogger(__name__)
 
+# Errors by which a server refuses an operation: the connection itself works.
+REFUSAL_ERRORS = (
+    FileExistsError,
+    FileNotFoundError,
+    IsADirectoryError,
+    NotADirectoryError,
+    PermissionError,
+)
+
 
 # TODO: useful for the whole OCA?
 def deprecated(reason):
@@ -386,20 +395,57 @@ class FSStorage(models.Model):
 
     @property
     def fs(self) -> fsspec.AbstractFileSystem:
-        """Get the fsspec filesystem for this backend."""
+        """Get the fsspec filesystem for this backend.
+
+        A connection that fails its check, e.g. because the server closed it,
+        is dropped from the fsspec cache together with every filesystem it
+        wraps and opened once more; a second failure is raised. An error by
+        which the server refuses the check says nothing about the connection
+        and is raised right away.
+        """
         self.ensure_one()
         if not self.__fs:
             self.__fs = self.sudo()._get_filesystem()
         if not tools.config["test_enable"]:
             # Check whether we need to invalidate FS cache or not.
             # Use a marker file to limit the scope of the LS command for performance.
-            try:
-                self._check_connection(self.__fs, self.check_connection_method)
-            except Exception as e:
-                self.__fs.clear_instance_cache()
-                self.__fs = None
-                raise e
+            for attempt in range(2):
+                try:
+                    self._check_connection(self.__fs, self.check_connection_method)
+                    break
+                except Exception as e:
+                    refused = isinstance(e, REFUSAL_ERRORS)
+                    if refused:
+                        self.__fs.clear_instance_cache()
+                    else:
+                        self._clear_filesystem_cache(self.__fs)
+                    self.__fs = None
+                    if refused or attempt:
+                        raise
+                    _logger.warning(
+                        "Connection check of fs.storage %s failed (%s), reconnecting.",
+                        self.code,
+                        e,
+                    )
+                    self.__fs = self.sudo()._get_filesystem()
         return self.__fs
+
+    @staticmethod
+    def _clear_filesystem_cache(fs):
+        """Drop ``fs`` and every filesystem it wraps from the fsspec cache.
+
+        Only these instances: ``clear_instance_cache()`` would also drop the
+        cached connections of every other storage of the same class. Caching
+        wrappers report the token of the filesystem they wrap, hence the lookup
+        by identity.
+        """
+        while isinstance(fs, fsspec.AbstractFileSystem):
+            cls = type(fs)
+            with cls._instantiation_lock:
+                for token, cached in list(cls._cache.items()):
+                    if cached is fs:
+                        del cls._cache[token]
+            fs = getattr(fs, "fs", None)
 
     def _get_filesystem_storage_path(self) -> str:
         """Get the path to the storage directory.
