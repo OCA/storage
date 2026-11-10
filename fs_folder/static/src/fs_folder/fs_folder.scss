@@ -1,5 +1,8 @@
 .o_field_fs_folder {
     width: 100%;
+    .o_fs_folder_item_actions_locked {
+        pointer-events: none;
+    }
     .o_fs_folder_clickable {
         cursor: pointer;
     }
