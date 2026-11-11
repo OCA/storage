@@ -76,16 +76,21 @@ class IrBinary(models.AbstractModel):
         if stream.type == "fs":
             if mimetype:
                 stream.mimetype = mimetype
+            elif not stream.mimetype:
+                # Attachments written outside the ORM (imports, migrations) can
+                # have an empty mimetype; fall back to the default instead of
+                # crashing in `guess_extension` and in werkzeug's `send_file`.
+                stream.mimetype = default_mimetype
             if filename:
                 stream.download_name = filename
             elif record and filename_field in record:
                 stream.download_name = record[filename_field] or stream.download_name
 
-        if (
-            not get_extension(stream.download_name)
-            and stream.mimetype != "application/octet-stream"
-        ):
-            stream.download_name += guess_extension(stream.mimetype) or ""
+            if (
+                not get_extension(stream.download_name)
+                and stream.mimetype != "application/octet-stream"
+            ):
+                stream.download_name += guess_extension(stream.mimetype) or ""
 
         return stream
 
