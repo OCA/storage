@@ -1,10 +1,6 @@
 # Copyright 2021 ACSONE SA/NV (<http://acsone.eu>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-# pylint: disable=missing-manifest-dependency
-# disable warning on 'vcr' missing in manifest: this is only a dependency for
-# dev/tests
-
 import errno
 import ftplib
 import logging
@@ -95,8 +91,8 @@ class FtpCase(CommonCase, BackendStorageTestMixin):
         self.assertEqual(self.backend.list_files(), [])
 
     def test_find_files(self):
-        good_filepaths = ["somepath/file%d.good" % x for x in range(1, 10)]
-        bad_filepaths = ["somepath/file%d.bad" % x for x in range(1, 10)]
+        good_filepaths = [f"somepath/file{x}.good" for x in range(1, 10)]
+        bad_filepaths = [f"somepath/file{x}.bad" for x in range(1, 10)]
         mocked_filepaths = bad_filepaths + good_filepaths
         backend = self.backend.sudo()
         expected = good_filepaths[:]
