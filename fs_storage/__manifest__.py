@@ -15,6 +15,7 @@
     "depends": ["base", "base_sparse_field"],
     "data": [
         "views/fs_storage_view.xml",
+        "views/fs_storage_rule.xml",
         "security/ir.model.access.csv",
         "wizards/fs_test_connection.xml",
     ],
