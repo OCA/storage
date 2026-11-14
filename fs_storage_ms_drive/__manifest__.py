@@ -15,6 +15,6 @@
         "microsoft_drive_account",
         "fs_storage",
     ],
-    "external_dependencies": {"python": ["msgraphfs", "fsspec>=2025.0.0"]},
+    "external_dependencies": {"python": ["msgraphfs", "fsspec>=2025.3.0"]},
     "maintainers": ["lmignon"],
 }
