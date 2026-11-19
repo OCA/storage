@@ -34,6 +34,17 @@ class FsStorage(models.Model):
         "by other systems (like a website). In such case, records in the fs.file.gc "
         "table must be manually processed.",
     )
+    gc_delay_hours = fields.Integer(
+        string="Garbage Collection Delay (hours)",
+        default=24,
+        help="Delay in hours before a file is considered for garbage collection. "
+        "This delay is used as a safety measure to allow for the possibility of "
+        "restoring a file that was deleted by mistake but also to prevent race "
+        "conditions between a file being marked for deletion and finally being "
+        "referenced into the attachment table after the garbage collection has "
+        "been executed",
+        required=True,
+    )
     base_url = fields.Char(default="")
     is_directory_path_in_url = fields.Boolean(
         default=False,

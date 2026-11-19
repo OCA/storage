@@ -24,6 +24,10 @@
                 <separator string="Attachment" />
                 <field name="optimizes_directory_path" />
                 <field name="autovacuum_gc" />
+                <field
+                    name="gc_delay_hours"
+                    attrs="{'invisible': [('autovacuum_gc', '=', False)]}"
+                />
                 <field name="use_as_default_for_attachments" />
                 <field
                     name="force_db_for_default_attachment_rules"

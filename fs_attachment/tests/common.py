@@ -19,6 +19,7 @@ class TestFSAttachmentCommon(TransactionCase):
                 "protocol": "file",
                 "code": "tmp_dir",
                 "directory_path": temp_dir,
+                "gc_delay_hours": 0,  # by default gartbage collect without delay for tests
             }
         )
         cls.backend_optimized = cls.env["fs.storage"].create(
@@ -28,6 +29,7 @@ class TestFSAttachmentCommon(TransactionCase):
                 "code": "tmp_opt",
                 "directory_path": temp_dir,
                 "optimizes_directory_path": True,
+                "gc_delay_hours": 0,
             }
         )
         cls.temp_dir = temp_dir
