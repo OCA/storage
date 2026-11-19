@@ -36,8 +36,24 @@ jobs:
       matrix:
         include:
           - container: ghcr.io/oca/oca-ci/py3.10-odoo18.0:latest
+            include: "fs_product_multi_image"
             name: test with Odoo
           - container: ghcr.io/oca/oca-ci/py3.10-ocb18.0:latest
+            include: "fs_product_multi_image"
+            name: test with OCB
+            makepot: "true"
+          - container: ghcr.io/oca/oca-ci/py3.10-odoo18.0:latest
+            include: "storage_image_product"
+            name: test with Odoo
+          - container: ghcr.io/oca/oca-ci/py3.10-ocb18.0:latest
+            include: "storage_image_product"
+            name: test with OCB
+            makepot: "true"
+          - container: ghcr.io/oca/oca-ci/py3.10-odoo18.0:latest
+            exclude: "fs_product_multi_image,storage_image_product"
+            name: test with Odoo
+          - container: ghcr.io/oca/oca-ci/py3.10-ocb18.0:latest
+            exclude: "fs_product_multi_image,storage_image_product"
             name: test with OCB
             makepot: "true"
     services:
@@ -50,6 +66,8 @@ jobs:
         ports:
           - 5432:5432
     env:
+      INCLUDE: "${{ matrix.include }}"
+      EXCLUDE: "${{ matrix.exclude }}"
       OCA_ENABLE_CHECKLOG_ODOO: "1"
     steps:
       - uses: actions/checkout@v4

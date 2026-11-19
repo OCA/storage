@@ -7,3 +7,4 @@ cryptography<43
 # S3 test suite importing vcr’s aiohttp stubs
 # require aiohttp version with AsyncStreamReaderMixin.
 aiohttp<3.12
+odoo-addon-storage_image_product @ git+https://github.com/OCA/storage.git@refs/pull/699/head#subdirectory=storage_image_product
