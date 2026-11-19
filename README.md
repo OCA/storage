@@ -41,7 +41,7 @@ addon | version | maintainers | summary
 [fs_storage_backup_environment](fs_storage_backup_environment/) | 16.0.1.0.1 |  | Allows to use server environment with fs storage attachment
 [fs_storage_environment](fs_storage_environment/) | 16.0.1.0.1 |  | Allows to use server environment with fs storage
 [image_tag](image_tag/) | 16.0.2.0.0 |  | Image tag model
-[image_tag_environment](image_tag_environment/) | 16.0.2.0.0 |  | Server environment features for the Image Tag model
+[image_tag_environment](image_tag_environment/) | 16.0.2.0.1 |  | Server environment features for the Image Tag model
 [storage_backend](storage_backend/) | 16.0.1.1.0 |  | Implement the concept of Storage with amazon S3, sftp...
 [storage_backend_ftp](storage_backend_ftp/) | 16.0.1.0.0 |  | Implement FTP Storage
 [storage_backend_sftp](storage_backend_sftp/) | 16.0.1.0.2 |  | Implement SFTP Storage
