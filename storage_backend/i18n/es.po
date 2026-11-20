@@ -33,6 +33,23 @@ msgid "Backend Type Env Default"
 msgstr "Tipo de servidor Ent Por defecto"
 
 #. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__backend_ids
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_category_view_form
+msgid "Backends"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend__categ_id
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_search
+msgid "Category"
+msgstr ""
+
+#. module: storage_backend
+#: model:ir.model.fields,help:storage_backend.field_storage_backend__categ_id
+msgid "Category to group backends for swapping operations"
+msgstr ""
+
+#. module: storage_backend
 #. odoo-python
 #: code:addons/storage_backend/models/storage_backend.py:0
 msgid "Connection Test Failed!"
@@ -46,13 +63,20 @@ msgstr "¡Conexión de Prueba Exitosa!"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_uid
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__create_date
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__create_date
 msgid "Created on"
 msgstr "Creado el"
+
+#. module: storage_backend
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__description
+msgid "Description"
+msgstr ""
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__directory_path
@@ -66,6 +90,7 @@ msgstr "Ruta del Directorio Ent Predet"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__display_name
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__display_name
 msgid "Display Name"
 msgstr "Mostrar Nombre"
 
@@ -87,21 +112,25 @@ msgstr "Tiene Validación"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__id
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__id
 msgid "ID"
 msgstr "ID(identificación)"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_uid
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__write_uid
 msgid "Last Updated by"
 msgstr "Última Actualización por"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__write_date
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__write_date
 msgid "Last Updated on"
 msgstr "Última Actualización el"
 
 #. module: storage_backend
 #: model:ir.model.fields,field_description:storage_backend.field_storage_backend__name
+#: model:ir.model.fields,field_description:storage_backend.field_storage_backend_category__name
 msgid "Name"
 msgstr "Nombre"
 
@@ -125,6 +154,15 @@ msgstr "Valores por defecto del Entorno de Servidor"
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_search
 msgid "Storage Backend"
 msgstr "Servidor de Almacenamiento"
+
+#. module: storage_backend
+#: model:ir.actions.act_window,name:storage_backend.act_open_storage_backend_category_view
+#: model:ir.model,name:storage_backend.model_storage_backend_category
+#: model:ir.ui.menu,name:storage_backend.menu_storage_backend_category
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_category_view_form
+#: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_category_view_search
+msgid "Storage Backend Category"
+msgstr ""
 
 #. module: storage_backend
 #: model_terms:ir.ui.view,arch_db:storage_backend.storage_backend_view_form
