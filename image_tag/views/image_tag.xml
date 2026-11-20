@@ -5,7 +5,6 @@
         <field name="arch" type="xml">
             <list editable="bottom">
                 <field name="name" />
-                <field name="tech_name" />
                 <field name="apply_on" />
             </list>
         </field>
@@ -15,7 +14,6 @@
         <field name="arch" type="xml">
             <search string="Image Tag">
                 <field name="name" />
-                <field name="tech_name" />
             </search>
         </field>
     </record>
