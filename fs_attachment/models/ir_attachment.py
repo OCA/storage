@@ -60,6 +60,7 @@ class IrAttachment(models.Model):
         "To preserve the mimetype and the meaning of the filename"
         "the filename is computed from the name and the extension",
         readonly=True,
+        copy=False,
     )
 
     internal_url = fields.Char(
@@ -538,6 +539,11 @@ class IrAttachment(models.Model):
         to_rename = self.browse()
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
+                # The content is no longer in a filesystem storage (db or odoo
+                # filestore): a remaining fs_filename would point to a file that
+                # doesn't hold the content anymore.
+                if attachment.fs_filename:
+                    attachment.fs_filename = False
                 continue
             fs, storage, filename = attachment._get_fs_parts()
 

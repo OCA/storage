@@ -331,6 +331,64 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment.fs_url, f"https://acsone.eu/media{attachment_path}")
         self.assertEqual(attachment.fs_url_path, attachment_path)
 
+    def _create_attachment_in_temp_storage(self, content):
+        attachment = self.ir_attachment_model.with_context(
+            storage_location=self.temp_backend.code
+        ).create({"name": "test.txt", "raw": content})
+        self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+        self.assertTrue(attachment.fs_filename)
+        return attachment
+
+    def test_copy_storage_attachment_to_filestore(self):
+        """A copy whose content goes to the odoo filestore must not keep the
+        fs_filename of its source (e.g. hr_expense posting an expense)"""
+        self.env["ir.config_parameter"].sudo().set_param(
+            "ir_attachment.location", "file"
+        )
+        content = b"Expense receipt"
+        attachment = self._create_attachment_in_temp_storage(content)
+        new_attachment = self.ir_attachment_model.create(
+            attachment.copy_data({"raw": attachment.raw})
+        )
+        self.env.flush_all()
+        self.assertTrue(new_attachment.store_fname)
+        self.assertNotIn("://", new_attachment.store_fname)
+        self.assertFalse(new_attachment.fs_filename)
+        self.assertFalse(new_attachment.fs_url)
+        self.assertFalse(new_attachment.fs_url_path)
+        self.assertFalse(new_attachment.fs_storage_id)
+        self.assertEqual(new_attachment.raw, content)
+        # the source is untouched
+        self.assertTrue(attachment.fs_filename)
+        self.assertEqual(attachment.raw, content)
+
+    def test_copy_storage_attachment_in_storage(self):
+        """A copy staying in a storage gets its own fs_filename"""
+        content = b"Copied in storage"
+        attachment = self._create_attachment_in_temp_storage(content)
+        new_attachment = attachment.with_context(
+            storage_location=self.temp_backend.code
+        ).copy()
+        self.assertTrue(new_attachment.store_fname.startswith("tmp_dir://"))
+        self.assertEqual(new_attachment.fs_filename, f"test-{new_attachment.id}-0.txt")
+        self.assertEqual(new_attachment.raw, content)
+        self.assertEqual(attachment.fs_filename, f"test-{attachment.id}-0.txt")
+
+    def test_write_storage_attachment_to_filestore(self):
+        """fs_filename is reset when the content leaves the storage"""
+        self.env["ir.config_parameter"].sudo().set_param(
+            "ir_attachment.location", "file"
+        )
+        attachment = self._create_attachment_in_temp_storage(b"old")
+        # drop the storage_location context kept by the created record
+        attachment = attachment.with_env(self.env)
+        attachment.write({"raw": b"new"})
+        self.env.flush_all()
+        self.assertNotIn("://", attachment.store_fname)
+        self.assertFalse(attachment.fs_filename)
+        self.assertFalse(attachment.fs_url)
+        self.assertEqual(attachment.raw, b"new")
+
     def test_force_attachment_in_db_rules(self):
         self.temp_backend.use_as_default_for_attachments = True
         # force storage in db for text/plain
