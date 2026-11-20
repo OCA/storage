@@ -1,4 +1,5 @@
 # Copyright 2018 Akretion (http://www.akretion.com).
+# Copyright 2020 Camptocamp SA (http://www.camptocamp.com)
 # @author Raphaël Reverdy <https://github.com/hparfr>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
@@ -8,8 +9,14 @@ from odoo import _, api, fields, models
 
 class ImageTag(models.Model):
     _name = "image.tag"
-    _inherit = ["server.env.techname.mixin"]
     _description = "Image Tag"
+    _sql_constraints = [
+        (
+            "tech_name_uniq",
+            "unique(tech_name)",
+            "`tech_name` must be unique!",
+        )
+    ]
 
     @api.model
     def _get_default_apply_on(self):
@@ -23,6 +30,10 @@ class ImageTag(models.Model):
         )
 
     name = fields.Char(required=True)
+    tech_name = fields.Char(
+        help="Unique name for technical purposes.",
+        copy=False,
+    )
     apply_on = fields.Selection(
         selection=[("product", "Product"), ("category", "Category")],
         default=lambda self: self._get_default_apply_on(),
@@ -43,6 +54,29 @@ class ImageTag(models.Model):
     product_categ_count = fields.Integer(
         string="# of Categories", compute="_compute_product_categ_count"
     )
+
+    # TODO: tech_name handling borrowed from `server.env.techname.mixin`
+    # (server_environment), discard it on migration if not really needed.
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Make sure technical names are always set
+        for vals in vals_list:
+            self._handle_tech_name(vals)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        # Make sure technical names are always set
+        self._handle_tech_name(vals)
+        return super().write(vals)
+
+    def _handle_tech_name(self, vals):
+        """Set the technical name from the name when not provided."""
+        if not vals.get("tech_name") and vals.get("name"):
+            vals["tech_name"] = self._normalize_tech_name(vals["name"])
+
+    def _normalize_tech_name(self, name):
+        """Return a slugified version of ``name`` usable as technical name."""
+        return self.env["ir.http"]._slugify(name).replace("-", "_")
 
     @api.depends("product_img_rel_ids")
     def _compute_product_tmpl_count(self):
