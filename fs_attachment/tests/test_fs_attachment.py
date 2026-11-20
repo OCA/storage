@@ -347,12 +347,15 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.env.flush_all()
         self.assertTrue(attachment.store_fname)
         self.assertFalse(attachment.db_datas)
+        self.assertEqual(attachment.fs_storage_id, self.temp_backend)
         store_fname = attachment.store_fname
         # we change the rules to force the storage in db for text/plain
         self.temp_backend.force_db_for_default_attachment_rules = '{"text/plain": 0}'
         attachment.force_storage_to_db_for_special_fields()
         self.assertFalse(attachment.store_fname)
         self.assertEqual(attachment.db_datas, b"content")
+        self.assertFalse(attachment.fs_storage_id)
+        self.assertFalse(attachment.fs_storage_code)
         # we check that the file is marked for GC
         gc_files = self.gc_file_model.search([]).mapped("store_fname")
         self.assertIn(store_fname, gc_files)
@@ -478,6 +481,122 @@ class TestFSAttachment(TestFSAttachmentCommon):
 
         self.assertNotEqual(res[0].store_fname, res2[0].store_fname)
         self.assertEqual(res[0].raw, res2[0].raw)
+
+    def test_create_attachment_same_content_as_obfuscated_one(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.temp_backend.use_filename_obfuscation = False
+        attachment2 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_create_attachment_same_content_as_obfuscated_field_one(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1 = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_id": self.env.user.partner_id.id,
+                "res_model": "res.partner",
+                "res_field": "image_1920",
+            }
+        )
+        self.temp_backend.use_filename_obfuscation = False
+        attachment2 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_write_name_file_shared_with_obfuscated_attachment(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1, attachment2 = self.ir_attachment_model.create(
+            [
+                {"name": "test.txt", "raw": b"content"},
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        self.assertEqual(attachment1.store_fname, attachment2.store_fname)
+        self.temp_backend.use_filename_obfuscation = False
+        attachment1.name = "test2.txt"
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_open_new_version_content_stored_elsewhere(self):
+        """Open a new version of a file into a filesystem storage while the
+        current content is stored in the database or in the odoo filestore"""
+        for location in ("db", "file"):
+            for mode, expected in (
+                ("wb", b" new"),
+                ("ab", b"initial new"),
+            ):
+                with self.subTest(location=location, mode=mode):
+                    self.temp_backend.use_as_default_for_attachments = False
+                    self.env["ir.config_parameter"].sudo().set_param(
+                        "ir_attachment.location", location
+                    )
+                    attachment = self.ir_attachment_model.create(
+                        {"name": "test.txt", "raw": b"initial"}
+                    )
+                    self.assertFalse(attachment.fs_storage_id)
+                    self.temp_backend.use_as_default_for_attachments = True
+                    with attachment.open(mode, new_version=True) as f:
+                        f.write(b" new")
+                    self.assertEqual(attachment.raw, expected)
+                    self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+
+    def test_write_name_transactional(self):
+        """If the transaction is rolled back after a change of name, the
+        attachment must still reference an existing file"""
+        self.temp_backend.use_as_default_for_attachments = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.env.flush_all()
+        initial_filename = f"test-{attachment.id}-0.txt"
+        initial_store_fname = attachment.store_fname
+        self.assertEqual(initial_store_fname, f"tmp_dir://{initial_filename}")
+        # simulate the commit of the transaction that created the file
+        self.env.cr.postcommit.data.pop("fs_attachment.written_files", None)
+        try:
+            with self.env.cr.savepoint():
+                attachment.name = "test2.txt"
+                new_filename = f"test2-{attachment.id}-1.txt"
+                self.assertEqual(attachment.store_fname, f"tmp_dir://{new_filename}")
+                # the original file is copied, not moved
+                self.assertEqual(
+                    set(os.listdir(self.temp_dir)), {initial_filename, new_filename}
+                )
+                gc_files = self.gc_file_model.search([]).mapped("store_fname")
+                self.assertIn(initial_store_fname, gc_files)
+                raise MyException("dummy exception")
+        except MyException:
+            ...
+        self.assertEqual(attachment.store_fname, initial_store_fname)
+        self.assertEqual(attachment.raw, b"content")
+
+    def test_write_name_of_new_attachment_renames_file(self):
+        """A file written by the current transaction is renamed, not copied"""
+        self.temp_backend.use_as_default_for_attachments = True
+        attachment = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        attachment.name = "test2.txt"
+        self.env.flush_all()
+        self.assertEqual(os.listdir(self.temp_dir), [f"test2-{attachment.id}-1.txt"])
 
     def test_update_png_to_svg(self):
         b64_data_png = (

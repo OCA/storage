@@ -17,6 +17,7 @@ class TestFSAttachmentFileLikeAdapterMixin:
 
     def prepare(self):
         self.attachment = self._create_attachment()
+        self.initial_checksum = self.attachment.checksum
 
     def open(self, attachment=None, mode="rb", new_version=False, **kwargs):
         return AttachmentFileLikeAdapter(
@@ -26,6 +27,13 @@ class TestFSAttachmentFileLikeAdapterMixin:
             **kwargs,
         )
 
+    def assertFileValues(self, content):
+        """The values computed from the content must be up to date"""
+        # the checksum is used as ETag and must change with the content
+        self.assertTrue(self.attachment.checksum)
+        self.assertNotEqual(self.attachment.checksum, self.initial_checksum)
+        self.assertEqual(self.attachment.file_size, len(content))
+
     def test_read(self):
         with self.open(mode="rb") as f:
             self.assertEqual(f.read(), self.initial_content)
@@ -34,18 +42,21 @@ class TestFSAttachmentFileLikeAdapterMixin:
         with self.open(mode="wb") as f:
             f.write(self.new_content)
         self.assertEqual(self.new_content, self.attachment.raw)
+        self.assertFileValues(self.new_content)
 
     def test_write_append(self):
         self.assertEqual(self.initial_content, self.attachment.raw)
         with self.open(mode="ab") as f:
             f.write(self.new_content)
         self.assertEqual(self.initial_content + self.new_content, self.attachment.raw)
+        self.assertFileValues(self.initial_content + self.new_content)
 
     def test_write_new_version(self):
         initial_fname = self.attachment.store_fname
         with self.open(mode="wb", new_version=True) as f:
             f.write(self.new_content)
         self.assertEqual(self.new_content, self.attachment.raw)
+        self.assertFileValues(self.new_content)
         if initial_fname:
             self.assertNotEqual(self.attachment.store_fname, initial_fname)
 
@@ -54,6 +65,7 @@ class TestFSAttachmentFileLikeAdapterMixin:
         with self.open(mode="ab", new_version=True) as f:
             f.write(self.new_content)
         self.assertEqual(self.initial_content + self.new_content, self.attachment.raw)
+        self.assertFileValues(self.initial_content + self.new_content)
         if initial_fname:
             self.assertNotEqual(self.attachment.store_fname, initial_fname)
 

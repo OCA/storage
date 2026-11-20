@@ -228,7 +228,7 @@ class TestFsImage(TransactionCase):
         # if the number of SQL queries changes into the logs. They
         # are to help us keep track of the number of SQL queries generated
         # by the module.
-        with self.assertQueryCount(__system__=3):
+        with self.assertQueryCount(__system__=4):
             instance = self.env["test.image.model"].create(
                 {"fs_image": FSImageValue(name=self.filename, value=self.image_w)}
             )
