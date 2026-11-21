@@ -32,11 +32,37 @@ class ProductTemplate(models.Model):
         readonly=True,
         store=False,
     )
+    # Compatibility field for standard modules (especially website_sale)
+    # The sole purpose of this field is to provide the field image_128
+    # that can be resolved by the web controller when requested
+    # to provide the image_128 content of a product.product record.
+    # By using a related field of the same type (FSImage) as image_medium,
+    # we avoid any extra cost of computing the image_128 content
+    image_128 = FSImage(
+        string="Image 128",
+        related="image_medium",
+        readonly=True,
+        store=False,
+    )
+
+    def _sort_multi_image_id_key(self, img):
+        # this sort method is required to deal with
+        # new id when the image is added with when
+        # clicking on the add image button on the product
+        # view (not the one into the widget)
+        key = [img.sequence]
+        id_ = img.id
+        if isinstance(id_, models.NewId):
+            if id_.origin:
+                key.append(f"a{id_.origin}")
+            elif id_.ref:
+                key.append(id_.ref)
+        else:
+            key.append(f"a{id_}")
+        return tuple(key)
 
     @api.depends("image_ids", "image_ids.sequence")
     def _compute_main_image_id(self):
         for record in self:
-            image_ids = record.image_ids.sorted(
-                key=lambda i: f"{i.sequence},{str(i.id)}"
-            )
+            image_ids = record.image_ids.sorted(key=self._sort_multi_image_id_key)
             record.main_image_id = image_ids and image_ids[0] or None
