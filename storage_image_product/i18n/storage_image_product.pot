@@ -253,11 +253,6 @@ msgid "Sequence"
 msgstr ""
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__server_env_defaults
-msgid "Server Env Defaults"
-msgstr ""
-
-#. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_storage_image
 msgid "Storage Image"
 msgstr ""
@@ -275,7 +270,7 @@ msgstr ""
 
 #. module: storage_image_product
 #: model:ir.model.fields,help:storage_image_product.field_image_tag__tech_name
-msgid "Unique name for technical purposes. Eg: server env keys."
+msgid "Unique name for technical purposes."
 msgstr ""
 
 #. module: storage_image_product
@@ -296,4 +291,9 @@ msgstr ""
 #. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_storage_file_replace
 msgid "Wizard template allowing to replace a storage.file"
+msgstr ""
+
+#. module: storage_image_product
+#: model:ir.model.constraint,message:storage_image_product.constraint_image_tag_tech_name_uniq
+msgid "`tech_name` must be unique!"
 msgstr ""
