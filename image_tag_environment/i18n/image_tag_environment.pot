@@ -30,5 +30,5 @@ msgstr ""
 
 #. module: image_tag_environment
 #: model:ir.model.fields,help:image_tag_environment.field_image_tag__tech_name
-msgid "Unique name for technical purposes. Eg: server env keys."
+msgid "Unique name for technical purposes."
 msgstr ""
