@@ -1,0 +1,1 @@
+Scope the warnings filter set by the ``@deprecated`` decorator so that calling a deprecated ``fs.storage`` method no longer overrides the process-wide warning filters (e.g. the ones set by Odoo).
