@@ -256,11 +256,6 @@ msgid "Sequence"
 msgstr "Sequenza"
 
 #. module: storage_image_product
-#: model:ir.model.fields,field_description:storage_image_product.field_image_tag__server_env_defaults
-msgid "Server Env Defaults"
-msgstr "Predefiniti ambiente server"
-
-#. module: storage_image_product
 #: model:ir.model,name:storage_image_product.model_storage_image
 msgid "Storage Image"
 msgstr "Immagine deposito"
@@ -278,8 +273,8 @@ msgstr "Nome tecnico"
 
 #. module: storage_image_product
 #: model:ir.model.fields,help:storage_image_product.field_image_tag__tech_name
-msgid "Unique name for technical purposes. Eg: server env keys."
-msgstr "Nome univoco per motivi tecnici. Es: chiavi server ambiente."
+msgid "Unique name for technical purposes."
+msgstr ""
 
 #. module: storage_image_product
 #: model:ir.model.fields,field_description:storage_image_product.field_product_product__variant_image_ids
@@ -300,6 +295,17 @@ msgstr "URL immagine piccola principale variante"
 #: model:ir.model,name:storage_image_product.model_storage_file_replace
 msgid "Wizard template allowing to replace a storage.file"
 msgstr "Modello procedura guidata che consente di sostituire un storage.file"
+
+#. module: storage_image_product
+#: model:ir.model.constraint,message:storage_image_product.constraint_image_tag_tech_name_uniq
+msgid "`tech_name` must be unique!"
+msgstr ""
+
+#~ msgid "Server Env Defaults"
+#~ msgstr "Predefiniti ambiente server"
+
+#~ msgid "Unique name for technical purposes. Eg: server env keys."
+#~ msgstr "Nome univoco per motivi tecnici. Es: chiavi server ambiente."
 
 #~ msgid "Active"
 #~ msgstr "Attivo"
