@@ -4,7 +4,7 @@
 {
     "name": "Storage Image Product - Server Environment",
     "summary": "Server environment features for product image tags",
-    "version": "18.0.1.0.0",
+    "version": "18.0.2.0.0",
     "category": "Storage",
     "website": "https://github.com/OCA/storage",
     "author": "Camptocamp, Odoo Community Association (OCA)",

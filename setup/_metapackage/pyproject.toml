@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-storage"
-version = "18.0.20260909.1"
+version = "18.0.20261124.0"
 dependencies = [
     "odoo-addon-fs_attachment==18.0.*",
     "odoo-addon-fs_attachment_environment==18.0.*",
@@ -34,6 +34,7 @@ dependencies = [
     "odoo-addon-storage_file_swap_backend_queue==18.0.*",
     "odoo-addon-storage_image==18.0.*",
     "odoo-addon-storage_image_product==18.0.*",
+    "odoo-addon-storage_image_product_server_env==18.0.*",
     "odoo-addon-storage_media==18.0.*",
     "odoo-addon-storage_media_product==18.0.*",
     "odoo-addon-storage_thumbnail==18.0.*",
