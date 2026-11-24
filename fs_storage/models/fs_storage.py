@@ -47,13 +47,15 @@ def deprecated(reason):
 
         @functools.wraps(func1)
         def new_func1(*args, **kwargs):
-            warnings.simplefilter("always", DeprecationWarning)
-            warnings.warn(
-                fmt1.format(name=func1.__name__, reason=reason),
-                category=DeprecationWarning,
-                stacklevel=2,
-            )
-            warnings.simplefilter("default", DeprecationWarning)
+            # Scoped: a global simplefilter would override the process-wide
+            # filters (e.g. the ones installed by odoo/netsvc.py).
+            with warnings.catch_warnings():
+                warnings.simplefilter("always", DeprecationWarning)
+                warnings.warn(
+                    fmt1.format(name=func1.__name__, reason=reason),
+                    category=DeprecationWarning,
+                    stacklevel=2,
+                )
             return func1(*args, **kwargs)
 
         return new_func1

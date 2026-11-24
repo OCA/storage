@@ -26,7 +26,6 @@ class TestFSStorage(TestFSStorageCase):
     @mute_logger("py.warnings")
     def _test_deprecated_setting_and_getting_data(self):
         # Check that the directory is empty
-        warnings.filterwarnings("ignore")
         files = self.backend.list_files()
         self.assertNotIn(self.filename, files)
 
@@ -50,7 +49,6 @@ class TestFSStorage(TestFSStorageCase):
 
     @mute_logger("py.warnings")
     def _test_deprecated_find_files(self):
-        warnings.filterwarnings("ignore")
         self.backend.add(
             self.filename, self.filedata, mimetype="text/plain", binary=False
         )
@@ -75,6 +73,16 @@ class TestFSStorage(TestFSStorageCase):
     def test_deprecated_find_files_from_dir(self):
         self.backend.directory_path = self.case_with_subdirectory
         self._test_deprecated_find_files()
+
+    def test_deprecated_decorator_restores_warning_filters(self):
+        # The decorator must not leave a global DeprecationWarning filter in
+        # front of the process-wide filters (e.g. the ones set by Odoo).
+        with warnings.catch_warnings(record=True) as caught:
+            filters_before = list(warnings.filters)
+            self.backend.list_files()
+            filters_after = list(warnings.filters)
+        self.assertEqual(filters_after, filters_before)
+        self.assertTrue(any(issubclass(w.category, DeprecationWarning) for w in caught))
 
     def test_ensure_one_fs_by_record(self):
         # in this test we ensure that we've one fs by record
