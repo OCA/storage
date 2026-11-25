@@ -55,6 +55,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Install Ghostscript
+        run: apt-get update && apt-get install -y ghostscript
       - name: Install addons and dependencies
         run: oca_install_addons
       - name: Check licenses
