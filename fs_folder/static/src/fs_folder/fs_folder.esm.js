@@ -62,7 +62,11 @@ export class FsFolder extends Component {
         this.props.record.load();
     }
     async setData() {
-        if (this.props.record.data[this.props.name]) {
+        if (
+            this.props.record.data[this.props.name] &&
+            !this.isInvalid &&
+            !this.isUnavailable
+        ) {
             this.state.data = this.sortData(
                 await this.service.getData(
                     this.props.record,
@@ -324,6 +328,14 @@ export class FsFolder extends Component {
             },
         ];
     }
+    get isInvalid() {
+        return this.props.record.data[this.props.name]?.invalid === true;
+    }
+
+    get isUnavailable() {
+        return this.props.record.data[this.props.name]?.unavailable === true;
+    }
+
     get fieldDef() {
         return this.fieldDefinition.sort((a, b) => a.sequence - b.sequence);
     }
