@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ============================
 Base Attachment Object Store
 ============================
@@ -17,7 +13,7 @@ Base Attachment Object Store
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstorage-lightgray.png?logo=github
@@ -103,6 +99,10 @@ configure the way attachments will be stored in the filesystem.
   directory structure based on the attachment's checksum (with 2 levels
   of depth) For example, if the checksum is ``123456789``, the file will
   be stored in the directory ``/path/to/storage/12/34/my_file-1-0.txt``.
+  Files stored before this option was enabled stay at the root of the
+  storage. To move them, activate the scheduled action
+  ``Filesystem Storage: move files to optimized directories``. It moves
+  them by batch and reports how many files remain.
 
 - ``Autovacuum GC``: This is used to automatically remove files from the
   filesystem when it's no longer referenced in Odoo. Some storage
