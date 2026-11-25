@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="message_subtype_backup_failed" model="mail.message.subtype">
+        <field name="name">Backup Failed</field>
+        <field name="description">Backup failed</field>
+        <field name="res_model">fs.storage</field>
+        <field name="default" eval="True" />
+    </record>
+    <record id="message_subtype_cleanup_failed" model="mail.message.subtype">
+        <field name="name">Backup Cleanup Failed</field>
+        <field name="description">Failed to clean up old backups</field>
+        <field name="res_model">fs.storage</field>
+        <field name="default" eval="True" />
+    </record>
+</odoo>

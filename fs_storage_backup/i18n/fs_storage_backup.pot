@@ -1,0 +1,177 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fs_storage_backup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:mail.message.subtype,name:fs_storage_backup.message_subtype_cleanup_failed
+msgid "Backup Cleanup Failed"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__backup_dir
+msgid "Backup Directory"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:mail.message.subtype,name:fs_storage_backup.message_subtype_backup_failed
+msgid "Backup Failed"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__backup_filename_format
+msgid "Backup Filename"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.actions.server,name:fs_storage_backup.cron_backup_db_ir_actions_server
+#: model:ir.cron,cron_name:fs_storage_backup.cron_backup_db
+msgid "Backup database and delete old backups"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:mail.message.subtype,description:fs_storage_backup.message_subtype_backup_failed
+msgid "Backup failed"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model_terms:ir.ui.view,arch_db:fs_storage_backup.fs_storage_form_view
+msgid "Backups"
+msgstr ""
+
+#. module: fs_storage_backup
+#. odoo-python
+#: code:addons/fs_storage_backup/models/fs_storage.py:0
+#, python-format
+msgid "Database backup failed"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model,name:fs_storage_backup.model_fs_storage
+msgid "FS Storage"
+msgstr ""
+
+#. module: fs_storage_backup
+#. odoo-python
+#: code:addons/fs_storage_backup/models/fs_storage.py:0
+#: model:mail.message.subtype,description:fs_storage_backup.message_subtype_cleanup_failed
+#, python-format
+msgid "Failed to clean up old backups"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,help:fs_storage_backup.field_fs_storage__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,help:fs_storage_backup.field_fs_storage__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__backup_include_filestore
+msgid "Include Filestore In Backup"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__backup_keep_time
+msgid "Keep backups of (in days)"
+msgstr ""
+
+#. module: fs_storage_backup
+#. odoo-python
+#: code:addons/fs_storage_backup/models/fs_storage.py:0
+#, python-format
+msgid "Keep backups of (in days) must be greater or than 0."
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,help:fs_storage_backup.field_fs_storage__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,help:fs_storage_backup.field_fs_storage__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__use_for_backup
+msgid "Use For Backups"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,field_description:fs_storage_backup.field_fs_storage__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: fs_storage_backup
+#: model:ir.model.fields,help:fs_storage_backup.field_fs_storage__website_message_ids
+msgid "Website communication history"
+msgstr ""
