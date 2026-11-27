@@ -99,6 +99,12 @@ msgid "Image (original)"
 msgstr "Image (originale)"
 
 #. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image_128
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image_128
+msgid "Image 128"
+msgstr ""
+
+#. module: fs_product_multi_image
 #: model:ir.model,name:fs_product_multi_image.model_image_tag
 #: model:ir.ui.menu,name:fs_product_multi_image.menu_image_tag
 msgid "Image Tag"

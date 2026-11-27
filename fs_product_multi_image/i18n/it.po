@@ -99,6 +99,12 @@ msgid "Image (original)"
 msgstr "Immagine (originale)"
 
 #. module: fs_product_multi_image
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__image_128
+#: model:ir.model.fields,field_description:fs_product_multi_image.field_product_template__image_128
+msgid "Image 128"
+msgstr "Immagine 128"
+
+#. module: fs_product_multi_image
 #: model:ir.model,name:fs_product_multi_image.model_image_tag
 #: model:ir.ui.menu,name:fs_product_multi_image.menu_image_tag
 msgid "Image Tag"
@@ -227,9 +233,6 @@ msgstr "Etichetta"
 #: model:ir.model.fields,field_description:fs_product_multi_image.field_product_product__variant_image_ids
 msgid "Variant Images"
 msgstr "Immagini varianti"
-
-#~ msgid "Image 128"
-#~ msgstr "Immagine 128"
 
 #~ msgid "Specific Image 128"
 #~ msgstr "Immagine specifica 128"
