@@ -144,7 +144,9 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody
+                    t-att-class="state.isItemActionProcessing ? 'o_fs_folder_item_actions_locked' : ''"
+                >
                     <t t-foreach="state.data" t-as="record" t-key="record.name">
                         <FsFolderItem
                             record="record"
