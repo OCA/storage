@@ -1,9 +1,12 @@
 # Copyright 2023 ACSONE SA/NV (http://acsone.eu).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import base64
+import copy
 import os
 from pathlib import Path
 from unittest import mock
 
+from odoo.exceptions import ValidationError
 from odoo.fields import Domain
 from odoo.tools import mute_logger
 
@@ -340,6 +343,71 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertEqual(attachment.db_datas, b"content")
         self.assertEqual(attachment.mimetype, "text/plain")
 
+    def _create_menu_with_icon(self):
+        icon = b'<svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>'
+        menu = self.env["ir.ui.menu"].create(
+            {"name": "Test Menu", "web_icon_data": base64.b64encode(icon)}
+        )
+        self.env.flush_all()
+        attachment = self.ir_attachment_model.search(
+            [
+                ("res_model", "=", "ir.ui.menu"),
+                ("res_field", "=", "web_icon_data"),
+                ("res_id", "=", menu.id),
+            ]
+        )
+        self.assertEqual(attachment.mimetype, "image/svg+xml")
+        return icon, attachment
+
+    def test_force_attachment_in_db_rules_field(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        # images are kept in db below 10 bytes only, but menu icons always
+        self.temp_backend.force_db_for_default_attachment_rules = (
+            '{"mimetype-size": {"image/": 10}, '
+            '"field-size": {"ir.ui.menu.web_icon_data": 0}}'
+        )
+        icon, attachment = self._create_menu_with_icon()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, icon)
+        # the same image not linked to the field goes to the storage
+        other = self.ir_attachment_model.create({"name": "icon.svg", "raw": icon})
+        self.env.flush_all()
+        self.assertTrue(other.store_fname.startswith("tmp_dir://"))
+        self.assertFalse(other.db_datas)
+
+    def test_force_attachment_in_db_rules_field_limit(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        # the icon is above the field limit and no mimetype rule matches
+        self.temp_backend.force_db_for_default_attachment_rules = (
+            '{"field-size": {"ir.ui.menu.web_icon_data": 10}}'
+        )
+        _icon, attachment = self._create_menu_with_icon()
+        self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+        self.assertFalse(attachment.db_datas)
+
+    def test_force_storage_to_db_field(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.force_db_for_default_attachment_rules = "{}"
+        icon, attachment = self._create_menu_with_icon()
+        self.assertTrue(attachment.store_fname.startswith("tmp_dir://"))
+        self.temp_backend.force_db_for_default_attachment_rules = (
+            '{"field-size": {"ir.ui.menu.web_icon_data": 0}}'
+        )
+        attachment.force_storage_to_db_for_special_fields()
+        self.assertFalse(attachment.store_fname)
+        self.assertEqual(attachment.db_datas, icon)
+
+    def test_force_attachment_in_db_rules_invalid(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        for rules in (
+            "[]",
+            '{"field-size": 0}',
+            '{"mimetype-size": ["image/"]}',
+            '{"field-size": {"web_icon_data": 0}}',
+        ):
+            with self.subTest(rules=rules), self.assertRaises(ValidationError):
+                self.temp_backend.force_db_for_default_attachment_rules = rules
+
     def test_force_storage_to_db(self):
         self.temp_backend.use_as_default_for_attachments = True
         attachment = self.ir_attachment_model.create(
@@ -502,6 +570,59 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.assertNotEqual(res[0].store_fname, res2[0].store_fname)
         self.assertEqual(res[0].raw, res2[0].raw)
 
+    def test_create_attachment_same_content_as_obfuscated_one(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.temp_backend.use_filename_obfuscation = False
+        attachment2 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_create_attachment_same_content_as_obfuscated_field_one(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1 = self.ir_attachment_model.create(
+            {
+                "name": "test.txt",
+                "raw": b"content",
+                "res_id": self.env.user.partner_id.id,
+                "res_model": "res.partner",
+                "res_field": "image_1920",
+            }
+        )
+        self.temp_backend.use_filename_obfuscation = False
+        attachment2 = self.ir_attachment_model.create(
+            {"name": "test.txt", "raw": b"content"}
+        )
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
+    def test_write_name_file_shared_with_obfuscated_attachment(self):
+        self.temp_backend.use_as_default_for_attachments = True
+        self.temp_backend.use_filename_obfuscation = True
+        attachment1, attachment2 = self.ir_attachment_model.create(
+            [
+                {"name": "test.txt", "raw": b"content"},
+                {"name": "test.txt", "raw": b"content"},
+            ]
+        )
+        self.assertEqual(attachment1.store_fname, attachment2.store_fname)
+        self.temp_backend.use_filename_obfuscation = False
+        attachment1.name = "test2.txt"
+        self.assertNotEqual(attachment1.store_fname, attachment2.store_fname)
+        self.env.invalidate_all()
+        self.assertEqual(attachment1.raw, b"content")
+        self.assertEqual(attachment2.raw, b"content")
+
     def test_update_png_to_svg(self):
         b64_data_png = (
             b"iVBORw0KGgoAAAANSUhEUgAAADMAAAAhCAIAAAD73QTtAAAAA3NCSVQICAjb4U/gAA"
@@ -552,7 +673,15 @@ class TestFSAttachment(TestFSAttachmentCommon):
         self.patch(
             type(IrAttachment),
             "_get_storage_force_db_config",
-            lambda self: {"text/plain": 0, "image/png": 100},
+            lambda self: {
+                # legacy mimetype rule, merged with the mimetype-size ones
+                "text/plain": 0,
+                "mimetype-size": {"image/png": 100},
+                "field-size": {
+                    "ir.ui.menu.web_icon_data": 0,
+                    "res.partner.image_1920": 200,
+                },
+            },
         )
         self.assertEqual(
             self.env["ir.attachment"]._store_in_db_instead_of_object_storage_domain(),
@@ -565,6 +694,51 @@ class TestFSAttachment(TestFSAttachmentCommon):
                             Domain("file_size", "<=", 100),
                         ]
                     ),
+                    Domain.AND(
+                        [
+                            Domain("res_model", "=", "ir.ui.menu"),
+                            Domain("res_field", "=", "web_icon_data"),
+                        ]
+                    ),
+                    Domain.AND(
+                        [
+                            Domain("res_model", "=", "res.partner"),
+                            Domain("res_field", "=", "image_1920"),
+                            Domain("file_size", "<=", 200),
+                        ]
+                    ),
                 ]
             ),
         )
+
+    def test_get_fs_attachment_for_field_stored_in_attachment(self):
+        """A field stored in its own attachment (ex: the thumbnail added by mail)
+        must not be replaced by the file of the parent attachment"""
+        parent = (
+            self.env["ir.attachment"]
+            .with_context(storage_location=self.temp_backend.code)
+            .create({"name": "doc.pdf", "raw": b"parent"})
+        )
+        thumbnail = (
+            self.env["ir.attachment"]
+            .with_context(storage_location=self.temp_backend.code)
+            .create(
+                {
+                    "name": "thumbnail",
+                    "raw": b"thumbnail",
+                    "res_model": "ir.attachment",
+                    "res_id": parent.id,
+                    "res_field": "thumbnail",
+                }
+            )
+        )
+        field = copy.copy(parent._fields["raw"])
+        field.attachment = True
+        field.store = True
+        ir_binary = self.env["ir.binary"]
+        fields_with_thumbnail = {**parent._fields, "thumbnail": field}
+        with mock.patch.object(type(parent), "_fields", fields_with_thumbnail):
+            self.assertEqual(
+                ir_binary._get_fs_attachment_for_field(parent, "thumbnail"), thumbnail
+            )
+        self.assertEqual(ir_binary._get_fs_attachment_for_field(parent, "raw"), parent)

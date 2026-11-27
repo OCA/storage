@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 import re
 
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -33,18 +33,23 @@ class FsStorage(models.Model):
 
             if rc and self._invalid_fs_name_chars_re_pattern.findall(rc):
                 raise ValidationError(
-                    _("The character to use as replacement can not be one of '%s'")
-                    % self._invalid_fs_name_chars
+                    self.env._(
+                        "The character to use as replacement can not be one of "
+                        "'%(invalid_chars)s'",
+                        invalid_chars=self._invalid_fs_name_chars,
+                    )
                 )
 
     @api.constrains("use_as_default_for_fs_contents")
     def _check_use_as_default_for_fs_contents(self):
         # constrains are checked in python since values can be provided by
         # the server environment
-        defaults = self.search([]).filtered("use_as_default_for_fs_contents")
+        defaults = self.search([]).filtered("use_as_default_for_fs_contents")  # pylint: disable=no-search-all
         if len(defaults) > 1:
             raise ValidationError(
-                _("Only one storage can be used as default for filesystem contents.")
+                self.env._(
+                    "Only one storage can be used as default for filesystem contents."
+                )
             )
 
     @property
@@ -60,6 +65,7 @@ class FsStorage(models.Model):
     @api.model
     @tools.ormcache()
     def get_storage_code_for_fs_content_fallback(self) -> str | None:
+        # pylint: disable=no-search-all
         storages = (
             self.sudo()
             .search([])
@@ -80,7 +86,7 @@ class FsStorage(models.Model):
             storage_code = self.get_storage_code_for_fs_content_fallback()
         if not storage_code:
             raise ValueError(
-                _(
+                self.env._(
                     "No default storage found for the content of the external "
                     "filesystem fields for model %(model)s and field %(field)s. "
                     "Please set a default storage in the filesystem storage "
@@ -105,7 +111,7 @@ class FsStorage(models.Model):
         invalid = self._invalid_fs_name_chars_re_pattern.findall(name)
         if invalid and raise_if_invalid:
             raise UserError(
-                _(
+                self.env._(
                     "The name '%(name)s' contains invalid characters"
                     " %(invalid_chars)s.\n"
                     "The following chars are not allowed: %(all_invalid_chars)s",
