@@ -9,6 +9,7 @@ import logging
 import mimetypes
 import os
 import re
+import shutil
 import time
 from contextlib import closing, contextmanager
 from pathlib import Path
@@ -17,7 +18,6 @@ import fsspec  # pylint: disable=missing-manifest-dependency
 import psycopg2
 from slugify import slugify  # pylint: disable=missing-manifest-dependency
 
-import odoo
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.osv.expression import AND, OR, normalize_domain
@@ -131,7 +131,7 @@ class IrAttachment(models.Model):
                     rec, exclude_base_url=True
                 )
 
-    @api.depends("fs_filename")
+    @api.depends("store_fname", "fs_filename")
     def _compute_fs_storage_id(self):
         for rec in self:
             if rec.store_fname:
@@ -414,6 +414,7 @@ class IrAttachment(models.Model):
         with fs.open(path, "wb", **kwargs) as f:
             f.write(bin_data)
         self._fs_mark_for_gc(fname)
+        self._fs_get_files_written_in_transaction().add(fname)
         return fname
 
     @api.model
@@ -478,7 +479,7 @@ class IrAttachment(models.Model):
         Keeping the same meaning and mimetype is important to also ease to provide
         a meaningful and SEO friendly URL to the file in the filesystem storage.
         """
-        renamed_attachments = {}
+        to_rename = self.browse()
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
                 continue
@@ -486,22 +487,36 @@ class IrAttachment(models.Model):
 
             if self.env["fs.storage"]._must_use_filename_obfuscation(storage):
                 attachment.fs_filename = filename
-                continue
+            else:
+                to_rename |= attachment
+        to_rename._set_meaningful_storage_filename()
+
+    def _set_meaningful_storage_filename(self) -> None:
+        """Give each attachment's file its meaningful name"""
+        usage = self._count_by_store_fname()
+        written_files = self._fs_get_files_written_in_transaction()
+        for attachment in self:
+            fs, storage, filename = attachment._get_fs_parts()
+            old_store_fname = attachment.store_fname
             new_filename = attachment._build_fs_filename()
             # we must keep the same full path as the original filename
             new_filename_with_path = os.path.join(
                 os.path.dirname(filename), new_filename
             )
 
-            if filename in renamed_attachments:
-                if renamed_attachments[filename] == new_filename_with_path:
-                    # we already renamed this file, no need to rename it again
-                    continue
-                else:
-                    fs.copy(renamed_attachments[filename], new_filename_with_path)
+            if usage[old_store_fname] > 1:
+                # the file stays with the other attachments stored in it
+                usage[old_store_fname] -= 1
+                fs.copy(filename, new_filename_with_path)
+            elif old_store_fname not in written_files:
+                # The file has not been written by the current transaction
+                # We can't rename it to ensure that in case of rollback
+                # the original one still exists... In place we copy
+                # the original and we mark it to GC
+                fs.copy(filename, new_filename_with_path)
+                self._fs_mark_for_gc(old_store_fname)
             else:
                 fs.rename(filename, new_filename_with_path)
-            renamed_attachments[filename] = new_filename_with_path
 
             attachment.fs_filename = new_filename
             # we need to update the store_fname with the new filename by
@@ -510,6 +525,31 @@ class IrAttachment(models.Model):
             # flake8: noqa: E231
             attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
+            written_files.add(attachment.store_fname)
+
+    @api.model
+    def _fs_get_files_written_in_transaction(self) -> set[str]:
+        """Return the store_fname of the files written into a filesystem
+        storage by the current transaction.
+        """
+        return self.env.cr.postcommit.data.setdefault(
+            "fs_attachment.written_files", set()
+        )
+
+    def _count_by_store_fname(self) -> dict[str, int]:
+        """Return the number of attachments stored in each file of self"""
+        # "res_field = False OR res_field != False" to count the attachments of
+        # binary fields too, see fs.storage
+        domain = [
+            ("store_fname", "in", self.mapped("store_fname")),
+            "|",
+            ("res_field", "=", False),
+            ("res_field", "!=", False),
+        ]
+        groups = self.sudo()._read_group(
+            domain, ["store_fname"], ["store_fname"], lazy=False
+        )
+        return {group["store_fname"]: group["__count"] for group in groups}
 
     def _force_write_store_fname(self, store_fname):
         """Force the write of the store_fname field
@@ -519,6 +559,16 @@ class IrAttachment(models.Model):
         calling the write method of the field directly.
         """
         self._fields["store_fname"].write(self, store_fname)
+
+    def _force_write_file_values(self, vals):
+        """Force the write of the fields computed from the file content
+
+        The write method of ir_attachment ignores the fields 'checksum' and
+        'file_size'. This method bypass this limitation by calling the write
+        method of the fields directly.
+        """
+        for field_name, value in vals.items():
+            self._fields[field_name].write(self, value)
 
     @api.model
     def _get_fs_storage_for_code(
@@ -678,8 +728,7 @@ class IrAttachment(models.Model):
         Using a new Odoo Environment thus a new PG transaction.
         """
         if new_cr:
-            registry = odoo.modules.registry.Registry.new(self.env.cr.dbname)
-            with closing(registry.cursor()) as cr:
+            with closing(self.env.registry.cursor()) as cr:
                 try:
                     yield self.env(cr=cr)
                 except Exception:
@@ -1089,19 +1138,9 @@ class AttachmentFileLikeAdapter(object):
                 attachment_res_model=self.attachment.res_model,
                 attachment_res_field=self.attachment.res_field,
             )._file_write(content, checksum)
-            if self.attachment._is_file_from_a_storage(new_store_fname):
-                (
-                    filesystem,
-                    _storage,
-                    new_filepath,
-                ) = self.attachment._fs_parse_store_fname(new_store_fname)
-                _fs, _storage, old_filepath = self.attachment._get_fs_parts()
-            else:
-                new_filepath = self.attachment._full_path(new_store_fname)
-                old_filepath = self.attachment._full_path(self.attachment.store_fname)
-                filesystem = fsspec.filesystem("file")
+            filesystem, new_filepath = self._get_filesystem_and_path(new_store_fname)
             if "a" in self.mode:
-                filesystem.cp_file(old_filepath, new_filepath)
+                self._copy_current_content(filesystem, new_filepath, new_store_fname)
             the_file = filesystem.open(
                 new_filepath,
                 mode=self.mode,
@@ -1113,6 +1152,49 @@ class AttachmentFileLikeAdapter(object):
         self._filesystem = filesystem
         self._new_store_fname = new_store_fname
         self._file = the_file
+
+    def _get_filesystem_and_path(
+        self, store_fname: str
+    ) -> tuple[fsspec.AbstractFileSystem, str]:
+        """Return the filesystem and the path of the file for the given
+        store_fname (filesystem storage or odoo filestore)"""
+        if self.attachment._is_file_from_a_storage(store_fname):
+            filesystem, _storage, path = self.attachment._fs_parse_store_fname(
+                store_fname
+            )
+            return filesystem, path
+        return fsspec.filesystem("file"), self.attachment._full_path(store_fname)
+
+    def _get_location(self, store_fname: str) -> str:
+        """Return the code of the filesystem storage where the file is
+        stored or 'file' for the odoo filestore"""
+        if self.attachment._is_file_from_a_storage(store_fname):
+            return store_fname.partition("://")[0]
+        return "file"
+
+    def _copy_current_content(
+        self,
+        filesystem: fsspec.AbstractFileSystem,
+        new_filepath: str,
+        new_store_fname: str,
+    ) -> None:
+        """Copy the current content of the attachment into the new file
+
+        The current content can be stored in the database, in the odoo
+        filestore or in a filesystem storage different from the one of the
+        new file.
+        """
+        old_store_fname = self.attachment.store_fname
+        if old_store_fname and self._get_location(
+            old_store_fname
+        ) == self._get_location(new_store_fname):
+            # same location: copy the file
+            _filesystem, old_filepath = self._get_filesystem_and_path(old_store_fname)
+            filesystem.cp_file(old_filepath, new_filepath)
+            return
+        with AttachmentFileLikeAdapter(self.attachment, mode="rb") as src:
+            with filesystem.open(new_filepath, "wb") as dst:
+                shutil.copyfileobj(src, dst)
 
     def _gen_random_content(self, size=256):
         """Generate a random content of size bytes"""
@@ -1132,7 +1214,15 @@ class AttachmentFileLikeAdapter(object):
                 and self._is_stored_in_db
             ):
                 attachment_data["raw"] = self._file.getvalue()
+            # the values computed from the content are removed from the
+            # values by ir.attachment.write
+            file_values = {
+                "checksum": attachment_data["checksum"],
+                "file_size": attachment_data["file_size"],
+            }
             self.attachment.write(attachment_data)
+            if "raw" not in attachment_data:
+                self.attachment._force_write_file_values(file_values)
             if self.new_version and self._new_store_fname:
                 self.attachment._force_write_store_fname(self._new_store_fname)
             self.attachment._enforce_meaningful_storage_filename()
