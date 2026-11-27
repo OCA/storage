@@ -257,6 +257,22 @@ msgstr ""
 
 #. module: fs_attachment
 #. odoo-python
+#: code:addons/fs_attachment/models/fs_storage.py:0
+msgid ""
+"The '%(rule_name)s' rules of force_db_for_default_attachment_rules must be a "
+"dict."
+msgstr ""
+
+#. module: fs_attachment
+#. odoo-python
+#: code:addons/fs_attachment/models/fs_storage.py:0
+msgid ""
+"The 'field-size' key '%(key)s' of force_db_for_default_attachment_rules must "
+"be a '<model>.<field>' pair."
+msgstr ""
+
+#. module: fs_attachment
+#. odoo-python
 #: code:addons/fs_attachment/upgrades/19.0.1.1.3/post-migration.py:0
 msgid ""
 "The 'fs_attachment_environment' module is not available. It is required to "
@@ -345,21 +361,12 @@ msgid ""
 "* images mimetypes (image/png, image/jpeg, ...) below 50KB are stored in "
 "database\n"
 "* application/javascript are stored in database whatever their size \n"
-"* text/css are stored in database whatever their size"
+"* text/css are stored in database whatever their size\n"
+"The rules can also be grouped by rule name: 'mimetype-size' for the mimetype "
+"rules above and 'field-size' with '<model>.<field>' keys (e.g. "
+"'ir.ui.menu.web_icon_data') to force the storage in database of the "
+"attachments of a specific binary field, whatever their mimetype."
 msgstr ""
-"Når vedhæftninger gemmes i et eksternt lager, kan det være langsomt. Hvis "
-"lageret bruges til som standard at gemme Odoo-vedhæftninger, kan det give en "
-"dårlig brugeroplevelse, da små billeder (128, 256) bruges i Odoo i liste-/"
-"kanban-visninger. Vi vil have dem til at være hurtige at læse. Dette felt "
-"gør det muligt at gennemtvinge, at nogle vedhæftninger gemmes i Odoo-"
-"databasen. Værdien er en dict, hvor nøglen er begyndelsen af den mimetype, "
-"der skal konfigureres, og værdien er den størrelsesgrænse, under hvilken "
-"vedhæftninger opbevares i databasen. 0 betyder ingen grænse.\n"
-"Standardkonfiguration betyder:\n"
-"* billed-mimetyper (image/png, image/jpeg, ...) under 50 KB gemmes i "
-"databasen\n"
-"* application/javascript gemmes i databasen uanset størrelse \n"
-"* text/css gemmes i databasen uanset størrelse"
 
 #. module: fs_attachment
 #. odoo-python
@@ -370,3 +377,33 @@ msgid ""
 msgstr ""
 "Du kan ikke skrive på flere vedhæftninger med forskellige mimetyper på samme "
 "tid."
+
+#~ msgid ""
+#~ "When storing attachments in an external storage, storage may be slow.If "
+#~ "the storage is used to store odoo attachments by default, this could lead "
+#~ "to a bad user experience since small images  (128, 256) are used in Odoo "
+#~ "in list / kanban views. We want them to be fast to read.This field allows "
+#~ "to force the store of some attachments in the odoo database. The value is "
+#~ "a dict Where the key is the beginning of the mimetype to configure and "
+#~ "the value is the limit in size below which attachments are kept in DB. 0 "
+#~ "means no limit.\n"
+#~ "Default configuration means:\n"
+#~ "* images mimetypes (image/png, image/jpeg, ...) below 50KB are stored in "
+#~ "database\n"
+#~ "* application/javascript are stored in database whatever their size \n"
+#~ "* text/css are stored in database whatever their size"
+#~ msgstr ""
+#~ "Når vedhæftninger gemmes i et eksternt lager, kan det være langsomt. Hvis "
+#~ "lageret bruges til som standard at gemme Odoo-vedhæftninger, kan det give "
+#~ "en dårlig brugeroplevelse, da små billeder (128, 256) bruges i Odoo i "
+#~ "liste-/kanban-visninger. Vi vil have dem til at være hurtige at læse. "
+#~ "Dette felt gør det muligt at gennemtvinge, at nogle vedhæftninger gemmes "
+#~ "i Odoo-databasen. Værdien er en dict, hvor nøglen er begyndelsen af den "
+#~ "mimetype, der skal konfigureres, og værdien er den størrelsesgrænse, "
+#~ "under hvilken vedhæftninger opbevares i databasen. 0 betyder ingen "
+#~ "grænse.\n"
+#~ "Standardkonfiguration betyder:\n"
+#~ "* billed-mimetyper (image/png, image/jpeg, ...) under 50 KB gemmes i "
+#~ "databasen\n"
+#~ "* application/javascript gemmes i databasen uanset størrelse \n"
+#~ "* text/css gemmes i databasen uanset størrelse"

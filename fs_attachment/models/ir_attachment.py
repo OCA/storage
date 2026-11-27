@@ -22,6 +22,7 @@ from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.fields import Domain
 
+from ..fs_stream import FsStream
 from .strtobool import strtobool
 
 _logger = logging.getLogger(__name__)
@@ -152,6 +153,27 @@ class IrAttachment(models.Model):
             self._storage()
         )
 
+    def _get_storage_force_db_rules(self):
+        """Return the force db config grouped by rule name
+
+        The config maps a rule name to its rules:
+
+        * ``mimetype-size``: ``{mimetype_key: limit}``
+        * ``field-size``: ``{"<model>.<field>": limit}``
+
+        Any other key is a legacy ``mimetype_key: limit`` entry and is merged
+        into the ``mimetype-size`` rules.
+
+        :return: a dict ``{rule_name: rules}`` with all the known rule names
+        """
+        rules = {"mimetype-size": {}, "field-size": {}}
+        for key, value in self._get_storage_force_db_config().items():
+            if key in rules:
+                rules[key].update(value)
+            else:
+                rules["mimetype-size"][key] = value
+        return rules
+
     def _store_in_db_instead_of_object_storage_domain(self):
         """Return a domain for attachments that must be forced to DB
 
@@ -165,12 +187,18 @@ class IrAttachment(models.Model):
         ``_store_in_db_instead_of_object_storage``.
         """
         domain = []
-        storage_config = self._get_storage_force_db_config()
-        for mimetype_key, limit in storage_config.items():
+        rules = self._get_storage_force_db_rules()
+        for mimetype_key, limit in rules["mimetype-size"].items():
             part = [("mimetype", "=like", f"{mimetype_key}%")]
             if limit:
                 part = Domain.AND([part, [("file_size", "<=", limit)]])
             # OR simplifies to [(1, '=', 1)] if a domain being OR'ed is empty
+            domain = Domain.OR([domain, part]) if domain else part
+        for field_key, limit in rules["field-size"].items():
+            res_model, res_field = field_key.rsplit(".", 1)
+            part = [("res_model", "=", res_model), ("res_field", "=", res_field)]
+            if limit:
+                part = Domain.AND([part, [("file_size", "<=", limit)]])
             domain = Domain.OR([domain, part]) if domain else part
         return domain
 
@@ -204,6 +232,21 @@ class IrAttachment(models.Model):
         value is the limit in size below which attachments are kept in DB.
         0 means no limit.
 
+        The rules can also be grouped by rule name, which allows other kinds
+        of rules. ``mimetype-size`` holds the mimetype rules described above
+        and ``field-size`` forces the storage in DB of the attachments of a
+        specific binary field, whatever their mimetype, for instance::
+
+            {
+                "mimetype-size": {"image/": 51200},
+                "field-size": {"ir.ui.menu.web_icon_data": 0},
+            }
+
+        Keys that are not a rule name are read as mimetype rules, so both
+        forms can be mixed. A field rule is checked before the mimetype rules:
+        if the attachment matches it and is within its limit, it is stored in
+        DB, otherwise the mimetype rules apply.
+
         These limits are applied only if the storage is the default one for
         attachments (see ``_storage``).
 
@@ -214,8 +257,15 @@ class IrAttachment(models.Model):
         """
         if self._is_storage_disabled():
             return True
-        storage_config = self._get_storage_force_db_config()
-        for mimetype_key, limit in storage_config.items():
+        rules = self._get_storage_force_db_rules()
+        res_model = self.env.context.get("attachment_res_model")
+        res_field = self.env.context.get("attachment_res_field")
+        field_key = f"{res_model}.{res_field}"
+        if res_model and res_field and field_key in rules["field-size"]:
+            limit = rules["field-size"][field_key]
+            if not limit or len(data) <= limit:
+                return True
+        for mimetype_key, limit in rules["mimetype-size"].items():
             if mimetype.startswith(mimetype_key):
                 if not limit:
                     return True
@@ -382,6 +432,12 @@ class IrAttachment(models.Model):
         super()._set_attachment_data(asbytes)
         self._enforce_meaningful_storage_filename()
 
+    def _to_http_stream(self):
+        self.ensure_one()
+        if self.fs_filename:
+            return FsStream.from_fs_attachment(self)
+        return super()._to_http_stream()
+
     ##############################################
     # Internal methods to use the object storage #
     ##############################################
@@ -479,7 +535,7 @@ class IrAttachment(models.Model):
         Keeping the same meaning and mimetype is important to also ease to provide
         a meaningful and SEO friendly URL to the file in the filesystem storage.
         """
-        renamed_attachments = {}
+        to_rename = self.browse()
         for attachment in self:
             if not self._is_file_from_a_storage(attachment.store_fname):
                 continue
@@ -487,22 +543,27 @@ class IrAttachment(models.Model):
 
             if self.env["fs.storage"]._must_use_filename_obfuscation(storage):
                 attachment.fs_filename = filename
-                continue
+            else:
+                to_rename |= attachment
+        to_rename._set_meaningful_storage_filename()
+
+    def _set_meaningful_storage_filename(self) -> None:
+        """Give each attachment's file its meaningful name"""
+        usage = self._count_by_store_fname()
+        for attachment in self:
+            fs, storage, filename = attachment._get_fs_parts()
             new_filename = attachment._build_fs_filename()
             # we must keep the same full path as the original filename
             new_filename_with_path = os.path.join(
                 os.path.dirname(filename), new_filename
             )
 
-            if filename in renamed_attachments:
-                if renamed_attachments[filename] == new_filename_with_path:
-                    # we already renamed this file, no need to rename it again
-                    continue
-                else:
-                    fs.copy(renamed_attachments[filename], new_filename_with_path)
+            if usage[attachment.store_fname] > 1:
+                # the file stays with the other attachments stored in it
+                usage[attachment.store_fname] -= 1
+                fs.copy(filename, new_filename_with_path)
             else:
                 fs.rename(filename, new_filename_with_path)
-            renamed_attachments[filename] = new_filename_with_path
 
             attachment.fs_filename = new_filename
             # we need to update the store_fname with the new filename by
@@ -511,6 +572,19 @@ class IrAttachment(models.Model):
             # flake8: noqa: E231
             attachment._force_write_store_fname(f"{storage}://{new_filename_with_path}")
             self._fs_mark_for_gc(attachment.store_fname)
+
+    def _count_by_store_fname(self) -> dict[str, int]:
+        """Return the number of attachments stored in each file of self"""
+        # "res_field = False OR res_field != False" to count the attachments of
+        # binary fields too, see fs.storage
+        domain = [
+            ("store_fname", "in", self.mapped("store_fname")),
+            "|",
+            ("res_field", "=", False),
+            ("res_field", "!=", False),
+        ]
+        groups = self.sudo()._read_group(domain, ["store_fname"], ["__count"])
+        return dict(groups)
 
     def _force_write_store_fname(self, store_fname):
         """Force the write of the store_fname field
